@@ -7,6 +7,4 @@
             }
         });
 
-        //return new fastmap.mapApi.Map(id, options);
-
 });
