@@ -1,0 +1,32 @@
+{
+  "requirejs": {
+    "main": {
+      "options": {
+        "baseUrl": "",
+        "paths": {
+          "app":"js/app",
+          "pg": "js/fastmap/dataApi/propertyCard",
+          "rdlink": "js/fastmap/dataApi/rdlink",
+          "rdnode": "js/fastmap/dataApi/rdnode",
+          "layer":"js/fastmap/mapApi/Layer",
+          "map":"js/fastmap/mapApi/Map",
+          "ml":"js/fastmap/mapApi/MeshLayer",
+          "wl":"js/fastmap/mapApi/WholeLayer"
+        },
+        "web": {
+          "include": [
+            "js/app",
+            "js/fastmap/dataApi/propertyCard",
+             "js/fastmap/dataApi/rdlink",
+            "js/fastmap/dataApi/rdnode",
+           "js/fastmap/mapApi/Layer",
+            "js/fastmap/mapApi/Map",
+            "js/fastmap/mapApi/MeshLayer",
+            "js/fastmap/mapApi/WholeLayer"
+          ],
+          "out": "dest/libs.js"
+        }
+      }
+    }
+  }
+}

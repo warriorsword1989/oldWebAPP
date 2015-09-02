@@ -1,12 +1,12 @@
 ﻿requirejs.config({
     baseUrl: 'js/lib',
     paths: {
-        fastmap: '../fastmap',
+        fastmap: 'js/fastmap',
         leaflet: 'leaflet-0.7.3/leaflet'
     }
 });
 
-require(['leaflet', 'fastmap/fastmap', 'fastmap/mapApi/Map'], function (L, fastmap, Map) {
+require(['js/lib/leaflet-0.7.3/leaflet', 'js/fastmap/fastmap', 'js/fastmap/mapApi/Map','js/fastmap/mapApi/Layer','js/fastmap/mapApi/WholeLayer','js/fastmap/mapApi/MeshLayer'], function (L, fastmap, Map, Layer, WholeLayer, MeshLayer) {
     var map = new fastmap.mapApi.Map("mapId", { zoomControl: true });
 
 
@@ -18,4 +18,10 @@ require(['leaflet', 'fastmap/fastmap', 'fastmap/mapApi/Map'], function (L, fastm
         maxZoom: 18
     });
     map.addLayer(cloudmade);
+
+
+    var mesh = new fastmap.mapApi.MeshLayer({minShowZoom:2,maxShowZoom:17});
+
+    map.addLayer(mesh);
+
 });
