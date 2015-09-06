@@ -1,5 +1,5 @@
 ﻿requirejs.config({
-    baseUrl: 'js/lib',
+    baseUrl: '',
     paths: {
         fastmap: 'js/fastmap',
         leaflet: 'leaflet-0.7.3/leaflet'
