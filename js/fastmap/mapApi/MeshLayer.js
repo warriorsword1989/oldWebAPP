@@ -5,6 +5,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/WholeLayer'], function (fastmap)
     fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         initialize: function (options) {
             this.options = options || {};
+            fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
             this.minShowZoom = this.options.minShowZoom || 9;
             this.maxShowZoom = this.options.maxShowZoom || 18;
         },
