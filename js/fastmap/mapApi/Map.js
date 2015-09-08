@@ -3,14 +3,14 @@
         initialize: function (id, options) {
             L.Map.prototype.initialize.call(this, id, options);
             this.map = this;
-            this.mapControl = new this._mapControler(this);
+            this.mapControl = new this._mapController(this);
         },
         /**
          * 地图控件，主要包含操作地图的方法
          * @param map
          * @private
          */
-        _mapControler : function(map){
+        _mapController : function(map){
 
             this.zoomIn = function(){
                 map.zoomIn()
