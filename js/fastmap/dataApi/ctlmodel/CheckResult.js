@@ -3,6 +3,9 @@
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.CheckResult = L.Class.extend({
-        
+        initialize: function (options){
+            this.options = options || {};
+            L.setOptions(this, options);
+        }
     });
 });
