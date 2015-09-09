@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/9/1.
+ * Created by zhongxiaoming on 2015/9/9.
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.dataApi.rdLind = L.Class.extend({
