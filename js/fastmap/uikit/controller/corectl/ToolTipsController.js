@@ -11,7 +11,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             L.setOptions(this, options);
         },
 
-        setCurrentTooltips:function(toolTip){
+        setCurrentTooltips:function(toolTips){
 
         }
 
