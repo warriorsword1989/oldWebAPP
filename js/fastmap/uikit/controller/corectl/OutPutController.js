@@ -9,7 +9,20 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
+            this.outPuts = [];
+        },
+
+        pushOutput:function(output){
+
+        },
+
+        popOutput:function(){
+
         }
+
+
+
+
 
     });
 });
