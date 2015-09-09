@@ -2,17 +2,38 @@
     fastmap.mapApi.Map = L.Map.extend({
         initialize: function (id, options) {
             L.Map.prototype.initialize.call(this, id, options);
-            this.mapControl = new this._mapControler();
+            this.map = this;
+            this.mapControl = new this._mapController(this);
         },
+        /**
+         * 地图控件，主要包含操作地图的方法
+         * @param map
+         * @private
+         */
+        _mapController : function(map){
 
-        _mapControler : function(){
-            this.zoomIn = function(){};
-            this.zoomOut = function(){};
-            this.pan = function(){};
-            this.pointSelect = function(){};
-            this.boxSelect = function(){}
+            this.zoomIn = function(){
+                map.zoomIn()
+            };
 
+            this.zoomOut = function(){
+                map.zoomOut()
+            };
 
+            this.pan = function(latlng){
+                map.panTo(latlng);
+            };
+            this.pointSelect = function(){
+
+            };
+
+            this.boxSelect = function(){
+
+            };
+
+            this.snap = function(){
+
+            };
         }
 
     });

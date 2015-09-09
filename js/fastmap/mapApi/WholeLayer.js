@@ -4,6 +4,8 @@
 define(['js/fastmap/fastmap','js/fastmap/mapApi/Layer'], function (fastmap) {
     fastmap.mapApi.WholeLayer =  fastmap.mapApi.Layer.extend({
         initialize: function (options) {
+            this.options = options || {};
+            fastmap.mapApi.Layer.prototype.initialize.call(this,options);
         },
         onAdd: function(map) {
             this.map = map;
