@@ -2,16 +2,13 @@
  * Created by zhongxiaoming on 2015/9/9.
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.uiKit.ToolTip =  L.Class.extend({
+    fastmap.uiKit.OutPut = L.Class.extend({
         initialize: function (options){
             this.options = options || {};
             L.setOptions(this, options);
-            this.outputContent = options.ouputContent;
-            this.style = options.style;
-        },
-
-        setOutput:function(){
-
+            this.fontSize = this.options.fontSize || 14;
+            this.fontCorlor = this.options.fontSize || 14;
+            this.position = this.options.position ;
         }
-    });
-});
+    })
+})
