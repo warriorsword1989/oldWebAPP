@@ -62,6 +62,19 @@ define(['../fastmap', 'fastmap/utils'], function (fastmap) {
             return intersect;
         },
         /**
+         * Method: getSortedSegments
+         *
+         * Returns:
+         * {Array} An array of segment objects.  Segment objects have properties
+         *     x1, y1, x2, and y2.  The start point is represented by x1 and y1.
+         *     The end point is represented by x2 and y2.  Start and end are
+         *     ordered so that x1 < x2.
+         */
+        getSortedSegments: function() {
+            var segments = [];
+            return segments;
+        },
+        /**
          * Method: splitWithSegment
          * Split this geometry with the given segment.
          */
