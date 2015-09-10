@@ -13,15 +13,24 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         },
 
         pushOutput:function(output){
+            this.outPuts.push(output);
+        },
+
+        popOutput:function(output){
+            this.outPuts.pop(output);
+        },
+
+        sort:function(){
 
         },
 
-        popOutput:function(){
+        removeOutput:function(){
+
+        },
+
+        clear:function(){
 
         }
-
-
-
 
 
     });
