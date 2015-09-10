@@ -1,4 +1,4 @@
-﻿define(['../fastmap','fastmap/utils'], function (fastmap) {
+﻿define(['../../fastmap','fastmap/utils'], function (fastmap) {
     fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
          /** 
         *  x 
@@ -51,8 +51,6 @@
          */
         calculateBounds: function () {
             this.bounds = new fastmap.mapApi.Bounds(this.x, this.y, this.x, this.y);
-        },
-
-
+        }
     })
 });
