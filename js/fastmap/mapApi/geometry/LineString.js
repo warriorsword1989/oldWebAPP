@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/9/8.
  */
-define(['../../fastmap', 'fastmap/utils'], function (fastmap) {
+define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
     fastmap.mapApi.LineString = fastmap.mapApi.Geometry.extend({
         initialize: function (coordinates) {
             fastmap.mapApi.Geometry.prototype.initialize.apply(this, arguments);
