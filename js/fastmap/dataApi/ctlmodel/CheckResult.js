@@ -6,6 +6,11 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         initialize: function (options){
             this.options = options || {};
             L.setOptions(this, options);
+            this.pid = this.options.pid || null;
+            this.content =this.options.pid || '';
+            this.contentStyle = this.options.contentStyle || null;
         }
+
+
     });
 });
