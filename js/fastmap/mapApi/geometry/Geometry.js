@@ -1,4 +1,4 @@
-﻿define(['../fastmap'], function (fastmap) {
+﻿define(['../../fastmap'], function (fastmap) {
     fastmap.mapApi.Geometry = L.Class.extend({
         initialize: function () {
             this.bounds = null;
