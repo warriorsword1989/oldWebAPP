@@ -1,7 +1,7 @@
 /**
  * Created by zhongxiaoming on 2015/9/2.
  */
-define(['js/fastmap/fastmap','js/fastmap/mapApi/WholeLayer'], function (fastmap) {
+define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fastmap) {
     fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         initialize: function (options) {
             this.options = options || {};
