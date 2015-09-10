@@ -5,6 +5,7 @@
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ShapeEditorController = L.Class.extend({
         options: {
+
         },
 
         initialize: function (options) {
@@ -13,13 +14,25 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         },
 
         startEdit:function(geometry){
+             this.onStartEdit(geometry);
+        },
+
+        stopEdit:function(geometry){
+             this.onEndEdit(geometry);
+        },
+        saveEdit:function(geometry){
+             this.onSaveEdit(geometry)
+        },
+
+        onStartEdit:function(geometry){
 
         },
 
-        stopEdit:function(){
+        onEndEdit:function(geometry){
 
         },
-        saveEdit:function(){
+
+        onSaveEdit:function(geometry){
 
         }
     })
