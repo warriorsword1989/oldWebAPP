@@ -12,22 +12,41 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.outPuts = [];
         },
 
+        /***
+         * 添加output
+         * @param output
+         */
         pushOutput:function(output){
             this.outPuts.push(output);
         },
 
+        /***
+         * 顶端移除一个ouput
+         * @param output
+         */
         popOutput:function(output){
             this.outPuts.pop(output);
         },
 
-        sort:function(){
+        /***
+         * 内容排序
+         * @param sortfun
+         */
+        sort:function(sortfun){
 
         },
 
-        removeOutput:function(){
+        /***
+         * 移除指定的output
+         * @param id
+         */
+        removeOutput:function(id){
 
         },
 
+        /***
+         * 清空
+         */
         clear:function(){
 
         }

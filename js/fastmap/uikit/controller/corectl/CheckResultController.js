@@ -11,8 +11,13 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             L.setOptions(this, options);
         },
 
-        setCheckResultContent:function(CheckResult){
+        startCheck:function(checkObj,callBack){
 
-        }
+        },
+
+        getCheckResult:function(){},
+
+        ignore:function(){}
+
     })
 });

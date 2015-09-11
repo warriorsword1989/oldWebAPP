@@ -11,7 +11,11 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             L.setOptions(this, options);
         },
 
-        setCurrentTooltips:function(toolTips){
+        /***
+         * 设置tooltip
+         * @param tooltip
+         */
+        setCurrentTooltip:function(tooltip){
 
         }
 
