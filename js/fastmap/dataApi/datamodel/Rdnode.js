@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/9.
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.dataApi.rdNode = L.Class.extend({
+    fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
 
         options: {
         },

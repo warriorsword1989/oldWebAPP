@@ -15,6 +15,7 @@ define(['js/fastmap/fastmap'],function(fastmap) {
             this.id = id;
             this.type = type;
             this.source = null;
+            this.deep = null;
 
         },
         setCoordinates: function (coordinates) {

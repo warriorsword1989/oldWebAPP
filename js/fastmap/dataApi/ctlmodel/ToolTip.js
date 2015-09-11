@@ -10,6 +10,9 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.style = options.style;
         },
 
+        /***
+         *
+         */
         setOutput:function(){
 
         }
