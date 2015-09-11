@@ -95,7 +95,5 @@ define(['js/fastmap/fastmap'], function (fastmap) {
                 return this.callback;
             }
         }
-
-
     });
 });
