@@ -8,6 +8,16 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
+        },
+        onOutput:function(IGeoData) {
+            var controller =null;
+            if(IGeoData==='RDLink')  {
+
+            }
+
+        },
+        onRemove:function() {
+
         }
     })
 });
