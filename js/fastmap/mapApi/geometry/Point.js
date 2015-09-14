@@ -60,6 +60,42 @@ define(['../../fastmap','fastmap/utils'], function (fastmap) {
         calculateBounds: function () {
             this.bounds = new fastmap.mapApi.Bounds(this.x, this.y, this.x, this.y);
             return this.bounds;
+        },
+        /**
+         * 移动点
+         * @method move
+         * @param x
+         * @param y
+         */
+        move: function(x, y) {
+            this.x = this.x + x;
+            this.y = this.y + y;
+            this.bounds=null;
+        },
+
+        /**
+         * 获取中心点
+         * @method getCentroid
+         * @returns {fastmap.mapApi.Point}
+         */
+        getCentroid: function() {
+            return new fastmap.mapApi.Point(this.x, this.y);
+        },
+
+        /**
+         * 判断点与几何相关空间位置关系，是否相交
+         * @method intersects
+         * @param geometry
+         * @returns {boolean}
+         */
+        intersects: function(geometry) {
+            var intersect = false;
+            if(geometry.type == "Point") {
+                intersect = this.equals(geometry);
+            } else {
+                intersect = geometry.intersects(this);
+            }
+            return intersect;
         }
     })
 });
