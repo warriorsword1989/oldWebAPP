@@ -50,7 +50,5 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         clear:function(){
 
         }
-
-
     });
 });
