@@ -1,11 +1,16 @@
 /**
  * Created by zhongxiaoming on 2015/9/10.
+ * Class GeoDataModel 数据模型基类
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.dataApi.GeoDataModel = L.Class.extend({
         options: {
         },
 
+        /***
+         *
+         * @param options
+         */
         initialize: function (options) {
             this.options = options ||{};
             L.setOptions(this, options);

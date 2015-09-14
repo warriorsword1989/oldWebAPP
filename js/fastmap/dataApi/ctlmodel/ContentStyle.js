@@ -1,8 +1,17 @@
 /**
  * Created by zhongxiaoming on 2015/9/9.
+ * Class ContentStyle 输出框中的输出样式
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.uiKit.OutPut = L.Class.extend({
+    fastmap.uiKit.ContentStyle = L.Class.extend({
+        /***
+         *
+         * @param options
+         * options参数说明
+         * fontSize：字号
+         * fontColor：颜色
+         * position：位置
+         */
         initialize: function (options){
             this.options = options || {};
             L.setOptions(this, options);
@@ -34,10 +43,5 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         setPosition:function(position){
             this.position = position;
         }
-
-
-
-
-
     });
 });

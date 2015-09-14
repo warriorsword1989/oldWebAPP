@@ -1,5 +1,6 @@
 /**
  * Created by zhongxiaoming on 2015/9/9.
+ * Class OutPutController
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.OutPutController =  L.Class.extend({

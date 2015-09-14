@@ -12,14 +12,24 @@
          */
         _mapController : function(map){
 
+            /***
+             * 放大
+             */
             this.zoomIn = function(){
                 map.zoomIn()
             };
 
+            /***
+             * 缩小
+             */
             this.zoomOut = function(){
                 map.zoomOut()
             };
 
+            /**
+             * 平移
+             * @param latlng
+             */
             this.pan = function(latlng){
                 map.panTo(latlng);
             };
