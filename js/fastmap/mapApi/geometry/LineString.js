@@ -1,14 +1,24 @@
 /**
  * Created by liwanchong on 2015/9/8.
+ * lineString对象
+ * @namespace fast.mapApi
+ * @class LineString
  */
 define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
     fastmap.mapApi.LineString = fastmap.mapApi.Geometry.extend({
+        /**
+         * @class LineString
+         * @constructor
+         * @namespace fastmap.mapApi
+         * @param coordinates
+         */
         initialize: function (coordinates) {
             fastmap.mapApi.Geometry.prototype.initialize.apply(this, arguments);
             this.coordinates = coordinates;
         },
         /**
-         * Make a complete copy of the geometry.
+         * 复制整个lineString
+         * @method clone
          * @return LineString Clone.
          */
         clone: function () {
@@ -17,26 +27,30 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
             return lineString;
         },
         /**
-         *
+         *获取lineString坐标数据
+         * @method getCoordinates
          * @param coordinates
          */
 
         getCoordinates: function () {
         },
         /**
-         * get the start Point
+         * 获取开始点
+         * @method getStartPoint
          */
         getStartPoint: function (coordinates) {
 
         },
         /**
-         * get the end Point
+         * 获取线的结束点
+         * @method getEndPoint
          */
         getEndPoint: function (coordinates) {
 
         },
         /**
-         * distance from a point to a segment between two points
+         *点到线的小片段的距离
+         * @method pointToSegmentDistance
          * @param p
          * @param p1
          * @param p2
@@ -46,14 +60,8 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
             return Math.sqrt(this._sqClosestPointOnSegment(p, p1, p2, true));
         },
         /**
-         * APIMethod: intersects
-         * Test for instersection between two geometries.  This is a cheapo
-         *     implementation of the Bently-Ottmann algorigithm.  It doesn't
-         *     really keep track of a sweep line data structure.  It is closer
-         *     to the brute force method, except that segments are sorted and
-         *     potential intersections are only calculated when bounding boxes
-         *     intersect.
-         *
+         *判断线是否交汇
+         * @method intersects
          * @param geometry
          * @returns {boolean}
          */
@@ -62,8 +70,8 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
             return intersect;
         },
         /**
-         * Method: getSortedSegments
-         *
+         * 获取组成线的片段
+         *@method getSortedSegments
          * Returns:
          * {Array} An array of segment objects.  Segment objects have properties
          *     x1, y1, x2, and y2.  The start point is represented by x1 and y1.
@@ -75,28 +83,32 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
             return segments;
         },
         /**
-         * Method: splitWithSegment
-         * Split this geometry with the given segment.
+         *把线分离成多个片段
+         *@method splitWithSegment
          */
         splitWithSegment: function (seg, options) {
             var result = null;
             return result;
         },
         /**
-         * Method: split
-         * Use this geometry (the source) to attempt to split a target geometry.
-         *
+         * 根据参数分离geometry
+         *@method split
          */
         split: function (target, options) {
             var results = null;
             return results;
         },
+        /**
+         *根据容差获取数据
+         * @method simplify
+         * @param tolerance
+         */
         simplify: function(tolerance){
 
         },
         /**
-         * APIMethod: distanceTo
-         * Calculate the closest distance between two geometries (on the x-y plane).
+         * 距线最近的点
+         * @method distanceTo
          * @param geometry
          * @param options
          * @returns {{}}
