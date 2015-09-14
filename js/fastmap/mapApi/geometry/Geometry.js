@@ -7,6 +7,8 @@
  */
 define(['../../fastmap'], function (fastmap) {
     fastmap.mapApi.Geometry = L.Class.extend({
+        type:"",
+
         /**
          * @method initialize
          * 初始化构造函数
