@@ -1,5 +1,6 @@
 /**
  * Created by zhongxiaoming on 2015/9/9.
+ * Class Rdlink
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.dataApi.rdLind = fastmap.dataApi.GeoDataModel.extend({
@@ -7,6 +8,14 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         options: {
         },
 
+        /***
+         *
+         * @param linkId id
+         * @param startNodeId 开始点nodeid
+         * @param endNodeId 结束点nodeid
+         * @param points 构成rdlink的点数组
+         * @param options 其他可选参数
+         */
         initialize: function (linkId, startNodeId, endNodeId, points, options) {
             L.setOptions(this, options);
             this.id = linkId;

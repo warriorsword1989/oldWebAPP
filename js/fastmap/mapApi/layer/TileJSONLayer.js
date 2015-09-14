@@ -1,5 +1,6 @@
 /**
  * Created by zhongxiaoming on 2015/9/6.
+ * Class canvas瓦片图层
  */
 define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
@@ -10,6 +11,10 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         tileSize: 256,
 
+        /***
+         *
+         * @param options
+         */
         initialize: function (options) {
             L.Util.setOptions(this, options);
             this.url = options.url;
@@ -71,78 +76,16 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
                 }
             }
         },
-        handleEvent: function (c, x, y, delta) {
-            var d = 0;
-            if (c.data) {
-                d = c.data;
-            }
-            if (!d) {
-                return false
-            }
-            var r = 4;
-            if (!delta) {
-                delta = 0
-            }
-            var xr = x + r;
-            var xl = x - r;
-            var yt = y - r;
-            var yb = y + r;
-            var minpoint_dist = 100000;
-            var last_point_index = -1;
-            var candidate = -1;
-            var i;
-            var shouldRedraw = false;
-            for (i = d.length - 1; i >= 0; i--) {
-                if (this.TouchesPath(d[i].g, x, y, r)) {
-                    this.drawGeomCanvas(c, c.data);
-                    shouldRedraw = true;
-                    var g = c.getContext("2d");
-                    g.lineWidth = 3;
-                    if (d[i].g.length > 0) {
-                        g.beginPath();
-                        g.moveTo(d[i].g[0], d[i].g[1]);
 
-                        for (j = 2, max = d[i].g.length; j < max - 1; j += 2) {
-                            g.lineTo(d[i].g[j], d[i].g[j + 1]);
-                        }
-                        g.stroke();
-                    }
-
-
-                    for (var j = 0, len = this.options.tiles.length; j < len; j++) {
-                        for (var k = 0, kLen = this.options.tiles[j].data.length; k < kLen; k++) {
-                            if (this.options.tiles[j].data[k]["i"] == d[i]["i"]) {
-                                this.drawGeomCanvas(this.options.tiles[j], this.options.tiles[j].data);
-                                shouldRedraw = true;
-                                var g = this.options.tiles[j].getContext("2d");
-                                g.lineWidth = 3;
-                                if (this.options.tiles[j].data[k].g.length > 0) {
-                                    g.beginPath();
-                                    g.moveTo(this.options.tiles[j].data[k].g[0], this.options.tiles[j].data[k].g[1]);
-
-                                    for (m = 2, max = this.options.tiles[j].data[k].g.length; m < max - 1; m += 2) {
-                                        g.lineTo(this.options.tiles[j].data[k].g[m], this.options.tiles[j].data[k].g[m + 1]);
-                                    }
-                                    g.stroke();
-                                }
-                                break;
-                            }
-
-                        }
-                    }
-                    break;
-                }
-            }
-
-            if (shouldRedraw) {
-                c.setAttribute("style", "position:relative;cursor:pointer");
-            }
-            else {
-                c.setAttribute("style", "position:relative;cursor:default");
-                this.drawGeomCanvas(c, c.data);
-            }
-            return false
-        },
+        /***
+         *
+         * @param d 几何图形
+         * @param x 鼠标x
+         * @param y 鼠标y
+         * @param r 半径
+         * @returns {number}
+         * @private
+         */
         _TouchesPath: function (d, x, y, r) {
             var i;
             var N = d.length;
@@ -175,6 +118,11 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             return 0
         },
 
+        /***
+         * 根据瓦片id移除瓦片
+         * @param key
+         * @private
+         */
         _removeTile: function (key) {
             var tile = this._tiles[key];
 
@@ -197,6 +145,12 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             delete this.tiles[key];
             delete this._tiles[key];
         },
+
+        /***
+         * 重置图层
+         * @param e
+         * @private
+         */
         _reset: function (e) {
             for (var key in this._tiles) {
                 this.fire('tileunload', {tile: this._tiles[key]});
@@ -219,6 +173,12 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
             this._initContainer();
         },
+
+        /***
+         * 打印调试信息
+         * @param ctx
+         * @private
+         */
         _drawDebugInfo: function (ctx) {
             var max = this.tileSize;
             var g = ctx.canvas.getContext('2d');
@@ -234,6 +194,13 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             g.strokeText(ctx.tile.x + ' ' + ctx.tile.y + ' ' + ctx.zoom, max / 2 - 30, max / 2 - 10);
         },
 
+        /***
+         * 计算tilepoint
+         * @param ctx  {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param coords 坐标
+         * @returns {{x: number, y: number}}
+         * @private
+         */
         _tilePoint: function (ctx, coords) {
             // start coords to tile 'space'
             var s = ctx.tile.multiplyBy(this.tileSize);
@@ -250,6 +217,13 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             };
         },
 
+        /***
+         *
+         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param points 计算瓦片范围内的点
+         * @returns {Array}
+         * @private
+         */
         _clip: function (ctx, points) {
             var nw = ctx.tile.multiplyBy(this.tileSize);
             var se = nw.add(new L.Point(this.tileSize, this.tileSize));
@@ -271,6 +245,12 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             return out;
         },
 
+        /***
+         * 计算点是否可见
+         * @param coords
+         * @returns {boolean}
+         * @private
+         */
         _isActuallyVisible: function (coords) {
             var coord = coords[0];
             var min = [coord.x, coord.y], max = [coord.x, coord.y];
@@ -290,6 +270,14 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             return visible;
         },
 
+        /***
+         * 绘制点
+         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param geom 点对象
+         * @param style 样式
+         * @param boolPixelCrs 是否是像素坐标
+         * @private
+         */
         _drawPoint: function (ctx, geom, style, boolPixelCrs) {
             if (!style) {
                 return;
@@ -311,6 +299,14 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             g.restore();
         },
 
+        /***
+         * 绘制线
+         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param geom 绘制几何对象
+         * @param style 样式
+         * @param boolPixelCrs 是否像素坐标
+         * @private
+         */
         _drawLineString: function (ctx, geom, style, boolPixelCrs) {
             if (!style) {
                 return;
@@ -342,6 +338,13 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             g.restore();
         },
 
+        /***
+         * 绘制polygon
+         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param geom 几何对象
+         * @param style 样式
+         * @private
+         */
         _drawPolygon: function (ctx, geom, style) {
             if (!style) {
                 return;
@@ -427,6 +430,15 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
                 this.tiles[this.key].setRequest(this.request);
             }
         },
+
+        /***
+         *
+         * @param func回调函数
+         * @param url当前请求的url
+         * @param key 瓦片key
+         * @returns {XDomainRequest}
+         * @private
+         */
         _ajaxLoader: function (func, url,key) {
             var self = this
             if (document.getElementById) {
@@ -477,6 +489,13 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             return x;
         },
 
+        /***
+         * 绘制要素
+         * @param data绘制的数据
+         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param boolPixelCrs 是否像素坐标
+         * @private
+         */
         _drawfeature :function(data, ctx, boolPixelCrs){
             for (var i = 0; i < data.features.length; i++) {
                 var feature = data.features[i];
@@ -528,6 +547,11 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             }
         },
         // NOTE: a placeholder for a function that, given a tile context, returns a string to a GeoJSON service that retrieve features for that context
+        /***
+         * 根据瓦片bounds构建url
+         * @param bounds 瓦片bounds
+         * @returns {*}
+         */
         createUrl: function (bounds) {
             var url = null;
 
@@ -599,6 +623,13 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
         },
 
         // NOTE: a placeholder for a function that, given a feature, returns a style object used to render the feature itself
+
+        /***
+         * 根据要素生成绘制样式
+         * @param feature
+         * @param value
+         * @returns {*}
+         */
         styleFor: function(feature, value){
 
             pointRadius = 5;
@@ -669,6 +700,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
             }
         }
     });
+
 
     fastmap.mapApi.TileJSON.addInitHook(function(){
         this.isVisiable = this.options.isVisiable ? true : false;
