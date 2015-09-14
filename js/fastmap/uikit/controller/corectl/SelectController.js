@@ -15,7 +15,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * 构造函数
          * @class SelectController
          * @constructor
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
@@ -34,7 +34,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /**
          *框选、圆选获取元素
          * @selectByGeometry
-         * @param geometry
+         * @param {Geometry}geometry
          */
         selectByGeometry:function(geometry) {
             this.geometry = geometry;
@@ -47,7 +47,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /**
          * 当前被选择的元素
          * @method onSelected
-         * @param features
+         * @param {Object}features
          */
         onSelected:function(features) {
             this.selectedFeatures = features;
