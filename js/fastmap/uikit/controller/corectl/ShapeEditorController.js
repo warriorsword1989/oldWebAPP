@@ -9,7 +9,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          *
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
@@ -38,7 +38,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 当前工具类型
-         * @param type
+         * @param {String}type
          * @returns {*}
          * @private
          */

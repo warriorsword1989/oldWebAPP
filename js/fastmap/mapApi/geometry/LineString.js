@@ -6,11 +6,13 @@
  */
 define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
     fastmap.mapApi.LineString = fastmap.mapApi.Geometry.extend({
+        type:"LineString",
+        coordinates:[],
         /**
          * @class LineString
          * @constructor
          * @namespace fastmap.mapApi
-         * @param coordinates
+         * @param {Array}coordinates
          */
         initialize: function (coordinates) {
             fastmap.mapApi.Geometry.prototype.initialize.apply(this, arguments);
@@ -29,7 +31,7 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          *获取lineString坐标数据
          * @method getCoordinates
-         * @param coordinates
+         * @param {Array}coordinates
          */
 
         getCoordinates: function () {
@@ -37,6 +39,7 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          * 获取开始点
          * @method getStartPoint
+         * @param {Point}coordinates
          */
         getStartPoint: function (coordinates) {
 
@@ -44,6 +47,7 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          * 获取线的结束点
          * @method getEndPoint
+         * @param {Point} coordinates
          */
         getEndPoint: function (coordinates) {
 
@@ -51,9 +55,9 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          *点到线的小片段的距离
          * @method pointToSegmentDistance
-         * @param p
-         * @param p1
-         * @param p2
+         * @param {Point}p
+         * @param {Point}p1
+         * @param {Point}p2
          * @returns {number}
          */
         pointToSegmentDistance: function (/*Point*/ p, /*Point*/ p1, /*Point*/ p2) {
@@ -62,7 +66,7 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          *判断线是否交汇
          * @method intersects
-         * @param geometry
+         * @param {Geometry}geometry
          * @returns {boolean}
          */
         intersects: function (geometry) {
@@ -85,6 +89,8 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          *把线分离成多个片段
          *@method splitWithSegment
+         * @param {Object}seg
+         * @param {Object}options
          */
         splitWithSegment: function (seg, options) {
             var result = null;
@@ -93,6 +99,8 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          * 根据参数分离geometry
          *@method split
+         * @param {Object}target
+         * @param {Object}options
          */
         split: function (target, options) {
             var results = null;
@@ -101,7 +109,7 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          *根据容差获取数据
          * @method simplify
-         * @param tolerance
+         * @param {Number}tolerance
          */
         simplify: function(tolerance){
 
@@ -109,8 +117,8 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         /**
          * 距线最近的点
          * @method distanceTo
-         * @param geometry
-         * @param options
+         * @param {Geometry}geometry
+         * @param {Object}options
          * @returns {{}}
          */
         distanceTo:function(geometry, options) {

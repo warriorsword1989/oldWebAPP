@@ -11,7 +11,7 @@ define(['js/fastmap/fastmap'],function(fastmap) {
          * @class FeatCode
          * @constructor
          * @namespace fast
-         * @param options
+         * @param {Object}options
          */
         initialize:function(options) {
             this.options = options || {};
