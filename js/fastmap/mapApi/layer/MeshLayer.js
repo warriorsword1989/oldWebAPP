@@ -1,15 +1,23 @@
 /**
  * Created by zhongxiaoming on 2015/9/2.
+ * Class 1:25000图幅图层
  */
 define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fastmap) {
     fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
+        /***
+         * 初始化可选参数
+         * @param options
+         */
         initialize: function (options) {
             this.options = options || {};
             fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
             this.minShowZoom = this.options.minShowZoom || 9;
             this.maxShowZoom = this.options.maxShowZoom || 18;
         },
-
+        /***
+         * 图层添加到地图时调用
+         * @param map
+         */
         onAdd: function (map) {
             this.map = map;
             this._initContainer(this.map, this.options);
@@ -17,11 +25,20 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
             this._redraw();
         },
 
+        /***
+         * 图层被移除时调用
+         * @param map
+         */
         onRemove: function (map) {
             map.getPanes().overlayPane.removeChild(this._div);
             map.off("moveend", this._redraw, this);
         },
 
+        /***
+         * 初始化图层容器
+         * @param options
+         * @private
+         */
         _initContainer: function (options) {
             this.options = options || {};
             var container = L.DomUtil.create('div', 'leaflet-canvas-container');
@@ -40,6 +57,10 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
             this.map.getPanes().overlayPane.appendChild(this._div);
         },
 
+        /***
+         * 根据bounds绘制图幅
+         * @param bounds
+         */
         draw: function (bounds) {
             var pointDL = bounds.getSouthWest();
             //右上角点
@@ -69,12 +90,24 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
             }
         },
 
+        /***
+         * 绘制图幅
+         * @param context canvas context
+         * @param meshId 图幅id
+         * @param options 可选参数
+         */
         drawRect: function (context, meshId, options) {
             context.strokeStyle = 'red'//边框颜色
             context.linewidth = 1;  //边框宽
             context.strokeRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
             context.stroke()
         },
+
+        /***
+         * 重绘
+         * @returns {fastmap.mapApi.MeshLayer}
+         * @private
+         */
         _redraw: function () {
             this._resetCanvasPosition();
             this.clear();
@@ -85,6 +118,15 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
             return this;
         },
 
+        /***
+         * 生成图幅格网
+         * @param minLon 最小经度
+         * @param maxLon 最大经度
+         * @param origin 原点
+         * @param destination 最大经度
+         * @param source
+         * @returns {Array}
+         */
         createGrid: function (minLon, maxLon, origin, destination, source) {
             //保存生成的网格
             var grid = [];
@@ -109,10 +151,18 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
 
             return grid
         },
+
+        /***
+         * 清空图层
+         */
         clear: function () {
             this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
         },
 
+        /***
+         * 重新调整图层位置
+         * @private
+         */
         _resetCanvasPosition: function () {
             var bounds = this.map.getBounds();
             var topLeft = this.map.latLngToLayerPoint(bounds.getNorthWest());
