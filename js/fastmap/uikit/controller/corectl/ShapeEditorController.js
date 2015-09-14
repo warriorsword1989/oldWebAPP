@@ -1,11 +1,16 @@
 /**
  * Created by zhongxiaoming on 2015/9/10.
+ * Class ShapeEditorController
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ShapeEditorController = L.Class.extend({
         options: {
         },
 
+        /***
+         *
+         * @param options
+         */
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
@@ -14,15 +19,29 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.currentEditinGeometry = null;
         },
 
+        /***
+         * 开始编辑
+         * @param geometry 编辑的几何图形
+         */
         startEditing:function(geometry){
             this.currentEditinGeometry = geometry;
             this._tools(this.editType);
         },
 
+        /***
+         * 结束编辑 编辑的几何图形
+         * @param geometry
+         */
         stopEditing:function(geometry){
 
         },
 
+        /***
+         * 当前工具类型
+         * @param type
+         * @returns {*}
+         * @private
+         */
         _tools:function(type){
             this.callback = null;
             switch (type){
