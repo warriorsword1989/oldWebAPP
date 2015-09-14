@@ -1,5 +1,23 @@
-﻿define(['../fastmap'], function (fastmap) {
+﻿/**
+ * Bounds类
+ * 用于表示包围框
+ *
+ * @namespace mapApi
+ * @class Bounds
+ */
+define(['../fastmap'], function (fastmap) {
     fastmap.mapApi.Bounds =  L.Class.extend({
+        /**
+         * @method initialize
+         * 初始化构造函数
+         *
+         * @param {Number} left
+         * @param {Number} bottom
+         * @param {Number} right
+         * @param {Number} top
+         *
+         * @return {fastmap.mapApi.Bounds} 返回拷贝对象
+         */
         initialize:function(left, bottom, right, top) {
             if (left) {
                 this.left = parseFloat(left);
@@ -7,38 +25,30 @@
             if (bottom) {
                 this.bottom = parseFloat(bottom);
             }
-
             if (right) {
                 this.right = parseFloat(right);
             }
-
             if (top) {
                 this.top = parseFloat(top);
             }
         },
 
         /**
-         * Method: clone
-         * Create a cloned instance of this bounds.
+         * @method clone
+         * 深度拷贝当前bounds对象
          *
-         * Returns:
-         * {<fastmap.mapApi.Bounds >} A fresh copy of the bounds
+         * @return {fastmap.mapApi.Bounds} 返回拷贝对象
          */
         clone:function() {
             return new fastmap.mapApi.Bounds(this.left, this.bottom, this.right, this.top);
         },
 
         /**
-         * Method: equals
-         * Test a two bounds for equivalence.
+         * @method equals
+         * 判断两个bounds是否相等
          *
-         * Parameters:
-         * bounds - {<fastmap.mapApi.Bounds>}
-         *
-         * Returns:
-         * {Boolean} The passed-in bounds object has the same left,
-         *           right, top, bottom components as this.  Note that if bounds
-         *           passed in is null, returns false.
+         * @param {fastmap.mapApi.Bounds} 用于比较的bounds
+         * @return {Boolean} 如果两个bounds的上下左右相等，则两个bounds相等，否则不相等
          */
         equals:function(bounds) {
             var equals = false;
