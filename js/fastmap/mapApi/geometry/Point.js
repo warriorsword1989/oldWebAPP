@@ -1,4 +1,11 @@
-﻿define(['../../fastmap','fastmap/utils'], function (fastmap) {
+﻿/**
+ * Point
+ * 基于Geometry的Point类
+ *
+ * @namespace mapApi
+ * @class Point
+ */
+define(['../../fastmap','fastmap/utils'], function (fastmap) {
     fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
         /**
          * 点的横坐标
