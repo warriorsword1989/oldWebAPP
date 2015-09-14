@@ -8,6 +8,13 @@
 define(['../../fastmap','fastmap/utils'], function (fastmap) {
     fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
         /**
+         * 几何类型
+         * type
+         * @property type
+         * @type String
+         */
+        type:"Point",
+        /**
          * 点的横坐标
          * x
          * @property x
