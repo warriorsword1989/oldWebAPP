@@ -15,7 +15,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * @class DataTipsController
          * @constructor
          * @namespace  fastmap
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
