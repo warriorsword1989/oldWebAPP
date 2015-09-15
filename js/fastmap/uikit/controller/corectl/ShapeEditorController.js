@@ -4,6 +4,8 @@
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ShapeEditorController = L.Class.extend({
+        includes: L.Mixin.Events,
+
         options: {
         },
 
@@ -17,6 +19,8 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.map = options.map || null;
             this.editType = options.editType || '';
             this.currentEditinGeometry = null;
+
+            
         },
 
         /***
