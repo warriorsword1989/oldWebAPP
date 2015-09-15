@@ -9,8 +9,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * @property includes
          */
         includes: L.Mixin.Events,
-
-
+        
         options: {
         },
 
