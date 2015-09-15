@@ -4,6 +4,12 @@
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ToolTipsController =  L.Class.extend({
+        /**
+         * 事件管理器
+         * @property includes
+         */
+        includes: L.Mixin.Events,
+
         options: {
         },
 
@@ -14,6 +20,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
+            this.on("toolStateChanged",this.setCurrentTooltip,this);
         },
 
         /***

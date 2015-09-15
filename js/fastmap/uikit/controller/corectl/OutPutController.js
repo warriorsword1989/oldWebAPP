@@ -4,6 +4,13 @@
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.OutPutController =  L.Class.extend({
+        /**
+         * 事件管理器
+         * @property includes
+         */
+        includes: L.Mixin.Events,
+
+
         options: {
         },
 
@@ -11,6 +18,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.options = options || {};
             L.setOptions(this, options);
             this.outPuts = [];
+            this.on("objectSaved",this.pushOutput,this);
         },
 
         /***
