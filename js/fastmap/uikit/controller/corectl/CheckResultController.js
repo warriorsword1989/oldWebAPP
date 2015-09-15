@@ -20,6 +20,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
+            this.on("objectSaved",this.startCheck,this);
         },
 
         /***

@@ -9,6 +9,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * @property includes
          */
         includes: L.Mixin.Events,
+        
         options: {
         },
 
@@ -16,6 +17,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.options = options || {};
             L.setOptions(this, options);
             this.outPuts = [];
+            this.on("objectSaved",this.pushOutput,this);
         },
 
         /***
