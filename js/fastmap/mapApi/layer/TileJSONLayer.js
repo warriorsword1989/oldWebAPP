@@ -13,7 +13,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          *
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             L.Util.setOptions(this, options);
@@ -44,9 +44,9 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 高亮显示当前鼠标点位置的地图要素
-         * @param e
-         * @param canvas
-         * @param tilePoint
+         * @param {Event}e
+         * @param {Canvas}canvas
+         * @param {TilePoint}tilePoint
          */
         drawGeomCanvasHighlight:function(e, canvas,tilePoint){
             var x = e.offsetX|| e.layerX, y =e.offsetY ||e.layerY;
@@ -79,10 +79,10 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          *
-         * @param d 几何图形
-         * @param x 鼠标x
-         * @param y 鼠标y
-         * @param r 半径
+         * @param {Array}d 几何图形
+         * @param {number}x 鼠标x
+         * @param {number}y 鼠标y
+         * @param {number}r 半径
          * @returns {number}
          * @private
          */
@@ -120,7 +120,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 根据瓦片id移除瓦片
-         * @param key
+         * @param {String}key
          * @private
          */
         _removeTile: function (key) {
@@ -148,7 +148,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 重置图层
-         * @param e
+         * @param {Object}e
          * @private
          */
         _reset: function (e) {
@@ -176,7 +176,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 打印调试信息
-         * @param ctx
+         * @param {Object}ctx
          * @private
          */
         _drawDebugInfo: function (ctx) {
@@ -196,8 +196,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 计算tilepoint
-         * @param ctx  {canvas: canvas,tile: tilePoint,zoom: zoom}
-         * @param coords 坐标
+         * @param {Object}ctx  {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param {Array}coords 坐标
          * @returns {{x: number, y: number}}
          * @private
          */
@@ -219,8 +219,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          *
-         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
-         * @param points 计算瓦片范围内的点
+         * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param {Array}points 计算瓦片范围内的点
          * @returns {Array}
          * @private
          */
@@ -247,7 +247,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 计算点是否可见
-         * @param coords
+         * @param {Array}coords
          * @returns {boolean}
          * @private
          */
@@ -301,10 +301,10 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 绘制线
-         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
-         * @param geom 绘制几何对象
-         * @param style 样式
-         * @param boolPixelCrs 是否像素坐标
+         * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param {Array}geom 绘制几何对象
+         * @param {Object}style 样式
+         * @param {Boolean}boolPixelCrs 是否像素坐标
          * @private
          */
         _drawLineString: function (ctx, geom, style, boolPixelCrs) {
@@ -340,9 +340,9 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 绘制polygon
-         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
-         * @param geom 几何对象
-         * @param style 样式
+         * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param {Array}geom 几何对象
+         * @param {Object}style 样式
          * @private
          */
         _drawPolygon: function (ctx, geom, style) {
@@ -381,8 +381,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
         },
         /**
          * 为了兼容返回的数据不是geojson的形式的情况，增加了一个parse参数处理返回数据
-         * @param ctx
-         * @param boolPixelCrs
+         * @param {Object}ctx
+         * @param {Boolean}boolPixelCrs
          * @param parse
          * @private
          */
@@ -433,9 +433,9 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          *
-         * @param func回调函数
-         * @param url当前请求的url
-         * @param key 瓦片key
+         * @param {Object}func回调函数
+         * @param {String}url当前请求的url
+         * @param {String}key 瓦片key
          * @returns {XDomainRequest}
          * @private
          */
@@ -491,9 +491,9 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 绘制要素
-         * @param data绘制的数据
-         * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
-         * @param boolPixelCrs 是否像素坐标
+         * @param {Object}data绘制的数据
+         * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+         * @param {Boolean}boolPixelCrs 是否像素坐标
          * @private
          */
         _drawfeature :function(data, ctx, boolPixelCrs){
@@ -549,7 +549,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
         // NOTE: a placeholder for a function that, given a tile context, returns a string to a GeoJSON service that retrieve features for that context
         /***
          * 根据瓦片bounds构建url
-         * @param bounds 瓦片bounds
+         * @param {Array}bounds 瓦片bounds
          * @returns {*}
          */
         createUrl: function (bounds) {
@@ -626,8 +626,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
 
         /***
          * 根据要素生成绘制样式
-         * @param feature
-         * @param value
+         * @param {Object}feature
+         * @param {number}value
          * @returns {*}
          */
         styleFor: function(feature, value){

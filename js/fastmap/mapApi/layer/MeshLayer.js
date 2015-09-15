@@ -6,7 +6,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
     fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         /***
          * 初始化可选参数
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
@@ -16,7 +16,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         },
         /***
          * 图层添加到地图时调用
-         * @param map
+         * @param{L.Map} map
          */
         onAdd: function (map) {
             this.map = map;
@@ -27,7 +27,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
 
         /***
          * 图层被移除时调用
-         * @param map
+         * @param {L.Map}map
          */
         onRemove: function (map) {
             map.getPanes().overlayPane.removeChild(this._div);
@@ -36,7 +36,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
 
         /***
          * 初始化图层容器
-         * @param options
+         * @param {Object}options
          * @private
          */
         _initContainer: function (options) {
@@ -59,7 +59,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
 
         /***
          * 根据bounds绘制图幅
-         * @param bounds
+         * @param {L.Bounds}bounds
          */
         draw: function (bounds) {
             var pointDL = bounds.getSouthWest();
@@ -92,7 +92,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
 
         /***
          * 绘制图幅
-         * @param context canvas context
+         * @param {Object}context canvas context
          * @param meshId 图幅id
          * @param options 可选参数
          */
@@ -120,14 +120,13 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
 
         /***
          * 生成图幅格网
-         * @param minLon 最小经度
-         * @param maxLon 最大经度
-         * @param origin 原点
-         * @param destination 最大经度
-         * @param source
+         * @param {number}minLon 最小经度
+         * @param {number}maxLon 最大经度
+         * @param {number}origin 原点
+         * @param {number}destination 最大经度
          * @returns {Array}
          */
-        createGrid: function (minLon, maxLon, origin, destination, source) {
+        createGrid: function (minLon, maxLon, origin, destination) {
             //保存生成的网格
             var grid = [];
             var labels = []
@@ -169,16 +168,11 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
             L.DomUtil.setPosition(this._div, topLeft);
         },
 
-
-        /**
-         * Created by zhong on 2014-12-24.
-         */
-
         /*
          *	根据纬度计算该点位于理想图幅分割的行序号
          *
-         *  @parameter      lat                 纬度      单位‘度’
-         *  @paramenter     remainder           余数      单位‘千秒’
+         *  @param{number}lat                 纬度      单位‘度’
+         *  @param{number}remainder           余数      单位‘千秒’
          */
         CalculateIdealRowIndex: function (lat, remainder) {
             //相对区域纬度 = 绝对纬度 - 0.0
@@ -206,8 +200,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         /*
          *	根据纬度计算该点位于实际图幅分割的行序号
          *
-         *  @parameter      lat                 纬度      单位‘度’
-         *  @paramenter     remainder           余数      单位‘千秒’
+         *  @param{number}lat                 纬度      单位‘度’
+         *  @param{number}remainder           余数      单位‘千秒’
          */
         CalculateRealRowIndex: function (lat, remainder) {
             //理想行号
@@ -238,7 +232,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         /*
          *	根据经度计算该点位于实际图幅分割的列序号
          *
-         *  @param      lon                经度，单位“度”
+         *  @param{number}lon                经度，单位“度”
          */
 
         CalculateRealColumnIndex: function (lon, remainder) {
@@ -248,8 +242,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         /*
          * 根据经度计算该点位于理想图幅分割的列序号
          *
-         *  @param     lon                经度，单位“度”
-         *  @param     reminder           余数 单位“千秒”
+         *  @param{number}lon                经度，单位“度”
+         *  @param{number}reminder           余数 单位“千秒”
          */
 
         CalculateIdealColumnIndex: function (lon, remainder) {
@@ -303,7 +297,7 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         /*
          *  点所在的图幅号,如果点在图幅边界上,返回右上的图幅号
          *
-         *  @param          point          经纬度点
+         *  @param {L.Latlng}point   经纬度点
          */
         Calculate25TMeshId: function (point) {
             var mesh = this.MeshLocator_25T(point.lng, point.lat);
@@ -314,13 +308,18 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         /*
          *	快速计算点所在的图幅左下角点
          *
-         *  @param      point          经纬度点
+         *  @param{L.Latlng}point          经纬度点
          */
         Calculate25TMeshCorner: function (point) {
             return this.Calculate25TMeshCornerByMeshId(this.Calculate25TMeshId(point));
         },
 
-
+        /***
+         * 计算图幅角点坐标
+         * @param {String}mesh
+         * @returns {*}
+         * @constructor
+         */
         Calculate25TMeshCornerByMeshId: function (mesh) {
             var cc = mesh.split("");
 
@@ -339,17 +338,12 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
             return point;
         },
 
-        /*
-         *	快速计算点所在的图幅边框
+        /***
+         *  计算图幅border
+         * @param {String}mesh
+         * @returns {{minLon: (*|a.lng|L.LatLng.lng|L.LatLngBounds._southWest.lng|L.LatLngBounds._northEast.lng|o.LatLngBounds._northEast.lng), minLat: (*|a.lat|L.LatLng.lat|L.LatLngBounds._southWest.lat|L.LatLngBounds._northEast.lat|o.LatLngBounds._northEast.lat), maxLon: (*|a.lng|L.LatLng.lng|L.LatLngBounds._southWest.lng|L.LatLngBounds._northEast.lng|o.LatLngBounds._northEast.lng), maxLat: (*|a.lat|L.LatLng.lat|L.LatLngBounds._southWest.lat|L.LatLngBounds._northEast.lat|o.LatLngBounds._northEast.lat)}}
+         * @constructor
          */
-//function Calculate25TMeshBorder(point) {
-//    return Calculate25TMeshBorder(Calculate25TMeshId(point));
-//}
-
-        /*
-         *	根据图幅号计算图幅边框
-         */
-
         Calculate25TMeshBorder: function (mesh) {
             var cc = mesh.split("");
 
@@ -376,8 +370,8 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/layer/WholeLayer'], function (fa
         /*
          * 	点是否在图框上
          *
-         *  @param      lon               经度
-         *  @param      lat               纬度
+         *  @param{number}lon               经度
+         *  @param{number}lat               纬度
          */
 
         IsAt25TMeshBorder: function (lon, lat) {

@@ -4,6 +4,12 @@
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.CheckResultController = L.Class.extend({
+        /**
+         * 事件管理器
+         * @property includes
+         */
+        includes: L.Mixin.Events,
+
         options: {
         },
 
