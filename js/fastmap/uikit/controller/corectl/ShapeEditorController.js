@@ -4,12 +4,14 @@
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ShapeEditorController = L.Class.extend({
+        includes: L.Mixin.Events,
+
         options: {
         },
 
         /***
          *
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
@@ -17,6 +19,8 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.map = options.map || null;
             this.editType = options.editType || '';
             this.currentEditinGeometry = null;
+
+            
         },
 
         /***
@@ -38,7 +42,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 当前工具类型
-         * @param type
+         * @param {String}type
          * @returns {*}
          * @private
          */

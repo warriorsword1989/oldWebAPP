@@ -9,7 +9,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          *
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
@@ -18,7 +18,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 设置tooltip
-         * @param tooltip
+         * @param {Object}tooltip
          */
         setCurrentTooltip:function(tooltip){
 

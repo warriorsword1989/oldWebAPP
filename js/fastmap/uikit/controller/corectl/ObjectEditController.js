@@ -8,6 +8,11 @@
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ObjectEditController = L.Class.extend({
         /**
+         * 事件管理器
+         * @property includes
+         */
+        includes: L.Mixin.Events,
+        /**
          * 相关属性
          */
         options: {},
@@ -16,13 +21,14 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * @class ObjectEditController
          * @constructor
          * @namespace  fastmap.uiKit
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
             this.data = "";
             this.originalData = null;
+            this.on("FeatureSelected",this.setCurrentObject,this);
         },
         /**
          * 保存需要编辑的元素的原数据
@@ -41,7 +47,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /**
          * 保存当前元素
          * @method setCurrentObject
-         * @param obj
+         * @param {Object}obj
          */
         setCurrentObject:function(obj) {
             this.data = obj;
@@ -56,8 +62,8 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /**
          * 保存元素的方法
          * @method onSaved
-         * @param orignalData
-         * @param data
+         * @param {Object}orignalData
+         * @param {Object}data
          */
         onSaved:function(orignalData,data) {
         }

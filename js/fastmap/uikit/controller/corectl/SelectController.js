@@ -7,6 +7,12 @@
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.SelectController = L.Class.extend({
         /**
+         * 事件管理器
+         * @property includes
+         */
+        includes: L.Mixin.Events,
+
+        /**
          * 相关属性
          */
         options: {
@@ -15,13 +21,12 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * 构造函数
          * @class SelectController
          * @constructor
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
             L.setOptions(this, options);
             this.selectedFeatures = null;
-
         },
         /**
          * 根据属性获取元素
@@ -34,7 +39,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /**
          *框选、圆选获取元素
          * @selectByGeometry
-         * @param geometry
+         * @param {Geometry}geometry
          */
         selectByGeometry:function(geometry) {
             this.geometry = geometry;
@@ -47,16 +52,19 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /**
          * 当前被选择的元素
          * @method onSelected
-         * @param features
+         * @param {Object}features
          */
         onSelected:function(features) {
             this.selectedFeatures = features;
+
+            this.fire("FeatureSelected",{features:features});
         },
         /**
          * 清空存放数据的数组
          * @method clear
          */
         clear:function() {
+            this.fire("FeatureCleared",{features:this.selectedFeatures});
             this.selectedFeatures= [];
         }
     })

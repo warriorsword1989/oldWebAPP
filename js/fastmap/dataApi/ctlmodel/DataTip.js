@@ -16,10 +16,10 @@ define(['js/fastmap/fastmap'],function(fastmap) {
          * @class DataTips
          * @constructor
          * @namespace  fastmap
-         * @param id
-         * @param type
-         * @param geometry
-         * @param options
+         * @param {String}id
+         * @param {String}type
+         * @param {Geometry}geometry
+         * @param {Object}options
          */
         initialize: function (id,type,geometry,options) {
             this.options = options || {};
@@ -37,24 +37,10 @@ define(['js/fastmap/fastmap'],function(fastmap) {
         /**
          * 获取元素的坐标或者是系列坐标
          * @method setCoordinates
-         * @param coordinates
+         * @param {Array}coordinates
          */
         setCoordinates: function (coordinates) {
             this.options = coordinates;
-        },
-        /**
-         * 移除dataTip
-         * @method remove
-         */
-        remove: function () {
-
-        },
-        /**
-         * 设置输出DataTips
-         * @method setOutPut
-         */
-        setOutput:function() {
-
         }
 
 

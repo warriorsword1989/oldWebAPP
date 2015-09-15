@@ -25,7 +25,7 @@ define(['js/fastmap/fastmap'],function(fastmap) {
         /**
          * geometry代码的设置
          * @method setFeatCode
-         * @param featCode
+         * @param {String}featCode
          */
         setFeatCode:function(featCode) {
 

@@ -15,7 +15,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 添加output
-         * @param output
+         * @param {Object}output
          */
         pushOutput:function(output){
             this.outPuts.push(output);
@@ -23,7 +23,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 顶端移除一个ouput
-         * @param output
+         * @param {Object}output
          */
         popOutput:function(output){
             this.outPuts.pop(output);
@@ -51,7 +51,5 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         clear:function(){
 
         }
-
-
     });
 });

@@ -8,6 +8,13 @@
 define(['../../fastmap','fastmap/utils'], function (fastmap) {
     fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
         /**
+         * 几何类型
+         * type
+         * @property type
+         * @type String
+         */
+        type:"Point",
+        /**
          * 点的横坐标
          * x
          * @property x
@@ -33,7 +40,7 @@ define(['../../fastmap','fastmap/utils'], function (fastmap) {
          */
         initialize: function(x, y) {
             fastmap.mapApi.Geometry.prototype.initialize.apply(this, arguments);
-       
+
             this.x = parseFloat(x);
             this.y = parseFloat(y);
         },
@@ -64,8 +71,8 @@ define(['../../fastmap','fastmap/utils'], function (fastmap) {
         /**
          * 移动点
          * @method move
-         * @param x
-         * @param y
+         * @param {Number}x
+         * @param {Number}y
          */
         move: function(x, y) {
             this.x = this.x + x;
@@ -85,7 +92,7 @@ define(['../../fastmap','fastmap/utils'], function (fastmap) {
         /**
          * 判断点与几何相关空间位置关系，是否相交
          * @method intersects
-         * @param geometry
+         * @param {Geometry}geometry
          * @returns {boolean}
          */
         intersects: function(geometry) {

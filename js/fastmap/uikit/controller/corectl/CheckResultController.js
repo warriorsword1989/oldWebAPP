@@ -9,7 +9,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          *
-         * @param options
+         * @param {Object}options
          */
         initialize: function (options) {
             this.options = options || {};
@@ -18,8 +18,8 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 开始检查
-         * @param checkObj 检查对象
-         * @param callBack 回调函数
+         * @param {Object}checkObj 检查对象
+         * @param {Function}callBack 回调函数
          */
         startCheck:function(checkObj,callBack){
 
