@@ -11,8 +11,8 @@ define(['../fastmap'], function (fastmap) {
 
         /***
          *
-         * @param url 初始化url
-         * @param options 可选参数
+         * @param {String}url 初始化url
+         * @param {Object}options 可选参数
          */
         initialize: function (url,options) {
             this.options = options || {};
@@ -40,7 +40,7 @@ define(['../fastmap'], function (fastmap) {
 
         /***
          * 设置tile的data
-         * @param data
+         * @param {Object}data
          */
         setData:function(data){
             this.data = data;
@@ -57,7 +57,7 @@ define(['../fastmap'], function (fastmap) {
 
         /***
          * 设置tile的httmxmlrequest对象
-         * @param xmlhttprequest
+         * @param {XMLHttpRequest}xmlhttprequest
          */
         setRequest:function(xmlhttprequest){
 
@@ -67,8 +67,8 @@ define(['../fastmap'], function (fastmap) {
 
     /***
      * 初始化tile
-     * @param url  初始化url
-     * @param options 可选参数
+     * @param {String}url  初始化url
+     * @param {Object}options 可选参数
      * @returns {.mapApi.Tile}
      */
     fastmap.mapApi.tile = function(url,options){

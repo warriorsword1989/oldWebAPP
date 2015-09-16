@@ -6,7 +6,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.mapApi.Layer =  L.Class.extend({
         /***
          *
-         * @param options
+         * @param {Object}options
          * isVisiable图层是否可见，默认为false
          * isSelectable吐槽呢过是否可选择，默认为false
          */
@@ -19,7 +19,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /***
          * 图层加入到地图时调用
          * onAdd所有继承Ilayer接口的类需要重写该方法
-         * @param map
+         * @param {L.Map}map
          */
         onAdd: function (map) {
             this._map = map;
@@ -29,7 +29,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /***
          * 图层被移除时调用
          * onRemove所有继承Ilayer接口的类需要重写该方法
-         * @param map
+         * @param {L.Map}map
          */
         onRemove: function (map) {
             //map.removeLayer(this);

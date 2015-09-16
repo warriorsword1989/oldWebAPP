@@ -7,7 +7,7 @@
         },
         /**
          * 地图控件，主要包含操作地图的方法
-         * @param map
+         * @param {L.Map}map
          * @private
          */
         _mapController : function(map){
@@ -28,7 +28,7 @@
 
             /**
              * 平移
-             * @param latlng
+             * @param {L.Latlng}latlng
              */
             this.pan = function(latlng){
                 map.panTo(latlng);
