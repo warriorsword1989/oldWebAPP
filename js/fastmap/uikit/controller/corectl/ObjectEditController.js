@@ -8,6 +8,11 @@
 define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ObjectEditController = L.Class.extend({
         /**
+         * 事件管理器
+         * @property includes
+         */
+        includes: L.Mixin.Events,
+        /**
          * 相关属性
          */
         options: {},
@@ -23,6 +28,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             L.setOptions(this, options);
             this.data = "";
             this.originalData = null;
+            this.on("FeatureSelected",this.setCurrentObject,this);
         },
         /**
          * 保存需要编辑的元素的原数据
