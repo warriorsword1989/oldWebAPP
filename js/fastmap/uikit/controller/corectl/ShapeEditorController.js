@@ -45,6 +45,12 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         },
 
         /***
+         * 放弃编辑
+         */
+        abortEditing:function(){
+
+        },
+        /***
          * 当前工具类型
          * @param {String}type
          * @returns {*}
