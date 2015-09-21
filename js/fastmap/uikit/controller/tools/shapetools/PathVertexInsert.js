@@ -1,9 +1,9 @@
 /**
- * Created by zhongxiaoming on 2015/9/16.
- * Class PathCopy
+ * Created by zhongxiaoming on 2015/9/18.
+ * Class PathVertexInsert
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.uiKit.PathCopy = L.Handler.extend({
+    fastmap.uiKit.PathVertexInsert = L.Handler.extend({
         /**
          * 事件管理器
          * @property includes
@@ -22,24 +22,21 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /***
          * 添加事件处理
          */
-        addHooks: function () {
-        },
+        addHooks: function () {},
 
         /***
          * 移除事件
          */
-        removeHooks: function () {
-        },
+        removeHooks: function(){},
 
 
-        onMouseDown: function () {
-        },
+        onMouseDown: function(){},
 
-        onMouseMove: function () {
-        },
+        onMouseMove: function(){},
 
-        drawFeedBack: function () {
-        }
+        drawFeedBack: function(){},
 
-    })
+        resetVertex:function(){}
+
+    });
 });
