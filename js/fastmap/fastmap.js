@@ -28,7 +28,17 @@ define(['js/lib/leaflet-0.7.3/leaflet'],function (leaflet) {
          * @namespace fastmap
          * @class uiKit
          */
-        uiKit: {},
+        uiKit: {
+            ShapEditController:new fastmap.uikit.ShapEditController(),
+            ToolTipsController:new fastmap.uikit.ToolTipsController(),
+            CheckResultController:new fastmap.uikit.CheckResultController(),
+            OutputController:new fastmap.uikit.OutputController(),
+            SelectController:new fastmap.uikit.SelectController(),
+            DataTipsController:new fastmap.uikit.DataTipsController(),
+            FeatCodeController:new fastmap.uikit.FeatCodeController(),
+            ObjectEditController:new fastmap.uikit.ObjectEditController(),
+            Tools:[]
+        },
         /**
          * fastmapApi版本号
          * @property version
