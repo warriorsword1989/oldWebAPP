@@ -2,37 +2,36 @@
  * Created by zhongxiaoming on 2015/9/18.
  * Class ShapeEditorResult
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.uiKit.ShapeEditorResult = L.Class.extend({
-        initialize: function (options) {
-            this.options = options || {};
-            L.setOptions(this, options);
-            this.OriginalObject = null
-        },
 
-        setOriginalObject:function(value){
-            this.OriginalObject = value;
-        },
+fastmap.uiKit.ShapeEditorResult = L.Class.extend({
+    initialize: function (options) {
+        this.options = options || {};
+        L.setOptions(this, options);
+        this.OriginalObject = null
+    },
 
-        getOriginalObject:function(){
-            return this.OriginalObject;
-        },
+    setOriginalObject: function (value) {
+        this.OriginalObject = value;
+    },
 
-        setOriginalGeometry:function(value){
-            this.original = value;
-        },
+    getOriginalObject: function () {
+        return this.OriginalObject;
+    },
 
-        getOriginalGeometry:function(){
-            return this.original;
-        },
+    setOriginalGeometry: function (value) {
+        this.original = value;
+    },
 
-        setFinalGeometry:function(value){
-            this.final = value;
-        },
+    getOriginalGeometry: function () {
+        return this.original;
+    },
 
-        getFinalGeometry:function(){
-            return this.final;
-        }
+    setFinalGeometry: function (value) {
+        this.final = value;
+    },
 
-    })
-});
+    getFinalGeometry: function () {
+        return this.final;
+    }
+
+})
