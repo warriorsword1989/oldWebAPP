@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class OutPutController
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.OutPutController =  L.Class.extend({
         /**
          * 事件管理器
@@ -58,5 +57,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         clear:function(){
 
         }
-    });
 });
+fastmap.uiKit.outPutController=function(options) {
+    return new fastmap.uiKit.OutPutController(options);
+};

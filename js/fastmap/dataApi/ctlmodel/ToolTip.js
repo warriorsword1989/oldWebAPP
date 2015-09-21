@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class ToolTip 鼠标滑动提示框
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ToolTip =  L.Class.extend({
         /***
          *
@@ -17,5 +16,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.outputContent = options.ouputContent;
             this.style = options.style;
         }
-    });
 });
+fastmap.uiKit.toolTip=function(options) {
+    return new fastmap.uiKit.ToolTip(options);
+};

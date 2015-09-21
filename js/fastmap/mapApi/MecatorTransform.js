@@ -2,8 +2,6 @@
  * Created by zhongxiaoming on 2015/9/6.
  * Class mecator坐标转换类
  */
-define(['js/fastmap/fastmap'],function(){
-
     fastmap.mapApi.MecatorTranform = function (){
         this.M_PI = Math.PI;
         this.originShift = 2 * this.M_PI * 6378137 / 2.0;
@@ -147,17 +145,16 @@ define(['js/fastmap/fastmap'],function(){
 
         return res;
     }
-    /***
-     * 经纬度到像素坐标转换
-     * @param {number}x
-     * @param {number}y
-     * @returns {Array}
-     */
-    fastmap.mapApi.MecatorTranform.prototype.lonlat2Pixel = function(lon, lat, zoom){
-        var xy =[];
-        xy = this.lonLat2Mercator(lon, lat);
+/***
+ * 经纬度到像素坐标转换
+ * @param {number}x
+ * @param {number}y
+ * @returns {Array}
+ */
+fastmap.mapApi.MecatorTranform.prototype.lonlat2Pixel = function (lon, lat, zoom) {
+    var xy = [];
+    xy = this.lonLat2Mercator(lon, lat);
 
-        xy = this.mercator2Pixel(xy[0], xy[1], zoom);
-        return xy;
-    }
-})
+    xy = this.mercator2Pixel(xy[0], xy[1], zoom);
+    return xy;
+};

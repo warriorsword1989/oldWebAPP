@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/2.
  * Class Ilayer接口
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.mapApi.Layer =  L.Class.extend({
         /***
          *
@@ -37,6 +36,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         }
 
-    });
-
 });
+fastmap.mapApi.layer= function (options) {
+    return new fastmap.mapApi.Layer(options);
+};

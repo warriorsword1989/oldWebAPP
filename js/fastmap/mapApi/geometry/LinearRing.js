@@ -4,7 +4,6 @@
  * @namespace fast.mapApi
  * @class LinearRing
  */
-define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
     fastmap.mapApi.LinearRing = fastmap.mapApi.Geometry.extend({
         options:{
 
@@ -129,5 +128,8 @@ define(['../../fastmap', 'fastmap/mapApi/Geometry'], function (fastmap) {
         }
 
 
-    });
-})
+    })
+fastmap.mapApi.linearRing=function(coordiates,options) {
+    return new fastmap.mapApi.LinearRing(coordiates, options);
+};
+
