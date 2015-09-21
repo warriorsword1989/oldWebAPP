@@ -5,7 +5,7 @@
  * @class FeatCode
  */
 
-fastmap.FeatCode = L.Class.extend({
+fastmap.uikit.FeatCode = L.Class.extend({
     /**
      * 构造函数
      * @class FeatCode

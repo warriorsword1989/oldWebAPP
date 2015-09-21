@@ -5,7 +5,7 @@
  * @class DataTips
  */
 
-fastmap.DataTips = L.Class.extend({
+fastmap.uikit.DataTips = L.Class.extend({
     /**
      * 相关属性
      */
