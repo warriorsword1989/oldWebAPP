@@ -2,38 +2,43 @@
  * Created by zhongxiaoming on 2015/9/16.
  * Class PathMove
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.uiKit.PathMove = L.Handler.extend({
-        /**
-         * 事件管理器
-         * @property includes
-         */
-        includes: L.Mixin.Events,
 
-        /***
-         *
-         * @param {Object}options
-         */
-        initialize: function (options) {
-            this.options = options || {};
-            L.setOptions(this, options);
-        },
+fastmap.uiKit.PathMove = L.Handler.extend({
+    /**
+     * 事件管理器
+     * @property includes
+     */
+    includes: L.Mixin.Events,
 
-        /***
-         * 添加事件处理
-         */
-        addHooks: function () {},
+    /***
+     *
+     * @param {Object}options
+     */
+    initialize: function (options) {
+        this.options = options || {};
+        L.setOptions(this, options);
+    },
 
-        /***
-         * 移除事件
-         */
-        removeHooks: function(){},
+    /***
+     * 添加事件处理
+     */
+    addHooks: function () {
+    },
+
+    /***
+     * 移除事件
+     */
+    removeHooks: function () {
+    },
 
 
-        onMouseDown: function(){},
+    onMouseDown: function () {
+    },
 
-        onMouseMove: function(){},
+    onMouseMove: function () {
+    },
 
-        drawFeedBack: function(){}
+    drawFeedBack: function () {
+    }
 
-    })});
+})
