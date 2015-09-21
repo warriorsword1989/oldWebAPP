@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class ToolTipsController
  */
-fastmap.uiKit.ToolTipsController = L.Class.extend({
+fastmap.uikit.ToolTipsController = L.Class.extend({
     /**
      * 事件管理器
      * @property includes
@@ -29,7 +29,7 @@ fastmap.uiKit.ToolTipsController = L.Class.extend({
     }
 
 });
-fastmap.uiKit.toolTipsController= function (options) {
+fastmap.uikit.toolTipsController= function (options) {
     return new fastmap.uiKit.ToolTipsController(options);
 };
 

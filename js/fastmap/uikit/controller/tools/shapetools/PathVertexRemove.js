@@ -3,7 +3,7 @@
  * Class PathVertexRemove
  */
 
-fastmap.uiKit.PathVertexRemove = L.Handler.extend({
+fastmap.uikit.PathVertexRemove = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

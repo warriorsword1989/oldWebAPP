@@ -4,7 +4,7 @@
  * 检查结果
  */
 
-fastmap.uiKit.CheckResult = L.Class.extend({
+fastmap.uikit.CheckResult = L.Class.extend({
     /***
      *
      * @param options
