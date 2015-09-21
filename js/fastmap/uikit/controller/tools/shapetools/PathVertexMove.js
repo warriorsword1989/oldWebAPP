@@ -3,7 +3,7 @@
  * Class PathVertexMove
  */
 
-fastmap.uiKit.PathVertexMove = L.Handler.extend({
+fastmap.uikit.PathVertexMove = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class OutPutController
  */
-    fastmap.uiKit.OutPutController =  L.Class.extend({
+    fastmap.uikit.OutPutController =  L.Class.extend({
         /**
          * 事件管理器
          * @property includes
@@ -58,6 +58,6 @@
 
         }
 });
-fastmap.uiKit.outPutController=function(options) {
+fastmap.uikit.outPutController=function(options) {
     return new fastmap.uiKit.OutPutController(options);
 };

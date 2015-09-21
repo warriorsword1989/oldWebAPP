@@ -3,7 +3,7 @@
  * Class Output 输出内容
  */
 
-fastmap.uiKit.OutPut = L.Class.extend({
+fastmap.uikit.OutPut = L.Class.extend({
     /***
      *
      * @param options
