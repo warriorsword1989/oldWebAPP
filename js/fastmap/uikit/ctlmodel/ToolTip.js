@@ -2,8 +2,9 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class ToolTip 鼠标滑动提示框
  */
+
 fastmap.uiKit.ToolTip = L.Class.extend({
-    /**
+    /***
      *
      * @param options
      * options参数说明
