@@ -22,14 +22,30 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             L.setOptions(this, options);
             this.map = options.map || null;
             this.editType = options.editType || '';
-            this.currentEditinGeometry = null;
-
-            
+            this.currentEditinGeometry = {};
+            this.currentTool = {};
+            this._map = options.map || {};
+            this.shapeEditorToolsObj = fastmap.uiKit.shapeeditorfactory().CreateShapeToolsObject();
+            this.shapeEditorResultFeedback = new fastmap.uiKit.ShapeEditResultFeedback();
         },
 
         /***
+         * 设置当前编辑的工具类型
+         * @param {String}type
+         */
+        setEditingType: function(type){
+            this.editType = type;
+        },
+
+        /***
+         * 当前编辑工具
+         */
+        getCurrentTool: function(){
+            return  this.currentTool;
+        },
+        /***
          * 开始编辑
-         * @param geometry 编辑的几何图形
+         * @param {fastmap.mapApi.Geometry}geometry 编辑的几何图形
          */
         startEditing:function(geometry){
             this.currentEditinGeometry = geometry;
@@ -38,7 +54,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
 
         /***
          * 结束编辑 编辑的几何图形
-         * @param geometry
+         * @param {fastmap.mapApi.Geometry}geometry
          */
         stopEditing:function(geometry){
 
@@ -50,6 +66,23 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         abortEditing:function(){
 
         },
+
+        /***
+         *
+         * @param {fastmap.mapApi.Geometry}geometry
+         */
+        setEditingGeometry:function(geometry){
+            this.currentEditinGeometry = geometry
+        },
+
+        /***
+         *
+         * @returns {fastmap.mapApi.Geometry|*}
+         */
+        getEditingGeometry:function(){
+            return this.currentEditinGeometry;
+        },
+
         /***
          * 当前工具类型
          * @param {String}type
@@ -57,75 +90,73 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          * @private
          */
         _tools:function(type){
-            this.callback = null;
+            this.currentTool = null;
             switch (type){
-                case 'splitLine':
-                    this.callback = function(line, splitpoint){
-                        line.split(splitpoint);
-                    };
+                case 'pathcopy':
+                    this.currentTool = this.shapeEditorToolsObj['pathcopy'];
                     break;
                 case  'deletePoint':
-                    this.callback = function(line,point){
+                    this.currentTool = function(line,point){
                         line.deletePoint(point);
                     }
                     break;
                 case  'reShape':
-                    this.callback = function(line){
+                    this.currentTool = function(line){
                         line.reShape();
                     }
                     break;
                 case  'insertVetex':
-                    this.callback = function(line, point){
+                    this.currentTool = function(line, point){
                         line.insertVertex(point);
                     }
                     break;
                 case 'movePoint':
-                    this.callback = function(line,point){
+                    this.currentTool = function(line,point){
                         line.movePoint(point);
                     }
                     break;
                 case 'extendLine':
-                    this.callback = function(line, point){
+                    this.currentTool = function(line, point){
                         line.extendLine(point);
                     }
                     break;
                 case 'breakLine':
-                    this.callback = function(line, point){
+                    this.currentTool = function(line, point){
                         this.callback = line.breakLine(point);
                     }
                     break;
                 case 'copyGeometry':
-                    this.callback = function(geometry){
+                    this.currentTool = function(geometry){
                         this.geometry.copy();
                     }
                     break;
                 case 'mergeLine':
-                    this.callback = function(line,line){
+                    this.currentTool = function(line,line){
                         line.merge(line);
                     }
                     break;
                 case 'moveLine':
-                    this.callback = function(line,distance){
+                    this.currentTool = function(line,distance){
                         line.move(distance);
                     }
                     break;
                 case 'cutline':
-                    this.callback = function(line){
+                    this.currentTool = function(line){
                         line.cut();
                     }
                     break;
                 case 'movePoint':
-                    this.callback = function(point, distance){
+                    this.currentTool = function(point, distance){
                         point.move(distance);
                     }
                     break;
                 case 'movePolygon':
-                    this.callback = function(polygon, distance){
+                    this.currentTool = function(polygon, distance){
                         polygon.move(distance);
                     }
 
 
-                return this.callback;
+                return this.currentTool;
             }
         }
     });
