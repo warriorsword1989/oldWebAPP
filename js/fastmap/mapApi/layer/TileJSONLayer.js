@@ -2,8 +2,6 @@
  * Created by zhongxiaoming on 2015/9/6.
  * Class canvas瓦片图层
  */
-define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
-
     fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         options: {
             debug: false
@@ -702,8 +700,10 @@ define(['js/fastmap/fastmap','js/fastmap/mapApi/Tile'], function (fastmap) {
     });
 
 
-    fastmap.mapApi.TileJSON.addInitHook(function(){
-        this.isVisiable = this.options.isVisiable ? true : false;
-        this.isSelectable = this.options.isSelectable ? true : false;
-    });
+fastmap.mapApi.TileJSON.addInitHook(function () {
+    this.isVisiable = this.options.isVisiable ? true : false;
+    this.isSelectable = this.options.isSelectable ? true : false;
 });
+fastmap.mapApi.tileJSON=function(options) {
+    return new fastmap.mapApi.TileJSON(options);
+};

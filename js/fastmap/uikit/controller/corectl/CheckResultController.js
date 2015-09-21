@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class CheckResultController
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.CheckResultController = L.Class.extend({
         /**
          * 事件管理器
@@ -42,5 +41,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
          */
         ignore:function(){}
 
-    })
 });
+fastmap.uiKit.checkResultController=function(options) {
+    return new fastmap.uiKit.CheckResultController(options);
+};

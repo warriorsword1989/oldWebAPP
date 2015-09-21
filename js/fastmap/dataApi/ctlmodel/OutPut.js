@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class Output 输出内容
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.OutPut =  L.Class.extend({
         /***
          *
@@ -21,5 +20,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         setOutput:function(){
 
         }
-    });
 });
+fastmap.uiKit.outPut=function(options) {
+    return new fastmap.uiKit.OutPut(options);
+};

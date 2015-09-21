@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class ContentStyle 输出框中的输出样式
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.ContentStyle = L.Class.extend({
         /***
          *
@@ -43,5 +42,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         setPosition:function(position){
             this.position = position;
         }
-    });
 });
+fastmap.uiKit.contentStyle=function(options) {
+    return new fastmap.uiKit.ContentStyle(options);
+};
