@@ -1,9 +1,13 @@
 /**
+ * Created by zhongxiaoming on 2015/9/17.
+ * Class PointVertexAdd
+ */
+/**
  * Created by zhongxiaoming on 2015/9/16.
- * Class PathCopy
+ * Class PointVertexMove
  */
 define(['js/fastmap/fastmap'], function (fastmap) {
-    fastmap.uiKit.PathCopy = L.Handler.extend({
+    fastmap.uiKit.PointVertexAdd = L.Handler.extend({
         /**
          * 事件管理器
          * @property includes
@@ -22,24 +26,18 @@ define(['js/fastmap/fastmap'], function (fastmap) {
         /***
          * 添加事件处理
          */
-        addHooks: function () {
-        },
+        addHooks: function () {},
 
         /***
          * 移除事件
          */
-        removeHooks: function () {
-        },
+        removeHooks: function(){},
 
 
-        onMouseDown: function () {
-        },
+        onMouseDown: function(){},
 
-        onMouseMove: function () {
-        },
+        onMouseMove: function(){},
 
-        drawFeedBack: function () {
-        }
+        drawFeedBack: function(){}
 
-    })
-});
+    })});
