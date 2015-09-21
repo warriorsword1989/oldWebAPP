@@ -30,7 +30,6 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * @param integrate
      */
     setIntegrate: function (integrate) {
-
     }
 });
 

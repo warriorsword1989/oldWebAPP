@@ -4,7 +4,6 @@
  * @namespace fastmap.uikit
  * @class SelectController
  */
-define(['js/fastmap/fastmap'], function (fastmap) {
     fastmap.uiKit.SelectController = L.Class.extend({
         /**
          * 事件管理器
@@ -67,5 +66,7 @@ define(['js/fastmap/fastmap'], function (fastmap) {
             this.fire("FeatureCleared",{features:this.selectedFeatures});
             this.selectedFeatures= [];
         }
-    })
 });
+fastmap.uiKit.selectController=function(options) {
+    return new fastmap.uiKit.SelectController(options);
+};
