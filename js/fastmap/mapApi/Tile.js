@@ -2,8 +2,6 @@
  * Created by zhongxiaoming on 2015/9/6.
  * Class Tile
  */
-define(['../fastmap'], function (fastmap) {
-
     fastmap.mapApi.Tile = L.Class.extend({
 
         options: {
@@ -65,13 +63,12 @@ define(['../fastmap'], function (fastmap) {
         }
     });
 
-    /***
-     * 初始化tile
-     * @param {String}url  初始化url
-     * @param {Object}options 可选参数
-     * @returns {.mapApi.Tile}
-     */
-    fastmap.mapApi.tile = function(url,options){
-        return new  fastmap.mapApi.Tile(url,options)
-    };
-});
+/***
+ * 初始化tile
+ * @param {String}url  初始化url
+ * @param {Object}options 可选参数
+ * @returns {.mapApi.Tile}
+ */
+fastmap.mapApi.tile = function (url, options) {
+    return new fastmap.mapApi.Tile(url, options)
+};
