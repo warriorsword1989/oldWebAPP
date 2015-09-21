@@ -41,6 +41,4 @@ fastmap.DataTips = L.Class.extend({
     setCoordinates: function (coordinates) {
         this.options = coordinates;
     }
-
-
 });

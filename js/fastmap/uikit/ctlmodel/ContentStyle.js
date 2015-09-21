@@ -2,7 +2,6 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class ContentStyle 输出框中的输出样式
  */
-
 fastmap.uiKit.ContentStyle = L.Class.extend({
     /***
      *

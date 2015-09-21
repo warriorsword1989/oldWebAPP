@@ -19,6 +19,4 @@ fastmap.uiKit.CheckResult = L.Class.extend({
         this.content = this.options.pid || '';
         this.contentStyle = this.options.contentStyle || null;
     }
-
-
 });

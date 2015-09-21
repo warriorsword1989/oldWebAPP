@@ -2,9 +2,8 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class Output 输出内容
  */
-
 fastmap.uiKit.OutPut = L.Class.extend({
-    /***
+    /**
      *
      * @param options
      * options参数说明
