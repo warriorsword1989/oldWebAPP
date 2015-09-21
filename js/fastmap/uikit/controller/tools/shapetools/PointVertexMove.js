@@ -3,7 +3,7 @@
  * Class PointVertexMove
  */
 
-fastmap.uiKit.PointVertexMove = L.Handler.extend({
+fastmap.uikit.PointVertexMove = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

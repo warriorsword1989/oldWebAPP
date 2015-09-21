@@ -3,7 +3,7 @@
  * Class ShapeEditorFactory
  */
 
-fastmap.uiKit.ShapeEditorFactory = L.Class.extend({
+fastmap.uikit.ShapeEditorFactory = L.Class.extend({
     /***
      *
      * @param {Object}options
@@ -24,6 +24,6 @@ fastmap.uiKit.ShapeEditorFactory = L.Class.extend({
 
 });
 
-fastmap.uiKit.shapeeditorfactory = function (options) {
+fastmap.uikit.shapeeditorfactory = function (options) {
     return new fastmap.uiKit.PathCut(options);
 }

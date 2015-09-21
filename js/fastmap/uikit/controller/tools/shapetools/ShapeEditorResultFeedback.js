@@ -3,7 +3,7 @@
  * Class ShapeEditorResultFeedback
  */
 
-fastmap.uiKit.ShapeEditResultFeedback = L.Class.extend({
+fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);

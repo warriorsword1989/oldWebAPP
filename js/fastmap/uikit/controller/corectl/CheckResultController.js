@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class CheckResultController
  */
-    fastmap.uiKit.CheckResultController = L.Class.extend({
+    fastmap.uikit.CheckResultController = L.Class.extend({
         /**
          * 事件管理器
          * @property includes
@@ -42,6 +42,6 @@
         ignore:function(){}
 
 });
-fastmap.uiKit.checkResultController=function(options) {
+fastmap.uikit.checkResultController=function(options) {
     return new fastmap.uiKit.CheckResultController(options);
 };
