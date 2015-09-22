@@ -104,6 +104,21 @@ fastmap.uikit.LayerController = L.Class.extend({
     }
 
 });
+
+fastmap.uikit.layerControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.LayerController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
+
 fastmap.uikit.layerController=function(options) {
-    return new fastmap.uiKit.LayerController(options);
+    return new fastmap.uikit.layerControllerSingleton(options);
 };

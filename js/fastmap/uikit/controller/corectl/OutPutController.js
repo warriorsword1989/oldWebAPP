@@ -58,6 +58,20 @@
 
         }
 });
+
+fastmap.uikit.outPutControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.OutPutController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.outPutController=function(options) {
-    return new fastmap.uiKit.OutPutController(options);
+    return new fastmap.uiKit.outPutControllerSingleton(options);
 };

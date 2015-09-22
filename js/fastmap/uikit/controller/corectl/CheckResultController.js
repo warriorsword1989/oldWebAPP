@@ -41,7 +41,22 @@
          */
         ignore:function(){}
 
+
 });
+
+fastmap.uikit.checkResultControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.CheckResultController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.checkResultController=function(options) {
-    return new fastmap.uiKit.CheckResultController(options);
-};
+    return new fastmap.uikit.checkResultControllerSingleton(options);
+}

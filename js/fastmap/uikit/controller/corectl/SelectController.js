@@ -67,6 +67,21 @@
             this.selectedFeatures= [];
         }
 });
+
+fastmap.uikit.selectControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.SelectController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
+
 fastmap.uikit.selectController=function(options) {
-    return new fastmap.uiKit.SelectController(options);
+    return new fastmap.uiKit.selectControllerSingleton(options);
 };

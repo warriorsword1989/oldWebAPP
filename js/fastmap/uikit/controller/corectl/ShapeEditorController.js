@@ -158,6 +158,20 @@ fastmap.uikit.ShapeEditorController = L.Class.extend({
         }
     }
 });
+
+fastmap.uikit.shapeEditorControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.ShapeEditorController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.shapeEditorController= function (options) {
-    return new fastmap.uiKit.ShapeEditorController(options);
+    return new fastmap.uiKit.shapeEditorControllerSingleton(options);
 };

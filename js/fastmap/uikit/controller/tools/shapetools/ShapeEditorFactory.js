@@ -25,5 +25,5 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
 });
 
 fastmap.uikit.shapeeditorfactory = function (options) {
-    return new fastmap.uiKit.PathCut(options);
+    return new fastmap.uikit.PathCut(options);
 }
