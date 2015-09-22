@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/16.
  * Class PathCut
  */
-fastmap.uiKit.PathCut = L.Handler.extend({
+fastmap.uikit.PathCut = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

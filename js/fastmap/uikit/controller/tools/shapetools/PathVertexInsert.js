@@ -3,7 +3,7 @@
  * Class PathVertexInsert
  */
 
-fastmap.uiKit.PathVertexInsert = L.Handler.extend({
+fastmap.uikit.PathVertexInsert = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

@@ -4,7 +4,7 @@
  * @namespace fastmap.uikit
  * @class SelectController
  */
-    fastmap.uiKit.SelectController = L.Class.extend({
+    fastmap.uikit.SelectController = L.Class.extend({
         /**
          * 事件管理器
          * @property includes
@@ -67,6 +67,6 @@
             this.selectedFeatures= [];
         }
 });
-fastmap.uiKit.selectController=function(options) {
+fastmap.uikit.selectController=function(options) {
     return new fastmap.uiKit.SelectController(options);
 };

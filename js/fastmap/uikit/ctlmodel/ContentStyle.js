@@ -3,7 +3,7 @@
  * Class ContentStyle 输出框中的输出样式
  */
 
-fastmap.uiKit.ContentStyle = L.Class.extend({
+fastmap.uikit.ContentStyle = L.Class.extend({
     /***
      *
      * @param options

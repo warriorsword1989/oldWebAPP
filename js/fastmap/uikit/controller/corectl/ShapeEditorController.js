@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/10.
  * Class ShapeEditorController
  */
-fastmap.uiKit.ShapeEditorController = L.Class.extend({
+fastmap.uikit.ShapeEditorController = L.Class.extend({
     /**
      * 事件管理器
      * @property includes
@@ -158,6 +158,6 @@ fastmap.uiKit.ShapeEditorController = L.Class.extend({
         }
     }
 });
-fastmap.uiKit.shapeEditorController= function (options) {
+fastmap.uikit.shapeEditorController= function (options) {
     return new fastmap.uiKit.ShapeEditorController(options);
 };

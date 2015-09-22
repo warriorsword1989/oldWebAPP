@@ -5,7 +5,7 @@
  * @class ObjectEditController
  *
  */
-fastmap.uiKit.ObjectEditController = L.Class.extend({
+fastmap.uikit.ObjectEditController = L.Class.extend({
     /**
      * 事件管理器
      * @property includes
@@ -67,6 +67,6 @@ fastmap.uiKit.ObjectEditController = L.Class.extend({
     onSaved: function (orignalData, data) {
     }
 });
-fastmap.uiKit.objectEditController=function(options) {
+fastmap.uikit.objectEditController=function(options) {
     return new fastmap.uiKit.ObjectEditController(options);
 };

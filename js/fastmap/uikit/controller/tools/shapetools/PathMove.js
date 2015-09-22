@@ -3,7 +3,7 @@
  * Class PathMove
  */
 
-fastmap.uiKit.PathMove = L.Handler.extend({
+fastmap.uikit.PathMove = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

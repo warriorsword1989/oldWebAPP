@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/9/16.
  */
-fastmap.uiKit.LayerController = L.Class.extend({
+fastmap.uikit.LayerController = L.Class.extend({
     /**
      * 事件管理器
      * @property includes
@@ -104,6 +104,6 @@ fastmap.uiKit.LayerController = L.Class.extend({
     }
 
 });
-fastmap.uiKit.layerController=function(options) {
+fastmap.uikit.layerController=function(options) {
     return new fastmap.uiKit.LayerController(options);
 };
