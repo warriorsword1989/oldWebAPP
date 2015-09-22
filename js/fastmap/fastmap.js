@@ -69,7 +69,7 @@ var UIKit = (function() {
     }
 })();
 
-fastmap.uiKit=new UIKit();
+fastmap.uikit=new UIKit();
 
 /**
  * dataApi类

@@ -42,7 +42,21 @@ fastmap.uikit.DataTipsController = L.Class.extend({
 
     }
 });
+
+fastmap.uikit.dataTipsControllerSingleton=(function() {
+    var instantiated;
+    function init() {
+        return new fastmap.uikit.DataTipsController();
+    }
+    return function() {
+        if (!instantiated) {
+            instantiated = init();
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.dataTipsController =function(options) {
-    return new fastmap.uikit.DataTipsController(options);
+    return new fastmap.uikit.dataTipsControllerSingleton(options);
 };
 
