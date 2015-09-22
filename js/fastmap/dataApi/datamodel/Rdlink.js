@@ -3,7 +3,7 @@
  * Class Rdlink
  */
 
-fastmap.dataApi.rdLind = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
 
     options: {},
 
