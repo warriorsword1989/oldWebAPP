@@ -29,7 +29,21 @@ fastmap.uikit.ToolTipsController = L.Class.extend({
     }
 
 });
+
+fastmap.uikit.toolTipsControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.ToolTipsController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.toolTipsController= function (options) {
-    return new fastmap.uiKit.ToolTipsController(options);
+    return new fastmap.uiKit.toolTipsControllerSingleton(options);
 };
 

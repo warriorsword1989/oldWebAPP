@@ -67,6 +67,20 @@ fastmap.uikit.ObjectEditController = L.Class.extend({
     onSaved: function (orignalData, data) {
     }
 });
+
+fastmap.uikit.objectEditControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.ObjectEditController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.objectEditController=function(options) {
-    return new fastmap.uiKit.ObjectEditController(options);
+    return new fastmap.uiKit.objectEditControllerSingleton(options);
 };

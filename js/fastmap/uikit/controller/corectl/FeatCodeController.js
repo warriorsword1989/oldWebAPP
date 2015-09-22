@@ -28,6 +28,20 @@ fastmap.uikit.FeatCodeController = L.Class.extend({
 
     }
 });
+
+fastmap.uikit.featCodeControllerSingleton=(function() {
+    var instantiated;
+    function init(options) {
+        return new fastmap.uikit.FeatCodeController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+
 fastmap.uikit.featCodeController=function(options) {
-    return new fastmap.uikit.FeatCodeController(options);
+    return new fastmap.uikit.featCodeControllerSingleton(options);
 };
