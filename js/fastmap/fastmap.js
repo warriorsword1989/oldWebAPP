@@ -4,7 +4,7 @@
  * @module fastmap
  */
 
-var FastMap = (function() {
+var fastmap = (function() {
     var instantiated;
     function init() {
         return {
@@ -16,15 +16,9 @@ var FastMap = (function() {
             version: "1.1.0"
         };
     }
-    return function() {
-        if (!instantiated) {
-            instantiated = init();
-        }
-        return instantiated;
-    }
+    return !instantiated ? instantiated = init():instantiated;
 })();
 
-var fastmap=new FastMap();
 
 
 /**
@@ -34,20 +28,14 @@ var fastmap=new FastMap();
  * @namespace fastmap
  * @class mapApi
  */
-var MapApi = (function() {
+fastmap.mapApi = (function() {
     var instantiated;
     function init() {
         return { };
     }
-    return function() {
-        if (!instantiated) {
-            instantiated = init();
-        }
-        return instantiated;
-    }
+    return !instantiated ? instantiated = init():instantiated;
 })();
 
-fastmap.mapApi = new MapApi();
 
 /**
  * uiKit类
@@ -56,20 +44,13 @@ fastmap.mapApi = new MapApi();
  * @namespace fastmap
  * @class uiKit
  */
-var UIKit = (function() {
+fastmap.uikit = (function() {
     var instantiated;
     function init() {
         return { };
     }
-    return function() {
-        if (!instantiated) {
-            instantiated = init();
-        }
-        return instantiated;
-    }
+    return !instantiated ? instantiated = init():instantiated;
 })();
-
-fastmap.uikit=new UIKit();
 
 /**
  * dataApi类
@@ -78,17 +59,10 @@ fastmap.uikit=new UIKit();
  * @namespace fastmap
  * @class dataApi
  */
-var DataApi=(function() {
+fastmap.dataApi=(function(){
     var instantiated;
     function init() {
-        return { };
+        return { id:"test" };
     }
-    return function() {
-        if (!instantiated) {
-            instantiated = init();
-        }
-        return instantiated;
-    }
+    return !instantiated ? instantiated = init():instantiated;
 })();
-
-fastmap.dataApi=new DataApi();
