@@ -4,7 +4,7 @@
  */
 
 
-fastmap.uikit.toolTipsControllerSingleton=(function() {
+fastmap.uikit.ToolTipsController=(function() {
     var instantiated;
     function init(options) {
             var toolTipsController = L.Class.extend({

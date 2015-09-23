@@ -4,7 +4,7 @@
  */
 
 
-fastmap.uikit.checkResultControllerSingleton=(function() {
+fastmap.uikit.CheckResultController=(function() {
     var instantiated;
     function init(options) {
             var checkResultController = L.Class.extend({

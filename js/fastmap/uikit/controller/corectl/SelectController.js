@@ -5,7 +5,7 @@
  * @class SelectController
  */
 
-fastmap.uikit.selectControllerSingleton=(function() {
+fastmap.uikit.SelectController=(function() {
     var instantiated;
     function init(options) {
             var selectController = L.Class.extend({
