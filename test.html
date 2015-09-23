@@ -6,14 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>FastMap API</title>
     <link href="js/lib/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
+    <script>
+        var test =fastmap.uikit.shapeEditorControllerSingleton({'id':1});
+
+        console.log(test);
+
+        var test1 =fastmap.uikit.shapeEditorControllerSingleton({'id':2});
+        console.log(test1);
+    </script>
 </head>
 <body>
 <div id="mapId" style="width:1000px;height:500px">
 
 </div>
 </body>
-<script src="js/require.js"></script>
-<script src="dest/libs.js" type="text/javascript"></script>
-<script src="js/lib/JSLint/jslint.js" type="text/javascript"></script>
+
 
 </html>
