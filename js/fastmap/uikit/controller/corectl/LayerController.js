@@ -3,7 +3,7 @@
  */
 
 
-fastmap.uikit.layerControllerSingleton=(function() {
+fastmap.uikit.LayerController=(function() {
     var instantiated;
     function init(options) {
             var layerController = L.Class.extend({
@@ -118,8 +118,3 @@ fastmap.uikit.layerControllerSingleton=(function() {
         return instantiated;
     }
 })();
-
-
-fastmap.uikit.layerController=function(options) {
-    return new fastmap.uikit.layerControllerSingleton(options);
-};

@@ -4,7 +4,7 @@
  */
 
 
-fastmap.uikit.outPutControllerSingleton=(function() {
+fastmap.uikit.OutPutController=(function() {
     var instantiated;
     function init(options) {
             var outPutController =  L.Class.extend({

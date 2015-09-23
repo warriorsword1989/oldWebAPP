@@ -6,7 +6,7 @@
  */
 
 
-fastmap.uikit.featCodeControllerSingleton=(function() {
+fastmap.uikit.FeatCodeController=(function() {
     var instantiated;
     function init(options) {
             var featCodeController = L.Class.extend({
