@@ -15,8 +15,8 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
 
     CreateShapeToolsObject: function () {
         var toolsObject = {
-            'pathcopy': new fastmap.uiKit.PathCopy(),
-            'pathcut': new fastmap.uiKit.PathCut()
+            'pathcopy': new fastmap.uikit.PathCopy(),
+            'pathcut': new fastmap.uikit.PathCut()
         };
 
     }
@@ -25,5 +25,5 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
 });
 
 fastmap.uikit.shapeeditorfactory = function (options) {
-    return new fastmap.uikit.PathCut(options);
+    return new fastmap.uikit.ShapeEditorFactory(options);
 }
