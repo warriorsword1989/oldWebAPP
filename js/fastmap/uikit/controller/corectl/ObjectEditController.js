@@ -5,7 +5,7 @@
  * @class ObjectEditController
  *
  */
-fastmap.uikit.objectEditControllerSingleton=(function() {
+fastmap.uikit.ObjectEditController=(function() {
     var instantiated;
     function init(options) {
             var objectEditController = L.Class.extend({
