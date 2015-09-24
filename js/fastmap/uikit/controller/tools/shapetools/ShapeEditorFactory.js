@@ -3,7 +3,7 @@
  * Class ShapeEditorFactory
  */
 
-fastmap.uiKit.ShapeEditorFactory = L.Class.extend({
+fastmap.uikit.ShapeEditorFactory = L.Class.extend({
     /***
      *
      * @param {Object}options
@@ -15,8 +15,8 @@ fastmap.uiKit.ShapeEditorFactory = L.Class.extend({
 
     CreateShapeToolsObject: function () {
         var toolsObject = {
-            'pathcopy': new fastmap.uiKit.PathCopy(),
-            'pathcut': new fastmap.uiKit.PathCut()
+            'pathcopy': new fastmap.uikit.PathCopy(),
+            'pathcut': new fastmap.uikit.PathCut()
         };
 
     }
@@ -24,6 +24,6 @@ fastmap.uiKit.ShapeEditorFactory = L.Class.extend({
 
 });
 
-fastmap.uiKit.shapeeditorfactory = function (options) {
-    return new fastmap.uiKit.PathCut(options);
+fastmap.uikit.shapeeditorfactory = function (options) {
+    return new fastmap.uikit.ShapeEditorFactory(options);
 }

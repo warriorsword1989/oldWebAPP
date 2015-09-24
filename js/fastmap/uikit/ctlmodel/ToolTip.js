@@ -3,7 +3,7 @@
  * Class ToolTip 鼠标滑动提示框
  */
 
-fastmap.uiKit.ToolTip = L.Class.extend({
+fastmap.uikit.ToolTip = L.Class.extend({
     /***
      *
      * @param options

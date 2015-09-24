@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/17.
  * Class PointVertexAdd
  */
-fastmap.uiKit.PointVertexAdd = L.Handler.extend({
+fastmap.uikit.PointVertexAdd = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

@@ -2,46 +2,59 @@
  * Created by zhongxiaoming on 2015/9/9.
  * Class CheckResultController
  */
-    fastmap.uiKit.CheckResultController = L.Class.extend({
-        /**
-         * 事件管理器
-         * @property includes
-         */
-        includes: L.Mixin.Events,
 
-        options: {
-        },
 
-        /***
-         *
-         * @param {Object}options
-         */
-        initialize: function (options) {
-            this.options = options || {};
-            L.setOptions(this, options);
-            this.on("objectSaved",this.startCheck,this);
-        },
+fastmap.uikit.CheckResultController=(function() {
+    var instantiated;
+    function init(options) {
+            var checkResultController = L.Class.extend({
+            /**
+             * 事件管理器
+             * @property includes
+             */
+            includes: L.Mixin.Events,
 
-        /***
-         * 开始检查
-         * @param {Object}checkObj 检查对象
-         * @param {Function}callBack 回调函数
-         */
-        startCheck:function(checkObj,callBack){
+            options: {
+            },
 
-        },
+            /***
+             *
+             * @param {Object}options
+             */
+            initialize: function (options) {
+                this.options = options || {};
+                L.setOptions(this, options);
+                this.on("objectSaved",this.startCheck,this);
+            },
 
-        /***
-         * 获得检查结果
-         */
-        getCheckResult:function(){},
+            /***
+             * 开始检查
+             * @param {Object}checkObj 检查对象
+             * @param {Function}callBack 回调函数
+             */
+            startCheck:function(checkObj,callBack){
 
-        /***
-         * 忽略检查结果
-         */
-        ignore:function(){}
+            },
 
-});
-fastmap.uiKit.checkResultController=function(options) {
-    return new fastmap.uiKit.CheckResultController(options);
-};
+            /***
+             * 获得检查结果
+             */
+            getCheckResult:function(){},
+
+            /***
+             * 忽略检查结果
+             */
+            ignore:function(){}
+
+
+        });
+        return new checkResultController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+})();
+

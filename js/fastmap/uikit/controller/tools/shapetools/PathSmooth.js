@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/16.
  * Class PathSmooth
  */
-fastmap.uiKit.PathSmooth = L.Handler.extend({
+fastmap.uikit.PathSmooth = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes

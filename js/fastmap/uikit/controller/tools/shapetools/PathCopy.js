@@ -3,7 +3,7 @@
  * Class PathCopy
  */
 
-fastmap.uiKit.PathCopy = L.Handler.extend({
+fastmap.uikit.PathCopy = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
