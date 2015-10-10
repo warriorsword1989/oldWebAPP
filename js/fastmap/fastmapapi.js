@@ -64,7 +64,7 @@
                 //mapApi/layer
                 "fastmap/mapApi/layer/Layer.js",
                 "fastmap/mapApi/layer/WholeLayer.js",
-                "fastmap/mapApi/layer/WholeLayer.js",
+                "fastmap/mapApi/layer/MeshLayer.js",
                 "fastmap/mapApi/layer/TileJSONLayer.js",
                 //uikit/controller/corectl
                 "fastmap/uikit/controller/corectl/CheckResultController.js",

@@ -4,6 +4,12 @@
  */
 
 fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
+    /**
+     * 事件管理器
+     * @property includes
+     */
+    includes: L.Mixin.Events,
+
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
@@ -16,13 +22,14 @@ fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
      * @param {Object}result
      * @constructor
      */
-    SetupFeedback: function (result) {
-
+    setupFeedback: function (result) {
+        this.fire('startshapeeditresultfeedback');
     },
 
-    ShowTooltip: function () {
+    showTooltip: function () {
 
     },
-    StopFeedback: function () {
+    stopFeedback: function () {
+        this.fire('stopshapeeditresultfeedback');
     }
 })

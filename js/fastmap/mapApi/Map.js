@@ -1,8 +1,18 @@
 ﻿fastmap.mapApi.Map = L.Map.extend({
+
+    /**
+     * 事件管理器
+     * @property includes
+     */
+    includes: L.Mixin.Events,
     initialize: function (id, options) {
         L.Map.prototype.initialize.call(this, id, options);
         this.map = this;
         this.mapControl = new this._mapController(this);
+        //开始绘制
+        this.on('startshapeeditresultfeedback',function(){});
+        //结束绘制
+        this.on('stopshapeeditresultfeedback',function(){});
     },
     /**
      * 地图控件，主要包含操作地图的方法
@@ -44,6 +54,7 @@
 
         };
     }
+
 
 });
 fastmap.mapApi.map=function(id,options) {
