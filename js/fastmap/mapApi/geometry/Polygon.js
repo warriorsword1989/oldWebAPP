@@ -4,7 +4,7 @@
  * @namespace fast.mapApi
  * @class Polygon
  */
-fastmap.mapApi.Polygon = fastmap.mapApi.Geometry.extend({
+fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
     type: "Polygon",
     coordinates: [],
     options: {},

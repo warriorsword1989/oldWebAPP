@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2015/9/10.
  */
-fastmap.mapApi.MultiPolygon = fastmap.mapApi.Geometry.extend({
+fastmap.mapApi.MultiPolygon = fastmap.mapApi.Collection.extend({
     coordinates: [],
     options: {},
     /**
