@@ -7,15 +7,15 @@ fastmap.uikit.ShapeEditorResult = L.Class.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        this.OriginalObject = null
+        this.originalObject = null
     },
 
     setOriginalObject: function (value) {
-        this.OriginalObject = value;
+        this.originalObject = value;
     },
 
     getOriginalObject: function () {
-        return this.OriginalObject;
+        return this.originalObject;
     },
 
     setOriginalGeometry: function (value) {

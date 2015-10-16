@@ -13,23 +13,35 @@ fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
+        this.shapeEditor = this.options.shapeEditor;
         this.tooltip = {};
         this.map = {};
     },
 
     /***
-     *
+     *开始编辑
      * @param {Object}result
      * @constructor
      */
-    setupFeedback: function (result) {
-        this.fire('startshapeeditresultfeedback');
+    setupFeedback: function () {
+        this.shapeEditor.fire('startshapeeditresultfeedback');
+    },
+
+    /***
+     * 放弃编辑
+     */
+    abortFeedback: function(){
+        this.shapeEditor.fire('abortshapeeditresultfeedback');
     },
 
     showTooltip: function () {
 
     },
+
+    /***
+     * 停止编辑
+     */
     stopFeedback: function () {
-        this.fire('stopshapeeditresultfeedback');
+        this.shapeEditor.fire('stopshapeeditresultfeedback');
     }
 })

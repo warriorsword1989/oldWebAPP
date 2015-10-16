@@ -14,12 +14,13 @@
          * @param {Object}options
          */
         initialize: function (options) {
+            this.options = options || {};
             L.Util.setOptions(this, options);
-            this.url = options.url;
-            this.style = options.style;
-            this.type = options.type;
+            this.url = options.url ||"";
+            this.style = options.style||"";
+            this.type = options.type||"";
             this.tiles = {};
-            this.mecator = options.mecator;
+            this.mecator = options.mecator||"";
             var that = this;
             this.drawTile = function (canvas, tilePoint, zoom) {
                 var ctx = {
@@ -215,6 +216,14 @@
             };
         },
 
+        /***
+         *  根据鼠标坐标计算所处的瓦片编号
+         * @param coords
+         */
+        mousePointToTilepoint: function(coords){
+            var p = this._map.project(new L.LatLng(coords[1], coords[0]));
+            return p.divideBy(this.tileSize, false);
+        },
         /***
          *
          * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
