@@ -1,0 +1,76 @@
+.leftDiv{
+    position: absolute;
+    margin: 0;
+    width: 20px;
+    height: 100%;
+    /*background-color: #1C2B36;*/
+    /*border: 1px solid #e0e0e0;*/
+    z-index: 2;
+
+}
+.leftDiv div a:visited{
+   background-color: #1C2B36;
+}
+.rightDiv{
+    position: absolute;
+    padding: 0 0 0 20px;
+    height: 100%;
+    width: 100%;
+    border: 1px solid #e0e0e0;
+    z-index: 1;
+
+}
+.fragDiv {
+    /*border-top: 1px solid #843534;*/
+    /*height: 16%;*/
+}
+ #toolsDiv{
+    cursor: move;
+}
+
+.clearfix:after{
+    content: "020";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    /* 触发 hasLayout */
+    zoom: 1;
+}
+#nav {
+    width: 55px;
+    background-color: #f4f5f6;
+    overflow: hidden;
+    height: 100%;
+    z-index: 9999;
+}
+#nav li {
+    position: relative;
+    box-sizing: border-box;
+    width: 20px;
+    height: 55px;
+    padding-top: 7px;
+    text-align: center;
+    cursor: pointer;
+}
+#nav .dirico {
+    display: inline-block;
+    width: 18px;
+    height: 20px;
+    /*margin: 0 18.5px;*/
+}
+.transit {
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+}
+#nav li .nav-txt {
+    font-size: 12px;
+    line-height: 12px;
+    height: 12px;
+    color: #737475;
+}

@@ -1,0 +1,70 @@
+<div ng-controller="taskLayersController" >
+    <div class="panel-group" id="accordion" >
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseOne">
+                        基础数据图层
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                   <div class="table-responsive" style="width:100%;min-height: 10px;max-height: 300px;overflow: auto">
+                    <table class="table">
+                        <tr>
+                            <th></th>
+                            <th>显示</th>
+                            <th>选择</th>
+                            <th>编辑</th>
+                        </tr>
+                        <tr ng-repeat="item in items">
+                            <td>{{item.name}}</td>
+                            <td><input type="checkbox" ng-click="showLayers(item)" ng-checked="item.show"></td>
+                            <td><input type="checkbox" ng-click="chooseLayers(item)" ng-checked="item.choose"></td>
+                            <td><input type="checkbox" ng-click="editorLayers(item)" ng-checked="item.editor"></td>
+                        </tr>
+                    </table>
+                </div>
+
+
+            </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseTwo">
+                       道路关系图层
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse">
+                <div class="panel-body" style="min-height: 100px; max-height: 300px;overflow: auto;">
+                    <ul ng-repeat="relationItem in items">
+                        <li >{{relationItem.name}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseThree">
+                        背景图层
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson
+                    cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
+                    vice lomo.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
