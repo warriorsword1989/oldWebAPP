@@ -8,20 +8,41 @@
     <link href="js/lib/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
-    <script>
-        var test =fastmap.uikit.shapeEditorControllerSingleton({'id':1});
 
-        console.log(test);
-
-        var test1 =fastmap.uikit.shapeEditorControllerSingleton({'id':2});
-        console.log(test1);
-    </script>
 </head>
 <body>
 <div id="mapId" style="width:1000px;height:500px">
 
 </div>
 </body>
+<script>
+    var map = L.map('mapId').setView([39.907333, 116.391083], 13);
 
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        id: 'mapbox.streets'
+    }).addTo(map);
+
+    var l = fastmap.mapApi.meshLayer();
+    map.addLayer(l)
+
+    var c = l.canv;
+    var ctx = c.getContext('2d');
+    ctx.translate(200,200)
+    ctx.beginPath();
+    ctx.fillStyle = 'red'
+    ctx.moveTo(0,4)
+    ctx.quadraticCurveTo(6,-3,12,4);
+    ctx.lineTo(6,12);
+    ctx.lineTo(0,4);
+    ctx.closePath();
+    ctx.strokeStyle = 'red';
+    ctx.fill();
+
+    ctx.stroke();
+</script>
 
 </html>
