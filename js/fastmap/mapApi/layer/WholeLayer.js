@@ -39,11 +39,21 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
      * @private
      */
     _initContainer: function (options) {
-        var container = L.DomUtil.create('div', 'leaflet-wholelayer-container');
+        this.options = options || {};
+        var container = L.DomUtil.create('div', 'leaflet-canvas-container');
         container.style.position = 'absolute';
         container.style.width = this.map.getSize().x + "px";
         container.style.height = this.map.getSize().y + "px";
+
+        this.canv = document.createElement("canvas");
+        this._ctx = this.canv.getContext('2d');
+        this.canv.width = this.map.getSize().x;
+        this.canv.height = this.map.getSize().y;
+        this.canv.style.width = this.canv.width + "px";
+        this.canv.style.height = this.canv.height + "px";
+        container.appendChild(this.canv);
         this._div = container;
+        this.map.getPanes().overlayPane.appendChild(this._div);
     },
 
     /***
@@ -74,6 +84,7 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
         var bounds = this.map.getBounds();
         var topLeft = this.map.latLngToLayerPoint(bounds.getNorthWest());
         L.DomUtil.setPosition(this._div, topLeft);
+
     }
 
 });

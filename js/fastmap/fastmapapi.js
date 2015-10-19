@@ -50,6 +50,7 @@
                 "fastmap/dataApi/datamodel/Rdnode.js",
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
+                "fastmap/mapApi/geometry/Collection.js",
                 "fastmap/mapApi/geometry/Point.js",
                 "fastmap/mapApi/geometry/LineString.js",
                 "fastmap/mapApi/geometry/Polygon.js",
@@ -64,8 +65,9 @@
                 //mapApi/layer
                 "fastmap/mapApi/layer/Layer.js",
                 "fastmap/mapApi/layer/WholeLayer.js",
-                "fastmap/mapApi/layer/WholeLayer.js",
+                "fastmap/mapApi/layer/MeshLayer.js",
                 "fastmap/mapApi/layer/TileJSONLayer.js",
+                "fastmap/mapApi/layer/EditLayer.js",
                 //uikit/controller/corectl
                 "fastmap/uikit/controller/corectl/CheckResultController.js",
                 "fastmap/uikit/controller/corectl/DataTipsController.js",
