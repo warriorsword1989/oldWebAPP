@@ -34,29 +34,6 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     },
 
     /***
-     * 初始化图层容器
-     * @param {Object}options
-     * @private
-     */
-    _initContainer: function (options) {
-        this.options = options || {};
-        var container = L.DomUtil.create('div', 'leaflet-canvas-container');
-        container.style.position = 'absolute';
-        container.style.width = this.map.getSize().x + "px";
-        container.style.height = this.map.getSize().y + "px";
-
-        this.canv = document.createElement("canvas");
-        this._ctx = this.canv.getContext('2d');
-        this.canv.width = this.map.getSize().x;
-        this.canv.height = this.map.getSize().y;
-        this.canv.style.width = this.canv.width + "px";
-        this.canv.style.height = this.canv.height + "px";
-        container.appendChild(this.canv);
-        this._div = container;
-        this.map.getPanes().overlayPane.appendChild(this._div);
-    },
-
-    /***
      * 根据bounds绘制图幅
      * @param {L.Bounds}bounds
      */

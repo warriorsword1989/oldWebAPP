@@ -4,7 +4,7 @@
  * @namespace fast.mapApi
  * @class LinearRing
  */
-    fastmap.mapApi.LinearRing = fastmap.mapApi.Geometry.extend({
+    fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
         options:{
 
         },

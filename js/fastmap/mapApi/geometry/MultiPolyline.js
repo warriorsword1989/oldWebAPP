@@ -4,7 +4,7 @@
  * @namespace fast.mapApi
  * @class MultiPolyline
  */
-fastmap.mapApi.MultiPolyline = fastmap.mapApi.Geometry.extend({
+fastmap.mapApi.MultiPolyline = fastmap.mapApi.Collection.extend({
     type: "MultiPolyline",
     /**
      * 构造函数

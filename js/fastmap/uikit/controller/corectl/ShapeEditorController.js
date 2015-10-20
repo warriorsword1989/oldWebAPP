@@ -23,13 +23,24 @@ fastmap.uikit.ShapeEditorController=(function() {
                 initialize: function (options) {
                     this.options = options || {};
                     L.setOptions(this, options);
-                    this.map = options.map || null;
-                    this.editType = options.editType || '';
+                    this.map = null;
+                    this.editType = this.options.editType || '';
                     this.currentEditinGeometry = {};
                     this.currentTool = {};
-                    this._map = options.map || {};
-                    this.shapeEditorToolsObj = fastmap.uikit.shapeeditorfactory().CreateShapeToolsObject();
-                    this.shapeEditorResultFeedback = new fastmap.uikit.ShapeEditResultFeedback();
+
+                    this.shapeEditorToolsObj = fastmap.uikit.shapeeditorfactory();
+                    this.shapeEditorResultFeedback = new fastmap.uikit.ShapeEditResultFeedback({shapeEditor:this});
+                    this.shapeEditorResult = this.options.shapeEditorResult || null;
+                },
+
+
+
+                /***
+                 * 设置地图对象
+                 * @param map
+                 */
+                setMap:function(map){
+                  this.map = map;
                 },
 
                 /***
@@ -50,8 +61,9 @@ fastmap.uikit.ShapeEditorController=(function() {
                  * 开始编辑
                  * @param {fastmap.mapApi.Geometry}geometry 编辑的几何图形
                  */
-                startEditing: function (geometry) {
-                    this.currentEditinGeometry = geometry;
+                startEditing: function (shapeEditorResult) {
+                    this.shapeEditorResult = shapeEditorResult;
+                    this.currentEditinGeometry = shapeEditorResult.getOriginalGeometry();
                     this._tools(this.editType);
                 },
 
@@ -59,15 +71,16 @@ fastmap.uikit.ShapeEditorController=(function() {
                  * 结束编辑 编辑的几何图形
                  * @param {fastmap.mapApi.Geometry}geometry
                  */
-                stopEditing: function (geometry) {
-
+                stopEditing: function () {
+                    this.currentTool.disable();
+                    this.shapeEditorResultFeedback.stopFeedback();
                 },
 
                 /***
                  * 放弃编辑
                  */
                 abortEditing: function () {
-
+                    this.shapeEditorResultFeedback.abortFeedback();
                 },
 
                 /***
@@ -94,6 +107,7 @@ fastmap.uikit.ShapeEditorController=(function() {
                  */
                 _tools: function (type) {
                     this.currentTool = null;
+                    var toolsObj = this.shapeEditorToolsObj.CreateShapeToolsObject(this);
                     switch (type) {
                         case 'pathcopy':
                             this.currentTool = this.shapeEditorToolsObj['pathcopy'];
@@ -108,10 +122,9 @@ fastmap.uikit.ShapeEditorController=(function() {
                                 line.reShape();
                             }
                             break;
-                        case  'insertVetex':
-                            this.currentTool = function (line, point) {
-                                line.insertVertex(point);
-                            }
+                        case  'pathVertextInsert':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
                             break;
                         case 'movePoint':
                             this.currentTool = function (line, point) {

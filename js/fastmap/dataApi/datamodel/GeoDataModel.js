@@ -8,6 +8,18 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
 
     /***
      *
+     * @param id
+     * 模型ID
+     */
+    id:null,
+    /***
+     *
+     * @param id
+     * 模型几何
+     */
+    geometry:null,
+    /***
+     *
      * @param options
      */
     initialize: function (options) {
@@ -21,7 +33,7 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * 设置对象概要属性信息
      * @param snapshot
      */
-    setSnapShot: function (snapshot) {
+    getSnapShot: function (snapshot) {
         this.snapShot = snapshot;
     },
 
@@ -29,7 +41,35 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * 设置对象完整信息
      * @param integrate
      */
-    setIntegrate: function (integrate) {
+    getIntegrate: function (integrate) {
+    },
+
+    getDiffProperties:function(integrateJson){
+        var difJson={};
+        var originJson = this.getIntegrate();
+        for  (property in originJson.hasOwnProperty()) {
+            if (typeof originJson[property]=="number"){
+                if(originJson[property]!=integrateJson[property]){
+                    difJson[property] = originJson[property];
+                }
+            }
+            else if(typeof originJson[property]=="string"){
+                if(originJson[property]!=integrateJson[property]){
+                    difJson[property] = originJson[property];
+                }
+            }
+            else if(typeof originJson[property]=="boolean"){
+                if(originJson[property]!=integrateJson[property]){
+                    difJson[property] = originJson[property];
+                }
+            }
+            else if(typeof originJson[property]=="object"){
+                if(JSON.stringify(originJson[property]) != JSON.stringify(integrateJson[property])){
+                    difJson[property] = originJson[property];
+                }
+            }
+        }
+        return difJson;
     }
 });
 

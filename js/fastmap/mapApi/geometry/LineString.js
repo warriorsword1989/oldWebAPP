@@ -4,18 +4,18 @@
  * @namespace fast.mapApi
  * @class LineString
  */
-fastmap.mapApi.LineString = fastmap.mapApi.Geometry.extend({
+fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
     type: "LineString",
-    coordinates: [],
+    points: [],
     /**
      * @class LineString
      * @constructor
      * @namespace fastmap.mapApi
-     * @param {Array}coordinates
+     * @param {Array}Points
      */
-    initialize: function (coordinates) {
-        fastmap.mapApi.Geometry.prototype.initialize.apply(this, arguments);
-        this.coordinates = coordinates;
+    initialize: function (points) {
+        fastmap.mapApi.Collection.prototype.initialize.apply(this, arguments);
+        this.points = points;
     },
     /**
      * 复制整个lineString
@@ -23,8 +23,9 @@ fastmap.mapApi.LineString = fastmap.mapApi.Geometry.extend({
      * @return LineString Clone.
      */
     clone: function () {
-        var lineString = new fastmap.mapApi.LineString(null);
-
+        var newpoints = new Array();
+        newpoints = this.points.slice(0);
+        var lineString = new fastmap.mapApi.LineString(newpoints);
         return lineString;
     },
     /**
@@ -82,8 +83,33 @@ fastmap.mapApi.LineString = fastmap.mapApi.Geometry.extend({
      *     ordered so that x1 < x2.
      */
     getSortedSegments: function () {
-        var segments = [];
-        return segments;
+        var numSeg = this.components.length - 1;
+        var segments = new Array(numSeg), point1, point2;
+        for(var i=0; i<numSeg; ++i) {
+            point1 = this.components[i];
+            point2 = this.components[i + 1];
+            if(point1.x < point2.x) {
+                segments[i] = {
+                    x1: point1.x,
+                    y1: point1.y,
+                    x2: point2.x,
+                    y2: point2.y
+                };
+            } else {
+                segments[i] = {
+                    x1: point2.x,
+                    y1: point2.y,
+                    x2: point1.x,
+                    y2: point1.y
+                };
+            }
+        }
+        // more efficient to define this somewhere static
+        function byX1(seg1, seg2) {
+            return seg1.x1 - seg2.x1;
+        }
+        return segments.sort(byX1);
+
     },
     /**
      *把线分离成多个片段
