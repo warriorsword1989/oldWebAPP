@@ -1,0 +1,28 @@
+<div ng-controller="referenceLayersController" >
+    <div class="panel-group" id="accordion" >
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#refereOne">
+                        参考图层
+                    </a>
+                </h4>
+            </div>
+            <div id="refereOne" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <div class="table-responsive" style="width:100%;min-height: 10px;max-height: 300px;overflow: auto">
+                        <table class="table">
+                            <tr ng-repeat="item in items">
+                                <td>{{item.name}}</td>
+                                <td><input type="checkbox" ng-click="showLayers(item)" ng-checked="item.show"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
