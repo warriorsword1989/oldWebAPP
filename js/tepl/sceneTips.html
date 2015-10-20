@@ -1,0 +1,124 @@
+<meta charset="utf-8">
+<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
+<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
+<script src="../lib/angularjs/1.4.4/angular.js"></script>
+
+<style>
+    div {
+        font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    label {
+        font-weight: normal;
+    }
+
+    #scenetipsDiv {
+        border: 1px solid #FBFBFB;
+        width: 30%;
+        height: 100%;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .pull-in {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+</style>
+<div ng-app="sceneTipsApp" ng-controller="sceneController" id="scenetipsDiv" style="width:30%;height:50%">
+    <div id="top_left" style="background-color:blue; float:left; width:40%;height:75%">
+        <div class="panel panel-default" style="width: 100%;height: 100%;" >
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    图片
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="top_right" style="float:right; width:60%;height:95%;">
+        <div class="panel panel-default" style="width: 100%;height: 100%;">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    <div class="form-group">
+                        <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus"></span>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">入</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control rounded" placeholder="link编号">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">出</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control rounded" placeholder="link编号">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control rounded" placeholder="时间段">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control rounded" placeholder="卡车限制信息">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="middle" style="background-color:purple;float:left;width:40%;height:20%;">
+        <div class="panel panel-default" style="width: 100%;height: 100%;" >
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    备注
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="buttom_left" style="float:left; width:100%;height:5%;">
+        <div class="panel panel-default" style="margin-bottom: 0px;">
+            <div class="panel-body" style="padding: 0px;">
+                <form class="form-horizontal" method="get" style="margin-bottom: 0px;">
+                    <div class="form-group">
+                        <div class="col-sm-4" style="text-align: center">
+                            <button type="button" class="btn btn-default" style="float: left">关闭</button>
+                        </div>
+                        <div class="col-sm-4"  style="text-align: center">
+                            <button type="button" class="btn btn-info" >复制</button>
+                        </div>
+                        <div class="col-sm-4"  style="text-align: center">
+                            <button type="button" class="btn btn-danger" style="float: right">转换</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
