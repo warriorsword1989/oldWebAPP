@@ -33,6 +33,15 @@ fastmap.mapApi.Geometry = L.Class.extend({
     getExtent: fastmap.abstractMethod,
 
     /**
+     * 清除外包框
+     */
+    clearBounds: function() {
+        this.bounds = null;
+        if (this.parent) {
+            this.parent.clearBounds();
+        }
+    },
+    /**
      * 通过GeoJson生成几何
      * @method fromGeoJson
      *
