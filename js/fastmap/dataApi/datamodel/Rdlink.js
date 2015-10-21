@@ -1,6 +1,6 @@
 /**
- * Created by zhongxiaoming on 2015/9/9.
- * Class Rdlink
+ * Created by wangtun on 2015/9/9.
+ * Class Rdnode
  */
 
 fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
@@ -312,40 +312,89 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
      */
     uFields:"",
 
+    /*
+     * @param forms
+     * Rdlink的form子表
+     */
+    forms:[],
+
+    /*
+     * @param limits
+     * Rdlink的limit子表
+     */
+    limits:[],
+
+    /*
+     * @param names
+     * Rdlink的name子表
+     */
+    names:[],
+
+    /*
+     * @param rtics
+     * Rdlink的rtic子表
+     */
+    rtics:[],
+
+    /*
+     * @param sidewalks
+     * Rdlink的sidewalk子表
+     */
+    sideWalks:[],
+
+    /*
+     * @param speedLimits
+     * Rdlink的speedLimit子表
+     */
+    speedLimits:[],
+
+    /*
+     * @param truckLimits
+     * Rdlink的truckLimit子表
+     */
+    truckLimits:[],
+
+    /*
+     * @param walkStairs
+     * Rdlink的walkStair子表
+     */
+    walkStairs:[],
+
+    /*
+     * @param zones
+     * Rdlink的zones子表
+     */
+    zones:[],
+
     /***
      *
-     * @param linkId id
-     * @param startNodeId 开始点nodeid
-     * @param endNodeId 结束点nodeid
-     * @param points 构成rdlink的点数组
+     * @param geometry geometry
+     * @param attributes 构成rdlink的属性
      * @param options 其他可选参数
      */
-    initialize: function (linkId, startNodeId, endNodeId, points, options) {
+    initialize: function (geometry,attributes, options) {
         L.setOptions(this, options);
-        this.id = linkId;
+        this.id = attributes["linkId"];
 
-        if(!data["geometry"]){
-            throw "link对象没有几何信息";
-        }
-        else{
-            var geometry =new fastmap.mapApi.Geometry();
-            this.geometry = geometry.fromGeoJson(data["geometry"]);
-        }
+        this.geometry = geometry;
 
-        if(!data["sNodePid"]){
+        var vertices = geometry.getVertices();
+
+        if(!attributes["sNodePid"]){
             throw  "link对象中没有sNode";
         }
         else{
-            this.startNode = fastmap.dataApi.rdnode(startNodeId, points[0]);
+
+            this.startNode = fastmap.dataApi.rdnode(attributes["sNodePid"], vertices[0]);
         }
 
-        if(!data["eNodePid"]){
+        if(!attributes["eNodePid"]){
             throw "link对象中没有eNode";
         }
         else{
-            this.endNode = fastmap.dataApi.rdnode(endNodeId, points[points.length - 1]);
+            this.endNode = fastmap.dataApi.rdnode(attributes["eNodePid"], vertices[vertices.length - 1]);
         }
-        this.setAttributeData(data);
+        this.setAttributeData(attributes);
     },
 
     /**
@@ -406,6 +455,51 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         this.reserved = data["reserved"] || "";
         this.uRecord = data["uRecord"] || 0;
         this.uFields = data["uFields"] || "";
+
+        if (data["forms"].length>0){
+            var form = new fastmap.dataApi.linkform(data["forms"][i]);
+            this.forms.push(form);
+        }
+
+        if(data["limits"].length>0){
+            var limit = new fastmap.dataApi.linkLimit(data["limits"][i]);
+            this.limits.push(limit)
+        }
+
+        if(data["names"].length>0){
+            var name = new fastmap.dataApi.linkName(data["names"][i]);
+            this.names.push(name);
+        }
+
+        if(data["rtics"].length>0){
+            var rtic = new fastmap.dataApi.linkRtic(data["rtics"][i]);
+            this.rtics.push(rtic);
+        }
+
+        if(data["sideWalks"].length>0){
+            var sideWalk = new fastmap.dataApi.linkSidewalk(data["sideWalks"][i]);
+            this.sidewalks.push(sideWalk);
+        }
+
+        if(data["speedLimits"].length>0){
+            var speeedLimit = new fastmap.dataApi.linkSpeedLimit(data["speedLimits"][i]);
+            this.speedLimits.push(speeedLimit);
+        }
+
+        if(data["truckLimits"].length>0){
+            var truckLimit = new fastmap.dataApi.linkTruckLimit(data["truckLimits"][i]);
+            this.truckLimits.push(truckLimit);
+        }
+
+        if(data["walkStairs"].length>0){
+            var walkStair = new fastmap.dataApi.linkWalkStair(data["walkStairs"][i]);
+            this.walkStairs.push(walkStair);
+        }
+
+        if(data["zones"].length>0){
+            var zone = new fastmap.dataApi.linkZone(data["zones"][i]);
+            this.zones.push(zone);
+        }
     },
 
     /**
@@ -491,6 +585,60 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         data["uRecord"]  = this.uRecord || 0;
         data["uFields"] = this.uFields || "";
 
+        var forms=[];
+        for(var i= 0,len=this.forms.length;i<len;i++){
+            forms.push(this.forms[i].getIntegrate());
+        }
+        data["forms"] = forms;
+
+        var limits=[];
+        for(var i= 0,len = this.limits.length;i<len;i++){
+            limits.push(this.limits[i].getIntegrate())
+        }
+        data["limits"] = limits;
+
+        var names=[];
+        for(var i= 0,len=this.names.length;i<len;i++){
+            names.push(this.names[i].getIntegrate());
+        }
+
+        data["names"] = names;
+
+        var rtics = [];
+        for(var i= 0,len=this.rtics.length;i<len;i++){
+            rtics.push(this.rtics[i].getIntegrate())
+        }
+        data["rtics"] = rtics;
+
+        var sideWalks=[];
+        for(var i= 0,len= this.sideWalks.length;i<len;i++){
+            sideWalks.push(this.sideWalks[i].getIntegrate())
+        }
+        data["sideWalks"] =sideWalks;
+
+        var speedLimits=[];
+        for(var i= 0,len=this.speedLimits.length;i<len;i++){
+            speedLimits.push(this.speedLimits[i].getIntegrate())
+        }
+        data["speedLimits"] = speedLimits;
+
+        var truckLimits=[];
+        for(var i= 0,len=this.truckLimits.length;i<len;i++){
+            truckLimits.push(this.truckLimits[i].getIntegrate())
+        }
+        data["truckLimits"] = truckLimits;
+
+        var walkStairs=[];
+        for(var i= 0,len=this.walkStairs.length;i<len;i++){
+            walkStairs.push(this.walkStairs[i].getIntegrate())
+        }
+        data["walkStairs"] = walkStairs;
+
+        var zones=[];
+        for(var i= 0,len=this.zones.length;i<len;i++){
+            zones.push(this.zones[i].getIntegrate());
+        }
+        data["zones"] = zones;
         return data;
     }
 });
@@ -501,7 +649,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdLink = function (data, options) {
-    return new fastmap.dataApi.rdLink(data, options);
+fastmap.dataApi.rdlink = function (geometry, attributes, options) {
+    return new fastmap.dataApi.rdLink(geometry, attributes, options);
 }
 

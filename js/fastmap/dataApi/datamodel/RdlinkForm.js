@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/9/9.
+ * Created by wangtun on 2015/9/9.
  * Class Rdnode
  */
 
@@ -45,8 +45,7 @@ fastmap.dataApi.linkform = fastmap.dataApi.GeoDataModel.extend({
 
     /***
      *
-     * @param id id
-     * @param point 初始化rdnode的点
+     * @param data 初始化属性对象
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
