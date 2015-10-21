@@ -58,6 +58,36 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
     },
 
     /**
+     * 与传入几何对象间的距离
+     * @method distanceTo
+     * @return {object} result.
+     */
+    distanceTo: function(geometry, options) {
+        var edge = !(options && options.edge === false);
+        var details = edge && options && options.details;
+        var distance, x0, y0, x1, y1, result;
+        if(geometry instanceof fastmap.mapApi.Point) {
+            x0 = this.x;
+            y0 = this.y;
+            x1 = geometry.x;
+            y1 = geometry.y;
+            distance = Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
+            result = !details ?
+                distance : {x0: x0, y0: y0, x1: x1, y1: y1, distance: distance};
+        } else {
+            result = geometry.distanceTo(this, options);
+            if(details) {
+                result = {
+                    x0: result.x1, y0: result.y1,
+                    x1: result.x0, y1: result.y0,
+                    distance: result.distance
+                };
+            }
+        }
+        return result;
+    },
+
+    /**
      * 计算点对象的外包框
      * @method calculateBounds
      *
@@ -102,6 +132,9 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
             intersect = geometry.intersects(this);
         }
         return intersect;
+    },
+    getVertices: function(nodes) {
+        return [this];
     }
 });
 fastmap.mapApi.point=function(x,y) {

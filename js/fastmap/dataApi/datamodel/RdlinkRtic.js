@@ -55,8 +55,7 @@ fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
 
     /***
      *
-     * @param id id
-     * @param point 初始化rdnode的点
+     * @param data 初始化属性对象
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
@@ -122,10 +121,10 @@ fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
 });
 
 /***
- * linkLimit初始化函数
- * @param data 初始化rdnode的点
+ * linkrtic初始化函数
+ * @param data 初始化属性对象
  * @param options 其他可选参数
- * @returns {.dataApi.linkLimit}
+ * @returns {.dataApi.linkRtic}
  */
 fastmap.dataApi.linkrtic = function (data, options) {
     return new fastmap.dataApi.linkRtic(data, options);
