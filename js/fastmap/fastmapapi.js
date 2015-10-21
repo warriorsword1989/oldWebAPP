@@ -72,7 +72,7 @@
                 "fastmap/uikit/controller/corectl/CheckResultController.js",
                 "fastmap/uikit/controller/corectl/DataTipsController.js",
                 "fastmap/uikit/controller/corectl/FeatCodeController.js",
-                "fastmap/uikit/controller/corectl/layerController.js",
+                "fastmap/uikit/controller/corectl/LayerController.js",
                 "fastmap/uikit/controller/corectl/ObjectEditController.js",
                 "fastmap/uikit/controller/corectl/OutPutController.js",
                 "fastmap/uikit/controller/corectl/SelectController.js",
