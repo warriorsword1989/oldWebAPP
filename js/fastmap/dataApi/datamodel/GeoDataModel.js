@@ -18,15 +18,38 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * 模型几何
      */
     geometry:null,
+
+    /***
+     *
+     * @param attributes
+     * 对象属性
+     */
+    attributes:null,
+
+    /***
+     *
+     * @param snapShot
+     * 对象简要属性
+     */
+    snapShot:null,
+
+    /***
+     *
+     * @param integrate
+     * 对象全部属性
+     */
+    integrate:null,
+
     /***
      *
      * @param options
      */
-    initialize: function (options) {
+    initialize: function (geometry,attributes,options) {
         this.options = options || {};
         L.setOptions(this, options);
-        this.snapShot = {};
-        this.integrate = {};
+        this.geometry = geometry;
+        this.snapShot = this.getSnapShot(attributes);
+        this.integrate = this.getIntegrate(attributes);
     },
 
     /***
@@ -34,7 +57,8 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * @param snapshot
      */
     getSnapShot: function (snapshot) {
-        this.snapShot = snapshot;
+
+        return null;
     },
 
     /***
@@ -42,6 +66,7 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
      * @param integrate
      */
     getIntegrate: function (integrate) {
+        return null;
     },
 
     getDiffProperties:function(integrateJson){
@@ -70,6 +95,27 @@ fastmap.dataApi.GeoDataModel = L.Class.extend({
             }
         }
         return difJson;
+    },
+    /**
+     * 通过GeoJson生成模型对象
+     * @method fromGeoJson
+     *
+     * @param {string} geoJson.
+     * @return {fastmap.mapApi.Geometry} geometry.
+     */
+    fromGeoJson: function (geoJson) {
+
+        return null;
+    },
+
+    /**
+     * 几何生成GeoJSON
+     * @method toGeoJSON
+     *
+     * @return {string} geoJsonString.
+     */
+    toGeoJSON: function () {
+        return null;
     }
 });
 

@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/9/9.
+ * Created by wangtun on 2015/9/9.
  * Class Rdnode
  */
 
@@ -75,18 +75,34 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
     uFields:"",
 
     /***
+     * @param restrictions
+     * 交限
+     */
+    restrictions:[],
+
+    /***
+     * @param restrictionConditions
+     * 交限
+     */
+    restrictionConditions:[],
+
+    /***
+     * @param restrictionDetails
+     * 交限
+     */
+    restrictionDetails:[],
+
+
+    /***
      *
      * @param id id
      * @param point 初始化rdnode的点
      * @param options 其他可选参数
      */
-    initialize: function (data, options) {
+    initialize: function (geometry, attributes, options) {
         L.setOptions(this, options);
         this.id = data["nodePid"];
-        if(!data["geometry"]){
-            throw "node对象没有几何信息";
-        }
-
+        this.geometry = geometry;
         this.setAttributeData(data);
     },
 
@@ -102,6 +118,21 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         this.reserved = data["reserved"] || "";
         this.uRecord = data["uRecord"] || 0;
         this.uFields = data["uFields"] || "";
+
+        if(data["restrictions"].length>0){
+            var rdRestriction = new fastmap.dataApi.rdRestriction(data["restricions"][i]);
+            this.restrictions.push(rdRestriction);
+        }
+
+        if(data["restrictionConditions"].length>0){
+            var rdRestrictionCondition = new fastmap.dataApi.rdRestrictionCondition(data["restrictionConditions"][i]);
+            this.restrictionConditions.push(rdRestrictionCondition);
+        }
+
+        if(data["restrictionDetails"].length>0){
+            var rdRestrictionDetail = new fastmap.dataApi.rdRestrictionDetail(data["restrictionDetails"][i]);
+            this.restrictionDetails.push(rdRestrictionDetail);
+        }
     },
 
     /**
@@ -145,6 +176,24 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["reserved"]  = this.reserved || "";
         data["uRecord"] = this.uRecord  || 0;
         data["uFields"] = this.uFields || "";
+
+        var restrictions=[];
+        for(var i= 0,len=this.restrictions.length;i<len;i++){
+            restrictions.push(this.restrictions[i].getIntegrate());
+        }
+        data["restrictions"] = restrictions;
+
+        var restrictionConditions =[];
+        for(var i= 0,len=this.restrictionConditions.length;i<len;i++){
+            restrictionConditions.push(this.restrictionConditions[i].getIntegrate());
+        }
+        data["restrictionConditions"] = restrictionConditions;
+
+        var restrictionDetails=[];
+        for(var i= 0,len=this.restrictionDetails.length;i<len;i++){
+            restrictionDetails.push(this.restrictionDetails[i].getIntegrate());
+        }
+        data["restrictionDetails"] = restrictionDetails;
         return data;
     }
 });
@@ -156,7 +205,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdnode = function (data, options) {
-    return new fastmap.dataApi.rdNode(data, options);
+fastmap.dataApi.rdnode = function (geometry, attributes, options) {
+    return new fastmap.dataApi.rdNode(geometry, attributes, options);
 }
 

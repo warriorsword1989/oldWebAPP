@@ -67,16 +67,17 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      * @param point 初始化rdnode的点
      * @param options 其他可选参数
      */
-    initialize: function (data, options) {
+    initialize: function (geometry, attributes, options) {
         L.setOptions(this, options);
-        if(!data["detailId"]){
+        if(!attributes["detailId"]){
             throw "对象没有对应detailId"
         }
         else{
-            this.id = data["detailId"];
+            this.id = attributes["detailId"];
         }
 
-        this.setAttributeData(data);
+        this.geoemtry = geometry;
+        this.setAttributeData(attributes);
     },
 
     setAttributeData:function(data){
@@ -138,6 +139,6 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdRestriction}
  */
-fastmap.dataApi.rdrestrictiondetail = function (data, options) {
-    return new fastmap.dataApi.rdRestrictionDetail(data, options);
+fastmap.dataApi.rdrestrictiondetail = function (geometry, attributes, options) {
+    return new fastmap.dataApi.rdRestrictionDetail(geometry, attributes, options);
 }

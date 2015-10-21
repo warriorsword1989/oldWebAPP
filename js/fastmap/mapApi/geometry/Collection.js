@@ -3,6 +3,22 @@
  * Class Collection 组成几何对象的几何集合
  */
 fastmap.mapApi.Collection = fastmap.mapApi.Geometry.extend({
+
+    /**
+     * 几何类型
+     * type
+     * @property type
+     * @type Collection
+     */
+    type:"Collection",
+
+    /**
+     * 组成部分
+     * components
+     * @property components
+     */
+    components:[],
+
     initialize: function (components) {
         this.components = [];
         if (components != null) {
