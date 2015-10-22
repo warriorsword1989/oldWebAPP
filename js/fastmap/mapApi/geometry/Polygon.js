@@ -24,8 +24,14 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      * @method getArea
      * @returns {number}
      */
-    getArea: function () {
+    getArea: function() {
         var area = 0.0;
+        if ( this.components && (this.components.length > 0)) {
+            area += Math.abs(this.components[0].getArea());
+            for (var i=1, len=this.components.length; i<len; i++) {
+                area -= Math.abs(this.components[i].getArea());
+            }
+        }
         return area;
     },
     /**
@@ -35,7 +41,31 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      * @returns {boolean}
      */
     containsPoint: function (point) {
+        var numRings = this.components.length;
         var contained = false;
+        if(numRings > 0) {
+            // check exterior ring - 1 means on edge, boolean otherwise
+            contained = this.components[0].containsPoint(point);
+            if(contained !== 1) {
+                if(contained && numRings > 1) {
+                    // check interior rings
+                    var hole;
+                    for(var i=1; i<numRings; ++i) {
+                        hole = this.components[i].containsPoint(point);
+                        if(hole) {
+                            if(hole === 1) {
+                                // on edge
+                                contained = 1;
+                            } else {
+                                // in hole
+                                contained = false;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         return contained;
     },
     /**
@@ -46,6 +76,46 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      */
     intersects: function (geometry) {
         var intersect = false;
+        var i, len;
+        if(geometry.type == "Point") {
+            intersect = this.containsPoint(geometry);
+        } else if(geometry.type == "LineString" ||
+            geometry.type == "LinearRing") {
+            // check if rings/linestrings intersect
+            for(i=0, len=this.components.length; i<len; ++i) {
+                intersect = geometry.intersects(this.components[i]);
+                if(intersect) {
+                    break;
+                }
+            }
+            if(!intersect) {
+                // check if this poly contains points of the ring/linestring
+                for(i=0, len=geometry.components.length; i<len; ++i) {
+                    intersect = this.containsPoint(geometry.components[i]);
+                    if(intersect) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            for(i=0, len=geometry.components.length; i<len; ++ i) {
+                intersect = this.intersects(geometry.components[i]);
+                if(intersect) {
+                    break;
+                }
+            }
+        }
+        // check case where this poly is wholly contained by another
+        if(!intersect && geometry.type == "Polygon") {
+            // exterior ring points will be contained in the other geometry
+            var ring = this.components[0];
+            for(i=0, len=ring.components.length; i<len; ++i) {
+                intersect = geometry.containsPoint(ring.components[i]);
+                if(intersect) {
+                    break;
+                }
+            }
+        }
         return intersect;
     },
     /**
@@ -56,7 +126,16 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
      * @returns {*}
      */
     distanceTo: function (geometry, options) {
+        var edge = !(options && options.edge === false);
         var result;
+        // this is the case where we might not be looking for distance to edge
+        if(!edge && this.intersects(geometry)) {
+            result = 0;
+        } else {
+            result = fastmap.mapApi.Collection.prototype.distanceTo.apply(
+                this, [geometry, options]
+            );
+        }
         return result;
     },
     /**
@@ -67,24 +146,7 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
     clone: function () {
         var polygon = new fastmap.mapApi.Polygon(null);
         return polygon;
-    },
-    /**
-     * 获取polygon坐标组
-     * @method getCoordinates
-     */
-    getCoordinates: function () {
-
-    },
-    /**
-     *  获取Polygon的内环
-     * @param {Number}squaredTolerance
-     * @returns {.mapApi.Polygon}
-     */
-    getSimplifiedGeometryInternal: function (squaredTolerance) {
-        var simplifiedPolygon = new fastmap.mapApi.Polygon(null);
-        return simplifiedPolygon;
     }
-
 });
 fastmap.mapApi.polygon=function(coordiates,options) {
     return new fastmap.mapApi.Polygon(coordiates, options);

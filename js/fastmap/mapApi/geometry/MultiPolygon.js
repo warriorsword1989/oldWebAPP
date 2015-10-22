@@ -2,10 +2,12 @@
  * Created by wangtun on 2015/9/10.
  */
 fastmap.mapApi.MultiPolygon = fastmap.mapApi.Collection.extend({
-    coordinates: [],
     options: {},
     /**
-     * 类型
+     * 几何类型
+     * type
+     * @property type
+     * @type String
      */
     type: "MultiPolygon",
     /**

@@ -1,0 +1,46 @@
+<div ng-controller="errorCheckController" style="height:150px;overflow-y: auto">
+    <table st-table="rowCollection" class="table table-striped" >
+        <thead >
+        <tr>
+            <th st-sort="firstName">检查规则号</th>
+            <th st-sort="lastName">类型</th>
+            <th st-sort="birthDate">错误等级</th>
+            <th st-sort="balance">错误对象</th>
+            <th st-sort="balance1">错误信息</th>
+            <th st-sort="balance2">错误定位</th>
+            <th st-sort="balance3">检查时间</th>
+            <th st-sort="balance4">作业员</th>
+            <th st-sort="balance5">检查结果管理</th>
+            <th>email</th>
+        </tr>
+        </thead>
+        <tbody style="height: 100px">
+        <tr ng-repeat="row in rowCollection">
+            <td>{{row.firstName | uppercase}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.birthDate | date}}</td>
+            <td>{{row.balance | currency}}</td>
+            <td>{{row.balance1 | currency}}</td>
+            <td>{{row.balance2| currency}}</td>
+            <td>{{row.balance3 | currency}}</td>
+            <td>{{row.balance4 | currency}}</td>
+            <td>{{row.balance5 | currency}}</td>
+            <td>    <select class="form-control" style="padding: 0px">
+                <option value="0">未修改</option>
+                <option value="1">例外</option>
+                <option value="1">确认不修改</option>
+                <option value="1">确认已修改</option>
+            </select></td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5" class="text-center">
+                <div st-pagination="" st-items-by-page="itemsByPage"
+                     st-displayed-pages="7"></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+
+</div>
