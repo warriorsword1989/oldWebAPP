@@ -1,0 +1,136 @@
+<style>
+</style>
+<div ng-controller="fieldsResultController" class="nav-tabs-alt">
+    <ul id="myTab" class="nav nav-tabs nav-justified">
+        <li class="active">
+            <a href="#allTaskers" data-toggle="tab">
+                全部
+            </a>
+        </li>
+        <li><a href="#pendingTaskers" data-toggle="tab">待处理</a></li>
+        <li><a href="#solvedTaskers" data-toggle="tab">已处理</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="allTaskers">
+            <div>
+                <span>共{{items.length}}个</span>
+                <span style="float:right">显示</span>
+            </div>
+            <div ng-repeat="pItem in items">
+                <div class="panel-group" style="margin-bottom: 0px;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: #F6F8F8">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#{{pItem.id}}" ng-click="showContent(item)">
+                                    <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                                </a>
+                            </h4>
+
+                            <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
+                            <div>
+                                <span style="font-size: 15px">{{pItem.name}}</span>
+                                <input style="float:right;" type="checkbox" ng-checked="pItem.choose"
+                                       ng-click="showLayers(pItem)"/>
+                            </div>
+                            <div style="margin:5px 20px">
+                                <span>FR: {{pItem.name}}</span>
+                            </div>
+                        </div>
+                        <div id="{{pItem.id}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table">
+                                    <tr ng-repeat="item in subItems">
+                                        <td ng-click="showTab(item)">{{item.name}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pendingTaskers">
+            <div>
+                <span>共{{items.length}}个</span>
+                <span style="float:right">显示</span>
+            </div>
+            <div ng-repeat="pendItem in items ">
+                <div ng-if="!pendItem.show">
+                    <div class="panel-group" style="margin-bottom: 0px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color: #F6F8F8">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#{{pendItem.id}}show" ng-click="showContent(pendItem)">
+                                        <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                                    </a>
+                                </h4>
+
+                                <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
+                                <div>
+                                    <span style="font-size: 15px">{{pendItem.name}}</span>
+                                    <input style="float:right;" type="checkbox" ng-checked="item.choose"
+                                           ng-click="showLayers(pendItem)"/>
+                                </div>
+                                <div style="margin:5px 20px">
+                                    <span>FR: {{pendItem.name}}</span>
+                                </div>
+                            </div>
+                            <div id="{{pendItem.id}}show" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table class="table">
+                                        <tr ng-repeat="item in subItems">
+                                            <td ng-click="showTab(item)">{{item.name}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="solvedTaskers">
+            <div>
+                <span>共{{items.length}}个</span>
+                <span style="float:right">显示</span>
+            </div>
+            <div class="list-group" style="margin: 0px" ng-repeat="solveItem in items">
+                <div ng-if="solveItem.show">
+                    <div class="panel-group" style="margin-bottom: 0px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color: #F6F8F8">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#{{solveItem.id}}unshow" ng-click="showContent(solveItem)">
+                                        <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                                    </a>
+                                </h4>
+
+                                <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
+                                <div>
+                                    <span style="font-size: 15px">{{solveItem.name}}</span>
+                                    <input style="float:right;" type="checkbox" ng-checked="solveItem.choose"
+                                           ng-click="showLayers(solveItem)"/>
+                                </div>
+                                <div style="margin:5px 20px">
+                                    <span>FR: {{solveItem.name}}</span>
+                                </div>
+                            </div>
+                            <div id="{{solveItem.id}}unshow" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table class="table">
+                                        <tr ng-repeat="item in subItems">
+                                            <td ng-click="showTab(item)">{{item.name}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
