@@ -29,7 +29,7 @@ fastmap.uikit.LayerController=(function() {
                 this.on("layerSwitch", this.OnSwitchLayer, this);
             },
                 /**
-                 * 图层显示隐藏转换
+                 * 图层显示隐藏转换方法
                  * @method OnSwitchLayer
                  * @param event
                  */
