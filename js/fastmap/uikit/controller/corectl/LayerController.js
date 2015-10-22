@@ -26,8 +26,22 @@ fastmap.uikit.LayerController=(function() {
                 this.layers = [];
                 this.on('layerOnAdd', this.OnAddLayer, this);
                 this.on('layerOnRemove', this.OnRemoveLayer, this);
-
+                this.on("layerSwitch", this.OnSwitchLayer, this);
             },
+                /**
+                 * 图层显示隐藏转换方法
+                 * @method OnSwitchLayer
+                 * @param event
+                 */
+                OnSwitchLayer:function(event) {
+                    var layerArr = event.layerArr;
+                    for(var i= 0,len=layerArr.length;i<len;i++) {
+                            this.setLayerVisible(layerArr[i].id,layerArr[i].show);
+
+
+                    }
+
+                },
             /**
              * 添加图层
              * @method OnAddLayer
@@ -48,11 +62,13 @@ fastmap.uikit.LayerController=(function() {
             },
             /**
              * 显示的图层
-             * @method showLayer
+             * @method setLayerVisible
              * @param {Layer}layer
+             * @param flag
              */
-            setLayerVisible: function (layer) {
-                this.fire('layerOnShow', {layer: layer});
+            setLayerVisible: function (id,flag) {
+                var layer = this.getLayerById(id);
+                this.fire('layerOnShow', {layer: layer,flag:flag});
             },
             /**
              * 可编辑的图层
