@@ -61,7 +61,36 @@ fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
      * @returns {number}
      */
     pointToSegmentDistance: function (/*Point*/ p, /*Point*/ p1, /*Point*/ p2) {
-        return Math.sqrt(this._sqClosestPointOnSegment(p, p1, p2, true));
+        return this._sqClosestPointOnSegment(p, p1, p2);
+    },
+
+    _sqClosestPointOnSegment: function(p, p1, p2){
+        var x0 = p.x;
+        var y0 = p.y;
+        var x1 = p1.x;
+        var y1 = p1.y;
+        var x2 = p2.x;
+        var y2 = p2.y;
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        var along = ((dx * (x0 - x1)) + (dy * (y0 - y1))) /
+            (Math.pow(dx, 2) + Math.pow(dy, 2));
+        var x, y;
+        if(along <= 0.0) {
+            x = x1;
+            y = y1;
+        } else if(along >= 1.0) {
+            x = x2;
+            y = y2;
+        } else {
+            x = x1 + along * dx;
+            y = y1 + along * dy;
+        }
+        return {
+            distance:Math.sqrt(Math.pow(x - x0, 2) + Math.pow(y - y0, 2)) ,
+            x: x, y: y,
+            along: along
+        };
     },
     /**
      *判断线是否交汇
