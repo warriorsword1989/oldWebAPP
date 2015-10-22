@@ -95,7 +95,7 @@ fastmap.mapApi.Geometry = L.Class.extend({
  * Returns:
  * {<OpenLayers.Geometry>} A geometry of the appropriate class.
  */
-OpenLayers.Geometry.fromWKT = function(wkt) {
+fastmap.mapApi.Geometry.fromWKT = function(wkt) {
     var geom;
     if (OpenLayers.Format && OpenLayers.Format.WKT) {
         var format = OpenLayers.Geometry.fromWKT.format;
