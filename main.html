@@ -17,11 +17,14 @@
 
         }
     </style>
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
 </head>
 <body ng-controller="generalController" style="min-width: 1024px">
 
 
 <div ui-layout="{ flow:'row', dividerSize:'6',disableToggle:'false'}">
+
     <div ui-layout-container size="10%" style="overflow: hidden; ">
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
@@ -31,7 +34,7 @@
             </div>
         </nav>
     </div>
-    <div ui-layout-container>
+    <div ui-layout-container >
         <div ui-layout="{flow:'column',dividerSize:'6'}">
             <div ui-layout-container size="20%">
                 <div>
@@ -51,7 +54,7 @@
                 </div>
 
             </div>
-            <div ui-layout-container>
+            <div ui-layout-container >
                 <div ui-layout="{flow:'row',dividerSize:'6'}">
                     <div ui-layout-container size="65%">
                         <div id="map" style="width: 100%;height: 100%;position: absolute;">
@@ -60,7 +63,6 @@
                                 <div class="btn-group btn-group-sm" style="width: 100%;">
                                     <button type="button" class="btn btn-default">node</button>
                                     <button type="button" class="btn btn-default">link</button>
-                                    <button type="button" class="btn btn-default">面</button>
                                     <button type="button" class="btn btn-default">关系</button>
                                 </div>
 
@@ -70,7 +72,6 @@
                                 <div class="btn-group btn-group-sm" style="width: 100%;">
                                     <button type="button" class="btn btn-default">node+</button>
                                     <button type="button" class="btn btn-default">link+</button>
-                                    <button type="button" class="btn btn-default">面+</button>
                                     <button type="button" class="btn btn-default">关系+</button>
                                 </div>
                             </div>

@@ -140,38 +140,38 @@
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">
                         时间段
-                        <span style="float: right;">添加</span>
+                        <span class="glyphicon glyphicon-plus-sign"
+                              style="float: right;color: rgb(255, 0, 0);font-size: 20px"
+                              ng-click="addTime()"></span>
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">限时</label>
+                        <form class="form-horizontal" methosd="get">
+                            <div ng-repeat="item in data.time">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">限时</label>
 
-                                <div class="input-group m-b col-sm-10">
-                                    <input type="text" class="form-control" ng-model="data.time1">
-                                    <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button"> <span
-                                           class="glyphicon glyphicon-minus-sign"
-                                           style="color: rgb(255, 0, 0);font-size: 20px"></span></button>
-                                        </span>
+                                    <div class="input-group m-b col-sm-10">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" ng-model="item.startTime">
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input class="form-control" type="text" ng-model="item.endTime">
+                                            </div>
+                                            <div class="col-sm-2">
+                                                      <span
+                                                              class="glyphicon glyphicon-minus-sign"
+                                                              style="color: rgb(255, 0, 0);font-size: 20px"
+                                                              ng-click="minusTime($index)"></span>
+                                            </div>
+                                        </div>
 
+
+                                    </div>
                                 </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
                             </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">限时</label>
 
-                                <div class="input-group m-b col-sm-10">
-                                    <input type="text" class="form-control" ng-model="data.time2">
-                                    <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button"> <span
-                                           class="glyphicon glyphicon-minus-sign"
-                                           style="color: rgb(255, 0, 0);font-size: 20px"></span></button>
-                                        </span>
-
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">车辆类型</label>
 
@@ -239,7 +239,7 @@
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">关闭
                     </button>
-                    <button type="button" class="btn btn-primary"  ng-click="addTips()">
+                    <button type="button" class="btn btn-primary" ng-click="addTips()">
                         增加
                     </button>
                 </div>
@@ -261,7 +261,7 @@
             $scope.tipsId = id;
         };
         $scope.addTips = function () {
-            if($scope.tipsId===null||$scope.tipsId===undefined) {
+            if ($scope.tipsId === null || $scope.tipsId === undefined) {
                 alert("请先选择tips");
                 return;
             }
@@ -275,6 +275,14 @@
             $scope.data.info.push({flag: $scope.tipsId});
 
         }
+        //增加时间段
+        $scope.addTime=function(){
+            $scope.data.time.unshift({startTime: "", endTime: ""});
+        }
+        //删除时间段
+        $scope.minusTime=function(id) {
+            $scope.data.time.splice(id, 1);
+        };
     });
 
 </script>

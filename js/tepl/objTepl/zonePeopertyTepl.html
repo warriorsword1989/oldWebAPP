@@ -16,14 +16,14 @@
                     <div class="col-sm-9">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="theoryOrActual" value="theory" ng-model="formData.theory">
+                                <input type="radio" name="developStateRadio" value="0" ng-model="zoneData.developState">
                                 非详细
                             </label>
                             <label>
-                                <input type="radio" name="theoryOrActual" value="actual" ng-model="formData.actual">
+                                <input type="radio" name="developStateRadio" value="1" ng-model="zoneData.developState">
                                 详细
                             </label> <label>
-                            <input type="radio" name="theoryOrActual" value="unLimit" ng-model="formData.unLimit">
+                            <input type="radio" name="developStateRadio" value="2" ng-model="zoneData.developState">
                             未验证
                         </label>
                         </div>
@@ -36,11 +36,11 @@
                     <div class="col-sm-9">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="theoryOrActual" value="theory" ng-model="formData.theory">
+                                <input type="radio" name="urbanRadio" value="0" ng-model="zoneData.urban">
                                 否
                             </label>
                             <label>
-                                <input type="radio" name="theoryOrActual" value="actual" ng-model="formData.actual">
+                                <input type="radio" name="urbanRadio" value="1" ng-model="zoneData.urban">
                                 是
                             </label>
                         </div>
@@ -72,7 +72,7 @@
                     <label class="col-sm-3 control-label">左区划号码</label>
 
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" placeholder="0530">
+                        <input type="text" class="form-control" placeholder="0530" ng-model="zoneData.leftRegionId">
                     </div>
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -80,7 +80,7 @@
                     <label class="col-sm-3 control-label">右区划号码</label>
 
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" placeholder="0530">
+                        <input type="text" class="form-control" placeholder="0530" ng-model="zoneData.rightRegionId">
                     </div>
                 </div>
             </form>
@@ -101,129 +101,71 @@
             <div id="zoneLeftOrRightDiv" class="panel-collapse collapse in">
 
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div id="zoneLeft">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">zone</label>
+                    <div class="list-group" ng-repeat="item in zoneData.zoneLinkData">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">zone</label>
 
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <label class="col-sm-4 control-label">区划号码</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <label class="col-sm-4 control-label">区划号码</label>
 
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="0530">
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" placeholder="0530" ng-model="item.regionId">
+                                            </div>
+
+
                                         </div>
-                                        <div class="col-sm-3">
-                                            <span class="glyphicon glyphicon-remove"
-                                                  style="float: right;color: rgb(255, 0, 0);margin: 10px;"></span>
-                                        </div>
-
+                                        <div class="line line-dashed b-b line-lg pull-in"></div>
                                     </div>
-                                    <div class="line line-dashed b-b line-lg pull-in"></div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
 
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <label class="col-sm-4 control-label">Zone类型</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <label class="col-sm-4 control-label">Zone类型</label>
 
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" placeholder="0530">
+                                            <div class="col-sm-8">
+                                                <select class="form-control" ng-model="item.type">
+                                                    <option value="0">未分类</option>
+                                                    <option value="1">AOIZone</option>
+                                                    <option value="2">KDZone</option>
+                                                    <option value="3">GCZone</option>
+                                                </select>
+                                            </div>
                                         </div>
+                                        <div class="line line-dashed b-b line-lg pull-in"></div>
                                     </div>
-                                    <div class="line line-dashed b-b line-lg pull-in"></div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
 
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <label class="col-sm-4 control-label">Link左右</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <label class="col-sm-4 control-label">Link左右</label>
 
-                                        <div class="col-sm-8">
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="theoryOrActual" value="theory"
-                                                           ng-model="formData.theory">
-                                                    左
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="theoryOrActual" value="actual"
-                                                           ng-model="formData.actual">
-                                                    右
-                                                </label>
+                                            <div class="col-sm-8">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="radio" name="sideRadio" value="0"
+                                                               ng-model="item.side">
+                                                        左
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="sideRadio" value="sideRadio"
+                                                               ng-model="item.side">
+                                                        右
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                        </form>
-                    </div>
-                    <div id="zoneRight">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">zone</label>
-
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <label class="col-sm-4 control-label">区划号码</label>
-
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="0530">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <span class="glyphicon glyphicon-remove"
-                                                  style="float: right;color: rgb(255, 0, 0);margin: 10px"></span>
-                                        </div>
-
-                                    </div>
-                                    <div class="line line-dashed b-b line-lg pull-in"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
-
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <label class="col-sm-4 control-label">Zone类型</label>
-
-                                        <div class="col-sm-8">
-                                            <input type="text" class="form-control" placeholder="0530">
-                                        </div>
-                                    </div>
-                                    <div class="line line-dashed b-b line-lg pull-in"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
-
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <label class="col-sm-4 control-label">Link左右</label>
-
-                                        <div class="col-sm-8">
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="theoryOrActual" value="theory"
-                                                           ng-model="formData.theory">
-                                                    左
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="theoryOrActual" value="actual"
-                                                           ng-model="formData.actual">
-                                                    右
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                        </form>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
 

@@ -8,19 +8,20 @@
                        href="#popularLimitedDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-minus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
-                    <span class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
+                    <span class="glyphicon glyphicon-plus-sign"
+                          style="float: right;color: rgb(255, 0, 0);"
+                            ng-click="addLimit()"></span>
                 </h4>
 
             </div>
             <div id="popularLimitedDiv" class="panel-collapse collapse">
-                <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                <div class="panel-body" style="min-height: 200px;height:300px;overflow-y: auto;">
                     <form class="form-horizontal" method="get">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">供用信息</label>
 
                             <div  class="col-sm-9">
-                                <select class="form-control" ng-model="">
+                                <select class="form-control" ng-model="linkLimit.appInfo">
                                     <option value="0">调查中</option>
                                     <option value="1">可以通行</option>
                                     <option value="2">不可通行</option>
@@ -28,126 +29,142 @@
                                     <option value="5">计划</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">限制类型</label>
-
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="">
-                                    <option value="0">道路维修中</option>
-                                    <option value="1">单行限制</option>
-                                    <option value="2">车辆限制</option>
-                                    <option value="3">穿行限制</option>
-                                    <option value="4">施工中不开放</option>
-                                    <option value="5">季节性关闭道路</option>
-                                    <option value="6">Usage Fee Required</option>
-                                    <option value="8">外地车限行</option>
-                                    <option value="9">尾号限行</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">限制方向</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">收费类型</label>
-
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="">
-                                    <option value="0">无</option>
-                                    <option value="1">收费道路</option>
-                                    <option value="2">桥</option>
-                                    <option value="3">隧道</option>
-                                    <option value="4">公园</option>
-                                    <option value="5">山径</option>
-                                    <option value="6">风景路线</option>
-                                    <option value="9">不应用</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">天气条件</label>
-
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="">
-                                    <option value="0">无</option>
-                                    <option value="1">雨天</option>
-                                    <option value="2">雪天</option>
-                                    <option value="3">雾天</option>
-                                    <option value="9">不应用</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">录入时间</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">赋值方式</label>
-
-                            <div class="col-sm-9">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="normalOrOutside" value="normalEval"
-                                               ng-model="formData.normalEval">
-                                        默认
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="normalOrOutside" value="insideEval"
-                                               ng-model="formData.insideEval">
-                                        外业
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="normalOrOutside" value="unEval" ng-model="formData.unEval">
-                                        未验证
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">时间段</label>
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-default">时间控件</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">车辆类型</label>
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-default">车辆控件</button>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
                     </form>
+                    <div class="list-group" ng-repeat="item in linkLimitData.linkLimit">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">限制类型</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="item.type">
+                                        <option value="0">道路维修中</option>
+                                        <option value="1">单行限制</option>
+                                        <option value="2">车辆限制</option>
+                                        <option value="3">穿行限制</option>
+                                        <option value="4">施工中不开放</option>
+                                        <option value="5">季节性关闭道路</option>
+                                        <option value="6">Usage Fee Required</option>
+                                        <option value="8">外地车限行</option>
+                                        <option value="9">尾号限行</option>
+                                    </select>
+                                </div>
+                                  <span class="glyphicon glyphicon-minus-sign"
+                                        style="float: right;color: rgb(255, 0, 0);margin-top: -45px"
+                                        ng-click="minusLimit($index)"></span>
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">限制方向</label>
+
+                                <div class="col-sm-9">
+                                  <select class="form-control" ng-model="item.limitDir">
+                                      <option value="0">未调查</option>
+                                      <option value="1">双方向</option>
+                                      <option value="2">顺方向</option>
+                                      <option value="3">逆方向</option>
+                                      <option value="9">不应用</option>
+                                  </select>
+                                </div>
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">收费类型</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="item.tollType">
+                                        <option value="0">无</option>
+                                        <option value="1">收费道路</option>
+                                        <option value="2">桥</option>
+                                        <option value="3">隧道</option>
+                                        <option value="4">公园</option>
+                                        <option value="5">山径</option>
+                                        <option value="6">风景路线</option>
+                                        <option value="9">不应用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">天气条件</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" ng-model="item.weather">
+                                        <option value="0">无</option>
+                                        <option value="1">雨天</option>
+                                        <option value="2">雪天</option>
+                                        <option value="3">雾天</option>
+                                        <option value="9">不应用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">录入时间</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" ng-model="item.inputTime">
+                                </div>
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">赋值方式</label>
+
+                                <div class="col-sm-9">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="processFlagRadio" value="0"
+                                                   ng-model="formData.processFlag">
+                                            默认
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="processFlagRadio" value="1"
+                                                   ng-model="formData.processFlag">
+                                            外业
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="processFlagRadio" value="2"
+                                                   ng-model="formData.processFlag">
+                                            未验证
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">时间段</label>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type="submit" class="btn btn-default">时间控件</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">车辆类型</label>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <button type="submit" class="btn btn-default">车辆控件</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form></div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -161,124 +178,134 @@
                        href="#trafficLimitedDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-minus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
-                    <span class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
+
+                    <span class="glyphicon glyphicon-plus-sign"
+                          style="float: right;color: rgb(255, 0, 0);"
+                            ng-click="addLimitTruck()"></span>
                 </h4>
 
             </div>
             <div id="trafficLimitedDiv" class="panel-collapse collapse in">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">限制方向</label>
-                            <div class="col-sm-9">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="truckProving" value="proved" ng-model="formData.proved">
-                                        已验证
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="truckProving" value="proving" ng-model="formData.proving">
-                                        未验证
-                                    </label>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">限制方向</label>
-
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="">
-                                    <option value="0">未调查</option>
-                                    <option value="1">双方向</option>
-                                    <option value="2">顺方向</option>
-                                    <option value="3">逆方向</option>
-                                    <option value="9">不应用</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">时间段</label>
-                            <div class="col-sm-9">
-                                <div class="row">
-                                    <div class="col-sm-7">
-                                        <input type="text" class="form-control">
+                    <div class="list-group"  ng-repeat="tItem in linkLimitData.linkLimitTruck">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">卡车验证标识</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="truckFlagRadio" value="0" ng-model="tItem.truckFlag">
+                                                已验证
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="truckFlagRadio" value="1" ng-model="tItem.truckFlag">
+                                                未验证
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-default">有效控件</button>
+                                    <span class="glyphicon glyphicon-minus-sign"
+                                          style="float: right;color: rgb(255, 0, 0);margin-top: -39px"
+                                            ng-click="minusLimitTruck($index)"></span>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">限制方向</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="tItem.limitDir">
+                                            <option value="0">未调查</option>
+                                            <option value="1">双方向</option>
+                                            <option value="2">顺方向</option>
+                                            <option value="3">逆方向</option>
+                                            <option value="9">不应用</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">时间段</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" ng-model="tItem.timeDomain">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="submit" class="btn btn-default">有效控件</button>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">拖挂车限制</label>
-
-                            <div class="col-sm-9">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="trailerLimited" value="limited" ng-model="formData.limited">
-                                        限制
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
-                                        不限制
-                                    </label>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">车辆限重</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">拖挂车限制</label>
 
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">限制承重</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">限制轴数</label>
-
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="0">
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">本外埠车辆限制</label>
-
-                            <div class="col-sm-9">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="inOrOutside" value="outsideLimited"
-                                               ng-model="formData.outsideLimited">
-                                        限外埠
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="inOrOutside" value="insideLimited"
-                                               ng-model="formData.insideLimited">
-                                        限本埠
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="inOrOutside" value="unapply" ng-model="formData.unapply">
-                                        不应用
-                                    </label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="resTrailerRadio" value="0" ng-model="tItem.resTrailer">
+                                                限制
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="resTrailerRadio" value="1" ng-model="tItem.resTrailer">
+                                                不限制
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">车辆限重</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" placeholder="0" ng-model="tItem.resWeigh">
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">限制承重</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" placeholder="0" ng-model="tItem.resAxleLoad">
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">限制轴数</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="number" class="form-control" placeholder="0" ng-model="tItem.resAxleCount">
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">本外埠车辆限制</label>
+
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="resOutRadio" value="0"
+                                                       ng-model="tItem.resOut">
+                                                限外埠
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="resOutRadio" value="1"
+                                                       ng-model="tItem.resOut">
+                                                限本埠
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="resOutRadio" value="2"
+                                                       ng-model="tItem.resOut">
+                                                不应用
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+
                 </div>
             </div>
         </div>
