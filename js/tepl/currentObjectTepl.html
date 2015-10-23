@@ -4,6 +4,7 @@
 <script src="../lib/angularjs/1.4.4/angular.js"></script>
 <script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
 <script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
+<script src="data.js"></script>
 <style>
     div {
         font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -93,6 +94,12 @@
 <script>
     var myApp = angular.module("currentApp", []);
     myApp.controller('currentController', function ($scope) {
+        $scope.data = currentTest;
+        $scope.linkLimitData = limitTest;
+        $scope.naviData = naviTest;
+        $scope.rticData = rticTest;
+        $scope.zoneData = zoneTest;
+        $scope.currentURL = "objTepl/basicTepl.html";
         $scope.changeModule=function(url){
             if(url==="basicModule") {
                 $scope.currentURL = "objTepl/basicTepl.html";
@@ -106,6 +113,146 @@
                 $scope.currentURL = "objTepl/limitedTepl.html";
             }
 
+        }
+        $scope.addRoadName=function(){
+            if(!$("#loadPropertyDiv").hasClass("in")) {
+                $("#loadPropertyDiv").addClass("in");
+            }
+            $scope.data.nameCount.unshift({name:"",linkPid:"121"})
+        }
+        $scope.minusRoadName=function(id) {
+            $scope.data.nameCount.splice(id, 1);
+            if($scope.data.nameCount.length===0) {
+                if($("#loadPropertyDiv").hasClass("in")) {
+                    $("#loadPropertyDiv").removeClass("in");
+                }
+            }
+        };
+        $scope.changeDirect=function(direc) {
+            alert("dddd");
+        };
+        $scope.addLimit=function() {
+            if(!$("#popularLimitedDiv").hasClass("in")) {
+                $("#popularLimitedDiv").addClass("in");
+            }
+            $scope.linkLimitData.linkLimit.unshift( {
+                appInfo: "1",
+                type: "1",
+                limitDir: "1",
+                tollType: "1",
+                weather: "1",
+                processFlag: "1"
+            });
+        };
+        $scope.minusLimit=function(id) {
+            $scope.linkLimitData.linkLimit.splice(id, 1);
+
+        };
+        $scope.addLimitTruck = function () {
+            if(!$("#trafficLimitedDiv").hasClass("in")) {
+                $("#trafficLimitedDiv").addClass("in");
+            }
+
+            $scope.linkLimitData.linkLimitTruck.unshift(
+                    {
+                        truckFlag: "1",
+                        limitDir: "1",
+                        resTrailer: "1",
+                        resWeigh: "0",
+                        resAxleLoad: "0",
+                        resAxleCount: "0",
+                        resOut: "0"
+                    }
+            )
+        };
+        $scope.minusLimitTruck=function(id) {
+            $scope.linkLimitData.linkLimitTruck.splice(id, 1);
+            if($scope.linkLimitData.linkLimitTruck.length===0) {
+                if($("#trafficLimitedDiv").hasClass("in")) {
+                    $("#trafficLimitedDiv").removeClass("in");
+                }
+
+            }
+        };
+        $scope.addSideWalk=function() {
+            if(!$("#sideWalkDiv").hasClass("in")) {
+                $("#sideWalkDiv").addClass("in");
+            }
+           $scope.naviData.sideWalkData={
+               sidewalkLoc:"4",
+               dividerType:"2",
+               workDir:"2",
+               processFlag:"1",
+               captureFlag:"1"
+           }
+        };
+        $scope.minusSideWalk = function () {
+            $scope.naviData.sideWalkData = undefined;
+            if($("#sideWalkDiv").hasClass("in")) {
+                $("#sideWalkDiv").removeClass("in");
+            }
+        };
+        $scope.addStairWalk = function () {
+            if(!$("#humanLadderDiv").hasClass("in")) {
+                $("#humanLadderDiv").addClass("in");
+            }
+            $scope.naviData.walkStairData = {
+                stairLoc: "2",
+                stairFlag: "1",
+                workDir: "1",
+                captureFlag: "1"
+            }
+        };
+        $scope.minusStairWalk=function() {
+            $scope.naviData.walkStairData = undefined;
+            if($("#humanLadderDiv").hasClass("in")) {
+                $("#humanLadderDiv").removeClass("in");
+            }
+        };
+        $scope.addIntRtic = function () {
+            if(!$("#wideRTICDiv").hasClass("in")) {
+                $("#wideRTICDiv").addClass("in");
+            }
+            $scope.rticData.intRticData.unshift(
+                    {
+                        code: "0",
+                        rank: "0",
+                        rticDr: "2",
+                        updownFlag: "0",
+                        rangeType: "1"
+                    }
+            )
+        };
+        $scope.minusIntRtic = function (id) {
+            $scope.rticData.intRticData.splice(id, 1);
+            if($scope.rticData.intRticData.length===0) {
+                if($("#wideRTICDiv").hasClass("in")) {
+                    $("#wideRTICDiv").removeClass("in");
+                }
+            }
+        };
+        $scope.addCarRtic = function () {
+            if(!$("#carRTICDiv").hasClass("in")) {
+                $("#carRTICDiv").addClass("in");
+            }
+            $scope.rticData.carRticData.unshift(
+                    {
+                        code: "1",
+                        rank: "1",
+                        rticDir: "2",
+                        updownFlag: "1",
+                        rangeType: "1"
+                    }
+            )
+        };
+        $scope.minusCarRtic=function(id){
+            $scope.rticData.carRticData.splice(id, 1);
+            if($scope.rticData.carRticData.length) {
+                if($("#carRTICDiv").hasClass("in")) {
+                    $("#carRTICDiv").removeClass("in");
+                }
+
+            }
         }
     })
 </script>
