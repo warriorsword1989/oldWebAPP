@@ -25,6 +25,7 @@ referenceModule.controller('referenceLayersController',function($scope) {
         layerArr=layerArr.concat($scope.items.layers);
         console.log(layerArr);
         layerCtrl.fire('layerSwitch', {layerArr: layerArr});
+        //测试代码
         if(item.show) {
             layer1= new L.TileLayer(item.url, item.options).addTo(map);
         }else{
