@@ -3,6 +3,7 @@
  */
 var filedsModule = angular.module('lazymodule', []);
 filedsModule.controller('fieldsResultController', function ($scope) {
+    var selectCtrl = new fastmap.uikit.SelectController();
     $scope.showLayers = function (item) {
         item.choose = !item.choose;
         console.log($scope.items);
@@ -21,6 +22,9 @@ filedsModule.controller('fieldsResultController', function ($scope) {
 //            }
     };
     $scope.showTab=function(item) {
+        var jj = "../tepl/sceneTips.html";
+        selectCtrl.fire("selectAttribute", {feather: item});
+        L.marker([39.907333,  116.391083]).bindPopup(jj).addTo(map);
         alert(item.name);
     };
 })

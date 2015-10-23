@@ -1,4 +1,3 @@
-
 <style>
     #pedestrianDiv {
         border: 1px solid #FBFBFB;
@@ -10,20 +9,41 @@
         <div class="panel-body">
             <form class="form-horizontal" method="get">
                 <div class="form-group">
+                    <label class="col-sm-4 control-label">DICI城市类型</label>
+
+                    <div class="col-sm-8">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="diciTypeRadio" value="0" ng-model="naviData.diciType">
+                                不应用
+                            </label>
+                            <label>
+                                <input type="radio" name="diciTypeRadio" value="1" ng-model="naviData.diciType">
+                                全要素
+                            </label>
+                            <label>
+                                <input type="radio" name="diciTypeRadio" value="2" ng-model="naviData.diciType">
+                                简化版
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
                     <label class="col-sm-4 control-label">人行便道标记</label>
 
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="trailerLimited" value="limited" ng-model="formData.limited">
+                                <input type="radio" name="sideWalkFlagRadio" value="0" ng-model="naviData.sideWalkFlag">
                                 未采集
                             </label>
                             <label>
-                                <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                <input type="radio" name="sideWalkFlagRadio" value="1" ng-model="naviData.sideWalkFlag">
                                 有
                             </label>
                             <label>
-                                <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                <input type="radio" name="sideWalkFlagRadio" value="2" ng-model="naviData.sideWalkFlag">
                                 无
                             </label>
                         </div>
@@ -36,15 +56,18 @@
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="trailerLimited" value="limited" ng-model="formData.limited">
+                                <input type="radio" name="walkStairFlagRadio" value="0"
+                                       ng-model="naviData.walkStairFlag">
                                 未采集
                             </label>
                             <label>
-                                <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                <input type="radio" name="walkStairFlagRadio" value="1"
+                                       ng-model="naviData.walkStairFlag">
                                 有
                             </label>
                             <label>
-                                <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                <input type="radio" name="walkstairFlagRadio" value="2"
+                                       ng-model="naviData.walkStairFlag">
                                 无
                             </label>
                         </div>
@@ -57,15 +80,15 @@
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="trailerLimited" value="limited" ng-model="formData.limited">
+                                <input type="radio" name="walkFlagRadio" value="0" ng-model="naviData.walkFlag">
                                 未调查
                             </label>
                             <label>
-                                <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                <input type="radio" name="walkFlagRadio" value="1" ng-model="naviData.walkFlag">
                                 允许
                             </label>
                             <label>
-                                <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                <input type="radio" name="walkFlagRadio" value="2" ng-model="naviData.walkFlag">
                                 禁止
                             </label>
                         </div>
@@ -78,24 +101,29 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                   人行便道
+                    人行便道
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#sideWalkDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-minus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
-                    <span class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
+                    <span class="glyphicon glyphicon-minus-sign"
+                          style="float: right;color: rgb(255, 0, 0);"
+                          ng-click="minusSideWalk()" ></span>
+                    <span class="glyphicon glyphicon-plus-sign"
+                          style="float: right;color: rgb(255, 0, 0);"
+                          ng-click="addSideWalk()"></span>
                 </h4>
 
             </div>
             <div id="sideWalkDiv" class="panel-collapse collapse">
-                    <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                    <div ng-if="naviData.sideWalkData!=null||naviData.sideWalkData!=undefined">
                         <form class="form-horizontal" method="get">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">位置关系</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="">
+                                    <select class="form-control" ng-model="naviData.sideWalkData.sidewalkLoc">
                                         <option value="0">无</option>
                                         <option value="1">右侧</option>
                                         <option value="2">中间</option>
@@ -113,7 +141,7 @@
                                 <label class="col-sm-3 control-label">隔离方式</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="">
+                                    <select class="form-control" ng-model="naviData.sideWalkData.dividerType">
                                         <option value="0">未调查</option>
                                         <option value="1">高度差隔离(马路涯)</option>
                                         <option value="2">物理栅栏隔离</option>
@@ -129,18 +157,18 @@
                                 <div class="col-sm-9">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="officalOrAlias" value="officalName"
-                                                   ng-model="formData.officalName">
+                                            <input type="radio" name="workDirRadio" value="0"
+                                                   ng-model="naviData.sideWalkData.workDir">
                                             未调查
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="aliasName"
-                                                   ng-model="formData.aliasName">
+                                            <input type="radio" name="workDirRadio" value="1"
+                                                   ng-model="naviData.sideWalkData.workDir">
                                             顺
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="noName"
-                                                   ng-model="formData.noName">
+                                            <input type="radio" name="workDirRadio" value="2"
+                                                   ng-model="naviData.sideWalkData.workDir">
                                             逆
                                         </label>
                                     </div>
@@ -153,13 +181,13 @@
                                 <div class="col-sm-9">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="upper"
-                                                   ng-model="formData.upper">
+                                            <input type="radio" name="processFlagRadio" value="0"
+                                                   ng-model="naviData.sideWalkData.processFlag">
                                             程序赋
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="lower"
-                                                   ng-model="formData.lower">
+                                            <input type="radio" name="processFlagRadio" value="1"
+                                                   ng-model="naviData.sideWalkData.processFlag">
                                             手工赋
                                         </label>
                                     </div>
@@ -172,13 +200,13 @@
                                 <div class="col-sm-9">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="upper"
-                                                   ng-model="formData.upper">
+                                            <input type="radio" name="captureFlagRadio" value="0"
+                                                   ng-model="naviData.sideWalkData.captureFlag">
                                             未采集
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="lower"
-                                                   ng-model="formData.lower">
+                                            <input type="radio" name="captureFlagRadio" value="1"
+                                                   ng-model="naviData.sideWalkData.captureFlag">
                                             外业确认
                                         </label>
                                     </div>
@@ -186,6 +214,8 @@
                             </div>
                         </form>
                     </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -193,24 +223,29 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                   人行阶梯
+                    人行阶梯
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#humanLadderDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-minus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
-                    <span class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(255, 0, 0);"></span>
+                    <span class="glyphicon glyphicon-minus-sign"
+                          style="float: right;color: rgb(255, 0, 0);"
+                          ng-click="minusStairWalk()"></span>
+                    <span class="glyphicon glyphicon-plus-sign"
+                          style="float: right;color: rgb(255, 0, 0);"
+                          ng-click="addStairWalk()"></span>
                 </h4>
 
             </div>
             <div id="humanLadderDiv" class="panel-collapse collapse">
-                    <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                    <div ng-if="naviData.walkStairData!=null||naviData.walkStairData!=undefined">
                         <form class="form-horizontal" method="get">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">位置关系</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="">
+                                    <select class="form-control" ng-model="naviData.walkStairData.stairLoc">
                                         <option value="0">无</option>
                                         <option value="1">右侧</option>
                                         <option value="2">中间</option>
@@ -229,18 +264,18 @@
                                 <div class="col-sm-9">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="officalOrAlias" value="officalName"
-                                                   ng-model="formData.officalName">
+                                            <input type="radio" name="stairFlagRadio" value="0"
+                                                   ng-model="naviData.walkStairData.stairFlag">
                                             未调查
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="aliasName"
-                                                   ng-model="formData.aliasName">
+                                            <input type="radio" name="stairFlagRadio" value="1"
+                                                   ng-model="naviData.walkStairData.stairFlag">
                                             上坡
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="noName"
-                                                   ng-model="formData.noName">
+                                            <input type="radio" name="stairFlagRadio" value="2"
+                                                   ng-model="naviData.walkStairData.stairFlag">
                                             下坡
                                         </label>
                                     </div>
@@ -253,18 +288,18 @@
                                 <div class="col-sm-9">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="upper"
-                                                   ng-model="formData.upper">
+                                            <input type="radio" name="workDirRadio" value="0"
+                                                   ng-model="naviData.walkStairData.workDir">
                                             未调查
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="lower"
-                                                   ng-model="formData.lower">
+                                            <input type="radio" name="workDirRadio" value="1"
+                                                   ng-model="naviData.walkStairData.workDir">
                                             顺
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="lower"
-                                                   ng-model="formData.lower">
+                                            <input type="radio" name="workDirRadio" value="2"
+                                                   ng-model="naviData.walkStairData.workDir">
                                             逆
                                         </label>
                                     </div>
@@ -277,13 +312,13 @@
                                 <div class="col-sm-9">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="upper"
-                                                   ng-model="formData.upper">
+                                            <input type="radio" name="captureFlagRadio" value="0"
+                                                   ng-model="naviData.walkStairData.captureFlag">
                                             未采集
                                         </label>
                                         <label>
-                                            <input type="radio" name="upperOrLower" value="lower"
-                                                   ng-model="formData.lower">
+                                            <input type="radio" name="captureFlagRadio" value="1"
+                                                   ng-model="naviData.walkStairData.captureFlag">
                                             外业确认
                                         </label>
                                     </div>
@@ -291,6 +326,7 @@
                             </div>
                         </form>
                     </div>
+                </div>
             </div>
         </div>
     </div>

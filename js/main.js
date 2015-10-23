@@ -9,11 +9,13 @@ requirejs.config({
         'angular': 'lib/angularjs/1.4.4/angular.min',
         'leaflet':'lib/leaflet-0.7.3/leaflet-src',
         'select2':'lib/select2/4.0.0/js/select2',
+        'fastmap':"fastmap/fastmapapi",
         'lodash':'lib/lodash/lodash',
         'test': 'app',
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
-        'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require'
+        'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
+        'layers':"config"
 
     },
     shim: {
@@ -23,7 +25,7 @@ requirejs.config({
         'ocLazyLoad': ['angular'],
         'ngLayout': ['angular'],
         'smart-table':['angular'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','leaflet','select2']
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2','layers']
     }
 });
 
