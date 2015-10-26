@@ -48,6 +48,7 @@
                 "fastmap/dataApi/datamodel/GeoDataModel.js",
                 "fastmap/dataApi/datamodel/Rdlink.js",
                 "fastmap/dataApi/datamodel/Rdnode.js",
+                "fastmap/dataApi/ajaxConstruct.js",
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
                 "fastmap/mapApi/geometry/Collection.js",
@@ -99,7 +100,6 @@
                 "fastmap/uikit/ctlmodel/FeatCode.js",
                 "fastmap/uikit/ctlmodel/OutPut.js",
                 "fastmap/uikit/ctlmodel/ToolTip.js"
-
             ]; // etc.
         }
 

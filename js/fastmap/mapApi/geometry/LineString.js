@@ -82,7 +82,36 @@ fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
      * @returns {number}
      */
     pointToSegmentDistance: function (/*Point*/ p, /*Point*/ p1, /*Point*/ p2) {
-        return Math.sqrt(this._sqClosestPointOnSegment(p, p1, p2, true));
+        return this._sqClosestPointOnSegment(p, p1, p2);
+    },
+
+    _sqClosestPointOnSegment: function(p, p1, p2){
+        var x0 = p.x;
+        var y0 = p.y;
+        var x1 = p1.x;
+        var y1 = p1.y;
+        var x2 = p2.x;
+        var y2 = p2.y;
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        var along = ((dx * (x0 - x1)) + (dy * (y0 - y1))) /
+            (Math.pow(dx, 2) + Math.pow(dy, 2));
+        var x, y;
+        if(along <= 0.0) {
+            x = x1;
+            y = y1;
+        } else if(along >= 1.0) {
+            x = x2;
+            y = y2;
+        } else {
+            x = x1 + along * dx;
+            y = y1 + along * dy;
+        }
+        return {
+            distance:Math.sqrt(Math.pow(x - x0, 2) + Math.pow(y - y0, 2)) ,
+            x: x, y: y,
+            along: along
+        };
     },
     /**
      *判断线是否交汇
@@ -149,13 +178,14 @@ fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
     /**
      * 获取组成线的片段
      *@method getSortedSegments
+     * @param {Boolean}boolsort 是否返回排序的片段
      * Returns:
      * {Array} An array of segment objects.  Segment objects have properties
      *     x1, y1, x2, and y2.  The start point is represented by x1 and y1.
      *     The end point is represented by x2 and y2.  Start and end are
      *     ordered so that x1 < x2.
      */
-    getSortedSegments: function () {
+    getSortedSegments: function (boolsort) {
         var numSeg = this.components.length - 1;
         var segments = new Array(numSeg), point1, point2;
         for(var i=0; i<numSeg; ++i) {
@@ -181,8 +211,12 @@ fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
         function byX1(seg1, seg2) {
             return seg1.x1 - seg2.x1;
         }
-        return segments.sort(byX1);
 
+        if(boolsort == true){
+            return segments.sort(byX1)
+        }else{
+            return segments;
+        }
     },
     /**
      *把线分离成多个片段

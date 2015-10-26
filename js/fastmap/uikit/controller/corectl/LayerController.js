@@ -3,10 +3,11 @@
  */
 
 
-fastmap.uikit.LayerController=(function() {
+fastmap.uikit.LayerController = (function () {
     var instantiated;
+
     function init(options) {
-            var layerController = L.Class.extend({
+        var layerController = L.Class.extend({
             /**
              * 事件管理器
              * @property includes
@@ -24,24 +25,34 @@ fastmap.uikit.LayerController=(function() {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.layers = [];
+                this.initLayer();
                 this.on('layerOnAdd', this.OnAddLayer, this);
                 this.on('layerOnRemove', this.OnRemoveLayer, this);
                 this.on("layerSwitch", this.OnSwitchLayer, this);
             },
-                /**
-                 * 图层显示隐藏转换方法
-                 * @method OnSwitchLayer
-                 * @param event
-                 */
-                OnSwitchLayer:function(event) {
-                    var layerArr = event.layerArr;
-                    for(var i= 0,len=layerArr.length;i<len;i++) {
-                            this.setLayerVisible(layerArr[i].id,layerArr[i].show);
 
+            initLayer: function () {
+                for (var group in fastmap.layersConfig.groups) {
+                    for (var layer in fastmap.layersConfig.groups[group].layers) {
 
+                        this.layers.push(fastmap.layersConfig.groups[group].layers[layer].clazz(fastmap.layersConfig.groups[group].layers[layer].url, fastmap.layersConfig.groups[group].layers[layer].options));
                     }
+                }
+            },
+            /**
+             * 图层显示隐藏转换方法
+             * @method OnSwitchLayer
+             * @param event
+             */
+            OnSwitchLayer: function (event) {
+                var layerArr = event.layerArr;
+                for (var i = 0, len = layerArr.length; i < len; i++) {
+                    this.setLayerVisible(layerArr[i].id, layerArr[i].show);
 
-                },
+
+                }
+
+            },
             /**
              * 添加图层
              * @method OnAddLayer
@@ -58,7 +69,13 @@ fastmap.uikit.LayerController=(function() {
              * @constructor
              */
             OnRemoveLayer: function (layer) {
-                this.layers.remove(layer);
+
+                for(var item in this.layers){
+                    if(layer === this.layers[item]){
+                        this.layers.splice(item + 1, 1);
+                    }
+                }
+
             },
             /**
              * 显示的图层
@@ -66,9 +83,9 @@ fastmap.uikit.LayerController=(function() {
              * @param {Layer}layer
              * @param flag
              */
-            setLayerVisible: function (id,flag) {
+            setLayerVisible: function (id, flag) {
                 var layer = this.getLayerById(id);
-                this.fire('layerOnShow', {layer: layer,flag:flag});
+                this.fire('layerOnShow', {layer: layer, flag: flag});
             },
             /**
              * 可编辑的图层
@@ -76,6 +93,12 @@ fastmap.uikit.LayerController=(function() {
              * @param {Layer}layer
              */
             setLayerEditable: function (layer) {
+
+                for(var item in this.layers){
+                    if(layer === this.layers[item]){
+                        this.layers.options. editable = true;
+                    }
+                }
                 this.fire('layerOnEdit', {layer: layer});
             },
             /**
@@ -92,7 +115,12 @@ fastmap.uikit.LayerController=(function() {
              * @returns {Array}
              */
             getVisibleLayers: function () {
-                var layers = [];
+                var layers = []
+                for(var item in this.layers){
+                    if(this.layers[item].options.visible == true){
+                        layers.push(this.layers[item])
+                    }
+                }
                 return layers;
             },
             /**
@@ -102,7 +130,12 @@ fastmap.uikit.LayerController=(function() {
              * @returns {L.TileLayer.WMS.defaultWmsParams.layers|*|o.TileLayer.WMS.defaultWmsParams.layers|i.TileLayer.WMS.defaultWmsParams.layers|Array|L.control.layers}
              */
             getLayerById: function (id) {
-                var layer = this.layers;
+                var layer = null;
+                for(var item in this.layers){
+                    if(this.layers[item].options.id === id){
+                        layer = this.layers[item];
+                    }
+                }
                 return layer;
             },
             /**
@@ -112,6 +145,11 @@ fastmap.uikit.LayerController=(function() {
              */
             getSelectableLayers: function () {
                 var layers = [];
+                for(var item in this.layers){
+                    if(this.layers[item].options.selected == true){
+                        layers.push(this.layers[item])
+                    }
+                }
                 return layers;
             },
             /**
@@ -121,13 +159,19 @@ fastmap.uikit.LayerController=(function() {
              */
             getEditableLayers: function () {
                 var layers = [];
+                for(var item in this.layers){
+                    if(this.layers[item].options.editable == true){
+                        layers.push(this.layers[item])
+                    }
+                }
                 return layers;
             }
 
         });
         return new layerController(options);
     }
-    return function(options) {
+
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
