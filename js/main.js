@@ -6,7 +6,7 @@ requirejs.config({
     paths: {
         'jquery': 'lib/jquery/2.1.1/jquery-2.1.1',
         'bootstrap':'lib/bootstrap-3.3.5/js/bootstrap',
-        'angular': 'lib/angularjs/1.4.4/angular.min',
+        'angular': 'lib/angularjs/1.4.4/angular',
         'leaflet':'lib/leaflet-0.7.3/leaflet-src',
         'select2':'lib/select2/4.0.0/js/select2',
         'fastmap':"fastmap/fastmapapi",
@@ -15,7 +15,9 @@ requirejs.config({
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
-        'layers':"config"
+        'layers':"config",
+        "testData":"tepl/data"
+
 
     },
     shim: {
@@ -25,7 +27,7 @@ requirejs.config({
         'ocLazyLoad': ['angular'],
         'ngLayout': ['angular'],
         'smart-table':['angular'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2','layers']
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2','layers','testData']
     }
 });
 

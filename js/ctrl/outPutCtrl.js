@@ -3,6 +3,10 @@
  */
 var outPutModule = angular.module('lazymodule', ['smart-table']);
 outPutModule.controller('outPutController',function($scope) {
+    var outPutCtrl;
+    if(!outPutCtrl) {
+        outPutCtrl = new fastmap.uikit.OutPutController();
+    }
     var
         nameList = ['Pierre', 'Pol', 'Jacques', 'Robert', 'Elisa'],
         familyName = ['Dupont', 'Germain', 'Delcourt', 'bjip', 'Menez'];
