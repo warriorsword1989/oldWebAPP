@@ -3,8 +3,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     initMap('map');
     dragF('toolsDiv');
     dragF('toolsDiv1');
-    //dragF1('popoverTips', 'parentId');
-
+    Application.functions.getTipsStatics()
     $scope.changeLayers = function (layers) {
         $scope.items = [
             {id:"123",name: "test1", show: true, choose: false, editor: true},
@@ -165,3 +164,5 @@ function dragF1(id,pId) {
         }
     });
 }
+
+

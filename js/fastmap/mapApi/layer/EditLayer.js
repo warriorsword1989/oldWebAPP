@@ -27,16 +27,18 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.shapEditor =  fastmap.uikit.ShapeEditorController();
 
         this.shapEditor.on('startshapeeditresultfeedback',delegateDraw );
-        function delegateDraw(){
+        function delegateDraw(event){
             if(that.shapEditor.shapeEditorResult == null){
                 return;
             }
             that.drawGeometry = that.shapEditor.shapeEditorResult.getFinalGeometry();
-            that.draw(that.drawGeometry,that);
+            that.clear();
+            that.draw(that.drawGeometry, that, event.index);
         }
 
         this.shapEditor.on('stopshapeeditresultfeedback',function(){
-
+            this.map._container.style.cursor = '';
+            that._redraw();
         });
 
 
@@ -66,17 +68,24 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         map.getPanes().overlayPane.removeChild(this._div);
         map.off("moveend", this._redraw, this);
     },
-    draw: function (currentGeo,self) {
+
+    /***
+     * 绘制几何图形
+     * @param currentGeo 当前几何
+     * @param self
+     * @param index 鼠标拖动的当前点
+     */
+    draw: function (currentGeo,self, index) {
         if(!currentGeo){
             return;
         }
         this.drawGeometry = currentGeo;
         switch(this.drawGeometry.type) {
             case 'LineString':
-                drawLineString(currentGeo.points, {color: 'red', size: 2}, false);
+                drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
                 break;
             case 'Point':
-                drawPoint(currentGeo.points, {color: 'red', radius: 3}, false);
+                drawPoint(currentGeo.components, {color: 'red', radius: 3}, false);
                 break;
             case'Polygon':
                 drawPolygon();
@@ -105,7 +114,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
 
-        function drawLineString(geom, style, boolPixelCrs) {
+        function drawLineString(geom, style, boolPixelCrs, index) {
             if (!geom) {
                 return;
             }
@@ -118,7 +127,12 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                     proj.push({x:geom[i][0],y:geom[i][1]});
                 }else{
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
-                    drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'red', radius:3},true)
+                    if(i == index){
+                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'blue', radius:4},true)
+                    }else{
+                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'red', radius:3},true)
+                    }
+
                 }
             }
             //if (!this._isActuallyVisible(proj)) {

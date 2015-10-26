@@ -4,6 +4,7 @@
 requirejs.config({
     baseUrl: 'js/',
     paths: {
+        'application':'Application',
         'jquery': 'lib/jquery/2.1.1/jquery-2.1.1',
         'bootstrap':'lib/bootstrap-3.3.5/js/bootstrap',
         'angular': 'lib/angularjs/1.4.4/angular.min',
@@ -15,8 +16,8 @@ requirejs.config({
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
-        'layers':"config"
-
+        'layers':"config",
+        'applicationfuns':'functions/appfunctions'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -25,7 +26,8 @@ requirejs.config({
         'ocLazyLoad': ['angular'],
         'ngLayout': ['angular'],
         'smart-table':['angular'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2','layers']
+        'applicationfuns':['application'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2','layers', 'application','applicationfuns']
     }
 });
 
