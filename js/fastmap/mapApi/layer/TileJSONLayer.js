@@ -13,10 +13,10 @@
          *
          * @param {Object}options
          */
-        initialize: function (options) {
+        initialize: function (url, options) {
             this.options = options || {};
             L.Util.setOptions(this, options);
-            this.url = options.url ||"";
+            this.url = url;
             this.style = options.style||"";
             this.type = options.type||"";
             this.tiles = {};
@@ -30,7 +30,7 @@
                 };
                 L.DomEvent
                     .on(canvas, "mousemove", function (e) {
-                        that.drawGeomCanvasHighlight(e, canvas,tilePoint);
+                        //that.drawGeomCanvasHighlight(e, canvas,tilePoint);
                     });
 
                 if (this.options.debug) {
@@ -324,7 +324,7 @@
             //coords = L.LineUtil.simplify(coords, 1);
             for (i = 0; i < coords.length; i++) {
                 if(boolPixelCrs){
-                    proj.push({x:coords[i][0],y:coords[i][1]});
+                    proj.push({x:coords[i][0][0],y:coords[i][0][1]});
                 }else{
                     proj.push(this._tilePoint(ctx, coords[i]));
                 }
@@ -571,8 +571,12 @@
 
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                    url =  this.url+
-                    'z=' + this._map.getZoom() + '&x=' + tiles[0] + '&y=' + tiles[1];
+                    //url =  this.url+
+                    //'z=' + this._map.getZoom() + '&x=' + tiles[0] + '&y=' + tiles[1];
+
+                    url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":2,"type":["RDLINK"]}'
+
+
 
                     break;
                 case "fusionroad":
@@ -686,7 +690,7 @@
                     var c = feature.properties.color;
                     var color = RD_LINK_Colors[parseInt(c)];
                     return {
-                        size: 1,
+                        size: 5,
                         color: color,
                         mouseOverColor: 'rgba(255,0,0,1)',
                         clickColor: 'rgba(252,0,0,1)'
@@ -713,6 +717,6 @@ fastmap.mapApi.TileJSON.addInitHook(function () {
     this.isVisiable = this.options.isVisiable ? true : false;
     this.isSelectable = this.options.isSelectable ? true : false;
 });
-fastmap.mapApi.tileJSON=function(options) {
-    return new fastmap.mapApi.TileJSON(options);
+fastmap.mapApi.tileJSON=function(url, options) {
+    return new fastmap.mapApi.TileJSON(url, options);
 };

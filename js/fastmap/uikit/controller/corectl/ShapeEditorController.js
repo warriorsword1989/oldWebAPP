@@ -112,24 +112,26 @@ fastmap.uikit.ShapeEditorController=(function() {
                         case 'pathcopy':
                             this.currentTool = this.shapeEditorToolsObj['pathcopy'];
                             break;
-                        case  'deletePoint':
-                            this.currentTool = function (line, point) {
-                                line.deletePoint(point);
-                            }
+                        case  'pathVertexReMove':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
+                            break;
+                        case  'pathVertexAdd':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
                             break;
                         case  'reShape':
                             this.currentTool = function (line) {
                                 line.reShape();
                             }
                             break;
-                        case  'pathVertextInsert':
+                        case  'pathVertexInsert':
                             this.currentTool = toolsObj[type];
                             this.currentTool.enable();
                             break;
-                        case 'movePoint':
-                            this.currentTool = function (line, point) {
-                                line.movePoint(point);
-                            }
+                        case 'pathVertexMove':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
                             break;
                         case 'extendLine':
                             this.currentTool = function (line, point) {

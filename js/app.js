@@ -19,7 +19,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             $scope.layersURL = 'js/tepl/filedsResultTepl.html';
         }
     );
-
+    Application.functions.getTipsStatics()
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -139,3 +139,5 @@ function dragF1(id,pId) {
         }
     });
 }
+
+

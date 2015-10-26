@@ -13,11 +13,14 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
         L.setOptions(this, options);
     },
 
-    CreateShapeToolsObject: function (shapEditor) {
+    CreateShapeToolsObject: function (shapeEditor) {
         var toolsObject = {
             'pathcopy': new fastmap.uikit.PathCopy(),
             'pathcut': new fastmap.uikit.PathCut(),
-            'pathVertextInsert': new fastmap.uikit.PathVertexInsert({shapEditor:shapEditor})
+            'pathVertexInsert': new fastmap.uikit.PathVertexInsert({shapeEditor:shapeEditor}),
+            'pathVertexMove': new fastmap.uikit.PathVertexMove({shapeEditor:shapeEditor}),
+            'pathVertexReMove': new fastmap.uikit.PathVertexRemove({shapeEditor:shapeEditor}),
+            'pathVertexAdd': new fastmap.uikit.PathVertexAdd({shapeEditor:shapeEditor})
         };
         return toolsObject;
     }
