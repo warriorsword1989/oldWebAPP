@@ -13,10 +13,10 @@
          *
          * @param {Object}options
          */
-        initialize: function (options) {
+        initialize: function (url, options) {
             this.options = options || {};
             L.Util.setOptions(this, options);
-            this.url = options.url ||"";
+            this.url = url;
             this.style = options.style||"";
             this.type = options.type||"";
             this.tiles = {};
@@ -717,6 +717,6 @@ fastmap.mapApi.TileJSON.addInitHook(function () {
     this.isVisiable = this.options.isVisiable ? true : false;
     this.isSelectable = this.options.isSelectable ? true : false;
 });
-fastmap.mapApi.tileJSON=function(options) {
-    return new fastmap.mapApi.TileJSON(options);
+fastmap.mapApi.tileJSON=function(url, options) {
+    return new fastmap.mapApi.TileJSON(url, options);
 };

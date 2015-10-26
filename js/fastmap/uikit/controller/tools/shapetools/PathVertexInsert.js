@@ -72,8 +72,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
                 latlng =this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2))));
                 index = i;
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
-                this.shapeEditor.shapeEditorResult.getFinalGeometry().components
-                    .splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat));
+
                 this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
             }
         }

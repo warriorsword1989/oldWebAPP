@@ -178,13 +178,14 @@ fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
     /**
      * 获取组成线的片段
      *@method getSortedSegments
+     * @param {Boolean}boolsort 是否返回排序的片段
      * Returns:
      * {Array} An array of segment objects.  Segment objects have properties
      *     x1, y1, x2, and y2.  The start point is represented by x1 and y1.
      *     The end point is represented by x2 and y2.  Start and end are
      *     ordered so that x1 < x2.
      */
-    getSortedSegments: function () {
+    getSortedSegments: function (boolsort) {
         var numSeg = this.components.length - 1;
         var segments = new Array(numSeg), point1, point2;
         for(var i=0; i<numSeg; ++i) {
@@ -210,8 +211,12 @@ fastmap.mapApi.LineString = fastmap.mapApi.Collection.extend({
         function byX1(seg1, seg2) {
             return seg1.x1 - seg2.x1;
         }
-        return segments.sort(byX1);
 
+        if(boolsort == true){
+            return segments.sort(byX1)
+        }else{
+            return segments;
+        }
     },
     /**
      *把线分离成多个片段

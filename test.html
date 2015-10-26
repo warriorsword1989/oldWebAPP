@@ -7,7 +7,9 @@
     <title>FastMap API</title>
     <link href="js/lib/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css" />
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+
     <script src="js/fastmap/fastmapapi.js"></script>
+    <script src="js/layerconfig.js"></script>
     <script src="js/lib/jquery/jquery-1.11.1.js"></script>
 </head>
 <body>
@@ -161,7 +163,9 @@
         sobj.setFinalGeometry(line);
         shapectl3.startEditing(sobj);
 
-    })
+    });
+
+    var layerc = new fastmap.uikit.LayerController();
 </script>
 
 </html>
