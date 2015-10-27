@@ -19,7 +19,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             $scope.layersURL = 'js/tepl/filedsResultTepl.html';
         }
     );
-
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
