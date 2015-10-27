@@ -11,9 +11,9 @@ Application.functions = Application.functions ||{};
  * @param func
  */
 Application.functions.getTipsStatics = function(meshidArray, stage,func){
-    fastmap.dataApi.ajaxConstruct('http://192.168.4.130/FosEngineWeb/fcc/tip/getStats?parameter={"grids[":'+meshidArray.toString()+'],"stage":['+stage.toString()+']}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getStats?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+']}',
         function(data){
-            console.log(func(data));
+            func(data)
         }
     )
 }
