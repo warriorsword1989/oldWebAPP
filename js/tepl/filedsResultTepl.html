@@ -3,12 +3,12 @@
 <div ng-controller="fieldsResultController" class="nav-tabs-alt">
     <ul id="myTab" class="nav nav-tabs nav-justified">
         <li class="active">
-            <a href="#allTaskers" data-toggle="tab">
+            <a href="#allTaskers" data-toggle="tab" ng-click="changeList('0')">
                 全部
             </a>
         </li>
-        <li><a href="#pendingTaskers" data-toggle="tab">待处理</a></li>
-        <li><a href="#solvedTaskers" data-toggle="tab">已处理</a></li>
+        <li><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList('1')">待处理</a></li>
+        <li><a href="#solvedTaskers" data-toggle="tab" ng-click="changeList('3')">已处理</a></li>
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="allTaskers">
@@ -22,7 +22,7 @@
                         <div class="panel-heading" style="background-color: #F6F8F8">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion"
-                                   href="#{{pItem.id}}" ng-click="showContent(item)">
+                                   href="#{{pItem.id}}" ng-click="showContent(item,'0')">
                                     <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                 </a>
                             </h4>
@@ -30,8 +30,8 @@
                             <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
                             <div>
                                 <span style="font-size: 15px">{{pItem.name}}</span>
-                                <input style="float:right;" type="checkbox" ng-checked="pItem.choose"
-                                       ng-click="showLayers(pItem)"/>
+                                <!--<input style="float:right;" type="checkbox" ng-checked="pItem.choose"-->
+                                       <!--ng-click="showLayers(pItem)"/>-->
                             </div>
                             <div style="margin:5px 20px">
                                 <span>FR: {{pItem.name}}</span>
@@ -62,7 +62,7 @@
                             <div class="panel-heading" style="background-color: #F6F8F8">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion"
-                                       href="#{{pendItem.id}}show" ng-click="showContent(pendItem)">
+                                       href="#{{pendItem.id}}show" ng-click="showContent(pendItem,'1')">
                                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                     </a>
                                 </h4>
@@ -103,7 +103,7 @@
                             <div class="panel-heading" style="background-color: #F6F8F8">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion"
-                                       href="#{{solveItem.id}}unshow" ng-click="showContent(solveItem)">
+                                       href="#{{solveItem.id}}unshow" ng-click="showContent(solveItem,'3')">
                                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                     </a>
                                 </h4>
