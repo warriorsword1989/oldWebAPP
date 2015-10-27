@@ -3,5 +3,5 @@
  * Class Application
  */
 Application = {};
-Application.url = 'http://192.168.3.155/fos/datum';
+Application.url = 'http://192.168.4.130/FosEngineWeb';
 

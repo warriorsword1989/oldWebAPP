@@ -3,7 +3,10 @@
  */
 var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
 filedsModule.controller('fieldsResultController',['$rootScope','$scope', '$ocLazyLoad',function ($rootScope,$scope,$ocLazyLoad) {
-        $scope.items = items;
+        Application.functions.getTipsStatics([59567201],[1,3],function(data){
+            $scope.items = items;
+        })
+
         var selectCtrl;
         if(!selectCtrl) {
             selectCtrl = new fastmap.uikit.SelectController();
