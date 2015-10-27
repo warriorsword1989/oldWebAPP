@@ -3,7 +3,11 @@
  */
 var referenceModule = angular.module('lazymodule', []);
 referenceModule.controller('referenceLayersController',function($scope) {
-    var layerCtrl = new fastmap.uikit.LayerController();
+    var layerCtrl;
+    if(!layerCtrl) {
+       layerCtrl = new fastmap.uikit.LayerController();
+
+    }
     $scope.items = layer;
     console.log($scope.items);
     var layer1 = null,singleLayer=null,layerArr=[];

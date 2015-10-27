@@ -2,7 +2,11 @@
  * Created by liwanchong on 2015/10/10.
  */
 var errorCheckModule = angular.module('lazymodule', ['smart-table']);
-errorCheckModule.controller('errorCheckController',function($scope) {
+errorCheckModule.controller('errorCheckController', function ($scope) {
+    var errorCheckCtrl;
+    if(!errorCheckCtrl) {
+        errorCheckCtrl = new fastmap.uikit.CheckResultController();
+    }
     var
         nameList = ['Pierre', 'Pol', 'Jacques', 'Robert', 'Elisa'],
         familyName = ['Dupont', 'Germain', 'Delcourt', 'bjip', 'Menez'];
