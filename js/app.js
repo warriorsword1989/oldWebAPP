@@ -1,6 +1,6 @@
 ﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
-    initMap('map');
+    appInit()
     dragF('toolsDiv');
     dragF('toolsDiv1');
     dragF1('popoverTips', 'parentId');
@@ -11,15 +11,15 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.cancel = "";
     $scope.rdRestrictData ={};
     //登录时
-    $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-            $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+
+    $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
+            $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
+            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
+                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+                }
+            );
         }
     );
-    $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-            $scope.layersURL = 'js/tepl/filedsResultTepl.html';
-        }
-    );
-    Application.functions.getTipsStatics()
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -32,7 +32,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                     $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 }
             );
-        } else if (layers === "referenceLayers") {
+        }
+        else if (layers === "referenceLayers") {
             $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
                     $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
                 }
@@ -57,16 +58,31 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 
     };
 }]);
-var map = null,dataTipsURL=null;
-function initMap(id) {
+
+
+var map = null;
+function appInit(){
+
     map = L.map('map',{ attributionControl: false}).setView([39.907333, 116.391083], 17);
+    var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
+    //layerCtrl.getLayerById('work').options.zIndex = 9
+    //layerCtrl.getLayerById('work').addTo(map);
+    layerCtrl.on('layerOnShow',function(event){
+        if(event.flag == true){
+            map.addLayer(event.layer);
+        }else{
+            map.removeLayer(event.layer);
+        }
+    })
+    for(var layer in layerCtrl.getVisibleLayers()){
+        map.addLayer(layerCtrl.getVisibleLayers()[layer]);
+    }
 
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: null
 
 
-    }).addTo(map);
-};
+}
+
+
 function dragF(id) {
     var $dragDiv = $('#' + id),
         $parentDiv = $('#map');
