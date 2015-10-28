@@ -20,7 +20,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             );
         }
     );
-
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
