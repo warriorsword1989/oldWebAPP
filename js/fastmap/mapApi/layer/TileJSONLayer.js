@@ -14,13 +14,13 @@
          * @param {Object}options
          */
         initialize: function (url, options) {
-            this.options = options || {};
+            this.options = this.options || {};
             L.Util.setOptions(this, options);
             this.url = url;
-            this.style = options.style||"";
-            this.type = options.type||"";
+            this.style = this.options.style||"";
+            this.type = this.options.type||"";
             this.tiles = {};
-            this.mecator = options.mecator||"";
+            this.mecator = this.options.mecator||"";
             var that = this;
             this.drawTile = function (canvas, tilePoint, zoom) {
                 var ctx = {
