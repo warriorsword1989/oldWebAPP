@@ -24,6 +24,7 @@ fastmap.uikit.LayerController = (function () {
             initialize: function (options) {
                 this.options = options || {};
                 L.setOptions(this, options);
+                this.config = this.options.config;
                 this.layers = [];
                 this.initLayer();
                 this.on('layerOnAdd', this.OnAddLayer, this);
@@ -32,10 +33,10 @@ fastmap.uikit.LayerController = (function () {
             },
 
             initLayer: function () {
-                for (var group in fastmap.layersConfig.groups) {
-                    for (var layer in fastmap.layersConfig.groups[group].layers) {
-
-                        this.layers.push(fastmap.layersConfig.groups[group].layers[layer].clazz(fastmap.layersConfig.groups[group].layers[layer].url, fastmap.layersConfig.groups[group].layers[layer].options));
+                for (var group in this.config) {
+                    for (var layer in this.config[group].layers) {
+                        this.config[group].layers[layer].options.groupid = this.config[group].groupid;
+                        this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));
                     }
                 }
             },
@@ -47,7 +48,7 @@ fastmap.uikit.LayerController = (function () {
             OnSwitchLayer: function (event) {
                 var layerArr = event.layerArr;
                 for (var i = 0, len = layerArr.length; i < len; i++) {
-                    this.setLayerVisible(layerArr[i].id, layerArr[i].show);
+                    this.setLayerVisible(layerArr[i].options.id, layerArr[i].options.visible);
 
 
                 }

@@ -4,7 +4,7 @@
 var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
 filedsModule.controller('fieldsResultController',['$rootScope','$scope', '$ocLazyLoad',function ($rootScope,$scope,$ocLazyLoad) {
         Application.functions.getTipsStatics([59567201],[1,3],function(data){
-            $scope.items = items;
+            $scope.items = data;
         })
 
         var selectCtrl;

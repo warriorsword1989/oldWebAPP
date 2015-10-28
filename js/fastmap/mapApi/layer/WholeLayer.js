@@ -10,7 +10,7 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
      */
     initialize: function (options) {
         this.options = options || {};
-        fastmap.mapApi.Layer.prototype.initialize.call(this, options);
+        fastmap.mapApi.Layer.prototype.initialize.call(this,options);
     },
 
     /***
