@@ -3,6 +3,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     appInit()
     dragF('toolsDiv');
     dragF('toolsDiv1');
+    dragF("popToolBar");
     dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";
     $scope.objectEditURL = "";
@@ -10,16 +11,34 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.delete = "";
     $scope.cancel = "";
     $scope.rdRestrictData ={};
+    $scope.dataTipsTest = {};
+    $scope.$on("dataTipsToParent", function (event, data) {
+        $scope.$broadcast("dataTipsToChild", data);
+    });
     //登录时
 
-    $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
-            $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
-            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
-                }
-            );
-        }
-    );
+    $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
+        $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+        $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
+                $scope.layersURL = 'js/tepl/filedsResultTepl.html';
+                $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
+                        $scope.modifyToolURL = 'js/tepl/modifyToolTepl.html';
+                        $scope.layersURL = 'js/tepl/filedsResultTepl.html';
+                        $ocLazyLoad.load('ctrl/selectShapeCtrl').then(function () {
+                                $scope.selectShapeURL = 'js/tepl/selectShapeTepl.html';
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
+
+
+
+
+
+
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -59,7 +78,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     };
 }]);
 
-
 var map = null;
 function appInit(){
 
@@ -82,7 +100,7 @@ function appInit(){
 
 }
 
-
+var map = null;
 function dragF(id) {
     var $dragDiv = $('#' + id),
         $parentDiv = $('#map');

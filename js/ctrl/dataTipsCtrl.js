@@ -3,13 +3,17 @@
  */
 var dataTipsApp = angular.module("lazymodule", []);
 dataTipsApp.controller("sceneTipsController", function ($scope) {
-    var dataTipsCtrl;
-    if (!dataTipsCtrl) {
-        var dataTipsCtrl = new fastmap.uikit.DataTipsController();
-    }
-    //$scope.dataTipsData = dataTipsCtrl.getDataTipsData();
-    $scope.dataTipsData = dataTipsData;
 
+        var dataTipsCtrl = new fastmap.uikit.DataTipsController();
+        selectCtrl= new fastmap.uikit.SelectController();
+
+
+
+
+    //$scope.$on("dataTipsToChild", function (event, data) {
+    //    $scope.dataTipsData = data;
+    //});
+    $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
         //alert($scope.dataTipsData.name);
