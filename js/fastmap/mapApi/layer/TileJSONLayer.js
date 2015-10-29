@@ -30,8 +30,13 @@
                     zoom: zoom
                 };
                 L.DomEvent
-                    .on(canvas, "mousemove", function (e) {
-                        that.drawGeomCanvasHighlight(e, canvas,tilePoint);
+                    .on(canvas, "mousedown", function (e) {
+                        if(that.type =="LineString"){
+                            that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
+                        }else if(that.type =="Point"){
+                            that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPoint);
+                        }
+
                     });
 
                 if (this.options.debug) {
@@ -48,12 +53,13 @@
          * @param {Canvas}canvas
          * @param {TilePoint}tilePoint
          */
-        drawGeomCanvasHighlight:function(e, canvas,tilePoint){
+        drawGeomCanvasHighlight:function(e, canvas,tilePoint,disFun){
             var x = e.offsetX|| e.layerX, y =e.offsetY ||e.layerY;
             var id = null;
             for(var item in this.tiles[tilePoint.x+":"+tilePoint.y].data){
-                if(this._TouchesPath(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,0.5)){
+                if(disFun(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,5)){
                     var id = this.tiles[tilePoint.x+":"+tilePoint.y].data[item].i;
+                    console.log(id)
                     break;
                 }
             }
@@ -89,11 +95,11 @@
         _TouchesPath: function (d, x, y, r) {
             var i;
             var N = d.length;
-            var p1x = d[0];
-            var p1y = d[1];
-            for (var i = 2; i < N; i += 2) {
-                var p2x = d[i];
-                var p2y = d[i + 1];
+            var p1x = d[0][0];
+            var p1y = d[0][1];
+            for (var i = 1; i < N; i += 1) {
+                var p2x = d[i][0];
+                var p2y = d[i][1];
                 var dirx = p2x - p1x;
                 var diry = p2y - p1y;
                 var diffx = x - p1x;
@@ -118,6 +124,24 @@
             return 0
         },
 
+        /***
+         *
+         * @param {Array}d 几何图形
+         * @param {number}x 鼠标x
+         * @param {number}y 鼠标y
+         * @param {number}r 半径
+         * @returns {number}
+         * @private
+         */
+        _TouchesPoint: function (d, x, y, r){
+            var dx = x - d[0];
+            var dy = y - d[1];
+            if ((dx * dx + dy * dy) <= r * r) {
+                return 1;
+            }else{
+                return 0;
+            }
+        },
         /***
          * 根据瓦片id移除瓦片
          * @param {String}key
@@ -465,7 +489,9 @@
                             //el = x.dest;
                             if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                                 if (window.JSON) {
-                                    d = window.JSON.parse(x.responseText)
+                                    d = window.JSON.parse(x.responseText);
+                                    d = d.data[self.requestType]? d.data[self.requestType]: d.data;
+
                                 } else {
                                     d = eval("(" + x.responseText + ")")
                                 }
