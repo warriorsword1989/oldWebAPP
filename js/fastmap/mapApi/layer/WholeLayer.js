@@ -8,8 +8,9 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
      *
      * @param options 初始化可选options
      */
-    initialize: function (options) {
+    initialize: function (url,options) {
         this.options = options || {};
+        this.url = url;
         fastmap.mapApi.Layer.prototype.initialize.call(this,options);
     },
 
@@ -88,6 +89,6 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
     }
 
 });
-fastmap.mapApi.wholeLayer=function(options) {
-    return new fastmap.mapApi.WholeLayer(options);
+fastmap.mapApi.wholeLayer=function(url, options) {
+    return new fastmap.mapApi.WholeLayer(url, options);
 };

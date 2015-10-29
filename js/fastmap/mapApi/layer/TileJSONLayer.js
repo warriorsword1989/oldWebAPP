@@ -19,6 +19,7 @@
             this.url = url;
             this.style = this.options.style||"";
             this.type = this.options.type||"";
+            this.requestType = this.options.requestType||"";
             this.tiles = {};
             this.mecator = this.options.mecator||"";
             var that = this;
@@ -30,7 +31,7 @@
                 };
                 L.DomEvent
                     .on(canvas, "mousemove", function (e) {
-                        //that.drawGeomCanvasHighlight(e, canvas,tilePoint);
+                        that.drawGeomCanvasHighlight(e, canvas,tilePoint);
                     });
 
                 if (this.options.debug) {
@@ -564,19 +565,15 @@
 
             switch (this.type) {
                 case "Point":
-                    url = Application.url + '/didi/GetTileData?parameter=' +
-                    '{"minLongitude":' + bounds[0] + ',"minLatitude":' + bounds[1] + ',"maxLongitude":' + bounds[2] + ',"maxLatitude":' + bounds[3] + '}';
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":2,"type":["'+this.requestType+'"]}'
                     break;
                 case "LineString":
 
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                    //url =  this.url+
-                    //'z=' + this._map.getZoom() + '&x=' + tiles[0] + '&y=' + tiles[1];
-
-                    url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":2,"type":["RDLINK"]}'
-
-
+                    url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":2,"type":["'+this.requestType+'"]}'
 
                     break;
                 case "fusionroad":
@@ -690,7 +687,7 @@
                     var c = feature.properties.color;
                     var color = RD_LINK_Colors[parseInt(c)];
                     return {
-                        size: 5,
+                        size: 1,
                         color: color,
                         mouseOverColor: 'rgba(255,0,0,1)',
                         clickColor: 'rgba(252,0,0,1)'
