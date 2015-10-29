@@ -13,8 +13,8 @@
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="allTaskers">
             <div>
-                <span>共{{items.length}}个</span>
-                <span style="float:right">显示</span>
+                <span>共{{items.total}}个</span>
+                <!--<span style="float:right">显示</span>-->
             </div>
             <div ng-repeat="pItem in items">
                 <div class="panel-group" style="margin-bottom: 0px;">
@@ -22,14 +22,14 @@
                         <div class="panel-heading" style="background-color: #F6F8F8">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion"
-                                   href="#{{pItem.id}}" ng-click="showContent(item,'0')">
+                                   href="#{{pItem.id}}" ng-click="showContent(pItem,'0')">
                                     <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                 </a>
                             </h4>
 
                             <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
                             <div>
-                                <span style="font-size: 15px">{{pItem.name}}</span>
+                                <span style="font-size: 15px">{{pItem.name}}({{pItem.total}})</span>
                                 <!--<input style="float:right;" type="checkbox" ng-checked="pItem.choose"-->
                                        <!--ng-click="showLayers(pItem)"/>-->
                             </div>
@@ -41,7 +41,10 @@
                             <div class="panel-body">
                                 <table class="table">
                                     <tr ng-repeat="item in subItems">
-                                        <td ng-click="showTab(item)">{{item.name}}</td>
+                                        <div ng-if="item.i!=''||item.i!=null||item.i!=' '">
+                                            <td ng-click="showTab(item)">{{item.i}}</td>
+                                        </div>
+
                                     </tr>
                                 </table>
                             </div>

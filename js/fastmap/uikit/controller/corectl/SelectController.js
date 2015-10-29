@@ -30,12 +30,14 @@ fastmap.uikit.SelectController=(function() {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.selectedFeatures = null;
+                this.on("selectByAttribute", this.OnSelectByAttribute, this);
             },
             /**
              * 根据属性获取元素
              * @method selectByAttribute
              */
-            selectByAttribute:function() {
+            OnSelectByAttribute:function(event) {
+                this.rowKey = event.feather;
                 var features=[];
                 this.onSelected(features);
             },

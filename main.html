@@ -34,12 +34,12 @@
             </div>
         </nav>
     </div>
-    <div ui-layout-container >
+    <div ui-layout-container>
 
         <div ui-layout="{flow:'column',dividerSize:'6'}">
             <div ui-layout-container size="20%">
                 <div>
-                    <div class="leftDiv" >
+                    <div class="leftDiv">
                         <div class="fragDiv">
                             <span title="参考图层" class="glyphicon glyphicon-stats" style=" line-height: 60px"
                                   ng-click="changeLayers('referenceLayers')"></span>
@@ -55,7 +55,7 @@
                 </div>
 
             </div>
-            <div ui-layout-container >
+            <div ui-layout-container>
 
                 <div ui-layout="{flow:'row',dividerSize:'6'}">
 
@@ -63,17 +63,16 @@
                         <div id="map" style="width: 100%;height: 100%;position: absolute;">
                             <div id="toolsDiv"
                                  style="width: 200px;height: 30px;position: relative;z-index:4">
-                                <div class="btn-group btn-group-sm" style="width: 100%;">
-                                    <button type="button" class="btn btn-default">node</button>
-                                    <button type="button" class="btn btn-default">link</button>
-                                    <button type="button" class="btn btn-default">关系</button>
+                                <div>
+                                    <div ng-include="selectShapeURL"></div>
                                 </div>
+
 
                             </div>
                             <div id="toolsDiv1"
-                                 style="width: 200px;height: 30px;position: relative;z-index:4">
+                                 style="width: 200px;height: 30px;position: relative;z-index:4;left: 150px">
                                 <div class="btn-group btn-group-sm" style="width: 100%;">
-                                    <button type="button" class="btn btn-default">node+</button>
+                                    <button type="button" class="btn btn-default" ng-click="testHello()">node+</button>
                                     <button type="button" class="btn btn-default">link+</button>
                                     <button type="button" class="btn btn-default">关系+</button>
                                 </div>
@@ -83,22 +82,29 @@
                                     <div ng-include="dataTipsURL"></div>
                                 </div>
                             </div>
+                            <div id="popToolBar" style="position: relative;top:0px;left:400px;z-index: 4;">
+                                <div>
+                                    <div ng-include="modifyToolURL"></div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-                    <div ui-layout-container style="overflow: hidden" >
+                    <div ui-layout-container style="overflow: hidden">
                         <ul id="inspectAndWrongTab" class="nav nav-tabs">
-                            <li ><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
+                            <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
                                 输出结果</a>
                             </li>
-                            <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">错误检查</a></li>
+                            <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">错误检查</a>
+                            </li>
                             <div style="float: right;">
                                 <button style="top:10px;">立即检查</button>
                             </div>
                         </ul>
 
                         <div id="inwTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="inspectDiv"  >
-                                  <div ng-include="outputTab"></div>
+                            <div class="tab-pane fade in active" id="inspectDiv">
+                                <div ng-include="outputTab"></div>
                             </div>
                             <div class="tab-pane fade in active" id="wrongDiv">
                                 <div ng-include="errorCheckTab"></div>
