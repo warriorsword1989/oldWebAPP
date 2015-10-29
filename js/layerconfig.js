@@ -67,7 +67,7 @@ Application.layersConfig =
                         id: 'mesh',
                         url: '',
 
-                        visible: true,
+                        visible: false,
 
                         zIndex:3
                     }
@@ -92,7 +92,7 @@ Application.layersConfig =
                 parse:  function (data) {
                     var geojson = {};
                     geojson['features'] = [];
-                    $.each(data.data.RDLINK, function (index, item) {
+                    $.each(data, function (index, item) {
                         var obj = {};
                         obj['type'] = "Feature";
                         obj['geometry'] = {};
@@ -137,7 +137,7 @@ Application.layersConfig =
                 parse:  function (data) {
                     var geojson = {};
                     geojson['features'] = [];
-                    $.each(data.data.RDRESTRICTION, function (index, item) {
+                    $.each(data, function (index, item) {
                         var obj = {};
                         obj['type'] = "Feature";
                         obj['geometry'] = {};
@@ -163,7 +163,7 @@ Application.layersConfig =
                 type: 'Point',
                 zIndex:6,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:'RDRESTRICTION'
             }
 
@@ -212,7 +212,7 @@ Application.layersConfig =
                 type: 'LineString',
                 zIndex:7,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:12
             }
 
@@ -257,7 +257,7 @@ Application.layersConfig =
                 type: 'Point',
                 zIndex:9,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:7
             }
 
