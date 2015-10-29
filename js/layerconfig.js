@@ -75,19 +75,19 @@ Application.layersConfig =
                 }
             ]
         }, {
-        groupid: "workLayers",
-        groupname: "作业",
+        groupid: "dataLayers",
+        groupname: "作业参考",
         layers: [{
             url:'http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: '作业',
-                id: 'work',
+                layername: '参考线数据',
+                id: 'referenceLine',
 
                 hitDetection: true,
                 debug: false,
                 // this value should be equal to 'radius' of your points
-                buffer: 10,
+                buffer: 5,
                 boolPixelCrs: true ,
                 parse:  function (data) {
                     var geojson = {};
@@ -116,10 +116,166 @@ Application.layersConfig =
                 updateWhenIdle: true,
                 tileSize:256,
                 type: 'LineString',
+                zIndex:7,
+                restrictZoom:10,
+                visible: true,
+                requestType:'RDLINK'
+            }
+
+        },{
+            url:'http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '参考点数据',
+                id: 'referencePoint',
+
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data.data.RDRESTRICTION, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'color': item.s
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'Point',
                 zIndex:6,
                 restrictZoom:10,
-                visible: true
+                visible: true,
+                requestType:'RDRESTRICTION'
+            }
 
+        }]
+    },{
+        groupid:'worklayer',
+        groupname:'编辑图层',
+        layers: [{
+            url:'http://192.168.4.130/FosEngineWeb/fcc/tip/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '外业线数据',
+                id: 'workLine',
+
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 7,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data.data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'LineString';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'color': item.s
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'LineString',
+                zIndex:7,
+                restrictZoom:10,
+                visible: true,
+                requestType:12
+            }
+
+        },{
+            url:'http://192.168.4.130/FosEngineWeb/fcc/tip/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '外业点数据',
+                id: 'workPoint',
+
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 8,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data.data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'color': item.s
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'Point',
+                zIndex:9,
+                restrictZoom:10,
+                visible: true,
+                requestType:7
+            }
+
+        }]
+    },{
+        groupid:'wholelayer',
+        groupname:'编辑图层',
+        layers: [{
+            url: '',
+            clazz: fastmap.mapApi.wholeLayer,
+            options: {
+                layername: '编辑',
+                id: 'edit',
+                url: '',
+
+                visible: false,
+
+                zindex:9
             }
 
         }]
