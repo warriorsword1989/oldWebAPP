@@ -29,7 +29,7 @@ requirejs.config({
         'ngLayout': ['angular'],
         'smart-table':['angular'],
         'applicationfuns':['application'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns']
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','testData']
     }
 });
 
