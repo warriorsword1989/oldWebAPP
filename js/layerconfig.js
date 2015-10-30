@@ -23,10 +23,7 @@ Application.layersConfig =
                         selected: false,
                         id: 'zisan',
                         visible: false,
-<<<<<<< HEAD
                         maxZoom: 20,
-=======
->>>>>>> 985f298c8ee77d1db55e03160219f14aa0c0a064
                         editable: false,
                         zIndex:1,
                         singleselect:true
