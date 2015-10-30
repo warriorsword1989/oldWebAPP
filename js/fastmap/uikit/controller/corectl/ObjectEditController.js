@@ -31,6 +31,7 @@ fastmap.uikit.ObjectEditController=(function() {
                 this.data = "";
                 this.originalData = null;
                 this.on("FeatureSelected", this.setCurrentObject, this);
+                this.on("switchedData", this.setCurrentObject, this);
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -52,6 +53,7 @@ fastmap.uikit.ObjectEditController=(function() {
              * @param {Object}obj
              */
             setCurrentObject: function (obj) {
+                alert(obj.name);
                 this.data = obj;
             },
             /**
