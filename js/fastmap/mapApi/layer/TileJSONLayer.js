@@ -64,23 +64,23 @@
                 }
             }
 
-            for(var obj in this.tiles){
-                for(var key in this.tiles[obj].data){
-                    if(this.tiles[obj].data[key].i == id){
-                        var geometry = this.tiles[obj].data[key].g
-                        var g = canvas.getContext("2d");
-                        g.lineWidth = 3;
-                        g.strokeStyle = '#FFFF00';
-                        g.beginPath();
-                        g.moveTo(geometry[0], geometry[1]);
-
-                        for (m = 2, max = geometry.length; m < max - 1; m += 2) {
-                            g.lineTo(geometry[m], geometry[m + 1]);
-                        }
-                        g.stroke();
-                    }
-                }
-            }
+            //for(var obj in this.tiles){
+            //    for(var key in this.tiles[obj].data){
+            //        if(this.tiles[obj].data[key].i == id){
+            //            var geometry = this.tiles[obj].data[key].g
+            //            var g = canvas.getContext("2d");
+            //            g.lineWidth = 3;
+            //            g.strokeStyle = '#FFFF00';
+            //            g.beginPath();
+            //            g.moveTo(geometry[0], geometry[1]);
+            //
+            //            for (m = 2, max = geometry.length; m < max - 1; m += 2) {
+            //                g.lineTo(geometry[m], geometry[m + 1]);
+            //            }
+            //            g.stroke();
+            //        }
+            //    }
+            //}
         },
 
         /***

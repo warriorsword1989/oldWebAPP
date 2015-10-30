@@ -34,6 +34,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             that.drawGeometry = that.shapEditor.shapeEditorResult.getFinalGeometry();
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
+
         }
 
         this.shapEditor.on('stopshapeeditresultfeedback',function(){

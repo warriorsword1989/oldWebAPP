@@ -54,7 +54,7 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
         this.canv.style.height = this.canv.height + "px";
         container.appendChild(this.canv);
         this._div = container;
-        this.map.getPanes().overlayPane.appendChild(this._div);
+        this.map.getPanes().tilePane.appendChild(this._div);
     },
 
     /***
