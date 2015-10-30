@@ -19,6 +19,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.url = url;
         this.style = this.options.style||"";
         this.type = this.options.type||"";
+        this.editable = this.options.editable || "";
         this.requestType = this.options.requestType||"";
         this.tiles = {};
         this.mecator = this.options.mecator||"";
@@ -32,7 +33,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             L.DomEvent
                 .on(canvas, "mousedown", function (e) {
                     if(that.type =="LineString"){
-                        that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
+                         if(that.editable) {
+                             that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
+                         }
                     }else if(that.type =="Point"){
                         that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPoint);
                     }
@@ -59,28 +62,30 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for(var item in this.tiles[tilePoint.x+":"+tilePoint.y].data){
             if(disFun(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,5)){
                 var id = this.tiles[tilePoint.x+":"+tilePoint.y].data[item].i;
-                console.log(id)
+                this.fire("getLinkId",{id:id})
+                console.log(id);
                 break;
             }
         }
 
-        for(var obj in this.tiles){
-            for(var key in this.tiles[obj].data){
-                if(this.tiles[obj].data[key].i == id){
-                    var geometry = this.tiles[obj].data[key].g
-                    var g = canvas.getContext("2d");
-                    g.lineWidth = 3;
-                    g.strokeStyle = '#FFFF00';
-                    g.beginPath();
-                    g.moveTo(geometry[0], geometry[1]);
-
-                    for (m = 2, max = geometry.length; m < max - 1; m += 2) {
-                        g.lineTo(geometry[m], geometry[m + 1]);
-                    }
-                    g.stroke();
-                }
-            }
-        }
+        //for(var obj in this.tiles){
+        //    for(var key in this.tiles[obj].data){
+        //        if(this.tiles[obj].data[key].i == id){
+        //            var geometry = this.tiles[obj].data[key].g;
+        //            //canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        //            var g = canvas.getContext("2d");
+        //            g.lineWidth = 3;
+        //            g.strokeStyle = '#FFFF00';
+        //            g.beginPath();
+        //            g.moveTo(geometry[0][0], geometry[0][1]);
+        //
+        //            for (var m = 1, max = geometry.length; m < max; m++) {
+        //                g.lineTo(geometry[m][0], geometry[m][1]);
+        //            }
+        //            g.stroke();
+        //        }
+        //    }
+        //}
     },
 
     /***

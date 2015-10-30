@@ -23,7 +23,10 @@ Application.layersConfig =
                         selected: false,
                         id: 'zisan',
                         visible: false,
+<<<<<<< HEAD
                         maxZoom: 20,
+=======
+>>>>>>> 985f298c8ee77d1db55e03160219f14aa0c0a064
                         editable: false,
                         zIndex:1,
                         singleselect:true
@@ -116,8 +119,9 @@ Application.layersConfig =
                 updateWhenIdle: true,
                 tileSize:256,
                 type: 'LineString',
-                zIndex:7,
+                zIndex:17,
                 restrictZoom:10,
+                editable:false,
                 visible: true,
                 requestType:'RDLINK'
             }

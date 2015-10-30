@@ -53,7 +53,6 @@ fastmap.uikit.ObjectEditController=(function() {
              * @param {Object}obj
              */
             setCurrentObject: function (obj) {
-                alert(obj.name);
                 this.data = obj;
             },
             /**
