@@ -54,7 +54,7 @@
                 <form class="form-horizontal" method="get">
                     <div class="form-group" style="height: 10%;margin-bottom: 3px;">
                         <div class="col-sm-4" ng-repeat="item in dataTipsData.o_array">
-                            <img src="css/limit//normal/{{item.oInfo}}.png">
+                            <img ng-src="css/limit//normal/{{item.oInfo}}.png">
                         </div>
                     </div>
                     <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -63,7 +63,7 @@
 
                         <div class="col-sm-10">
                             <input type="text" class="form-control rounded"
-                                   placeholder="link编号" ng-model="dataTipsData.id">
+                                   placeholder="link编号" ng-model="dataTipsData.in.id">
                         </div>
                     </div>
                     <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -71,9 +71,11 @@
                         <label class="col-sm-2 control-label">出</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control rounded"
-                                   placeholder="link编号"
-                                    ng-mode="dataTipsData.id">
+                            <div ng-repeat="outItem in rdSubTipsData.out">
+                                <input type="text" class="form-control rounded"
+                                       placeholder="link编号"
+                                       ng-model="outItem.id">
+                            </div>
                         </div>
                     </div>
                     <div class="line line-dashed b-b line-lg pull-in"></div>

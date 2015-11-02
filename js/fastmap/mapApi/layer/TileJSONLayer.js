@@ -422,6 +422,29 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.restore();
     },
 
+
+    /***
+     * 绘制图片
+     * @param ctx
+     * @param geom
+     * @param src
+     * @param boolPixelCrs
+     * @private
+     */
+    _drawImg:function(ctx, geom, imgsrc, boolPixelCrs){
+        if (!src) {
+            return;
+        }
+        var p = null;
+        if(boolPixelCrs){
+            p = {x:geom[0], y:geom[1]}
+        }else{
+            p = this._tilePoint(ctx, imgsrc);
+        }
+
+        g.drawImage(image,p.x, p.y);
+        g.restore();
+    },
     /***
      * 绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
@@ -648,7 +671,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 case 'Point':
                     this._drawPoint(ctx, geom, style, boolPixelCrs);
                     break;
-
+                case 'Marker':
+                    this._drawImg(ctx, geom, style, boolPixelCrs);
+                    break;
                 case 'MultiPoint':
                     for (j = 0; j < len; j++) {
                         this._drawPoint(ctx, geom[j], style);
@@ -803,6 +828,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
                 }
                 break;
+            case 'Marker':
+                return {src:'../css/img/mark_bs.png'};
             case 'LineString':
             case 'MultiLineString':
                 var RD_LINK_Colors = [
