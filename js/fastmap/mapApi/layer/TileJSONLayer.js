@@ -23,7 +23,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.requestType = this.options.requestType||"";
         this.tiles = {};
         this.mecator = this.options.mecator||"";
+        this.showNodeLeve = this.options.showNodeLeve;
         var that = this;
+
+        this.redrawTiles = [];
         this.drawTile = function (canvas, tilePoint, zoom) {
             var ctx = {
                 canvas: canvas,
@@ -32,12 +35,30 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             };
             L.DomEvent
                 .on(canvas, "mousedown", function (e) {
+
+                    //选择之前清除已经选中的线
+                    //if(that.redrawTiles.length != 0){
+                    //    for(var index in that.redrawTiles){
+                    //        var drawObj = that.redrawTiles[index];
+                    //        that._drawfeature(drawObj.data, {canvas:drawObj.optionscontext},true);
+                    //    }
+                    //}
+
                     if(that.type =="LineString"){
-                         if(that.editable) {
-                             that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
+                         if(that.options.editable) {
+                             if(that.options.selectType == 'link'){
+                                 that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
+                             }else if(that.options.selectType == 'node'){
+                                 that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesNodePoint);
+                             }
+
                          }
-                    }else if(that.type =="Point"){
-                        that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPoint);
+                    }
+
+                    if(that.type =="Point"){
+                        if(that.options.editable) {
+                            that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPoint);
+                        }
                     }
 
                 });
@@ -62,30 +83,69 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for(var item in this.tiles[tilePoint.x+":"+tilePoint.y].data){
             if(disFun(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,5)){
                 var id = this.tiles[tilePoint.x+":"+tilePoint.y].data[item].i;
-                this.fire("getLinkId",{id:id})
+                this.fire("getId",{id:id})
                 console.log(id);
                 break;
             }
         }
 
-        //for(var obj in this.tiles){
-        //    for(var key in this.tiles[obj].data){
-        //        if(this.tiles[obj].data[key].i == id){
-        //            var geometry = this.tiles[obj].data[key].g;
-        //            //canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-        //            var g = canvas.getContext("2d");
-        //            g.lineWidth = 3;
-        //            g.strokeStyle = '#FFFF00';
-        //            g.beginPath();
-        //            g.moveTo(geometry[0][0], geometry[0][1]);
-        //
-        //            for (var m = 1, max = geometry.length; m < max; m++) {
-        //                g.lineTo(geometry[m][0], geometry[m][1]);
-        //            }
-        //            g.stroke();
-        //        }
-        //    }
-        //}
+        this._drawHeight(this.options.selectType,id);
+    },
+
+
+    /***
+     * 绘制选择要素
+     * @param type
+     * @param id
+     * @private
+     */
+    _drawHeight :function(type,id){
+        switch (type){
+            case "link":
+                for(var obj in this.tiles){
+                    for(var key in this.tiles[obj].data){
+                        if(this.tiles[obj].data[key].i == id){
+
+                            this.redrawTiles.push(this.tiles[obj]);
+                            var geometry = this.tiles[obj].data[key].g;
+                            var g = this.tiles[obj].options.context.getContext('2d');
+                            g.lineWidth = 3;
+                            g.strokeStyle = '#FFFF00';
+                            g.beginPath();
+                            g.moveTo(geometry[0][0], geometry[0][1]);
+
+                            for (var m = 1, max = geometry.length; m < max; m++) {
+                                g.lineTo(geometry[m][0], geometry[m][1]);
+                            }
+                            g.stroke();
+                        }
+                    }
+                }
+                break;
+            case "relation":
+            case "node":
+                for(var obj in this.tiles){
+                    for(var key in this.tiles[obj].data){
+                        if(this.tiles[obj].data[key].i == id){
+                            this.redrawTiles.push(this.tiles[obj]);
+
+                            var geometry = this.tiles[obj].data[key].g;
+                            var g = this.tiles[obj].options.context.getContext('2d');
+
+                            g.beginPath();
+                            g.fillStyle = '#FFFF00';
+                            g.arc(geometry[0], geometry[1], 6, 0, Math.PI * 2);
+                            g.closePath();
+                            g.fill();
+                            g.restore();
+
+
+                        }
+                    }
+                }
+                break;
+        }
+
     },
 
     /***
@@ -147,6 +207,32 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             return 0;
         }
     },
+    /***
+     * 点击node点
+     * @param d
+     * @param x
+     * @param y
+     * @param r
+     * @returns {number}
+     * @private
+     */
+    _TouchesNodePoint: function (d, x, y, r){
+        var touched =false;
+        for(var i = 0, len = d.length; i < len; i++){
+            if(i ==0 || i ==len -1){
+                var dx = x - d[0][0];
+                var dy = y - d[0][1];
+                if ((dx * dx + dy * dy) <= r * r) {
+                    touched = true;
+                }
+            }
+        }
+
+        return touched;
+
+    },
+
+
     /***
      * 根据瓦片id移除瓦片
      * @param {String}key
@@ -351,8 +437,16 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         var coords = geom, proj = [], i;
         coords = this._clip(ctx, coords);
-        //coords = L.LineUtil.simplify(coords, 1);
+
         for (i = 0; i < coords.length; i++) {
+
+            if(this._map.getZoom() >= this.showNodeLeve && (i == 0||i == coords.length - 1)){
+                this._drawPoint(ctx, coords[i][0], {
+                    color: 'rgba(105,105,105,1)',
+                    radius: 2.5
+                },true);
+            }
+
             if(boolPixelCrs){
                 proj.push({x:coords[i][0][0],y:coords[i][0][1]});
             }else{
@@ -453,6 +547,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             var self = this, j;
 
             this.tileobj = fastmap.mapApi.tile(url);
+            this.tileobj.options.context = ctx.canvas;
             this.tiles[this.key] = this.tileobj;
 
             this.request = this._ajaxLoader(function (geo) {

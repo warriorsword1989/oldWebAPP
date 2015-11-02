@@ -64,7 +64,7 @@
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
                 <div class="col-sm-2" ng-repeat="item in rdRestrictData.restricInfo">
-                    <img ng-src="css/limit/{{item.flag}}.png" ng-click="showTips(item)" rel="noreferrer">
+                    <img ng-src="./css/limit/{{item.flag}}.png" ng-click="showTips(item)">
                 </div>
                     <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus" data-toggle="modal"
                           data-target="#myModal"></span>
@@ -74,7 +74,7 @@
                 <label class="col-sm-2 control-label">出</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="normalTipsData.outLinkPid">
+                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdSubRestrictData.outLinkPid">
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -82,14 +82,15 @@
                 <div class="col-sm-12">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="theoryOrActual" value="0" ng-model="normalTipsData.flag">
+
+                            <input type="radio" name="theoryOrActual" value="0" ng-model="rdSubRestrictData.flag">
                             理论
                         </label>
                         <label>
-                            <input type="radio" name="theoryOrActual" value="1" ng-model="normalTipsData.flag">
+                            <input type="radio" name="theoryOrActual" value="1" ng-model="rdSubRestrictData.flag">
                             实际
                         </label> <label>
-                        <input type="radio" name="theoryOrActual" value="2" ng-model="normalTipsData.flag">
+                        <input type="radio" name="theoryOrActual" value="2" ng-model="rdSubRestrictData.flag">
                         未验证
                     </label>
                     </div>
@@ -97,11 +98,11 @@
                 <div class="col-sm-12">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="crossingOrLine" value="0" ng-model="normalTipsData.relationshipType">
+                            <input type="radio" name="crossingOrLine" value="0" ng-model="rdSubRestrictData.relationshipType">
                             路口
                         </label>
                         <label>
-                            <input type="radio" name="crossingOrLine" value="1" ng-model="normalTipsData.relationshipType">
+                            <input type="radio" name="crossingOrLine" value="1" ng-model="rdSubRestrictData.relationshipType">
                             线线
                         </label>
                     </div>
@@ -119,11 +120,10 @@
                             未调查
                         </label>
                         <label>
-                            <input type="radio" name="researchOrLimited" value="1" ng-model="normalTipsData.type">
+                            <input type="radio" name="researchOrLimited" value="1" ng-model="rdSubRestrictData.type">
                             禁止驶入
                         </label><label>
-                        <input type="radio" name="researchOrLimited" value="2"
-                               ng-model="normalTipsData.type">
+                        <input type="radio" name="researchOrLimited" value="2">
                         时间段禁止
                     </label>
                     </div>
@@ -139,7 +139,8 @@
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal" methosd="get">
-                            <div ng-repeat="item in normalTipsData.time">
+                            <div ng-repeat="item in rdSubRestrictData.time">
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">限时</label>
 
@@ -169,7 +170,9 @@
                                 <label class="col-sm-2 control-label">车辆类型</label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control" ng-model="normalTipsData.vehicleExpression">
+
+                                    <select class="form-control" ng-model="rdSubRestrictData.vehicleExpression">
+
                                         <option value="0">客车(小汽车)</option>
                                         <option value="1">配送卡车</option>
                                         <option value="2">运输卡车</option>
@@ -226,7 +229,7 @@
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <div><img ng-src="css/limit/5.png" ng-click="selectTip('5')"></div>
+                    <div><img ng-src="./css/limit/5.png" ng-click="selectTip('5')"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"

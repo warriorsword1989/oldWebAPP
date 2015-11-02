@@ -31,9 +31,22 @@ Application.functions.getTipsResult=function(rowkey,func) {
         }
     )
 };
-Application.functions.getRdLinkById=function(id,type,func) {
+Application.functions.getRdObjectById=function(id,type,func) {
     fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":1,"type":"'+type+'","pid":'+id+'}',
     function(data) {
         func(data)
     });
 };
+
+/***
+ * 保存几何编辑结果
+ * @param param
+ * @param func
+ */
+Application.functions.saveLinkGeometry = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/edit?parameter='+param,
+        function(data) {
+            func(data)
+        });
+}
+
