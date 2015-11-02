@@ -672,7 +672,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     this._drawPoint(ctx, geom, style, boolPixelCrs);
                     break;
                 case 'Marker':
-                    this._drawImg(ctx, geom, src, boolPixelCrs);
+                    this._drawImg(ctx, geom, style, boolPixelCrs);
                     break;
                 case 'MultiPoint':
                     for (j = 0; j < len; j++) {
@@ -828,6 +828,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
                 }
                 break;
+            case 'Marker':
+                return {src:'../css/img/mark_bs.png'};
             case 'LineString':
             case 'MultiLineString':
                 var RD_LINK_Colors = [
