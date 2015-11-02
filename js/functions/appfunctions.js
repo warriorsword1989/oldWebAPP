@@ -43,10 +43,16 @@ Application.functions.getRdObjectById=function(id,type,func) {
  * @param param
  * @param func
  */
-Application.functions.saveLinkGeometry = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/edit?parameter='+param,
-        function(data) {
+Application.functions.saveLinkGeometry = function (param, func) {
+    fastmap.dataApi.ajaxConstruct(Application.url + '/pdh/obj/edit?parameter=' + param,
+        function (data) {
             func(data)
         });
-}
+};
+Application.functions.saveProperty=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url + '/pdh/obj/edit?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
 

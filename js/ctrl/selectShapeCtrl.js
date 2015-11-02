@@ -25,9 +25,16 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                     selectCtrl.onSelected({geometry:line,id:$scope.data.id});
                     objCtrl.setCurrentObject(data);
-                    $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                    })
+                        $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                            if($scope.$parent.$parent.updateLinkData!==""){
+                                $scope.$parent.$parent.updateLinkData(data);
+                            }
+
+                        })
+
+
                 })
 
             })
@@ -50,11 +57,17 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.on("getId",function(data) {
                 $scope.data = data;
-
+               $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
-                        objCtrl.setCurrentObject(data.data);
+                    objCtrl.setCurrentObject(data.data);
+                    $scope.$parent.$parent.rdRestrictData = data.data;
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                        if($scope.tips ===0) {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                        }else if($scope.type ===1) {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
+                        }
+
                     })
                 })
 

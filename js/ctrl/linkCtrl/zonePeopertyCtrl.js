@@ -3,5 +3,5 @@
  */
 var zonePeopertyApp = angular.module("lazymodule", []);
 zonePeopertyApp.controller("zonePeopertyController",function($scope) {
-    $scope.zoneData = zoneTest;
+    $scope.zoneData =  $scope.linkData.data;
 })
