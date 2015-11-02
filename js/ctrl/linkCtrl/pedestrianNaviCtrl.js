@@ -3,7 +3,7 @@
  */
 var pedestrianNaviApp = angular.module("lazymodule", []);
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope) {
-    $scope.naviData = naviTest;
+    $scope.naviData =  $scope.linkData.data;
     $scope.minusSideWalk = function () {
         $scope.naviData.sideWalkData = undefined;
         if($("#sideWalkDiv").hasClass("in")) {

@@ -63,7 +63,7 @@
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
-                <div class="col-sm-2" ng-repeat="item in rdRestrictData.restricInfo">
+                <div class="col-sm-2" ng-repeat="item in rdRestrictData.details">
                     <img ng-src="./css/limit/{{item.flag}}.png" ng-click="showTips(item)">
                 </div>
                     <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus" data-toggle="modal"
@@ -82,6 +82,7 @@
                 <div class="col-sm-12">
                     <div class="radio">
                         <label>
+
                             <input type="radio" name="theoryOrActual" value="0" ng-model="rdSubRestrictData.flag">
                             理论
                         </label>
@@ -115,15 +116,14 @@
                     <div class="radio">
                         <label>
                             <input type="radio" name="researchOrLimited" value="0"
-                                   ng-model="rdRestrictData.type">
+                                   ng-model="normalTipsData.type">
                             未调查
                         </label>
                         <label>
                             <input type="radio" name="researchOrLimited" value="1" ng-model="rdSubRestrictData.type">
                             禁止驶入
                         </label><label>
-                        <input type="radio" name="researchOrLimited" value="2"
-                               ng-model="rdSubRestrictData.type">
+                        <input type="radio" name="researchOrLimited" value="2">
                         时间段禁止
                     </label>
                     </div>
@@ -140,6 +140,7 @@
                     <div class="panel-body">
                         <form class="form-horizontal" methosd="get">
                             <div ng-repeat="item in rdSubRestrictData.time">
+
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">限时</label>
 
@@ -169,7 +170,9 @@
                                 <label class="col-sm-2 control-label">车辆类型</label>
 
                                 <div class="col-sm-10">
+
                                     <select class="form-control" ng-model="rdSubRestrictData.vehicleExpression">
+
                                         <option value="0">客车(小汽车)</option>
                                         <option value="1">配送卡车</option>
                                         <option value="2">运输卡车</option>
