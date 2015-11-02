@@ -23,6 +23,7 @@ Application.layersConfig =
                         selected: false,
                         id: 'zisan',
                         visible: false,
+                        maxZoom: 20,
                         editable: false,
                         zIndex:1,
                         singleselect:true
@@ -82,7 +83,7 @@ Application.layersConfig =
             options: {
                 layername: '参考线数据',
                 id: 'referenceLine',
-
+                maxZoom: 20,
                 hitDetection: true,
                 debug: false,
                 // this value should be equal to 'radius' of your points
@@ -119,7 +120,8 @@ Application.layersConfig =
                 restrictZoom:10,
                 editable:false,
                 visible: true,
-                requestType:'RDLINK'
+                requestType:'RDLINK',
+                showNodeLeve:17
             }
 
         },{
@@ -128,7 +130,7 @@ Application.layersConfig =
             options: {
                 layername: '参考点数据',
                 id: 'referencePoint',
-
+                maxZoom: 20,
                 hitDetection: true,
                 debug: false,
                 // this value should be equal to 'radius' of your points
@@ -163,7 +165,7 @@ Application.layersConfig =
                 type: 'Point',
                 zIndex:6,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:'RDRESTRICTION'
             }
 
@@ -177,7 +179,7 @@ Application.layersConfig =
             options: {
                 layername: '外业线数据',
                 id: 'workLine',
-
+                maxZoom: 20,
                 hitDetection: true,
                 debug: false,
                 // this value should be equal to 'radius' of your points
@@ -186,7 +188,7 @@ Application.layersConfig =
                 parse:  function (data) {
                     var geojson = {};
                     geojson['features'] = [];
-                    $.each(data.data, function (index, item) {
+                    $.each(data, function (index, item) {
                         var obj = {};
                         obj['type'] = "Feature";
                         obj['geometry'] = {};
@@ -222,7 +224,7 @@ Application.layersConfig =
             options: {
                 layername: '外业点数据',
                 id: 'workPoint',
-
+                maxZoom: 20,
                 hitDetection: true,
                 debug: false,
                 // this value should be equal to 'radius' of your points
@@ -231,13 +233,17 @@ Application.layersConfig =
                 parse:  function (data) {
                     var geojson = {};
                     geojson['features'] = [];
-                    $.each(data.data, function (index, item) {
+                    $.each(data, function (index, item) {
                         var obj = {};
                         obj['type'] = "Feature";
                         obj['geometry'] = {};
                         obj['geometry']['type'] = 'Point';
                         obj['geometry']['coordinates'] = [];
+                        if(item.g ===undefined){
+                            return;
+                        }
                         for (var i = 0, len = item.g.length; i < len; i = i+1) {
+
                             obj['geometry']['coordinates'].push([item.g[i]]);
                         }
                         obj['properties'] = {
@@ -263,22 +269,30 @@ Application.layersConfig =
 
         }]
     },{
-        groupid:'wholelayer',
+        groupid:'editlayer',
         groupname:'编辑图层',
+
         layers: [{
-            url: '',
-            clazz: fastmap.mapApi.wholeLayer,
+            clazz: fastmap.mapApi.editLayer,
+            url:'',
             options: {
                 layername: '编辑',
                 id: 'edit',
                 url: '',
 
-                visible: false,
+                visible: true,
 
-                zindex:9
+                zIndex:0
+
+
+
             }
 
-        }]
+        }
+
+
+
+        ]
     }
     ]
 

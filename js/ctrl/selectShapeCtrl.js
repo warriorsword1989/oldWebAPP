@@ -9,28 +9,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var objCtrl = new fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
         if (type === "link") {
-            var rdLink;
-            for (var layer in layerCtrl.layers) {
-                if (layerCtrl.layers[layer].options['id'] === 'referenceLine') {
-                    rdLink = layerCtrl.layers[layer];
-                    break;
-                }
-            }
+            var rdLink = layerCtrl.getLayerById('referenceLine');
+            rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
-            rdLink.editable = true;
-            rdLink.on("getLinkId",function(data) {
-                Application.functions.getRdLinkById(data.id, "RDLINK", function (data) {
+            rdLink.options.editable = true;
+            rdLink.on("getId",function(data) {
+                $scope.data = data;
+                Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
                     var linkArr = data.data.geometry.coordinates, points = [];
                     for (var i = 0, len = linkArr.length; i < len; i++) {
                         var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                         points.push(point);
                     }
                     var line = fastmap.mapApi.lineString(points);
-                    var editLayer = new fastmap.mapApi.EditLayer();
-                    map.addLayer(editLayer);
-                    editLayer.drawGeometry = line;
-                    editLayer.draw(line, editLayer);
-                    selectCtrl.onSelected(line);
+
+                    selectCtrl.onSelected({geometry:line,id:$scope.data.id});
                     objCtrl.setCurrentObject(data);
                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
@@ -42,5 +35,32 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
 
         }
+
+        if (type === "node") {
+
+            var rdLink = layerCtrl.getLayerById('referenceLine');
+            rdLink.options.selectType = 'node';
+            rdLink.options.editable = true;
+        }
+        if (type === "relation") {
+
+            var rdLink = layerCtrl.getLayerById('referencePoint');
+            rdLink.options.selectType = 'relation';
+            rdLink.options.editable = true;
+            $scope.$parent.$parent.objectEditURL = "";
+            rdLink.on("getId",function(data) {
+                $scope.data = data;
+
+                Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
+                        objCtrl.setCurrentObject(data.data);
+                    $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                    })
+                })
+
+
+            })
+        }
+
     };
 }])
