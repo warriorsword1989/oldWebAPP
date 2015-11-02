@@ -120,7 +120,8 @@ Application.layersConfig =
                 restrictZoom:10,
                 editable:false,
                 visible: true,
-                requestType:'RDLINK'
+                requestType:'RDLINK',
+                showNodeLeve:17
             }
 
         },{
@@ -164,7 +165,7 @@ Application.layersConfig =
                 type: 'Point',
                 zIndex:6,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:'RDRESTRICTION'
             }
 
@@ -268,22 +269,30 @@ Application.layersConfig =
 
         }]
     },{
-        groupid:'wholelayer',
+        groupid:'editlayer',
         groupname:'编辑图层',
+
         layers: [{
-            url: '',
-            clazz: fastmap.mapApi.wholeLayer,
+            clazz: fastmap.mapApi.editLayer,
+            url:'',
             options: {
                 layername: '编辑',
                 id: 'edit',
                 url: '',
 
-                visible: false,
+                visible: true,
 
-                zindex:0
+                zIndex:0
+
+
+
             }
 
-        }]
+        }
+
+
+
+        ]
     }
     ]
 

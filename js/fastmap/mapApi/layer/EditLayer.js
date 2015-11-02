@@ -13,8 +13,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * 初始化可选参数
      * @param {Object}options
      */
-    initialize: function (options) {
+    initialize: function (url,options) {
         this.options = options || {};
+        this.url =url;
         fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
         this.minShowZoom = this.options.minShowZoom || 9;
         this.maxShowZoom = this.options.maxShowZoom || 18;
@@ -39,6 +40,12 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         this.shapEditor.on('stopshapeeditresultfeedback',function(){
             this.map._container.style.cursor = '';
+
+            var coordinate1 = []
+            for(var index in that.drawGeometry.components){
+                coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
+            }
+            console.log('绘制后:'+coordinate1);
             that._redraw();
         });
 
@@ -56,7 +63,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      */
     onAdd: function (map) {
         this.map = map;
-        this._initContainer(this.map, this.options);
+        this._initContainer( this.options);
         map.on("moveend", this._redraw, this);
         this._redraw();
     },
@@ -203,3 +210,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         return this;
     }
 });
+
+fastmap.mapApi.editLayer=function(url, options) {
+    return new fastmap.mapApi.EditLayer(url, options);
+};

@@ -54,7 +54,30 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
         container.appendChild(this.canv);
         this._div = container;
         this.map.getPanes().tilePane.appendChild(this._div);
+
     },
+
+    bringToFront: function () {
+
+        this._div.style.zIndex = 100;
+
+        return this;
+    },
+
+    bringToBack: function () {
+
+        this._div.style.zIndex = 0;
+
+        return this;
+    },
+
+    _setAutoZIndex: function (pane, compare) {
+
+
+
+        this.options.zIndex = this._div.style.zIndex = 100;
+    },
+
 
     /***
      * 绘制图层内容
