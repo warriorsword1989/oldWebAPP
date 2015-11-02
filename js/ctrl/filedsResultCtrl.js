@@ -123,21 +123,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             Application.functions.getTipsResult(item.i, function (data) {
 
-                if (n === 0) {
-                    selectCtrl.fire("selectByAttribute", {feather: item.i});
-                    //$scope.$emit("dataTipsToParent", item.i);
-                    n++;
-                } else {
-                    selectCtrl.fire("selectByAttribute", {feather: dataTipsData});
-                    $scope.$parent.$parent.dataTipsTest = dataTipsData;
+
+                    selectCtrl.fire("selectByAttribute", {feather: data});
+                    $scope.$parent.$parent.dataTipsTest = data;
                     //$scope.$emit("dataTipsToParent", dataTipsData);
-                    n--;
-                }
+
 
             })
             //selectCtrl.fire("selectByAttribute", {feather: item.i});
-            $rootScope.name = "dd";
-            L.marker([39.907333, 116.391083]).addTo(map);
+            //$rootScope.name = "dd";
+            //L.marker([39.907333, 116.391083]).addTo(map);
             //map.panTo({});
 
         };

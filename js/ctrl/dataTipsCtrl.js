@@ -8,7 +8,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         selectCtrl= new fastmap.uikit.SelectController();
 
 
-
+    $scope.rdSubTipsData =  selectCtrl.rowKey.o_array[0];
 
     //$scope.$on("dataTipsToChild", function (event, data) {
     //    $scope.dataTipsData = data;
