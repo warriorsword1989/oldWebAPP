@@ -30,7 +30,7 @@ fastmap.uikit.ShapeEditorController=(function() {
 
                     this.shapeEditorToolsObj = fastmap.uikit.shapeeditorfactory();
                     this.shapeEditorResultFeedback = new fastmap.uikit.ShapeEditResultFeedback({shapeEditor:this});
-                    this.shapeEditorResult = this.options.shapeEditorResult || null;
+                    this.shapeEditorResult = this.options.shapeEditorResult || new fastmap.uikit.ShapeEditorResult();
                 },
 
 
@@ -61,9 +61,9 @@ fastmap.uikit.ShapeEditorController=(function() {
                  * 开始编辑
                  * @param {fastmap.mapApi.Geometry}geometry 编辑的几何图形
                  */
-                startEditing: function (shapeEditorResult) {
-                    this.shapeEditorResult = shapeEditorResult;
-                    this.currentEditinGeometry = shapeEditorResult.getOriginalGeometry();
+                startEditing: function () {
+                    //this.shapeEditorResult = shapeEditorResult;
+                    this.currentEditinGeometry = this.shapeEditorResult.getFinalGeometry();
                     this._tools(this.editType);
                 },
 
