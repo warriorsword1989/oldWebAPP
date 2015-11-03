@@ -83,11 +83,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.items.total = data.data.total;
             })
         });
-        var selectCtrl = new fastmap.uikit.SelectController();
-        var objCtrl = new fastmap.uikit.ObjectEditController();
+            selectCtrl = new fastmap.uikit.SelectController();
         //切换处理 待处理 已处理 页面
         $scope.changeList = function (stage) {
             //图幅号如何获得
+            alert(stage);
         };
         //点击下拉框的时  显示内容
         $scope.showContent = function (item, stage) {
@@ -119,22 +119,24 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                 );
             }, 100)
+
+
             Application.functions.getTipsResult(item.i, function (data) {
+
+
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     $scope.$parent.$parent.dataTipsTest = data;
                     //$scope.$emit("dataTipsToParent", dataTipsData);
-                var id=data.resID[0].id
-                Application.functions.getRdObjectById(id,"RDRESTRICTION",function(data) {
-                    objCtrl.setCurrentObject(data.data);
-                    $scope.$parent.$parent.rdRestrictData = data.data;
 
-                })
 
             })
+            //selectCtrl.fire("selectByAttribute", {feather: item.i});
+            //$rootScope.name = "dd";
+            //L.marker([39.907333, 116.391083]).addTo(map);
+            //map.panTo({});
 
         };
-
-                //checkbox中的处理方法
+        //checkbox中的处理方法
         $scope.showLayers = function (item) {
             item.choose = !item.choose;
             console.log($scope.items);

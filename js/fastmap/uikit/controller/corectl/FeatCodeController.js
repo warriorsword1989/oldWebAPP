@@ -30,7 +30,7 @@ fastmap.uikit.FeatCodeController=(function() {
              * @param {String}featCode
              */
             setFeatCode: function (featCode) {
-                this.newObj = featCode;
+
             }
         });
         return new featCodeController(options);
