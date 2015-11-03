@@ -7,7 +7,8 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * 初始化可选参数
      * @param {Object}options
      */
-    initialize: function (options) {
+    initialize: function (url, options) {
+        this.url = url;
         this.options = options || {};
         fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
         this.minShowZoom = this.options.minShowZoom || 9;
@@ -19,7 +20,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      */
     onAdd: function (map) {
         this.map = map;
-        this._initContainer(this.map, this.options);
+        this._initContainer(this.options);
         map.on("moveend", this._redraw, this);
         this._redraw();
     },
@@ -383,6 +384,6 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     }
 
 });
-fastmap.mapApi.meshLayer=function(options) {
-    return new fastmap.mapApi.MeshLayer(options);
+fastmap.mapApi.meshLayer=function(url, options) {
+    return new fastmap.mapApi.MeshLayer(url, options);
 };
