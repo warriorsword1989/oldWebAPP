@@ -24,6 +24,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.tiles = {};
         this.mecator = this.options.mecator||"";
         this.showNodeLeve = this.options.showNodeLeve;
+        this.clickFunction = this.options.clickFunction || null;
         var that = this;
 
         this.redrawTiles = [];
@@ -33,35 +34,39 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 tile: tilePoint,
                 zoom: zoom
             };
-            L.DomEvent
-                .on(canvas, "mousedown", function (e) {
-
-                    //选择之前清除已经选中的线
-                    //if(that.redrawTiles.length != 0){
-                    //    for(var index in that.redrawTiles){
-                    //        var drawObj = that.redrawTiles[index];
-                    //        that._drawfeature(drawObj.data, {canvas:drawObj.optionscontext},true);
-                    //    }
-                    //}
-
-                    if(that.type =="LineString"){
-                         if(that.options.editable) {
-                             if(that.options.selectType == 'link'){
-                                 that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
-                             }else if(that.options.selectType == 'node'){
-                                 that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesNodePoint);
-                             }
-
-                         }
-                    }
-
-                    if(that.type =="Point"){
-                        if(that.options.editable) {
-                            that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPoint);
-                        }
-                    }
-
-                });
+            //L.DomEvent
+            //    .on(canvas, "mousedown",this.clickFunction
+            //
+            //    //function (e) {
+            //    //
+            //    //    //选择之前清除已经选中的线
+            //    //    //if(that.redrawTiles.length != 0){
+            //    //    //    for(var index in that.redrawTiles){
+            //    //    //        var drawObj = that.redrawTiles[index];
+            //    //    //        that._drawfeature(drawObj.data, {canvas:drawObj.optionscontext},true);
+            //    //    //    }
+            //    //    //}
+            //    //
+            //    //    if(that.type =="LineString"){
+            //    //         if(that.options.editable) {
+            //    //             if(that.options.selectType == 'link'){
+            //    //                 that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPath);
+            //    //             }else if(that.options.selectType == 'node'){
+            //    //                 that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesNodePoint);
+            //    //             }
+            //    //
+            //    //         }
+            //    //    }
+            //    //
+            //    //    if(that.type =="Point"){
+            //    //        if(that.options.editable) {
+            //    //            that.drawGeomCanvasHighlight(e, canvas,tilePoint,that._TouchesPoint);
+            //    //        }
+            //    //    }
+            //    //
+            //    //}
+            //
+            //);
 
             if (this.options.debug) {
                 this._drawDebugInfo(ctx);
@@ -83,13 +88,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for(var item in this.tiles[tilePoint.x+":"+tilePoint.y].data){
             if(disFun(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,5)){
                 var id = this.tiles[tilePoint.x+":"+tilePoint.y].data[item].i;
-                this.fire("getId",{id:id})
+                var type = this.tiles[tilePoint.x + ":" + tilePoint.y].data[item].a;
+                this._drawHeight(this.options.selectType,id);
+                this.fire("getId",{id:id,tips:0})
                 console.log(id);
                 break;
             }
         }
 
-        this._drawHeight(this.options.selectType,id);
+
     },
 
 
@@ -422,6 +429,37 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.restore();
     },
 
+
+    /***
+     * 绘制图片
+     * @param ctx
+     * @param geom
+     * @param src
+     * @param boolPixelCrs
+     * @private
+     */
+    _drawImg:function(ctx, geom, imgsrc, boolPixelCrs){
+        if (!imgsrc.src) {
+            return;
+        }
+        var p = null;
+        if(boolPixelCrs){
+            p = {x:geom[0], y:geom[1]}
+        }else{
+            p = this._tilePoint(ctx, imgsrc);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        var image = new Image();
+        image.src=imgsrc.src;
+        image.onload = function(){
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            g.drawImage(image,p.x, p.y);
+        };
+
+
+
+    },
     /***
      * 绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
@@ -557,7 +595,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (data.features == undefined) { return }
 
                 self._drawfeature(data, ctx, boolPixelCrs);
-            },url,this.key);
+            },url,this.key,parse);
 
             this.tiles[this.key].setRequest(this.request);
         }
@@ -571,7 +609,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @returns {XDomainRequest}
      * @private
      */
-    _ajaxLoader: function (func, url,key) {
+    _ajaxLoader: function (func, url,key,parse) {
         var self = this
         if (document.getElementById) {
             var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
@@ -595,7 +633,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             } else {
                                 d = eval("(" + x.responseText + ")")
                             }
-                            self.tiles[key].setData(d);
+                            self.tiles[key].setData(parse(d));
                             func(d);
                         }
                     }
@@ -646,7 +684,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             var len = geom.length;
             switch (type) {
                 case 'Point':
-                    this._drawPoint(ctx, geom, style, boolPixelCrs);
+                    if(this.options.type === 'Marker'){
+                        this._drawImg(ctx, geom, style, boolPixelCrs);
+                    }else{
+                        this._drawPoint(ctx, geom, style, boolPixelCrs);
+                    }
+
                     break;
 
                 case 'MultiPoint':
@@ -693,13 +736,18 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "Point":
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":2,"type":["'+this.requestType+'"]}'
+                url = this.url +'parameter={"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":5,"type":["'+this.requestType+'"]}'
+                break;
+            case "Marker":
+                var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":5,"type":["'+this.requestType+'"]}'
                 break;
             case "LineString":
 
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":2,"type":["'+this.requestType+'"]}'
+                url = this.url +'parameter={"projectId":1,"z":'+this._map.getZoom()+',"x":'+tiles[0]+',"y":'+tiles[1]+',"gap":5,"type":["'+this.requestType+'"]}'
 
                 break;
             case "fusionroad":
@@ -767,8 +815,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     styleFor: function(feature, value){
 
         pointRadius = 5;
-        var type = feature.geometry.type;
-        switch (type) {
+
+        switch (this.type) {
             case 'Point':
             case 'MultiPoint':
                 if (value != null) {
@@ -803,6 +851,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
                 }
                 break;
+            case 'Marker':
+                return {src:'./css/img/mark_bs.png'};
             case 'LineString':
             case 'MultiLineString':
                 var RD_LINK_Colors = [

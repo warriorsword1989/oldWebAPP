@@ -22,6 +22,7 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this.container = this._map._container;
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
+        this.targetGeoIndex=null;
         this.targetIndex = null;
     },
     /***
@@ -49,29 +50,40 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this._map.off('mousemove', this.onMouseMove, this);
     },
 
-
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
     onMouseDown: function (event) {
+        this.targetGeoIndex=null;
+        this.targetIndex=null;
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
         var layerPoint = event.layerPoint;
 
-        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
-
-        for (var j = 0, len = points.length; j < len; j++) {
-
-            //两个端点不能删除
-            if(j != 0 && j !=len-1){
-                var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-
-                if (disAB > 0 && disAB < 5) {
+        var geos = this.shapeEditor.shapeEditorResult.getFinalGeometry();
 
 
-                    this.targetIndex = j;
+        for(var i=0;i<geos.length;i++){
+            for (var j = 0, len = geos[i].components.length; j < len; j++) {
+                //两个端点不能删除
+
+                if(j != 0 && j !=len-1){
+                    var disAB = this.distance(this._map.latLngToLayerPoint([geos[i].components[j].y,geos[i].components[j].x]), layerPoint);
+                    if (disAB > 0 && disAB < 5) {
+                        this.targetIndex = j;
+                        this.targetGeoIndex=i;
+                        //alert("there"+this.targetIndex);
+                        break;
+                    }
                 }
-            }
 
+            }
         }
+
         if(this.targetIndex == null)
             return;
         this.resetVertex(this.targetIndex);
@@ -92,7 +104,7 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
      * 重新设置节点
      */
     resetVertex:function(){
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1);
+        this.shapeEditor.shapeEditorResult.getFinalGeometry()[this.targetGeoIndex].components.splice(this.targetIndex, 1);
         this.targetIndex = null;
     }
 })

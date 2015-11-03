@@ -1,15 +1,16 @@
 /**
- * Created by liwanchong on 2015/10/24.
+ * Created by liwanchong on 2015/11/3.
  */
-var objectEditApp = angular.module("lazymodule", []);
-objectEditApp.controller("normalController", function ($scope) {
-    var objectEditCtrl = new fastmap.uikit.ObjectEditController();
-    objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
-    $scope.rdLinkData = $scope.$parent.$parent.rdRestrictData;
-    console.log("test" + $scope.rdLinkData);
-    $scope.showTips = function (id) {
-        alert(id);
-    };
+var addLimitedApp = angular.module('lazymodule', []);
+addLimitedApp.controller("normalController", function ($scope) {
+    var featCodeCtrl = fastmap.uikit.FeatCodeController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var outPutCtrl = fastmap.uikit.OutPutController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
+    rdLink.options.selectType = 'link';
+    rdLink.options.editable = true;
+    $scope.rdRestrictData = {};
+    $scope.rdRestrictData.details = [];
     //初始化交限
     $scope.addLimitedData = [
         {"id":1},
@@ -53,49 +54,43 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    if( objectEditCtrl.data.details.length!==0) {
-        $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-    }
-
+    //$scope.rdRestrictData = featCodeCtrl.newObj;
+    rdLink.on('getId', function (data) {
+        if ($scope.$parent.$parent.outFlag) {
+            $scope.outPid = data.id;
+            outPutCtrl.pushOutput({"label":"已经选了出线"})
+        }
+    })
     $scope.selectTip = function (item) {
-        $scope.tipsId = item;
+        $scope.tipsId = item.id;
         var obj={};
-            obj.flag = item;
-            obj.outLinkPid =""; //$scope.rdLink.outPid;
-            obj.pid = "";//featCodeCtrl.newObj.pid;
-            obj.relationshipType = 1;
-            obj.restricInfo = 1;
-            obj.restricPid =""// featCodeCtrl.newObj.pid;
-            obj.type = 1;
-            obj.conditons = [];
-           $scope.newLimited = obj;
+        obj.flag = item.id;
+        obj.outLinkPid =$scope.outPid; //$scope.rdLink.outPid;
+        obj.pid = "";//featCodeCtrl.newObj.pid;
+        obj.relationshipType = 1;
+        obj.restricInfo = 1;
+        obj.restricPid =""// featCodeCtrl.newObj.pid;
+        obj.type = 1;
+        obj.conditons = [];
+        obj.vehicleExpression = 14;
+        $scope.newObj = obj;
     };
     $scope.addTips = function () {
         if ($scope.tipsId === null || $scope.tipsId === undefined) {
             alert("请先选择tips");
             return;
         }
-        var tipsObj = $scope.rdRestrictData.details;
-        for (var i = 0, len = tipsObj.length; i < len; i++) {
-            if (tipsObj[i].flag === $scope.tipsId) {
-                alert("重复");
-                return;
-            }
-        }
-        $scope.rdRestrictData.details.push( $scope.newLimited );
 
+            var tipsObj = $scope.rdRestrictData.details;
+            for (var i = 0, len = tipsObj.length; i < len; i++) {
+                if (tipsObj[i].flag === $scope.tipsId) {
+                    alert("重复");
+                    return;
+                }
+            }
+        $scope.rdRestrictData.pid = featCodeCtrl.newObj.pid;
+        $scope.rdSubRestrictData =   $scope.newObj;
+        $scope.rdRestrictData.details.push( $scope.rdSubRestrictData );
+        outPutCtrl.pushOutput({"label": "已经选择了交限"});
     }
-    //增加时间段
-    $scope.addTime=function(){
-        $scope.rdRestrictData.time.unshift({startTime: "", endTime: ""});
-    }
-    //删除时间段
-    $scope.minusTime=function(id) {
-        $scope.rdRestrictData.time.splice(id, 1);
-    };
-    $scope.$parent.$parent.save=function() {
-        objectEditCtrl.setCurrentObject($scope.rdLinkData);
-        objectEditCtrl.save();
-        console.log(objectEditCtrl.changedProperty);
-    };
-});
+})

@@ -5,10 +5,11 @@
  * @class ObjectEditController
  *
  */
-fastmap.uikit.ObjectEditController=(function() {
+fastmap.uikit.ObjectEditController = (function () {
     var instantiated;
+
     function init(options) {
-            var objectEditController = L.Class.extend({
+        var objectEditController = L.Class.extend({
             /**
              * 事件管理器
              * @property includes
@@ -28,7 +29,7 @@ fastmap.uikit.ObjectEditController=(function() {
             initialize: function (options) {
                 this.options = options || {};
                 L.setOptions(this, options);
-                this.data = "";
+                this.data = {};
                 this.originalData = null;
                 this.on("FeatureSelected", this.setCurrentObject, this);
                 this.on("switchedData", this.setCurrentObject, this);
@@ -54,7 +55,15 @@ fastmap.uikit.ObjectEditController=(function() {
              */
             setCurrentObject: function (obj) {
                 this.data = obj;
+
             },
+            /**
+             *
+             * @param obj
+             */
+             setOriginalData:function(obj) {
+                this.originalData = obj;
+             },
             /**
              * 删除地图上元素
              * @method onRemove
@@ -63,17 +72,90 @@ fastmap.uikit.ObjectEditController=(function() {
 
             },
             /**
+             * 获取变化的属性值
+             * @param oriData
+             * @param data
+             * @param type
+             * @returns {*}
+             */
+            compareJson: function (oriData, data, type) {
+                var retObj = {};
+                for (var item in oriData) {
+                    if (typeof oriData[item] === "string") {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            } else if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+                            retObj["objStatus"] = type;
+                        }
+                    } else if (oriData[item].constructor == Array) {
+                        if (oriData[item].length === data[item].length) {
+                            var objArr = [];
+                            for (var i = 0, len = oriData[item].length; i < len; i++) {
+                                var obj = this.compareJson(oriData[item][i], data[item][i], "UPDATE");
+                                if (obj) {
+                                    objArr.push(obj);
+                                }
+                            }
+                            if (objArr.length !== 0) {
+                                retObj[item] = objArr;
+                            }
+                        }
+
+                    } else if (!isNaN(oriData[item])) {
+                        if(item==="kind"){
+                            console.log(oriData[item]);
+                        }
+
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            } else if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+                            retObj["objStatus"] = type;
+                        }
+                    }
+
+                }
+
+                if (!this.isEmptyObject(retObj)) {
+                    return retObj;
+                } else {
+                    return false
+                }
+
+            },
+            /**
+             * 判断对象是不是为空
+             * @param obj
+             * @returns {boolean}
+             */
+            isEmptyObject: function (obj) {
+                for (var n in obj) {
+                    return false
+                }
+                return true;
+            },
+            /**
              * 保存元素的方法
              * @method onSaved
              * @param {Object}orignalData
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
+                this.changedProperty = this.compareJson(orignalData, data,"UPDATE");
+                this.fire("changedPropertyEvent", {changedProperty: this.changedProperty});
             }
         });
         return new objectEditController(options);
     }
-    return function(options) {
+
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }

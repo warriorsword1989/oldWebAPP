@@ -103,7 +103,10 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'color': item.s
+                            'color': item.m.a,
+                            'name':item.m.b,
+                            'kind':item.m.c,
+                            'direct':item.m.d
                         }
                         geojson['features'].push(obj);
                     });
@@ -150,7 +153,10 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'color': item.s
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
                         }
                         geojson['features'].push(obj);
                     });
@@ -162,10 +168,10 @@ Application.layersConfig =
                 mecator:new fastmap.mapApi.MecatorTranform(),
                 updateWhenIdle: true,
                 tileSize:256,
-                type: 'Point',
+                type: 'Marker',
                 zIndex:6,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:'RDRESTRICTION'
             }
 
@@ -199,7 +205,10 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'color': item.s
+                            'color': item.m.a,
+                            'name':item.m.b,
+                            'kind':item.m.c,
+                            'direct':item.m.d
                         }
                         geojson['features'].push(obj);
                     });
@@ -248,7 +257,7 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'color': item.s
+                            'type': item.t
                         }
                         geojson['features'].push(obj);
                     });

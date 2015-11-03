@@ -112,6 +112,10 @@ fastmap.uikit.ShapeEditorController=(function() {
                         case 'pathcopy':
                             this.currentTool = this.shapeEditorToolsObj['pathcopy'];
                             break;
+                        case 'pathBreak':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
+                            break;
                         case  'pathVertexReMove':
                             this.currentTool = toolsObj[type];
                             this.currentTool.enable();
@@ -176,16 +180,16 @@ fastmap.uikit.ShapeEditorController=(function() {
 
                             return this.currentTool;
                     }
-                }
-            });
-            return  new shapeEditorController(options);
-        }
-        return function(options) {
-            if (!instantiated) {
-                instantiated = init(options);
+
             }
-            return instantiated;
+        });
+        return  new shapeEditorController(options);
+    }
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
         }
+        return instantiated;
+    }
 
 })();
-

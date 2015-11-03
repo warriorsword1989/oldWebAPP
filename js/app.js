@@ -5,13 +5,16 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     dragF('toolsDiv1');
     dragF("popToolBar");
     dragF1('popoverTips', 'parentId');
-    $scope.dataTipsURL = "";
-    $scope.objectEditURL = "";
-    $scope.save = "";
-    $scope.delete = "";
-    $scope.cancel = "";
-    $scope.rdRestrictData ={};
+    $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
+    $scope.objectEditURL = "";//属性栏的ng-include地址
+    $scope.save = "";//保存方法
+    $scope.delete = "";//删除方法
+    $scope.cancel = "";//取消
+    $scope.rdRestrictData ={};//交限对象
     $scope.dataTipsTest = {};
+    $scope.updateLinkData = "";
+    $scope.outFlag = false;//是否可监听
+
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
@@ -26,6 +29,11 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                         $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                         $ocLazyLoad.load('ctrl/selectShapeCtrl').then(function () {
                                 $scope.selectShapeURL = 'js/tepl/selectShapeTepl.html';
+                                $ocLazyLoad.load('ctrl/addShapeCtrl').then(function () {
+                                        $scope.addShapeURL = 'js/tepl/addShapeTepl.html';
+
+                                    }
+                                );
                             }
                         );
                     }
@@ -76,12 +84,11 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
 
     };
-}]);
-
+}])
 var map = null;
 function appInit(){
 
-    map = L.map('map',{ attributionControl: false}).setView([39.96112764136087, 116.27493047173148], 17);
+    map = L.map('map',{ attributionControl: false}).setView([39.959972, 116.275665], 17);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     //layerCtrl.getLayerById('work').options.zIndex = 9
     //layerCtrl.getLayerById('work').addTo(map);
