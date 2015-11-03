@@ -51,6 +51,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
             this._map.dragging.disable();
         }
         var layerPoint = event.layerPoint;
+
         this.resetVertex(layerPoint);
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
     },
@@ -60,24 +61,29 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         this.container.style.cursor = 'crosshair';
     },
 
+
     drawFeedBack: function(){},
 
     resetVertex:function(layerPoint){
+        var index = 0;
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
 
-        var index = 0
-        var segments = this.shapeEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
-        for(var i = 0,len = segments.length; i< len; i++){
-            var distance =  L.LineUtil.pointToSegmentDistance(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2)))
-            if(distance < 5){
-                latlng =this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2))));
-                index = i;
-                this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
-
-                this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
+        for (var j = 0, len = points.length; j < len; j++) {
+            for(var i=0;i<points[j].components.length;i++) {
+                if (i < points[j].getSortedSegments().length ) {
+                    var points1 = this._map.latLngToLayerPoint([points[j].getSortedSegments()[i].y1, points[j].getSortedSegments()[i].x1]);
+                    var points2 = this._map.latLngToLayerPoint([points[j].getSortedSegments()[i].y2, points[j].getSortedSegments()[i].x2]);
+                    var distance =  L.LineUtil.pointToSegmentDistance(layerPoint,points1,points2);
+                    if(distance < 5){
+                        latlng =this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint,points1,points2));
+                        index = i;
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry()[j].components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
+                        this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
+                        break;
+                    }
+                }
             }
         }
-
-
     }
 
 });
