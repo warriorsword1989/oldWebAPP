@@ -1,8 +1,9 @@
 ﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
-    initMap('map');
+    appInit()
     dragF('toolsDiv');
     dragF('toolsDiv1');
+    dragF("popToolBar");
     dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";
     $scope.objectEditURL = "";
@@ -10,15 +11,36 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.delete = "";
     $scope.cancel = "";
     $scope.rdRestrictData ={};
+    $scope.dataTipsTest = {};
+    $scope.updateLinkData = "";
+
+    $scope.$on("dataTipsToParent", function (event, data) {
+        $scope.$broadcast("dataTipsToChild", data);
+    });
     //登录时
+
     $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-            $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
-        }
-    );
-    $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-            $scope.layersURL = 'js/tepl/filedsResultTepl.html';
-        }
-    );
+        $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+        $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
+                $scope.layersURL = 'js/tepl/filedsResultTepl.html';
+                $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
+                        $scope.modifyToolURL = 'js/tepl/modifyToolTepl.html';
+                        $scope.layersURL = 'js/tepl/filedsResultTepl.html';
+                        $ocLazyLoad.load('ctrl/selectShapeCtrl').then(function () {
+                                $scope.selectShapeURL = 'js/tepl/selectShapeTepl.html';
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
+
+
+
+
+
+
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -31,7 +53,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                     $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 }
             );
-        } else if (layers === "referenceLayers") {
+        }
+        else if (layers === "referenceLayers") {
             $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
                     $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
                 }
@@ -55,17 +78,30 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
 
     };
-}]);
-var map = null,dataTipsURL=null;
-function initMap(id) {
-    map = L.map('map',{ attributionControl: false}).setView([39.907333, 116.391083], 17);
+}])
+var map = null;
+function appInit(){
 
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: null
+    map = L.map('map',{ attributionControl: false}).setView([39.96112764136087, 116.27493047173148], 17);
+    var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
+    //layerCtrl.getLayerById('work').options.zIndex = 9
+    //layerCtrl.getLayerById('work').addTo(map);
+    layerCtrl.on('layerOnShow',function(event){
+        if(event.flag == true){
+            map.addLayer(event.layer);
+        }else{
+            map.removeLayer(event.layer);
+        }
+    })
+    for(var layer in layerCtrl.getVisibleLayers()){
+        map.addLayer(layerCtrl.getVisibleLayers()[layer]);
+    }
 
 
-    }).addTo(map);
-};
+
+}
+
+var map = null;
 function dragF(id) {
     var $dragDiv = $('#' + id),
         $parentDiv = $('#map');

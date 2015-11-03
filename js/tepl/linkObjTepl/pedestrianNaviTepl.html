@@ -4,7 +4,7 @@
     }
 
 </style>
-<div id="pedestrianDiv">
+<div id="pedestrianDiv" ng-controller="pedestrianNaviController">
     <div class="panel panel-default">
         <div class="panel-body">
             <form class="form-horizontal" method="get">
@@ -14,15 +14,15 @@
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="diciTypeRadio" value="0" ng-model="naviData.diciType">
+                                <input type="radio" name="diciTypeRadio" value="0" ng-model="linkData.diciType">
                                 不应用
                             </label>
                             <label>
-                                <input type="radio" name="diciTypeRadio" value="1" ng-model="naviData.diciType">
+                                <input type="radio" name="diciTypeRadio" value="1" ng-model="linkData.diciType">
                                 全要素
                             </label>
                             <label>
-                                <input type="radio" name="diciTypeRadio" value="2" ng-model="naviData.diciType">
+                                <input type="radio" name="diciTypeRadio" value="2" ng-model="linkData.diciType">
                                 简化版
                             </label>
                         </div>
@@ -35,15 +35,15 @@
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="0" ng-model="naviData.sideWalkFlag">
+                                <input type="radio" name="sideWalkFlagRadio" value="0" ng-model="linkData.sideWalkFlag">
                                 未采集
                             </label>
                             <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="1" ng-model="naviData.sideWalkFlag">
+                                <input type="radio" name="sideWalkFlagRadio" value="1" ng-model="linkData.sideWalkFlag">
                                 有
                             </label>
                             <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="2" ng-model="naviData.sideWalkFlag">
+                                <input type="radio" name="sideWalkFlagRadio" value="2" ng-model="linkData.sideWalkFlag">
                                 无
                             </label>
                         </div>
@@ -57,17 +57,17 @@
                         <div class="radio">
                             <label>
                                 <input type="radio" name="walkStairFlagRadio" value="0"
-                                       ng-model="naviData.walkStairFlag">
+                                       ng-model="linkData.walkStairFlag">
                                 未采集
                             </label>
                             <label>
                                 <input type="radio" name="walkStairFlagRadio" value="1"
-                                       ng-model="naviData.walkStairFlag">
+                                       ng-model="linkData.walkStairFlag">
                                 有
                             </label>
                             <label>
                                 <input type="radio" name="walkstairFlagRadio" value="2"
-                                       ng-model="naviData.walkStairFlag">
+                                       ng-model="linkData.walkStairFlag">
                                 无
                             </label>
                         </div>
@@ -80,15 +80,15 @@
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="walkFlagRadio" value="0" ng-model="naviData.walkFlag">
+                                <input type="radio" name="walkFlagRadio" value="0" ng-model="linkData.walkFlag">
                                 未调查
                             </label>
                             <label>
-                                <input type="radio" name="walkFlagRadio" value="1" ng-model="naviData.walkFlag">
+                                <input type="radio" name="walkFlagRadio" value="1" ng-model="linkData.walkFlag">
                                 允许
                             </label>
                             <label>
-                                <input type="radio" name="walkFlagRadio" value="2" ng-model="naviData.walkFlag">
+                                <input type="radio" name="walkFlagRadio" value="2" ng-model="linkData.walkFlag">
                                 禁止
                             </label>
                         </div>
@@ -123,7 +123,7 @@
                                 <label class="col-sm-3 control-label">位置关系</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="naviData.sideWalkData.sidewalkLoc">
+                                    <select class="form-control" ng-model="linkData.sideWalkData.sidewalkLoc">
                                         <option value="0">无</option>
                                         <option value="1">右侧</option>
                                         <option value="2">中间</option>
@@ -141,7 +141,7 @@
                                 <label class="col-sm-3 control-label">隔离方式</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="naviData.sideWalkData.dividerType">
+                                    <select class="form-control" ng-model="linkData.sideWalkData.dividerType">
                                         <option value="0">未调查</option>
                                         <option value="1">高度差隔离(马路涯)</option>
                                         <option value="2">物理栅栏隔离</option>
@@ -158,17 +158,17 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="workDirRadio" value="0"
-                                                   ng-model="naviData.sideWalkData.workDir">
+                                                   ng-model="linkData.sideWalkData.workDir">
                                             未调查
                                         </label>
                                         <label>
                                             <input type="radio" name="workDirRadio" value="1"
-                                                   ng-model="naviData.sideWalkData.workDir">
+                                                   ng-model="linkData.sideWalkData.workDir">
                                             顺
                                         </label>
                                         <label>
                                             <input type="radio" name="workDirRadio" value="2"
-                                                   ng-model="naviData.sideWalkData.workDir">
+                                                   ng-model="linkData.sideWalkData.workDir">
                                             逆
                                         </label>
                                     </div>
@@ -182,12 +182,12 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="processFlagRadio" value="0"
-                                                   ng-model="naviData.sideWalkData.processFlag">
+                                                   ng-model="linkData.sideWalkData.processFlag">
                                             程序赋
                                         </label>
                                         <label>
                                             <input type="radio" name="processFlagRadio" value="1"
-                                                   ng-model="naviData.sideWalkData.processFlag">
+                                                   ng-model="linkData.sideWalkData.processFlag">
                                             手工赋
                                         </label>
                                     </div>
@@ -201,12 +201,12 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="captureFlagRadio" value="0"
-                                                   ng-model="naviData.sideWalkData.captureFlag">
+                                                   ng-model="linkData.sideWalkData.captureFlag">
                                             未采集
                                         </label>
                                         <label>
                                             <input type="radio" name="captureFlagRadio" value="1"
-                                                   ng-model="naviData.sideWalkData.captureFlag">
+                                                   ng-model="linkData.sideWalkData.captureFlag">
                                             外业确认
                                         </label>
                                     </div>
@@ -245,7 +245,7 @@
                                 <label class="col-sm-3 control-label">位置关系</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="naviData.walkStairData.stairLoc">
+                                    <select class="form-control" ng-model="linkData.walkStairData.stairLoc">
                                         <option value="0">无</option>
                                         <option value="1">右侧</option>
                                         <option value="2">中间</option>
@@ -265,12 +265,12 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="stairFlagRadio" value="0"
-                                                   ng-model="naviData.walkStairData.stairFlag">
+                                                   ng-model="linkData.walkStairData.stairFlag">
                                             未调查
                                         </label>
                                         <label>
                                             <input type="radio" name="stairFlagRadio" value="1"
-                                                   ng-model="naviData.walkStairData.stairFlag">
+                                                   ng-model="linkData.walkStairData.stairFlag">
                                             上坡
                                         </label>
                                         <label>
@@ -289,17 +289,17 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="workDirRadio" value="0"
-                                                   ng-model="naviData.walkStairData.workDir">
+                                                   ng-model="linkData.walkStairData.workDir">
                                             未调查
                                         </label>
                                         <label>
                                             <input type="radio" name="workDirRadio" value="1"
-                                                   ng-model="naviData.walkStairData.workDir">
+                                                   ng-model="linkData.walkStairData.workDir">
                                             顺
                                         </label>
                                         <label>
                                             <input type="radio" name="workDirRadio" value="2"
-                                                   ng-model="naviData.walkStairData.workDir">
+                                                   ng-model="linkData.walkStairData.workDir">
                                             逆
                                         </label>
                                     </div>
@@ -313,12 +313,12 @@
                                     <div class="radio">
                                         <label>
                                             <input type="radio" name="captureFlagRadio" value="0"
-                                                   ng-model="naviData.walkStairData.captureFlag">
+                                                   ng-model="linkData.walkStairData.captureFlag">
                                             未采集
                                         </label>
                                         <label>
                                             <input type="radio" name="captureFlagRadio" value="1"
-                                                   ng-model="naviData.walkStairData.captureFlag">
+                                                   ng-model="linkData.walkStairData.captureFlag">
                                             外业确认
                                         </label>
                                     </div>

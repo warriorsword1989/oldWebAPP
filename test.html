@@ -72,6 +72,7 @@
     var line2 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
     var lines1 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
     console.log(line ===line2)
+<<<<<<< HEAD
     editLayer.drawGeometry=new Array();
     editLayer.drawGeometry.push(line);
     editLayer.drawGeometry.push(lines);
@@ -99,6 +100,30 @@
     //
     //        restrictZoom:10
     //    }).addTo(map);
+=======
+    editLayer.drawGeometry = line;
+    editLayer.draw(line,editLayer);
+
+    var tileJson = new fastmap.mapApi.TileJSON('http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',{
+        id:'ee',
+
+        hitDetection: true,
+        debug: false,
+        // this value should be equal to 'radius' of your points
+        buffer: 10,
+        boolPixelCrs: true ,
+        parse: parseLineStringData,
+        boundsArr: [],
+        unloadInvisibleTiles: true,
+        reuseTiles: false,
+        mecator:new fastmap.mapApi.MecatorTranform(),
+        updateWhenIdle: true,
+        tileSize:256,
+        type: 'LineString',
+
+        restrictZoom:10
+    }).addTo(map);
+>>>>>>> b2a34915c57613a6160da70a7aae9a7810a95f55
 
     function parseLineStringData(data) {
         var geojson = {};
