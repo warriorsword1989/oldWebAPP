@@ -23,7 +23,12 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
      */
     addHooks: function () {
     },
-
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
     /***
      * 移除事件
      */

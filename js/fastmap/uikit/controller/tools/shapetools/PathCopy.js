@@ -33,6 +33,8 @@ fastmap.uikit.PathCopy = L.Handler.extend({
 
 
     onMouseDown: function () {
+        //获取元素
+        //
     },
 
     onMouseMove: function () {

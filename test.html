@@ -9,88 +9,96 @@
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
 
     <script src="js/fastmap/fastmapapi.js"></script>
-    <script src="js/layerconfig.js"></script>
+
     <script src="js/lib/jquery/jquery-1.11.1.js"></script>
 </head>
 <body>
 <div id="mapId" style="width:1000px;height:500px">
 
 </div>
-<input type="button" id="btn_insert" value="插入节点"></input>
-<input type="button" id="btn_move" value="移动节点"></input>
-<input type="button" id="btn_delete" value="删除节点"></input>
-<input type="button" id="btn_extend" value="延长线"></input>
-<input type="button" id="btn_enable" value="结束编辑"></input>
-<input type="button" id="btn_abort" value="放弃编辑"></input>
+<input type="button" id="btn_insert" value="插入节点">
+<input type="button" id="btn_move" value="移动节点">
+<input type="button" id="btn_delete" value="删除节点">
+<input type="button" id="btn_extend" value="延长线">
+<input type="button" id="btn_enable" value="结束编辑">
+<input type="button" id="btn_abort" value="放弃编辑">
+<input type="button" id="btn_copy" value="复制">
+<input type="button" id="btn_cut" value="剪切">
 </body>
 <script>
     var map = L.map('mapId').setView([39.907333, 116.391083], 14);
 
-//    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
-//        maxZoom: 18,
-//        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-//        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-//        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-//        id: 'mapbox.streets'
-//    }).addTo(map);
+    //    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+    //        maxZoom: 18,
+    //        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+    //        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    //        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    //        id: 'mapbox.streets'
+    //    }).addTo(map);
     L.tileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
         subdomains: ["rt0", "rt1", "rt2", "rt3"],
         tms: true,
         maxZoom: 18
     }).addTo(map);
 
-//    var l = fastmap.mapApi.meshLayer();
-//    map.addLayer(l)
-//
-//    var c = l.canv;
-//    var ctx = c.getContext('2d');
-//    ctx.translate(200,200)
-//    ctx.beginPath();
-//    ctx.fillStyle = 'red'
-//    ctx.moveTo(0,4)
-//    ctx.quadraticCurveTo(6,-3,12,4);
-//    ctx.lineTo(6,12);
-//    ctx.lineTo(0,4);
-//    ctx.closePath();
-//    ctx.strokeStyle = 'red';
-//    ctx.fill();
-//
-//    ctx.stroke();
+    //    var l = fastmap.mapApi.meshLayer();
+    //    map.addLayer(l)
+    //
+    //    var c = l.canv;
+    //    var ctx = c.getContext('2d');
+    //    ctx.translate(200,200)
+    //    ctx.beginPath();
+    //    ctx.fillStyle = 'red'
+    //    ctx.moveTo(0,4)
+    //    ctx.quadraticCurveTo(6,-3,12,4);
+    //    ctx.lineTo(6,12);
+    //    ctx.lineTo(0,4);
+    //    ctx.closePath();
+    //    ctx.strokeStyle = 'red';
+    //    ctx.fill();
+    //
+    //    ctx.stroke();
 
     var editLayer = new  fastmap.mapApi.EditLayer();
     map.addLayer(editLayer);
 
-//    var latlngs = [[39.907333, 116.391083],[39.909333, 116.394083]];
-//    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-//    var p = map.project(new L.LatLng(39.909333, 116.394083));
+    //    var latlngs = [[39.907333, 116.391083],[39.909333, 116.394083]];
+    //    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+    //    var p = map.project(new L.LatLng(39.909333, 116.394083));
 
 
-    var line = fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
-    var line2 = fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
-
+    var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
+    var lines =new  fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
+    var line2 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
+    var lines1 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
     console.log(line ===line2)
-    editLayer.drawGeometry = line;
-    editLayer.draw(line,editLayer);
+    editLayer.drawGeometry=new Array();
+    editLayer.drawGeometry.push(line);
+    editLayer.drawGeometry.push(lines);
+    var originalarray=new Array();
+    originalarray.push(line2);
+    originalarray.push(lines1);
+    editLayer.draw(editLayer.drawGeometry,editLayer);
 
-//    var tileJson = new fastmap.mapApi.TileJSON({
-//        id:'ee',
-//        url:'http://192.168.1.111:8080/FosEngineWeb/pdh/obj/getByTileWithGap?',
-//        hitDetection: true,
-//        debug: false,
-//        // this value should be equal to 'radius' of your points
-//        buffer: 10,
-//        boolPixelCrs: true ,
-//        parse: parseLineStringData,
-//        boundsArr: [],
-//        unloadInvisibleTiles: true,
-//        reuseTiles: false,
-//        mecator:new fastmap.mapApi.MecatorTranform(),
-//        updateWhenIdle: true,
-//        tileSize:256,
-//        type: 'LineString',
-//
-//        restrictZoom:10
-//    }).addTo(map);
+    //    var tileJson = new fastmap.mapApi.TileJSON({
+    //        id:'ee',
+    //        url:'http://192.168.1.111:8080/FosEngineWeb/pdh/obj/getByTileWithGap?',
+    //        hitDetection: true,
+    //        debug: false,
+    //        // this value should be equal to 'radius' of your points
+    //        buffer: 10,
+    //        boolPixelCrs: true ,
+    //        parse: parseLineStringData,
+    //        boundsArr: [],
+    //        unloadInvisibleTiles: true,
+    //        reuseTiles: false,
+    //        mecator:new fastmap.mapApi.MecatorTranform(),
+    //        updateWhenIdle: true,
+    //        tileSize:256,
+    //        type: 'LineString',
+    //
+    //        restrictZoom:10
+    //    }).addTo(map);
 
     function parseLineStringData(data) {
         var geojson = {};
@@ -118,8 +126,8 @@
                 shapectl.setMap(map);
                 shapectl.setEditingType('pathVertexInsert');
                 var sobj = new fastmap.uikit.ShapeEditorResult();
-                sobj.setOriginalGeometry(line2);
-                sobj.setFinalGeometry(line);
+                sobj.setOriginalGeometry(originalarray);
+                sobj.setFinalGeometry(editLayer.drawGeometry);
                 shapectl.startEditing(sobj);
             }
     );
@@ -127,19 +135,38 @@
     $('#btn_enable').click(function(){
         fastmap.uikit.ShapeEditorController().stopEditing();
     })
-
+    //放弃编辑
     $('#btn_abort').click(function(){
         fastmap.uikit.ShapeEditorController().abortEditing();
     })
 
+    $("#btn_copy").click(function(){
+        var shapecopy = fastmap.uikit.ShapeEditorController();
+        shapecopy.setMap(map);
+        shapecopy.setEditingType('pathcopy');
+        var sobjcopy = new fastmap.uikit.ShapeEditorResult();
+        sobjcopy.setOriginalGeometry(originalarray);
+        sobjcopy.setFinalGeometry(editLayer.drawGeometry);
+        shapecopy.startEditing(sobjcopy);
+    });
+
+    $("#btn_cut").click(function(){
+        var shapecopy = fastmap.uikit.ShapeEditorController();
+        shapecopy.setMap(map);
+        shapecopy.setEditingType('pathcut');
+        var sobjcopy = new fastmap.uikit.ShapeEditorResult();
+        sobjcopy.setOriginalGeometry(originalarray);
+        sobjcopy.setFinalGeometry(editLayer.drawGeometry);
+        shapecopy.startEditing(sobjcopy);
+    });
 
     $('#btn_move').click(function(){
         var shapectl1 = fastmap.uikit.ShapeEditorController();
         shapectl1.setMap(map);
         shapectl1.setEditingType('pathVertexMove');
         var sobj = new fastmap.uikit.ShapeEditorResult();
-        sobj.setOriginalGeometry(line2);
-        sobj.setFinalGeometry(line);
+        sobj.setOriginalGeometry(originalarray);
+        sobj.setFinalGeometry(editLayer.drawGeometry);
         shapectl1.startEditing(sobj);
     });
 
@@ -148,21 +175,19 @@
         shapectl2.setMap(map);
         shapectl2.setEditingType('pathVertexReMove');
         var sobj = new fastmap.uikit.ShapeEditorResult();
-        sobj.setOriginalGeometry(line2);
-        sobj.setFinalGeometry(line);
+        sobj.setOriginalGeometry(originalarray);
+        sobj.setFinalGeometry(editLayer.drawGeometry);
         shapectl2.startEditing(sobj);
-
-    })
+    });
 
     $('#btn_extend').click(function(){
         var shapectl3 = fastmap.uikit.ShapeEditorController();
         shapectl3.setMap(map);
         shapectl3.setEditingType('pathVertexAdd');
         var sobj = new fastmap.uikit.ShapeEditorResult();
-        sobj.setOriginalGeometry(line2);
-        sobj.setFinalGeometry(line);
+        sobj.setOriginalGeometry(originalarray);
+        sobj.setFinalGeometry(editLayer.drawGeometry);
         shapectl3.startEditing(sobj);
-
     });
 
     var layerc = new fastmap.uikit.LayerController();
