@@ -89,13 +89,14 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             if(disFun(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,5)){
                 var id = this.tiles[tilePoint.x+":"+tilePoint.y].data[item].i;
                 var type = this.tiles[tilePoint.x + ":" + tilePoint.y].data[item].a;
+                this._drawHeight(this.options.selectType,id);
                 this.fire("getId",{id:id,tips:0})
                 console.log(id);
                 break;
             }
         }
 
-        this._drawHeight(this.options.selectType,id);
+
     },
 
 

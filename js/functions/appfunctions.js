@@ -31,6 +31,12 @@ Application.functions.getTipsResult=function(rowkey,func) {
         }
     )
 };
+/**
+ * 根据道路id获得道路的详细属性
+ * @param id
+ * @param type
+ * @param func
+ */
 Application.functions.getRdObjectById=function(id,type,func) {
     fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":1,"type":"'+type+'","pid":'+id+'}',
     function(data) {
@@ -49,6 +55,11 @@ Application.functions.saveLinkGeometry = function (param, func) {
             func(data)
         });
 };
+/**
+ * 保存属性编辑结果
+ * @param param
+ * @param func
+ */
 Application.functions.saveProperty=function(param,func) {
     fastmap.dataApi.ajaxConstruct(Application.url + '/pdh/obj/edit?parameter=' + param,
         function (data) {
