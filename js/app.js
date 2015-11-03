@@ -82,7 +82,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 var map = null;
 function appInit(){
 
-    map = L.map('map',{ attributionControl: false}).setView([39.96112764136087, 116.27493047173148], 17);
+    map = L.map('map',{ attributionControl: false}).setView([39.959972, 116.275665], 17);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     //layerCtrl.getLayerById('work').options.zIndex = 9
     //layerCtrl.getLayerById('work').addTo(map);

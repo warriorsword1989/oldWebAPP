@@ -10,6 +10,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var layerCtrl = fastmap.uikit.LayerController();
         if (type === "link") {
             var rdLink = layerCtrl.getLayerById('referenceLine');
+            var sTools = new fastmap.uikit.SelectPath({map:map, currentEditLayer:rdLink});
+            sTools.enable();
             rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
