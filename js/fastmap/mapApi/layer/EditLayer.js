@@ -213,8 +213,5 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
 fastmap.mapApi.editLayer=function(url, options) {
     return new fastmap.mapApi.EditLayer(url, options);
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> b2a34915c57613a6160da70a7aae9a7810a95f55
+
