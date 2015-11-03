@@ -23,6 +23,7 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;
+
     },
 
     /***
@@ -62,19 +63,19 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
 
-        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().points;
-
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        console.log("points "+points);
         for (var j = 0, len = points.length; j < len; j++) {
-            var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-            if (disAB > 0 && disAB < 5) {
-
-
-                this.targetIndex = j;
+            for(var i=0;i<points[j].components.length;i++) {
+                var disAB = this.distance(this._map.latLngToLayerPoint([points[j].components[i].y,points[j].components[i].x]), layerPoint);
+                if (disAB > 0 && disAB < 5) {
+                    this.targetIndex = i;
+                    this.targetp=j;
+                    break;
+                }
             }
         }
-
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:this.targetIndex});
-
     },
 
     onMouseMove: function (event) {
@@ -106,6 +107,8 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
      * 重新设置节点
      */
     resetVertex:function(){
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+        console.log(this.targetp);
+        this.shapeEditor.shapeEditorResult.getFinalGeometry()[this.targetp].
+            components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
     }
 })

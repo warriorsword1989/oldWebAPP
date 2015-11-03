@@ -83,7 +83,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for(var item in this.tiles[tilePoint.x+":"+tilePoint.y].data){
             if(disFun(this.tiles[tilePoint.x+":"+tilePoint.y].data[item].g,x,y ,5)){
                 var id = this.tiles[tilePoint.x+":"+tilePoint.y].data[item].i;
-                this.fire("getId",{id:id})
+                var type = this.tiles[tilePoint.x + ":" + tilePoint.y].data[item].a;
+                this.fire("getId",{id:id,tips:0})
                 console.log(id);
                 break;
             }

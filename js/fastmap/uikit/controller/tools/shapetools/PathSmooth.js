@@ -17,7 +17,12 @@ fastmap.uikit.PathSmooth = L.Handler.extend({
         this.options = options || {};
         L.setOptions(this, options);
     },
-
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
     /***
      * 添加事件处理
      */
