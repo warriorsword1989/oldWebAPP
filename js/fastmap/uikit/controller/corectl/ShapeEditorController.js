@@ -4,7 +4,7 @@
  */
 
 fastmap.uikit.ShapeEditorController=(function() {
-    
+
         var instantiated;
         function init(options) {
             var shapeEditorController = L.Class.extend({
