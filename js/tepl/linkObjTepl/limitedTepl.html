@@ -1,4 +1,4 @@
-<div id="realTimeDiv" ng-controller="limitedController">
+<div ng-controller="limitedController">
     <div class="panel-group" id="popularLimited" style="margin: 0px;">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -21,34 +21,26 @@
                             <label class="col-sm-3 control-label">供用信息</label>
 
                             <div  class="col-sm-9">
-                                <select class="form-control" ng-model="linkLimit.appInfo">
-                                    <option value="0">调查中</option>
-                                    <option value="1">可以通行</option>
-                                    <option value="2">不可通行</option>
-                                    <option value="3">未供用</option>
-                                    <option value="5">计划</option>
+                                <select class="form-control" ng-model="linkData.appInfo"
+                                        ng-options="value.id as value.label for value in appInfoOptions">
+                                    <option>--</option>
+
                                 </select>
                             </div>
 
                         </div>
                     </form>
-                    <div class="list-group" ng-repeat="item in linkLimitData.linkLimit">
+                    <div class="list-group" ng-repeat="item in linkData.linkLimit">
                         <div class="list-group-item">
                             <form class="form-horizontal" method="get">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">限制类型</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="item.type">
-                                        <option value="0">道路维修中</option>
-                                        <option value="1">单行限制</option>
-                                        <option value="2">车辆限制</option>
-                                        <option value="3">穿行限制</option>
-                                        <option value="4">施工中不开放</option>
-                                        <option value="5">季节性关闭道路</option>
-                                        <option value="6">Usage Fee Required</option>
-                                        <option value="8">外地车限行</option>
-                                        <option value="9">尾号限行</option>
+                                    <select class="form-control" ng-model="item.type"
+                                            ng-options="value.id as value.label for value in typeOptions">
+                                        <option>--</option>
+
                                     </select>
                                 </div>
                                   <span class="glyphicon glyphicon-minus-sign"
@@ -60,12 +52,9 @@
                                 <label class="col-sm-3 control-label">限制方向</label>
 
                                 <div class="col-sm-9">
-                                  <select class="form-control" ng-model="item.limitDir">
-                                      <option value="0">未调查</option>
-                                      <option value="1">双方向</option>
-                                      <option value="2">顺方向</option>
-                                      <option value="3">逆方向</option>
-                                      <option value="9">不应用</option>
+                                  <select class="form-control" ng-model="item.limitDir"
+                                          ng-options="value.id as value.label for value in limitDirOptions">
+                                      <option>--</option>
                                   </select>
                                 </div>
                             </div>
@@ -74,15 +63,10 @@
                                 <label class="col-sm-3 control-label">收费类型</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="item.tollType">
-                                        <option value="0">无</option>
-                                        <option value="1">收费道路</option>
-                                        <option value="2">桥</option>
-                                        <option value="3">隧道</option>
-                                        <option value="4">公园</option>
-                                        <option value="5">山径</option>
-                                        <option value="6">风景路线</option>
-                                        <option value="9">不应用</option>
+                                    <select class="form-control" ng-model="item.tollType"
+                                            ng-options="value.id as value.label for value in tollTypeOptions">
+                                        <option>--</option>
+
                                     </select>
                                 </div>
                             </div>
@@ -91,12 +75,9 @@
                                 <label class="col-sm-3 control-label">天气条件</label>
 
                                 <div class="col-sm-9">
-                                    <select class="form-control" ng-model="item.weather">
-                                        <option value="0">无</option>
-                                        <option value="1">雨天</option>
-                                        <option value="2">雪天</option>
-                                        <option value="3">雾天</option>
-                                        <option value="9">不应用</option>
+                                    <select class="form-control" ng-model="item.weather"
+                                            ng-options="value.id as value.label for value in weatherOptions">
+                                        <option>--</option>
                                     </select>
                                 </div>
                             </div>
@@ -187,7 +168,7 @@
             </div>
             <div id="trafficLimitedDiv" class="panel-collapse collapse in">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div class="list-group"  ng-repeat="tItem in linkLimitData.linkLimitTruck">
+                    <div class="list-group"  ng-repeat="tItem in linkData.linkLimitTruck">
                         <div class="list-group-item">
                             <form class="form-horizontal" method="get">
                                 <div class="form-group">

@@ -28,21 +28,9 @@
                                     <label class="col-sm-3 control-label">道路种别</label>
 
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="data.kind">
-                                            <option value="0">作业中</option>
-                                            <option value="1">高速道路</option>
-                                            <option value="2">城市高速</option>
-                                            <option value="3">国道</option>
-                                            <option value="4">省道</option>
-                                            <option value="5">预留</option>
-                                            <option value="6">县道</option>
-                                            <option value="7">乡镇村道路</option>
-                                            <option value="8">其它道路</option>
-                                            <option value="9">非引导道路</option>
-                                            <option value="10"> 步行道路</option>
-                                            <option value="11">人渡</option>
-                                            <option value="13">轮渡</option>
-                                            <option value="15">10级路(障碍物)</option>
+                                        <select class="form-control" ng-model="linkData.kind"
+                                                ng-options="value.id as value.label for value in kindOptions">
+                                          <option>--</option>
                                         </select>
                                     </div>
                                 </div>
@@ -64,17 +52,17 @@
                                             <div class="col-sm-4 inline">
                                                 总: <input type="text" class="form-control inline"
                                                           style="width: 40px;"
-                                                          ng-model="data.laneNum">
+                                                          ng-model="linkData.laneNum">
                                             </div>
                                             <div class="col-sm-4 ">
                                                 左: <input type="text" class="form-control inline"
                                                           style="width: 40px;"
-                                                          ng-model="data.laneLeft">
+                                                          ng-model="linkData.laneLeft">
                                             </div>
                                             <div class="col-sm-4 ">
                                                 右: <input type="text" class="form-control inline"
                                                           style="width: 40px;"
-                                                          ng-model="data.laneRight">
+                                                          ng-model="linkData.laneRight">
                                             </div>
                                         </div>
                                     </div>
@@ -84,11 +72,10 @@
                                     <label class="col-sm-3 control-label">车道等级</label>
 
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="data.laneClass">
-                                            <option value="0">未赋值</option>
-                                            <option value="1">一条车道</option>
-                                            <option value="2">2或3条</option>
-                                            <option value="3">4条以上</option>
+                                        <select class="form-control" ng-model="linkData.laneClass"
+                                                ng-options="value.id as value.label for value in laneClassOptions">
+                                            <option value="0">--</option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -100,12 +87,12 @@
                                         <div class="radio">
                                             <label>
                                                 <input type="radio" name="multiDigitizedRadio" value="0"
-                                                       ng-model="formData.multiDigitized">
+                                                       ng-model="linkData.multiDigitized">
                                                 否
                                             </label>
                                             <label>
                                                 <input type="radio" name="multiDigitizedRadio" value="1"
-                                                       ng-model="formData.multiDigitized">
+                                                       ng-model="linkData.multiDigitized">
                                                 是
                                             </label>
                                         </div>
@@ -116,11 +103,10 @@
                                     <label class="col-sm-3 control-label">IMI代码</label>
 
                                     <div class="col-sm-9">
-                                      <select class="form-control" ng-model="data.imiCode">
-                                          <option value="0">其他道路</option>
-                                          <option value="1">交叉点内部道路</option>
-                                          <option value="2">转弯道</option>
-                                          <option value="3">无法描述的</option>
+                                      <select class="form-control" ng-model="linkData.imiCode"
+                                              ng-options="value.id as value.label for value in imiCodeOptions">
+                                          <option >--</option>
+
                                       </select>
                                     </div>
                                 </div>
@@ -129,13 +115,10 @@
                                     <label class="col-sm-3 control-label">功能等级</label>
 
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="data.functionClass">
-                                            <option value="0">未赋值</option>
-                                            <option value="1">等级1</option>
-                                            <option value="2">等级2</option>
-                                            <option value="3">等级3</option>
-                                            <option value="4">等级4</option>
-                                            <option value="5">等级5</option>
+                                        <select class="form-control" ng-model="linkData.functionClass"
+                                                ng-options="value.id as value.label for value in functionClassOptions">
+                                            <option >--</option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -161,12 +144,12 @@
             </div>
             <div id="loadPropertyDiv" class="panel-collapse collapse">
                 <div class="panel-body ">
-                    <div ng-repeat="item in data.nameCount">
+                    <div ng-repeat="item in linkData.names">
                         <div class="panel-group" style="margin: 0px;">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        {{item.name}}{{item.linkPid}}
+                                        {{item.name}}   {{item.linkPid}}
                                         <a data-toggle="collapse" data-parent="#accordion"
                                            href="#{{item.linkPid}}">
                                             <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -238,19 +221,9 @@
                                                     <label class="col-sm-3 control-label">名称类型</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="item.nameType">
-                                                            <option value="0">普通</option>
-                                                            <option value="1">立交桥名(链接路)</option>
-                                                            <option value="2">立交桥名(主路)</option>
-                                                            <option value="3">风景线路</option>
-                                                            <option value="4">桥</option>
-                                                            <option value="5">隧道</option>
-                                                            <option value="6">虚拟名称</option>
-                                                            <option value="7">出口编号</option>
-                                                            <option value="8">编号名称</option>
-                                                            <option value="9">虚拟连接名称</option>
-                                                            <option value="14">点门牌</option>
-                                                            <option value="15">线门牌</option>
+                                                        <select class="form-control" ng-model="item.nameType"
+                                                                ng-options="value.id as value.label for value in nameTypeOptions">
+                                                            <option>--</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -259,15 +232,9 @@
                                                     <label class="col-sm-3 control-label">名称来源</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="srcFlag">
-                                                            <option value="0">现场道路名标牌</option>
-                                                            <option value="1">现场概略图</option>
-                                                            <option value="2">方向看板</option>
-                                                            <option value="3">旅游图</option>
-                                                            <option value="4">点门牌</option>
-                                                            <option value="5">线门牌</option>
-                                                            <option value="6">其他</option>
-                                                            <option value="9">来源无法确定</option>
+                                                        <select class="form-control" ng-model="item.srcFlag"
+                                                                ng-options="value.id as value.label for value in srcFlagOptions" >
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -276,14 +243,8 @@
                                                     <label class="col-sm-3 control-label">路线属性</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="item.routeAtt">
-                                                            <option value="0">工作中</option>
-                                                            <option value="1">上行</option>
-                                                            <option value="2">下行</option>
-                                                            <option value="3">环状</option>
-                                                            <option value="4">内环</option>
-                                                            <option value="5">外环</option>
-                                                            <option value="9">未定义</option>
+                                                        <select class="form-control" ng-model="item.routeAtt"
+                                                            ng-options="value.id as value.label for value in routeAttOptions" >
                                                         </select>
                                                     </div>
                                                 </div>
