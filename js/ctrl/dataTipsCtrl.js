@@ -16,7 +16,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
-        //alert($scope.dataTipsData.name);
+
     };
     $scope.increaseDataTips = function () {
         var outLink = "", info = [], data = {};

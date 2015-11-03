@@ -4,7 +4,7 @@
 var objectEditApp = angular.module("lazymodule", []);
 objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
-    $scope.$parent.$parent.rdRestrictData = objectEditCtrl.data;
+    //$scope.$parent.$parent.rdRestrictData = objectEditCtrl.data;
     $scope.rdLinkData = $scope.$parent.$parent.rdRestrictData;
     console.log("test" + $scope.rdLinkData);
     $scope.showTips = function (id) {

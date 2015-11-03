@@ -12,6 +12,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.cancel = "";
     $scope.rdRestrictData ={};
     $scope.dataTipsTest = {};
+    $scope.updateLinkData = "";
+
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
@@ -76,8 +78,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
 
     };
-}]);
-
+}])
 var map = null;
 function appInit(){
 

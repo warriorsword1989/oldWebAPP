@@ -3,7 +3,7 @@
  */
 var realtimeTrafficApp = angular.module("lazymodule", []);
 realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
-    $scope.rticData = rticTest;
+    $scope.rticData =  $scope.linkData.data;
     $scope.minusIntRtic = function (id) {
         $scope.rticData.intRticData.splice(id, 1);
         if($scope.rticData.intRticData.length===0) {
