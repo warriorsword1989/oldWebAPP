@@ -112,6 +112,10 @@ fastmap.uikit.ShapeEditorController=(function() {
                         case 'pathcopy':
                             this.currentTool = this.shapeEditorToolsObj['pathcopy'];
                             break;
+                        case 'pathBreak':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
+                            break;
                         case  'pathVertexReMove':
                             this.currentTool = toolsObj[type];
                             this.currentTool.enable();
