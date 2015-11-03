@@ -78,47 +78,111 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 sobj.setOriginalGeometry(feature);
                 sobj.setFinalGeometry(feature);
             }
-            shapectl.setEditingType('pathVertexAdd');
+            shapectl.setEditingType('pathVertexInsert');
+
+            shapectl.startEditing();
+        }
+
+
+        if(type == 'pathBreak'){
+            if (!shapectl.shapeEditorResult.getFinalGeometry()) {
+                var feature = selectCtrl.selectedFeatures.geometry;
+                var editLyer = ly.getLayerById('edit');
+                editLyer.bringToFront();
+                var sobj = shapectl.shapeEditorResult;
+                editLyer.drawGeometry = feature;
+                editLyer.draw(feature, editLyer);
+                sobj.setOriginalGeometry(feature);
+                sobj.setFinalGeometry(feature);
+            }
+            shapectl.setEditingType('pathBreak');
 
             shapectl.startEditing();
         }
         //var link = ly.getLayerById('edit').drawGeometry;
 
 
-        var coordinate1 = []
-        for(var index in selectCtrl.selectedFeatures.geometry.components){
-            coordinate1.push([selectCtrl.selectedFeatures.geometry.components[index].x, selectCtrl.selectedFeatures.geometry.components[index].y]);
-        }
-
 
         $(document).bind('keypress',
             function(event){
                 if(event.keyCode==32){
 
-                    var link = shapectl.shapeEditorResult.getFinalGeometry()
-                    var coordinate = []
-                    for(var index in link.components){
-                        coordinate.push([link.components[index].x, link.components[index].y]);
-                    }
+                    if(type == 'pathBreak'){
 
-                    var param  = {
-                        "command": "updatelink",
-                        "projectId": 1,
-                        "data": {
-                            "pid": parseInt(selectCtrl.selectedFeatures.id),
-                            "objStatus": "UPDATE",
-                            "geometry": {"type": "LineString", "coordinates": coordinate}
+                        var link = shapectl.shapeEditorResult.getFinalGeometry();
+
+                        var breakPoint = null;
+
+                        for(var item in link.components){
+                            if(!_contains(link.components[item], shapectl.shapeEditorResult.getOriginalGeometry().points)){
+                                breakPoint = link.components[item];
+                            }
+
                         }
-                    }
-                    //结束编辑状态
-                    shapectl.stopEditing();
-                    Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
-                        var outputcontroller = new fastmap.uikit.OutPutController({});
-                        outputcontroller.pushOutput(data.data);
-                        ly.getLayerById('edit').bringToBack()
 
-                        $(ly.getLayerById('edit').options._div).unbind();
-                    })
+                        function _contains(point,components){
+                            var boolExit = false;
+                            for(var i in components){
+                                if(point.x == components[i].x && point.y == components[i].y){
+                                    boolExit = true;
+                                }
+                            }
+                            return boolExit;
+                        }
+
+
+                        var coordinate = []
+                        for(var index in link.components){
+                            coordinate.push([link.components[index].x, link.components[index].y]);
+                        }
+
+                        var param  = {
+                            "command": "breakpoint",
+                            "projectId": 1,
+                            "objId":parseInt(selectCtrl.selectedFeatures.id),
+
+                            "data":{"longitude":breakPoint.x,"latitude":breakPoint.y}
+
+                        }
+                        //结束编辑状态
+                        shapectl.stopEditing();
+                        Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                            var outputcontroller = new fastmap.uikit.OutPutController({});
+                            outputcontroller.pushOutput(data.data);
+                            ly.getLayerById('edit').bringToBack()
+
+                            $(ly.getLayerById('edit').options._div).unbind();
+                        })
+
+                    }else{
+                        var link = shapectl.shapeEditorResult.getFinalGeometry()
+                        var coordinate = []
+                        for(var index in link.components){
+                            coordinate.push([link.components[index].x, link.components[index].y]);
+                        }
+
+                        var param  = {
+                            "command": "updatelink",
+                            "projectId": 1,
+                            "data": {
+                                "pid": parseInt(selectCtrl.selectedFeatures.id),
+                                "objStatus": "UPDATE",
+                                "geometry": {"type": "LineString", "coordinates": coordinate}
+                            }
+                        }
+                        //结束编辑状态
+                        shapectl.stopEditing();
+                        Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                            var outputcontroller = new fastmap.uikit.OutPutController({});
+                            outputcontroller.pushOutput(data.data);
+                            ly.getLayerById('edit').bringToBack()
+
+                            $(ly.getLayerById('edit').options._div).unbind();
+                        })
+                    }
+
+
+
                 }
 
         });

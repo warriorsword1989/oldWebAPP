@@ -245,7 +245,87 @@ var dataTipsData = {
             id: "121214"
         },
 
-
     ]
-
 };
+
+var roadlinkdata={
+    linkPid: "234532",
+    specialTraffic:"0",
+    isViaduct:"1",
+    paveStatus:"0",
+    tollInfo:"3",
+    feeStd:"1",
+    feeFlag:"1",
+    systemId:"10",
+    difGroupId:"",
+    sNodePid:"189",
+    eNodePid:"690",
+    speedType:"1",
+    fromSpeedLimit:"0",
+    toSpeedLimit:"0",
+    speedClass:"1",
+    fromLimitSrc:"3",
+    toLimitSrc:"4",
+    speedDependent:"1",
+    timedomain:"",
+    speedClassWord:"1",
+    formOfWay:"2",
+    auxiFlag:"56",
+    r_data:[
+        {id:"0"},{id:"1"},{id:"2"}
+    ],
+    jsspeed:[{
+        speedType:"1",
+        fromSpeedLimit:"0",
+        toSpeedLimit:"0",
+        speedClass:"1",
+        fromLimitSrc:"3",
+        toLimitSrc:"4",
+        speedDependent:"1",
+        timedomain:""
+    }]
+
+}
+
+var fromOfWay=[
+        {id:"0",name:"未调查"},
+        {id:"1",name:"无属性"},
+        {id:"2",name:"其他"},
+        {id:"10",name:"IC"},
+        {id:"11",name:"JCT"},
+        {id:"12",name:"SA"},
+        {id:"13",name:"PA"},
+        {id:"14",name:"全封闭道路"},
+        {id:"15",name:"匝道"},
+        {id:"16",name:"跨线天桥"},
+        {id:"17",name:"跨线地道"},
+        {id:"18",name:"私道"},
+        {id:"20",name:"步行街"},
+        {id:"21",name:"过街天桥"},
+        {id:"22",name:"公交专用道"},
+        {id:"23",name:"自行车道"},
+        {id:"24",name:"跨线立交桥"},
+        {id:"30",name:"桥"},
+        {id:"31",name:"隧道"},
+        {id:"32",name:"立交桥"},
+        {id:"33",name:"环岛"},
+        {id:"34",name:"辅路"},
+        {id:"35",name:"掉头口"},
+        {id:"36",name:"POI连接路"},
+        {id:"37",name:"提右"},
+        {id:"38",name:"提左"},
+        {id:"39",name:"主辅路入口"},
+        {id:"43",name:"窄道路"},
+        {id:"48",name:"主路"},
+        {id:"49",name:"侧道"},
+        {id:"50",name:"交叉点内道路"},
+        {id:"51",name:"未定义交通区域"},
+        {id:"52",name:"区域内道路"},
+        {id:"53",name:"停车场出入口连接路"},
+        {id:"54",name:"停车场出入口虚拟连接路"},
+        {id:"57",name:"Highway对象外JCT"},
+        {id:"60",name:"风景路线"},
+        {id:"80",name:"停车位引导道路"},
+        {id:"81",name:"停车位引导道路"},
+        {id:"82",name:"虚拟提左提右"}
+    ];
