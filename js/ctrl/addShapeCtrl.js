@@ -11,7 +11,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         $scope.dotFlag = false;
         $scope.outFlag = false;
         $scope.addShape = function (type) {
-            if (type === "tips") {
+            if (type === "restriction") {
                 setTimeout(function () {
                     $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
@@ -22,35 +22,38 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
-                rdLink.options.selectType = 'link';
-                rdLink.options.editable = true;
-
-                rdLink.on("getId", function (data) {
-                    if ($scope.relationFlag) {
-                        $scope.limit.enterPid = data.id;
-                        outPutCtrl.pushOutput({label: "这是进入线"});
-                        //rdLink.options.editable = false;
-                        $scope.dotFlag = true;
-                        $scope.relationFlag = false;
-                        $scope.$parent.$parent.outFlag = true;
-                        //if ($scope.dotFlag) {
-                        //    rdLink.options.selectType = 'node';
-                        //    rdLink.options.editable = true;
-                        //    rdLink.on('getId', function (data) {
-                        //        $scope.limit.pid = data.id;
-                        //        $scope.limit.inLinkPid = data.id;
-                        //        outPutCtrl.pushOutput({label: "选择了进入的node"});
-                        //        rdLink.off("getId");
-                        //        $scope.relationFlag = false;
-                        //        rdLink.options.selectType = 'link';
-                        //        rdLink.options.editable = true;
-                        //        featCodeCtrl.setFeatCode($scope.limit);
-                        //        $scope.outFlag = true;
-                        //    })
-                        //}
-                    }
-
-                });
+                var sTools = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
+                sTools.enable();
+                //var rdLink = layerCtrl.getLayerById('referenceLine');
+                //rdLink.options.selectType = 'link';
+                //rdLink.options.editable = true;
+                //
+                //rdLink.on("getId", function (data) {
+                //    if ($scope.relationFlag) {
+                //        $scope.limit.enterPid = data.id;
+                //        outPutCtrl.pushOutput({label: "这是进入线"});
+                //        //rdLink.options.editable = false;
+                //        $scope.dotFlag = true;
+                //        $scope.relationFlag = false;
+                //        $scope.$parent.$parent.outFlag = true;
+                //        //if ($scope.dotFlag) {
+                //        //    rdLink.options.selectType = 'node';
+                //        //    rdLink.options.editable = true;
+                //        //    rdLink.on('getId', function (data) {
+                //        //        $scope.limit.pid = data.id;
+                //        //        $scope.limit.inLinkPid = data.id;
+                //        //        outPutCtrl.pushOutput({label: "选择了进入的node"});
+                //        //        rdLink.off("getId");
+                //        //        $scope.relationFlag = false;
+                //        //        rdLink.options.selectType = 'link';
+                //        //        rdLink.options.editable = true;
+                //        //        featCodeCtrl.setFeatCode($scope.limit);
+                //        //        $scope.outFlag = true;
+                //        //    })
+                //        //}
+                //    }
+                //
+                //});
             }
             else if (type === "link") {
                 if (shapectl.shapeEditorResult) {
