@@ -86,9 +86,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             //结束编辑状态
                             shapectl.stopEditing();
                             Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
-                                console.log(JSON.stringify(data));
-                                //var outputcontroller = new fastmap.uikit.OutPutController({});
-                                //outputcontroller.pushOutput(data.data);
+                                var outputcontroller = new fastmap.uikit.OutPutController({});
+                                outputcontroller.pushOutput(data.data);
                                 layerCtrl.getLayerById('edit').bringToBack()
 
                                 $(layerCtrl.getLayerById('edit').options._div).unbind();
