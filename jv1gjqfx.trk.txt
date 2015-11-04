@@ -1,0 +1,40 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   js/app.js
+#	modified:   js/ctrl/addShapeCtrl.js
+#	modified:   js/ctrl/dataTipsCtrl.js
+#	modified:   js/ctrl/filedsResultCtrl.js
+#	modified:   js/ctrl/objectEditCtrl.js
+#	modified:   js/fastmap/mapApi/layer/TileJSONLayer.js
+#	modified:   js/fastmap/uikit/controller/corectl/FeatCodeController.js
+#	modified:   js/functions/appfunctions.js
+#	modified:   js/tepl/linkObjTepl/basicTepl.html
+#	modified:   js/tepl/linkObjTepl/limitedTepl.html
+#	modified:   js/tepl/sceneTipsTepl.html
+#	modified:   js/tepl/trafficLimitOfNormalTepl.html
+#	modified:   main.html
+#
+# Changes not staged for commit:
+#	deleted:    .gitignore
+#	deleted:    test.html
+#
+# Untracked files:
+#	.idea/WebApp.iml
+#	.idea/encodings.xml
+#	.idea/jsLibraryMappings.xml
+#	.idea/libraries/
+#	.idea/misc.xml
+#	.idea/modules.xml
+#	.idea/scopes/
+#	.idea/vcs.xml
+#	.idea/workspace.xml
+#	js/ctrl/addLimitedPropertyCtrl.js
+#	js/tepl/addShapeTepl.html
+#	rge2ccjp.1nh.txt
+#
+

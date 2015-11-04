@@ -15,6 +15,7 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
 
     CreateShapeToolsObject: function (shapeEditor) {
         var toolsObject = {
+            'drawPath': new fastmap.uikit.DrawPath({shapeEditor:shapeEditor}),
             'pathcopy': new fastmap.uikit.PathCopy({shapeEditor:shapeEditor}),
             'pathcut': new fastmap.uikit.PathCut({shapeEditor:shapeEditor}),
             'pathVertexInsert': new fastmap.uikit.PathVertexInsert({shapeEditor:shapeEditor}),

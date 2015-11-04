@@ -81,6 +81,7 @@
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
                 //uikit/controller/tools/shapetools
                 "fastmap/uikit/controller/tools/shapetools/PathCopy.js",
+                "fastmap/uikit/controller/tools/shapetools/DrawPath.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCut.js",
                 "fastmap/uikit/controller/tools/shapetools/PathMove.js",
                 "fastmap/uikit/controller/tools/shapetools/PathSmooth.js",

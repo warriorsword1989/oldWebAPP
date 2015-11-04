@@ -15,10 +15,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
         var feature = null
         if (type == "insertDot") {
 
-            if (!shapectl.shapeEditorResult.getFinalGeometry()) {
+            if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
-                editLyer.bringToFront();
+                ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
                 editLyer.drawGeometry = feature;
                 editLyer.draw(feature, editLyer);
@@ -36,10 +36,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         if (type == "deleteDot") {
 
-            if (!shapectl.shapeEditorResult.getFinalGeometry()) {
+            if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
-                editLyer.bringToFront();
+                ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
                 editLyer.drawGeometry = feature;
                 editLyer.draw(feature, editLyer);
@@ -52,10 +52,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         if (type == "moveDot") {
 
-            if (!shapectl.shapeEditorResult.getFinalGeometry()) {
+            if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
-                editLyer.bringToFront();
+                ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
                 editLyer.drawGeometry = feature;
                 editLyer.draw(feature, editLyer);
@@ -68,10 +68,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         if (type == "extendDot") {
 
-            if (!shapectl.shapeEditorResult.getFinalGeometry()) {
+            if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
-                editLyer.bringToFront();
+                ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
                 editLyer.drawGeometry = feature;
                 editLyer.draw(feature, editLyer);
@@ -85,10 +85,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
 
         if(type == 'pathBreak'){
-            if (!shapectl.shapeEditorResult.getFinalGeometry()) {
+            if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
-                editLyer.bringToFront();
+                ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
                 editLyer.drawGeometry = feature;
                 editLyer.draw(feature, editLyer);
