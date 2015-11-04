@@ -26,6 +26,8 @@ fastmap.uikit.LayerController = (function () {
                 L.setOptions(this, options);
                 this.config = this.options.config;
                 this.layers = [];
+                this.zIndexQueue=[];
+                this.maxZIndex=1;
                 this.initLayer();
                 this.on('layerOnAdd', this.OnAddLayer, this);
                 this.on('layerOnRemove', this.OnRemoveLayer, this);
@@ -35,8 +37,52 @@ fastmap.uikit.LayerController = (function () {
             initLayer: function () {
                 for (var group in this.config) {
                     for (var layer in this.config[group].layers) {
+                        if(this.maxZIndex<(this.config[group].layers[layer].options.zIndex)){
+                            this.maxZIndex=this.config[group].layers[layer].options.zIndex+1;
+                        }
+                        var zIndexObj={
+                            id:this.config[group].layers[layer].options.id,
+                            zIndex:this.config[group].layers[layer].options.zIndex
+                        };
+                        this.zIndexQueue.push(zIndexObj);
+
                         this.config[group].layers[layer].options.groupid = this.config[group].groupid;
                         this.layers.push(this.config[group].layers[layer].clazz(this.config[group].layers[layer].url, this.config[group].layers[layer].options));
+                    }
+                }
+            },
+            /**
+             * 图层显示隐藏转换方法
+             * @method pushLayerFront
+             * @param id
+             */
+            pushLayerFront: function (id) {
+
+
+                this.pushLayerNormal();
+                var layer = this.getLayerById(id);
+                console.log("push front is preparing");
+                if(layer!=null){
+                    layer.options.zIndex=this.maxZIndex;
+                    console.log("push front is running");
+                    layer.setZIndex(this.maxZIndex);
+                }
+                //this.OnSwitchLayer({layerArr: this.layers});
+            },
+            /**
+             * 图层显示隐藏转换方法
+             * @method pushLayerNormal
+             */
+            pushLayerNormal: function () {
+                //所有的都先归位，然后再设置最大的。
+                for(var i=0;i<this.layers.length;i++){
+                    if(this.layers[i].options.zIndex==this.maxZIndex){
+                        for(var j=0;j<this.zIndexQueue.length;j++){
+                            if(this.zIndexQueue[j].id==this.layers[i].options.id){
+                                this.layers[i].options.zIndex=this.zIndexQueue[j].zIndex;
+                                this.layers[i].setZIndex(this.zIndexQueue[j].zIndex);
+                            }
+                        }
                     }
                 }
             },
