@@ -70,9 +70,9 @@ objectEditApp.controller("normalController", function ($scope) {
     }
 
     $scope.selectTip = function (item) {
-        $scope.tipsId = item;
+        $scope.tipsId = item.id;
         var obj={};
-            obj.flag = item;
+            obj.flag = item.id;
             obj.outLinkPid =""; //$scope.rdLink.outPid;
             obj.pid = "";//featCodeCtrl.newObj.pid;
             obj.relationshipType = 1;
@@ -88,12 +88,12 @@ objectEditApp.controller("normalController", function ($scope) {
             return;
         }
         var tipsObj = $scope.rdRestrictData.details;
-        for (var i = 0, len = tipsObj.length; i < len; i++) {
-            if (tipsObj[i].flag === $scope.tipsId) {
-                alert("重复");
-                return;
-            }
-        }
+        //for (var i = 0, len = tipsObj.length; i < len; i++) {
+        //    if (tipsObj[i].flag === $scope.tipsId) {
+        //        alert("重复");
+        //        return;
+        //    }
+        //}
         $scope.rdRestrictData.details.push( $scope.newLimited );
 
     }
