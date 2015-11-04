@@ -56,7 +56,17 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     $scope.$parent.$parent.save=function() {
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
-        console.log(objectCtrl.changedProperty);
-    };
+        var param = {
+            "command": "updatelink",
+            "projectId": 1,
+            "data": objectCtrl.changedProperty
+        };
 
+        Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+            console.log(data);
+        })
+    };
+     $scope.$parent.$parent.delete=function(){
+
+     }
 }])

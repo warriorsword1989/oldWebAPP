@@ -11,7 +11,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
     $scope.rdRestrictData ={};//交限对象
-    $scope.dataTipsTest = {};
     $scope.updateLinkData = "";
     $scope.outFlag = false;//是否可监听
 
@@ -84,6 +83,10 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
 
     };
+    $scope.empty=function(){
+        var output = fastmap.uikit.OutPutController();
+        output.clear();
+    }
 }])
 var map = null;
 function appInit(){

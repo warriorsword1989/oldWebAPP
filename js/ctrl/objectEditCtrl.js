@@ -6,7 +6,6 @@ objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
     $scope.rdLinkData = $scope.$parent.$parent.rdRestrictData;
-    console.log("test" + $scope.rdLinkData);
     $scope.showTips = function (id) {
         alert(id);
     };
@@ -16,7 +15,20 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id":2},
         {"id":3},
         {"id":4},
-        {"id":5}
+        {"id":5},
+        {"id":6},
+        {"id":7},
+        {"id":8},
+        {"id":9},
+        {"id":11},
+        {"id":22},
+        {"id":33},
+        {"id":44},
+        {"id":55},
+        {"id":66},
+        {"id":77},
+        {"id":88},
+        {"id":99}
 
     ];
     $scope.vehicleOptions = [
@@ -58,9 +70,9 @@ objectEditApp.controller("normalController", function ($scope) {
     }
 
     $scope.selectTip = function (item) {
-        $scope.tipsId = item;
+        $scope.tipsId = item.id;
         var obj={};
-            obj.flag = item;
+            obj.flag = item.id;
             obj.outLinkPid =""; //$scope.rdLink.outPid;
             obj.pid = "";//featCodeCtrl.newObj.pid;
             obj.relationshipType = 1;
@@ -76,12 +88,12 @@ objectEditApp.controller("normalController", function ($scope) {
             return;
         }
         var tipsObj = $scope.rdRestrictData.details;
-        for (var i = 0, len = tipsObj.length; i < len; i++) {
-            if (tipsObj[i].flag === $scope.tipsId) {
-                alert("重复");
-                return;
-            }
-        }
+        //for (var i = 0, len = tipsObj.length; i < len; i++) {
+        //    if (tipsObj[i].flag === $scope.tipsId) {
+        //        alert("重复");
+        //        return;
+        //    }
+        //}
         $scope.rdRestrictData.details.push( $scope.newLimited );
 
     }
@@ -98,4 +110,12 @@ objectEditApp.controller("normalController", function ($scope) {
         objectEditCtrl.save();
         console.log(objectEditCtrl.changedProperty);
     };
+    $scope.$parent.$parent.delete=function(){
+        var param={"command":"updaterestriction","projectId":1,"data":{"pid":$scope.rdRestrictData.pid,"objStatus":"DELETE"}}
+        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+            console.log(data);
+            $scope.$parent.$parent.rdRestrictData = "";
+
+        })
+    }
 });
