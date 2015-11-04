@@ -111,11 +111,28 @@ objectEditApp.controller("normalController", function ($scope) {
         console.log(objectEditCtrl.changedProperty);
     };
     $scope.$parent.$parent.delete=function(){
-        var param={"command":"updaterestriction","projectId":1,"data":{"pid":$scope.rdRestrictData.pid,"objStatus":"DELETE"}}
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            console.log(data);
-            $scope.$parent.$parent.rdRestrictData = "";
+        //objectEditCtrl.setCurrentObject($scope.rdLinkData);
+        //objectEditCtrl.remove();
+        //http://192.168.4.130/FosEngineWeb/pdh/obj/edit?parameter=
+        // {"command":"updaterestriction","projectId":1,"data":{"pid":2131,"objStatus":"DELETE"}}
+        var pid=parseInt($scope.$parent.$parent.rdRestrictData.pid);
+        var param  = {
+            "command": "updaterestriction",
+            "projectId": 1,
+            "data": {
+                "pid":pid,
+                "objStatus":"DELETE"
+            }
+        }
+        //结束编辑状态
+        console.log("I am removing obj"+pid);
+        Application.functions.saveProperty(JSON.stringify(param),function(data){
+            var outputcontroller = new fastmap.uikit.OutPutController({});
+            outputcontroller.pushOutput(data.data);
 
+            console.log("交限 "+id+" has been removed");
         })
+
+
     }
 });
