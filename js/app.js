@@ -84,6 +84,10 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
 
     };
+    $scope.empty=function(){
+        var output = fastmap.uikit.OutPutController();
+        output.clear();
+    }
 }])
 var map = null;
 function appInit(){
