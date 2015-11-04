@@ -109,6 +109,10 @@ fastmap.uikit.ShapeEditorController=(function() {
                     this.currentTool = null;
                     var toolsObj = this.shapeEditorToolsObj.CreateShapeToolsObject(this);
                     switch (type) {
+                        case 'drawPath':
+                            this.currentTool = toolsObj[type];
+                            this.currentTool.enable();
+                            break;
                         case 'pathcopy':
                             this.currentTool = this.shapeEditorToolsObj['pathcopy'];
                             break;
