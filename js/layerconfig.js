@@ -106,7 +106,9 @@ Application.layersConfig =
                             'color': item.m.a,
                             'name':item.m.b,
                             'kind':item.m.c,
-                            'direct':item.m.d
+                            'direct':item.m.d,
+                            'snode':item.m.e,
+                            'enode':item.m.f
                         }
                         geojson['features'].push(obj);
                     });
@@ -157,6 +159,7 @@ Application.layersConfig =
                             'restrictioninfo': item.m.b,
                             'restrictioninfo': item.m.b,
                             'rotate':item.m.c
+
                         }
                         geojson['features'].push(obj);
                     });

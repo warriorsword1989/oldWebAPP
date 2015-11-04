@@ -468,8 +468,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
      */
-    _drawLineString: function (ctx, geom, style, boolPixelCrs) {
-        if (!style) {
+    _drawLineString: function (ctx, geom, boolPixelCrs,linestyle,nodestyle) {
+        if (!linestyle) {
             return;
         }
 
@@ -479,10 +479,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for (i = 0; i < coords.length; i++) {
 
             if(this._map.getZoom() >= this.showNodeLeve && (i == 0||i == coords.length - 1)){
-                this._drawPoint(ctx, coords[i][0], {
-                    color: 'rgba(105,105,105,1)',
-                    radius: 2.5
-                },true);
+                this._drawPoint(ctx, coords[i][0], nodestyle,true);
             }
 
             if(boolPixelCrs){
@@ -496,8 +493,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         //    return;
         //}
         var g = ctx.canvas.getContext('2d');
-        g.strokeStyle = style.color;
-        g.lineWidth = style.size;
+        g.strokeStyle = linestyle.color;
+        g.lineWidth = linestyle.size;
         g.beginPath();
         for (i = 0; i < proj.length; i++) {
             var method = (i === 0 ? 'move' : 'line') + 'To';
@@ -699,7 +696,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    this._drawLineString(ctx, geom, style, boolPixelCrs);
+                    this._drawLineString(ctx, geom, boolPixelCrs, style,{color:'rgba(105,105,105,1)',radius:3});
                     break;
 
                 case 'MultiLineString':
