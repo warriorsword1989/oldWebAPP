@@ -11,7 +11,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
-
     };
     $scope.increaseDataTips = function () {
         var outLink = "", info = [], data = {};
@@ -38,20 +37,10 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         var outLink = "", info = [], data = {};
         $scope.$parent.$parent.rdRestrictData.pid = this.dataTipsData.in.id;
         $scope.$parent.$parent.rdRestrictData.inLinkPid = this.dataTipsData.in.id;
-        //var arr = this.dataTipsData.o_array;
-        //for (var i = 0, len = arr.length; i < len; i++) {
-        //    var obj = {};
-        //    obj.flag = arr[i].oInfo;
-        //    info.push(obj);
-        //    outLink += arr[i].id;
-        //}
         $scope.$parent.$parent.rdRestrictData.details = this.dataTipsData.o_array;
-        //$scope.$parent.$parent.rdRestrictData.outLinkPid = outLink;
         $scope.$parent.$parent.rdRestrictData.time = [{startTime: "20121212w", endTime: "20121213"}, {
             startTime: "20141214",
             endTime: "20141215"
         }];
-
-        //dataTipsCtrl.toDataMode(data);
     }
 })

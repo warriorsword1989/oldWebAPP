@@ -9,6 +9,7 @@
         L.Map.prototype.initialize.call(this, id, options);
         this.map = this;
         this.mapControl = new this._mapController(this);
+        this.currrentTool = null;
         //开始绘制
         this.on('startshapeeditresultfeedback',function(){});
         //结束绘制

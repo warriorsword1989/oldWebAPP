@@ -21,7 +21,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }, 100)
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
-                var rdLink = layerCtrl.getLayerById('referenceLine');
+                var rdLink = layerCtrl.getLayerById('referenceLine')
+
+                var sTools = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
+                sTools.enable();
                 rdLink.options.selectType = 'link';
                 rdLink.options.editable = true;
 
@@ -61,6 +64,42 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapectl.startEditing();
             }
 
+            $(document).bind('keypress',
+                function(event){
+                    if(event.keyCode==32){
+                        //http://192.168.4.130/FosEngineWeb/pdh/obj/edit?parameter=
+                        //// {"command":"createlink","projectId":1,"data":{"geometry":"","eNodePid":0,"sNodePid":0}}
+
+                        if(type == 'link'){
+                            var link = shapectl.shapeEditorResult.getFinalGeometry();
+                            var coordinate = [];
+                            for(var index in link.components){
+                                coordinate.push([link.components[index].x, link.components[index].y]);
+                            }
+
+                            var param  = {
+                                "command": "createlink",
+                                "projectId": 1,
+                                "data": {
+                                    "eNodePid": 0,
+                                    "sNodePid": 0,
+                                    "geometry": {"type": "LineString", "coordinates": coordinate}
+                                }
+                            }
+                            //结束编辑状态
+                            shapectl.stopEditing();
+                            Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                                var outputcontroller = new fastmap.uikit.OutPutController({});
+                                outputcontroller.pushOutput(data.data);
+                                layerCtrl.getLayerById('edit').bringToBack()
+
+                                $(layerCtrl.getLayerById('edit').options._div).unbind();
+                            });
+
+                        }
+                    }
+
+                });
         }
     }]
 )

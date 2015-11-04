@@ -97,12 +97,13 @@
                             </li>
                             <div style="float: right;">
                                 <button style="top:10px;">立即检查</button>
+                                <button style="top:10px;" ng-click="empty()">清空</button>
                             </div>
                         </ul>
 
                         <div id="inwTabContent" class="tab-content">
                             <div class="tab-pane fade in active" id="inspectDiv">
-                                <div ng-include="outputTab"></div>
+                                <div ng-include="outputTab"  ui-sref-opt="{reload:true}"></div>
                             </div>
                             <div class="tab-pane fade in active" id="wrongDiv">
                                 <div ng-include="errorCheckTab"></div>
