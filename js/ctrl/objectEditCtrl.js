@@ -16,9 +16,23 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id":2},
         {"id":3},
         {"id":4},
-        {"id":5}
+        {"id":5},
+        {"id":6},
+        {"id":7},
+        {"id":8},
+        {"id":9},
+        {"id":11},
+        {"id":22},
+        {"id":33},
+        {"id":44},
+        {"id":55},
+        {"id":66},
+        {"id":77},
+        {"id":88},
+        {"id":99}
 
     ];
+
     $scope.vehicleOptions = [
         {"id": 0, "label": "客车(小汽车)"},
         {"id": 1, "label": "配送卡车"},
