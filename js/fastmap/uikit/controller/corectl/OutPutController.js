@@ -60,7 +60,7 @@ fastmap.uikit.OutPutController=(function() {
              * 清空
              */
             clear:function(){
-
+                this.outPuts=[];
             }
         });
         return new outPutController(options);

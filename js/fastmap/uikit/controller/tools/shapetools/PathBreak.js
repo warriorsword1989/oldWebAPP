@@ -3,7 +3,7 @@
  * Class PathVertexInsert
  */
 
-fastmap.uikit.PathVertexInsert = L.Handler.extend({
+fastmap.uikit.PathBreak = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
@@ -52,7 +52,10 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
         this.resetVertex(layerPoint);
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        this.disable();
+        this.container.style.cursor = '';
+
     },
 
     onMouseMove: function(){

@@ -168,10 +168,10 @@ Application.layersConfig =
                 mecator:new fastmap.mapApi.MecatorTranform(),
                 updateWhenIdle: true,
                 tileSize:256,
-                type: 'Point',
+                type: 'Marker',
                 zIndex:6,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:'RDRESTRICTION'
             }
 
