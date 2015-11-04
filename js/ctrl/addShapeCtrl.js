@@ -6,6 +6,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var layerCtrl = fastmap.uikit.LayerController();
         var outPutCtrl = fastmap.uikit.OutPutController();
         var featCodeCtrl = new fastmap.uikit.FeatCodeController();
+        var shapectl = fastmap.uikit.ShapeEditorController();
         $scope.relationFlag = true;
         $scope.dotFlag = false;
         $scope.outFlag = false;
@@ -51,6 +52,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                 });
             }
+            else if (type === "link") {
+                if (shapectl.shapeEditorResult) {
+                    var editLyer = layerCtrl.getLayerById('edit');
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapectl.setEditingType('drawPath');
+                shapectl.startEditing();
+            }
+
         }
     }]
 )
