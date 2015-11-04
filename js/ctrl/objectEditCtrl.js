@@ -72,15 +72,15 @@ objectEditApp.controller("normalController", function ($scope) {
     $scope.selectTip = function (item) {
         $scope.tipsId = item.id;
         var obj={};
-        obj.flag = item.id;
-        obj.outLinkPid =""; //$scope.rdLink.outPid;
-        obj.pid = "";//featCodeCtrl.newObj.pid;
-        obj.relationshipType = 1;
-        obj.restricInfo = 1;
-        obj.restricPid =""// featCodeCtrl.newObj.pid;
-        obj.type = 1;
-        obj.conditons = [];
-        $scope.newLimited = obj;
+            obj.flag = item.id;
+            obj.outLinkPid =""; //$scope.rdLink.outPid;
+            obj.pid = "";//featCodeCtrl.newObj.pid;
+            obj.relationshipType = 1;
+            obj.restricInfo = 1;
+            obj.restricPid =""// featCodeCtrl.newObj.pid;
+            obj.type = 1;
+            obj.conditons = [];
+           $scope.newLimited = obj;
     };
     $scope.addTips = function () {
         if ($scope.tipsId === null || $scope.tipsId === undefined) {
@@ -111,11 +111,28 @@ objectEditApp.controller("normalController", function ($scope) {
         console.log(objectEditCtrl.changedProperty);
     };
     $scope.$parent.$parent.delete=function(){
-        var param={"command":"updaterestriction","projectId":1,"data":{"pid":$scope.rdRestrictData.pid,"objStatus":"DELETE"}}
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            console.log(data);
-            $scope.$parent.$parent.rdRestrictData = "";
+        //objectEditCtrl.setCurrentObject($scope.rdLinkData);
+        //objectEditCtrl.remove();
+        //http://192.168.4.130/FosEngineWeb/pdh/obj/edit?parameter=
+        // {"command":"updaterestriction","projectId":1,"data":{"pid":2131,"objStatus":"DELETE"}}
+        var pid=parseInt($scope.$parent.$parent.rdRestrictData.pid);
+        var param  = {
+            "command": "updaterestriction",
+            "projectId": 1,
+            "data": {
+                "pid":pid,
+                "objStatus":"DELETE"
+            }
+        }
+        //结束编辑状态
+        console.log("I am removing obj"+pid);
+        Application.functions.saveProperty(JSON.stringify(param),function(data){
+            var outputcontroller = new fastmap.uikit.OutPutController({});
+            outputcontroller.pushOutput(data.data);
 
+            console.log("交限 "+id+" has been removed");
         })
+
+
     }
 });

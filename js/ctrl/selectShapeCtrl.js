@@ -12,8 +12,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             layerCtrl.pushLayerFront('referenceLine');
             var rdLink = layerCtrl.getLayerById('referenceLine');
 
-            var sTools = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
-            sTools.enable();
+            map.currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
+            map.currentTool.enable();
             rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
@@ -55,10 +55,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         if (type === "relation") {
             layerCtrl.pushLayerFront('referencePoint');
             var rdLink = layerCtrl.getLayerById('referencePoint');
+            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink});
+            map.currentTool.enable();
             rdLink.options.selectType = 'relation';
             rdLink.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            rdLink.on("getId", function (data) {
+            rdLink.on("getNodeId", function (data) {
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {

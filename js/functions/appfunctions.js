@@ -45,7 +45,7 @@ Application.functions.getRdObjectById=function(id,type,func) {
 };
 
 /***
- * 保存几何编辑结果
+ * 编辑相关
  * @param param
  * @param func
  */
