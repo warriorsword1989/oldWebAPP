@@ -61,9 +61,9 @@ fastmap.uikit.ObjectEditController = (function () {
              *
              * @param obj
              */
-             setOriginalData:function(obj) {
+            setOriginalData: function (obj) {
                 this.originalData = obj;
-             },
+            },
             /**
              * 删除地图上元素
              * @method onRemove
@@ -103,10 +103,12 @@ fastmap.uikit.ObjectEditController = (function () {
                             if (objArr.length !== 0) {
                                 retObj[item] = objArr;
                             }
+                        }else if(oriData[item].length < data[item].length) {
+
                         }
 
                     } else if (!isNaN(oriData[item])) {
-                        if(item==="kind"){
+                        if (item === "kind") {
                             console.log(oriData[item]);
                         }
 
@@ -148,7 +150,7 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
-                this.changedProperty = this.compareJson(orignalData, data,"UPDATE");
+                this.changedProperty = this.compareJson(orignalData, data, "UPDATE");
                 this.fire("changedPropertyEvent", {changedProperty: this.changedProperty});
             }
         });

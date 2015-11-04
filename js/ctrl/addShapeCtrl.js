@@ -21,7 +21,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }, 100)
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
-                var rdLink = layerCtrl.getLayerById('referenceLine');
+                var rdLink = layerCtrl.getLayerById('referenceLine')
+
+                var sTools = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
+                sTools.enable();
                 rdLink.options.selectType = 'link';
                 rdLink.options.editable = true;
 
