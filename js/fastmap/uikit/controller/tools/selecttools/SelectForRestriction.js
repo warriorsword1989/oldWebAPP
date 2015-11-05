@@ -90,7 +90,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         }else{
                             this.currentEditLayer.fire("getId", {id: data[item].properties.enode,index:this.selectedFeatures.length})
                         }
-                        var point = data[item].geometry.coordinates[touchids[0]]
+                        var point = data[item].geometry.coordinates[touchids[0]];
                         this.selectedFeatures.push(id);
 
                         var ctx = {
