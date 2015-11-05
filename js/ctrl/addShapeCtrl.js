@@ -8,6 +8,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var featCodeCtrl = new fastmap.uikit.FeatCodeController();
         var shapectl = fastmap.uikit.ShapeEditorController();
         var objEditCtrl = fastmap.uikit.ObjectEditController();
+        var checkCtrl = fastmap.uikit.CheckResultController();
         $scope.limitRelation = {};
         $scope.addShape = function (type) {
             if (type === "restriction") {
@@ -86,9 +87,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 "data": $scope.limitRelation
                             }
                             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                                console.log(data);
+
                                 var pid = data.data.log[0].pid;
-                                outPutCtrl.pushOutput({label: "已生成交限"});
+                                checkCtrl.setCheckResult(data);
+                                outPutCtrl.pushOutput(data.data.log[0]);
                                 Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                                     objEditCtrl.setCurrentObject(data.data);
                                     $scope.$parent.$parent.rdRestrictData = data.data;
