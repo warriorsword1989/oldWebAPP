@@ -33,7 +33,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         if ($scope.$parent.$parent.updateLinkData !== "") {
-                            $scope.$parent.$parent.updateLinkData(data);
+                            $scope.$parent.$parent.updateLinkData(data.data);
                         }
 
                     })
@@ -69,6 +69,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                            if ($scope.$parent.$parent.updateLinkData !== "") {
+                                $scope.$parent.$parent.updateLinkData(data.data);
+                            }
                         } else if ($scope.type === 1) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
                         }

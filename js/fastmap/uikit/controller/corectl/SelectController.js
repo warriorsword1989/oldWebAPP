@@ -48,7 +48,7 @@ fastmap.uikit.SelectController=(function() {
              */
             selectByGeometry:function(geometry) {
                 this.geometry = geometry;
-                var features=[];
+                var features={geometry:geometry};
                 if(geometry==="circle"){
                 }
 

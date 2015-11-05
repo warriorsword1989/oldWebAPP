@@ -7,9 +7,12 @@ addLimitedApp.controller("normalController", function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    rdLink.options.selectType = 'link';
-    rdLink.options.editable = true;
     $scope.rdRestrictData = {};
+    $scope.rdRestrictData.pid = featCodeCtrl.newObj.enterLine;
+    $scope.rdRestrictData.inLinkPid = featCodeCtrl.newObj.enterLine;
+    $scope.rdRestrictData.kgFlag = 0;
+    $scope.rdRestrictData.nodePid = featCodeCtrl.newObj.enterNode;
+    $scope.rdRestrictData.restrictInfo = "1";
     $scope.rdRestrictData.details = [];
     //初始化交限
     $scope.addLimitedData = [
@@ -67,9 +70,8 @@ addLimitedApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    //$scope.rdRestrictData = featCodeCtrl.newObj;
     rdLink.on('getId', function (data) {
-        if ($scope.$parent.$parent.outFlag) {
+        if(data.index>=2) {
             $scope.outPid = data.id;
             outPutCtrl.pushOutput({"label":"已经选了出线"})
         }
@@ -94,16 +96,26 @@ addLimitedApp.controller("normalController", function ($scope) {
             return;
         }
 
-            var tipsObj = $scope.rdRestrictData.details;
-            for (var i = 0, len = tipsObj.length; i < len; i++) {
-                if (tipsObj[i].flag === $scope.tipsId) {
-                    alert("重复");
-                    return;
-                }
+        var tipsObj = $scope.rdRestrictData.details;
+        for (var i = 0, len = tipsObj.length; i < len; i++) {
+            if (tipsObj[i].flag === $scope.tipsId) {
+                alert("重复");
+                return;
             }
-        $scope.rdRestrictData.pid = featCodeCtrl.newObj.pid;
-        $scope.rdSubRestrictData =   $scope.newObj;
-        $scope.rdRestrictData.details.push( $scope.rdSubRestrictData );
+        }
+        $scope.rdSubRestrictData = $scope.newObj;
+        $scope.rdRestrictData.details.push($scope.rdSubRestrictData);
         outPutCtrl.pushOutput({"label": "已经选择了交限"});
-    }
+    };
+    $scope.$parent.$parent.save=function() {
+        var createRelation = $scope.rdRestrictData;
+        var param = {
+            "command": "updaterestriction",
+            "projectId": 1,
+            "data": $scope.rdRestrictData
+        }
+        Application.functions.save(param, function (data) {
+            outPutCtrl.pushOutput(data);
+        })
+    };
 })
