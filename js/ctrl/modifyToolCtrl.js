@@ -184,7 +184,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
                             shapectl.stopEditing();
                             Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
                                 var outputcontroller = new fastmap.uikit.OutPutController({});
-                                outputcontroller.pushOutput(data.data);
+                                var resultdata=[];
+                                resultdata.push("类型："+data.data.log[0].type+"; pid:"+data.data.log[0].pid+"; 操作:"+data.data.log[0].op);
+                                outputcontroller.pushOutput(resultdata);
                                 ly.getLayerById('edit').bringToBack()
 
                                 $(ly.getLayerById('edit').options._div).unbind();
