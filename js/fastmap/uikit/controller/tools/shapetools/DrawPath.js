@@ -54,15 +54,17 @@ fastmap.uikit.DrawPath = L.Handler.extend({
     onMouseDown: function (event) {
         if(this.clickcount==1){
             var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
-            var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)]);
-            this.shapeEditor.shapeEditorResult.setFinalGeometry(line);
+            //var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)]);
+            //this.shapeEditor.shapeEditorResult.setFinalGeometry(line);
             this.clickcount++;
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }else{
             var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+
     },
 
     onMouseMove: function (event) {
@@ -70,13 +72,16 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         var layerPoint = event.layerPoint;
         this.targetPoint = this._map.layerPointToLatLng(layerPoint);
         this.insertPoint =  fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat);
-        var points= this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
-        if(points.length==1){
-            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(points.length-1,0,this.insertPoint);
+        if(this.clickcount>1){
+            var points= this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
+            if(points.length==1){
+                this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(points.length-1,0,this.insertPoint);
+            }
+            if(points.length>1){
+                this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(points.length-1,1,this.insertPoint);
+            }
         }
-        if(points.length>1){
-            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(points.length-1,1,this.insertPoint);
-        }
+
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
     disable: function () {
@@ -86,7 +91,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this.removeHooks();
     },
     onDbClick: function (event) {
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1,1);
+        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-2,2);
         this.clickcount=1;
         this.shapeEditor.stopEditing();
         fastmap.uikit.ShapeEditorController().stopEditing();
