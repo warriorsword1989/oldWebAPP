@@ -6,7 +6,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
     var selectCtrl = fastmap.uikit.SelectController();
     var shapectl = new fastmap.uikit.ShapeEditorController();
+    map.currentTool = shapectl.getCurrentTool();
     shapectl.setMap(map);
+
     $scope.modifyShape = function (type) {
 
         $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
@@ -36,6 +38,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathVertexInsert');
 
             shapectl.startEditing();
+
         }
 
         if (type == "deleteDot") {
@@ -111,88 +114,86 @@ modifyApp.controller("modifyToolController", function ($scope) {
             function(event){
 
                 if(event.keyCode==32){
+                    //为了保证捕获到这里时提交的形式正确
+                    if(typeof(selectCtrl.selectedFeatures.id)!="undefined"){
 
-                    if(type == 'pathBreak'){
+                        if(type == 'pathBreak'){
 
-                        var link = shapectl.shapeEditorResult.getFinalGeometry();
+                            var link = shapectl.shapeEditorResult.getFinalGeometry();
 
-                        var breakPoint = null;
+                            var breakPoint = null;
 
-                        for(var item in link.components){
-                            if(!_contains(link.components[item], shapectl.shapeEditorResult.getOriginalGeometry().points)){
-                                breakPoint = link.components[item];
+                            for(var item in link.components){
+                                if(!_contains(link.components[item], shapectl.shapeEditorResult.getOriginalGeometry().points)){
+                                    breakPoint = link.components[item];
+                                }
+
                             }
 
-                        }
+                            function _contains(point,components){
+                                var boolExit = false;
+                                for(var i in components){
+                                    if(point.x == components[i].x && point.y == components[i].y){
+                                        boolExit = true;
+                                    }
+                                }
+                                return boolExit;
+                            }
 
-                        function _contains(point,components){
-                            var boolExit = false;
-                            for(var i in components){
-                                if(point.x == components[i].x && point.y == components[i].y){
-                                    boolExit = true;
+
+                            var coordinate = []
+                            for(var index in link.components){
+                                coordinate.push([link.components[index].x, link.components[index].y]);
+                            }
+
+                            var param  = {
+                                "command": "breakpoint",
+                                "projectId": 1,
+                                "objId":parseInt(selectCtrl.selectedFeatures.id),
+
+                                "data":{"longitude":breakPoint.x,"latitude":breakPoint.y}
+
+                            }
+                            //结束编辑状态
+                            shapectl.stopEditing();
+                            Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                                var outputcontroller = new fastmap.uikit.OutPutController({});
+                                outputcontroller.pushOutput(data.data);
+                                ly.getLayerById('edit').bringToBack()
+
+                                $(ly.getLayerById('edit').options._div).unbind();
+                            })
+
+                        }else{
+                            var link = shapectl.shapeEditorResult.getFinalGeometry()
+                            var coordinate = []
+                            for(var index in link.components){
+                                coordinate.push([link.components[index].x, link.components[index].y]);
+                            }
+
+                            var param  = {
+                                "command": "updatelink",
+                                "projectId": 1,
+                                "data": {
+                                    "pid": parseInt(selectCtrl.selectedFeatures.id),
+                                    "objStatus": "UPDATE",
+                                    "geometry": {"type": "LineString", "coordinates": coordinate}
                                 }
                             }
-                            return boolExit;
+                            //结束编辑状态
+                            shapectl.stopEditing();
+                            Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                                var outputcontroller = new fastmap.uikit.OutPutController({});
+                                outputcontroller.pushOutput(data.data);
+                                ly.getLayerById('edit').bringToBack()
+
+                                $(ly.getLayerById('edit').options._div).unbind();
+                            })
                         }
 
-
-                        var coordinate = []
-                        for(var index in link.components){
-                            coordinate.push([link.components[index].x, link.components[index].y]);
-                        }
-
-                        var param  = {
-                            "command": "breakpoint",
-                            "projectId": 1,
-                            "objId":parseInt(selectCtrl.selectedFeatures.id),
-
-                            "data":{"longitude":breakPoint.x,"latitude":breakPoint.y}
-
-                        }
-                        //结束编辑状态
-                        shapectl.stopEditing();
-                        Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
-                            var outputcontroller = new fastmap.uikit.OutPutController({});
-                            outputcontroller.pushOutput(data.data);
-                            ly.getLayerById('edit').bringToBack()
-
-                            $(ly.getLayerById('edit').options._div).unbind();
-                        })
-
-                    }else{
-                        var link = shapectl.shapeEditorResult.getFinalGeometry()
-                        var coordinate = []
-                        for(var index in link.components){
-                            coordinate.push([link.components[index].x, link.components[index].y]);
-                        }
-
-                        var param  = {
-                            "command": "updatelink",
-                            "projectId": 1,
-                            "data": {
-                                "pid": parseInt(selectCtrl.selectedFeatures.id),
-                                "objStatus": "UPDATE",
-                                "geometry": {"type": "LineString", "coordinates": coordinate}
-                            }
-                        }
-                        //结束编辑状态
-                        shapectl.stopEditing();
-                        Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
-                            var outputcontroller = new fastmap.uikit.OutPutController({});
-                            outputcontroller.pushOutput(data.data);
-
-                            ly.getLayerById('edit').bringToBack()
-
-                            $(ly.getLayerById('edit').options._div).unbind();
-                        })
                     }
 
-
-
                 }
-
         });
-
-
     };
 })

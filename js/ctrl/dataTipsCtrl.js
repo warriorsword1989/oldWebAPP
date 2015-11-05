@@ -6,7 +6,13 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
 
         var dataTipsCtrl = new fastmap.uikit.DataTipsController();
         var   selectCtrl= new fastmap.uikit.SelectController();
-    $scope.rdSubTipsData =  selectCtrl.rowKey.o_array[0];
+    if(selectCtrl.rowKey) {
+        $scope.rdSubTipsData = selectCtrl.rowKey.o_array[0];
+    }else{
+        $scope.rdSubTipsData = [];
+    }
+
+
 
     $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
@@ -16,7 +22,12 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         var outLink = "", info = [], data = {};
         data.pid = this.dataTipsData.in.id;
         data.inLinkPid = this.dataTipsData.in.id;
-        data.details = this.dataTipsData.o_array;
+        if(this.dataTipsData!==undefined) {
+            data.details = this.dataTipsData.o_array;
+        }else{
+            data.details = [];
+        }
+
         data.flag = 1;
         data.relationshipType = 1;
         data.type = 1;

@@ -62,13 +62,11 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
 
-        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().points;
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
 
         for (var j = 0, len = points.length; j < len; j++) {
             var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-            if (disAB > 0 && disAB < 5) {
-
-
+            if (disAB < 5) {
                 this.targetIndex = j;
             }
         }
