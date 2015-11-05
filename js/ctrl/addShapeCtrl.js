@@ -6,7 +6,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var layerCtrl = fastmap.uikit.LayerController();
         var outPutCtrl = fastmap.uikit.OutPutController();
         var featCodeCtrl = new fastmap.uikit.FeatCodeController();
+
         var shapectl = fastmap.uikit.ShapeEditorController();
+        var selectCtrl = new fastmap.uikit.SelectController();
         var objEditCtrl = fastmap.uikit.ObjectEditController();
         var checkCtrl = fastmap.uikit.CheckResultController();
         $scope.limitRelation = {};
@@ -43,6 +45,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 if (shapectl.shapeEditorResult) {
+                    //var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]);
+                    shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]));
+                    selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());
                     var editLyer = layerCtrl.getLayerById('edit');
                     layerCtrl.pushLayerFront('edit');
                 }
@@ -51,9 +56,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
 
             $(document).bind('keypress',
+
                 function (event) {
                     if (event.keyCode == 32) {
                         if (type == 'link') {
+
                             var link = shapectl.shapeEditorResult.getFinalGeometry();
                             var coordinate = [];
                             for (var index in link.components) {
@@ -79,8 +86,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 $(layerCtrl.getLayerById('edit').options._div).unbind();
                             });
 
-                        }
-                        else if (type === "restriction") {
+                        }  else if (type === "restriction") {
                             var param = {
                                 "command": "createrestriction",
                                 "projectId": 1,
@@ -105,6 +111,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                             });
                         }
+
 
                     }
 
