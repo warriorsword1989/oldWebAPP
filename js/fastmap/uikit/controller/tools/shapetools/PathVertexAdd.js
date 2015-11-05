@@ -51,6 +51,12 @@ fastmap.uikit.PathVertexAdd = L.Handler.extend({
         this._map.off('mouseup', this.onMouseUp, this);
         this._map.off('dblclick', this.onDbClick, this);
     },
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
 
     onMouseDown: function (event) {
