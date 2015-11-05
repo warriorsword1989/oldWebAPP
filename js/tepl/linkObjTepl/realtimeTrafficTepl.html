@@ -9,7 +9,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    互联网RTIC信息（共1条）
+                    互联网RTIC信息（共{{rticData.intRtics.length}}条）
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#wideRTICDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -17,104 +17,104 @@
 
                     <span class="glyphicon glyphicon-plus-sign"
                           style="float: right;color: rgb(255, 0, 0);"
-                            ng-click="addIntRtic()"></span>
+                          ng-click="addIntRtic()"></span>
                 </h4>
 
             </div>
             <div id="wideRTICDiv" class="panel-collapse collapse">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div class="list-group-item" ng-repeat=" item in linkData.intRticData">
-                       <div class="list-group-item">
-                           <form class="form-horizontal" method="get">
-                               <div class="form-group">
-                                   <label class="col-sm-3 control-label">RTIC代码</label>
+                    <div class="list-group-item" ng-repeat=" item in rticData.intRtics">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC代码</label>
 
-                                   <div class="col-sm-9">
-                                       <div class="row">
-                                           <div class="col-sm-6">
-                                               <input type="text" class="form-control" ng-model="item.code" readonly>
-                                           </div>
-                                           <div class="col-sm-6">
-                                               <button type="submit" class="btn btn-default">新增</button>
-                                           </div>
-                                       </div>
-                                   </div>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" ng-model="item.code" readonly>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <button type="submit" class="btn btn-default">新增</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                    <span class="glyphicon glyphicon-minus-sign"
                                          style="float: right;color: rgb(255, 0, 0);margin-top: -45px"
-                                           ng-click="minusIntRtic($index)"></span>
-                               </div>
-                               <div class="line line-dashed b-b line-lg pull-in"></div>
-                               <div class="form-group">
-                                   <label class="col-sm-3 control-label">RTIC等级</label>
+                                         ng-click="minusIntRtic($index)"></span>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC等级</label>
 
-                                   <div class="col-sm-9">
-                                       <select class="form-control" ng-model="item.rank">
-                                           <option value="0">无</option>
-                                           <option value="1">高速</option>
-                                           <option value="2">城市高速</option>
-                                           <option value="3">干线道路</option>
-                                           <option value="4">其他道路</option>
-                                       </select>
-                                   </div>
-                               </div>
-                               <div class="line line-dashed b-b line-lg pull-in"></div>
-                               <div class="form-group">
-                                   <label class="col-sm-3 control-label">RTIC方向</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="item.rank">
+                                            <option value="0">无</option>
+                                            <option value="1">高速</option>
+                                            <option value="2">城市高速</option>
+                                            <option value="3">干线道路</option>
+                                            <option value="4">其他道路</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC方向</label>
 
-                                   <div class="col-sm-9">
-                                       <select class="form-control" ng-model="item.rticDir">
-                                           <option value="0">无</option>
-                                           <option value="1">顺方向</option>
-                                           <option value="2">逆方向</option>
-                                       </select>
-                                   </div>
-                               </div>
-                               <div class="line line-dashed b-b line-lg pull-in"></div>
-                               <div class="form-group">
-                                   <label class="col-sm-3 control-label">上下行 标识</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="item.rticDr">
+                                            <option value="0">无</option>
+                                            <option value="1">顺方向</option>
+                                            <option value="2">逆方向</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">上下行 标识</label>
 
-                                   <div class="col-sm-9">
-                                       <div class="radio">
-                                           <label>
-                                               <input type="radio" name="updownFlagRadio" value="0"
-                                                      ng-model="item.updownFlag">
-                                               上行
-                                           </label>
-                                           <label>
-                                               <input type="radio" name="updownFlagRadio" value="1"
-                                                      ng-model="item.updownFlag">
-                                               下行
-                                           </label>
-                                       </div>
-                                   </div>
-                               </div>
-                               <div class="line line-dashed b-b line-lg pull-in"></div>
-                               <div class="form-group">
-                                   <label class="col-sm-3 control-label">RTIC域类型</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="updownFlagRadio" value="0"
+                                                       ng-model="item.updownFlag">
+                                                上行
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="updownFlagRadio" value="1"
+                                                       ng-model="item.updownFlag">
+                                                下行
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC域类型</label>
 
-                                   <div class="col-sm-9">
-                                       <div class="radio">
-                                           <label>
-                                               <input type="radio" name="rangeTypeRadio" value="0"
-                                                      ng-model="item.rangeType">
-                                               狭域
-                                           </label>
-                                           <label>
-                                               <input type="radio" name="rangeTypeRadio" value="1"
-                                                      ng-model="item.rangeType">
-                                               中域
-                                           </label>
-                                           <label>
-                                               <input type="radio" name="rangeTypeRadio" value="2"
-                                                      ng-model="item.rangeType">
-                                               广域
-                                           </label>
-                                       </div>
-                                   </div>
-                               </div>
-                           </form>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="rangeTypeRadio" value="0"
+                                                       ng-model="item.rangeType">
+                                                狭域
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="rangeTypeRadio" value="1"
+                                                       ng-model="item.rangeType">
+                                                中域
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="rangeTypeRadio" value="2"
+                                                       ng-model="item.rangeType">
+                                                广域
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
-                       </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    车厂RTIC信息（共1条）
+                    车厂RTIC信息（共{{linkData.rtics.length}}条）
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#carRTICDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -132,104 +132,98 @@
 
                     <span class="glyphicon glyphicon-plus-sign"
                           style="float: right;color: rgb(255, 0, 0);"
-                            ng-click="addCarRtic()"></span>
+                          ng-click="addCarRtic()"></span>
                 </h4>
 
             </div>
             <div id="carRTICDiv" class="panel-collapse collapse in">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                   <div class="list-group" ng-repeat="cItem in linkData.carRticData">
-                      <div class="list-group-item">
-                          <form class="form-horizontal" method="get">
-                              <div class="form-group">
-                                  <label class="col-sm-3 control-label">RTIC代码</label>
+                    <div class="list-group" ng-repeat="cItem in linkData.rtics">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC代码</label>
 
-                                  <div class="col-sm-9">
-                                      <div class="row">
-                                          <div class="col-sm-6">
-                                              <input type="text" class="form-control" ng-model="cItem.code" readonly>
-                                          </div>
-                                          <div class="col-sm-6">
-                                              <button type="submit" class="btn btn-default">新增</button>
-                                          </div>
-                                      </div>
-                                  </div>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <input type="text" class="form-control" ng-model="cItem.code" readonly>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <button type="submit" class="btn btn-default">新增</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                   <span class="glyphicon glyphicon-minus-sign"
                                         style="float: right;color: rgb(255, 0, 0);margin-top: -45px"
-                                          ng-click="minusCarRtic($index)"></span>
-                              </div>
-                              <div class="line line-dashed b-b line-lg pull-in"></div>
-                              <div class="form-group">
-                                  <label class="col-sm-3 control-label">RTIC等级</label>
+                                        ng-click="minusCarRtic($index)"></span>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC等级</label>
 
-                                  <div class="col-sm-9">
-                                      <select class="form-control" ng-model="cItem.rank">
-                                          <option value="0">无</option>
-                                          <option value="1">高速</option>
-                                          <option value="2">城市高速</option>
-                                          <option value="3">干线道路</option>
-                                          <option value="4">其他道路</option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="line line-dashed b-b line-lg pull-in"></div>
-                              <div class="form-group">
-                                  <label class="col-sm-3 control-label">RTIC方向</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="cItem.rank" ng-options="value.id as value.label for value in rankoption">
+                                            <option>--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC方向</label>
 
-                                  <div class="col-sm-9">
-                                      <select class="form-control" ng-model="cItem.rticDir">
-                                          <option value="0">无</option>
-                                          <option value="1">顺方向</option>
-                                          <option value="2">逆方向</option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="line line-dashed b-b line-lg pull-in"></div>
-                              <div class="form-group">
-                                  <label class="col-sm-3 control-label">上下行 标识</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="cItem.rticDir" ng-options="value.id as value.label for value in rticDroption">
+                                            <option >--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">上下行 标识</label>
 
-                                  <div class="col-sm-9">
-                                      <div class="radio">
-                                          <label>
-                                              <input type="radio" name="updownFlagRadio" value="0"
-                                                     ng-model="cItem.updownFlag">
-                                              上行
-                                          </label>
-                                          <label>
-                                              <input type="radio" name="updownFlagRadio" value="1"
-                                                     ng-model="cItem.updownFlag">
-                                              下行
-                                          </label>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="line line-dashed b-b line-lg pull-in"></div>
-                              <div class="form-group">
-                                  <label class="col-sm-3 control-label">RTIC域类型</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="updownFlagRadio" value="0"
+                                                       ng-model="cItem.updownFlag">
+                                                上行
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="updownFlagRadio" value="1"
+                                                       ng-model="cItem.updownFlag">
+                                                下行
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">RTIC域类型</label>
 
-                                  <div class="col-sm-9">
-                                      <div class="radio">
-                                          <label>
-                                              <input type="radio" name="rangeTypeRadio" value="0"
-                                                     ng-model="cItem.rangeType">
-                                              狭域
-                                          </label>
-                                          <label>
-                                              <input type="radio" name="rangeTypeRadio" value="1"
-                                                     ng-model="cItem.rangeType">
-                                              中域
-                                          </label>
-                                          <label>
-                                              <input type="radio" name="rangeTypeRadio" value="2"
-                                                     ng-model="cItem.rangeType">
-                                              广域
-                                          </label>
-                                      </div>
-                                  </div>
-                              </div>
-                          </form>
-                      </div>
-                   </div>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="rangeTypeRadio" value="0"
+                                                       ng-model="cItem.rangeType">
+                                                狭域
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="rangeTypeRadio" value="1"
+                                                       ng-model="cItem.rangeType">
+                                                中域
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="rangeTypeRadio" value="2"
+                                                       ng-model="cItem.rangeType">
+                                                广域
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
             </div>

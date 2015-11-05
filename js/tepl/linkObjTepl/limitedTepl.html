@@ -4,14 +4,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                  普通限制信息
+                    普通限制信息 共({{linkLimitData.limits.length}}) 个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#popularLimitedDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
                     <span class="glyphicon glyphicon-plus-sign"
                           style="float: right;color: rgb(255, 0, 0);"
-                            ng-click="addLimit()"></span>
+                          ng-click="addLimit()"></span>
                 </h4>
             </div>
             <div id="popularLimitedDiv" class="panel-collapse collapse">
@@ -30,120 +30,120 @@
 
                         </div>
                     </form>
-                    <div class="list-group" ng-repeat="item in linkData.linkLimit">
+                    <div class="list-group" ng-repeat="item in linkLimitData.limits">
                         <div class="list-group-item">
                             <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">限制类型</label>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">限制类型</label>
 
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="item.type"
-                                            ng-options="value.id as value.label for value in typeOptions">
-                                        <option>--</option>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="item.type"
+                                                ng-options="value.id as value.label for value in typeOptions">
+                                            <option>--</option>
 
-                                    </select>
-                                </div>
+                                        </select>
+                                    </div>
                                   <span class="glyphicon glyphicon-minus-sign"
                                         style="float: right;color: rgb(255, 0, 0);margin-top: -45px"
                                         ng-click="minusLimit($index)"></span>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">限制方向</label>
-
-                                <div class="col-sm-9">
-                                  <select class="form-control" ng-model="item.limitDir"
-                                          ng-options="value.id as value.label for value in limitDirOptions">
-                                      <option>--</option>
-                                  </select>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">收费类型</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">限制方向</label>
 
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="item.tollType"
-                                            ng-options="value.id as value.label for value in tollTypeOptions">
-                                        <option>--</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">天气条件</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="item.weather"
-                                            ng-options="value.id as value.label for value in weatherOptions">
-                                        <option>--</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">录入时间</label>
-
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" ng-model="item.inputTime">
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">赋值方式</label>
-
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="processFlagRadio" value="0"
-                                                   ng-model="formData.processFlag">
-                                            默认
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="processFlagRadio" value="1"
-                                                   ng-model="formData.processFlag">
-                                            外业
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="processFlagRadio" value="2"
-                                                   ng-model="formData.processFlag">
-                                            未验证
-                                        </label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="item.limitDir"
+                                                ng-options="value.id as value.label for value in limitDirOptions">
+                                            <option>--</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">时间段</label>
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <button type="submit" class="btn btn-default">时间控件</button>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">收费类型</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="item.tollType"
+                                                ng-options="value.id as value.label for value in tollTypeOptions">
+                                            <option>--</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">天气条件</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="item.weather"
+                                                ng-options="value.id as value.label for value in weatherOptions">
+                                            <option>--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">录入时间</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" ng-model="item.inputTime">
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">赋值方式</label>
+
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="processFlagRadio" value="0"
+                                                       ng-model="formData.processFlag" >
+                                                默认
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="processFlagRadio" value="1"
+                                                       ng-model="formData.processFlag">
+                                                外业
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="processFlagRadio" value="2"
+                                                       ng-model="formData.processFlag">
+                                                未验证
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">车辆类型</label>
-                                <div class="col-sm-9">
-                                    <div class="row">
-                                        <div class="col-sm-7">
-                                            <input type="text" class="form-control">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <button type="submit" class="btn btn-default">车辆控件</button>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">时间段</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="submit" class="btn btn-default">时间控件</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        </form></div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">车辆类型</label>
+                                    <div class="col-sm-9">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <button type="submit" class="btn btn-default">车辆控件</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form></div>
                     </div>
 
                 </div>
@@ -154,7 +154,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                   卡车限制信息
+                    卡车限制信息 共（{{linkLimitData.limitTrucks.length}}）个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#trafficLimitedDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -162,13 +162,13 @@
 
                     <span class="glyphicon glyphicon-plus-sign"
                           style="float: right;color: rgb(255, 0, 0);"
-                            ng-click="addLimitTruck()"></span>
+                          ng-click="addLimitTruck()"></span>
                 </h4>
 
             </div>
-            <div id="trafficLimitedDiv" class="panel-collapse collapse in">
+            <div id="trafficLimitedDiv" class="panel-collapse collapse">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div class="list-group"  ng-repeat="tItem in linkData.linkLimitTruck">
+                    <div class="list-group"  ng-repeat="tItem in linkLimitData.limitTrucks">
                         <div class="list-group-item">
                             <form class="form-horizontal" method="get">
                                 <div class="form-group">
@@ -176,30 +176,26 @@
                                     <div class="col-sm-9">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="truckFlagRadio" value="0" ng-model="tItem.truckFlag">
+                                                <input type="radio" name="truckFlagRadio" value="0" ng-model="linkLimitData.truckFlag">
                                                 已验证
                                             </label>
                                             <label>
-                                                <input type="radio" name="truckFlagRadio" value="1" ng-model="tItem.truckFlag">
+                                                <input type="radio" name="truckFlagRadio" value="1" ng-model="linkLimitData.truckFlag">
                                                 未验证
                                             </label>
                                         </div>
                                     </div>
                                     <span class="glyphicon glyphicon-minus-sign"
                                           style="float: right;color: rgb(255, 0, 0);margin-top: -39px"
-                                            ng-click="minusLimitTruck($index)"></span>
+                                          ng-click="minusLimitTruck($index)"></span>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">限制方向</label>
 
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="tItem.limitDir">
-                                            <option value="0">未调查</option>
-                                            <option value="1">双方向</option>
-                                            <option value="2">顺方向</option>
-                                            <option value="3">逆方向</option>
-                                            <option value="9">不应用</option>
+                                        <select class="form-control" ng-model="tItem.limitDir" ng-options="value.id as value.label for value in limitDirOptions">
+                                            <option>--</option>
                                         </select>
                                     </div>
                                 </div>
