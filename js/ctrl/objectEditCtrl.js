@@ -135,6 +135,6 @@ objectEditApp.controller("normalController", function ($scope) {
 
             console.log("交限 "+id+" has been removed");
         })
-
+        
     }
 });
