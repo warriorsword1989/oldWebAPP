@@ -53,15 +53,15 @@
                     <div class="col-sm-9">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="theoryOrActual" value="theory" ng-model="formData.theory">
+                                <input type="radio" name="theoryOrActual" value="0" ng-model="zoneData.diciType">
                                 不应用
                             </label>
                             <label>
-                                <input type="radio" name="theoryOrActual" value="actual" ng-model="formData.actual">
+                                <input type="radio" name="theoryOrActual" value="1" ng-model="zoneData.diciType">
                                 全要素
                             </label>
                             <label>
-                                <input type="radio" name="theoryOrActual" value="actual" ng-model="formData.actual">
+                                <input type="radio" name="theoryOrActual" value="2" ng-model="zoneData.diciType">
                                 简化版
                             </label>
                         </div>
@@ -90,7 +90,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    zone（共2条）
+                    zone（共{{zoneData.zones.length}}条）
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#zoneLeftOrRightDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -101,7 +101,7 @@
             <div id="zoneLeftOrRightDiv" class="panel-collapse collapse in">
 
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div class="list-group" ng-repeat="item in zoneData.zoneLinkData">
+                    <div class="list-group" ng-repeat="item in zoneData.zones">
                         <div class="list-group-item">
                             <form class="form-horizontal" method="get">
                                 <div class="form-group">
@@ -128,11 +128,8 @@
                                             <label class="col-sm-4 control-label">Zone类型</label>
 
                                             <div class="col-sm-8">
-                                                <select class="form-control" ng-model="item.type">
-                                                    <option value="0">未分类</option>
-                                                    <option value="1">AOIZone</option>
-                                                    <option value="2">KDZone</option>
-                                                    <option value="3">GCZone</option>
+                                                <select class="form-control" ng-model="item.type" ng-options="value.id as value.label for value in typeoption">
+                                                    <option>--</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -154,7 +151,7 @@
                                                         左
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="sideRadio" value="sideRadio"
+                                                        <input type="radio" name="sideRadio" value="1"
                                                                ng-model="item.side">
                                                         右
                                                     </label>

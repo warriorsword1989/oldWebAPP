@@ -81,11 +81,19 @@ basicApp.controller("basicController",function($scope) {
         if(!$("#loadPropertyDiv").hasClass("in")) {
             $("#loadPropertyDiv").addClass("in");
         }
-        $scope.data.names.unshift({name:"",linkPid:"121"})
+        $scope.linkData.names.unshift({
+            linkPid: 0,
+            name: "",
+            nameClass: 1,
+            nameGroupid: 0,
+            nameType: 0,
+            rowId: "",
+            seqNum: 1
+        })
     }
     $scope.minusRoadName=function(id) {
-        $scope.data.nameCount.splice(id, 1);
-        if($scope.data.nameCount.length===0) {
+        $scope.linkData.names.splice(id, 1);
+        if($scope.linkData.names.length===0) {
             if($("#loadPropertyDiv").hasClass("in")) {
                 $("#loadPropertyDiv").removeClass("in");
             }
