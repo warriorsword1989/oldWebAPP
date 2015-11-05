@@ -77,7 +77,31 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 $(layerCtrl.getLayerById('edit').options._div).unbind();
                             });
 
+                        }  else if (type === "restriction") {
+                            var param = {
+                                "command": "createrestriction",
+                                "projectId": 1,
+                                "data": $scope.limitRelation
+                            }
+                            Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                                console.log(data);
+                                var pid = data.data.log[0].pid;
+                                outPutCtrl.pushOutput({label: "已生成交限"});
+                                Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
+                                    objEditCtrl.setCurrentObject(data.data);
+                                    $scope.$parent.$parent.rdRestrictData = data.data;
+                                    $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                        if ($scope.$parent.$parent.updateLinkData !== "") {
+                                            $scope.$parent.$parent.updateLinkData(data.data);
+                                        }
+
+                                    })
+                                })
+
+                            });
                         }
+
                     }
 
                 });
