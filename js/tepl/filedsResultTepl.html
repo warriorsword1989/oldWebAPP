@@ -42,7 +42,7 @@
                                 <table class="table">
                                     <tr ng-repeat="item in subItems">
                                         <div ng-if="item.i!=''||item.i!=null||item.i!=' '">
-                                            <td ng-click="showTab(item)">{{item.i}}</td>
+                                            <td ng-click="showTab(item)">{{$index+1}}</td>
                                         </div>
 
                                     </tr>
