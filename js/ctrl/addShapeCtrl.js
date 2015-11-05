@@ -6,7 +6,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var layerCtrl = fastmap.uikit.LayerController();
         var outPutCtrl = fastmap.uikit.OutPutController();
         var featCodeCtrl = new fastmap.uikit.FeatCodeController();
-        var shapectl = fastmap.uikit.ShapeEditorController();
+        var shapectl = fastmap.uikit.ShapeEditorController();//selectByGeometry
+        var selectCtrl = new fastmap.uikit.SelectController();
         $scope.limitRelation = {};
         $scope.addShape = function (type) {
             if (type === "restriction") {
@@ -36,6 +37,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 if (shapectl.shapeEditorResult) {
+                    //var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]);
+                    shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]));
+                    selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());
                     var editLyer = layerCtrl.getLayerById('edit');
                     layerCtrl.pushLayerFront('edit');
                 }
@@ -46,9 +50,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             $(document).bind('keypress',
                 function(event){
                     if(event.keyCode==32){
-                        //http://192.168.4.130/FosEngineWeb/pdh/obj/edit?parameter=
-                        //// {"command":"createlink","projectId":1,"data":{"geometry":"","eNodePid":0,"sNodePid":0}}
-
+                        console.log("real post")
                         if(type == 'link'){
                             var link = shapectl.shapeEditorResult.getFinalGeometry();
                             var coordinate = [];
