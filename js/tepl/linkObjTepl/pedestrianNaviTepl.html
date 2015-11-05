@@ -35,15 +35,15 @@
                     <div class="col-sm-8">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="0" ng-model="linkData.sideWalkFlag">
+                                <input type="radio" name="sideWalkFlagRadio" value="0" ng-model="linkData.sidewalkFlag">
                                 未采集
                             </label>
                             <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="1" ng-model="linkData.sideWalkFlag">
+                                <input type="radio" name="sideWalkFlagRadio" value="1" ng-model="linkData.sidewalkFlag">
                                 有
                             </label>
                             <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="2" ng-model="linkData.sideWalkFlag">
+                                <input type="radio" name="sideWalkFlagRadio" value="2" ng-model="linkData.sidewalkFlag">
                                 无
                             </label>
                         </div>
@@ -57,17 +57,17 @@
                         <div class="radio">
                             <label>
                                 <input type="radio" name="walkStairFlagRadio" value="0"
-                                       ng-model="linkData.walkStairFlag">
+                                       ng-model="linkData.walkstairFlag">
                                 未采集
                             </label>
                             <label>
                                 <input type="radio" name="walkStairFlagRadio" value="1"
-                                       ng-model="linkData.walkStairFlag">
+                                       ng-model="linkData.walkstairFlag">
                                 有
                             </label>
                             <label>
                                 <input type="radio" name="walkstairFlagRadio" value="2"
-                                       ng-model="linkData.walkStairFlag">
+                                       ng-model="linkData.walkstairFlag">
                                 无
                             </label>
                         </div>
@@ -101,14 +101,12 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    人行便道
+                    人行便道 共（{{naviData.sidewalks.length}}）个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#sideWalkDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-minus-sign"
-                          style="float: right;color: rgb(255, 0, 0);"
-                          ng-click="minusSideWalk()" ></span>
+
                     <span class="glyphicon glyphicon-plus-sign"
                           style="float: right;color: rgb(255, 0, 0);"
                           ng-click="addSideWalk()"></span>
@@ -117,102 +115,95 @@
             </div>
             <div id="sideWalkDiv" class="panel-collapse collapse">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div ng-if="naviData.sideWalkData!=null||naviData.sideWalkData!=undefined">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">位置关系</label>
-
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="linkData.sideWalkData.sidewalkLoc">
-                                        <option value="0">无</option>
-                                        <option value="1">右侧</option>
-                                        <option value="2">中间</option>
-                                        <option value="3">右侧+中间</option>
-                                        <option value="4">左侧</option>
-                                        <option value="5">右侧+左侧</option>
-                                        <option value="6">左侧+中间</option>
-                                        <option value="7">右侧+左侧+中间</option>
-                                        <option value="8">混合</option>
-                                    </select>
+                    <div class="list-group" ng-repeat="sideitem in naviData.sidewalks">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">位置关系</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="sideitem.sidewalkLoc" ng-options="value.id as value.label for value in sidewalkLocoptions">
+                                            <option>--</option>
+                                        </select>
+                                    </div>
+                                <span class="glyphicon glyphicon-minus-sign"
+                                      style="float: right;color: rgb(255, 0, 0);margin-top: -45px;"
+                                      ng-click="minusSideWalk($index)" ></span>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">隔离方式</label>
 
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="linkData.sideWalkData.dividerType">
-                                        <option value="0">未调查</option>
-                                        <option value="1">高度差隔离(马路涯)</option>
-                                        <option value="2">物理栅栏隔离</option>
-                                        <option value="3">划线隔离</option>
-                                        <option value="4">无隔离</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">作业方向</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">隔离方式</label>
 
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="workDirRadio" value="0"
-                                                   ng-model="linkData.sideWalkData.workDir">
-                                            未调查
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="workDirRadio" value="1"
-                                                   ng-model="linkData.sideWalkData.workDir">
-                                            顺
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="workDirRadio" value="2"
-                                                   ng-model="linkData.sideWalkData.workDir">
-                                            逆
-                                        </label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="sideitem.dividerType" ng-options="value.id as value.label for value in dividerTypeoptions" >
+                                            <option>--</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">处理标识</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">作业方向</label>
 
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="processFlagRadio" value="0"
-                                                   ng-model="linkData.sideWalkData.processFlag">
-                                            程序赋
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="processFlagRadio" value="1"
-                                                   ng-model="linkData.sideWalkData.processFlag">
-                                            手工赋
-                                        </label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="workDirRadio" value="0"
+                                                       ng-model="sideitem.workDir">
+                                                未调查
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="workDirRadio" value="1"
+                                                       ng-model="sideitem.workDir">
+                                                顺
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="workDirRadio" value="2"
+                                                       ng-model="sideitem.workDir">
+                                                逆
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">采集标识</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">处理标识</label>
 
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="captureFlagRadio" value="0"
-                                                   ng-model="linkData.sideWalkData.captureFlag">
-                                            未采集
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="captureFlagRadio" value="1"
-                                                   ng-model="linkData.sideWalkData.captureFlag">
-                                            外业确认
-                                        </label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="processFlagRadio" value="0"
+                                                       ng-model="sideitem.processFlag">
+                                                程序赋
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="processFlagRadio" value="1"
+                                                       ng-model="sideitem.processFlag">
+                                                手工赋
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">采集标识</label>
+
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="captureFlagRadio" value="0"
+                                                       ng-model="sideitem.captureFlag">
+                                                未采集
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="captureFlagRadio" value="1"
+                                                       ng-model="sideitem.captureFlag">
+                                                外业确认
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                 </div>
@@ -223,14 +214,12 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    人行阶梯
+                    人行阶梯 共（{{naviData.walkstairs.length}}）个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#humanLadderDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-minus-sign"
-                          style="float: right;color: rgb(255, 0, 0);"
-                          ng-click="minusStairWalk()"></span>
+
                     <span class="glyphicon glyphicon-plus-sign"
                           style="float: right;color: rgb(255, 0, 0);"
                           ng-click="addStairWalk()"></span>
@@ -239,92 +228,98 @@
             </div>
             <div id="humanLadderDiv" class="panel-collapse collapse">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
-                    <div ng-if="naviData.walkStairData!=null||naviData.walkStairData!=undefined">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">位置关系</label>
+                    <div class="list-group"  ng-repeat="tItem in naviData.walkstairs">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">位置关系</label>
 
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="linkData.walkStairData.stairLoc">
-                                        <option value="0">无</option>
-                                        <option value="1">右侧</option>
-                                        <option value="2">中间</option>
-                                        <option value="3">右侧+中间</option>
-                                        <option value="4">左侧</option>
-                                        <option value="5">右侧+左侧</option>
-                                        <option value="6">左侧+中间</option>
-                                        <option value="7">右侧+左侧+中间</option>
-                                    </select>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="tItem.stairLoc">
+                                            <option value="0">无</option>
+                                            <option value="1">右侧</option>
+                                            <option value="2">中间</option>
+                                            <option value="3">右侧+中间</option>
+                                            <option value="4">左侧</option>
+                                            <option value="5">右侧+左侧</option>
+                                            <option value="6">左侧+中间</option>
+                                            <option value="7">右侧+左侧+中间</option>
+                                        </select>
+                                    </div>
+                                 <span class="glyphicon glyphicon-minus-sign"
+                                       style="float: right;color: rgb(255, 0, 0);margin-top: -45px"
+                                       ng-click="minusStairWalk($index)"></span>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">升降标识</label>
 
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="stairFlagRadio" value="0"
-                                                   ng-model="linkData.walkStairData.stairFlag">
-                                            未调查
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="stairFlagRadio" value="1"
-                                                   ng-model="linkData.walkStairData.stairFlag">
-                                            上坡
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="stairFlagRadio" value="2"
-                                                   ng-model="naviData.walkStairData.stairFlag">
-                                            下坡
-                                        </label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">升降标识</label>
+
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="stairFlagRadio" value="0"
+                                                       ng-model="tItem.stairFlag">
+                                                未调查
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="stairFlagRadio" value="1"
+                                                       ng-model="tItem.stairFlag">
+                                                上坡
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="stairFlagRadio" value="2"
+                                                       ng-model="tItem.stairFlag">
+                                                下坡
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">作业方向</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">作业方向</label>
 
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="workDirRadio" value="0"
-                                                   ng-model="linkData.walkStairData.workDir">
-                                            未调查
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="workDirRadio" value="1"
-                                                   ng-model="linkData.walkStairData.workDir">
-                                            顺
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="workDirRadio" value="2"
-                                                   ng-model="linkData.walkStairData.workDir">
-                                            逆
-                                        </label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="workDirRadio" value="0"
+                                                       ng-model="tItem.workDir">
+                                                未调查
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="workDirRadio" value="1"
+                                                       ng-model="tItem.workDir">
+                                                顺
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="workDirRadio" value="2"
+                                                       ng-model="tItem.workDir">
+                                                逆
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">采集标识</label>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">采集标识</label>
 
-                                <div class="col-sm-9">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="captureFlagRadio" value="0"
-                                                   ng-model="linkData.walkStairData.captureFlag">
-                                            未采集
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="captureFlagRadio" value="1"
-                                                   ng-model="linkData.walkStairData.captureFlag">
-                                            外业确认
-                                        </label>
+                                    <div class="col-sm-9">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="captureFlagRadio" value="0"
+                                                       ng-model="tItem.captureFlag">
+                                                未采集
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="captureFlagRadio" value="1"
+                                                       ng-model="tItem.captureFlag">
+                                                外业确认
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

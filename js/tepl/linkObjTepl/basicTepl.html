@@ -30,7 +30,7 @@
                                     <div class="col-sm-9">
                                         <select class="form-control" ng-model="linkData.kind"
                                                 ng-options="value.id as value.label for value in kindOptions">
-                                          <option>--</option>
+                                            <option>--</option>
                                         </select>
                                     </div>
                                 </div>
@@ -103,11 +103,11 @@
                                     <label class="col-sm-3 control-label">IMI代码</label>
 
                                     <div class="col-sm-9">
-                                      <select class="form-control" ng-model="linkData.imiCode"
-                                              ng-options="value.id as value.label for value in imiCodeOptions">
-                                          <option >--</option>
+                                        <select class="form-control" ng-model="linkData.imiCode"
+                                                ng-options="value.id as value.label for value in imiCodeOptions">
+                                            <option >--</option>
 
-                                      </select>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -133,7 +133,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    道路名(共N条)
+                    道路名(共{{linkData.names.length}}条)
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#loadPropertyDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -234,7 +234,6 @@
                                                     <div class="col-sm-9">
                                                         <select class="form-control" ng-model="item.srcFlag"
                                                                 ng-options="value.id as value.label for value in srcFlagOptions" >
-
                                                         </select>
                                                     </div>
                                                 </div>
@@ -243,8 +242,8 @@
                                                     <label class="col-sm-3 control-label">路线属性</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="item.routeAtt"
-                                                            ng-options="value.id as value.label for value in routeAttOptions" >
+                                                        <select class="form-control" ng-model="linkData.routeAtt"
+                                                                ng-options="value.id as value.label for value in routeAttOptions" >
                                                         </select>
                                                     </div>
                                                 </div>

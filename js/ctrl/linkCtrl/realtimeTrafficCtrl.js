@@ -3,10 +3,25 @@
  */
 var realtimeTrafficApp = angular.module("lazymodule", []);
 realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
-    $scope.rticData =  $scope.linkData.data;
+    $scope.rticData =  $scope.linkData;
+
+
+    $scope.rticDroption =[
+        {"id": 0,"label":"无"},
+        {"id": 1,"label":"顺方向"},
+        {"id": 2,"label":"逆方向"}
+    ];
+    $scope.rankoption=[
+        {"id": 0,"label":"无"},
+        {"id": 1,"label":"高速"},
+        {"id": 2,"label":"城市高速"},
+        {"id": 3,"label":"干线道路"},
+        {"id": 4,"label":"其他道路"}
+    ];
+
     $scope.minusIntRtic = function (id) {
-        $scope.rticData.intRticData.splice(id, 1);
-        if($scope.rticData.intRticData.length===0) {
+        $scope.rticData.intRtics.splice(id, 1);
+        if($scope.rticData.intRtics.length===0) {
             if($("#wideRTICDiv").hasClass("in")) {
                 $("#wideRTICDiv").removeClass("in");
             }
@@ -16,13 +31,13 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
         if(!$("#wideRTICDiv").hasClass("in")) {
             $("#wideRTICDiv").addClass("in");
         }
-        $scope.rticData.intRticData.unshift(
+        $scope.rticData.intRtics.unshift(
             {
-                code: "0",
-                rank: "0",
-                rticDr: "2",
-                updownFlag: "0",
-                rangeType: "1"
+                code: "1",
+                rank: "1",
+                rticDr: "1",
+                updownFlag: "1",
+                rangeType: "0"
             }
         )
     };
@@ -30,19 +45,21 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
         if(!$("#carRTICDiv").hasClass("in")) {
             $("#carRTICDiv").addClass("in");
         }
-        $scope.rticData.carRticData.unshift(
+        $scope.rticData.rtics.unshift(
             {
-                code: "1",
-                rank: "1",
-                rticDir: "2",
-                updownFlag: "1",
-                rangeType: "1"
+                code: 0,
+                linkPid: 0,
+                rangeType: 1,
+                rank: 2,
+                rowId: "",
+                rticDir: 2,
+                updownFlag: 0
             }
         )
     };
     $scope.minusCarRtic=function(id){
-        $scope.rticData.carRticData.splice(id, 1);
-        if($scope.rticData.carRticData.length) {
+        $scope.rticData.rtics.splice(id, 1);
+        if($scope.rticData.rtics.length) {
             if($("#carRTICDiv").hasClass("in")) {
                 $("#carRTICDiv").removeClass("in");
             }
