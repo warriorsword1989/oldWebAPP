@@ -7,7 +7,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var selectCtrl = new fastmap.uikit.SelectController();
         var objCtrl = new fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
-
+        $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
+        $("#"+type).addClass("btn btn-default active");
         if (type === "link") {
 
             layerCtrl.pushLayerFront('referenceLine');
