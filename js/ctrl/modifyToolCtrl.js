@@ -10,6 +10,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
     shapectl.setMap(map);
 
     $scope.modifyShape = function (type) {
+
+        $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
+        $("#"+type).addClass("btn btn-default active");
+
         var ly = fastmap.uikit.LayerController();
         if (shapectl.getCurrentTool()['options']) {
             shapectl.stopEditing();
@@ -108,6 +112,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         $(document).bind('keypress',
             function(event){
+
                 if(event.keyCode==32){
                     //为了保证捕获到这里时提交的形式正确
                     if(typeof(selectCtrl.selectedFeatures.id)!="undefined"){
@@ -185,6 +190,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                                 $(ly.getLayerById('edit').options._div).unbind();
                             })
                         }
+
                     }
 
                 }
