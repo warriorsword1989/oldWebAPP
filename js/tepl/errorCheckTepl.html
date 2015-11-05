@@ -2,30 +2,28 @@
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
         <tr>
-            <th st-sort="firstName">检查规则号</th>
-            <th st-sort="lastName">类型</th>
-            <th st-sort="birthDate">错误等级</th>
-            <th st-sort="balance">错误对象</th>
-            <th st-sort="balance1">错误信息</th>
-            <th st-sort="balance2">错误定位</th>
-            <th st-sort="balance3">检查时间</th>
-            <th st-sort="balance4">作业员</th>
+            <th st-sort="ruleId">检查规则号</th>
+            <th st-sort="situation">类型</th>
+            <th st-sort="rank">错误等级</th>
+            <th st-sort="targets">错误对象</th>
+            <th st-sort="information">错误信息</th>
+            <th st-sort="geometry">错误定位</th>
+            <th st-sort="createDate">检查时间</th>
+            <th st-sort="worker">作业员</th>
             <th st-sort="balance5">检查结果管理</th>
-            <th>email</th>
         </tr>
         </thead>
         <tbody style="height: 100px">
         <tr ng-repeat="row in rowCollection">
-            <td>{{row.firstName | uppercase}}</td>
-            <td>{{row.lastName}}</td>
-            <td>{{row.birthDate | date}}</td>
-            <td>{{row.balance | currency}}</td>
-            <td>{{row.balance1 | currency}}</td>
-            <td>{{row.balance2| currency}}</td>
-            <td>{{row.balance3 | currency}}</td>
-            <td>{{row.balance4 | currency}}</td>
-            <td>{{row.balance5 | currency}}</td>
-            <td>    <select class="form-control" style="padding: 0px">
+            <td>{{row.ruleId}}</td>
+            <td>{{row.situation}}</td>
+            <td>{{row.rank}}</td>
+            <td>{{row.targets }}</td>
+            <td>{{row.information}}</td>
+            <td>{{row.geometry}}</td>
+            <td>{{row.createDate}}</td>
+            <td>{{row.worker}}</td>
+            <td>   <select class="form-control" style="padding: 0px">
                 <option value="0">未修改</option>
                 <option value="1">例外</option>
                 <option value="1">确认不修改</option>
