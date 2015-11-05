@@ -6,8 +6,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var layerCtrl = fastmap.uikit.LayerController();
         var outPutCtrl = fastmap.uikit.OutPutController();
         var featCodeCtrl = new fastmap.uikit.FeatCodeController();
-        var shapectl = fastmap.uikit.ShapeEditorController();//selectByGeometry
+
+        var shapectl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = new fastmap.uikit.SelectController();
+        var objEditCtrl = fastmap.uikit.ObjectEditController();
+
         $scope.limitRelation = {};
         $scope.addShape = function (type) {
             if (type === "restriction") {
@@ -16,20 +19,25 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var rdLink = layerCtrl.getLayerById('referenceLine');
                 var sTools = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
                 sTools.enable();
+                $scope.excitLineArr = [];
                 rdLink.on("getId", function (data) {
-                    if(data.index===0) {
-                        $scope.limitRelation.enterLine = data.id;
+                    if (data.index === 0) {
+                        $scope.limitRelation.inLinkPid = parseInt(data.id);
                         outPutCtrl.pushOutput({label: "已经选择进入线,选择进入点"});
-                    }else if(data.index===1) {
-                        $scope.limitRelation.enterNode = data.id;
+                    } else if (data.index === 1) {
+                        $scope.limitRelation.nodePid = parseInt(data.id);
                         outPutCtrl.pushOutput({label: "已经选择进入点,选择退出线"});
-                        setTimeout(function () {
-                            $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-
-                                }
-                            );
-                        }, 100)
+                        //setTimeout(function () {
+                        //    $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
+                        //            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                        //
+                        //        }
+                        //    );
+                        //}, 100)
+                    } else {
+                        $scope.excitLineArr.push(parseInt(data.id));
+                        $scope.limitRelation.outLinkPids = $scope.excitLineArr;
+                        outPutCtrl.pushOutput({label: "已选退出线"});
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
@@ -48,17 +56,18 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
 
             $(document).bind('keypress',
-                function(event){
-                    if(event.keyCode==32){
-                        console.log("real post")
-                        if(type == 'link'){
+
+                function (event) {
+                    if (event.keyCode == 32) {
+                        if (type == 'link') {
+
                             var link = shapectl.shapeEditorResult.getFinalGeometry();
                             var coordinate = [];
-                            for(var index in link.components){
+                            for (var index in link.components) {
                                 coordinate.push([link.components[index].x, link.components[index].y]);
                             }
 
-                            var param  = {
+                            var param = {
                                 "command": "createlink",
                                 "projectId": 1,
                                 "data": {
@@ -69,7 +78,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             }
                             //结束编辑状态
                             shapectl.stopEditing();
-                            Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                            Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                                 var outputcontroller = new fastmap.uikit.OutPutController({});
                                 outputcontroller.pushOutput(data.data);
                                 layerCtrl.getLayerById('edit').bringToBack()
@@ -101,6 +110,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                             });
                         }
+
 
                     }
 

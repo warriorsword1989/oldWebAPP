@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$templateCache', function ($scope, $ocLazyLoad,$templateCache) {
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
 
     $scope.selectShape = function (type) {
         var selectCtrl = new fastmap.uikit.SelectController();
@@ -33,7 +33,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$templat
 
                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         if ($scope.$parent.$parent.updateLinkData !== "") {
-                            $scope.$parent.$parent.updateLinkData(data);
+                            $scope.$parent.$parent.updateLinkData(data.data);
                         }
 
                     })
@@ -59,13 +59,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$templat
             map.currentTool.enable();
             rdLink.options.selectType = 'relation';
             rdLink.options.editable = true;
-
+            $scope.$parent.$parent.objectEditURL = "";
             rdLink.on("getNodeId", function (data) {
-                if($scope.$parent.$parent.objectEditURL) {
-                    var temp = $templateCache.get($scope.$parent.$parent.objectEditURL);
-                    $templateCache.remove($scope.$parent.$parent.objectEditURL);
-                    var temp = $templateCache.get($scope.$parent.$parent.objectEditURL);
-                }
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
@@ -74,8 +69,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$templat
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                          $templateCache.put($scope.$parent.$parent.objectEditURL);
-                            var temp2 = $templateCache.get($scope.$parent.$parent.objectEditURL);
+                            if ($scope.$parent.$parent.updateLinkData !== "") {
+                                $scope.$parent.$parent.updateLinkData(data.data);
+                            }
                         } else if ($scope.type === 1) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
                         }
