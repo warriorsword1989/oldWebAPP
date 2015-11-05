@@ -8,6 +8,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var shapectl = new fastmap.uikit.ShapeEditorController();
     shapectl.setMap(map);
     $scope.modifyShape = function (type) {
+
+        $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
+        $("#"+type).addClass("btn btn-default active");
+
         var ly = fastmap.uikit.LayerController();
         if (shapectl.getCurrentTool()['options']) {
             shapectl.stopEditing();
@@ -105,6 +109,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         $(document).bind('keypress',
             function(event){
+
                 if(event.keyCode==32){
 
                     if(type == 'pathBreak'){
@@ -175,6 +180,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                         Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
                             var outputcontroller = new fastmap.uikit.OutPutController({});
                             outputcontroller.pushOutput(data.data);
+
                             ly.getLayerById('edit').bringToBack()
 
                             $(ly.getLayerById('edit').options._div).unbind();
