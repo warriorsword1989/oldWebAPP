@@ -6,7 +6,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
     var selectCtrl = fastmap.uikit.SelectController();
     var shapectl = new fastmap.uikit.ShapeEditorController();
+    map.currentTool = shapectl.getCurrentTool();
     shapectl.setMap(map);
+
     $scope.modifyShape = function (type) {
         var ly = fastmap.uikit.LayerController();
         if (shapectl.getCurrentTool()['options']) {
@@ -32,6 +34,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathVertexInsert');
 
             shapectl.startEditing();
+
         }
 
         if (type == "deleteDot") {
