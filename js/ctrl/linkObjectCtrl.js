@@ -33,6 +33,10 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
             $ocLazyLoad.load('ctrl/linkCtrl/limitedCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/limitedTepl.html";
             });
+        }else if(url=="otherModule"){
+            $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
+                $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
+            });
         }
 
     }
