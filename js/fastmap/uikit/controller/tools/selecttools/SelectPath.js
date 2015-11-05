@@ -148,7 +148,8 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
                 var geom = feature.geometry.coordinates;
 
-                this.currentEditLayer._drawLineString(ctx, geom, style, true);
+                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#FFFF00',
+                    radius:3});
 
             }
         }
@@ -178,10 +179,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         tile: L.point(key.split(',')[0],key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, {
+                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates,true, {
                         size: 3,
                         color: '#FFFF00'
-                    }, true);
+                    }, {color: '#FFFF00',
+                        radius:3} );
 
 
                 }
