@@ -7,23 +7,31 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var outPutCtrl = fastmap.uikit.OutPutController();
         var featCodeCtrl = new fastmap.uikit.FeatCodeController();
         var shapectl = fastmap.uikit.ShapeEditorController();
-        $scope.relationFlag = true;
-        $scope.dotFlag = false;
-        $scope.outFlag = false;
+        $scope.limitRelation = {};
         $scope.addShape = function (type) {
             if (type === "restriction") {
-                setTimeout(function () {
-                    $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-
-                        }
-                    );
-                }, 100)
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
                 var sTools = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
                 sTools.enable();
+                rdLink.on("getId", function (data) {
+                    if(data.index===0) {
+                        $scope.limitRelation.enterLine = data.id;
+                        outPutCtrl.pushOutput({label: "已经选择进入线,选择进入点"});
+                    }else if(data.index===1) {
+                        $scope.limitRelation.enterNode = data.id;
+                        outPutCtrl.pushOutput({label: "已经选择进入点,选择退出线"});
+                        setTimeout(function () {
+                            $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+
+                                }
+                            );
+                        }, 100)
+                    }
+                    featCodeCtrl.setFeatCode($scope.limitRelation);
+                })
 
             }
             else if (type === "link") {

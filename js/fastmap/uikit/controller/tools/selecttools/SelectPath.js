@@ -58,7 +58,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     },
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
-
+        console.log("from here");
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
@@ -126,7 +126,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      *清除高亮
      */
     _cleanHeight:function(){
-
+        console.log("from clear");
         for(var index in this.redrawTiles){
             var data = this.redrawTiles[index].data;
             this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
@@ -148,7 +148,8 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
                 var geom = feature.geometry.coordinates;
 
-                this.currentEditLayer._drawLineString(ctx, geom, style, true);
+                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
+                    radius:3});
 
             }
         }
@@ -178,10 +179,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         tile: L.point(key.split(',')[0],key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, {
+                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates,true, {
                         size: 3,
                         color: '#FFFF00'
-                    }, true);
+                    }, {color: '#FFFF00',
+                        radius:3} );
 
 
                 }

@@ -65,8 +65,11 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    if( objectEditCtrl.data.details.length!==0) {
+    if(objectEditCtrl.data) {
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+    }
+    if( objectEditCtrl.data.details.length!==0) {
+        objectEditCtrl.data.details = [];
     }
 
     $scope.selectTip = function (item) {
@@ -132,7 +135,6 @@ objectEditApp.controller("normalController", function ($scope) {
 
             console.log("交限 "+id+" has been removed");
         })
-
-
+        
     }
 });
