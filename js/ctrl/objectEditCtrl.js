@@ -17,17 +17,13 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id":5},
         {"id":6},
         {"id":7},
-        {"id":8},
-        {"id":9},
         {"id":11},
         {"id":22},
         {"id":33},
         {"id":44},
         {"id":55},
         {"id":66},
-        {"id":77},
-        {"id":88},
-        {"id":99}
+        {"id":77}
 
     ];
     $scope.vehicleOptions = [
@@ -70,9 +66,9 @@ objectEditApp.controller("normalController", function ($scope) {
     };
 
 
-    if( objectEditCtrl.data.details.length!==0) {
-        objectEditCtrl.data.details = [];
-    }
+    //if( objectEditCtrl.data.details.length!==0) {
+    //    objectEditCtrl.data.details = [];
+    //}
     //选择弹出框中的交限
     $scope.selectTip = function (item) {
         $scope.tipsId = item.id;
@@ -94,12 +90,6 @@ objectEditApp.controller("normalController", function ($scope) {
             return;
         }
         var tipsObj = $scope.rdRestrictData.details;
-        //for (var i = 0, len = tipsObj.length; i < len; i++) {
-        //    if (tipsObj[i].flag === $scope.tipsId) {
-        //        alert("重复");
-        //        return;
-        //    }
-        //}
         $scope.rdRestrictData.details.push( $scope.newLimited );
 
     }
@@ -114,13 +104,17 @@ objectEditApp.controller("normalController", function ($scope) {
     $scope.$parent.$parent.save=function() {
         objectEditCtrl.setCurrentObject( $scope.$parent.$parent.rdRestrictData);
         objectEditCtrl.save();
-        console.log(objectEditCtrl.changedProperty);
+        var param  = {
+            "command": "updaterestriction",
+            "projectId": 1,
+            "data": objectEditCtrl.changedProperty
+            }
+        Application.functions.saveProperty(JSON.stringify(param),function(data){
+            var outputcontroller =  fastmap.uikit.OutPutController({});
+            outputcontroller.pushOutput(data.data);
+        })
     };
     $scope.$parent.$parent.delete=function(){
-        //objectEditCtrl.setCurrentObject($scope.rdLinkData);
-        //objectEditCtrl.remove();
-        //http://192.168.4.130/FosEngineWeb/pdh/obj/edit?parameter=
-        // {"command":"updaterestriction","projectId":1,"data":{"pid":2131,"objStatus":"DELETE"}}
         var pid=parseInt($scope.$parent.$parent.rdRestrictData.pid);
         var param  = {
             "command": "updaterestriction",
