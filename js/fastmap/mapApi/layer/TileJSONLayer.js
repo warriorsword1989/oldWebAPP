@@ -22,7 +22,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.editable = this.options.editable || "";
         this.requestType = this.options.requestType || "";
         this.tiles = {};
-        this.mecator = this.options.mecator || "";
+        this.directColor = this.options.directColor || "#ff0000";
+        this.mecator = this.options.mecator||"";
         this.showNodeLeve = this.options.showNodeLeve;
         this.clickFunction = this.options.clickFunction || null;
         var that = this;
@@ -270,6 +271,79 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
     },
+
+    /***
+     * _drawArrow绘制方向箭头
+     * @param {Object}ctx
+     * @param {Number}direct 绘制方向
+     * @param {Array}data 点数组
+     * @private
+     */
+    _drawArrow: function(ctx, direct,data){
+        ctx.linewidth = 2;
+        ctx.strokeStyle=this.directColor;
+        if (direct == 0 || direct == 1) {
+            return;
+        }
+
+        for (i = 0, len = data.length; i < len; i++) {
+            for (j = 0, len2 = data[i].length; j < len2-1; j = j + 2) {
+
+                ctx.beginPath();
+                ctx.translate(0, 0, 0);
+
+                var point1 = data[i][j];
+                var point2 = data[i][j + 1];
+                var distance = this.distance(point1,point2);
+                if (distance < 30) {
+                    return;
+                }
+
+                ctx.save()
+                var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+
+                ctx.translate(centerPoint.x, centerPoint.y);
+                //先计算向量与y轴负方向向量(0,-1)的夹角
+
+
+                var ang = 0;
+                if (point1.y - point2.y == 0) {
+                    if (point1.x - point2.x > 0) {
+                        ang = Math.PI / -2;
+                    }
+                    else {
+                        ang = Math.PI / 2;
+                    }
+                }
+                else {
+                    ang = (point1.x - point2.x) / (point1.y - point2.y);
+                    ang = Math.atan(ang);
+                }
+                if (point2.y - point1.y >= 0) {
+                    if (direct == 2) {
+                        ctx.rotate(-ang);
+                    } else if (direct == 3) {
+                        ctx.rotate(-ang + Math.PI);
+                    }
+                } else {
+                    if (direct == 2) {
+                        ctx.rotate(Math.PI - ang); //加个180度，反过来
+                    } else if (direct == 3) {
+                        ctx.rotate(-ang);
+                    }
+
+                }
+                ctx.lineTo(-3, -6);
+                ctx.lineTo(0, 1);
+                ctx.lineTo(3, -6);
+                ctx.lineTo(0, 0);
+                ctx.stroke();
+                ctx.fill(); //箭头是个封闭图形
+                ctx.closePath();
+                ctx.restore();   //恢复到堆的上一个状态，其实这里没什么用。
+            }
+        }
+    },
     /***
      * 绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
@@ -278,7 +352,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
      */
-    _drawLineString: function (ctx, geom, boolPixelCrs, linestyle, nodestyle) {
+    _drawLineString: function (ctx, geom, boolPixelCrs,linestyle,nodestyle,direct) {
         if (!linestyle) {
             return;
         }
@@ -306,12 +380,26 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.strokeStyle = linestyle.color;
         g.lineWidth = linestyle.size;
         g.beginPath();
+        var arrowlist=[];
         for (i = 0; i < proj.length; i++) {
             var method = (i === 0 ? 'move' : 'line') + 'To';
             g[method](proj[i].x, proj[i].y);
+            if(i<proj.length-1){
+                var oneArrow=[proj[i],proj[i+1]];
+                arrowlist.push(oneArrow);
+            }
+
         }
+
+
         g.stroke();
         g.restore();
+        if(direct==null||typeof(direct)=="undefined"||direct==""){
+            //alert("lsdkkls");
+        }else{
+            this._drawArrow(g,direct,arrowlist);
+        }
+
     },
 
     /***
@@ -526,9 +614,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         this._drawLineString(ctx, geom, boolPixelCrs, {
                             size: 3,
                             color: '#FFFF00'
-                        }, {color: 'rgba(105,105,105,1)', radius: 3});
+                        }, {color: 'rgba(105,105,105,1)', radius: 3},
+                            feature.properties.direct);
                     } else {
-                        this._drawLineString(ctx, geom, boolPixelCrs, style, {color: 'rgba(105,105,105,1)', radius: 3});
+                        this._drawLineString(ctx, geom, boolPixelCrs, style,{color:'rgba(105,105,105,1)',radius:3},feature.properties.direct);
                     }
 
 
@@ -714,6 +803,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             default:
                 return null;
         }
+    },
+    //两点之间的距离
+    distance:function(pointA, pointB) {
+        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+        return Math.sqrt(len);
     }
 });
 

@@ -158,8 +158,7 @@ objectEditApp.controller("normalController", function ($scope) {
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
-
-            console.log("交限 " + id + " has been removed");
+            console.logg("交限 "+pid+" has been removed");
         })
 
     }

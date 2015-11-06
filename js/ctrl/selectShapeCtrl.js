@@ -10,7 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
         $("#"+type).addClass("btn btn-default active");
         if (type === "link") {
-
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             layerCtrl.pushLayerFront('referenceLine');
             var rdLink = layerCtrl.getLayerById('referenceLine');
             if(typeof map.currentTool.cleanHeight==="function") {
@@ -51,11 +51,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
 
         if (type === "node") {
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             var rdLink = layerCtrl.getLayerById('referenceLine');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
         }
         if (type === "relation") {
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             layerCtrl.pushLayerFront('referencePoint');
             var rdLink = layerCtrl.getLayerById('referencePoint');
             if(typeof map.currentTool.cleanHeight==="function") {

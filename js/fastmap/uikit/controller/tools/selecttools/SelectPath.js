@@ -151,7 +151,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                 var geom = feature.geometry.coordinates;
 
                 this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                    radius:3});
+                    radius:3},feature.properties.direct);
 
             }
         }
