@@ -37,7 +37,11 @@
         <div class="panel panel-default" style="width: 100%;height: 100%;" >
             <div class="panel-body">
                 <form class="form-horizontal" method="get">
-                    图片
+                    <div class="form-group">
+                        <div class="col-sm-6" ng-repeat="phitem in photos">
+                            <img  ng-src="{{phitem.content}}" width="60px" height="60px" ng-click="openOrigin($index)">
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

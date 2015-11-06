@@ -124,10 +124,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
                         objCtrl.setCurrentObject(data.data);
                         $scope.$parent.$parent.rdRestrictData = data.data;
-
                     })
 
+
                 })
+
 
             };
 
