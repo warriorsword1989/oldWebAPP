@@ -13,6 +13,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.rdRestrictData ={};//交限对象
     $scope.updateLinkData = "";
     $scope.outFlag = false;//是否可监听
+    var ly = fastmap.uikit.LayerController();
+    var shapectl = new fastmap.uikit.ShapeEditorController();
 
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
@@ -42,7 +44,16 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     });
 
 
+    $(document).bind('keydown',
+        function(event){
+            if(event.keyCode==27){
+                shapectl.stopEditing();
+                ly.getLayerById('edit').bringToBack()
 
+                $(ly.getLayerById('edit').options._div).unbind();
+
+            }
+        });
 
 
 
