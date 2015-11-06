@@ -18,7 +18,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
-                map.currentTool .enable();
+                map.currentTool.enable();
                 $scope.excitLineArr = [];
                 rdLink.on("getId", function (data) {
                     if (data.index === 0) {
@@ -27,7 +27,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         outPutCtrl.pushOutput({label: "已经选择进入点,选择退出线"});
-                    } else {
+                    } else if(data.index>1) {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
                         outPutCtrl.pushOutput({label: "已选退出线"});
@@ -38,7 +38,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 if (shapectl.shapeEditorResult) {
-                    //var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]);
                     shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]));
                     selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());
                     var editLyer = layerCtrl.getLayerById('edit');
@@ -81,7 +80,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 $(layerCtrl.getLayerById('edit').options._div).unbind();
                             });
 
-                        }  else if (type === "restriction") {
+                        } else if (type === "restriction") {
                             var param = {
                                 "command": "createrestriction",
                                 "projectId": 1,
@@ -94,6 +93,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 //清空上一次的操作
                                 $scope.excitLineArr.length = 0;
                                 map.currentTool.cleanHeight();
+                                map.currentTool.disable();
                                 var restrict = layerCtrl.getLayerById('referencePoint');
                                 restrict.redraw();
 

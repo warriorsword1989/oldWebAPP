@@ -52,12 +52,12 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this._map.off('mousedown', this.onMouseDown, this);
     },
 
-    //disable: function () {
-    //    if (!this._enabled) { return; }
-    //    this._map.dragging.enable();
-    //    this._enabled = false;
-    //    this.removeHooks();
-    //},
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
