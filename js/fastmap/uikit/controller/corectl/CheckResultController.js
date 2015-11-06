@@ -40,7 +40,13 @@ fastmap.uikit.CheckResultController=(function() {
              * 获得检查结果
              */
             getCheckResult:function(){},
-
+                /**
+                 *
+                 * @param obj
+                 */
+            setCheckResult:function(obj) {
+                this.errorCheckData = obj;
+            },
             /***
              * 忽略检查结果
              */
