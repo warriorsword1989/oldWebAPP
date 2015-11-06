@@ -20,7 +20,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         var feature = null
         if (type == "insertDot") {
-
+            map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
@@ -42,7 +42,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
 
         if (type == "deleteDot") {
-
+            map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
@@ -58,7 +58,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.startEditing();
         }
         if (type == "moveDot") {
-
+            map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
@@ -74,7 +74,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.startEditing();
         }
         if (type == "extendDot") {
-
+            map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
@@ -92,6 +92,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
 
         if(type == 'pathBreak'){
+            map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
