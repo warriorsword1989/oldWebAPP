@@ -17,8 +17,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
-                var sTools = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
-                sTools.enable();
+                map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
+                map.currentTool .enable();
                 $scope.excitLineArr = [];
                 rdLink.on("getId", function (data) {
                     if (data.index === 0) {
@@ -27,13 +27,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         outPutCtrl.pushOutput({label: "已经选择进入点,选择退出线"});
-                        //setTimeout(function () {
-                        //    $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
-                        //            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                        //
-                        //        }
-                        //    );
-                        //}, 100)
                     } else {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
@@ -80,6 +73,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             shapectl.stopEditing();
                             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                                 var outputcontroller = new fastmap.uikit.OutPutController({});
+                                var rdLink = layerCtrl.getLayerById('referenceLine');
+                                rdLink.redraw();
                                 outputcontroller.pushOutput(data.data);
                                 layerCtrl.getLayerById('edit').bringToBack()
 
@@ -96,6 +91,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                                 var pid = data.data.log[0].pid;
                                 checkCtrl.setCheckResult(data);
+                                //清空上一次的操作
+                                $scope.excitLineArr.length = 0;
+                                map.currentTool.cleanHeight();
+                                var restrict = layerCtrl.getLayerById('referencePoint');
+                                restrict.redraw();
+
                                 outPutCtrl.pushOutput(data.data.log[0]);
                                 Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                                     objEditCtrl.setCurrentObject(data.data);
