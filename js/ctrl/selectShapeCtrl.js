@@ -13,7 +13,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
             layerCtrl.pushLayerFront('referenceLine');
             var rdLink = layerCtrl.getLayerById('referenceLine');
-
+            if(typeof map.currentTool.cleanHeight==="function") {
+                map.currentTool.cleanHeight();
+            }
             map.currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
             map.currentTool.enable();
             rdLink.options.selectType = 'link';
@@ -56,6 +58,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         if (type === "relation") {
             layerCtrl.pushLayerFront('referencePoint');
             var rdLink = layerCtrl.getLayerById('referencePoint');
+            if(typeof map.currentTool.cleanHeight==="function") {
+                map.currentTool.cleanHeight();
+            }
             map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink});
             map.currentTool.enable();
             rdLink.options.selectType = 'relation';

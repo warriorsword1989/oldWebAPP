@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/11/4.
  */
-fastmap.uikit.SelectNode= L.Handler.extend({
+fastmap.uikit.SelectNode = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
@@ -64,9 +64,9 @@ fastmap.uikit.SelectNode= L.Handler.extend({
         for (var item in data) {
             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                 id = data[item].properties.id;
-                this.currentEditLayer.fire("getNodeId", {id: id,tips:0})
+                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                if( this.redrawTiles.length != 0){
+                if (this.redrawTiles.length != 0) {
                     this._cleanHeight();
                 }
 
@@ -87,24 +87,28 @@ fastmap.uikit.SelectNode= L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesPoint: function (d, x, y, r){
+    _TouchesPoint: function (d, x, y, r) {
         var dx = x - d[0];
         var dy = y - d[1];
         if ((dx * dx + dy * dy) <= r * r) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     },
+    cleanHeight: function () {
+        this._cleanHeight();
+    }
+    ,
 
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
      */
-    _cleanHeight:function(){
+    _cleanHeight: function () {
 
-        for(var index in this.redrawTiles){
+        for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
+            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
             var ctx = {
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
@@ -115,7 +119,7 @@ fastmap.uikit.SelectNode= L.Handler.extend({
                 var feature = data.features[i];
 
                 var color = null;
-                if(feature.hasOwnProperty('properties')){
+                if (feature.hasOwnProperty('properties')) {
                     color = feature.properties.c;
                 }
 
@@ -127,7 +131,6 @@ fastmap.uikit.SelectNode= L.Handler.extend({
 
             }
         }
-
 
 
     }
@@ -147,14 +150,14 @@ fastmap.uikit.SelectNode= L.Handler.extend({
 
                 if (data[key].properties.id == id) {
 
-                    this.redrawTiles.push(this.tiles[obj]);
+                    this.redrawTiles=this.tiles;
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
-                        tile: L.point(key.split(',')[0],key.split(',')[1]),
+                        tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
                     this.currentEditLayer._drawImg(ctx, data[key].geometry.coordinates, {
-                    src:'./css/img/mark_bs_s.png'
+                        src: './css/img/mark_bs_s.png'
                     }, true);
 
 
