@@ -4,20 +4,27 @@
 var dataTipsApp = angular.module("lazymodule", []);
 dataTipsApp.controller("sceneTipsController", function ($scope) {
 
-        var dataTipsCtrl = new fastmap.uikit.DataTipsController();
-        var   selectCtrl= new fastmap.uikit.SelectController();
+    var dataTipsCtrl = new fastmap.uikit.DataTipsController();
+    var   selectCtrl= new fastmap.uikit.SelectController();
+
     if(selectCtrl.rowKey) {
         $scope.rdSubTipsData = selectCtrl.rowKey.o_array[0];
+
     }else{
         $scope.rdSubTipsData = [];
     }
-
-
-
+    //获取数据中的图片数组
+    $scope.photoTipsData=selectCtrl.rowKey.f_array;
+    $scope.photos= $.extend(true,{},$scope.photoTipsData);//复制为一个新的数组
+    for(var i in  $scope.photoTipsData){
+         $scope.photos[i].content=Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"'+$scope.photoTipsData[i].content+'",type:"thumbnail"}';
+    }
     $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
     };
+
+
     $scope.increaseDataTips = function () {
         var outLink = "", info = [], data = {};
         data.pid = this.dataTipsData.in.id;
@@ -53,5 +60,28 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             startTime: "20141214",
             endTime: "20141215"
         }];
+    }
+
+    $scope.openOrigin=function(id) {
+        //var images= new Image();
+        $scope.openshotoorigin=selectCtrl.rowKey.f_array[id];
+        //images.src= Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"'+$scope.openshotoorigin.content+'",type:"origin"}';
+        //console.log(images.src);
+        //$.fancybox.open(images,{
+        //    showCloseButton:true,
+        //    helpers: {
+        //        title: {
+        //            type: 'over'
+        //        },
+        //        overlay: {
+        //            css: {
+        //                'width': 800,
+        //                'height': 800,
+        //                'zIndex':9999
+        //            }
+        //        }
+        //    }});
+        $("#dataTipsOriginImg").attr("src",Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"'+$scope.openshotoorigin.content+'",type:"origin"}');
+        $("#dataTipsOriginModal").modal('show');
     }
 })
