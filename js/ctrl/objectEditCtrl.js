@@ -136,7 +136,7 @@ objectEditApp.controller("normalController", function ($scope) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
 
-            console.log("交限 "+id+" has been removed");
+            console.log("交限 "+pid+" has been removed");
         })
 
     }
