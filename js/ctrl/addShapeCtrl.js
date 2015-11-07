@@ -34,10 +34,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         //        }
                         //    );
                         //}, 100)
-                    } else {
+                    } else if(data.index===2){
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
                         outPutCtrl.pushOutput({label: "已选退出线"});
+                        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                        data.index=-1;
+                        sTools.disable();
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
