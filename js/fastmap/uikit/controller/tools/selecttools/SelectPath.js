@@ -26,6 +26,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
+
     },
 
     /***
@@ -56,13 +57,12 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
-
     drawGeomCanvasHighlight: function (tilePoint, event) {
-        console.log("from here");
+        this.currentEditLayer.on("getTiles",function(event) {
+            var tiles = event.tiles;
+        });
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
-
         var id = null;
         for (var item in data) {
             if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
@@ -121,7 +121,9 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         }
         return 0
     },
-
+     cleanHeight:function(){
+         this._cleanHeight();
+     },
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
      */
@@ -164,7 +166,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      * @private
      */
     _drawHeight: function (id) {
-
+        this.redrawTiles=this.tiles;
         for (var obj in this.tiles) {
 
             var data = this.tiles[obj].data.features;
@@ -173,17 +175,20 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
                 if (data[key].properties.id == id) {
 
-                    this.redrawTiles.push(this.tiles[obj]);
+
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
-                        tile: L.point(key.split(',')[0],key.split(',')[1]),
+                        tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates,true, {
+                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, {
                         size: 3,
                         color: '#FFFF00'
-                    }, {color: '#FFFF00',
-                        radius:3});
+                    }, {
+                        color: '#FFFF00',
+                        radius: 3
+                    });
+
 
                 }
             }

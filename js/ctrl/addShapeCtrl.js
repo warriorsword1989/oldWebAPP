@@ -17,8 +17,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
-                var sTools = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
-                sTools.enable();
+                map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
+                map.currentTool.enable();
                 $scope.excitLineArr = [];
                 rdLink.on("getId", function (data) {
                     if (data.index === 0) {
@@ -27,20 +27,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         outPutCtrl.pushOutput({label: "已经选择进入点,选择退出线"});
-                        //setTimeout(function () {
-                        //    $ocLazyLoad.load('ctrl/addLimitedPropertyCtrl').then(function () {
-                        //            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                        //
-                        //        }
-                        //    );
-                        //}, 100)
-                    } else if(data.index===2){
+
+                    } else if(data.index>1) {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
                         outPutCtrl.pushOutput({label: "已选退出线"});
                         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                        data.index=-1;
-                        sTools.disable();
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
@@ -48,7 +40,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 if (shapectl.shapeEditorResult) {
-                    //var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]);
                     shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]));
                     selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());
                     var editLyer = layerCtrl.getLayerById('edit');
@@ -83,13 +74,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             shapectl.stopEditing();
                             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                                 var outputcontroller = new fastmap.uikit.OutPutController({});
+                                var rdLink = layerCtrl.getLayerById('referenceLine');
+                                rdLink.redraw();
                                 outputcontroller.pushOutput(data.data);
                                 layerCtrl.getLayerById('edit').bringToBack()
 
                                 $(layerCtrl.getLayerById('edit').options._div).unbind();
                             });
 
-                        }  else if (type === "restriction") {
+                        } else if (type === "restriction") {
                             var param = {
                                 "command": "createrestriction",
                                 "projectId": 1,
@@ -99,6 +92,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                                 var pid = data.data.log[0].pid;
                                 checkCtrl.setCheckResult(data);
+                                //清空上一次的操作
+                                $scope.excitLineArr.length = 0;
+                                map.currentTool.cleanHeight();
+                                map.currentTool.disable();
+                                var restrict = layerCtrl.getLayerById('referencePoint');
+                                restrict.redraw();
+
                                 outPutCtrl.pushOutput(data.data.log[0]);
                                 Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                                     objEditCtrl.setCurrentObject(data.data);

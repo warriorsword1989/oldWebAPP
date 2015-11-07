@@ -160,8 +160,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
                             Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
                                 var outputcontroller = new fastmap.uikit.OutPutController({});
                                 outputcontroller.pushOutput(data.data);
+                                var rdLink = ly.getLayerById('referenceLine');
+                                rdLink.redraw();
                                 ly.getLayerById('edit').bringToBack()
-
                                 $(ly.getLayerById('edit').options._div).unbind();
                             })
 
@@ -188,6 +189,8 @@ modifyApp.controller("modifyToolController", function ($scope) {
                                 var resultdata=[];
                                 resultdata.push("类型："+data.data.log[0].type+"; pid:"+data.data.log[0].pid+"; 操作:"+data.data.log[0].op);
                                 outputcontroller.pushOutput(resultdata);
+                                var rdLink = ly.getLayerById('referenceLine');
+                                rdLink.redraw();
                                 ly.getLayerById('edit').bringToBack()
 
                                 $(ly.getLayerById('edit').options._div).unbind();
