@@ -6,24 +6,57 @@ objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
     $scope.showTips = function (item) {
-        $scope.rdSubRestrictData=item;
+        $scope.rdSubRestrictData = item;
+    }
+    objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
+    var layerCtrl = fastmap.uikit.LayerController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
+    $scope.showTips = function (id) {
+        var outLinkPid = id.outLinkPid;
+        var tiles = rdLink.tiles;
+        for (var obj in tiles) {
+
+            var data = tiles[obj].data.features;
+
+            for (var key in data) {
+
+                if (data[key].properties.id === objectEditCtrl.data.inLinkPid||data[key].properties.id === outLinkPid) {
+
+
+                    var ctx = {
+                        canvas: tiles[obj].options.context,
+                        tile: L.point(key.split(',')[0], key.split(',')[1]),
+                        zoom: map.getZoom()
+                    }
+                    rdLink._drawLineString(ctx, data[key].geometry.coordinates, true, {
+                        size: 3,
+                        color: '#FFFF00'
+                    }, {
+                        color: '#FFFF00',
+                        radius: 3
+                    });
+
+
+                }
+            }
+        }
     };
     //初始化交限
     $scope.addLimitedData = [
-        {"id":1},
-        {"id":2},
-        {"id":3},
-        {"id":4},
-        {"id":5},
-        {"id":6},
-        {"id":7},
-        {"id":11},
-        {"id":22},
-        {"id":33},
-        {"id":44},
-        {"id":55},
-        {"id":66},
-        {"id":77}
+        {"id": 1},
+        {"id": 2},
+        {"id": 3},
+        {"id": 4},
+        {"id": 5},
+        {"id": 6},
+        {"id": 7},
+        {"id": 11},
+        {"id": 22},
+        {"id": 33},
+        {"id": 44},
+        {"id": 55},
+        {"id": 66},
+        {"id": 77}
 
     ];
     $scope.vehicleOptions = [
@@ -61,7 +94,7 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
     $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-    $scope.$parent.$parent.updateLinkData=function(data) {
+    $scope.$parent.$parent.updateLinkData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
     };
 
@@ -72,16 +105,16 @@ objectEditApp.controller("normalController", function ($scope) {
     //选择弹出框中的交限
     $scope.selectTip = function (item) {
         $scope.tipsId = item.id;
-        var obj={};
-            obj.flag = item.id;
-            obj.outLinkPid =""; //$scope.rdLink.outPid;
-            obj.pid = "";//featCodeCtrl.newObj.pid;
-            obj.relationshipType = 1;
-            obj.restricInfo = 1;
-            obj.restricPid =""// featCodeCtrl.newObj.pid;
-            obj.type = 1;
-            obj.conditons = [];
-           $scope.newLimited = obj;
+        var obj = {};
+        obj.flag = item.id;
+        obj.outLinkPid = ""; //$scope.rdLink.outPid;
+        obj.pid = "";//featCodeCtrl.newObj.pid;
+        obj.relationshipType = 1;
+        obj.restricInfo = 1;
+        obj.restricPid = ""// featCodeCtrl.newObj.pid;
+        obj.type = 1;
+        obj.conditons = [];
+        $scope.newLimited = obj;
     };
     //添加交限
     $scope.addTips = function () {
@@ -90,48 +123,49 @@ objectEditApp.controller("normalController", function ($scope) {
             return;
         }
         var tipsObj = $scope.rdRestrictData.details;
-        $scope.rdRestrictData.details.push( $scope.newLimited );
+        $scope.rdRestrictData.details.push($scope.newLimited);
 
     }
     //增加时间段
-    $scope.addTime=function(){
+    $scope.addTime = function () {
         $scope.rdRestrictData.time.unshift({startTime: "", endTime: ""});
     }
     //删除时间段
-    $scope.minusTime=function(id) {
+    $scope.minusTime = function (id) {
         $scope.rdRestrictData.time.splice(id, 1);
     };
-    $scope.$parent.$parent.save=function() {
-        objectEditCtrl.setCurrentObject( $scope.$parent.$parent.rdRestrictData);
+    $scope.$parent.$parent.save = function () {
+        objectEditCtrl.setCurrentObject($scope.$parent.$parent.rdRestrictData);
         objectEditCtrl.save();
-        var param  = {
+        var param = {
             "command": "updaterestriction",
             "projectId": 1,
             "data": objectEditCtrl.changedProperty
-            }
-        Application.functions.saveProperty(JSON.stringify(param),function(data){
-            var outputcontroller =  fastmap.uikit.OutPutController({});
+        }
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
         })
     };
-    $scope.$parent.$parent.delete=function(){
-        var pid=parseInt($scope.$parent.$parent.rdRestrictData.pid);
-        var param  = {
+    $scope.$parent.$parent.delete = function () {
+        var pid = parseInt($scope.$parent.$parent.rdRestrictData.pid);
+        var param = {
             "command": "updaterestriction",
             "projectId": 1,
             "data": {
-                "pid":pid,
-                "objStatus":"DELETE"
+                "pid": pid,
+                "objStatus": "DELETE"
             }
         }
 
         //结束编辑状态
-        console.log("I am removing obj"+pid);
-        Application.functions.saveProperty(JSON.stringify(param),function(data){
+        console.log("I am removing obj" + pid);
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
             //删除pid
             console.log("交限 "+pid+" has been removed");
+
         })
         $scope.$parent.$parent.rdRestrictData=null;
     }
