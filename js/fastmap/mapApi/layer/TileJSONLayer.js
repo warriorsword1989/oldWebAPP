@@ -397,7 +397,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if(direct==null||typeof(direct)=="undefined"||direct==""){
             //alert("lsdkkls");
         }else{
-            this._drawArrow(g,direct,arrowlist);
+            if(this._map.getZoom() >= this.showNodeLeve){
+                this._drawArrow(g,direct,arrowlist);
+            }
+
         }
 
     },
