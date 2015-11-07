@@ -157,8 +157,10 @@ objectEditApp.controller("normalController", function ($scope) {
         console.log("I am removing obj" + pid);
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
+            var restrict = layerCtrl.getLayerById("referencePoint");
+            restrict.redraw();
             outputcontroller.pushOutput(data.data);
-            console.logg("交限 "+pid+" has been removed");
+            console.log("交限 "+pid+" has been removed");
         })
 
     }

@@ -10,7 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
         $("#"+type).addClass("btn btn-default active");
         if (type === "link") {
-            map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
+            map.currentTool.disable();//ï¿½ï¿½Ö¹ï¿½ï¿½Ç°ï¿½Ä²Î¿ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
             layerCtrl.pushLayerFront('referenceLine');
             var rdLink = layerCtrl.getLayerById('referenceLine');
             if(typeof map.currentTool.cleanHeight==="function") {
@@ -51,13 +51,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
 
         if (type === "node") {
-            map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
+            map.currentTool.disable();//ï¿½ï¿½Ö¹ï¿½ï¿½Ç°ï¿½Ä²Î¿ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
             var rdLink = layerCtrl.getLayerById('referenceLine');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
         }
         if (type === "relation") {
-            map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
+            map.currentTool.disable();//ï¿½ï¿½Ö¹ï¿½ï¿½Ç°ï¿½Ä²Î¿ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
             layerCtrl.pushLayerFront('referencePoint');
             var rdLink = layerCtrl.getLayerById('referencePoint');
             if(typeof map.currentTool.cleanHeight==="function") {
