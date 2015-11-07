@@ -52,12 +52,12 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this._map.off('mousedown', this.onMouseDown, this);
     },
 
-    //disable: function () {
-    //    if (!this._enabled) { return; }
-    //    this._map.dragging.enable();
-    //    this._enabled = false;
-    //    this.removeHooks();
-    //},
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
@@ -238,7 +238,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
                 if (data[key].properties.id == id) {
 
-                    this.redrawTiles.push(this.tiles[obj]);
+                    this.redrawTiles=this.tiles;
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
                         tile: L.point(key.split(',')[0],key.split(',')[1]),
@@ -264,6 +264,44 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
             color: '#FFFF00',
             radius:3
         },true);
+    },
+    cleanHeight:function(){
+        this._cleanHeight();
+    },
+    /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
+     *清除高亮
+     */
+    _cleanHeight:function(){
+        console.log("from clear");
+        for(var index in this.redrawTiles){
+            var data = this.redrawTiles[index].data;
+            this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
+            var ctx = {
+                canvas: this.redrawTiles[index].options.context,
+                tile: this.redrawTiles[index].options.context._tilePoint,
+                zoom: this._map.getZoom()
+            }
+
+            for (var i = 0; i < data.features.length; i++) {
+                var feature = data.features[i];
+
+                var color = null;
+                if(feature.hasOwnProperty('properties')){
+                    color = feature.properties.c;
+                }
+
+                var style = this.currentEditLayer.styleFor(feature, color);
+
+                var geom = feature.geometry.coordinates;
+
+                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
+                    radius:3});
+
+            }
+        }
+
+
+
     }
 
 });
