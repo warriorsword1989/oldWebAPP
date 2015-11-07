@@ -53,6 +53,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                 function (event) {
                     if (event.keyCode == 32) {
+                        //为了保证捕获到这里时提交的形式正确,addShape时id为（非）未定义时return，modifyToolCtrl时id为未定义时return
+                        if(typeof(selectCtrl.selectedFeatures.id)!="undefined"){
+                            map.currentTool.disable();
+                            shapectl.stopEditing();
+                            return;
+                        }
                         if (type == 'link') {
 
                             var link = shapectl.shapeEditorResult.getFinalGeometry();
@@ -114,8 +120,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                             });
                         }
-
-
                     }
 
                 });
