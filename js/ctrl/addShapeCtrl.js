@@ -27,10 +27,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         outPutCtrl.pushOutput({label: "已经选择进入点,选择退出线"});
+
                     } else if(data.index>1) {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
                         outPutCtrl.pushOutput({label: "已选退出线"});
+                        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
