@@ -5,8 +5,8 @@ var objectEditApp = angular.module("lazymodule", []);
 objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
-    $scope.showTips = function (id) {
-        alert(id);
+    $scope.showTips = function (item) {
+        $scope.rdSubRestrictData=item;
     };
     //初始化交限
     $scope.addLimitedData = [
@@ -124,14 +124,15 @@ objectEditApp.controller("normalController", function ($scope) {
                 "objStatus":"DELETE"
             }
         }
+
         //结束编辑状态
         console.log("I am removing obj"+pid);
         Application.functions.saveProperty(JSON.stringify(param),function(data){
             var outputcontroller = new fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
-
+            //删除pid
             console.log("交限 "+pid+" has been removed");
         })
-
+        $scope.$parent.$parent.rdRestrictData=null;
     }
 });
