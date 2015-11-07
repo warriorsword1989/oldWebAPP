@@ -4,6 +4,10 @@
 var objectEditApp = angular.module("lazymodule", []);
 objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
+    objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
+    $scope.showTips = function (item) {
+        $scope.rdSubRestrictData = item;
+    }
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -153,6 +157,7 @@ objectEditApp.controller("normalController", function ($scope) {
                 "objStatus": "DELETE"
             }
         }
+
         //结束编辑状态
         console.log("I am removing obj" + pid);
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
@@ -162,6 +167,6 @@ objectEditApp.controller("normalController", function ($scope) {
             outputcontroller.pushOutput(data.data);
             console.log("交限 "+pid+" has been removed");
         })
-
+        $scope.$parent.$parent.rdRestrictData=null;
     }
 });
