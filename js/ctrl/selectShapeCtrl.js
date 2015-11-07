@@ -57,7 +57,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.editable = true;
         }
         if (type === "relation") {
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获r
             layerCtrl.pushLayerFront('referencePoint');
             var rdLink = layerCtrl.getLayerById('referencePoint');
             if(typeof map.currentTool.cleanHeight==="function") {
@@ -74,6 +74,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
                     objCtrl.setCurrentObject(data.data);
                     $scope.$parent.$parent.rdRestrictData = data.data;
+                    console.log("$scope.$parent.$parent.rdRestrictData "+data.data);
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
