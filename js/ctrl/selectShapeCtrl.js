@@ -74,6 +74,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
                     objCtrl.setCurrentObject(data.data);
                     $scope.$parent.$parent.rdRestrictData = data.data;
+                    console.log("$scope.$parent.$parent.rdRestrictData "+data.data);
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
