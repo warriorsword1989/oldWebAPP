@@ -162,7 +162,20 @@ objectEditApp.controller("normalController", function ($scope) {
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
-        })
+        });
+        if($scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips!==undefined) {
+            var stageParam={
+            "rowkey":$scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips,
+            "stage":3,
+            "handler":0
+
+        }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                var outputcontroller = fastmap.uikit.OutPutController({});
+                outputcontroller.pushOutput(data.data);
+                $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips = undefined;
+            })
+        }
     };
     $scope.$parent.$parent.delete = function () {
         var pid = parseInt($scope.$parent.$parent.rdRestrictData.pid);
