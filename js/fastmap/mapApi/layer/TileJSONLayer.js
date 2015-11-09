@@ -264,6 +264,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var g = c.getContext('2d');
         var image = new Image();
         image.src = imgsrc.src;
+        console.log(image.src);
         image.onload = function () {
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
             g.drawImage(image, p.x, p.y);
@@ -578,6 +579,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 color = feature.properties.c;
             }
 
+
             var style = this.styleFor(feature, color);
 
             var type = feature.geometry.type;
@@ -589,14 +591,28 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             var len = geom.length;
             switch (type) {
                 case 'Point':
+
                     if (this.options.type === 'Marker') {
                         if (drawFlag) {
                             this._drawImg(ctx, geom, {
                                 src: './css/img/mark_bs_s.png'
                             }, boolPixelCrs)
 
+
                         } else {
-                            this._drawImg(ctx, geom, style, boolPixelCrs);
+                            for(var im in feature.properties.restrictioninfo){
+                                if(im>0){
+                                    geom[0]=parseInt(geom[0])+16;
+                                    geom[1]=parseInt(geom[1])+16;
+                                }
+                                if(feature.properties.restrictioninfo==undefined){
+                                   this._drawImg(ctx, geom, {
+                                        src: './css/img/mark_bs.png'
+                                    }, boolPixelCrs)
+                                }else{
+                                    this._drawImg(ctx, geom, {src:'./css/limit/normal/'+feature.properties.restrictioninfo[im]+'.png'}, boolPixelCrs);
+                                }
+                            }
                         }
 
                     } else {
