@@ -40,7 +40,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 if (shapectl.shapeEditorResult) {
-                    shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(116.38, 40.08)]));
+                    shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());
                     var editLyer = layerCtrl.getLayerById('edit');
                     layerCtrl.pushLayerFront('edit');
