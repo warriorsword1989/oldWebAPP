@@ -74,7 +74,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
                     objCtrl.setCurrentObject(data.data);
                     $scope.$parent.$parent.rdRestrictData = data.data;
-                    console.log("$scope.$parent.$parent.rdRestrictData "+data.data);
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
@@ -90,6 +89,41 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
 
             })
+        }
+        if(type=="tips"){
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获r
+            layerCtrl.pushLayerFront('workPoint');
+            var rdLink = layerCtrl.getLayerById('workPoint');
+            if(typeof map.currentTool.cleanHeight==="function") {
+                map.currentTool.cleanHeight();
+            }
+            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink});
+            map.currentTool.enable();
+            rdLink.options.selectType = 'tips';
+            rdLink.options.editable = true;
+            $scope.$parent.$parent.objectEditURL = "";
+            rdLink.on("getNodeId", function (data) {
+                    $scope.data = data;
+                    objCtrl.setCurrentObject(data.data);
+                    $("#popoverTips").css("display", "block");
+                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+
+                            $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                            });
+                        }
+                    );
+                    //data.data.i 为rowkey
+                    Application.functions.getTipsResult(data.data.i, function (data) {
+                        selectCtrl.fire("selectByAttribute", {feather: data});
+                        var id = data.resID[0].id;
+                        Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
+                            objCtrl.setCurrentObject(data.data);
+                            $scope.$parent.$parent.rdRestrictData = data.data;
+                        })
+                    })
+                })
         }
 
     };

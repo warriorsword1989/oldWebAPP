@@ -24,7 +24,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.tiles = {};
         this.directColor = this.options.directColor || "#ff0000";
         this.mecator = this.options.mecator||"";
-        this.showNodeLeve = this.options.showNodeLeve;
+        this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
         var that = this;
         this.on("getId", this.getFeatureId, this);
@@ -264,7 +264,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var g = c.getContext('2d');
         var image = new Image();
         image.src = imgsrc.src;
-        console.log(image.src);
         image.onload = function () {
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
             g.drawImage(image, p.x, p.y);
@@ -363,7 +362,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         for (i = 0; i < coords.length; i++) {
 
-            if (this._map.getZoom() >= this.showNodeLeve && (i == 0 || i == coords.length - 1)) {
+            if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
                 this._drawPoint(ctx, coords[i][0], nodestyle, true);
             }
 
@@ -398,7 +397,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if(direct==null||typeof(direct)=="undefined"||direct==""){
             //alert("lsdkkls");
         }else{
-            if(this._map.getZoom() >= this.showNodeLeve){
+            if(this._map.getZoom() >= this.showNodeLevel){
                 this._drawArrow(g,direct,arrowlist);
             }
 
@@ -583,7 +582,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
             var style = this.styleFor(feature, color);
-
             var type = feature.geometry.type;
             if (this.id !== undefined && feature.properties.id === this.id) {
                 drawFlag = true;
@@ -593,27 +591,16 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             var len = geom.length;
             switch (type) {
                 case 'Point':
-
                     if (this.options.type === 'Marker') {
                         if (drawFlag) {
-                            this._drawImg(ctx, geom, {
-                                src: './css/img/mark_bs_s.png'
-                            }, boolPixelCrs)
-
-
+                                    this._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, boolPixelCrs);
                         } else {
-                            for(var im in feature.properties.restrictioninfo){
-                                if(im>0){
-                                    geom[0]=parseInt(geom[0])+16;  
+                                for (var ims in feature.properties.restrictioninfo) {
+                                    if (ims > 0) {
+                                        geom[0] = parseInt(geom[0]) + 16;
+                                    }
+                                    this._drawImg(ctx, geom, {src: './css/limit/normal/' + feature.properties.restrictioninfo[ims] + '.png'}, boolPixelCrs);
                                 }
-                                if(feature.properties.restrictioninfo==undefined){
-                                   this._drawImg(ctx, geom, {
-                                        src: './css/img/mark_bs.png'
-                                    }, boolPixelCrs)
-                                }else{
-                                    this._drawImg(ctx, geom, {src:'./css/limit/normal/'+feature.properties.restrictioninfo[im]+'.png'}, boolPixelCrs);
-                                }
-                            }
                         }
 
                     } else {
@@ -675,7 +662,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         switch (this.type) {
             case "Point":
-                if(this._map.getZoom() >= this.showNodeLeve){
+                if(this._map.getZoom() >= this.showNodeLevel){
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
                     url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
@@ -683,7 +670,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case "Marker":
-                if(this._map.getZoom() >= this.showNodeLeve){
+                if(this._map.getZoom() >= this.showNodeLevel){
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
                     url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
@@ -692,7 +679,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 break;
             case "LineString":
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-                if(this._map.getZoom() >= this.showNodeLeve){
+                if(this._map.getZoom() >= this.showNodeLevel){
 
 
                     url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
@@ -804,7 +791,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case 'Marker':
-                return {src: './css/img/mark_bs.png'};
+                return {src:'./css/limit/normal/'+feature.properties.restrictioninfo+'.png'};
             case 'LineString':
             case 'MultiLineString':
                 var RD_LINK_Colors = [
