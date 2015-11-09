@@ -602,7 +602,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         } else {
                             for(var im in feature.properties.restrictioninfo){
                                 if(im>0){
-                                    geom[0]=parseInt(geom[0])+16;
+                                    geom[0]=parseInt(geom[0])+16;  
                                 }
                                 if(feature.properties.restrictioninfo==undefined){
                                    this._drawImg(ctx, geom, {
