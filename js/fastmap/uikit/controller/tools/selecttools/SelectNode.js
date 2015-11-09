@@ -106,7 +106,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      *清除高亮
      */
     _cleanHeight: function () {
-
         for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
             this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
@@ -123,7 +122,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 if (feature.hasOwnProperty('properties')) {
                     color = feature.properties.c;
                 }
-
                 var style = this.currentEditLayer.styleFor(feature, color);
 
                 var geom = feature.geometry.coordinates;
@@ -144,25 +142,26 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     _drawHeight: function (id) {
         this.redrawTiles=this.tiles;
         for (var obj in this.tiles) {
-
             var data = this.tiles[obj].data.features;
 
             for (var key in data) {
 
+                var feature = data[key];
+                var type = feature.geometry.type;
+                var geom = feature.geometry.coordinates;
                 if (data[key].properties.id == id) {
-
 
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    this.currentEditLayer._drawImg(ctx, data[key].geometry.coordinates, {
-                        src: './css/img/mark_bs_s.png'
-                    }, true);
 
-
+                    if(type=="Point"){
+                        this.currentEditLayer._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, true);
+                    }
                 }
+
             }
         }
 
