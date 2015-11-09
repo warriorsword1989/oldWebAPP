@@ -527,8 +527,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         //el = x.dest;
                         if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                             if (window.JSON) {
-                                d = window.JSON.parse(x.responseText);
-                                d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
+                                if(window.JSON.parse(x.responseText).data!=null){
+                                    d = window.JSON.parse(x.responseText);
+                                    d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
+                                }
 
                             } else {
                                 d = eval("(" + x.responseText + ")")
@@ -673,20 +675,31 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         switch (this.type) {
             case "Point":
-                var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if(this._map.getZoom() >= this.showNodeLeve){
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
                 break;
             case "Marker":
-                var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if(this._map.getZoom() >= this.showNodeLeve){
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
                 break;
             case "LineString":
-
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if(this._map.getZoom() >= this.showNodeLeve){
 
-                url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }else{
+                    url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                }
 
                 break;
             case "fusionroad":
