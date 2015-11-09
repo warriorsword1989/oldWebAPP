@@ -10,7 +10,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
     });
     $scope.$parent.$parent.updateLinkData=function(data) {
-        $scope.linkData= data.data;
+        $scope.linkData= data;
     };
     $scope.changeModule = function (url) {
         if (url === "basicModule") {
@@ -71,6 +71,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         })
     };
      $scope.$parent.$parent.delete=function(){
-
+         console.log("delete");
      }
 }])
