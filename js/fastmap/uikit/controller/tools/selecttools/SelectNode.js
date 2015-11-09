@@ -98,6 +98,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
+        this.currentEditLayer.fire("getNodeId")
     }
     ,
 
@@ -141,7 +142,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      * @private
      */
     _drawHeight: function (id) {
-
+        this.redrawTiles=this.tiles;
         for (var obj in this.tiles) {
 
             var data = this.tiles[obj].data.features;
@@ -150,7 +151,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
 
                 if (data[key].properties.id == id) {
 
-                    this.redrawTiles=this.tiles;
+
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
