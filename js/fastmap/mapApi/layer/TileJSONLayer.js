@@ -264,7 +264,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var g = c.getContext('2d');
         var image = new Image();
         image.src = imgsrc.src;
-        console.log(image.src);
         image.onload = function () {
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
             g.drawImage(image, p.x, p.y);
@@ -581,7 +580,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
             var style = this.styleFor(feature, color);
-
             var type = feature.geometry.type;
             if (this.id !== undefined && feature.properties.id === this.id) {
                 drawFlag = true;
@@ -591,27 +589,16 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             var len = geom.length;
             switch (type) {
                 case 'Point':
-
                     if (this.options.type === 'Marker') {
                         if (drawFlag) {
-                            this._drawImg(ctx, geom, {
-                                src: './css/img/mark_bs_s.png'
-                            }, boolPixelCrs)
-
-
+                                    this._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, boolPixelCrs);
                         } else {
-                            for(var im in feature.properties.restrictioninfo){
-                                if(im>0){
-                                    geom[0]=parseInt(geom[0])+16;  
+                                for (var ims in feature.properties.restrictioninfo) {
+                                    if (ims > 0) {
+                                        geom[0] = parseInt(geom[0]) + 16;
+                                    }
+                                    this._drawImg(ctx, geom, {src: './css/limit/normal/' + feature.properties.restrictioninfo[ims] + '.png'}, boolPixelCrs);
                                 }
-                                if(feature.properties.restrictioninfo==undefined){
-                                   this._drawImg(ctx, geom, {
-                                        src: './css/img/mark_bs.png'
-                                    }, boolPixelCrs)
-                                }else{
-                                    this._drawImg(ctx, geom, {src:'./css/limit/normal/'+feature.properties.restrictioninfo[im]+'.png'}, boolPixelCrs);
-                                }
-                            }
                         }
 
                     } else {
@@ -791,7 +778,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case 'Marker':
-                return {src: './css/img/mark_bs.png'};
+                return {src:'./css/limit/normal/'+feature.properties.restrictioninfo+'.png'};
             case 'LineString':
             case 'MultiLineString':
                 var RD_LINK_Colors = [
