@@ -126,7 +126,7 @@ Application.layersConfig =
                 editable:false,
                 visible: true,
                 requestType:'RDLINK',
-                showNodeLeve:17
+                showNodeLevel:17
             }
 
         },{
@@ -175,7 +175,8 @@ Application.layersConfig =
                 zIndex:6,
                 restrictZoom:10,
                 visible: false,
-                requestType:'RDRESTRICTION'
+                requestType:'RDRESTRICTION',
+                showNodeLevel:17
             }
 
         }]
@@ -227,7 +228,8 @@ Application.layersConfig =
                 zIndex:7,
                 restrictZoom:10,
                 visible: false,
-                requestType:12
+                requestType:12,
+                showNodeLevel:17
             }
 
         },{
@@ -276,7 +278,8 @@ Application.layersConfig =
                 zIndex:9,
                 restrictZoom:10,
                 visible: false,
-                requestType:7
+                requestType:7,
+                showNodeLevel:17
             }
 
         }]

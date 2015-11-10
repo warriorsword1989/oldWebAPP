@@ -4,13 +4,14 @@
 var myApp = angular.module("mapApp", ['oc.lazyLoad']);
 myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scope,$ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
+    var layerCtrl = fastmap.uikit.LayerController();
     objectCtrl.setOriginalData( $.extend(true,{},objectCtrl.data.data));
     $scope.linkData= objectCtrl.data.data;
     $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
         $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
     });
     $scope.$parent.$parent.updateLinkData=function(data) {
-        $scope.linkData= data.data;
+        $scope.linkData= data;
     };
     $scope.changeModule = function (url) {
         if (url === "basicModule") {
@@ -71,6 +72,33 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         })
     };
      $scope.$parent.$parent.delete=function(){
+         //这个是每次都要更新当前的$scope.linkData
+         objectCtrl.setOriginalData( $.extend(true,{},objectCtrl.data.data));
+         $scope.linkData= objectCtrl.data.data;
 
+         var objId = parseInt($scope.linkData.pid);
+         var param = {
+             "command": "deletelink",
+             "projectId": 1,
+             "objId":objId
+         }
+
+         //结束编辑状态
+         console.log("I am removing link obj" + objId);
+         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
+             if(data.errmsg!="此link上存在交限关系信息，删除该Link会对应删除此组关系"){
+                 var outputcontroller = new fastmap.uikit.OutPutController({});
+                 var restrict = layerCtrl.getLayerById("referenceLine");
+                 restrict.redraw();
+                 outputcontroller.pushOutput(data);
+                 console.log("link "+objId+" has been removed");
+                 $scope.linkData=null;
+             }else{
+                 var outputcontroller = new fastmap.uikit.OutPutController({});
+                 outputcontroller.pushOutput(data);
+             }
+
+         })
      }
 }])

@@ -24,7 +24,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.tiles = {};
         this.directColor = this.options.directColor || "#ff0000";
         this.mecator = this.options.mecator||"";
-        this.showNodeLeve = this.options.showNodeLeve;
+        this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
         var that = this;
         this.on("getId", this.getFeatureId, this);
@@ -362,7 +362,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         for (i = 0; i < coords.length; i++) {
 
-            if (this._map.getZoom() >= this.showNodeLeve && (i == 0 || i == coords.length - 1)) {
+            if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
                 this._drawPoint(ctx, coords[i][0], nodestyle, true);
             }
 
@@ -397,7 +397,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if(direct==null||typeof(direct)=="undefined"||direct==""){
             //alert("lsdkkls");
         }else{
-            if(this._map.getZoom() >= this.showNodeLeve){
+            if(this._map.getZoom() >= this.showNodeLevel){
                 this._drawArrow(g,direct,arrowlist);
             }
 
@@ -526,8 +526,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         //el = x.dest;
                         if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                             if (window.JSON) {
-                                d = window.JSON.parse(x.responseText);
-                                d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
+                                if(window.JSON.parse(x.responseText).data!=null){
+                                    d = window.JSON.parse(x.responseText);
+                                    d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
+                                }
 
                             } else {
                                 d = eval("(" + x.responseText + ")")
@@ -660,20 +662,31 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         switch (this.type) {
             case "Point":
-                var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if(this._map.getZoom() >= this.showNodeLevel){
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
                 break;
             case "Marker":
-                var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if(this._map.getZoom() >= this.showNodeLevel){
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
                 break;
             case "LineString":
-
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if(this._map.getZoom() >= this.showNodeLevel){
 
-                url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }else{
+                    url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                }
 
                 break;
             case "fusionroad":
