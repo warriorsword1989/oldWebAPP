@@ -4,7 +4,6 @@
 var limitedApp = angular.module("lazymodule", []);
 limitedApp.controller("limitedController",function($scope) {
     $scope.linkLimitData = $scope.linkData;
-    console.log($scope.linkLimitData.limitTrucks.length);
     $scope.appInfoOptions = [
         {"id": 0, "label": "调查中"},
         {"id": 1, "label": "可以通行"},

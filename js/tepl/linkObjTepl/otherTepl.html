@@ -248,7 +248,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            普通限速 共（{{roadlinkData.speedlimits.length}}）个
+                                            普通限速 共（<span ng-if="roadlinkData!=undefined">{{roadlinkData.speedlimits.length}}</span>）个
                                             <a data-toggle="collapse" data-parent="#accordion"
                                                href="#ptOrRightDiv">
                                                 <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -327,7 +327,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            条件限速 共（{{roadlinkData.speedlimits.length}}）个
+                                            条件限速 共（<span ng-if="roadlinkdata!=undefined"> {{roadlinkData.speedlimits.length}}</span>）个
                                             <a data-toggle="collapse" data-parent="#accordion"
                                                href="#tjOrRightDiv">
                                                 <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
