@@ -14,6 +14,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         $scope.limitRelation = {};
         $scope.type = "";
         $scope.addShape = function (type) {
+            $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
             if (type === "restriction") {
                 $scope.type = "restriction";
                 $scope.limit = {};

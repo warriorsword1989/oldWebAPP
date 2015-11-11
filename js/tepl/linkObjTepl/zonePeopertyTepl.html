@@ -90,7 +90,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    zone（共{{zoneData.zones.length}}条）
+                    zone（共<span ng-if="zoneData!=undefined">{{zoneData.zones.length}}</span>条）
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#zoneLeftOrRightDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>

@@ -592,7 +592,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             switch (type) {
                 case 'Point':
                     if (this.options.type === 'Marker') {
-                        if (drawFlag) {
+                        if (drawFlag) { 
                                     this._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, boolPixelCrs);
                         } else {
                                 for (var ims in feature.properties.restrictioninfo) {

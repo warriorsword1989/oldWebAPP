@@ -105,19 +105,19 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.on("getNodeId", function (data) {
                     $scope.data = data;
                     objCtrl.setCurrentObject(data.data);
-                    $("#popoverTips").css("display", "block");
-                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-
-                            $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                            });
-                        }
-                    );
                     //data.data.i 为rowkey
                     Application.functions.getTipsResult(data.data.i, function (data) {
                         selectCtrl.fire("selectByAttribute", {feather: data});
                         var id = data.resID[0].id;
+                        $("#popoverTips").css("display", "block");
+                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+
+                                $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                });
+                            }
+                        );
                         Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
                             objCtrl.setCurrentObject(data.data);
                             $scope.$parent.$parent.rdRestrictData = data.data;
