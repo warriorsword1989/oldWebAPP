@@ -86,12 +86,12 @@
                                     <div class="col-sm-9">
                                         <div class="radio">
                                             <label>
-                                                <input type="radio" name="multiDigitizedRadio" value="0"
+                                                <input type="radio" name="multiDigitizedRadio" value=0
                                                        ng-model="linkData.multiDigitized">
                                                 否
                                             </label>
                                             <label>
-                                                <input type="radio" name="multiDigitizedRadio" value="1"
+                                                <input type="radio" name="multiDigitizedRadio" value=1
                                                        ng-model="linkData.multiDigitized">
                                                 是
                                             </label>
@@ -169,7 +169,7 @@
 
                                                     <div class="col-sm-9">
                                                         <input type="text" class="form-control" placeholder="0"
-                                                               ng-model="item.nameGroupPid">
+                                                               ng-model="item.nameGroupid">
                                                     </div>
                                                 </div>
                                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -189,18 +189,18 @@
                                                         <div class="radio">
                                                             <label>
                                                                 <input type="radio" name="upperOrLower"
-                                                                       value="1"
+                                                                       value=1
                                                                        ng-model="item.nameClass">
                                                                 官方名
                                                             </label>
                                                             <label>
                                                                 <input type="radio" name="upperOrLower"
-                                                                       value="2"
+                                                                       value=2
                                                                        ng-model="item.nameClass">
                                                                 别名
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="upperOrLower" value="3"
+                                                                <input type="radio" name="upperOrLower" value=3
                                                                        ng-model="item.nameClass">
                                                                 曾用名
                                                             </label>
@@ -232,7 +232,7 @@
                                                     <label class="col-sm-3 control-label">名称来源</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="item.srcFlag"
+                                                        <select class="form-control" ng-model="linkData.srcFlag"
                                                                 ng-options="value.id as value.label for value in srcFlagOptions" >
                                                         </select>
                                                     </div>
@@ -242,7 +242,7 @@
                                                     <label class="col-sm-3 control-label">路线属性</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="linkData.routeAtt"
+                                                        <select class="form-control" ng-model="linkData.routeAdopt"
                                                                 ng-options="value.id as value.label for value in routeAttOptions" >
                                                         </select>
                                                     </div>
@@ -254,12 +254,12 @@
                                                     <div class="col-sm-9">
                                                         <div class="radio">
                                                             <label>
-                                                                <input type="radio" name="masterOrSlave" value="1"
+                                                                <input type="radio" name="masterOrSlave" value=1
                                                                        ng-model="item.code">
                                                                 主
                                                             </label>
                                                             <label>
-                                                                <input type="radio" name="masterOrSlave" value="2"
+                                                                <input type="radio" name="masterOrSlave" value=2
                                                                        ng-model="item.code">
                                                                 从
                                                             </label>
