@@ -4,7 +4,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    普通限制信息 共({{linkLimitData.limits.length}}) 个
+                    普通限制信息 共(<span ng-if="linkLimitData!=undefined">{{linkLimitData.limits.length}}</span>) 个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#popularLimitedDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -154,7 +154,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    卡车限制信息 共（{{linkLimitData.limitTrucks.length}}）个
+                    卡车限制信息 共（<span ng-if="linkLimitData!=undefined">{{linkLimitData.limitTrucks.length}}</span>）个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#trafficLimitedDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>

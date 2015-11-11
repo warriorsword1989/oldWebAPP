@@ -13,6 +13,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var checkCtrl = fastmap.uikit.CheckResultController();
         $scope.limitRelation = {};
         $scope.addShape = function (type) {
+            $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
             if (type === "restriction") {
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
