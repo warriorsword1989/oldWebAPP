@@ -106,25 +106,42 @@ objectEditApp.controller("normalController", function ($scope) {
     $scope.selectTip = function (item) {
         $scope.tipsId = item.id;
         var obj = {};
-        obj.flag = item.id;
+        obj.restricInfo = item.id;
         obj.outLinkPid = ""; //$scope.rdLink.outPid;
         obj.pid = "";//featCodeCtrl.newObj.pid;
         obj.relationshipType = 1;
-        obj.restricInfo = 1;
+        obj.flag = 1;
         obj.restricPid = ""// featCodeCtrl.newObj.pid;
         obj.type = 1;
         obj.conditons = [];
         $scope.newLimited = obj;
+
+    };
+    //双击
+    $scope.test=function(item) {
+        $("#myModal").modal("show");
+        $scope.modifyItem = item;
     };
     //添加交限
     $scope.addTips = function () {
-        if ($scope.tipsId === null || $scope.tipsId === undefined) {
-            alert("请先选择tips");
-            return;
-        }
-        var tipsObj = $scope.rdRestrictData.details;
-        $scope.rdRestrictData.details.push($scope.newLimited);
 
+
+        if($scope.modifyItem!==undefined) {
+            var arr=  $scope.$parent.$parent.rdRestrictData.details
+            for(var i= 0,len=arr.length;i<len;i++) {
+                if(arr[i].pid===$scope.modifyItem.pid) {
+                    $scope.$parent.$parent.rdRestrictData.details[i].restricInfo = $scope.tipsId;
+                    $scope.modifyItem = undefined;
+                    break;
+                }
+            }
+        }else{
+            if ($scope.tipsId === null || $scope.tipsId === undefined) {
+                alert("请先选择tips");
+                return;
+            }
+            $scope.rdRestrictData.details.push($scope.newLimited);
+        }
     }
     //增加时间段
     $scope.addTime = function () {
@@ -145,7 +162,20 @@ objectEditApp.controller("normalController", function ($scope) {
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
-        })
+        });
+        if($scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips!==undefined) {
+            var stageParam={
+            "rowkey":$scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips,
+            "stage":3,
+            "handler":0
+
+        }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                var outputcontroller = fastmap.uikit.OutPutController({});
+                outputcontroller.pushOutput(data.data);
+                $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips = undefined;
+            })
+        }
     };
     $scope.$parent.$parent.delete = function () {
         var pid = parseInt($scope.$parent.$parent.rdRestrictData.pid);

@@ -93,7 +93,7 @@ fastmap.uikit.ObjectEditController = (function () {
                             }
                             retObj["objStatus"] = type;
                         }
-                    } else if (oriData[item].constructor == Array) {
+                    } else if (oriData[item].constructor == Array&&data[item].constructor==Array) {
                         if (oriData[item].length === data[item].length) {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
@@ -110,6 +110,16 @@ fastmap.uikit.ObjectEditController = (function () {
                         }
 
                     } else if (!isNaN(oriData[item])) {
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            } else if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+                            retObj["objStatus"] = type;
+                        }
+                    }else {
                         if (oriData[item] !== data[item]) {
                             retObj[item] = data[item];
                             if (oriData["rowId"]) {
