@@ -9,7 +9,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    互联网RTIC信息（共{{rticData.intRtics.length}}条）
+                    互联网RTIC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#wideRTICDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
@@ -124,7 +124,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    车厂RTIC信息（共{{linkData.rtics.length}}条）
+                    车厂RTIC信息（共<span ng-if="linkData!=undefined">{{linkData.rtics.length}}</span>条）
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#carRTICDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>

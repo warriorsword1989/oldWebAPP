@@ -133,7 +133,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    道路名(共{{linkData.names.length}}条)
+                    道路名(共<span ng-if="linkData!=undefined">{{linkData.names.length}}</span>条)
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#loadPropertyDiv">
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
