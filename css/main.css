@@ -74,3 +74,13 @@
     height: 12px;
     color: #737475;
 }
+.leaflet-canvas-container>canvas{
+    background-color: #F7F7F7;
+    opacity: 0.2;
+}
+.turnRight {
+    background-image: url('../css/img/right.png');
+}
+.turnLeft{
+    background-image: url('../css/img/left.png');
+}

@@ -5,24 +5,17 @@ var objectEditApp = angular.module("lazymodule", []);
 objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
-    $scope.showTips = function (item) {
-        $scope.rdSubRestrictData = item;
-    }
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    $scope.showTips = function (id) {
-        var outLinkPid = id.outLinkPid;
+    $scope.showTips = function (item) {
+        $scope.rdSubRestrictData = item;
+        var outLinkPid = item.outLinkPid;
         var tiles = rdLink.tiles;
         for (var obj in tiles) {
-
             var data = tiles[obj].data.features;
-
             for (var key in data) {
-
                 if (data[key].properties.id === objectEditCtrl.data.inLinkPid||data[key].properties.id === outLinkPid) {
-
-
                     var ctx = {
                         canvas: tiles[obj].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),

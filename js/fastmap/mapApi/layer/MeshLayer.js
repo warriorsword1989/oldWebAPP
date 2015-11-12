@@ -30,7 +30,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param {L.Map}map
      */
     onRemove: function (map) {
-        map.getPanes().overlayPane.removeChild(this._div);
+        map.getPanes().tilePane.removeChild(this._div);
         map.off("moveend", this._redraw, this);
     },
 
