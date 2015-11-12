@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/11/4.
  */
-fastmap.uikit.SelectNode = L.Handler.extend({
+fastmap.uikit.SelectDataTips = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
@@ -64,7 +64,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         for (var item in data) {
             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                 id = data[item].properties.id;
-                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+                //this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
                 if (this.redrawTiles.length != 0) {
                     this._cleanHeight();
@@ -156,10 +156,10 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-
-                    if(type=="Point"){
-                        this.currentEditLayer._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, true);
-                    }
+                    //
+                    //if(type=="Point"){
+                    //    this.currentEditLayer._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, true);
+                    //}
                 }
 
             }
