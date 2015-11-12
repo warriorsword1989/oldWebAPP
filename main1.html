@@ -96,9 +96,9 @@
                 </div>
             </div>
         </div>
-        <div ui-layout-container size="15%">
-            <div ng-include="objectEditURL" style="margin-bottom: 30px; "></div>
-            <div style="width: 100%;margin:auto;position: fixed;bottom: 0px; background-color: #f8f8f8;border-color: #e7e7e7; height: 40px;">
+        <div ui-layout-container size="15%" style="overflow: hidden; height: 100%;">
+            <div ng-include="objectEditURL" style="margin-bottom: 30px; overflow-y: auto; height: 98%; "></div>
+            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color: #f8f8f8;border-color: #e7e7e7; height: 35px;">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" ng-click="save()">保存</button>
                     <button type="button" class="btn btn-default" ng-click="delete()">删除</button>
