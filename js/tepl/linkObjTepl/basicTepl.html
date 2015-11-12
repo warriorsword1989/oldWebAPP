@@ -149,14 +149,14 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        {{item.name}}   {{item.linkPid}}
+                                        {{item.name}}
                                         <a data-toggle="collapse" data-parent="#accordion"
                                            href="#{{item.linkPid}}">
                                             <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                         </a>
                                         <span class="glyphicon glyphicon-minus-sign"
                                               style="float: right;color: rgb(255, 0, 0);"
-                                              ng-click="minusRoadName($index)"></span>s
+                                              ng-click="minusRoadName($index)"></span>
                                     </h4>
                                 </div>
                                 <div id="{{item.linkPid}}" class="panel-collapse collapse">
@@ -232,7 +232,7 @@
                                                     <label class="col-sm-3 control-label">名称来源</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="linkData.srcFlag"
+                                                        <select class="form-control" ng-model="item.srcFlag"
                                                                 ng-options="value.id as value.label for value in srcFlagOptions" >
                                                         </select>
                                                     </div>
@@ -242,7 +242,7 @@
                                                     <label class="col-sm-3 control-label">路线属性</label>
 
                                                     <div class="col-sm-9">
-                                                        <select class="form-control" ng-model="linkData.routeAdopt"
+                                                        <select class="form-control" ng-model="item.routeAtt"
                                                                 ng-options="value.id as value.label for value in routeAttOptions" >
                                                         </select>
                                                     </div>
