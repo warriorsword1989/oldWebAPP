@@ -12,6 +12,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.cancel = "";//取消
     $scope.rdRestrictData = {};//交限对象
     $scope.updateLinkData = "";
+    $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
     var ly = fastmap.uikit.LayerController();

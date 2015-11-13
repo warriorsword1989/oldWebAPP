@@ -86,15 +86,16 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+    if(objectEditCtrl.data.details===undefined) {
+        $scope.rdSubRestrictData = [];
+    }else{
+        $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+    }
+
     $scope.$parent.$parent.updateLinkData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
     };
 
-
-    //if( objectEditCtrl.data.details.length!==0) {
-    //    objectEditCtrl.data.details = [];
-    //}
     //选择弹出框中的交限
     $scope.selectTip = function (item) {
         $scope.tipsId = item.id;
