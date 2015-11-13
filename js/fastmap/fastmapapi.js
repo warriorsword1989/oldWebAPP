@@ -98,6 +98,7 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectPath.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectForRestriction.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectNode.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectDataTips.js",
                 //uikit/controller/ctlmodel
                 "fastmap/uikit/ctlmodel/CheckResult.js",
                 "fastmap/uikit/ctlmodel/ContentStyle.js",
