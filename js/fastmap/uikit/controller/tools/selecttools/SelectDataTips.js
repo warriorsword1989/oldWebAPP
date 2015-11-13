@@ -64,11 +64,11 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
         for (var item in data) {
             if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                 id = data[item].properties.id;
-                //this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                if (this.redrawTiles.length != 0) {
-                    this._cleanHeight();
-                }
+                //if (this.redrawTiles.length != 0) {
+                //    this._cleanHeight();
+                //}
 
                 this._drawHeight(id);
                 break;

@@ -97,7 +97,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             if(typeof map.currentTool.cleanHeight==="function") {
                 map.currentTool.cleanHeight();
             }
-            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink});
+            map.currentTool = new fastmap.uikit.SelectDataTips({map: map, currentEditLayer: rdLink});
             map.currentTool.enable();
             rdLink.options.selectType = 'tips';
             rdLink.options.editable = true;
@@ -105,22 +105,44 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.on("getNodeId", function (data) {
                     $scope.data = data;
                     $("#popoverTips").css("display", "block");
-                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-
-                            $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                            });
-                        }
-                    );
                     Application.functions.getTipsResult(data.id, function (data) {
+                        if ($scope.$parent.$parent.updateDataTips!== "") {
+                            $scope.$parent.$parent.updateDataTips(data);
+                        }
                         selectCtrl.fire("selectByAttribute", {feather: data});
                         var id = data.resID[0].id;
-                        Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
-                            objCtrl.setCurrentObject(data.data);
-                            $scope.$parent.$parent.rdRestrictData = data.data;
+                        if(id==="0") {
+                            var oriDataTipsData = {};
+                            oriDataTipsData.inLinkPid = 0;
+                            oriDataTipsData.details = [];
+                            var outLinkObj = {};
+                            outLinkObj.conditions = [];
+                            outLinkObj.outLinkPid = 0;
+                            outLinkObj.flag = 0;
+                            outLinkObj.relationshipType = 0;
+                            outLinkObj.restricInfo = 0;
+                            outLinkObj.type = 0;
+                            oriDataTipsData.details.push(outLinkObj);
+                             objCtrl.setCurrentObject(oriDataTipsData);
+                            $scope.$parent.$parent.rdRestrictData = oriDataTipsData;
+                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
 
-                        })
+                                    $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    });
+                                });
+
+                        }else{
+                            Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
+                                objCtrl.setCurrentObject(data.data);
+                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                });
+                            })
+                        }
+
                     })
                 })
         }
