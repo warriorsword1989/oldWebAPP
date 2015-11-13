@@ -62,7 +62,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
 
         var id = null;
         for (var item in data) {
-            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                 id = data[item].properties.id;
                 this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
