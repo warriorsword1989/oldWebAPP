@@ -56,7 +56,7 @@ Application.layersConfig =
 
                         visible: false,
 
-                        zindex:4
+                        zIndex:4
                     }
 
                 }, {
