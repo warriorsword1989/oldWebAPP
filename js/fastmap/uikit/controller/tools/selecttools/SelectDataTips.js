@@ -66,9 +66,9 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                 id = data[item].properties.id;
                 this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                //if (this.redrawTiles.length != 0) {
-                //    this._cleanHeight();
-                //}
+                if (this.redrawTiles.length != 0) {
+                    this._cleanHeight();
+                }
 
                 this._drawHeight(id);
                 break;
@@ -125,7 +125,6 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                 var style = this.currentEditLayer.styleFor(feature, color);
 
                 var geom = feature.geometry.coordinates;
-
                 this.currentEditLayer._drawImg(ctx, geom, style, true);
 
             }
@@ -158,9 +157,9 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     }
                     var style=null;
                     if(feature.properties.srctype=="1"){//未处理
-                        style= {src:'./css/tips/selected/pending.gif'};
+                        style= {src:'./css/tips/selected/pending.png'};
                     }else{//已处理
-                        style= {src:'./css/tips/selected/processed.gif'};
+                        style= {src:'./css/tips/selected/processed.png'};
                     }
                     this.currentEditLayer._drawImg(ctx, geom, style, true);
                 }
