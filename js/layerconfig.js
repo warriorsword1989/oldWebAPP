@@ -197,6 +197,7 @@ Application.layersConfig =
                 boolPixelCrs: true ,
                 parse:  function (data) {
                     var geojson = {};
+                    var data = data.RDLINK;
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
                         var obj = {};

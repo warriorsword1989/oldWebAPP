@@ -61,7 +61,7 @@
                     <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
                     <div class="form-group" style="height: 10%;margin-bottom: 3px;">
                         <div class="col-sm-4" ng-repeat="item in dataTipsData.o_array">
-                            <img ng-src="css/limit/normal/{{item.oInfo}}.png">
+                            <img ng-src="css/limit/normal/{{item.oInfo}}.png" ng-click="showOutLink(item)">
                         </div>
                     </div>
                     <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
@@ -105,7 +105,7 @@
         <div class="panel panel-default" style="width: 100%;height: 100%;" >
             <div class="panel-body">
                 <form class="form-horizontal" method="get">
-                    备注
+                    {{remarksContent}}
                 </form>
             </div>
         </div>
