@@ -15,15 +15,38 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     }
     //获取数据中的图片数组
     $scope.photoTipsData = selectCtrl.rowKey.f_array;
-    $scope.photos = $.extend(true, {}, $scope.photoTipsData);//复制为一个新的数组
+    $scope.photos = [];
     for (var i in  $scope.photoTipsData) {
-        $scope.photos[i].content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
+        if ($scope.photoTipsData[i].type === 1) {
+            var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
+            $scope.photos.push(content);
+        }
+
+    }
+    $scope.$parent.$parent.updateDataTips = function (data) {
+        $scope.photos.length = 0;
+        $scope.dataTipsData = data;
+        if (data.rowKey) {
+            $scope.rdSubTipsData = data.o_array[0];
+
+        } else {
+            $scope.rdSubTipsData = [];
+        }
+        //获取数据中的图片数组
+        $scope.photoTipsData = data.f_array;
+        for (var i in  $scope.photoTipsData) {
+            if ($scope.photoTipsData[i].type === 1) {
+                var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
+                $scope.photos.push(content);
+            }
+
+        }
     }
     $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
     };
-    switch($scope.dataTipsData.t_lifecycle){
+    switch ($scope.dataTipsData.t_lifecycle) {
         case 1:
             $scope.showContent = "外业删除";
             break;
