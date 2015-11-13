@@ -262,7 +262,8 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'type': item.t
+                            'type': item.t,
+                            'srctype':item.m.a
                         }
                         geojson['features'].push(obj);
                     });

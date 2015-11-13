@@ -120,7 +120,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
 
                 var color = null;
                 if (feature.hasOwnProperty('properties')) {
-                    color = feature.properties.c;
+                    color = feature.properties.srctype;
                 }
                 var style = this.currentEditLayer.styleFor(feature, color);
 
@@ -156,10 +156,13 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    //
-                    //if(type=="Point"){
-                    //    this.currentEditLayer._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, true);
-                    //}
+                    var style=null;
+                    if(feature.properties.srctype=="1"){//未处理
+                        style= {src:'./css/tips/selected/pending.gif'};
+                    }else{//已处理
+                        style= {src:'./css/tips/selected/processed.gif'};
+                    }
+                    this.currentEditLayer._drawImg(ctx, geom, style, true);
                 }
 
             }
