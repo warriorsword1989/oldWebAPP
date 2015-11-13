@@ -75,7 +75,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             tile.onload = null;
             tile.src = L.Util.emptyImageUrl;
         }
-        this.tiles[key].xmlhttprequest.abort();
+        if(this.tiles[key]!==undefined) {
+            this.tiles[key].xmlhttprequest.abort();
+        }
+
         delete this.tiles[key];
         delete this._tiles[key];
     },
@@ -88,7 +91,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _reset: function (e) {
         for (var key in this._tiles) {
             this.fire('tileunload', {tile: this._tiles[key]});
-            this.tiles[key].xmlhttprequest.abort();
+            if( this.tiles[key]!==undefined) {
+                this.tiles[key].xmlhttprequest.abort();
+            }
+
             delete this.tiles[key];
         }
 
