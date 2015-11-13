@@ -478,7 +478,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var bounds = [nwCoord.lng, seCoord.lat, seCoord.lng, nwCoord.lat];
 
         var url = this.createUrl(bounds);
-        if (url) { //如果url未定义的话，不请求
+        if (typeof url!="undefined") { //如果url未定义的话，不请求
             this.key = ctx.tile.x + ":" + ctx.tile.y;
             var self = this, j;
 
