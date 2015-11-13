@@ -56,7 +56,7 @@ Application.layersConfig =
 
                         visible: false,
 
-                        zindex:4
+                        zIndex:4
                     }
 
                 }, {
@@ -174,7 +174,7 @@ Application.layersConfig =
                 type: 'Marker',
                 zIndex:6,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:'RDRESTRICTION',
                 showNodeLevel:17
             }
@@ -227,7 +227,7 @@ Application.layersConfig =
                 type: 'LineString',
                 zIndex:7,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:12,
                 showNodeLevel:17
             }
@@ -262,7 +262,8 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'type': item.t
+                            'type': item.t,
+                            'srctype':item.m.a
                         }
                         geojson['features'].push(obj);
                     });
@@ -277,7 +278,7 @@ Application.layersConfig =
                 type: 'Point',
                 zIndex:9,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:7,
                 showNodeLevel:17
             }
