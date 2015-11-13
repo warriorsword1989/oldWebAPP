@@ -55,6 +55,7 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
         this._div = container;
         this.map.getPanes().tilePane.appendChild(this._div);
 
+        this._div.style.zIndex = this.options.zIndex;
     },
     setZIndex:function(zIndex){
         this._div.style.zIndex = zIndex;
