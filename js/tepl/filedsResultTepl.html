@@ -33,9 +33,9 @@
                                 <!--<input style="float:right;" type="checkbox" ng-checked="pItem.choose"-->
                                 <!--ng-click="showLayers(pItem)"/>-->
                             </div>
-                            <div style="margin:5px 20px">
-                                <span>FR: {{pItem.name}}</span>
-                            </div>
+                            <!--<div style="margin:5px 20px">-->
+                                <!--<span>FR: {{pItem.name}}</span>-->
+                            <!--</div>-->
                         </div>
                         <div id="{{pItem.id}}" class="panel-collapse collapse">
                             <div class="panel-body">
@@ -55,7 +55,7 @@
         <div class="tab-pane fade" id="pendingTaskers">
             <div>
                 <span>共{{items.total}}个</span>
-                <span style="float:right">显示</span>
+                <!--<span style="float:right">显示</span>-->
             </div>
             <div ng-repeat="pendItem in items ">
                 <div ng-if="!pendItem.show">
@@ -75,9 +75,9 @@
                                     <!--<input style="float:right;" type="checkbox" ng-checked="item.choose"-->
                                     <!--ng-click="showLayers(pendItem)"/>-->
                                 </div>
-                                <div style="margin:5px 20px">
-                                    <span>FR: {{pendItem.name}}</span>
-                                </div>
+                                <!--<div style="margin:5px 20px">-->
+                                    <!--<span>FR: {{pendItem.name}}</span>-->
+                                <!--</div>-->
                             </div>
                             <div id="{{pendItem.id}}show" class="panel-collapse collapse">
                                 <div class="panel-body">
@@ -99,7 +99,7 @@
         <div class="tab-pane fade" id="solvedTaskers">
             <div>
                 <span>共{{items.total}}个</span>
-                <span style="float:right">显示</span>
+                <!--<span style="float:right">显示</span>-->
             </div>
             <div ng-repeat="solveItem in items">
                     <div class="panel-group" style="margin-bottom: 0px;">
@@ -118,9 +118,9 @@
                                     <!--<input style="float:right;" type="checkbox" ng-checked="solveItem.choose"-->
                                            <!--ng-click="showLayers(solveItem)"/>-->
                                 </div>
-                                <div style="margin:5px 20px">
-                                    <span>FR: {{solveItem.name}}</span>
-                                </div>
+                                <!--<div style="margin:5px 20px">-->
+                                    <!--<span>FR: {{solveItem.name}}</span>-->
+                                <!--</div>-->
                             </div>
                             <div id="{{solveItem.id}}unshow" class="panel-collapse collapse">
                                 <div class="panel-body">

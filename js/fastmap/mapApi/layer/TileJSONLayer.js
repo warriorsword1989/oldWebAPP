@@ -75,7 +75,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             tile.onload = null;
             tile.src = L.Util.emptyImageUrl;
         }
-        this.tiles[key].xmlhttprequest.abort();
+        if(this.tiles[key]!==undefined) {
+            this.tiles[key].xmlhttprequest.abort();
+        }
+
         delete this.tiles[key];
         delete this._tiles[key];
     },
@@ -88,7 +91,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _reset: function (e) {
         for (var key in this._tiles) {
             this.fire('tileunload', {tile: this._tiles[key]});
-            this.tiles[key].xmlhttprequest.abort();
+            if( this.tiles[key]!==undefined) {
+                this.tiles[key].xmlhttprequest.abort();
+            }
+
             delete this.tiles[key];
         }
 
@@ -478,7 +484,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var bounds = [nwCoord.lng, seCoord.lat, seCoord.lng, nwCoord.lat];
 
         var url = this.createUrl(bounds);
-        if (typeof url!="undefined") { //如果url未定义的话，不请求
+        if (url) { //如果url未定义的话，不请求
             this.key = ctx.tile.x + ":" + ctx.tile.y;
             var self = this, j;
 
@@ -532,6 +538,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                             } else {
                                 d = eval("(" + x.responseText + ")")
+                            }
+                            if(d.length===0) {
+                                return;
                             }
                             self.tiles[key].setData(parse(d));
                             func(d);
