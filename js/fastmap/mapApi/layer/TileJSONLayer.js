@@ -757,9 +757,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         switch (this.type) {
             case 'Point':
                 if(feature.properties.srctype=="1"){//未处理
-                    return {src:'./css/tips/normal/pending.png'}
+                    return {src:'./css/tips/normal/pending.gif'}
                 }else{//已处理
-                    return {src:'./css/tips/normal/processed.png'}
+                    return {src:'./css/tips/normal/processed.gif'}
                 }
                 break;
             case 'MultiPoint':
