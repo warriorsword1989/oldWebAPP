@@ -493,7 +493,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (data.features == undefined) {
                     return
                 }
-
                 self._drawfeature(data, ctx, boolPixelCrs);
             }, url, this.key, parse);
 
@@ -604,7 +603,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
 
                     } else {
-                        this._drawPoint(ctx, geom, style, boolPixelCrs);
+                        this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
 
                     break;
@@ -757,6 +756,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         switch (this.type) {
             case 'Point':
+                if(feature.properties.srctype=="1"){//未处理
+                    return {src:'./css/tips/normal/pending.png'}
+                }else{//已处理
+                    return {src:'./css/tips/normal/processed.png'}
+                }
+                break;
             case 'MultiPoint':
                 if (value != null) {
                     switch (value) {
@@ -792,6 +797,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 break;
             case 'Marker':
                 return {src:'./css/limit/normal/'+feature.properties.restrictioninfo+'.png'};
+                break;
             case 'LineString':
             case 'MultiLineString':
                 var RD_LINK_Colors = [
