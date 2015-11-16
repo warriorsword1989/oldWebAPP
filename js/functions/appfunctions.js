@@ -66,4 +66,15 @@ Application.functions.saveProperty=function(param,func) {
             func(data)
         });
 };
+/**
+ *  保存datatips数据
+ * @param param
+ * @param func
+ */
+Application.functions.changeDataTipsState=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/edit?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
 

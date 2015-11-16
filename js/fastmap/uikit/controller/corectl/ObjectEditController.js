@@ -79,8 +79,10 @@ fastmap.uikit.ObjectEditController = (function () {
              * @returns {*}
              */
             compareJson: function (oriData, data, type) {
-                var retObj = {};
+                var retObj = {},n= 0,arrFlag=this.isContainArr(oriData);
                 for (var item in oriData) {
+
+
                     if (typeof oriData[item] === "string") {
                         if (oriData[item] !== data[item]) {
                             retObj[item] = data[item];
@@ -91,7 +93,7 @@ fastmap.uikit.ObjectEditController = (function () {
                             }
                             retObj["objStatus"] = type;
                         }
-                    } else if (oriData[item].constructor == Array) {
+                    } else if (oriData[item].constructor == Array&&data[item].constructor==Array) {
                         if (oriData[item].length === data[item].length) {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
@@ -108,10 +110,16 @@ fastmap.uikit.ObjectEditController = (function () {
                         }
 
                     } else if (!isNaN(oriData[item])) {
-                        if (item === "kind") {
-                            console.log(oriData[item]);
+                        if (oriData[item] !== data[item]) {
+                            retObj[item] = data[item];
+                            if (oriData["rowId"]) {
+                                retObj["rowId"] = oriData["rowId"];
+                            } else if (oriData["pid"]) {
+                                retObj["pid"] = oriData["pid"];
+                            }
+                            retObj["objStatus"] = type;
                         }
-
+                    }else {
                         if (oriData[item] !== data[item]) {
                             retObj[item] = data[item];
                             if (oriData["rowId"]) {
@@ -126,10 +134,28 @@ fastmap.uikit.ObjectEditController = (function () {
                 }
 
                 if (!this.isEmptyObject(retObj)) {
+                    if(arrFlag) {
+                        if (oriData["rowId"]) {
+                            retObj["rowId"] = oriData["rowId"];
+                        } else if (oriData["pid"]) {
+                            retObj["pid"] = oriData["pid"];
+                        }
+                        arrFlag = false;
+                    }
                     return retObj;
                 } else {
-                    return false
+                    return false;
                 }
+
+            },
+            isContainArr: function (obj) {
+                var flag = false;
+                for (var item in obj) {
+                    if(obj[item].constructor == Array) {
+                        flag = true;
+                    }
+                }
+                return flag;
 
             },
             /**

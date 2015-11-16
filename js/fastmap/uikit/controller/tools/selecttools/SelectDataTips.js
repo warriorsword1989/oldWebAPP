@@ -1,9 +1,7 @@
 /**
- * Created by zhongxiaoming on 2015/9/18.
- * Class PathVertexInsert
+ * Created by liwanchong on 2015/11/4.
  */
-
-fastmap.uikit.SelectPath = L.Handler.extend({
+fastmap.uikit.SelectDataTips = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
@@ -23,10 +21,9 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
         this.tiles = this.currentEditLayer.tiles;
-
+        this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
-
     },
 
     /***
@@ -34,7 +31,6 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-
     },
 
     /***
@@ -57,19 +53,20 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
+
     drawGeomCanvasHighlight: function (tilePoint, event) {
-        this.currentEditLayer.on("getTiles",function(event) {
-            var tiles = event.tiles;
-        });
+
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+
         var id = null;
         for (var item in data) {
-            if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                 id = data[item].properties.id;
-                this.currentEditLayer.fire("getId", {id: id})
+                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                if( this.redrawTiles.length != 0){
+                if (this.redrawTiles.length != 0) {
                     this._cleanHeight();
                 }
 
@@ -90,49 +87,28 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesPath: function (d, x, y, r) {
-        var i;
-        var N = d.length;
-        var p1x = d[0][0][0];
-        var p1y = d[0][0][1];
-        for (var i = 1; i < N; i += 1) {
-            var p2x = d[i][0][0];
-            var p2y = d[i][0][1];
-            var dirx = p2x - p1x;
-            var diry = p2y - p1y;
-            var diffx = x - p1x;
-            var diffy = y - p1y;
-            var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
-            if (t < 0) {
-                t = 0
-            }
-            if (t > 1) {
-                t = 1
-            }
-            var closestx = p1x + t * dirx;
-            var closesty = p1y + t * diry;
-            var dx = x - closestx;
-            var dy = y - closesty;
-            if ((dx * dx + dy * dy) <= r * r) {
-                return 1
-            }
-            p1x = p2x;
-            p1y = p2y
+    _TouchesPoint: function (d, x, y, r) {
+        var dx = x - d[0];
+        var dy = y - d[1];
+        if ((dx * dx + dy * dy) <= r * r) {
+            return 1;
+        } else {
+            return 0;
         }
-        return 0
     },
-     cleanHeight:function(){
-         this._cleanHeight();
-         this.currentEditLayer.fire("getId")
-     },
+    cleanHeight: function () {
+        this._cleanHeight();
+        this.currentEditLayer.fire("getNodeId")
+    }
+    ,
+
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
      */
-    _cleanHeight:function(){
-        console.log("from clear");
-        for(var index in this.redrawTiles){
+    _cleanHeight: function () {
+        for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
+            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
             var ctx = {
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
@@ -143,20 +119,16 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                 var feature = data.features[i];
 
                 var color = null;
-                if(feature.hasOwnProperty('properties')){
-                    color = feature.properties.c;
+                if (feature.hasOwnProperty('properties')) {
+                    color = feature.properties.srctype;
                 }
-
                 var style = this.currentEditLayer.styleFor(feature, color);
 
                 var geom = feature.geometry.coordinates;
-
-                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                    radius:3},feature.properties.direct);
+                this.currentEditLayer._drawImg(ctx, geom, style, true);
 
             }
         }
-
 
 
     }
@@ -169,29 +141,29 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     _drawHeight: function (id) {
         this.redrawTiles=this.tiles;
         for (var obj in this.tiles) {
-
             var data = this.tiles[obj].data.features;
 
             for (var key in data) {
 
+                var feature = data[key];
+                var type = feature.geometry.type;
+                var geom = feature.geometry.coordinates;
                 if (data[key].properties.id == id) {
-
 
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, {
-                        size: 3,
-                        color: '#FFFF00'
-                    }, {
-                        color: '#FFFF00',
-                        radius: 3
-                    });
-
-
+                    var style=null;
+                    if(feature.properties.srctype=="1"){//未处理
+                        style= {src:'./css/tips/selected/pending.png'};
+                    }else{//已处理
+                        style= {src:'./css/tips/selected/processed.png'};
+                    }
+                    this.currentEditLayer._drawImg(ctx, geom, style, true);
                 }
+
             }
         }
 
@@ -199,3 +171,4 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     }
 
 });
+

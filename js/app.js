@@ -2,17 +2,21 @@
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     appInit()
     dragF('toolsDiv');
-    dragF('toolsDiv1');
-    dragF("popToolBar");
+    //dragF('toolsDiv1');
+    //dragF("popToolBar");
     dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.save = "";//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
-    $scope.rdRestrictData ={};//交限对象
+    $scope.rdRestrictData = {};//交限对象
     $scope.updateLinkData = "";
+    $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
+    $scope.toolsFlag = true;
+    var ly = fastmap.uikit.LayerController();
+    var shapectl = new fastmap.uikit.ShapeEditorController();
 
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
@@ -42,8 +46,16 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     });
 
 
+    $(document).bind('keydown',
+        function (event) {
+            if (event.keyCode == 27) {
+                shapectl.stopEditing();
+                ly.getLayerById('edit').bringToBack()
 
+                $(ly.getLayerById('edit').options._div).unbind();
 
+            }
+        });
 
 
     $scope.changeLayers = function (layers) {
@@ -54,12 +66,16 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                 }
             );
         } else if (layers === "resultLayers") {
+            $("#referenceLayerDiv").removeClass("active");
+            $("#resultLayerDiv").addClass("active");
             $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
                     $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 }
             );
         }
         else if (layers === "referenceLayers") {
+            $("#resultLayerDiv").removeClass("active");
+            $("#referenceLayerDiv").addClass("active");
             $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
                     $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
                 }
@@ -70,12 +86,15 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     };
     $scope.showTab = function (tab) {
         if (tab === "outPut") {
-
+            $("#errorClear").show();
+            $("#immediatelyCheck").hide();
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
         } else if (tab === "errorCheck") {
+            $("#errorClear").hide();
+            $("#immediatelyCheck").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
@@ -83,11 +102,25 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
 
     };
-    $scope.empty=function(){
+    $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();
         output.clear();
+    };
+    $scope.showOrHide = function () {
+        var modifyToolsDiv = $("#modifyToolsDiv");
+        if ($scope.toolsFlag) {
+
+            modifyToolsDiv.animate({width: '400px', opacity: '0.8'}, "slow");
+            modifyToolsDiv.css("display", "block");
+        } else {
+
+            modifyToolsDiv.animate({width: '0px', opacity: '0.8'}, "slow");
+            modifyToolsDiv.css("display", "none");
+        }
+        $scope.toolsFlag = !$scope.toolsFlag;
     }
-}])
+}]);
+
 var map = null;
 function appInit(){
 
@@ -114,7 +147,7 @@ var map = null;
 function dragF(id) {
     var $dragDiv = $('#' + id),
         $parentDiv = $('#map');
-    var $drag = $dragDiv.find('div');
+    var $drag = $dragDiv.find('button');
     $drag.on({
         mousedown: function (e) {
             e.preventDefault();

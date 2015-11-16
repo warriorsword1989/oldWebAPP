@@ -56,7 +56,7 @@ Application.layersConfig =
 
                         visible: false,
 
-                        zindex:4
+                        zIndex:4
                     }
 
                 }, {
@@ -126,7 +126,7 @@ Application.layersConfig =
                 editable:false,
                 visible: true,
                 requestType:'RDLINK',
-                showNodeLeve:17
+                showNodeLevel:17
             }
 
         },{
@@ -174,8 +174,9 @@ Application.layersConfig =
                 type: 'Marker',
                 zIndex:6,
                 restrictZoom:10,
-                visible: false,
-                requestType:'RDRESTRICTION'
+                visible: true,
+                requestType:'RDRESTRICTION',
+                showNodeLevel:17
             }
 
         }]
@@ -196,6 +197,7 @@ Application.layersConfig =
                 boolPixelCrs: true ,
                 parse:  function (data) {
                     var geojson = {};
+                    var data = data.RDLINK;
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
                         var obj = {};
@@ -226,8 +228,9 @@ Application.layersConfig =
                 type: 'LineString',
                 zIndex:7,
                 restrictZoom:10,
-                visible: false,
-                requestType:12
+                visible: true,
+                requestType:12,
+                showNodeLevel:17
             }
 
         },{
@@ -260,7 +263,8 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'type': item.t
+                            'type': item.t,
+                            'srctype':item.m.a
                         }
                         geojson['features'].push(obj);
                     });
@@ -275,8 +279,9 @@ Application.layersConfig =
                 type: 'Point',
                 zIndex:9,
                 restrictZoom:10,
-                visible: false,
-                requestType:7
+                visible: true,
+                requestType:7,
+                showNodeLevel:17
             }
 
         }]
