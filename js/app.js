@@ -86,12 +86,15 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     };
     $scope.showTab = function (tab) {
         if (tab === "outPut") {
-
+            $("#errorClear").show();
+            $("#immediatelyCheck").hide();
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
         } else if (tab === "errorCheck") {
+            $("#errorClear").hide();
+            $("#immediatelyCheck").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }

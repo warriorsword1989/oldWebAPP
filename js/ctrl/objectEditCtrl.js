@@ -4,7 +4,6 @@
 var objectEditApp = angular.module("lazymodule", []);
 objectEditApp.controller("normalController", function ($scope) {
     var objectEditCtrl = new fastmap.uikit.ObjectEditController();
-    objectEditCtrl.setOriginalData( $.extend(true,{},objectEditCtrl.data));
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -15,7 +14,7 @@ objectEditApp.controller("normalController", function ($scope) {
         for (var obj in tiles) {
             var data = tiles[obj].data.features;
             for (var key in data) {
-                if (data[key].properties.id === objectEditCtrl.data.inLinkPid||data[key].properties.id === outLinkPid) {
+                if (data[key].properties.id === objectEditCtrl.data.inLinkPid || data[key].properties.id === outLinkPid) {
                     var ctx = {
                         canvas: tiles[obj].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
@@ -86,9 +85,9 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    if(objectEditCtrl.data.details===undefined) {
+    if (objectEditCtrl.data === null) {
         $scope.rdSubRestrictData = [];
-    }else{
+    } else {
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
     }
 
@@ -112,7 +111,7 @@ objectEditApp.controller("normalController", function ($scope) {
 
     };
     //双击
-    $scope.test=function(item) {
+    $scope.test = function (item) {
         $("#myModal").modal("show");
         $scope.modifyItem = item;
     };
@@ -120,16 +119,16 @@ objectEditApp.controller("normalController", function ($scope) {
     $scope.addTips = function () {
 
 
-        if($scope.modifyItem!==undefined) {
-            var arr=  $scope.$parent.$parent.rdRestrictData.details
-            for(var i= 0,len=arr.length;i<len;i++) {
-                if(arr[i].pid===$scope.modifyItem.pid) {
+        if ($scope.modifyItem !== undefined) {
+            var arr = $scope.$parent.$parent.rdRestrictData.details
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (arr[i].pid === $scope.modifyItem.pid) {
                     $scope.$parent.$parent.rdRestrictData.details[i].restricInfo = $scope.tipsId;
                     $scope.modifyItem = undefined;
                     break;
                 }
             }
-        }else{
+        } else {
             if ($scope.tipsId === null || $scope.tipsId === undefined) {
                 alert("请先选择tips");
                 return;
@@ -157,13 +156,13 @@ objectEditApp.controller("normalController", function ($scope) {
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
         });
-        if($scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips!==undefined) {
-            var stageParam={
-            "rowkey":$scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips,
-            "stage":3,
-            "handler":0
+        if ($scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
 
-        }
+            }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
                 outputcontroller.pushOutput(data.data);
@@ -189,8 +188,8 @@ objectEditApp.controller("normalController", function ($scope) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
             outputcontroller.pushOutput(data.data);
-            console.log("交限 "+pid+" has been removed");
+            console.log("交限 " + pid + " has been removed");
         })
-        $scope.$parent.$parent.rdRestrictData=null;
+        $scope.$parent.$parent.rdRestrictData = null;
     }
 });

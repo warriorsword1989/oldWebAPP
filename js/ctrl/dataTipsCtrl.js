@@ -20,9 +20,15 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         if ($scope.photoTipsData[i].type === 1) {
             var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
             $scope.photos.push(content);
+        }else if($scope.photoTipsData[i].type === 3) {
+            $scope.remarksContent = $scope.photoTipsData[i].content;
         }
 
     }
+    //查看相关的推出线
+    $scope.showOutLink = function (item) {
+        $scope.rdSubTipsData = item;
+    };
     $scope.$parent.$parent.updateDataTips = function (data) {
         $scope.photos.length = 0;
         $scope.dataTipsData = data;
@@ -38,6 +44,8 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
+            }else if($scope.photoTipsData[i].type === 3) {
+                $scope.remarksContent = $scope.photoTipsData[i].content;
             }
 
         }
@@ -62,6 +70,9 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     }
 
     $scope.increaseDataTips = function () {
+        //var addObj = {}
+        //addObj.inLinkPid=this.dataTipsData.in.id;
+        //addObj.nodePid=
         var outLink = "", details = [], detailsOfTips = [];
         $scope.$parent.$parent.rdRestrictData.pid = this.dataTipsData.in.id;
         $scope.$parent.$parent.rdRestrictData.inLinkPid = this.dataTipsData.in.id;

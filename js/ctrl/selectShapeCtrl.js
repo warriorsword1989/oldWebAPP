@@ -111,7 +111,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         }
                         selectCtrl.fire("selectByAttribute", {feather: data});
                         var id = data.resID[0].id;
-                        if(id==="0") {
+                        if(id===0) {
                             var oriDataTipsData = {};
                             oriDataTipsData.inLinkPid = 0;
                             oriDataTipsData.details = [];

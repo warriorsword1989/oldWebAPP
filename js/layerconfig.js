@@ -56,7 +56,7 @@ Application.layersConfig =
 
                         visible: false,
 
-                        zindex:4
+                        zIndex:4
                     }
 
                 }, {
@@ -197,6 +197,7 @@ Application.layersConfig =
                 boolPixelCrs: true ,
                 parse:  function (data) {
                     var geojson = {};
+                    var data = data.RDLINK;
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
                         var obj = {};
@@ -262,7 +263,8 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'type': item.t
+                            'type': item.t,
+                            'srctype':item.m.a
                         }
                         geojson['features'].push(obj);
                     });
