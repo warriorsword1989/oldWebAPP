@@ -7,6 +7,10 @@ otherApp.controller("otherController",function($scope){
     $scope.roadlinkData=$scope.linkData;
     $scope.newFromOfWRoadDate=[];
 
+    $("#button"+$scope.roadlinkData.isViaduct).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#adasFlagbtn"+$scope.roadlinkData.adasFlag).removeClass("btn btn-default").addClass("btn btn-primary");
     $scope.fromOfWayOption=[
         {id:"0",name:"未调查"},
         {id:"1",name:"无属性"},
@@ -149,4 +153,25 @@ otherApp.controller("otherController",function($scope){
     $scope.qkdifGroupId=function(){
         $("#difGroupIdText").val("");
     }
+    $scope.checkSpecialTraffic=function(flag){
+        $("#specialTrafficdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#specialbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.roadlinkData.specialTraffic=flag;
+    }
+    $scope.changecheck=function(flag){
+        $("#isViaductdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#button"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.roadlinkData.isViaduct=flag;
+    }
+    $scope.checkPaveStatus=function (flag){
+        $("#paveStatusdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#paveStatusbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary ");
+        $scope.roadlinkData.paveStatus=flag;
+    }
+    $scope.checkAdasFlag=function(flag){
+        $("#adasFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#adasFlagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.roadlinkData.adasFlag=flag;
+    }
+
 });

@@ -1,3 +1,66 @@
+<style>
+    .checkboxThree {
+        width: 81px;
+        height: 25px;
+        background: #333;
+        margin: 10px 40px;
+
+        border-radius: 50px;
+        position: relative;
+    }
+    .checkboxThree:before {
+        content: '是';
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        height: 2px;
+        color: #26ca28;
+        font-size: 16px;
+    }
+    .checkboxThree input {
+        position: absolute;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+    /**
+     * Create the text for the off position
+     */
+    .checkboxThree:after {
+        content: '否';
+        position: absolute;
+        top: 3px;
+        left: 50px;
+        height: 2px;
+        color: #ddd;
+        font-size: 16px;
+    }
+    .checkboxThree label {
+        display: block;
+        width: 32px;
+        height: 20px;
+        border-radius: 50px;
+
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+        cursor: pointer;
+        position: absolute;
+        top: 3px;
+        z-index: 5;
+        left: 3px;
+        background: #ddd;
+    }
+
+    /**
+     * Create the checkbox event for the label
+     */
+    .checkboxThree input[type=checkbox]:checked + label {
+        left: 50px;
+        background: #26ca28;
+    }
+</style>
 <div id="otherDiv" ng-controller="otherController">
     <div class="panel-group" id="normalProperty" style="margin: 0px;">
         <div class="panel panel-default">
@@ -6,18 +69,22 @@
                     <div class="list-group-item">
                         <form class="form-horizontal" method="get">
                             <div class="form-group">
-                                <label class="col-sm-4 control-label">道路形态</br>
-                                    <a href="#myModal" role="button" class="btn btn-default" data-toggle="modal">+</a>
+                                <label class="col-sm-4 control-label">
+                                    道路形态<a href="#myModal"  class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(255, 0, 0);text-decoration:none;outline: none;" data-toggle="modal"></a>
                                 </label>
                                 <div class="col-sm-8">
-                                    <div class="col-sm-6" ng-repeat="item in newFromOfWRoadDate">
-                                        <span class="text-primary">{{item.name}}</span><span class="glyphicon glyphicon-remove btn-danger" ng-click="deleteroadtype($index)"></span>
-                                    </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-12 control-label">
+                                    <label class="col-sm-4 control-label" ng-repeat="item in newFromOfWRoadDate">
+                                        <span class="text-primary">{{item.name}}</span><span class="glyphicon glyphicon-remove btn-danger" ng-click="deleteroadtype($index)"></span>
+                                    </label>
+                                </label>
+                            </div>
                             <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-                                 aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                 aria-labelledby="myModalLabel" aria-hidden="true" >
+                                <div class="modal-dialog" style="width:400px;">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close"
@@ -28,7 +95,7 @@
                                                 道路形态添加
                                             </h4>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body" >
                                             名称
                                             <select class="form-control" id="roadtypename">
                                                 <option value="0">未调查</option>
@@ -99,17 +166,9 @@
                                 <label class="col-sm-4 control-label">特殊交通</label>
 
                                 <div class="col-sm-8">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="specialTrafficRadio" value="0"
-                                                   ng-model="roadlinkData.specialTraffic">
-                                            否
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="specialTrafficRadio" value="1"
-                                                   ng-model="roadlinkData.specialTraffic">
-                                            是
-                                        </label>
+                                    <div class="btn-group" id="specialTrafficdiv" style="border-radius: 10px;border: 1px solid #2aabd2;  ">
+                                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="specialbtn0" ng-click="checkSpecialTraffic(0)" ng-model="roadlinkData.specialTraffic">否</button>
+                                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="specialbtn1" ng-click="checkSpecialTraffic(1)" ng-model="roadlinkData.specialTraffic">是</button>
                                     </div>
                                 </div>
                             </div>
@@ -117,41 +176,33 @@
                                 <label class="col-sm-4 control-label">是否高架</label>
 
                                 <div class="col-sm-8">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="isViaductRadio" value="0"
-                                                   ng-model="roadlinkData.isViaduct">
-                                            否
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="isViaductRadio" value="1"
-                                                   ng-model="roadlinkData.isViaduct">
-                                            是
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="isViaductRadio" value="2"
-                                                   ng-model="roadlinkData.isViaduct">
-                                            未调查
-                                        </label>
+                                    <div id="isViaductdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="button0" ng-click="changecheck(0)" ng-model="roadlinkData.isViaduct">否</button>
+                                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="button1" ng-click="changecheck(1)" ng-model="roadlinkData.isViaduct">是</button>
+                                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="button2" ng-click="changecheck(2)" ng-model="roadlinkData.isViaduct">未调查</button>
                                     </div>
-                                </div>
+                              </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">铺设状态</label>
 
                                 <div class="col-sm-8">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="radio" name="paveStatusRadio" value="0"
-                                                   ng-model="roadlinkData.paveStatus">
-                                            铺设
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="paveStatusRadio" value="1"
-                                                   ng-model="roadlinkData.paveStatus">
-                                            未铺设
-                                        </label>
+                                    <div class="btn-group" id="paveStatusdiv" style="border-radius: 10px;border: 1px solid #2aabd2;  ">
+                                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="paveStatusbtn0" ng-click="checkPaveStatus(0)" ng-model="roadlinkData.paveStatus">铺设</button>
+                                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="paveStatusbtn1" ng-click="checkPaveStatus(1)" ng-model="roadlinkData.paveStatus">未铺设</button>
                                     </div>
+                                    <!--<div class="radio">-->
+                                        <!--<label>-->
+                                            <!--<input type="radio" name="paveStatusRadio" value="0"-->
+                                                   <!--ng-model="roadlinkData.paveStatus">-->
+                                            <!--铺设-->
+                                        <!--</label>-->
+                                        <!--<label>-->
+                                            <!--<input type="radio" name="paveStatusRadio" value="1"-->
+                                                   <!--ng-model="roadlinkData.paveStatus">-->
+                                            <!--未铺设-->
+                                        <!--</label>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                             <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -175,23 +226,29 @@
                                 <label class="col-sm-4 control-label">计费标示</label>
 
                                 <div class="col-sm-8">
-                                    <div class="radio">
-                                        <label><!-- 没有feeFlag-->
-                                            <input type="radio" name="feeFlagRadio" value="0"
-                                                   ng-model="roadlinkData.adasFlag">
-                                            不应用
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="feeFlagRadio" value="1"
-                                                   ng-model="roadlinkData.adasFlag">
-                                            人工
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="feeFlagRadio" value="2"
-                                                   ng-model="roadlinkData.adasFlag">
-                                            程序
-                                        </label>
+
+                                    <div id="adasFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="adasFlagbtn0" ng-click="checkAdasFlag(0)" ng-model="roadlinkData.adasFlag">不应用</button>
+                                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="adasFlagbtn1" ng-click="checkAdasFlag(1)" ng-model="roadlinkData.adasFlag">人工</button>
+                                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="adasFlagbtn2" ng-click="checkAdasFlag(2)" ng-model="roadlinkData.adasFlag">程序</button>
                                     </div>
+                                    <!--<div class="radio">-->
+                                        <!--<label>&lt;!&ndash; 没有feeFlag&ndash;&gt;-->
+                                            <!--<input type="radio" name="feeFlagRadio" value="0"-->
+                                                   <!--ng-model="roadlinkData.adasFlag">-->
+                                            <!--不应用-->
+                                        <!--</label>-->
+                                        <!--<label>-->
+                                            <!--<input type="radio" name="feeFlagRadio" value="1"-->
+                                                   <!--ng-model="roadlinkData.adasFlag">-->
+                                            <!--人工-->
+                                        <!--</label>-->
+                                        <!--<label>-->
+                                            <!--<input type="radio" name="feeFlagRadio" value="2"-->
+                                                   <!--ng-model="roadlinkData.adasFlag">-->
+                                            <!--程序-->
+                                        <!--</label>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                             <div class="form-group">
