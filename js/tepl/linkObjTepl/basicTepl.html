@@ -84,17 +84,9 @@
                                     <label class="col-sm-3 control-label">上下线分离</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="multiDigitizedRadio" value=0
-                                                       ng-model="linkData.multiDigitized">
-                                                否
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="multiDigitizedRadio" value=1
-                                                       ng-model="linkData.multiDigitized">
-                                                是
-                                            </label>
+                                        <div class="btn-group" id="multiDigitizeddiv" style="border-radius: 10px;border: 1px solid #2aabd2;  ">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="multiDigitizedbtn0" ng-click="checkMultiDigitized(0)" ng-model="linkData.multiDigitized">否</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="multiDigitizedbtn1" ng-click="checkMultiDigitized(1)" ng-model="linkData.multiDigitized">是</button>
                                         </div>
                                     </div>
                                 </div>
@@ -186,6 +178,12 @@
                                                     <label class="col-sm-3 control-label">名称分类</label>
 
                                                     <div class="col-sm-9">
+                                                        <!--<div id="nameClassdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">-->
+                                                            <!--<button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="nameClass0" ng-click="checknameClass(0)" ng-model="item.nameClass">否</button>-->
+                                                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="nameClass1" ng-click="checknameClass(1)" ng-model="item.nameClass">是</button>-->
+                                                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="nameClass2" ng-click="checknameClass(2)" ng-model="item.nameClass">未调查</button>-->
+                                                        <!--</div>-->
+
                                                         <div class="radio">
                                                             <label>
                                                                 <input type="radio" name="upperOrLower"

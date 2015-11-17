@@ -4,8 +4,10 @@
 var pedestrianNaviApp = angular.module("lazymodule", []);
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope) {
     $scope.naviData =  $scope.linkData;
-
-
+    $("#diciTypebtn"+$scope.linkData.diciType).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#sidewalkFlagbtn"+$scope.linkData.sidewalkFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#walkstairFlagbtn"+$scope.linkData.walkstairFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#walkFlagbtn"+$scope.linkData.walkFlag).removeClass("btn btn-default").addClass("btn btn-primary");
     $scope.sidewalkLocoptions=[
         {"id": 0, "label":"无"},
         {"id": 1, "label":"右侧"},
@@ -67,4 +69,30 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope) {
             }
         }
     };
+    $scope.checkdiciType= function (flag) {
+        $("#diciTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#diciTypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.linkData.diciType=flag;
+    }
+
+    $scope.checksidewalkFlag=function(flag){
+
+        $("#sidewalkFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#sidewalkFlagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.linkData.sidewalkFlag=flag;
+    }
+
+    $scope.checkwalkstairFlag=function(flag){
+
+        $("#walkstairFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#walkstairFlagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.linkData.walkstairFlag=flag;
+    }
+
+    $scope.checkwalkFlag=function(flag){
+        $("#walkFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#walkFlagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.linkData.walkFlag=flag;
+    }
+
 })

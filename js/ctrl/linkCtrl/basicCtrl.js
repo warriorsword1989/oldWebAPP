@@ -5,6 +5,7 @@ var basicApp = angular.module("lazymodule", []);
 basicApp.controller("basicController",function($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
+    $("#multiDigitizedbtn"+$scope.linkData.multiDigitized).removeClass("btn btn-default").addClass("btn btn-primary");
     $scope.kindOptions = [
         {"id": 0, "label": "作业中"},
         {"id": 1, "label": "高速道路"},
@@ -99,4 +100,10 @@ basicApp.controller("basicController",function($scope) {
             }
         }
     };
+
+    $scope.checkMultiDigitized=function(flag){
+        $("#multiDigitizeddiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#multiDigitizedbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.linkData.multiDigitized=flag;
+    }
 })
