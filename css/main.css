@@ -1,16 +1,16 @@
 .leftDiv{
     position: absolute;
     margin: 0;
-    width: 20px;
+    width: 38px;
     height: 100%;
     /*background-color: #1C2B36;*/
     /*border: 1px solid #e0e0e0;*/
-    z-index: 2;
+    z-index:1000;
 
 }
-.leftDiv div a:visited{
-   background-color: #1C2B36;
-}
+/*.leftDiv div a:visited{*/
+   /*background-color: #1C2B36;*/
+/*}*/
 .rightDiv{
     position: absolute;
     padding: 0 0 0 20px;
@@ -83,4 +83,14 @@
 }
 .turnLeft{
     background-image: url('../css/img/left.png');
+}
+.fieldsLayer{
+    background: url('button/fileds.png') no-repeat;
+    width: 38px;
+    height: 38px;
+}
+.referenceLayer{
+    background: url('button/reference.png') no-repeat;
+    width: 38px;
+    height: 38px;
 }

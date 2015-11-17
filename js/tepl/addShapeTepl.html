@@ -1,9 +1,41 @@
+<style>
+    #addNode{
+        background: url('css/button/dot_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #addNode:active{
+        background: url('css/button/dot_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #addLink{
+        background: url('css/button/line_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #addLink:active{
+        background: url('css/button/line_add_seleted.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #addRelation{
+        background: url('css/button/relation_add.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    #addRelation:active{
+        background: url('css/button/relation_add_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+</style>
 <div ng-controller="addShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn btn-default" ng-click="testHello()">node+</button>
-    <button type="button" class="btn btn-default" ng-click="addShape('link')">link+</button>
-    <button type="button" class="btn btn-default dropdown-toggle"
+    <button type="button" class="btn btn-default" id="addNode" ng-click="testHello()" title="node+"></button>
+    <button type="button" class="btn btn-default" id="addLink" ng-click="addShape('link')" title="link+"></button>
+    <button type="button" class="btn btn-default dropdown-toggle" id="addRelation"
             data-toggle="dropdown">
-        关系＋ <span class="caret"></span>
+        <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
      <div  class="btn-group btn-group-sm">

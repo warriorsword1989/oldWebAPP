@@ -64,7 +64,12 @@
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
                 <div class="col-sm-2" ng-repeat="item in rdRestrictData.details">
-                    <img ng-src="./css/limit/{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                    <div ng-if="item.flag===1">
+                        <img ng-src="./css/limit/{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                    </div>
+                    <div ng-if="item.flag===2">
+                        <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                    </div>
 
                 </div>
                     <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus" data-toggle="modal"
@@ -84,25 +89,25 @@
                     <div class="radio">
                         <label>
                             <input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag">
-                            理论
+                            未验证
                         </label>
                         <label>
                             <input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag">
                             实际
                         </label> <label>
                         <input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag">
-                        未验证
+                        理论
                     </label>
                     </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="crossingOrLine" value=0 ng-model="rdSubRestrictData.relationshipType">
+                            <input type="radio" name="crossingOrLine" value=1 ng-model="rdSubRestrictData.relationshipType">
                             路口
                         </label>
                         <label>
-                            <input type="radio" name="crossingOrLine" value=1 ng-model="rdSubRestrictData.relationshipType">
+                            <input type="radio" name="crossingOrLine" value=2 ng-model="rdSubRestrictData.relationshipType">
                             线线
                         </label>
                     </div>
@@ -138,7 +143,7 @@
                               ng-click="addTime()"></span>
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal" methosd="get">
+                        <form class="form-horizontal" method="get">
                             <div ng-repeat="item in rdSubRestrictData.time">
 
                                 <div class="form-group">

@@ -57,22 +57,24 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            var id = null;
+            for (var item in data) {
+                if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
+                    id = data[item].properties.id;
+                    this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-        var id = null;
-        for (var item in data) {
-            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
-                id = data[item].properties.id;
-                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+                    if (this.redrawTiles.length != 0) {
+                        this._cleanHeight();
+                    }
 
-                if (this.redrawTiles.length != 0) {
-                    this._cleanHeight();
+                    this._drawHeight(id);
+                    break;
                 }
-
-                this._drawHeight(id);
-                break;
             }
+
         }
 
 
@@ -114,22 +116,24 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
+            if(data.hasOwnProperty("features")) {
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
 
-            for (var i = 0; i < data.features.length; i++) {
-                var feature = data.features[i];
+                    var color = null;
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.srctype;
+                    }
+                    var style = this.currentEditLayer.styleFor(feature, color);
 
-                var color = null;
-                if (feature.hasOwnProperty('properties')) {
-                    color = feature.properties.srctype;
+                    var geom = feature.geometry.coordinates;
+                    this.currentEditLayer._drawImg(ctx, geom, style, true);
+
                 }
-                var style = this.currentEditLayer.styleFor(feature, color);
-
-                var geom = feature.geometry.coordinates;
-                this.currentEditLayer._drawImg(ctx, geom, style, true);
-
             }
-        }
 
+
+        }
 
     }
     ,
