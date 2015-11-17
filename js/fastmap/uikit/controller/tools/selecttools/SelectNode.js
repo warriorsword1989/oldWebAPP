@@ -57,7 +57,9 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-
+        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data===undefined) {
+            return;
+        }
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
         var id = null;
@@ -114,24 +116,25 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
+            if (data.hasOwnProperty("features")) {
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
 
-            for (var i = 0; i < data.features.length; i++) {
-                var feature = data.features[i];
+                    var color = null;
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.c;
+                    }
+                    var style = this.currentEditLayer.styleFor(feature, color);
+                     if(style!==undefined) {
+                         var geom = feature.geometry.coordinates;
 
-                var color = null;
-                if (feature.hasOwnProperty('properties')) {
-                    color = feature.properties.c;
+                         this.currentEditLayer._drawImg(ctx, geom, style, true);
+                     }
+
+
                 }
-                var style = this.currentEditLayer.styleFor(feature, color);
-
-                var geom = feature.geometry.coordinates;
-
-                this.currentEditLayer._drawImg(ctx, geom, style, true);
-
             }
         }
-
-
     }
     ,
     /***
@@ -140,7 +143,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      * @private
      */
     _drawHeight: function (id) {
-        this.redrawTiles=this.tiles;
+        this.redrawTiles = this.tiles;
         for (var obj in this.tiles) {
             var data = this.tiles[obj].data.features;
 
@@ -156,9 +159,12 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-
-                    if(type=="Point"){
-                        this.currentEditLayer._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, true);
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.c;
+                    }
+                    var style = this.currentEditLayer.styleFor(feature, color);
+                    if (type == "Point") {
+                        this.currentEditLayer._drawImg(ctx, geom, style, true);
                     }
                 }
 
