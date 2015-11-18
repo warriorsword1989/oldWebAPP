@@ -23,7 +23,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
         this.tiles = this.currentEditLayer.tiles;
-
+        this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
 
@@ -138,23 +138,25 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
+          if(data.hasOwnProperty("features")) {
+              for (var i = 0; i < data.features.length; i++) {
+                  var feature = data.features[i];
 
-            for (var i = 0; i < data.features.length; i++) {
-                var feature = data.features[i];
+                  var color = null;
+                  if(feature.hasOwnProperty('properties')){
+                      color = feature.properties.c;
+                  }
 
-                var color = null;
-                if(feature.hasOwnProperty('properties')){
-                    color = feature.properties.c;
-                }
+                  var style = this.currentEditLayer.styleFor(feature, color);
 
-                var style = this.currentEditLayer.styleFor(feature, color);
+                  var geom = feature.geometry.coordinates;
 
-                var geom = feature.geometry.coordinates;
+                  this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
+                      radius:3},feature.properties.direct);
 
-                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                    radius:3},feature.properties.direct);
+              }
+          }
 
-            }
         }
 
 

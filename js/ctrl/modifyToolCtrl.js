@@ -9,12 +9,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
     map.currentTool = shapectl.getCurrentTool();
     shapectl.setMap(map);
     $scope.type;
+    $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
 
-    $scope.modifyShape = function (type) {
-
-        $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
-        $("#"+type).addClass("btn btn-default active");
-
+    $scope.modifyShape = function (type,num) {
         var ly = fastmap.uikit.LayerController();
         if (shapectl.getCurrentTool()['options']) {
             shapectl.stopEditing();
@@ -22,6 +19,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         var feature = null
         if (type == "insertDot") {
             $scope.type = "insertDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -45,6 +43,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         if (type == "deleteDot") {
             $scope.type = "deleteDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -62,6 +61,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         if (type == "moveDot") {
             $scope.type = "moveDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -79,6 +79,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         if (type == "extendDot") {
             $scope.type = "extendDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -98,6 +99,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         if(type == 'pathBreak'){
             $scope.type = "pathBreak";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;

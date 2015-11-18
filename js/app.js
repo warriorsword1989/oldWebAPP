@@ -16,6 +16,16 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.updateRestrictData = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.changeBtnClass=function(id) {
+        for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
+            if(claFlag===id) {
+                $scope.classArr[claFlag] = !$scope.classArr[claFlag];
+            }else{
+                $scope.classArr[claFlag] = false;
+            }
+        }
+    };
     var ly = fastmap.uikit.LayerController();
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
 

@@ -1,3 +1,27 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    min-width: 800px;
+    /*min-height: 768px;*/
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
+}
+.navbar-top {
+    border-radius: 0px;
+    margin-bottom: 10px;
+}
+.navbar-header a.logo {
+    width: 300px;
+    background: url("img/navi_logo.png") no-repeat center center;
+}
+.navbar-header span.platform {
+    width: 150px;
+    font-size: 24px;
+}
+.navbar-header span.system {
+    padding-left: 0px;
+}
 .leftDiv{
     position: absolute;
     margin: 0;

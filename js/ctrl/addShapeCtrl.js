@@ -13,10 +13,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var checkCtrl = fastmap.uikit.CheckResultController();
         $scope.limitRelation = {};
         $scope.type = "";
-        $scope.addShape = function (type) {
-            $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
+        $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
+        $scope.addShape = function (type,num) {
             if (type === "restriction") {
                 $scope.type = "restriction";
+                $scope.$parent.$parent.changeBtnClass(num);
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -42,6 +43,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 $scope.type = "link";
+                $scope.$parent.$parent.changeBtnClass(num);
                 if (shapectl.shapeEditorResult) {
                     shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());

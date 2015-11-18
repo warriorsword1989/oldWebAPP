@@ -1,5 +1,4 @@
-<style>
-</style>
+
 <div ng-controller="fieldsResultController" class="nav-tabs-alt">
     <ul id="myTab" class="nav nav-tabs nav-justified">
         <li class="active">
@@ -42,7 +41,7 @@
                                 <table class="table">
                                     <tr ng-repeat="aItem in allSubItems">
                                         <div ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '">
-                                            <td ng-click="showTab(aItem)">{{$index+1}}</td>
+                                            <td ng-click="showTab(aItem)">交限Tips{{$index+1}}</td>
                                         </div>
                                     </tr>
                                 </table>

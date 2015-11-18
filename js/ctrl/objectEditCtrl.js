@@ -153,6 +153,8 @@ objectEditApp.controller("normalController", function ($scope) {
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referencePoint");
+            restrict.redraw();
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
         });
