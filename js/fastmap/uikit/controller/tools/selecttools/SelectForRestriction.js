@@ -251,23 +251,25 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
+             if(data.hasOwnProperty("features")) {
+                 for (var i = 0; i < data.features.length; i++) {
+                     var feature = data.features[i];
 
-            for (var i = 0; i < data.features.length; i++) {
-                var feature = data.features[i];
+                     var color = null;
+                     if(feature.hasOwnProperty('properties')){
+                         color = feature.properties.c;
+                     }
 
-                var color = null;
-                if(feature.hasOwnProperty('properties')){
-                    color = feature.properties.c;
-                }
+                     var style = this.currentEditLayer.styleFor(feature, color);
 
-                var style = this.currentEditLayer.styleFor(feature, color);
+                     var geom = feature.geometry.coordinates;
 
-                var geom = feature.geometry.coordinates;
+                     this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
+                         radius:3});
 
-                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                    radius:3});
+                 }
+             }
 
-            }
         }
 
 

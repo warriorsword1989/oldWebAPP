@@ -4,7 +4,7 @@
 var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
 filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad',
         function ($rootScope, $scope, $ocLazyLoad) {
-            Application.functions.getTipsStatics([59567201], [1, 3], function (data) {
+            Application.functions.getTipsStatics([59567301,59567302,59567303,59567304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
@@ -86,7 +86,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var objCtrl = new fastmap.uikit.ObjectEditController();
             //切换处理 待处理 已处理 页面
             $scope.changeList = function (stage) {
-                Application.functions.getTipsStatics([59567201], stage, function (data) {
+                Application.functions.getTipsStatics([59567301,59567302,59567303,59567304], stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
                         transArr = data.data.rows;
@@ -167,7 +167,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             };
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr,stage) {
-                Application.functions.getTipsListItems([59567201], arr, item.id, function (data) {
+                Application.functions.getTipsListItems([59567301,59567302,59567303,59567304], arr, item.id, function (data) {
                     if(stage==="0"){
                         $scope.$apply(function () {
                             $scope.allSubItems = data.data;
@@ -187,6 +187,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //点击列表需要的方法
             var n = 0;
             $scope.showTab = function (item) {
+                map.panTo({lat:item["g"][1],lon:item["g"][0]});
                 if ($scope.$parent.$parent.dataTipsURL) {
                     $scope.$parent.$parent.dataTipsURL = "";
                 }

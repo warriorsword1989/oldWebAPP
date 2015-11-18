@@ -3,14 +3,14 @@
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
-    $scope.selectShape = function (type) {
+    $scope.selectClaArr = $scope.$parent.$parent.classArr;
+    $scope.selectShape = function (type,num) {
         var selectCtrl = new fastmap.uikit.SelectController();
         var objCtrl = new fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
-        $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
-        $("#"+type).addClass("btn btn-default active");
         if (type === "link") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referenceLine');
             var rdLink = layerCtrl.getLayerById('referenceLine');
             if(typeof map.currentTool.cleanHeight==="function") {
@@ -55,12 +55,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
         if (type === "node") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.changeBtnClass(num);
             var rdLink = layerCtrl.getLayerById('referenceLine');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
         }
         if (type === "relation") {
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获r
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referencePoint');
             var rdLink = layerCtrl.getLayerById('referencePoint');
             if(typeof map.currentTool.cleanHeight==="function") {
@@ -94,7 +96,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             })
         }
         if(type=="tips"){
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获r
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('workPoint');
             var rdLink = layerCtrl.getLayerById('workPoint');
             if(typeof map.currentTool.cleanHeight==="function") {
