@@ -81,19 +81,24 @@
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag">
-                            理论
-                        </label>
-                        <label>
-                            <input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag">
-                            实际
-                        </label> <label>
-                        <input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag">
-                        未验证
-                    </label>
+                    <div id="rdSubRestrictflagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rdSubRestrictflagbtn0" ng-click="checkrdSubRestrictflag(0)" ng-model="rdSubRestrictData.flag">理论</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdSubRestrictflagbtn1" ng-click="checkrdSubRestrictflag(1)" ng-model="rdSubRestrictData.flag">实际</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdSubRestrictflagbtn2" ng-click="checkrdSubRestrictflag(2)" ng-model="rdSubRestrictData.flag">未验证</button>
                     </div>
+                    <!--<div class="radio">-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag">-->
+                            <!--理论-->
+                        <!--</label>-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag">-->
+                            <!--实际-->
+                        <!--</label> <label>-->
+                        <!--<input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag">-->
+                        <!--未验证-->
+                    <!--</label>-->
+                    <!--</div>-->
                 </div>
                 <div class="col-sm-12">
                     <div class="radio">

@@ -156,7 +156,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">辅助标志</label>
                                 <div class="col-sm-8">
-                                    <select class="form-control" ng-model="roadlinkData.adasFlag" ng-options="value.id as value.label for value in auxiFlagoption"><!-- 没有auxiFlag-->
+                                    <select class="form-control" ng-model="roadlinkData.auxiFlag" ng-options="value.id as value.label for value in auxiFlagoption"><!-- 没有auxiFlag-->
                                         <option >--</option>
                                     </select>
                                 </div>
@@ -219,7 +219,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">收费标准</label><!-- 没有feeStd-->
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.adasFlag">元/每公里
+                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.feeStd">元/每公里
                                 </div>
                             </div>
                             <div class="form-group">
@@ -255,7 +255,7 @@
                                 <label class="col-sm-4 control-label">区域标识</label>
 
                                 <div class="col-sm-8"><!-- 没有systemId-->
-                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.adasFlag">
+                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.systemId">
                                 </div>
                             </div>
                             <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -276,14 +276,14 @@
                                 <label class="col-sm-4 control-label">LINK长度</label><!-- 不知道link长度是哪个-->
 
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.sNodePid" >
+                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.length" >
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">图幅编号</label><!-- 不知道图幅编号是哪个-->
 
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.sNodePid" >
+                                    <input type="text" class="form-control" placeholder="0" ng-model="roadlinkData.meshId" >
                                 </div>
                             </div>
                             <div class="form-group">
@@ -358,18 +358,28 @@
                                                             <label class="col-sm-4 control-label">等级赋值标记</label>
 
                                                             <div class="col-sm-8">
-                                                                <div class="radio">
-                                                                    <label>
-                                                                        <input type="radio" name="speedClassWordRadio" value="0"
-                                                                               ng-model="speeditem.speedClassWork">
-                                                                        手工
-                                                                    </label>
-                                                                    <label>
-                                                                        <input type="radio" name="speedClassWordRadio" value="1"
-                                                                               ng-model="speeditem.speedClassWork">
-                                                                        程序
-                                                                    </label>
+                                                                <div class="btn-group" id="speedClassWorkdiv{{$index}}" style="border-radius: 10px;border: 1px solid #2aabd2;  ">
+                                                                    <span ng-if="speeditem.speedClassWork==0">
+                                                                        <button class="btn btn-primary" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="speedClassWorkbtn0_{{$index}}" ng-click="checkspeedClassWork(0,speeditem,$index)" ng-model="speeditem.speedClassWork">手工</button>
+                                                                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="speedClassWorkbtn1_{{$index}}" ng-click="checkspeedClassWork(1,speeditem,$index)" ng-model="speeditem.speedClassWork">程序</button>
+                                                                    </span>
+                                                                     <span ng-if="speeditem.speedClassWork==1">
+                                                                         <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="speedClassWorkbtn0_{{$index}}" ng-click="checkspeedClassWork(0,speeditem,$index)" ng-model="speeditem.speedClassWork">手工</button>
+                                                                         <button class="btn btn-primary" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="speedClassWorkbtn1_{{$index}}" ng-click="checkspeedClassWork(1,speeditem,$index)" ng-model="speeditem.speedClassWork">程序</button>
+                                                                    </span>
                                                                 </div>
+                                                                <!--<div class="radio">-->
+                                                                    <!--<label>-->
+                                                                        <!--<input type="radio" name="speedClassWordRadio" value="0"-->
+                                                                               <!--ng-model="speeditem.speedClassWork">-->
+                                                                        <!--手工-->
+                                                                    <!--</label>-->
+                                                                    <!--<label>-->
+                                                                        <!--<input type="radio" name="speedClassWordRadio" value="1"-->
+                                                                               <!--ng-model="speeditem.speedClassWork">-->
+                                                                        <!--程序-->
+                                                                    <!--</label>-->
+                                                                <!--</div>-->
                                                             </div>
                                                         </div>
                                                     </form>

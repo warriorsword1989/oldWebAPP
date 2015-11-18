@@ -11,6 +11,13 @@ otherApp.controller("otherController",function($scope){
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#adasFlagbtn"+$scope.roadlinkData.adasFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+    //for(var sitem in $scope.roadlinkData.speedlimits){
+    //    var flag=$scope.roadlinkData.speedlimits[sitem].speedClassWork;
+    //    setTimeout(function(){
+    //        $("#speedClassWorkbtn"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+    //    },1000)
+    //}
+
     $scope.fromOfWayOption=[
         {id:"0",name:"未调查"},
         {id:"1",name:"无属性"},
@@ -172,6 +179,11 @@ otherApp.controller("otherController",function($scope){
         $("#adasFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#adasFlagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $scope.roadlinkData.adasFlag=flag;
+    }
+    $scope.checkspeedClassWork=function(flag,item,index){
+        $("#speedClassWorkdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#speedClassWorkbtn"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.speedClassWork=flag;
     }
 
 });
