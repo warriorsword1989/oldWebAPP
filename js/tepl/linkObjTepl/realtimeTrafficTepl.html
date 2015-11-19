@@ -21,7 +21,7 @@
                 </h4>
 
             </div>
-            <div id="wideRTICDiv" class="panel-collapse collapse">
+            <div id="wideRTICDiv" class="panel-collapse collapse in">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
                     <div class="list-group-item" ng-repeat=" item in rticData.intRtics">
                         <div class="list-group-item">
@@ -74,18 +74,22 @@
                                     <label class="col-sm-3 control-label">上下行 标识</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="updownFlagRadio" value="0"
-                                                       ng-model="item.updownFlag">
-                                                上行
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="updownFlagRadio" value="1"
-                                                       ng-model="item.updownFlag">
-                                                下行
-                                            </label>
+                                        <div id="updownFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="updownFlag0_{{$index}}" ng-click="checkupdownFlag(0,item,$index)" ng-model="item.updownFlag">上行</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="updownFlag1_{{$index}}" ng-click="checkupdownFlag(1,item,$index)" ng-model="item.updownFlag">下行</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="updownFlagRadio" value="0"-->
+                                                       <!--ng-model="item.updownFlag">-->
+                                                <!--上行-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="updownFlagRadio" value="1"-->
+                                                       <!--ng-model="item.updownFlag">-->
+                                                <!--下行-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -93,23 +97,28 @@
                                     <label class="col-sm-3 control-label">RTIC域类型</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="rangeTypeRadio" value="0"
-                                                       ng-model="item.rangeType">
-                                                狭域
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="rangeTypeRadio" value="1"
-                                                       ng-model="item.rangeType">
-                                                中域
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="rangeTypeRadio" value="2"
-                                                       ng-model="item.rangeType">
-                                                广域
-                                            </label>
+                                        <div id="rangeTypediv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rangeType0_{{$index}}" ng-click="checkrangeType(0,item,$index)" ng-model="item.rangeType">未调查</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rangeType1_{{$index}}" ng-click="checkrangeType(1,item,$index)" ng-model="item.rangeType">上坡</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rangeType2_{{$index}}" ng-click="checkrangeType(2,item,$index)" ng-model="item.rangeType">下坡</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="rangeTypeRadio" value="0"-->
+                                                       <!--ng-model="item.rangeType">-->
+                                                <!--狭域-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="rangeTypeRadio" value="1"-->
+                                                       <!--ng-model="item.rangeType">-->
+                                                <!--中域-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="rangeTypeRadio" value="2"-->
+                                                       <!--ng-model="item.rangeType">-->
+                                                <!--广域-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </form>
@@ -183,18 +192,22 @@
                                     <label class="col-sm-3 control-label">上下行 标识</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="updownFlagRadio" value="0"
-                                                       ng-model="cItem.updownFlag">
-                                                上行
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="updownFlagRadio" value="1"
-                                                       ng-model="cItem.updownFlag">
-                                                下行
-                                            </label>
+                                        <div id="rticsupdownFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rticsupdownFlag0_{{$index}}" ng-click="checkrticsupdownFlag(0,cItem,$index)" ng-model="cItem.updownFlag">上行</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rticsupdownFlag1_{{$index}}" ng-click="checkrticsupdownFlag(1,cItem,$index)" ng-model="cItem.updownFlag">下行</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="updownFlagRadio" value="0"-->
+                                                       <!--ng-model="cItem.updownFlag">-->
+                                                <!--上行-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="updownFlagRadio" value="1"-->
+                                                       <!--ng-model="cItem.updownFlag">-->
+                                                <!--下行-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -202,23 +215,28 @@
                                     <label class="col-sm-3 control-label">RTIC域类型</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="rangeTypeRadio" value="0"
-                                                       ng-model="cItem.rangeType">
-                                                狭域
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="rangeTypeRadio" value="1"
-                                                       ng-model="cItem.rangeType">
-                                                中域
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="rangeTypeRadio" value="2"
-                                                       ng-model="cItem.rangeType">
-                                                广域
-                                            </label>
+                                        <div id="rticsrangeTypediv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rticsrangeType0_{{$index}}" ng-click="checkrticsrangeType(0,item,$index)" ng-model="cItem.rangeType">未调查</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rticsrangeType1_{{$index}}" ng-click="checkrticsrangeType(1,item,$index)" ng-model="cItem.rangeType">上坡</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rticsrangeType2_{{$index}}" ng-click="checkrticsrangeType(2,item,$index)" ng-model="cItem.rangeType">下坡</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="rangeTypeRadio" value="0"-->
+                                                       <!--ng-model="cItem.rangeType">-->
+                                                <!--狭域-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="rangeTypeRadio" value="1"-->
+                                                       <!--ng-model="cItem.rangeType">-->
+                                                <!--中域-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="rangeTypeRadio" value="2"-->
+                                                       <!--ng-model="cItem.rangeType">-->
+                                                <!--广域-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </form>

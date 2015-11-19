@@ -160,18 +160,22 @@
                                             <label class="col-sm-4 control-label">Link左右</label>
 
                                             <div class="col-sm-8">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="sideRadio" value="0"
-                                                               ng-model="item.side">
-                                                        左
-                                                    </label>
-                                                    <label>
-                                                        <input type="radio" name="sideRadio" value="1"
-                                                               ng-model="item.side">
-                                                        右
-                                                    </label>
+                                                <div id="sidediv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="side0_{{$index}}" ng-click="checkside(0,sideitem,$index)" ng-model="item.side">左</button>
+                                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="side1_{{$index}}" ng-click="checkside(1,sideitem,$index)" ng-model="item.side">右</button>
                                                 </div>
+                                                <!--<div class="radio">-->
+                                                    <!--<label>-->
+                                                        <!--<input type="radio" name="sideRadio" value="0"-->
+                                                               <!--ng-model="item.side">-->
+                                                        <!--左-->
+                                                    <!--</label>-->
+                                                    <!--<label>-->
+                                                        <!--<input type="radio" name="sideRadio" value="1"-->
+                                                               <!--ng-model="item.side">-->
+                                                        <!--右-->
+                                                    <!--</label>-->
+                                                <!--</div>-->
                                             </div>
                                         </div>
                                     </div>

@@ -5,7 +5,15 @@ var basicApp = angular.module("lazymodule", []);
 basicApp.controller("basicController",function($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $("#multiDigitizedbtn"+$scope.linkData.multiDigitized).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#multiDigitizedbtn"+$scope.linkData.multiDigitized).removeClass("btn btn-default").addClass("btn btn-primary");    //for(var sitem in $scope.roadlinkData.speedlimits){
+    for(var sitem in $scope.linkData.names){
+        var flag=$scope.linkData.names[sitem].nameClass;
+        var codeflag=$scope.linkData.names[sitem].code;
+        setTimeout(function(){
+            $("#nameClass"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+            $("#codebtn"+codeflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+        },1000)
+    }
     $scope.kindOptions = [
         {"id": 0, "label": "作业中"},
         {"id": 1, "label": "高速道路"},
@@ -91,6 +99,14 @@ basicApp.controller("basicController",function($scope) {
             rowId: "",
             seqNum: 1
         })
+        for(var sitem in $scope.linkData.names){
+            var flag=$scope.linkData.names[sitem].nameClass;
+            var codeflag=$scope.linkData.names[sitem].code;
+            setTimeout(function(){
+                $("#nameClass"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+                $("#codebtn"+codeflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+            },1000)
+        }
     }
     $scope.minusRoadName=function(id) {
         $scope.linkData.names.splice(id, 1);
@@ -105,5 +121,17 @@ basicApp.controller("basicController",function($scope) {
         $("#multiDigitizeddiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#multiDigitizedbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $scope.linkData.multiDigitized=flag;
+    }
+
+    $scope.checknameClass=function(flag,item,index){
+        $("#nameClassdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#nameClass"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.nameClass=flag;
+    }
+
+    $scope.checkcode=function(flag,item,index){
+        $("#codediv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#codebtn"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.code=flag;
     }
 })

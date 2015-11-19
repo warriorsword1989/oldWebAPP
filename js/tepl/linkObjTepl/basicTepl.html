@@ -134,7 +134,7 @@
                           ng-click="addRoadName()"></span>
                 </h4>
             </div>
-            <div id="loadPropertyDiv" class="panel-collapse collapse">
+            <div id="loadPropertyDiv" class="panel-collapse collapse in">
                 <div class="panel-body ">
                     <div ng-repeat="item in linkData.names">
                         <div class="panel-group" style="margin: 0px;">
@@ -151,7 +151,7 @@
                                               ng-click="minusRoadName($index)"></span>
                                     </h4>
                                 </div>
-                                <div id="{{item.linkPid}}" class="panel-collapse collapse">
+                                <div id="{{item.linkPid}}" class="panel-collapse collapse in">
                                     <div class="panel-body ">
                                         <div class="panel-body"
                                              style="min-height: 100px;height:300px;overflow-y: auto;">
@@ -178,31 +178,31 @@
                                                     <label class="col-sm-3 control-label">名称分类</label>
 
                                                     <div class="col-sm-9">
-                                                        <!--<div id="nameClassdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">-->
-                                                            <!--<button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="nameClass0" ng-click="checknameClass(0)" ng-model="item.nameClass">否</button>-->
-                                                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="nameClass1" ng-click="checknameClass(1)" ng-model="item.nameClass">是</button>-->
-                                                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="nameClass2" ng-click="checknameClass(2)" ng-model="item.nameClass">未调查</button>-->
-                                                        <!--</div>-->
-
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input type="radio" name="upperOrLower"
-                                                                       value=1
-                                                                       ng-model="item.nameClass">
-                                                                官方名
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="upperOrLower"
-                                                                       value=2
-                                                                       ng-model="item.nameClass">
-                                                                别名
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="upperOrLower" value=3
-                                                                       ng-model="item.nameClass">
-                                                                曾用名
-                                                            </label>
+                                                        <div id="nameClassdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="nameClass0_{{$index}}" ng-click="checknameClass(0,item,$index)" ng-model="item.nameClass">官方名</button>
+                                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="nameClass1_{{$index}}" ng-click="checknameClass(1,item,$index)" ng-model="item.nameClass">别名</button>
+                                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="nameClass2_{{$index}}" ng-click="checknameClass(2,item,$index)" ng-model="item.nameClass">曾用名</button>
                                                         </div>
+
+                                                        <!--<div class="radio">-->
+                                                            <!--<label>-->
+                                                                <!--<input type="radio" name="upperOrLower"-->
+                                                                       <!--value=1-->
+                                                                       <!--ng-model="item.nameClass">-->
+                                                                <!--官方名-->
+                                                            <!--</label>-->
+                                                            <!--<label>-->
+                                                                <!--<input type="radio" name="upperOrLower"-->
+                                                                       <!--value=2-->
+                                                                       <!--ng-model="item.nameClass">-->
+                                                                <!--别名-->
+                                                            <!--</label>-->
+                                                            <!--<label>-->
+                                                                <!--<input type="radio" name="upperOrLower" value=3-->
+                                                                       <!--ng-model="item.nameClass">-->
+                                                                <!--曾用名-->
+                                                            <!--</label>-->
+                                                        <!--</div>-->
                                                     </div>
                                                 </div>
                                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -250,18 +250,22 @@
                                                     <label class="col-sm-3 control-label">主从CODE</label>
 
                                                     <div class="col-sm-9">
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input type="radio" name="masterOrSlave" value=1
-                                                                       ng-model="item.code">
-                                                                主
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="masterOrSlave" value=2
-                                                                       ng-model="item.code">
-                                                                从
-                                                            </label>
+                                                        <div id="codediv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="codebtn0_{{$index}}" ng-click="checkcode(0,item,$index)" ng-model="item.code">主</button>
+                                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="codebtn1_{{$index}}" ng-click="checkcode(1,item,$index)" ng-model="item.code">从</button>
                                                         </div>
+                                                        <!--<div class="radio">-->
+                                                            <!--<label>-->
+                                                                <!--<input type="radio" name="masterOrSlave" value=1-->
+                                                                       <!--ng-model="item.code">-->
+                                                                <!--主-->
+                                                            <!--</label>-->
+                                                            <!--<label>-->
+                                                                <!--<input type="radio" name="masterOrSlave" value=2-->
+                                                                       <!--ng-model="item.code">-->
+                                                                <!--从-->
+                                                            <!--</label>-->
+                                                        <!--</div>-->
                                                     </div>
                                                 </div>
                                                 <div class="line line-dashed b-b line-lg pull-in"></div>
