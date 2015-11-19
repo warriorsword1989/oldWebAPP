@@ -32,7 +32,14 @@ objectEditApp.controller("normalController", function ($scope) {
                 }
             }
         }
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     };
+
     //初始化交限
     $scope.addLimitedData = [
         {"id": 1},
@@ -89,10 +96,15 @@ objectEditApp.controller("normalController", function ($scope) {
         $scope.rdSubRestrictData = [];
     } else {
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     }
 
     $scope.$parent.$parent.updateRestrictData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
+
+
     };
 
     //选择弹出框中的交限
@@ -193,5 +205,21 @@ objectEditApp.controller("normalController", function ($scope) {
             console.log("交限 " + pid + " has been removed");
         })
         $scope.$parent.$parent.rdRestrictData = null;
+    }
+
+    $scope.checkrdSubRestrictflag=function(flag,item){
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdSubRestrictflagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.flag=flag;
+    }
+    $scope.checkrdrelationshipType=function(flag,item){
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.relationshipType=flag;
+    }
+    $scope.checkrdtype=function(flag,item){
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.type=flag;
     }
 });
