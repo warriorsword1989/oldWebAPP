@@ -92,7 +92,7 @@ objectEditApp.controller("normalController", function ($scope) {
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
     }
 
-    $scope.$parent.$parent.updateLinkData = function (data) {
+    $scope.$parent.$parent.updateRestrictData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
     };
 
@@ -154,6 +154,8 @@ objectEditApp.controller("normalController", function ($scope) {
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referencePoint");
+            restrict.redraw();
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
         });

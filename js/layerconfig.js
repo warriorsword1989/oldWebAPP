@@ -157,7 +157,6 @@ Application.layersConfig =
                             'id': item.i,
                             'restrictioncondition':item.m.a,
                             'restrictioninfo': item.m.b,
-                            'restrictioninfo': item.m.b,
                             'rotate':item.m.c
 
                         }

@@ -93,7 +93,7 @@ fastmap.uikit.ObjectEditController = (function () {
                             }
                             retObj["objStatus"] = type;
                         }
-                    } else if (oriData[item].constructor == Array&&data[item].constructor==Array) {
+                    } else if (oriData[item]&&oriData[item].constructor == Array&&data[item].constructor==Array) {
                         if (oriData[item].length === data[item].length) {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
@@ -151,7 +151,7 @@ fastmap.uikit.ObjectEditController = (function () {
             isContainArr: function (obj) {
                 var flag = false;
                 for (var item in obj) {
-                    if(obj[item].constructor == Array) {
+                    if(obj[item]&&obj[item].constructor == Array) {
                         flag = true;
                     }
                 }

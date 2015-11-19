@@ -4,7 +4,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
-    dragF1('popoverTips', 'parentId');
+    //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.save = "";//保存方法
@@ -13,10 +13,21 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.rdRestrictData = {};//交限对象
     $scope.updateLinkData = "";
     $scope.updateDataTips = "";
+    $scope.updateRestrictData = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.changeBtnClass=function(id) {
+        for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
+            if(claFlag===id) {
+                $scope.classArr[claFlag] = !$scope.classArr[claFlag];
+            }else{
+                $scope.classArr[claFlag] = false;
+            }
+        }
+    };
     var ly = fastmap.uikit.LayerController();
-    var shapectl = new fastmap.uikit.ShapeEditorController();
+    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
 
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
@@ -49,7 +60,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $(document).bind('keydown',
         function (event) {
             if (event.keyCode == 27) {
-                shapectl.stopEditing();
+                shapeCtrl.stopEditing();
                 ly.getLayerById('edit').bringToBack()
 
                 $(ly.getLayerById('edit').options._div).unbind();
@@ -120,8 +131,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         $scope.toolsFlag = !$scope.toolsFlag;
     }
 }]);
-
-var map = null;
 function appInit(){
 
     map = L.map('map',{ attributionControl: false}).setView([39.959972, 116.275665], 17);

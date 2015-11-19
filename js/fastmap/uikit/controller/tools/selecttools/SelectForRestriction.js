@@ -190,39 +190,6 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         return [];
 
     },
-
-    /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
-     *清除高亮
-     */
-    _cleanHeight:function(){
-
-        for(var index in this.redrawTiles){
-            var data = this.redrawTiles[index].data;
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
-            var ctx = {
-                canvas: this.redrawTiles[index].options.context,
-                tile: this.redrawTiles[index].options.context._tilePoint,
-                zoom: this._map.getZoom()
-            }
-
-            for (var i = 0; i < data.features.length; i++) {
-                var feature = data.features[i];
-
-                var color = null;
-                if(feature.hasOwnProperty('properties')){
-                    color = feature.properties.c;
-                }
-
-                var style = this.currentEditLayer.styleFor(feature, color);
-
-                var geom = feature.geometry.coordinates;
-
-                this.currentEditLayer._drawLineString(ctx, geom, style, true);
-
-            }
-        }
-    }
-    ,
     /***
      * 绘制线高亮
      * @param id
@@ -275,29 +242,34 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         console.log("from clear");
         for(var index in this.redrawTiles){
             var data = this.redrawTiles[index].data;
+            if(!data) {
+                return;
+            }
             this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
             var ctx = {
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
+             if(data.hasOwnProperty("features")) {
+                 for (var i = 0; i < data.features.length; i++) {
+                     var feature = data.features[i];
 
-            for (var i = 0; i < data.features.length; i++) {
-                var feature = data.features[i];
+                     var color = null;
+                     if(feature.hasOwnProperty('properties')){
+                         color = feature.properties.c;
+                     }
 
-                var color = null;
-                if(feature.hasOwnProperty('properties')){
-                    color = feature.properties.c;
-                }
+                     var style = this.currentEditLayer.styleFor(feature, color);
 
-                var style = this.currentEditLayer.styleFor(feature, color);
+                     var geom = feature.geometry.coordinates;
 
-                var geom = feature.geometry.coordinates;
+                     this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
+                         radius:3});
 
-                this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                    radius:3});
+                 }
+             }
 
-            }
         }
 
 

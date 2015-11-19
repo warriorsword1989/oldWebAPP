@@ -23,7 +23,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.requestType = this.options.requestType || "";
         this.tiles = {};
         this.directColor = this.options.directColor || "#ff0000";
-        this.mecator = this.options.mecator||"";
+        this.mecator = this.options.mecator || "";
         this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
         var that = this;
@@ -75,7 +75,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             tile.onload = null;
             tile.src = L.Util.emptyImageUrl;
         }
-        if(this.tiles[key]!==undefined) {
+        if (this.tiles[key] !== undefined) {
             this.tiles[key].xmlhttprequest.abort();
         }
 
@@ -91,7 +91,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _reset: function (e) {
         for (var key in this._tiles) {
             this.fire('tileunload', {tile: this._tiles[key]});
-            if( this.tiles[key]!==undefined) {
+            if (this.tiles[key] !== undefined) {
                 this.tiles[key].xmlhttprequest.abort();
             }
 
@@ -285,22 +285,22 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Array}data 点数组
      * @private
      */
-    _drawArrow: function(ctx, direct,data){
+    _drawArrow: function (ctx, direct, data) {
         ctx.linewidth = 2;
-        ctx.strokeStyle=this.directColor;
+        ctx.strokeStyle = this.directColor;
         if (direct == 0 || direct == 1) {
             return;
         }
 
         for (i = 0, len = data.length; i < len; i++) {
-            for (j = 0, len2 = data[i].length; j < len2-1; j = j + 2) {
+            for (j = 0, len2 = data[i].length; j < len2 - 1; j = j + 2) {
 
                 ctx.beginPath();
                 ctx.translate(0, 0, 0);
 
                 var point1 = data[i][j];
                 var point2 = data[i][j + 1];
-                var distance = this.distance(point1,point2);
+                var distance = this.distance(point1, point2);
                 if (distance < 30) {
                     return;
                 }
@@ -358,7 +358,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
      */
-    _drawLineString: function (ctx, geom, boolPixelCrs,linestyle,nodestyle,direct) {
+    _drawLineString: function (ctx, geom, boolPixelCrs, linestyle, nodestyle, direct) {
         if (!linestyle) {
             return;
         }
@@ -386,12 +386,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.strokeStyle = linestyle.color;
         g.lineWidth = linestyle.size;
         g.beginPath();
-        var arrowlist=[];
+        var arrowlist = [];
         for (i = 0; i < proj.length; i++) {
             var method = (i === 0 ? 'move' : 'line') + 'To';
             g[method](proj[i].x, proj[i].y);
-            if(i<proj.length-1){
-                var oneArrow=[proj[i],proj[i+1]];
+            if (i < proj.length - 1) {
+                var oneArrow = [proj[i], proj[i + 1]];
                 arrowlist.push(oneArrow);
             }
 
@@ -400,11 +400,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         g.stroke();
         g.restore();
-        if(direct==null||typeof(direct)=="undefined"||direct==""){
+        if (direct == null || typeof(direct) == "undefined" || direct == "") {
             //alert("lsdkkls");
-        }else{
-            if(this._map.getZoom() >= this.showNodeLevel){
-                this._drawArrow(g,direct,arrowlist);
+        } else {
+            if (this._map.getZoom() >= this.showNodeLevel) {
+                this._drawArrow(g, direct, arrowlist);
             }
 
         }
@@ -531,7 +531,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         //el = x.dest;
                         if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                             if (window.JSON) {
-                                if(window.JSON.parse(x.responseText).data!=null){
+                                if (window.JSON.parse(x.responseText).data != null) {
                                     d = window.JSON.parse(x.responseText);
                                     d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
                                 }
@@ -539,7 +539,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             } else {
                                 d = eval("(" + x.responseText + ")")
                             }
-                            if(d.length===0) {
+                            if (d.length === 0) {
                                 return;
                             }
                             self.tiles[key].setData(parse(d));
@@ -600,16 +600,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             switch (type) {
                 case 'Point':
                     if (this.options.type === 'Marker') {
-                        if (drawFlag) { 
-                                    this._drawImg(ctx, geom, {src:'./css/limit/selected/'+feature.properties.restrictioninfo+'.png'}, boolPixelCrs);
-                        } else {
-                                for (var ims in feature.properties.restrictioninfo) {
-                                    if (ims > 0) {
-                                        geom[0] = parseInt(geom[0]) + 16;
-                                    }
-                                    this._drawImg(ctx, geom, {src: './css/limit/normal/' + feature.properties.restrictioninfo[ims] + '.png'}, boolPixelCrs);
-                                }
+
+                        if (feature.properties.restrictioninfo === undefined) {
+                            return;
                         }
+                            this._drawImg(ctx, geom, style, boolPixelCrs);
 
                     } else {
                         this._drawImg(ctx, geom, style, boolPixelCrs);
@@ -627,12 +622,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     if (drawFlag) {
 
                         this._drawLineString(ctx, geom, boolPixelCrs, {
-                            size: 3,
-                            color: '#FFFF00'
-                        }, {color: 'rgba(105,105,105,1)', radius: 3},
+                                size: 3,
+                                color: '#FFFF00'
+                            }, {color: 'rgba(105,105,105,1)', radius: 3},
                             feature.properties.direct);
                     } else {
-                        this._drawLineString(ctx, geom, boolPixelCrs, style,{color:'rgba(105,105,105,1)',radius:3},feature.properties.direct);
+                        this._drawLineString(ctx, geom, boolPixelCrs, style, {
+                            color: 'rgba(105,105,105,1)',
+                            radius: 3
+                        }, feature.properties.direct);
                     }
 
 
@@ -670,7 +668,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
         switch (this.type) {
             case "Point":
-                if(this._map.getZoom() >= this.showNodeLevel){
+                if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
                     url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
@@ -678,7 +676,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case "Marker":
-                if(this._map.getZoom() >= this.showNodeLevel){
+                if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
                     url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
@@ -687,12 +685,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 break;
             case "LineString":
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-                if(this._map.getZoom() >= this.showNodeLevel){
+                if (this._map.getZoom() >= this.showNodeLevel) {
 
 
                     url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
-                }else{
+                } else {
                     url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
                 }
 
@@ -761,14 +759,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      */
     styleFor: function (feature, value) {
 
-        pointRadius = 5;
-
+        var pointRadius = 5;
         switch (this.type) {
             case 'Point':
-                if(feature.properties.srctype=="1"){//未处理
-                    return {src:'./css/tips/normal/pending.png'}
-                }else{//已处理
-                    return {src:'./css/tips/normal/processed.png'}
+                if (feature.properties.srctype == "1") {//未处理
+                    return {src: './css/tips/normal/pending.png'}
+                } else {//已处理
+                    return {src: './css/tips/normal/processed.png'}
                 }
                 break;
             case 'MultiPoint':
@@ -805,7 +802,54 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case 'Marker':
-                return {src:'./css/limit/normal/'+feature.properties.restrictioninfo+'.png'};
+                var restrictFlag = true;
+                if (this.id !== undefined && feature.properties.id === this.id) {
+                    restrictFlag = false;
+                }
+                var restrictObj = feature.properties.restrictioninfo;
+                var geom = feature.geometry.coordinates;
+                if (restrictObj !== undefined) {
+                    if (restrictObj.constructor === Array) {
+                        for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+                            if (theory > 0) {
+                                geom[0] = parseInt(geom[0]) + 16;
+                            }
+                            if(restrictFlag) {
+                                return {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+
+                            }else{
+                                return {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+
+                            }
+                        }
+                    } else {
+                        var restrictArr = restrictObj.split(",");
+                        for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+                            if (fact > 0) {
+                                geom[0] = parseInt(geom[0]) + 16;
+                            }
+                            if (restrictArr[fact].constructor === Array) {
+                                if(restrictFlag) {
+                                    return {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+
+                                }else{
+                                    return {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+
+                                }
+                            } else {
+                                if(restrictFlag) {
+                                    return {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
+
+                                }else{
+                                    return {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
+
+                                }
+
+                            }
+
+                        }
+                    }
+                }
                 break;
             case 'LineString':
             case 'MultiLineString':
@@ -838,7 +882,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
     },
     //两点之间的距离
-    distance:function(pointA, pointB) {
+    distance: function (pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     }

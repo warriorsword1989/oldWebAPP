@@ -1,9 +1,51 @@
+<style>
+    .insertDot_false{
+        background: url('css/button/smooth.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .insertDot_true{
+        background: url('css/button/smooth_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .deleteDot_false{
+        background: url('css/button/deleteDot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .deleteDot_true{
+        background: url('css/button/deleteDot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .moveDot_false{
+        background: url('css/button/moveDot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .moveDot_true{
+        background: url('css/button/moveDot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .pathBreak_false{
+        background: url('css/button/breakLine.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .pathBreak_true{
+        background: url('css/button/breakLine_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+</style>
 <div ng-controller="modifyToolController" class="btn-group btn-group-sm">
-    <button type="button" class="btn btn-default" id="insertDot" ng-click="modifyShape('insertDot')">插入形状点</button>
-    <button type="button" class="btn btn-default" id="deleteDot" ng-click="modifyShape('deleteDot')">删除形状点</button>
-    <button type="button" class="btn btn-default" id="moveDot" ng-click="modifyShape('moveDot')">移动形状点</button>
-    <button type="button" class="btn btn-default"  disabled>复制link</button>
+    <button type="button" class="btn insertDot_{{modifyShapeClaArr[7]}}" id="insertDot" ng-click="modifyShape('insertDot',7)" title="插入形状点"></button>
+    <button type="button" class="btn deleteDot_{{modifyShapeClaArr[8]}}" id="deleteDot" ng-click="modifyShape('deleteDot',8)" title="删除形状点"></button>
+    <button type="button" class="btn moveDot_{{modifyShapeClaArr[9]}}" id="moveDot" ng-click="modifyShape('moveDot',9)" title="移动形状点"></button>
+    <!--<button type="button" class="btn btn-default"  disabled>复制link</button>-->
     <!--<button type="button" class="btn btn-default" disabled>平移link</button>-->
     <!--<button type="button" class="btn btn-default" id="extendDot" disabled ng-click="modifyShape('extendDot')">延长link</button>-->
-    <button type="button" class="btn btn-default" id="pathBreak" ng-click="modifyShape('pathBreak')">打断link</button>
+    <button type="button" class="btn pathBreak_{{modifyShapeClaArr[10]}}" id="pathBreak" ng-click="modifyShape('pathBreak',10)" title="打断link"></button>
 </div>

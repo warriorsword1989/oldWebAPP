@@ -1,6 +1,49 @@
+<style>
+    .node_false{
+        background: url('css/button/dot.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .node_true{
+        background: url('css/button/dot_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .link_false{
+        background: url('css/button/line.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .link_true{
+        background: url('css/button/line_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .relation_false{
+        background: url('css/button/relation.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .relation_true{
+        background: url('css/button/relation_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .tips_false{
+        background: url('css/button/tips.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .tips_true{
+        background: url('css/button/tips_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+
+</style>
 <div ng-controller="selectShapeController" class="btn-group btn-group-sm" style="width: 100%;">
-    <button type="button" class="btn btn-default" disabled ng-click="selectShape('node')">node</button>
-    <button type="button" class="btn btn-default" id="link" ng-click="selectShape('link')">link</button>
-    <button type="button" class="btn btn-default" id="relation" ng-click="selectShape('relation')">关系</button>
-    <button type="button" class="btn btn-default" id="tips" ng-click="selectShape('tips')">Tips</button>
+    <button type="button" class="btn node_{{selectClaArr[0]}}"  id="node"disabled ng-click="selectShape('node',0)" title="node"></button>
+    <button type="button" class="btn link_{{selectClaArr[1]}}" id="link" ng-click="selectShape('link',1)" title="link"></button>
+    <button type="button" class="btn relation_{{selectClaArr[2]}}" id="relation" ng-click="selectShape('relation',2)" title="关系"></button>
+    <button type="button" class="btn tips_{{selectClaArr[3]}}" id="tips" ng-click="selectShape('tips',3)" title="tips"></button>
 </div>

@@ -13,10 +13,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var checkCtrl = fastmap.uikit.CheckResultController();
         $scope.limitRelation = {};
         $scope.type = "";
-        $scope.addShape = function (type) {
-            $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
+        $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
+        $scope.addShape = function (type,num) {
             if (type === "restriction") {
                 $scope.type = "restriction";
+                $scope.$parent.$parent.changeBtnClass(num);
                 $scope.limit = {};
                 outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
                 var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -35,7 +36,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
                         outPutCtrl.pushOutput({label: "已选退出线"});
-                        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
@@ -43,6 +43,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 $scope.type = "link";
+                $scope.$parent.$parent.changeBtnClass(num);
                 if (shapectl.shapeEditorResult) {
                     shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapectl.shapeEditorResult.getFinalGeometry());
@@ -57,12 +58,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             function (event) {
                 if (event.keyCode == 32) {
-                    //为了保证捕获到这里时提交的形式正确,addShape时id为（非）未定义时return，modifyToolCtrl时id为未定义时return
-                    //if (typeof(selectCtrl.selectedFeatures.id) != "undefined") {
-                    //    map.currentTool.disable();
-                    //    shapectl.stopEditing();
-                    //    return;
-                    //}
                     if ($scope.type == 'link') {
 
                         var link = shapectl.shapeEditorResult.getFinalGeometry();
@@ -71,7 +66,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             coordinate.push([link.components[index].x, link.components[index].y]);
                         }
 
-                        var param = {
+                        var paramOfLink = {
                             "command": "createlink",
                             "projectId": 1,
                             "data": {
@@ -82,7 +77,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                         //结束编辑状态
                         shapectl.stopEditing();
-                        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                             var outputcontroller = new fastmap.uikit.OutPutController({});
                             var rdLink = layerCtrl.getLayerById('referenceLine');
                             rdLink.redraw();
@@ -93,12 +88,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         });
 
                     } else if ($scope.type === "restriction") {
-                        var param = {
+                        var paramOfRestrict = {
                             "command": "createrestriction",
                             "projectId": 1,
                             "data": $scope.limitRelation
                         }
-                        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
 
                             var pid = data.data.log[0].pid;
                             checkCtrl.setCheckResult(data);
