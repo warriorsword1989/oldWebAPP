@@ -7,7 +7,6 @@ objectEditApp.controller("normalController", function ($scope) {
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    $("#rdSubRestrictflagbtn"+$scope.rdRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
     $scope.showTips = function (item) {
         $scope.rdSubRestrictData = item;
         var outLinkPid = item.outLinkPid;
@@ -194,11 +193,5 @@ objectEditApp.controller("normalController", function ($scope) {
             console.log("交限 " + pid + " has been removed");
         })
         $scope.$parent.$parent.rdRestrictData = null;
-    }
-
-    $scope.checkrdSubRestrictflag=function(flag){
-        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdSubRestrictflagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $scope.rdRestrictData.flag=flag;
     }
 });
