@@ -49,26 +49,25 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             }
 
         }
+        switch ($scope.dataTipsData.t_lifecycle) {
+            case 1:
+                $scope.showContent = "外业删除";
+                break;
+            case 2:
+                $scope.showContent = "外业修改";
+                break;
+            case 3:
+                $scope.showContent = "外业新增";
+                break;
+            case 0:
+                $scope.showContent = "默认值";
+                break;
+        }
     }
     $scope.dataTipsData = selectCtrl.rowKey;
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
     };
-    switch ($scope.dataTipsData.t_lifecycle) {
-        case 1:
-            $scope.showContent = "外业删除";
-            break;
-        case 2:
-            $scope.showContent = "外业修改";
-            break;
-        case 3:
-            $scope.showContent = "外业新增";
-            break;
-        case 0:
-            $scope.showContent = "默认值";
-            break;
-    }
-
     $scope.increaseDataTips = function () {
         //var addObj = {}
         //addObj.inLinkPid=this.dataTipsData.in.id;

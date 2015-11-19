@@ -40,12 +40,12 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
         this._map.off('mousedown', this.onMouseDown, this);
     },
 
-    //disable: function () {
-    //    if (!this._enabled) { return; }
-    //    this._map.dragging.enable();
-    //    this._enabled = false;
-    //    this.removeHooks();
-    //},
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
@@ -57,7 +57,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
+        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].hasOwnProperty("data")) {
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
             var id = null;
