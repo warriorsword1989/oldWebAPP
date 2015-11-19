@@ -97,16 +97,17 @@ basicApp.controller("basicController",function($scope) {
             nameGroupid: 0,
             nameType: 0,
             rowId: "",
-            seqNum: 1
+            seqNum: 1,
+            code:0
         })
+        setTimeout(function(){
         for(var sitem in $scope.linkData.names){
             var flag=$scope.linkData.names[sitem].nameClass;
             var codeflag=$scope.linkData.names[sitem].code;
-            setTimeout(function(){
                 $("#nameClass"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
                 $("#codebtn"+codeflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            },1000)
         }
+        },10)
     }
     $scope.minusRoadName=function(id) {
         $scope.linkData.names.splice(id, 1);
