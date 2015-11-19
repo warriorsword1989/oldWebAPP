@@ -50,7 +50,7 @@ limitedApp.controller("limitedController",function($scope) {
         {"id": 3, "label": "逆方向"},
         {"id": 9, "label": "不应用"}
     ];
-    $scope.tollTypeOPtions = [
+    $scope.tollTypeOptions = [
         {"id": 0, "label": "无"},
         {"id": 1, "label": "收费道路"},
         {"id": 2, "label": "桥"},
