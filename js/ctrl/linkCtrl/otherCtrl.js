@@ -30,6 +30,12 @@ otherApp.controller("otherController",function($scope){
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#adasFlagbtn"+$scope.roadlinkData.adasFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+    setTimeout(function() {
+        for (var sitem in $scope.roadlinkData.speedlimits) {
+            var flag = $scope.roadlinkData.speedlimits[sitem].speedClassWork;
+            $("#speedClassWorkbtn" + flag + "_" + sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+        }
+    },10)
 
     $scope.fromOfWayOption=[
         {id:"0",name:"未调查"},
@@ -127,11 +133,14 @@ otherApp.controller("otherController",function($scope){
         {"id": 9, "label": "不应用"}
     ];
     $scope.saveroadname = function () {
-        $scope.roadlinkData.forms.push({
-            id: $("#roadtypename").find("option:selected").val()
+
+        $scope.roadlinkData.forms.unshift({
+            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
+            linkPid:$scope.roadlinkData.pid
         })
-        $scope.newFromOfWRoadDate.push({
-            id: $("#roadtypename").find("option:selected").val(),
+
+        $scope.newFromOfWRoadDate.unshift({
+            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
             name: $("#roadtypename").find("option:selected").text()
         });
         $('#myModal').modal('hide');

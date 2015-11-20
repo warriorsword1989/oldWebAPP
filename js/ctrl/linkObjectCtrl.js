@@ -59,6 +59,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         }
     };
     $scope.$parent.$parent.save=function() {
+        console.log($scope.linkData);
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         var param = {

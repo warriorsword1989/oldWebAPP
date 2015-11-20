@@ -64,11 +64,12 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
         }
         $scope.rticData.intRtics.unshift(
             {
-                code: "1",
-                rank: "1",
-                rticDr: "1",
-                updownFlag: "1",
-                rangeType: "0"
+                code: 1,
+                rank: 1,
+                //rticDr: 1,
+                updownFlag: 1,
+                rangeType: 0,
+                linkPid:0
             }
         )
 
