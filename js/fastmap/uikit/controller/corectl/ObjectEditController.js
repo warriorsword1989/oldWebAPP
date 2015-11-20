@@ -93,7 +93,7 @@ fastmap.uikit.ObjectEditController = (function () {
                             }
                             retObj["objStatus"] = type;
                         }
-                    } else if (oriData[item]&&oriData[item].constructor == Array&&data[item].constructor==Array) {
+                    } else if (data[item]&&oriData[item]&&oriData[item].constructor == Array&&data[item].constructor==Array) {
                         if (oriData[item].length === data[item].length) {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
@@ -103,10 +103,59 @@ fastmap.uikit.ObjectEditController = (function () {
                                 }
                             }
                             if (objArr.length !== 0) {
+                               // if(oriData["linkPid"]){
+                                    obj["linkPid"]=oriData["pid"];
+                                //}
                                 retObj[item] = objArr;
                             }
                         }else if(oriData[item].length < data[item].length) {
+                            var objArr = [];
+                            //大于原长度的直接增加，从索引0开始，数组是从第一位开始追加的
+                            for(var m=0;m<data[item].length-oriData[item].length;m++){
+                                var obj={};
+                                if(oriData[item].length==0){
+                                    for(var s in data[item][m]){
+                                        if(s!="$$hashKey"){
+                                            if(s=="linkPid"){
+                                                obj[s]=data["pid"];
+                                            }else{
+                                                obj[s]=data[item][m][s];
+                                            }
+                                        }
+                                    }
+                                    if(!obj["linkPid"]){
+                                        if (data["rowId"]) {
+                                            obj["rowId"] = data["rowId"];
+                                        }else if (data["pid"]) {
+                                            obj["pid"] = data["pid"];
+                                        }
+                                    }
+                                    obj["objStatus"] = "INSERT";
+                                    objArr.push(obj);
+                                }else{
+                                    var obj = this.compareJson(oriData[item][m], data[item][m], "INSERT");
+                                    if (obj) {
+                                        if(oriData[item][m]["linkPid"]){
+                                            obj["linkPid"]=oriData[item][m]["linkPid"];
+                                        }
+                                        objArr.push(obj);
+                                    }
+                                }
 
+                            }
+                            for(var j=oriData[item].length-1;j>=0;j--){
+                                    var obj = this.compareJson(oriData[item][j], data[item][j+1], "UPDATE");
+                                    if (obj) {
+                                        if(oriData[item][m]["linkPid"]){
+                                            obj["linkPid"]=oriData[item][j]["linkPid"];
+                                        }
+                                        objArr.push(obj);
+                                    }
+                            }
+
+                            if (objArr.length !== 0) {
+                                retObj[item] = objArr;
+                            }
                         }
 
                     } else if (!isNaN(oriData[item])) {

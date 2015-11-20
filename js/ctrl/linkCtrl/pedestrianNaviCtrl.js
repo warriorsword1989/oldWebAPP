@@ -97,10 +97,11 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope) {
             $("#humanLadderDiv").addClass("in");
         }
         $scope.naviData.walkstairs.unshift({
-            captureFlag: "1",
-            stairFlag: "1",
-            stairLoc: "2",
-            workDir: "1"
+            captureFlag: 1,
+            stairFlag: 1,
+            stairLoc: 2,
+            workDir: 1,
+            linkPid:0
         })
         setTimeout(function(){
             for(var sitem in $scope.naviData.walkstairs){

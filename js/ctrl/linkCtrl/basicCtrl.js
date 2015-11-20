@@ -6,14 +6,14 @@ basicApp.controller("basicController",function($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     $("#multiDigitizedbtn"+$scope.linkData.multiDigitized).removeClass("btn btn-default").addClass("btn btn-primary");    //for(var sitem in $scope.roadlinkData.speedlimits){
-    for(var sitem in $scope.linkData.names){
+    setTimeout(function(){
+        for(var sitem in $scope.linkData.names){
         var flag=$scope.linkData.names[sitem].nameClass;
         var codeflag=$scope.linkData.names[sitem].code;
-        setTimeout(function(){
             $("#nameClass"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
             $("#codebtn"+codeflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-        },1000)
-    }
+        }
+    },10)
     $scope.kindOptions = [
         {"id": 0, "label": "作业中"},
         {"id": 1, "label": "高速道路"},
@@ -90,15 +90,19 @@ basicApp.controller("basicController",function($scope) {
         if(!$("#loadPropertyDiv").hasClass("in")) {
             $("#loadPropertyDiv").addClass("in");
         }
+        console.log($scope.linkData.pid);
         $scope.linkData.names.unshift({
-            linkPid: 0,
+            code:0,
+            inputTime:"",
+            linkPid: $scope.linkData.pid,
             name: "",
             nameClass: 1,
             nameGroupid: 0,
             nameType: 0,
+            routeAtt:0,
             rowId: "",
             seqNum: 1,
-            code:0
+            srcFlag:0
         })
         setTimeout(function(){
         for(var sitem in $scope.linkData.names){
