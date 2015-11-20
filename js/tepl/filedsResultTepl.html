@@ -83,7 +83,7 @@
                                     <table class="table">
                                         <tr ng-repeat="pendSubItem in pendSubItems">
                                             <div ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '">
-                                                <td ng-click="showTab(pendSubItem)">{{$index+1}}</td>
+                                                <td ng-click="showTab(pendSubItem)">交限Tips{{$index+1}}</td>
                                             </div>
 
                                         </tr>
@@ -126,9 +126,9 @@
                                     <table class="table">
                                         <tr ng-repeat="solvedItem in solvedSubItems">
                                             <div  ng-if="solvedItem.i!=''||solvedItem.i!=null||solvedItem.i!=' '">
-
+                                                <td ng-click="showTab(solvedItem)">交限Tips{{$index+1}}</td>
                                             </div>
-                                            <td ng-click="showTab(solvedItem)">{{$index+1}}</td>
+
                                         </tr>
                                     </table>
                                 </div>
