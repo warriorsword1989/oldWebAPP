@@ -33,7 +33,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
 
         this.redrawTiles = [];
-
+        this._map._container.style.cursor = 'pointer';
         this.selectedFeatures = [];
     },
 
@@ -213,8 +213,8 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     }
                     this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates,true, {
                         size: 3,
-                        color: '#FFFF00'
-                    }, {color: '#FFFF00',
+                        color: '#F63428'
+                    }, {color: '#F63428',
                         radius:3});
 
 
@@ -234,6 +234,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
     },
     cleanHeight:function(){
         this._cleanHeight();
+        this.currentEditLayer.fire("getId")
     },
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮

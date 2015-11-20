@@ -186,9 +186,9 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     }
                     this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, {
                         size: 3,
-                        color: '#FFFF00'
+                        color: '#F63428'
                     }, {
-                        color: '#FFFF00',
+                        color: '#F63428',
                         radius: 3
                     });
 

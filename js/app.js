@@ -11,6 +11,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
     $scope.rdRestrictData = {};//交限对象
+    $scope.rowkeyOfDataTips = "";
     $scope.updateLinkData = "";
     $scope.updateDataTips = "";
     $scope.updateRestrictData = "";
@@ -133,7 +134,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 }]);
 function appInit(){
 
-    map = L.map('map',{ attributionControl: false}).setView([39.959972, 116.275665], 17);
+    map = L.map('map',{ attributionControl: false}).setView([40.012834, 116.476293], 17);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     //layerCtrl.getLayerById('work').options.zIndex = 9
     //layerCtrl.getLayerById('work').addTo(map);

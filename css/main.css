@@ -99,8 +99,8 @@ html, body {
     color: #737475;
 }
 .leaflet-canvas-container>canvas{
-    background-color: #F7F7F7;
-    opacity: 0.2;
+    background-color: #F5F5F7;
+    opacity: 0.1;
 }
 .turnRight {
     background-image: url('../css/img/right.png');
@@ -117,4 +117,9 @@ html, body {
     background: url('button/reference.png') no-repeat;
     width: 38px;
     height: 38px;
+}
+.divider-vertical {
+  background: url('img/divideLine.png') no-repeat;
+    width: 30px;
+    height: 30px;
 }

@@ -181,9 +181,9 @@ objectEditApp.controller("normalController", function ($scope) {
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
         });
-        if ($scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips !== undefined) {
+        if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips,
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
                 "handler": 0
 
@@ -191,7 +191,7 @@ objectEditApp.controller("normalController", function ($scope) {
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
                 outputcontroller.pushOutput(data.data);
-                $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips = undefined;
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
         }
     };
@@ -215,7 +215,20 @@ objectEditApp.controller("normalController", function ($scope) {
             outputcontroller.pushOutput(data.data);
             console.log("交限 " + pid + " has been removed");
         })
-        $scope.$parent.$parent.rdRestrictData = null;
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
+
+            }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                var outputcontroller = fastmap.uikit.OutPutController({});
+                outputcontroller.pushOutput(data.data+"\n");
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                $scope.$parent.$parent.objectEditURL = "";
+            })
+        }
     }
 
     $scope.checkrdSubRestrictflag=function(flag,item){

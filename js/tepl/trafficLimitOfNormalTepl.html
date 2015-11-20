@@ -45,15 +45,15 @@
     }
 </style>
 <div  ng-controller="normalController" class="panel panel-default" id="traffiLimitedDiv">
-    <div class="panel-heading font-bold" style=" text-align: center;height: 5%">
+    <div class="panel-heading font-bold" style=" text-align: center;height: 7%">
         普通交限
-        <span>({{rdRestrictData.pid}})</span>
+        <span class="label label-info">{{rdRestrictData.pid}}</span>
     </div>
     <div class="panel-body" style="height: 95%;">
         <form class="form-horizontal" method="get">
 
             <div class="form-group">
-                <label class="col-sm-3 control-label">入</label>
+                <label class="col-sm-3 control-label">进入</label>
 
                 <div class="col-sm-9">
                     <input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdRestrictData.inLinkPid">
@@ -65,7 +65,7 @@
                     <div ng-if="item.flag===1">
                         <img ng-src="./css/limit/{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
                     </div>
-                    <div ng-if="item.flag===2">
+                    <div ng-if="item.flag===2||item.flag===0">
                         <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
                     </div>
 
@@ -75,7 +75,7 @@
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">出</label>
+                <label class="col-sm-3 control-label">退出</label>
 
                 <div class="col-sm-9">
                     <input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdSubRestrictData.outLinkPid">
