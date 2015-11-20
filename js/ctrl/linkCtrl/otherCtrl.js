@@ -5,18 +5,31 @@
 var otherApp=angular.module("lazymodule", []);
 otherApp.controller("otherController",function($scope){
     $scope.roadlinkData=$scope.linkData;
+    $scope.speedOfPopLength = 0;
+    $scope.speedOfConLength = 0;
     $scope.newFromOfWRoadDate=[];
+    for(var typeNum= 0,typeLen= $scope.roadlinkData.speedlimits.length;typeNum<typeLen;typeNum++) {
+        if($scope.roadlinkData.speedlimits[typeNum].speedType===0) {
+            $scope.speedOfPopLength++;
+        }else if($scope.roadlinkData.speedlimits[typeNum].speedType===3) {
+            $scope.speedOfConLength++;
+        }
+    }
+    if( $scope.speedOfPopLength===0) {
+        $('#ptOrRightDiv').hasClass("in").removeClass("in");
 
+    }
+    if( $scope.speedOfConLength===0) {
+        $('#tjOrRightDiv').hasClass("in").removeClass("in");
+    }
+    for(var item= 0,len= ($scope.linkData.speedlimits).length;item<len;item++) {
+        $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
+        $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
+    }
     $("#button"+$scope.roadlinkData.isViaduct).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#adasFlagbtn"+$scope.roadlinkData.adasFlag).removeClass("btn btn-default").addClass("btn btn-primary");
-    //for(var sitem in $scope.roadlinkData.speedlimits){
-    //    var flag=$scope.roadlinkData.speedlimits[sitem].speedClassWork;
-    //    setTimeout(function(){
-    //        $("#speedClassWorkbtn"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-    //    },1000)
-    //}
 
     $scope.fromOfWayOption=[
         {id:"0",name:"未调查"},
@@ -113,8 +126,6 @@ otherApp.controller("otherController",function($scope){
         {"id": 3, "label": "雾天"},
         {"id": 9, "label": "不应用"}
     ];
-
-    console.log("$scope.newFromOfWRoadDate "+$scope.newFromOfWRoadDate);
     $scope.saveroadname = function () {
         $scope.roadlinkData.forms.push({
             id: $("#roadtypename").find("option:selected").val()

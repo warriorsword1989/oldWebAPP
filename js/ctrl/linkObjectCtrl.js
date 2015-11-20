@@ -68,7 +68,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         };
 
         Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
-            console.log(data);
+            var outputcontroller = new fastmap.uikit.OutPutController({});
+            outputcontroller.pushOutput(data);
         })
     };
      $scope.$parent.$parent.delete=function(){

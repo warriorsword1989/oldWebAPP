@@ -4,6 +4,11 @@
 var pedestrianNaviApp = angular.module("lazymodule", []);
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope) {
     $scope.naviData =  $scope.linkData;
+    if($scope.naviData.sidewalks.length==0){
+        if($("#sideWalkDiv").hasClass("in")) {
+            $("#sideWalkDiv").removeClass("in");
+        }
+    }
     $("#diciTypebtn"+$scope.linkData.diciType).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#sidewalkFlagbtn"+$scope.linkData.sidewalkFlag).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#walkstairFlagbtn"+$scope.linkData.walkstairFlag).removeClass("btn btn-default").addClass("btn btn-primary");

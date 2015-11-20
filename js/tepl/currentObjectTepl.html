@@ -28,8 +28,8 @@
     }
 
     .line-lg {
-        margin-top: 15px;
-        margin-bottom: 15px;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     .pull-in {
@@ -42,20 +42,17 @@
         margin: 0 auto;
     }
 </style>
-<div id="currentObjectDiv" ng-app="currentApp" ng-controller="linkObjectCtroller">
-    <div style="height:5%">
+<div id="currentObjectDiv" ng-controller="linkObjectCtroller">
+    <div style="height:7%">
         <form class="form-horizontal" method="get">
-
-            <div class="form-group">
-                <label class="col-sm-4 control-label">道路线</label>
-
-                <div class="col-sm-8">
-                    <input type="text" class="form-control rounded"ng-model="linkData.pid">
-                </div>
-            </div>
+     <div class="panel panel-default ">
+         <div class="panel-heading font-bold" style=" text-align: center;height: 100%;">
+             道路线
+             <span class="label label-info" >{{linkData.pid}}</span>
+         </div>
+     </div>
         </form>
     </div>
-    <div class="line line-dashed b-b line-lg pull-in"></div>
     <div style="height: 10%">
         <form class="form-horizontal" method="get">
 
@@ -78,7 +75,6 @@
             </div>
         </form>
     </div>
-    <div class="line line-dashed b-b line-lg pull-in"></div>
     <div style="overflow-y: auto ">
         <div ng-include="currentURL"></div></div>
 </div>
