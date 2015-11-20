@@ -32,6 +32,8 @@ objectEditApp.controller("normalController", function ($scope) {
                 }
             }
         }
+
+
         $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
@@ -95,7 +97,9 @@ objectEditApp.controller("normalController", function ($scope) {
     if (objectEditCtrl.data === null) {
         $scope.rdSubRestrictData = [];
     } else {
+
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+        console.log($scope.rdSubRestrictData);
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
@@ -103,7 +107,13 @@ objectEditApp.controller("normalController", function ($scope) {
 
     $scope.$parent.$parent.updateRestrictData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
-
+        console.log($scope.rdSubRestrictData);
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
 
     };
 
@@ -112,11 +122,11 @@ objectEditApp.controller("normalController", function ($scope) {
         $scope.tipsId = item.id;
         var obj = {};
         obj.restricInfo = item.id;
-        obj.outLinkPid = ""; //$scope.rdLink.outPid;
-        obj.pid = "";//featCodeCtrl.newObj.pid;
+        obj.outLinkPid = 0; //$scope.rdLink.outPid;
+        obj.pid = 0;//featCodeCtrl.newObj.pid;
         obj.relationshipType = 1;
         obj.flag = 1;
-        obj.restricPid = ""// featCodeCtrl.newObj.pid;
+        obj.restricPid = 0// featCodeCtrl.newObj.pid;
         obj.type = 1;
         obj.conditons = [];
         $scope.newLimited = obj;
@@ -129,7 +139,6 @@ objectEditApp.controller("normalController", function ($scope) {
     };
     //添加交限
     $scope.addTips = function () {
-
 
         if ($scope.modifyItem !== undefined) {
             var arr = $scope.$parent.$parent.rdRestrictData.details
@@ -145,7 +154,9 @@ objectEditApp.controller("normalController", function ($scope) {
                 alert("请先选择tips");
                 return;
             }
-            $scope.rdRestrictData.details.push($scope.newLimited);
+            console.log($scope.rdRestrictData.details);
+            //$scope.rdRestrictData.details.push($scope.newLimited);
+            $scope.rdRestrictData.details.unshift($scope.newLimited);
         }
     }
     //增加时间段

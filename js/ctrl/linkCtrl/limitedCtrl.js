@@ -73,12 +73,13 @@ limitedApp.controller("limitedController",function($scope) {
             $("#popularLimitedDiv").addClass("in");
         }
         $scope.linkLimitData.limits.unshift( {
-            appInfo: 1,
+            //appInfo: 1,
             type: 1,
             limitDir: 1,
             tollType: 1,
             weather: 1,
-            processFlag: 1
+            processFlag: 1,
+            linkPid:0
         });
     };
 
@@ -100,14 +101,15 @@ limitedApp.controller("limitedController",function($scope) {
 
         $scope.linkLimitData.limitTrucks.unshift(
             {
-                truckFlag: 0,
+               // truckFlag: 0,
                 limitDir: 1,
                 resTrailer: 1,
                 resWeigh: 0,
                 resAxleLoad: 0,
                 resAxleCount: 0,
                 resOut: 0,
-                rowId:""
+                rowId:"",
+                linkPid:0
             }
         )
         $scope.truckFlagarray.push(0);
