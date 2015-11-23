@@ -1,13 +1,17 @@
-
+<style>
+    .nav > li > a{
+        padding: 3px;
+    }
+</style>
 <div ng-controller="fieldsResultController" class="nav-tabs-alt">
     <ul id="myTab" class="nav nav-tabs nav-justified">
         <li class="active">
-            <a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])">
+            <a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px">
                 全部
             </a>
         </li>
-        <li><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])">待处理</a></li>
-        <li><a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])">已处理</a></li>
+        <li><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px">待处理</a></li>
+        <li><a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])" style="font-size: 10px">已处理</a></li>
     </ul>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="allTaskers">

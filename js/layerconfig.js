@@ -40,7 +40,7 @@ Application.layersConfig =
                         maxZoom: 20,
                         selected: true,
                         id: 'tencent',
-                        visible: true,
+                        visible: false,
                         added: true,
                         singleselect:true,
                         zIndex:2
