@@ -133,10 +133,10 @@ fastmap.uikit.ObjectEditController = (function () {
                                     obj["objStatus"] = "INSERT";
                                     objArr.push(obj);
                                 }else{
-                                    var obj = this.compareJson(oriData[item][m], data[item][m], "INSERT");
+                                    var obj = this.compareJson(oriData[item][0], data[item][m], "INSERT");
                                     if (obj) {
-                                        if(oriData[item][m]["linkPid"]){
-                                            obj["linkPid"]=oriData[item][m]["linkPid"];
+                                        if(oriData[item][0]["linkPid"]){
+                                            obj["linkPid"]=oriData[item][0]["linkPid"];
                                         }
                                         objArr.push(obj);
                                     }
@@ -146,7 +146,7 @@ fastmap.uikit.ObjectEditController = (function () {
                             for(var j=oriData[item].length-1;j>=0;j--){
                                     var obj = this.compareJson(oriData[item][j], data[item][j+1], "UPDATE");
                                     if (obj) {
-                                        if(oriData[item][m]["linkPid"]){
+                                        if(oriData[item][j]["linkPid"]){
                                             obj["linkPid"]=oriData[item][j]["linkPid"];
                                         }
                                         objArr.push(obj);

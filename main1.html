@@ -16,6 +16,7 @@
             display: inline-block;
 
         }
+
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -50,18 +51,20 @@
 </div>
     <div id="parentId" ui-layout="{flow:'column',dividerSize:'6'}"  style="top: 50px">
         <div ui-layout-container size="15%">
-            <div>
-                <div class="leftDiv">
-                    <div class="fragDiv">
-                            <span title="参考图层" class="glyphicon glyphicon-stats" style=" line-height: 60px"
-                                  ng-click="changeLayers('referenceLayers')"></span>
+            <div >
+                <div class="leftDiv" style="width: 38px;background: #D4D4D4;">
+                    <div class="fragDiv" id="referenceLayers"  style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;">
+                        <img src="css/img/referenceLayers.png " >
+                            <span title="参考图层" class="glyphicon " style=" padding-left: 13px;"
+                                  ng-click="changeLayers('referenceLayers')">参考图层</span>
                     </div>
-                    <div class="fragDiv">
-                            <span title="现场成果" class="glyphicon glyphicon-stats" style=" line-height: 60px"
-                                  ng-click="changeLayers('resultLayers')"></span>
+                    <div class="fragDiv" id="resultLayers" style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;" >
+                        <img src="css/img/resultLayers.png " >
+                        <span title="现场成果" class="glyphicon " style=" padding-left: 13px;"
+                                  ng-click="changeLayers('resultLayers')">现场成果</span>
                     </div>
                 </div>
-                <div class="rightDiv">
+                <div class="rightDiv" style="padding-left:35px; ">
                     <div ng-include="layersURL"></div>
                 </div>
             </div>
@@ -98,9 +101,9 @@
                         </li>
                         <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">错误检查</a>
                         </li>
-                        <div style="float: right;">
-                            <button id="immediatelyCheck" style="top:10px;">立即检查</button>
-                            <button id="errorClear" style="top:10px; display: none;" ng-click="empty()">清空</button>
+                        <div style="float: right;padding-top: 7px;">
+                            <button id="immediatelyCheck" >立即检查</button>
+                            <button id="errorClear" style=" display: none;" ng-click="empty()">清空</button>
                         </div>
                     </ul>
                     <div id="inwTabContent" class="tab-content">
@@ -116,11 +119,11 @@
         </div>
         <div ui-layout-container size="15%" style="overflow: hidden; height: 100%;">
             <div ng-include="objectEditURL" style="margin-bottom: 30px; overflow-y: auto; height: 98%; "></div>
-            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color: #f8f8f8;border-color: #e7e7e7; height: 35px;">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" ng-click="save()">保存</button>
-                    <button type="button" class="btn btn-default" ng-click="delete()">删除</button>
-                    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color:#D4D4D4;border-color: #e7e7e7; height: 35px;">
+                <div  style=" margin: 0 auto;text-align:center;">
+                    <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;"  ng-click="save()">保存</button>
+                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="delete()">删除</button>
+                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="cancel()">取消</button>
                 </div>
             </div>
         </div>
