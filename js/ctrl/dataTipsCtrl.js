@@ -7,6 +7,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
 
+    $scope.dataTipsData = selectCtrl.rowKey;
     if (selectCtrl.rowKey) {
         $scope.rdSubTipsData = selectCtrl.rowKey.o_array[0];
 
@@ -15,6 +16,24 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     }
     //获取数据中的图片数组
     $scope.photoTipsData = selectCtrl.rowKey.f_array;
+    //显示状态
+    if($scope.dataTipsData) {
+        switch ($scope.dataTipsData.t_lifecycle) {
+            case 1:
+                $scope.showContent = "外业删除";
+                break;
+            case 2:
+                $scope.showContent = "外业修改";
+                break;
+            case 3:
+                $scope.showContent = "外业新增";
+                break;
+            case 0:
+                $scope.showContent = "默认值";
+                break;
+        }
+    }
+
     $scope.photos = [];
     for (var i in  $scope.photoTipsData) {
         if ($scope.photoTipsData[i].type === 1) {
@@ -31,13 +50,11 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     };
     $scope.$parent.$parent.updateDataTips = function (data) {
         $scope.photos.length = 0;
-        $scope.dataTipsData = data;
-        if (data.rowKey) {
-            $scope.rdSubTipsData = data.o_array[0];
-
-        } else {
-            $scope.rdSubTipsData = [];
+        if ($scope.showContent) {
+            $scope.showContent = "";
         }
+        $scope.dataTipsData = data;
+        $scope.rdSubTipsData = data.o_array[0];
         //获取数据中的图片数组
         $scope.photoTipsData = data.f_array;
         for (var i in  $scope.photoTipsData) {
@@ -64,7 +81,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
                 break;
         }
     }
-    $scope.dataTipsData = selectCtrl.rowKey;
+
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
     };
@@ -143,8 +160,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             detailsOfTips.push(outLinkObj);
 
         }
-        $scope.$parent.$parent.rdRestrictData.details = detailsOfTips;
-        $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips = this.dataTipsData.rowkey;
     }
 
     $scope.openOrigin = function (id) {

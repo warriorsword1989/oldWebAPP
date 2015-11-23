@@ -623,7 +623,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                         this._drawLineString(ctx, geom, boolPixelCrs, {
                                 size: 3,
-                                color: '#FFFF00'
+                                color: '#F63428'
                             }, {color: 'rgba(105,105,105,1)', radius: 3},
                             feature.properties.direct);
                     } else {

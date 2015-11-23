@@ -10,6 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var layerCtrl = fastmap.uikit.LayerController();
         if (type === "link") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referenceLine');
             var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -55,6 +56,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
         if (type === "node") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
             var rdLink = layerCtrl.getLayerById('referenceLine');
             rdLink.options.selectType = 'node';
@@ -115,45 +117,78 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if (data.rowkey === "undefined") {
                         return;
                     }
+                    $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
                     if ($scope.$parent.$parent.updateDataTips !== "") {
                         $scope.$parent.$parent.updateDataTips(data);
                     }
                     selectCtrl.fire("selectByAttribute", {feather: data});
-                    var id = data.resID[0].id;
-                    if (id === 0 || id === "0") {
-                        //var oriDataTipsData = {};
-                        //oriDataTipsData.inLinkPid = 0;
-                        //oriDataTipsData.details = [];
-                        //var outLinkObj = {};
-                        //outLinkObj.conditions = [];
-                        //outLinkObj.outLinkPid = 0;
-                        //outLinkObj.flag = 0;
-                        //outLinkObj.relationshipType = 0;
-                        //outLinkObj.restricInfo = 0;
-                        //outLinkObj.type = 0;
-                        //oriDataTipsData.details.push(outLinkObj);
-                        //objCtrl.setCurrentObject(oriDataTipsData);
-                        //$scope.$parent.$parent.rdRestrictData = oriDataTipsData;
-                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                        });
+                    if (data.t_lifecycle === 1) {
+                        var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
 
-                    } else {
-                        Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
-                            objCtrl.setCurrentObject(data.data);
-                            $scope.$parent.$parent.rdRestrictData = data.data;
-                            $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                                });
+                        for (var trackNum = 0, trackLen = tracInfoArr.length; trackNum < trackLen; trackNum++) {
+                            if (tracInfoArr[trackNum].stage === 3) {
+                                trackInfoFlag = true;
+                                break;
+                            }
+                        }
+                        if (trackInfoFlag) {
+                            $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                $scope.$parent.$parent.objectEditURL = "";
                             });
-                        })
+                        } else {
+                            Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
+                                objCtrl.setCurrentObject(data.data);
+                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                    });
+                                });
+                            })
+                        }
+                    } else {
+                        if (data.resID[0].id === 0) {
+                            $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                $scope.$parent.$parent.objectEditURL = "";
+                            });
+                        } else {
+                            Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
+                                objCtrl.setCurrentObject(data.data);
+                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                    });
+                                });
+                            })
+                        }
                     }
+                //if (id === 0 || id === "0") {
+                //    //var oriDataTipsData = {};
+                //    //oriDataTipsData.inLinkPid = 0;
+                //    //oriDataTipsData.details = [];
+                //    //var outLinkObj = {};
+                //    //outLinkObj.conditions = [];
+                //    //outLinkObj.outLinkPid = 0;
+                //    //outLinkObj.flag = 0;
+                //    //outLinkObj.relationshipType = 0;
+                //    //outLinkObj.restricInfo = 0;
+                //    //outLinkObj.type = 0;
+                //    //oriDataTipsData.details.push(outLinkObj);
+                //    //objCtrl.setCurrentObject(oriDataTipsData);
+                //    //$scope.$parent.$parent.rdRestrictData = oriDataTipsData;
+                //
+                //
+                //}
 
-                })
             })
         }
+        )
+    }
 
-    };
+};
 }])

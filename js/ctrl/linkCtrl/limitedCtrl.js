@@ -6,7 +6,17 @@ limitedApp.controller("limitedController",function($scope) {
     $scope.linkLimitData = $scope.linkData;
     $scope.truckFlagarray=[];
     $scope.truckFlagarray.push($scope.linkLimitData.truckFlag);
+    if($scope.linkLimitData.limitTrucks.length===0) {
+        if($("#trafficLimitedDiv").hasClass("in")) {
+            $("#trafficLimitedDiv").removeClass("in");
+        }
+    }
+    if($scope.linkLimitData.limits.length===0) {
+        if($("#popularLimitedDiv").hasClass("in")) {
+            $("#popularLimitedDiv").removeClass("in");
+        }
 
+    }
     setTimeout(function(){
         for(var sitem in $scope.linkLimitData.limits){
             var flag=$scope.linkLimitData.limits[sitem].processFlag;

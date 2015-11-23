@@ -4,7 +4,17 @@
 var realtimeTrafficApp = angular.module("lazymodule", []);
 realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
     $scope.rticData =  $scope.linkData;
+    if($scope.rticData.intRtics.length===0) {
+        if($("#wideRTICDiv").hasClass("in")) {
+            $("#wideRTICDiv").removeClass("in");
+        }
+    }
+    if($scope.rticData.rtics.length===0) {
+        if($("#carRTICDiv").hasClass("in")) {
+            $("#carRTICDiv").removeClass("in");
+        }
 
+    }
     setTimeout(function(){
         for(var sitem in $scope.rticData.intRtics){
             var flag=$scope.rticData.intRtics[sitem].updownFlag;

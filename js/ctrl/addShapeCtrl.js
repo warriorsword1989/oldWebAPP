@@ -16,6 +16,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
         $scope.addShape = function (type,num) {
             if (type === "restriction") {
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
                 $scope.type = "restriction";
                 $scope.$parent.$parent.changeBtnClass(num);
                 $scope.limit = {};
@@ -43,6 +47,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             else if (type === "link") {
                 $scope.type = "link";
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
                 $scope.$parent.$parent.changeBtnClass(num);
                 if (shapectl.shapeEditorResult) {
                     shapectl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
@@ -85,6 +93,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             layerCtrl.getLayerById('edit').bringToBack()
 
                             $(layerCtrl.getLayerById('edit').options._div).unbind();
+                            $scope.type = "";
                         });
 
                     } else if ($scope.type === "restriction") {
@@ -107,6 +116,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             outPutCtrl.pushOutput(data.data.log[0]);
                             Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                                 objEditCtrl.setCurrentObject(data.data);
+                                $scope.type = "";
                                 $scope.$parent.$parent.rdRestrictData = data.data;
                                 $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
