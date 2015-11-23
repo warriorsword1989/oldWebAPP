@@ -43,7 +43,7 @@
                         <div id="{{pItem.id}}" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <table class="table">
-                                    <tr ng-repeat="aItem in allSubItems">
+                                    <tr ng-repeat="aItem in allSubItems" style="cursor: pointer;">
                                         <div ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '">
                                             <td ng-click="showTab(aItem)">交限Tips{{$index+1}}</td>
                                         </div>

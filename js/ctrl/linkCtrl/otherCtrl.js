@@ -25,9 +25,7 @@ otherApp.controller("otherController",function($scope){
         if ($('#tjOrRightDiv').hasClass("in")) {
             $('#tjOrRightDiv').removeClass("in");
         }
-
     }
-
     $("#button"+$scope.roadlinkData.isViaduct).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");

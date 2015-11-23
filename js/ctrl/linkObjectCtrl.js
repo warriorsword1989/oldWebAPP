@@ -25,6 +25,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
         $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
     });
+    $("#basicModule").css("background-color","#49C2FC");
     $scope.$parent.$parent.updateLinkData=function(data) {
         $scope.linkData= data;
         for(var item= 0,len= ($scope.linkData.speedlimits).length;item<len;item++) {
@@ -33,8 +34,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         }
     };
     $scope.changeModule = function (url) {
-        $(":button").css("background-color","#fff");
-        $("#"+url).css("background-color","#49C2FC");
+
         if (url === "basicModule") {
             $scope.changeActive(0);
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
@@ -66,7 +66,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
             });
         }
-
+        $(":button").css("background-color","#fff");
+        $("#"+url).css("background-color","#49C2FC");
     }
 
     $scope.changeDirect = function (direc) {
