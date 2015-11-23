@@ -45,14 +45,14 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             }
 
         }
-    //if($scope.photos.length!=0){
-    //
-    //}else{
-    //        var imgs="../../css/img/noimg.png";
-    //        $scope.photos.push(imgs);
-    //
-    //}
-    console.log($scope.photos);
+    if($scope.photos.length!=0){
+
+    }else{
+        for(var j=0;j<4;j++){
+            var imgs="./css/img/noimg.png";
+            $scope.photos.push(imgs);
+        }
+    }
 
     //查看相关的推出线
     $scope.showOutLink = function (item) {

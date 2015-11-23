@@ -7,16 +7,16 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     var layerCtrl = fastmap.uikit.LayerController();
     objectCtrl.setOriginalData( $.extend(true,{},objectCtrl.data.data));
     $scope.linkData= objectCtrl.data.data;
-    $("#basicModule").css("background-color","#49C2FC");
+
     $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
         $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
     });
+    $("#basicModule").css("background-color","#49C2FC");
     $scope.$parent.$parent.updateLinkData=function(data) {
         $scope.linkData= data;
     };
     $scope.changeModule = function (url) {
-        $(":button").css("background-color","#fff");
-        $("#"+url).css("background-color","#49C2FC");
+
         if (url === "basicModule") {
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
@@ -42,7 +42,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
             });
         }
-
+        $(":button").css("background-color","#fff");
+        $("#"+url).css("background-color","#49C2FC");
     }
 
     $scope.changeDirect = function (direc) {

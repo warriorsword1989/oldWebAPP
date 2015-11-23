@@ -15,13 +15,6 @@ otherApp.controller("otherController",function($scope){
             $scope.speedOfConLength++;
         }
     }
-    if( $scope.speedOfPopLength===0) {
-        $('#ptOrRightDiv').hasClass("in").removeClass("in");
-
-    }
-    if( $scope.speedOfConLength===0) {
-        $('#tjOrRightDiv').hasClass("in").removeClass("in");
-    }
     for(var item= 0,len= ($scope.linkData.speedlimits).length;item<len;item++) {
         $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
         $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
