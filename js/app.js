@@ -84,6 +84,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                     $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 }
             );
+            $("#resultLayers").css("background-color","#49C2FC");
+            $("#referenceLayers").css("background-color","#D4D4D4");
         }
         else if (layers === "referenceLayers") {
             $("#resultLayerDiv").removeClass("active");
@@ -92,6 +94,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                     $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
                 }
             );
+            $("#referenceLayers").css("background-color","#49C2FC");
+            $("#resultLayers").css("background-color","#D4D4D4");
         }
 
 

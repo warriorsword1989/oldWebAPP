@@ -1,21 +1,21 @@
 <div ng-controller="referenceLayersController" >
     <div class="panel-group" id="accordion" >
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
+            <ul id="myTab" class="nav nav-tabs" style="background-color: #D4D4D4;">
+                <li class="active" style="margin-left: 3px;">
                     <a data-toggle="collapse" data-parent="#accordion"
-                       href="#refereOne">
+                       href="#refereOne" style="cursor: pointer;">
                         参考图层
                     </a>
-                </h4>
-            </div>
+                </li>
+            </ul>
             <div id="refereOne" class="panel-collapse collapse in">
                 <div class="panel-body">
                     <div class="table-responsive"
                          style="width:100%;overflow: auto">
                         <table class="table">
-                            <tr ng-repeat="item in items">
-                                <td>{{item.options.layername}}</td>
+                            <tr ng-repeat="item in items" >
+                                <td >{{item.options.layername}}</td>
                                 <td><input type="checkbox" ng-click="showLayers(item)" ng-checked="item.options.visible"></td>
                             </tr>
                         </table>
