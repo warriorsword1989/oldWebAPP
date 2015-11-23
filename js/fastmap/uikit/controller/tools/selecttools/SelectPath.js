@@ -189,7 +189,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         color: '#F63428'
                     }, {
                         color: '#F63428',
-                        radius: 3
+                        radius: 5
                     });
 
 
