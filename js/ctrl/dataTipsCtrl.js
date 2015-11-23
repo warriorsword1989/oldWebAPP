@@ -128,37 +128,44 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     };
     $scope.transDataTips = function () {
         var outLink = "", details = [], detailsOfTips = [];
-        $scope.$parent.$parent.rdRestrictData.inLinkPid = this.dataTipsData.in.id;
+        //$scope.$parent.$parent.rdRestrictData.inLinkPid = this.dataTipsData.in.id;
 
         details = this.dataTipsData.o_array;
         for (var i = 0, len = details.length; i < len; i++) {
-            var outLinks = details[i].out, outLinkObj = {};
+            var outLinks = details[i].out;
 
-            for (var j = 0, lenJ = outLinks.length; j < lenJ; j++) {
+            for (var j = 0, lenJ = outLinks.length; j < lenJ; j++){
+                var outLinkObj = {};
                 outLinkObj.conditions = [];
-                outLinkObj.outLinkPid = outLinks[j].id;
-                outLinkObj.flag = details[i].flag;
-                outLinkObj.relationshipType = 0;
-                outLinkObj.restricInfo = details[i].oInfo;
+                outLinkObj.outLinkPid =parseInt(outLinks[j].id);
+                outLinkObj.flag = parseInt(details[i].flag);
+                outLinkObj.relationshipType = 1;
+                outLinkObj.restricInfo = parseInt(details[i].oInfo);
                 outLinkObj.type = outLinks[j].type
                 outLinkObj.vias = [];
                 if (details[i].vt === 1) {
                     var cArr = details[i].c_array;
                     for (var k = 0, lenk = cArr.length; k < lenk; k++) {
                         var cObj = {};
-                        cObj.resAxleCount = cArr[k].aCt;
-                        cObj.resAxleLoad = cArr[k].aLd;
-                        cObj.resOut = cArr[k].rOt;
-                        cObj.resTrailer = cArr[k].tra;
-                        cObj.resWeigh = cArr[k].w;
-                        cObj.timeDomain = cArr[k].time;
+                        cObj.resAxleCount = parseInt(cArr[k].aCt);
+                        cObj.resAxleLoad = parseInt(cArr[k].aLd);
+                        cObj.resOut = parseInt(cArr[k].rOt);
+                        cObj.resTrailer = parseInt(cArr[k].tra);
+                        cObj.resWeigh = parseInt(cArr[k].w);
+                        cObj.timeDomain = parseInt(cArr[k].time);
                         cObj.vehicle = 4;
                         outLinkObj.conditions.push(cObj);
                     }
                 }
+                detailsOfTips.unshift(outLinkObj);
             }
-            detailsOfTips.push(outLinkObj);
 
+
+        }
+        $scope.$parent.$parent.rdRestrictData.details = detailsOfTips;
+        $scope.$parent.$parent.rdRestrictData.stage = 3;
+        if( $scope.$parent.$parent.updateRestrictData ) {
+            $scope.$parent.$parent.updateRestrictData($scope.$parent.$parent.rdRestrictData);
         }
     }
 

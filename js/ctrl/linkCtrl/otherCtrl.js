@@ -16,16 +16,18 @@ otherApp.controller("otherController",function($scope){
         }
     }
     if( $scope.speedOfPopLength===0) {
-        $('#ptOrRightDiv').hasClass("in").removeClass("in");
+        if($('#ptOrRightDiv').hasClass("in")) {
+            $('#ptOrRightDiv').removeClass("in");
+        }
 
     }
     if( $scope.speedOfConLength===0) {
-        $('#tjOrRightDiv').hasClass("in").removeClass("in");
+        if ($('#tjOrRightDiv').hasClass("in")) {
+            $('#tjOrRightDiv').removeClass("in");
+        }
+
     }
-    for(var item= 0,len= ($scope.linkData.speedlimits).length;item<len;item++) {
-        $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
-        $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
-    }
+
     $("#button"+$scope.roadlinkData.isViaduct).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
