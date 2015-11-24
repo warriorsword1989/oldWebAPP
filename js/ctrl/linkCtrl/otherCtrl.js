@@ -151,6 +151,7 @@ otherApp.controller("otherController",function($scope){
     }
 
     $scope.addSpeedLimit = function () {
+        $scope.speedOfConLength++;
         if (!$("#tjOrRightDiv").hasClass("in")) {
             $("#tjOrRightDiv").addClass("in");
         }
@@ -162,7 +163,7 @@ otherApp.controller("otherController",function($scope){
             speedClass: 5,
             speedClassWork: 0,
             speedDependent: 0,
-            speedType: 0,
+            speedType: 3,
             timeDomain: "",
             toLimitSrc: 0,
             toSpeedLimit: 0

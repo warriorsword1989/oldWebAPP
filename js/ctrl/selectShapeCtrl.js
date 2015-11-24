@@ -109,11 +109,18 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             map.currentTool.enable();
             rdLink.options.selectType = 'tips';
             rdLink.options.editable = true;
-            $scope.$parent.$parent.objectEditURL = "";
+
             rdLink.on("getNodeId", function (data) {
                 $scope.data = data;
                 $("#popoverTips").css("display", "block");
                 Application.functions.getTipsResult(data.id, function (data) {
+                    selectCtrl.fire("selectByAttribute", {feather: data});
+                    if ($scope.$parent.$parent.dataTipsURL) {
+                        $scope.$parent.$parent.dataTipsURL = "";
+                    }
+                    if ($scope.$parent.$parent.objectEditURL) {
+                        $scope.$parent.$parent.objectEditURL = "";
+                    }
                     if (data.rowkey === "undefined") {
                         return;
                     }
@@ -121,7 +128,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if ($scope.$parent.$parent.updateDataTips !== "") {
                         $scope.$parent.$parent.updateDataTips(data);
                     }
-                    selectCtrl.fire("selectByAttribute", {feather: data});
                     if (data.t_lifecycle === 1) {
                         var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
 
