@@ -185,11 +185,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         zoom: this._map.getZoom()
                     }
                     this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, {
-                        size: 3,
+                        size: 2,
                         color: '#F63428'
                     }, {
                         color: '#F63428',
-                        radius: 3
+                        radius: 5
                     });
 
 

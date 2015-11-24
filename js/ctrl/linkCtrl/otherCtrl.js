@@ -15,9 +15,16 @@ otherApp.controller("otherController",function($scope){
             $scope.speedOfConLength++;
         }
     }
-    for(var item= 0,len= ($scope.linkData.speedlimits).length;item<len;item++) {
-        $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
-        $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
+    if( $scope.speedOfPopLength===0) {
+        if($('#ptOrRightDiv').hasClass("in")) {
+            $('#ptOrRightDiv').removeClass("in");
+        }
+
+    }
+    if( $scope.speedOfConLength===0) {
+        if ($('#tjOrRightDiv').hasClass("in")) {
+            $('#tjOrRightDiv').removeClass("in");
+        }
     }
     $("#button"+$scope.roadlinkData.isViaduct).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");

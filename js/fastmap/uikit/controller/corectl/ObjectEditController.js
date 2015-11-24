@@ -78,8 +78,8 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param type
              * @returns {*}
              */
-            compareJson: function (oriData, data, type) {
-                var retObj = {},n= 0,arrFlag=this.isContainArr(oriData);
+            compareJson: function (pid,oriData, data, type) {
+                var retObj = {},n= 0,arrFlag=this.isContainArr(oriData),pids=pid;
                 for (var item in oriData) {
 
 
@@ -97,7 +97,7 @@ fastmap.uikit.ObjectEditController = (function () {
                         if (oriData[item].length === data[item].length) {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
-                                var obj = this.compareJson(oriData[item][i], data[item][i], "UPDATE");
+                                var obj = this.compareJson(pids,oriData[item][i], data[item][i], "UPDATE");
                                 if (obj) {
                                     objArr.push(obj);
                                 }
@@ -133,7 +133,11 @@ fastmap.uikit.ObjectEditController = (function () {
                                     obj["objStatus"] = "INSERT";
                                     objArr.push(obj);
                                 }else{
-                                    var obj = this.compareJson(oriData[item][0], data[item][m], "INSERT");
+                                    //var obj = this.compareJson(oriData[item][m], data[item][m], "INSERT");
+                                    obj = data[item][m];
+                                    obj["objStatus"] = "INSERT";
+                                    delete obj["$$hashKey"];
+                                    obj["pid"]=pids;
                                     if (obj) {
                                         if(oriData[item][0]["linkPid"]){
                                             obj["linkPid"]=oriData[item][0]["linkPid"];
@@ -225,7 +229,7 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
-                this.changedProperty = this.compareJson(orignalData, data, "UPDATE");
+                this.changedProperty = this.compareJson(orignalData["pid"],orignalData, data, "UPDATE");
                 this.fire("changedPropertyEvent", {changedProperty: this.changedProperty});
             }
         });

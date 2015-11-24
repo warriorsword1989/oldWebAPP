@@ -224,6 +224,8 @@ objectEditApp.controller("normalController", function ($scope) {
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
+                var workPoint = layerCtrl.getLayerById("workPoint");
+                workPoint.redraw();
                 outputcontroller.pushOutput(data.data+"\n");
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                 $scope.$parent.$parent.objectEditURL = "";

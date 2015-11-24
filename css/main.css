@@ -98,9 +98,8 @@ html, body {
     height: 12px;
     color: #737475;
 }
-.leaflet-canvas-container>canvas{
+#map{
     background-color: #F5F5F7;
-    opacity: 0.1;
 }
 .turnRight {
     background-image: url('../css/img/right.png');
