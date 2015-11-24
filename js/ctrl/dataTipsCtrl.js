@@ -35,24 +35,29 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     }
 
     $scope.photos = [];
-
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
+                console.log($scope.photos);
             }else if($scope.photoTipsData[i].type === 3) {
                 $scope.remarksContent = $scope.photoTipsData[i].content;
             }
 
         }
-    if($scope.photos.length!=0){
-
-    }else{
-        for(var j=0;j<4;j++){
+    if($scope.photos.length!=0&&$scope.photos.length<4){
+        for(var a=$scope.photos.length;a<4;a++){
             var imgs="./css/img/noimg.png";
             $scope.photos.push(imgs);
         }
+    }else{
+        for(var j=0;j<4;j++){
+            var newimgs="./css/img/noimg.png";
+            $scope.photos.push(newimgs);
+        }
     }
+
+
 
     //查看相关的推出线
     $scope.showOutLink = function (item) {
@@ -75,6 +80,17 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
                 $scope.remarksContent = $scope.photoTipsData[i].content;
             }
 
+        }
+        if($scope.photos.length!=0&&$scope.photos.length<4){
+            for(var a=$scope.photos.length;a<4;a++){
+                var imgs="./css/img/noimg.png";
+                $scope.photos.push(imgs);
+            }
+        }else{
+            for(var j=0;j<4;j++){
+                var newimgs="./css/img/noimg.png";
+                $scope.photos.push(newimgs);
+            }
         }
         switch ($scope.dataTipsData.t_lifecycle) {
             case 1:

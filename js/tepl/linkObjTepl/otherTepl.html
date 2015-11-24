@@ -70,7 +70,7 @@
                         <form class="form-horizontal" method="get">
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">
-                                    道路形态<a href="#myModal"  class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(192,192,192);text-decoration:none;outline: none;" data-toggle="modal"></a>
+                                    道路形态<a href="#myModal"  class="glyphicon glyphicon-plus" style="float: right;color: darkgray;text-decoration:none;outline: none;" data-toggle="modal"></a>
                                 </label>
                                 <div class="col-sm-8">
                                 </div>
@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <label class="col-sm-12 control-label">
                                     <label class="col-sm-4 control-label" ng-repeat="item in newFromOfWRoadDate track by $index">
-                                        <span class="text-primary">{{item.name}}</span><span class="glyphicon glyphicon-remove" style="color: rgb(192,192,192);" ng-click="deleteroadtype($index)"></span>
+                                        <span class="text-primary">{{item.name}}</span><span class="glyphicon glyphicon-remove" style="color: darkgray;" ng-click="deleteroadtype($index)"></span>
                                     </label>
                                 </label>
                             </div>
@@ -403,7 +403,7 @@
                                                href="#tjOrRightDiv">
                                                 <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                             </a>
-                                                <span class="glyphicon glyphicon-plus-sign" style="float: right;color: rgb(192,192,192);"
+                                                <span class="glyphicon glyphicon-plus" style="float: right;color:darkgray;"
                                                       ng-click="addSpeedLimit()"></span>
                                         </h4>
                                     </div>
@@ -421,8 +421,8 @@
                                                                         <option>--</option>
                                                                     </select>
                                                                 </div>
-                                                                                <span class="glyphicon glyphicon-minus-sign"
-                                                                                      style="float: right;color: rgb(192,192,192);margin-top: -45px"
+                                                                                <span class="glyphicon glyphicon-remove-sign"
+                                                                                      style="float: right;color: darkgray;margin-top: -45px"
                                                                                       ng-click="minusSpeedlimit($index)"></span>
                                                             </div>
                                                             <div class="form-group">
