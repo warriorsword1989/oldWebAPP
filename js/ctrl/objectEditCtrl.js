@@ -99,7 +99,6 @@ objectEditApp.controller("normalController", function ($scope) {
     } else {
 
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-        console.log($scope.rdSubRestrictData);
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
@@ -107,7 +106,6 @@ objectEditApp.controller("normalController", function ($scope) {
 
     $scope.$parent.$parent.updateRestrictData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
-        console.log($scope.rdSubRestrictData);
         $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
