@@ -123,6 +123,9 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                  outputcontroller.pushOutput(data);
                  console.log("link "+objId+" has been removed");
                  $scope.linkData=null;
+                 var editorLayer=layerCtrl.getLayerById("edit")
+                 editorLayer.clear();
+                 $scope.$parent.$parent.objectEditURL ="";
              }else{
                  var outputcontroller = new fastmap.uikit.OutPutController({});
                  outputcontroller.pushOutput(data);

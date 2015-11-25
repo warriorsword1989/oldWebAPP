@@ -8,7 +8,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var selectCtrl = new fastmap.uikit.SelectController();
         var objCtrl = new fastmap.uikit.ObjectEditController();
         var layerCtrl = fastmap.uikit.LayerController();
+        var shapeCtrl = fastmap.uikit.ShapeEditorController();
         if (type === "link") {
+            //如果点击了修改图形
+            shapeCtrl.stopEditing();
+            layerCtrl.getLayerById('edit').bringToBack();
+            $(layerCtrl.getLayerById('edit').options._div).unbind();
+
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
@@ -55,6 +61,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
 
         if (type === "node") {
+
+            //如果点击了修改图形
+            shapeCtrl.stopEditing();
+            layerCtrl.getLayerById('edit').bringToBack();
+            $(layerCtrl.getLayerById('edit').options._div).unbind();
+
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
@@ -63,6 +75,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.editable = true;
         }
         if (type === "relation") {
+            //如果点击了修改图形
+            shapeCtrl.stopEditing();
+            layerCtrl.getLayerById('edit').bringToBack();
+            $(layerCtrl.getLayerById('edit').options._div).unbind();
+
+
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referencePoint');
@@ -98,6 +116,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             })
         }
         if (type == "tips") {
+            //如果点击了修改图形
+            shapeCtrl.stopEditing();
+            layerCtrl.getLayerById('edit').bringToBack();
+            $(layerCtrl.getLayerById('edit').options._div).unbind();
+
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('workPoint');

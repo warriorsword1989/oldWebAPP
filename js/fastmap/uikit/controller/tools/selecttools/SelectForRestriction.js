@@ -112,10 +112,10 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         }else {
             for (var item in data) {
 
-                if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                if (this._TouchesPath(data[item].geometry.coordinates, x, y, 3)) {
                     var id = data[item].properties.id;
                     this.currentEditLayer.fire("getId", {id: id,index:this.selectedFeatures.length})
-                    this.selectedFeatures.push(id)
+                    this.selectedFeatures.push(id);
                     this._drawLineHeight(id);
                 }
 

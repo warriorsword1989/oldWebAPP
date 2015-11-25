@@ -62,7 +62,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         function (event) {
             if (event.keyCode == 27) {
                 shapeCtrl.stopEditing();
-                ly.getLayerById('edit').bringToBack()
+                ly.getLayerById('edit').bringToBack();
 
                 $(ly.getLayerById('edit').options._div).unbind();
 

@@ -212,6 +212,7 @@ objectEditApp.controller("normalController", function ($scope) {
             restrict.redraw();
             outputcontroller.pushOutput(data.data);
             console.log("交限 " + pid + " has been removed");
+            $scope.$parent.$parent.objectEditURL = "";
         })
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
