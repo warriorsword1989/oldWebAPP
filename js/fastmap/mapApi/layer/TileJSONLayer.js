@@ -604,7 +604,71 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (feature.properties.restrictioninfo === undefined) {
                             return;
                         }
-                            this._drawImg(ctx, geom, style, boolPixelCrs);
+                        var restrictFlag = true;
+                        if (this.id !== undefined && feature.properties.id === this.id) {
+                            restrictFlag = false;
+                        }
+                        var newstyle="";
+                        var restrictObj = feature.properties.restrictioninfo;
+                        var geom = feature.geometry.coordinates;
+                        var newgeom=[];
+                        if (restrictObj !== undefined) {
+                            if (restrictObj.constructor === Array) {
+                                for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+                                    if(restrictFlag) {
+                                        newstyle= {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+                                    }else{
+                                        newstyle= {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+                                    }
+                                    if (theory > 0) {
+                                        newgeom[0] = parseInt(geom[0]) + theory*16;
+                                        newgeom[1]=parseInt(geom[1]);
+                                        this._drawImg(ctx, newgeom, newstyle, boolPixelCrs);
+                                    }else{
+                                        this._drawImg(ctx, geom, newstyle, boolPixelCrs);
+                                    }
+
+                                }
+                            } else {
+                                var restrictArr = restrictObj.split(",");
+                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+
+                                    if (restrictArr[fact].constructor === Array) {
+                                        if(restrictFlag) {
+                                            newstyle= {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+                                        }else{
+                                            newstyle= {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+                                        }
+                                    } else {
+                                        if(restrictArr[fact].indexOf("[")>-1){
+                                            restrictArr[fact]=restrictArr[fact].replace("[","");
+                                            restrictArr[fact]=restrictArr[fact].replace("]","");
+                                            if(restrictFlag) {
+                                                newstyle = {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+                                            }else{
+                                                newstyle= {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+                                            }
+                                        }else {
+                                            if(restrictFlag) {
+                                                newstyle= {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
+                                            }else{
+                                                newstyle= {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
+                                            }
+                                        }
+                                    }
+                                    if (fact > 0) {
+                                        newgeom[0] = parseInt(geom[0]) + fact*16;
+                                        newgeom[1] = parseInt(geom[1]);
+                                        this._drawImg(ctx, newgeom, newstyle, boolPixelCrs);
+                                    }else{
+                                        this._drawImg(ctx, geom, newstyle, boolPixelCrs);
+                                    }
+
+                                }
+                            }
+
+                        }
+
 
                     } else {
                         this._drawImg(ctx, geom, style, boolPixelCrs);
@@ -812,7 +876,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     if (restrictObj.constructor === Array) {
                         for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
                             if (theory > 0) {
-                                geom[0] = parseInt(geom[0]) + 16;
+                                geom[0] = parseInt(geom[0]) + theory*16;
                             }
                             if(restrictFlag) {
                                 return {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
@@ -826,7 +890,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var restrictArr = restrictObj.split(",");
                         for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
                             if (fact > 0) {
-                                geom[0] = parseInt(geom[0]) + 16;
+                                geom[0] = parseInt(geom[0]) + fact*16;
                             }
                             if (restrictArr[fact].constructor === Array) {
                                 if(restrictFlag) {
@@ -837,6 +901,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                                 }
                             } else {
+                                if(restrictArr[fact].indexOf("[")>-1){
+                                    restrictArr[fact]=restrictArr[fact].replace("[","");
+                                    restrictArr[fact]=restrictArr[fact].replace("]","");
+                                }
+
                                 if(restrictFlag) {
                                     return {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
 
