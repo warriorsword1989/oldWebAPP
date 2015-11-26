@@ -13,7 +13,23 @@ basicApp.controller("basicController",function($scope) {
             $("#nameClass"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
             $("#codebtn"+codeflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
         }
+        if($scope.linkData.names!="undefined"){
+            if($scope.linkData.names.length>1){
+
+            }else{
+                $('#'+$scope.linkData.names[0].linkPid+'_'+0).collapse('show');
+            }
+        }
     },10)
+
+    if($scope.linkData.names!="undefined"){
+        if($scope.linkData.names.length>1){
+
+        }else{
+            $('#'+$scope.linkData.names[0].linkPid+'_'+0).collapse('show');
+        }
+    }
+
     $scope.kindOptions = [
         {"id": 0, "label": "0 作业中"},
         {"id": 1, "label": "1 高速道路"},
@@ -90,7 +106,6 @@ basicApp.controller("basicController",function($scope) {
         if(!$("#loadPropertyDiv").hasClass("in")) {
             $("#loadPropertyDiv").addClass("in");
         }
-        console.log($scope.linkData.pid);
         $scope.linkData.names.unshift({
             code:0,
             inputTime:"",
