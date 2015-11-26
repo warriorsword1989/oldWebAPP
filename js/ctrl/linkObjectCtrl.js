@@ -25,9 +25,14 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
         $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
     });
-    $("#basicModule").css("background-color","#49C2FC");
     $scope.$parent.$parent.updateLinkData=function(data) {
         $scope.linkData= data;
+        $scope.currentURL="";
+        $(":button").css("background-color","#fff");
+        $("#basicModule").css("background-color","#49C2FC");
+        $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
+            $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
+        });
         for(var item= 0,len= ($scope.linkData.speedlimits).length;item<len;item++) {
             $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
             $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;

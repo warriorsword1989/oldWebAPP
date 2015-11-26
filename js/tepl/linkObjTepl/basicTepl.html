@@ -154,13 +154,13 @@
             <div id="loadPropertyDiv" class="panel-collapse collapse in">
                 <div class="panel-body ">
                     <div ng-repeat="item in linkData.names">
-                        <div class="panel-group" style="margin: 0px;">
+                        <div class="panel-group" >
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         {{item.name}}
                                         <a data-toggle="collapse" data-parent="#accordion"
-                                           href="#{{item.linkPid}}">
+                                           href="#{{item.linkPid}}_{{$index}}">
                                             <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                         </a>
                                         <span class="glyphicon glyphicon-remove-sign"
@@ -168,7 +168,7 @@
                                               ng-click="minusRoadName($index)"></span>
                                     </h4>
                                 </div>
-                                <div id="{{item.linkPid}}" class="panel-collapse collapse in">
+                                <div id="{{item.linkPid}}_{{$index}}" class="panel-collapse collapse">
                                     <div class="panel-body ">
                                         <div class="panel-body"
                                              style="min-height: 100px;height:300px;overflow-y: auto;">
