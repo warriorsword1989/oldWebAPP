@@ -21,15 +21,6 @@ basicApp.controller("basicController",function($scope) {
             }
         }
     },10)
-
-    if($scope.linkData.names!="undefined"){
-        if($scope.linkData.names.length>1){
-
-        }else{
-            $('#'+$scope.linkData.names[0].linkPid+'_'+0).collapse('show');
-        }
-    }
-
     $scope.kindOptions = [
         {"id": 0, "label": "0 作业中"},
         {"id": 1, "label": "1 高速道路"},
