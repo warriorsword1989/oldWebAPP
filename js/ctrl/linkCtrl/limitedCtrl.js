@@ -4,6 +4,37 @@
 var limitedApp = angular.module("lazymodule", []);
 limitedApp.controller("limitedController",function($scope) {
     $scope.linkLimitData = $scope.linkData;
+    $scope.truckFlagarray=[];
+    $scope.truckFlagarray.push($scope.linkLimitData.truckFlag);
+    if($scope.linkLimitData.limitTrucks.length===0) {
+        if($("#trafficLimitedDiv").hasClass("in")) {
+            $("#trafficLimitedDiv").removeClass("in");
+        }
+    }
+    if($scope.linkLimitData.limits.length===0) {
+        if($("#popularLimitedDiv").hasClass("in")) {
+            $("#popularLimitedDiv").removeClass("in");
+        }
+
+    }
+    setTimeout(function(){
+        for(var sitem in $scope.linkLimitData.limits){
+            var flag=$scope.linkLimitData.limits[sitem].processFlag;
+            $("#processFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+        }
+
+        for(var l in  $scope.truckFlagarray) {
+            $("#truckFlag" +  $scope.truckFlagarray[l] + "_" + l).removeClass("btn btn-default").addClass("btn btn-primary");
+        }
+
+        for(var sitem in $scope.linkLimitData.limitTrucks){
+            var flag=$scope.linkLimitData.limitTrucks[sitem].resTrailer;
+            var resOutflag=$scope.linkLimitData.limitTrucks[sitem].resOut;
+                $("#resTrailer"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+                $("#resOut"+resOutflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+          }
+    },10)
+
     $scope.appInfoOptions = [
         {"id": 0, "label": "调查中"},
         {"id": 1, "label": "可以通行"},
@@ -29,7 +60,7 @@ limitedApp.controller("limitedController",function($scope) {
         {"id": 3, "label": "逆方向"},
         {"id": 9, "label": "不应用"}
     ];
-    $scope.tollTypeOPtions = [
+    $scope.tollTypeOptions = [
         {"id": 0, "label": "无"},
         {"id": 1, "label": "收费道路"},
         {"id": 2, "label": "桥"},
@@ -52,17 +83,26 @@ limitedApp.controller("limitedController",function($scope) {
             $("#popularLimitedDiv").addClass("in");
         }
         $scope.linkLimitData.limits.unshift( {
-            appInfo: 1,
+            //appInfo: 1,
             type: 1,
             limitDir: 1,
             tollType: 1,
             weather: 1,
-            processFlag: 1
+            processFlag: 1,
+            linkPid:0
         });
     };
+
     $scope.minusLimit=function(id) {
         $scope.linkLimitData.limits.splice(id, 1);
-
+        setTimeout(function() {
+            for (var sq in $scope.linkLimitData.limitTrucks) {
+                var flag = $scope.linkLimitData.limitTrucks[sq].resTrailer;
+                var resOutflag = $scope.linkLimitData.limitTrucks[sq].resOut;
+                $("#resTrailer" + flag + "_" + sq).removeClass("btn btn-default").addClass("btn btn-primary");
+                $("#resOut" + resOutflag + "_" + sq).removeClass("btn btn-default").addClass("btn btn-primary");
+            }
+        });
     };
     $scope.addLimitTruck = function () {
         if(!$("#trafficLimitedDiv").hasClass("in")) {
@@ -71,16 +111,30 @@ limitedApp.controller("limitedController",function($scope) {
 
         $scope.linkLimitData.limitTrucks.unshift(
             {
-                truckFlag: 1,
+               // truckFlag: 0,
                 limitDir: 1,
                 resTrailer: 1,
                 resWeigh: 0,
                 resAxleLoad: 0,
                 resAxleCount: 0,
                 resOut: 0,
-                rowId:""
+                rowId:"",
+                linkPid:0
             }
         )
+        $scope.truckFlagarray.push(0);
+          setTimeout(function() {
+              for(var l in  $scope.truckFlagarray) {
+                  $("#truckFlag" +  $scope.truckFlagarray[l] + "_" + l).removeClass("btn btn-default").addClass("btn btn-primary");
+              }
+
+            for (var sq in $scope.linkLimitData.limitTrucks) {
+                var flag = $scope.linkLimitData.limitTrucks[sq].resTrailer;
+                var resOutflag = $scope.linkLimitData.limitTrucks[sq].resOut;
+                $("#resTrailer" + flag + "_" + sq).removeClass("btn btn-default").addClass("btn btn-primary");
+                $("#resOut" + resOutflag + "_" + sq).removeClass("btn btn-default").addClass("btn btn-primary");
+            }
+        });
     };
     $scope.minusLimitTruck=function(id) {
         $scope.linkLimitData.limitTrucks.splice(id, 1);
@@ -88,7 +142,42 @@ limitedApp.controller("limitedController",function($scope) {
             if($("#trafficLimitedDiv").hasClass("in")) {
                 $("#trafficLimitedDiv").removeClass("in");
             }
-
         }
+        $scope.truckFlagarray.splice(id, 1);
+        setTimeout(function() {
+            for(var l in  $scope.truckFlagarray) {
+                $("#truckFlag" +  $scope.truckFlagarray[l] + "_" + l).removeClass("btn btn-default").addClass("btn btn-primary");
+            }
+
+            for (var sq in $scope.linkLimitData.limitTrucks) {
+                var flag = $scope.linkLimitData.limitTrucks[sq].resTrailer;
+                var resOutflag = $scope.linkLimitData.limitTrucks[sq].resOut;
+                $("#resTrailer" + flag + "_" + sq).removeClass("btn btn-default").addClass("btn btn-primary");
+                $("#resOut" + resOutflag + "_" + sq).removeClass("btn btn-default").addClass("btn btn-primary");
+            }
+        });
     };
+
+    $scope.checkprocessFlag=function(flag,item,index){
+        $("#processFlagdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#processFlag"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.processFlag=flag;
+    }
+
+    $scope.checktruckFlag=function(flag,item,index){
+        $("#truckFlagdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#truckFlag"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.truckFlag=flag;
+    }
+
+    $scope.checkresTrailer=function(flag,item,index){
+        $("#resTrailerdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#resTrailer"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.resTrailer=flag;
+    }
+    $scope.checkresOut=function(flag,item,index){
+        $("#resOutdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#resOut"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.resOut=flag;
+    }
 })

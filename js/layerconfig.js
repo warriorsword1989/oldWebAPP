@@ -40,7 +40,7 @@ Application.layersConfig =
                         maxZoom: 20,
                         selected: true,
                         id: 'tencent',
-                        visible: true,
+                        visible: false,
                         added: true,
                         singleselect:true,
                         zIndex:2
@@ -157,7 +157,6 @@ Application.layersConfig =
                             'id': item.i,
                             'restrictioncondition':item.m.a,
                             'restrictioninfo': item.m.b,
-                            'restrictioninfo': item.m.b,
                             'rotate':item.m.c
 
                         }
@@ -228,7 +227,7 @@ Application.layersConfig =
                 type: 'LineString',
                 zIndex:7,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:12,
                 showNodeLevel:17
             }

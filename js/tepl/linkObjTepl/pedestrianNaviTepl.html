@@ -12,20 +12,26 @@
                     <label class="col-sm-4 control-label">DICI城市类型</label>
 
                     <div class="col-sm-8">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="diciTypeRadio" value="0" ng-model="linkData.diciType">
-                                不应用
-                            </label>
-                            <label>
-                                <input type="radio" name="diciTypeRadio" value="1" ng-model="linkData.diciType">
-                                全要素
-                            </label>
-                            <label>
-                                <input type="radio" name="diciTypeRadio" value="2" ng-model="linkData.diciType">
-                                简化版
-                            </label>
+
+                        <div id="diciTypediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="diciTypebtn0" ng-click="checkdiciType(0)" ng-model="linkData.diciType">不应用</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="diciTypebtn1" ng-click="checkdiciType(1)" ng-model="linkData.diciType">全要素</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="diciTypebtn2" ng-click="checkdiciType(2)" ng-model="linkData.diciType">简化版</button>
                         </div>
+                        <!--<div class="radio">-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="diciTypeRadio" value="0" ng-model="linkData.diciType">-->
+                                <!--不应用-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="diciTypeRadio" value="1" ng-model="linkData.diciType">-->
+                                <!--全要素-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="diciTypeRadio" value="2" ng-model="linkData.diciType">-->
+                                <!--简化版-->
+                            <!--</label>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -33,20 +39,26 @@
                     <label class="col-sm-4 control-label">人行便道标记</label>
 
                     <div class="col-sm-8">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="0" ng-model="linkData.sidewalkFlag">
-                                未采集
-                            </label>
-                            <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="1" ng-model="linkData.sidewalkFlag">
-                                有
-                            </label>
-                            <label>
-                                <input type="radio" name="sideWalkFlagRadio" value="2" ng-model="linkData.sidewalkFlag">
-                                无
-                            </label>
+                        <div id="sidewalkFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="sidewalkFlagbtn0" ng-click="checksidewalkFlag(0)" ng-model="linkData.sidewalkFlag">未采集</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="sidewalkFlagbtn1" ng-click="checksidewalkFlag(1)" ng-model="linkData.sidewalkFlag">有</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="sidewalkFlagbtn2" ng-click="checksidewalkFlag(2)" ng-model="linkData.sidewalkFlag">无</button>
                         </div>
+
+                        <!--<div class="radio">-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="sideWalkFlagRadio" value="0" ng-model="linkData.sidewalkFlag">-->
+                                <!--未采集-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="sideWalkFlagRadio" value="1" ng-model="linkData.sidewalkFlag">-->
+                                <!--有-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="sideWalkFlagRadio" value="2" ng-model="linkData.sidewalkFlag">-->
+                                <!--无-->
+                            <!--</label>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -54,23 +66,29 @@
                     <label class="col-sm-4 control-label">人行阶梯标记</label>
 
                     <div class="col-sm-8">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="walkStairFlagRadio" value="0"
-                                       ng-model="linkData.walkstairFlag">
-                                未采集
-                            </label>
-                            <label>
-                                <input type="radio" name="walkStairFlagRadio" value="1"
-                                       ng-model="linkData.walkstairFlag">
-                                有
-                            </label>
-                            <label>
-                                <input type="radio" name="walkstairFlagRadio" value="2"
-                                       ng-model="linkData.walkstairFlag">
-                                无
-                            </label>
+                        <div id="walkstairFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="walkstairFlagbtn0" ng-click="checkwalkstairFlag(0)" ng-model="linkData.walkstairFlag">未采集</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkstairFlagbtn1" ng-click="checkwalkstairFlag(1)" ng-model="linkData.walkstairFlag">有</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkstairFlagbtn2" ng-click="checkwalkstairFlag(2)" ng-model="linkData.walkstairFlag">无</button>
                         </div>
+
+                        <!--<div class="radio">-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="walkStairFlagRadio" value="0"-->
+                                       <!--ng-model="linkData.walkstairFlag">-->
+                                <!--未采集-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="walkStairFlagRadio" value="1"-->
+                                       <!--ng-model="linkData.walkstairFlag">-->
+                                <!--有-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="walkstairFlagRadio" value="2"-->
+                                       <!--ng-model="linkData.walkstairFlag">-->
+                                <!--无-->
+                            <!--</label>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -78,20 +96,25 @@
                     <label class="col-sm-4 control-label">行人步行</label>
 
                     <div class="col-sm-8">
-                        <div class="radio">
-                            <label>
-                                <input type="radio" name="walkFlagRadio" value="0" ng-model="linkData.walkFlag">
-                                未调查
-                            </label>
-                            <label>
-                                <input type="radio" name="walkFlagRadio" value="1" ng-model="linkData.walkFlag">
-                                允许
-                            </label>
-                            <label>
-                                <input type="radio" name="walkFlagRadio" value="2" ng-model="linkData.walkFlag">
-                                禁止
-                            </label>
+                        <div id="walkFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="walkFlagbtn0" ng-click="checkwalkFlag(0)" ng-model="linkData.walkFlag">未调查</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkFlagbtn1" ng-click="checkwalkFlag(1)" ng-model="linkData.walkFlag">允许</button>
+                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkFlagbtn2" ng-click="checkwalkFlag(2)" ng-model="linkData.walkFlag">禁止</button>
                         </div>
+                        <!--<div class="radio">-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="walkFlagRadio" value="0" ng-model="linkData.walkFlag">-->
+                                <!--未调查-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="walkFlagRadio" value="1" ng-model="linkData.walkFlag">-->
+                                <!--允许-->
+                            <!--</label>-->
+                            <!--<label>-->
+                                <!--<input type="radio" name="walkFlagRadio" value="2" ng-model="linkData.walkFlag">-->
+                                <!--禁止-->
+                            <!--</label>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </form>
@@ -107,13 +130,13 @@
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
 
-                    <span class="glyphicon glyphicon-plus-sign"
-                          style="float: right;color: rgb(255, 0, 0);"
+                    <span class="glyphicon glyphicon-plus"
+                          style="float: right;color: darkgray;"
                           ng-click="addSideWalk()"></span>
                 </h4>
 
             </div>
-            <div id="sideWalkDiv" class="panel-collapse collapse">
+            <div id="sideWalkDiv" class="panel-collapse collapse in">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
                     <div class="list-group" ng-repeat="sideitem in naviData.sidewalks">
                         <div class="list-group-item">
@@ -125,8 +148,8 @@
                                             <option>--</option>
                                         </select>
                                     </div>
-                                <span class="glyphicon glyphicon-minus-sign"
-                                      style="float: right;color: rgb(255, 0, 0);margin-top: -45px;"
+                                <span class="glyphicon glyphicon-remove-sign"
+                                      style="float: right;color: darkgray;margin-top: -45px;"
                                       ng-click="minusSideWalk($index)" ></span>
                                 </div>
 
@@ -145,23 +168,29 @@
                                     <label class="col-sm-3 control-label">作业方向</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="workDirRadio" value="0"
-                                                       ng-model="sideitem.workDir">
-                                                未调查
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="workDirRadio" value="1"
-                                                       ng-model="sideitem.workDir">
-                                                顺
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="workDirRadio" value="2"
-                                                       ng-model="sideitem.workDir">
-                                                逆
-                                            </label>
+
+                                        <div id="workDirdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="workDir0_{{$index}}" ng-click="checkworkDir(0,sideitem,$index)" ng-model="sideitem.workDir">未调查</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="workDir1_{{$index}}" ng-click="checkworkDir(1,sideitem,$index)" ng-model="sideitem.workDir">顺</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="workDir2_{{$index}}" ng-click="checkworkDir(2,sideitem,$index)" ng-model="sideitem.workDir">逆</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="workDirRadio" value="0"-->
+                                                       <!--ng-model="sideitem.workDir">-->
+                                                <!--未调查-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="workDirRadio" value="1"-->
+                                                       <!--ng-model="sideitem.workDir">-->
+                                                <!--顺-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="workDirRadio" value="2"-->
+                                                       <!--ng-model="sideitem.workDir">-->
+                                                <!--逆-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -169,18 +198,22 @@
                                     <label class="col-sm-3 control-label">处理标识</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="processFlagRadio" value="0"
-                                                       ng-model="sideitem.processFlag">
-                                                程序赋
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="processFlagRadio" value="1"
-                                                       ng-model="sideitem.processFlag">
-                                                手工赋
-                                            </label>
+                                        <div id="processFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="processFlag0_{{$index}}" ng-click="checkprocessFlag(0,sideitem,$index)" ng-model="sideitem.processFlag">程序赋</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="processFlag1_{{$index}}" ng-click="checkprocessFlag(1,sideitem,$index)" ng-model="sideitem.processFlag">手工赋</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="processFlagRadio" value="0"-->
+                                                       <!--ng-model="sideitem.processFlag">-->
+                                                <!--程序赋-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="processFlagRadio" value="1"-->
+                                                       <!--ng-model="sideitem.processFlag">-->
+                                                <!--手工赋-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -188,18 +221,23 @@
                                     <label class="col-sm-3 control-label">采集标识</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="captureFlagRadio" value="0"
-                                                       ng-model="sideitem.captureFlag">
-                                                未采集
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="captureFlagRadio" value="1"
-                                                       ng-model="sideitem.captureFlag">
-                                                外业确认
-                                            </label>
+                                        <div id="captureFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="captureFlag0_{{$index}}" ng-click="checkcaptureFlag(0,sideitem,$index)" ng-model="sideitem.captureFlag">未采集</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="captureFlag1_{{$index}}" ng-click="checkcaptureFlag(1,sideitem,$index)" ng-model="sideitem.captureFlag">外业确认</button>
                                         </div>
+
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="captureFlagRadio" value="0"-->
+                                                       <!--ng-model="sideitem.captureFlag">-->
+                                                <!--未采集-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="captureFlagRadio" value="1"-->
+                                                       <!--ng-model="sideitem.captureFlag">-->
+                                                <!--外业确认-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </form>
@@ -220,13 +258,13 @@
                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                     </a>
 
-                    <span class="glyphicon glyphicon-plus-sign"
-                          style="float: right;color: rgb(255, 0, 0);"
+                    <span class="glyphicon glyphicon-plus"
+                          style="float: right;color: darkgray;"
                           ng-click="addStairWalk()"></span>
                 </h4>
 
             </div>
-            <div id="humanLadderDiv" class="panel-collapse collapse">
+            <div id="humanLadderDiv" class="panel-collapse collapse in">
                 <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
                     <div class="list-group"  ng-repeat="tItem in naviData.walkstairs">
                         <div class="list-group-item">
@@ -246,8 +284,8 @@
                                             <option value="7">右侧+左侧+中间</option>
                                         </select>
                                     </div>
-                                 <span class="glyphicon glyphicon-minus-sign"
-                                       style="float: right;color: rgb(255, 0, 0);margin-top: -45px"
+                                 <span class="glyphicon glyphicon-remove-sign"
+                                       style="float: right;color: darkgray;margin-top: -45px"
                                        ng-click="minusStairWalk($index)"></span>
                                 </div>
 
@@ -256,23 +294,28 @@
                                     <label class="col-sm-3 control-label">升降标识</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="stairFlagRadio" value="0"
-                                                       ng-model="tItem.stairFlag">
-                                                未调查
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="stairFlagRadio" value="1"
-                                                       ng-model="tItem.stairFlag">
-                                                上坡
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="stairFlagRadio" value="2"
-                                                       ng-model="tItem.stairFlag">
-                                                下坡
-                                            </label>
+                                        <div id="stairFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="stairFlag0_{{$index}}" ng-click="checkstairFlag(0,sideitem,$index)" ng-model="tItem.stairFlag">未调查</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="stairFlag1_{{$index}}" ng-click="checkstairFlag(1,sideitem,$index)" ng-model="tItem.stairFlag">上坡</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="stairFlag2_{{$index}}" ng-click="checkstairFlag(2,sideitem,$index)" ng-model="tItem.stairFlag">下坡</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="stairFlagRadio" value="0"-->
+                                                       <!--ng-model="tItem.stairFlag">-->
+                                                <!--未调查-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="stairFlagRadio" value="1"-->
+                                                       <!--ng-model="tItem.stairFlag">-->
+                                                <!--上坡-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="stairFlagRadio" value="2"-->
+                                                       <!--ng-model="tItem.stairFlag">-->
+                                                <!--下坡-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -280,23 +323,29 @@
                                     <label class="col-sm-3 control-label">作业方向</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="workDirRadio" value="0"
-                                                       ng-model="tItem.workDir">
-                                                未调查
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="workDirRadio" value="1"
-                                                       ng-model="tItem.workDir">
-                                                顺
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="workDirRadio" value="2"
-                                                       ng-model="tItem.workDir">
-                                                逆
-                                            </label>
+                                        <div id="walkstairsworkDirdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="walkstairsworkDir0_{{$index}}" ng-click="checkwalkstairsworkDir(0,sideitem,$index)" ng-model="tItem.workDir">未调查</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkstairsworkDir1_{{$index}}" ng-click="checkwalkstairsworkDir(1,sideitem,$index)" ng-model="tItem.workDir">顺</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkstairsworkDir2_{{$index}}" ng-click="checkwalkstairsworkDir(2,sideitem,$index)" ng-model="tItem.workDir">逆</button>
                                         </div>
+
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="workDirRadio" value="0"-->
+                                                       <!--ng-model="tItem.workDir">-->
+                                                <!--未调查-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="workDirRadio" value="1"-->
+                                                       <!--ng-model="tItem.workDir">-->
+                                                <!--顺-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="workDirRadio" value="2"-->
+                                                       <!--ng-model="tItem.workDir">-->
+                                                <!--逆-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -304,18 +353,22 @@
                                     <label class="col-sm-3 control-label">采集标识</label>
 
                                     <div class="col-sm-9">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="captureFlagRadio" value="0"
-                                                       ng-model="tItem.captureFlag">
-                                                未采集
-                                            </label>
-                                            <label>
-                                                <input type="radio" name="captureFlagRadio" value="1"
-                                                       ng-model="tItem.captureFlag">
-                                                外业确认
-                                            </label>
+                                        <div id="walkstairscaptureFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="walkstairscaptureFlag0_{{$index}}" ng-click="checkwalkstairscaptureFlag(0,sideitem,$index)" ng-model="tItem.captureFlag">未采集</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="walkstairscaptureFlag1_{{$index}}" ng-click="checkwalkstairscaptureFlag(1,sideitem,$index)" ng-model="tItem.captureFlag">外业确认</button>
                                         </div>
+                                        <!--<div class="radio">-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="captureFlagRadio" value="0"-->
+                                                       <!--ng-model="tItem.captureFlag">-->
+                                                <!--未采集-->
+                                            <!--</label>-->
+                                            <!--<label>-->
+                                                <!--<input type="radio" name="captureFlagRadio" value="1"-->
+                                                       <!--ng-model="tItem.captureFlag">-->
+                                                <!--外业确认-->
+                                            <!--</label>-->
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </form>

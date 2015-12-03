@@ -8,13 +8,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var shapectl = new fastmap.uikit.ShapeEditorController();
     map.currentTool = shapectl.getCurrentTool();
     shapectl.setMap(map);
-    $scope.type;
+    $scope.type="";
+    $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
 
-    $scope.modifyShape = function (type) {
-
-        $(":button").removeClass("btn btn-default active").addClass("btn btn-default");
-        $("#"+type).addClass("btn btn-default active");
-
+    $scope.modifyShape = function (type,num) {
         var ly = fastmap.uikit.LayerController();
         if (shapectl.getCurrentTool()['options']) {
             shapectl.stopEditing();
@@ -22,6 +19,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         var feature = null
         if (type == "insertDot") {
             $scope.type = "insertDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -45,6 +43,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         if (type == "deleteDot") {
             $scope.type = "deleteDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -62,6 +61,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         if (type == "moveDot") {
             $scope.type = "moveDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -79,6 +79,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         if (type == "extendDot") {
             $scope.type = "extendDot";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -98,6 +99,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
         if(type == 'pathBreak'){
             $scope.type = "pathBreak";
+            $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 var feature = selectCtrl.selectedFeatures.geometry;
@@ -177,34 +179,37 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 }else{
                     var link = shapectl.shapeEditorResult.getFinalGeometry();
                     var ly = fastmap.uikit.LayerController();
-                    var coordinate = []
-                    for(var index in link.components){
-                        coordinate.push([link.components[index].x, link.components[index].y]);
-                    }
-
-                    var param  = {
-                        "command": "updatelink",
-                        "projectId": 1,
-                        "data": {
-                            "pid": parseInt(selectCtrl.selectedFeatures.id),
-                            "objStatus": "UPDATE",
-                            "geometry": {"type": "LineString", "coordinates": coordinate}
+                    var coordinate = [];
+                    if(link) {
+                        for(var index in link.components){
+                            coordinate.push([link.components[index].x, link.components[index].y]);
                         }
+
+                        var param  = {
+                            "command": "updatelink",
+                            "projectId": 1,
+                            "data": {
+                                "pid": parseInt(selectCtrl.selectedFeatures.id),
+                                "objStatus": "UPDATE",
+                                "geometry": {"type": "LineString", "coordinates": coordinate}
+                            }
+                        }
+                        //结束编辑状态
+                        shapectl.stopEditing();
+                        Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
+                            var outputcontroller = new fastmap.uikit.OutPutController({});
+                            var resultdata=[];
+
+                            resultdata.push("类型："+data.data.log[0].type+"; pid:"+data.data.log[0].pid+"; 操作:"+data.data.log[0].op);
+                            outputcontroller.pushOutput(resultdata);
+                            var rdLink = ly.getLayerById('referenceLine');
+                            rdLink.redraw();
+                            ly.getLayerById('edit').bringToBack()
+
+                            $(ly.getLayerById('edit').options._div).unbind();
+                        })
                     }
-                    //结束编辑状态
-                    shapectl.stopEditing();
-                    Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
-                        var outputcontroller = new fastmap.uikit.OutPutController({});
-                        var resultdata=[];
 
-                        resultdata.push("类型："+data.data.log[0].type+"; pid:"+data.data.log[0].pid+"; 操作:"+data.data.log[0].op);
-                        outputcontroller.pushOutput(resultdata);
-                        var rdLink = ly.getLayerById('referenceLine');
-                        rdLink.redraw();
-                        ly.getLayerById('edit').bringToBack()
-
-                        $(ly.getLayerById('edit').options._div).unbind();
-                    })
                 }
             }
         });

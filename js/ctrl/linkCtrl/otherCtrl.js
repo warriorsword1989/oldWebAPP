@@ -5,7 +5,37 @@
 var otherApp=angular.module("lazymodule", []);
 otherApp.controller("otherController",function($scope){
     $scope.roadlinkData=$scope.linkData;
+    $scope.speedOfPopLength = 0;
+    $scope.speedOfConLength = 0;
     $scope.newFromOfWRoadDate=[];
+    for(var typeNum= 0,typeLen= $scope.roadlinkData.speedlimits.length;typeNum<typeLen;typeNum++) {
+        if($scope.roadlinkData.speedlimits[typeNum].speedType===0) {
+            $scope.speedOfPopLength++;
+        }else if($scope.roadlinkData.speedlimits[typeNum].speedType===3) {
+            $scope.speedOfConLength++;
+        }
+    }
+    if( $scope.speedOfPopLength===0) {
+        if($('#ptOrRightDiv').hasClass("in")) {
+            $('#ptOrRightDiv').removeClass("in");
+        }
+
+    }
+    if( $scope.speedOfConLength===0) {
+        if ($('#tjOrRightDiv').hasClass("in")) {
+            $('#tjOrRightDiv').removeClass("in");
+        }
+    }
+    $("#button"+$scope.roadlinkData.isViaduct).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#adasFlagbtn"+$scope.roadlinkData.adasFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+    setTimeout(function() {
+        for (var sitem in $scope.roadlinkData.speedlimits) {
+            var flag = $scope.roadlinkData.speedlimits[sitem].speedClassWork;
+            $("#speedClassWorkbtn" + flag + "_" + sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+        }
+    },10)
 
     $scope.fromOfWayOption=[
         {id:"0",name:"未调查"},
@@ -102,14 +132,15 @@ otherApp.controller("otherController",function($scope){
         {"id": 3, "label": "雾天"},
         {"id": 9, "label": "不应用"}
     ];
-
-    console.log("$scope.newFromOfWRoadDate "+$scope.newFromOfWRoadDate);
     $scope.saveroadname = function () {
-        $scope.roadlinkData.forms.push({
-            id: $("#roadtypename").find("option:selected").val()
+
+        $scope.roadlinkData.forms.unshift({
+            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
+            linkPid:$scope.roadlinkData.pid
         })
-        $scope.newFromOfWRoadDate.push({
-            id: $("#roadtypename").find("option:selected").val(),
+
+        $scope.newFromOfWRoadDate.unshift({
+            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
             name: $("#roadtypename").find("option:selected").text()
         });
         $('#myModal').modal('hide');
@@ -120,6 +151,7 @@ otherApp.controller("otherController",function($scope){
     }
 
     $scope.addSpeedLimit = function () {
+        $scope.speedOfConLength++;
         if (!$("#tjOrRightDiv").hasClass("in")) {
             $("#tjOrRightDiv").addClass("in");
         }
@@ -131,7 +163,7 @@ otherApp.controller("otherController",function($scope){
             speedClass: 5,
             speedClassWork: 0,
             speedDependent: 0,
-            speedType: 0,
+            speedType: 3,
             timeDomain: "",
             toLimitSrc: 0,
             toSpeedLimit: 0
@@ -149,4 +181,30 @@ otherApp.controller("otherController",function($scope){
     $scope.qkdifGroupId=function(){
         $("#difGroupIdText").val("");
     }
+    $scope.checkSpecialTraffic=function(flag){
+        $("#specialTrafficdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#specialbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.roadlinkData.specialTraffic=flag;
+    }
+    $scope.changecheck=function(flag){
+        $("#isViaductdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#button"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.roadlinkData.isViaduct=flag;
+    }
+    $scope.checkPaveStatus=function (flag){
+        $("#paveStatusdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#paveStatusbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary ");
+        $scope.roadlinkData.paveStatus=flag;
+    }
+    $scope.checkAdasFlag=function(flag){
+        $("#adasFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#adasFlagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $scope.roadlinkData.adasFlag=flag;
+    }
+    $scope.checkspeedClassWork=function(flag,item,index){
+        $("#speedClassWorkdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#speedClassWorkbtn"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.speedClassWork=flag;
+    }
+
 });

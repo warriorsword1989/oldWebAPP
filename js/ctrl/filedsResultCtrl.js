@@ -4,7 +4,7 @@
 var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
 filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad',
         function ($rootScope, $scope, $ocLazyLoad) {
-            Application.functions.getTipsStatics([59567201], [1, 3], function (data) {
+            Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
@@ -86,7 +86,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var objCtrl = new fastmap.uikit.ObjectEditController();
             //切换处理 待处理 已处理 页面
             $scope.changeList = function (stage) {
-                Application.functions.getTipsStatics([59567201], stage, function (data) {
+                Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
                         transArr = data.data.rows;
@@ -166,27 +166,26 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 });
             };
             //点击下拉框的时  显示内容
-            $scope.showContent = function (item, arr,stage) {
-                Application.functions.getTipsListItems([59567201], arr, item.id, function (data) {
-                    if(stage==="0"){
+            $scope.showContent = function (item, arr, stage) {
+                Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
+                    if (stage === "0") {
                         $scope.$apply(function () {
                             $scope.allSubItems = data.data;
                         });
-                    }else if(stage==="1") {
+                    } else if (stage === "1") {
                         $scope.$apply(function () {
                             $scope.pendSubItems = data.data;
                         });
-                    }else if(stage==="3") {
+                    } else if (stage === "3") {
                         $scope.solvedSubItems = data.data;
                     }
-
 
 
                 })
             };
             //点击列表需要的方法
-            var n = 0;
             $scope.showTab = function (item) {
+                map.panTo({lat: item["g"][1], lon: item["g"][0]});
                 if ($scope.$parent.$parent.dataTipsURL) {
                     $scope.$parent.$parent.dataTipsURL = "";
                 }
@@ -196,23 +195,62 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
 
                 $("#popoverTips").css("display", "block");
-                setTimeout(function () {
-                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-
-                            $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                            });
-                        }
-                    );
-                }, 100)
                 Application.functions.getTipsResult(item.i, function (data) {
                     selectCtrl.fire("selectByAttribute", {feather: data});
-                    var id = data.resID[0].id
-                    Application.functions.getRdObjectById(id, "RDRESTRICTION", function (data) {
-                        objCtrl.setCurrentObject(data.data);
-                        $scope.$parent.$parent.rdRestrictData = data.data;
-                    })
+                    if (data.rowkey === "undefined") {
+                        return;
+                    }
+                    $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
+                    if ($scope.$parent.$parent.updateDataTips !== "") {
+                        $scope.$parent.$parent.updateDataTips(data);
+                    }
+                    selectCtrl.fire("selectByAttribute", {feather: data});
+                    if (data.t_lifecycle === 1) {
+                        var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
+
+                        for (var trackNum = 0, trackLen = tracInfoArr.length; trackNum < trackLen; trackNum++) {
+                            if (tracInfoArr[trackNum].stage === 3) {
+                                trackInfoFlag = true;
+                                break;
+                            }
+                        }
+                        if (trackInfoFlag) {
+                            $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                $scope.$parent.$parent.objectEditURL = "";
+                            });
+                        } else {
+                            Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
+                                objCtrl.setCurrentObject(data.data);
+                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                    });
+                                });
+                            })
+                        }
+                    } else {
+
+                        if (data.resID[0].id === 0) {
+                            $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                $scope.$parent.$parent.objectEditURL = "";
+                            });
+                        } else {
+                            Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
+                                objCtrl.setCurrentObject(data.data);
+                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                    });
+                                });
+                            })
+                        }
+                    }
 
 
                 })

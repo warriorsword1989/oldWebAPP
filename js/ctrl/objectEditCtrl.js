@@ -32,7 +32,16 @@ objectEditApp.controller("normalController", function ($scope) {
                 }
             }
         }
+
+
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     };
+
     //初始化交限
     $scope.addLimitedData = [
         {"id": 1},
@@ -88,11 +97,22 @@ objectEditApp.controller("normalController", function ($scope) {
     if (objectEditCtrl.data === null) {
         $scope.rdSubRestrictData = [];
     } else {
+
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     }
 
-    $scope.$parent.$parent.updateLinkData = function (data) {
+    $scope.$parent.$parent.updateRestrictData = function (data) {
         $scope.rdSubRestrictData = data.details[0];
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
+
     };
 
     //选择弹出框中的交限
@@ -100,11 +120,11 @@ objectEditApp.controller("normalController", function ($scope) {
         $scope.tipsId = item.id;
         var obj = {};
         obj.restricInfo = item.id;
-        obj.outLinkPid = ""; //$scope.rdLink.outPid;
-        obj.pid = "";//featCodeCtrl.newObj.pid;
+        obj.outLinkPid = 0; //$scope.rdLink.outPid;
+        obj.pid = 0;//featCodeCtrl.newObj.pid;
         obj.relationshipType = 1;
         obj.flag = 1;
-        obj.restricPid = ""// featCodeCtrl.newObj.pid;
+        obj.restricPid = 0// featCodeCtrl.newObj.pid;
         obj.type = 1;
         obj.conditons = [];
         $scope.newLimited = obj;
@@ -117,7 +137,6 @@ objectEditApp.controller("normalController", function ($scope) {
     };
     //添加交限
     $scope.addTips = function () {
-
 
         if ($scope.modifyItem !== undefined) {
             var arr = $scope.$parent.$parent.rdRestrictData.details
@@ -133,7 +152,9 @@ objectEditApp.controller("normalController", function ($scope) {
                 alert("请先选择tips");
                 return;
             }
-            $scope.rdRestrictData.details.push($scope.newLimited);
+            console.log($scope.rdRestrictData.details);
+            //$scope.rdRestrictData.details.push($scope.newLimited);
+            $scope.rdRestrictData.details.unshift($scope.newLimited);
         }
     }
     //增加时间段
@@ -153,12 +174,14 @@ objectEditApp.controller("normalController", function ($scope) {
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referencePoint");
+            restrict.redraw();
             var outputcontroller = fastmap.uikit.OutPutController({});
             outputcontroller.pushOutput(data.data);
         });
-        if ($scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips !== undefined) {
+        if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips,
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
                 "handler": 0
 
@@ -166,7 +189,7 @@ objectEditApp.controller("normalController", function ($scope) {
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
                 outputcontroller.pushOutput(data.data);
-                $scope.$parent.$parent.rdRestrictData.rowkeyOfDataTips = undefined;
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
         }
     };
@@ -189,7 +212,39 @@ objectEditApp.controller("normalController", function ($scope) {
             restrict.redraw();
             outputcontroller.pushOutput(data.data);
             console.log("交限 " + pid + " has been removed");
+            $scope.$parent.$parent.objectEditURL = "";
         })
-        $scope.$parent.$parent.rdRestrictData = null;
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
+
+            }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                var outputcontroller = fastmap.uikit.OutPutController({});
+                var workPoint = layerCtrl.getLayerById("workPoint");
+                workPoint.redraw();
+                outputcontroller.pushOutput(data.data+"\n");
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                $scope.$parent.$parent.objectEditURL = "";
+            })
+        }
+    }
+
+    $scope.checkrdSubRestrictflag=function(flag,item){
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdSubRestrictflagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.flag=flag;
+    }
+    $scope.checkrdrelationshipType=function(flag,item){
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.relationshipType=flag;
+    }
+    $scope.checkrdtype=function(flag,item){
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        item.type=flag;
     }
 });
