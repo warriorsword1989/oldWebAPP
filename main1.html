@@ -16,6 +16,7 @@
             display: inline-block;
 
         }
+
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -23,29 +24,47 @@
 
 <body ng-controller="generalController" style="min-width: 1024px">
 <div style="height: 50px">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">FM 道路录入系统</a>
-        </div>
-        <div>
-
+    <nav class="navbar navbar-default navbar-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand logo" href="javascript:void(0);"></a>
+                <span class="navbar-brand platform">FastMap |</span>
+                <span class="navbar-brand system">道路录入系统</span>
+            </div>
+            <div class="collapse navbar-collapse" id="nav-button">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a style="padding-right: 0px;margin-right: -10px">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span id="currentUser" style="padding-right: 7px"></span>|
+                        </a>
+                    </li>
+                    <li>
+                        <a id="login-out" href="login.html">
+                            <i class="glyphicon glyphicon-log-out"></i>退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 </div>
-    <div ui-layout="{flow:'column',dividerSize:'6'}"  style="top: 50px">
-        <div ui-layout-container size="20%">
-            <div>
-                <div class="leftDiv">
-                    <div class="fragDiv">
-                            <span title="参考图层" class="glyphicon glyphicon-stats" style=" line-height: 60px"
-                                  ng-click="changeLayers('referenceLayers')"></span>
+    <div id="parentId" ui-layout="{flow:'column',dividerSize:'6'}"  style="top: 50px">
+        <div ui-layout-container size="15%"  max-size="190px" min-size="190px" >
+            <div >
+                <div class="leftDiv" style="width: 38px;background: #F8F8F8;">
+                    <div class="fragDiv" id="referenceLayers"  style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;">
+                        <img src="css/img/referenceLayers.png " >
+                            <span title="参考图层" class="glyphicon " style=" padding-left: 13px;"
+                                  ng-click="changeLayers('referenceLayers')">参考图层</span>
                     </div>
-                    <div class="fragDiv">
-                            <span title="现场成果" class="glyphicon glyphicon-stats" style=" line-height: 60px"
-                                  ng-click="changeLayers('resultLayers')"></span>
+                    <div class="fragDiv" id="resultLayers" style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;" >
+                        <img src="css/img/resultLayers.png " >
+                        <span title="现场成果" class="glyphicon " style=" padding-left: 13px;"
+                                  ng-click="changeLayers('resultLayers')">现场成果</span>
                     </div>
                 </div>
-                <div class="rightDiv">
+                <div class="rightDiv" style="padding-left:35px; ">
                     <div ng-include="layersURL"></div>
                 </div>
             </div>
@@ -55,20 +74,22 @@
 
             <div ui-layout="{flow:'row',dividerSize:'6'}">
 
-                <div ui-layout-container size="65%">
+                <div ui-layout-container size="70%">
                     <div id="map" style="width: 100%;height: 100%;position: absolute;">
-                        <div id="toolsDiv" style="height: 30px;position: relative;z-index:4;">
+                        <div id="toolsDiv" style="height: 40px;position: relative;z-index:4;background-color: #F8F8F8">
+                            <div class="btn-toolbar">
                                 <div ng-include="selectShapeURL" style="float: left"></div>
-                                <div ng-include="addShapeURL" style="float: left"></div>
-                                <div style="float: left">
-                                    <a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>
-                                </div>
-                                <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left;display:none"></div>
-                        </div>
-                        <div id="popoverTips" style="position:relative;display:none;z-index:4;width:400px">
-                            <div style="width:400px">
-                                <div ng-include="dataTipsURL" style="width: 400px"></div>
+                                <div style="float: left"><span class="divider-vertical"></span></div>
+                                <div ng-include="addShapeURL" style="float: left;"></div>
+                                <!--<div style="float: left">-->
+                                <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
+                                <!--</div>-->
+                                <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
                             </div>
+
+                        </div>
+                        <div id="popoverTips" style="position:relative;display:none;z-index:2;width:400px">
+                                <div ng-include="dataTipsURL" style="width: 400px"></div>
                         </div>
 
                     </div>
@@ -81,13 +102,13 @@
                         <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">错误检查</a>
                         </li>
                         <div style="float: right;">
-                            <button id="immediatelyCheck" style="top:10px;">立即检查</button>
-                            <button id="errorClear" style="top:10px; display: none;" ng-click="empty()">清空</button>
+                            <button id="immediatelyCheck" class="btn btn-default" >立即检查</button>
+                            <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default" >清空</button>
                         </div>
                     </ul>
-                    <div id="inwTabContent" class="tab-content">
+                    <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
                         <div class="tab-pane fade in active" id="inspectDiv">
-                            <div ng-include="outputTab" ui-sref-opt="{reload:true}"></div>
+                            <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height: 100%"></div>
                         </div>
                         <div class="tab-pane fade in active" id="wrongDiv">
                             <div ng-include="errorCheckTab"></div>
@@ -96,13 +117,13 @@
                 </div>
             </div>
         </div>
-        <div ui-layout-container size="15%" style="overflow: hidden; height: 100%;">
+        <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden" max-size="350px" min-size="350px">
             <div ng-include="objectEditURL" style="margin-bottom: 30px; overflow-y: auto; height: 98%; "></div>
-            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color: #f8f8f8;border-color: #e7e7e7; height: 35px;">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default" ng-click="save()">保存</button>
-                    <button type="button" class="btn btn-default" ng-click="delete()">删除</button>
-                    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; height: 35px;">
+                <div  style=" margin: 0 auto;text-align:center;">
+                    <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;"  ng-click="save()">保存</button>
+                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="delete()">删除</button>
+                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="cancel()">取消</button>
                 </div>
             </div>
         </div>

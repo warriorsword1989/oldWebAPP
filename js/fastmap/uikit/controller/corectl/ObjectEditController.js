@@ -78,8 +78,8 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param type
              * @returns {*}
              */
-            compareJson: function (oriData, data, type) {
-                var retObj = {},n= 0,arrFlag=this.isContainArr(oriData);
+            compareJson: function (pid,oriData, data, type) {
+                var retObj = {},n= 0,arrFlag=this.isContainArr(oriData),pids=pid;
                 for (var item in oriData) {
 
 
@@ -93,20 +93,73 @@ fastmap.uikit.ObjectEditController = (function () {
                             }
                             retObj["objStatus"] = type;
                         }
-                    } else if (oriData[item].constructor == Array&&data[item].constructor==Array) {
+                    } else if (data[item]&&oriData[item]&&oriData[item].constructor == Array&&data[item].constructor==Array) {
                         if (oriData[item].length === data[item].length) {
                             var objArr = [];
                             for (var i = 0, len = oriData[item].length; i < len; i++) {
-                                var obj = this.compareJson(oriData[item][i], data[item][i], "UPDATE");
+                                var obj = this.compareJson(pids,oriData[item][i], data[item][i], "UPDATE");
                                 if (obj) {
                                     objArr.push(obj);
                                 }
                             }
                             if (objArr.length !== 0) {
+                               // if(oriData["linkPid"]){
+                                    obj["linkPid"]=oriData["pid"];
+                                //}
                                 retObj[item] = objArr;
                             }
                         }else if(oriData[item].length < data[item].length) {
+                            var objArr = [];
+                            //大于原长度的直接增加，从索引0开始，数组是从第一位开始追加的
+                            for(var m=0;m<data[item].length-oriData[item].length;m++){
+                                var obj={};
+                                if(oriData[item].length==0){
+                                    for(var s in data[item][m]){
+                                        if(s!="$$hashKey"){
+                                            if(s=="linkPid"){
+                                                obj[s]=data["pid"];
+                                            }else{
+                                                obj[s]=data[item][m][s];
+                                            }
+                                        }
+                                    }
+                                    if(!obj["linkPid"]){
+                                        if (data["rowId"]) {
+                                            obj["rowId"] = data["rowId"];
+                                        }else if (data["pid"]) {
+                                            obj["pid"] = data["pid"];
+                                        }
+                                    }
+                                    obj["objStatus"] = "INSERT";
+                                    objArr.push(obj);
+                                }else{
+                                    //var obj = this.compareJson(oriData[item][m], data[item][m], "INSERT");
+                                    obj = data[item][m];
+                                    obj["objStatus"] = "INSERT";
+                                    delete obj["$$hashKey"];
+                                    obj["pid"]=pids;
+                                    if (obj) {
+                                        if(oriData[item][0]["linkPid"]){
+                                            obj["linkPid"]=oriData[item][0]["linkPid"];
+                                        }
+                                        objArr.push(obj);
+                                    }
+                                }
 
+                            }
+                            for(var j=oriData[item].length-1;j>=0;j--){
+                                    var obj = this.compareJson(oriData[item][j], data[item][j+1], "UPDATE");
+                                    if (obj) {
+                                        if(oriData[item][j]["linkPid"]){
+                                            obj["linkPid"]=oriData[item][j]["linkPid"];
+                                        }
+                                        objArr.push(obj);
+                                    }
+                            }
+
+                            if (objArr.length !== 0) {
+                                retObj[item] = objArr;
+                            }
                         }
 
                     } else if (!isNaN(oriData[item])) {
@@ -151,7 +204,7 @@ fastmap.uikit.ObjectEditController = (function () {
             isContainArr: function (obj) {
                 var flag = false;
                 for (var item in obj) {
-                    if(obj[item].constructor == Array) {
+                    if(obj[item]&&obj[item].constructor == Array) {
                         flag = true;
                     }
                 }
@@ -176,7 +229,7 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
-                this.changedProperty = this.compareJson(orignalData, data, "UPDATE");
+                this.changedProperty = this.compareJson(orignalData["pid"],orignalData, data, "UPDATE");
                 this.fire("changedPropertyEvent", {changedProperty: this.changedProperty});
             }
         });

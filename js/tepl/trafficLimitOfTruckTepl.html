@@ -7,8 +7,6 @@
 <script src="data.js"></script>
 <style>
     div {
-        font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 14px;
         -webkit-font-smoothing: antialiased;
         line-height: 1.42857143;
         color: #58666e;
@@ -252,8 +250,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading font-bold">
                     时间段
-                  <span class="glyphicon glyphicon-plus-sign"
-                        style="float: right;color: rgb(255, 0, 0);font-size: 20px"
+                  <span class="glyphicon glyphicon-plus"
+                        style="float: right;color: darkgray;font-size: 20px"
                         ng-click="addTruckTime()"></span>
                 </div>
                 <div class="panel-body">
@@ -272,8 +270,8 @@
                                         </div>
                                         <div class="col-sm-2">
                                                       <span
-                                                              class="glyphicon glyphicon-minus-sign"
-                                                              style="color: rgb(255, 0, 0);font-size: 20px"
+                                                              class="glyphicon glyphicon-remove-sign"
+                                                              style="color:darkgray;font-size: 20px"
                                                               ng-click="minusTruckTime($index)"></span>
                                         </div>
                                     </div>

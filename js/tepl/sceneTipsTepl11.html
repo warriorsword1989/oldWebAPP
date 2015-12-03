@@ -1,0 +1,129 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+    label {
+        font-weight: normal;
+    }
+    #scenetipsDiv {
+        width: 400px;
+        height: 250px;
+    }
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+    .line-lg {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+    .pull-in {
+        margin-left: 0px;
+        margin-right: -15px;
+    }
+</style>
+<div  ng-controller="sceneTipsController"  id="scenetipsDiv">
+    <div id="top_left" style="float:left; width:40%;height:75%">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    <div class="form-group">
+                        <div class="col-sm-6" ng-repeat="phitem in photos">
+                            <img  ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="top_right" style="float:right; width:60%;height:98%;">
+        <div class="panel panel-default" style="width: 100%;height: 100%;">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                        <label class="col-sm-4 control-label">状态:</label>
+
+                        <div class="col-sm-8">
+                            <span>{{showContent}}</span>
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
+                    <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                        <div class="col-sm-4" ng-repeat="item in dataTipsData.o_array">
+                            <img ng-src="css/limit/normal/{{item.oInfo}}.png" ng-click="showOutLink(item)">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
+                    <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                        <label class="col-sm-2 control-label">入</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control rounded"
+                                   placeholder="link编号" ng-model="dataTipsData.in.id">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
+                    <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                        <label class="col-sm-2 control-label">出</label>
+
+                        <div class="col-sm-10">
+                            <div ng-repeat="outItem in rdSubTipsData.out">
+                                <input type="text" class="form-control rounded"
+                                       placeholder="link编号"
+                                       ng-model="outItem.id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
+                    <div class="form-group" style="height: 25%;margin-bottom: 3px;">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control rounded" placeholder="时间段">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 1px;margin-bottom: 1px"></div>
+                    <div class="form-group" style="height: 15%;margin-bottom: 3px;">
+                        <div class="col-sm-12">
+                            卡车信息
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="middle" style="background-color:purple;float:left;width:40%;height:23%;">
+        <div class="panel panel-default" style="width: 100%;height: 100%;" >
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    {{remarksContent}}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="buttom_left" style="float:left; width:100%;height:2%;">
+        <div class="panel panel-default" style="margin-bottom: 0px;">
+            <div class="panel-body" style="padding: 0px;">
+                <form class="form-horizontal" method="get" style="margin-bottom: 0px;">
+                    <div class="form-group" style="margin-bottom: 0px;">
+                        <div class="col-sm-4" style="text-align: center">
+                            <button type="button" class="btn btn-default" style="float: left" ng-click="closeDataTips()">关闭</button>
+                        </div>
+                        <div class="col-sm-4"  style="text-align: center">
+                            <button type="button" class="btn btn-info" ng-click="transDataTips()">转换</button>
+                        </div>
+                        <div class="col-sm-4"  style="text-align: center">
+                            <button type="button" class="btn btn-danger" style="float: right" ng-click="increaseDataTips()">增加</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
