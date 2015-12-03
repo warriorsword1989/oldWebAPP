@@ -198,6 +198,9 @@ Application.layersConfig =
                 parse:  function (data) {
                     var geojson = {};
                     var data = data.RDLINK;
+                    if(data == undefined){
+                        console.log('-------------')
+                    }
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
                         var obj = {};

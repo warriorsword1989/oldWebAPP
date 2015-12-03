@@ -138,7 +138,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                     if(i == index){
                         drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'blue', radius:4},true)
                     }else{
-                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'red', radius:3},true)
+                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'red', radius:4},true)
                     }
 
                 }
@@ -149,6 +149,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var g = self._ctx;
             g.strokeStyle = style.color;
             g.lineWidth = style.size;
+            //g.opacity = 0.5;
             g.beginPath();
             for (i = 0; i < proj.length; i++) {
                 var method = (i === 0 ? 'move' : 'line') + 'To';
