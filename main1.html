@@ -16,6 +16,18 @@
             display: inline-block;
 
         }
+        .tooltipclass {
+            display: none;
+            position: absolute;
+            background:#ffffff;
+            color: #000000;
+            border: 1px solid red;
+            font-family: sans-serif;
+            font-size: 12px;
+            height: 20px;
+            line-height: 20px;
+            z-index: 1000;
+        }
 
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
@@ -129,7 +141,7 @@
         </div>
     </div>
 
-
+<div id='tooltip' class="tooltipclass"></div>
 <div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

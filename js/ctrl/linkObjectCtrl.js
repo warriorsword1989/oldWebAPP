@@ -91,7 +91,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         }
     };
     $scope.$parent.$parent.save=function() {
-        console.log($scope.linkData);
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         var param = {
@@ -102,7 +101,19 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
 
         Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
             var outputcontroller = new fastmap.uikit.OutPutController({});
-            outputcontroller.pushOutput(data);
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid)
+            }
+            outputcontroller.pushOutput(info)
         })
     };
      $scope.$parent.$parent.delete=function(){
@@ -120,12 +131,25 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
          //结束编辑状态
          console.log("I am removing link obj" + objId);
          Application.functions.saveProperty(JSON.stringify(param), function (data) {
+             var info=[];
+             if(data.data){
+                 $.each(data.data.log,function(i,item){
+                     if(item.pid){
+                         info.push(item.op+item.type+"(pid:"+item.pid+")");
+                     }else{
+                         info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                     }
+                 });
+             }else{
+                 info.push(data.errmsg + data.errid);
+             }
+
              //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
              if(data.errmsg!="此link上存在交限关系信息，删除该Link会对应删除此组关系"){
                  var outputcontroller = new fastmap.uikit.OutPutController({});
                  var restrict = layerCtrl.getLayerById("referenceLine");
                  restrict.redraw();
-                 outputcontroller.pushOutput(data);
+                 outputcontroller.pushOutput(info);
                  console.log("link "+objId+" has been removed");
                  $scope.linkData=null;
                  var editorLayer=layerCtrl.getLayerById("edit")
@@ -133,7 +157,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                  $scope.$parent.$parent.objectEditURL ="";
              }else{
                  var outputcontroller = new fastmap.uikit.OutPutController({});
-                 outputcontroller.pushOutput(data);
+                 outputcontroller.pushOutput(data.errmsg);
              }
 
          })

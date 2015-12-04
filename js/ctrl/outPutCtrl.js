@@ -7,7 +7,9 @@ outPutModule.controller('outPutController',function($scope,$timeout) {
     updateme();
     function updateme(){
         $timeout(function(){
-            $scope.outputtext = JSON.stringify(output.outPuts);
+            //$scope.outputtext = JSON.stringify(output.outPuts);
+            var outvalue=output.outPuts;
+            $scope.outputtext = outvalue.join("\n");
             updateme();
         },500);
     }
