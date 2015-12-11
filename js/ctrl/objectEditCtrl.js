@@ -97,11 +97,15 @@ objectEditApp.controller("normalController", function ($scope) {
     if (objectEditCtrl.data === null) {
         $scope.rdSubRestrictData = [];
     } else {
+        if(objectEditCtrl.data.details.length>0){
+            $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+            $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+            $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+            $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
+        }else{
+            $scope.rdSubRestrictData=[];
+        }
 
-        $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     }
 
     $scope.$parent.$parent.updateRestrictData = function (data) {
@@ -177,7 +181,23 @@ objectEditApp.controller("normalController", function ($scope) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
             var outputcontroller = fastmap.uikit.OutPutController({});
-            outputcontroller.pushOutput(data.data);
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid);
+            }
+
+            outputcontroller.pushOutput(info);
+            if(outputcontroller.updateOutPuts!=="") {
+                outputcontroller.updateOutPuts();
+            }
         });
         if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
             var stageParam = {
@@ -188,7 +208,24 @@ objectEditApp.controller("normalController", function ($scope) {
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
-                outputcontroller.pushOutput(data.data);
+                var info=[];
+                if(data.data){
+                    $.each(data.data.log,function(i,item){
+                        if(item.pid){
+                            info.push(item.op+item.type+"(pid:"+item.pid+")");
+                        }else{
+                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        }
+                    });
+                }else{
+                    info.push(data.errmsg+data.errid);
+                }
+
+                outputcontroller.pushOutput(info);
+                if(outputcontroller.updateOutPuts!=="") {
+                    outputcontroller.updateOutPuts();
+                }
+                //outputcontroller.pushOutput(data.data);
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
         }
@@ -210,7 +247,22 @@ objectEditApp.controller("normalController", function ($scope) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
-            outputcontroller.pushOutput(data.data);
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid);
+            }
+            outputcontroller.pushOutput(info);
+            if(outputcontroller.updateOutPuts!=="") {
+                outputcontroller.updateOutPuts();
+            }
             console.log("交限 " + pid + " has been removed");
             $scope.$parent.$parent.objectEditURL = "";
         })
@@ -225,7 +277,22 @@ objectEditApp.controller("normalController", function ($scope) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
-                outputcontroller.pushOutput(data.data+"\n");
+                var info=[];
+                if(data.data){
+                    $.each(data.data.log,function(i,item){
+                        if(item.pid){
+                            info.push(item.op+item.type+"(pid:"+item.pid+")");
+                        }else{
+                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        }
+                    });
+                }else {
+                    info.push(data.errmsg + data.errid);
+                }
+                outputcontroller.pushOutput(info);
+                if(outputcontroller.updateOutPuts!=="") {
+                    outputcontroller.updateOutPuts();
+                }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                 $scope.$parent.$parent.objectEditURL = "";
             })
