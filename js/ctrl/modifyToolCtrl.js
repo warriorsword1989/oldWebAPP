@@ -51,11 +51,12 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
             shapectl.startEditing();
 
-            shapectl.on("startshapeeditresultfeedback",cb);
+            shapectl.on("startshapeeditresultfeedback",saveEscInsert);
             shapectl.on("stopshapeeditresultfeedback",function(){
-                shapectl.off("startshapeeditresultfeedback",cb);
+                shapectl.off("startshapeeditresultfeedback",saveEscInsert);
             });
-            function cb(){
+            //保存或者取消insertDot
+            function saveEscInsert(){
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             }
@@ -91,11 +92,12 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
             shapectl.startEditing();
 
-            shapectl.on("startshapeeditresultfeedback",cbdeleteDot);
+            shapectl.on("startshapeeditresultfeedback",saveEscInsertDelDot);
             shapectl.on("stopshapeeditresultfeedback",function(){
-                shapectl.off("startshapeeditresultfeedback",cbdeleteDot);
+                shapectl.off("startshapeeditresultfeedback",saveEscInsertDelDot);
             });
-            function cbdeleteDot() {
+            //保存或者取消deleteDot
+            function saveEscInsertDelDot() {
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             }
@@ -128,11 +130,12 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathVertexMove');
 
             shapectl.startEditing();
-            shapectl.on("startshapeeditresultfeedback",cbmoveDot);
+            shapectl.on("startshapeeditresultfeedback",saveEscInsertMoveDot);
             shapectl.on("stopshapeeditresultfeedback",function(){
-                shapectl.off("startshapeeditresultfeedback",cbmoveDot);
+                shapectl.off("startshapeeditresultfeedback",saveEscInsertMoveDot);
             });
-            function cbmoveDot() {
+            //保存或者取消moveDot
+            function saveEscInsertMoveDot() {
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             }
@@ -188,11 +191,13 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
             shapectl.startEditing();
 
-            shapectl.on("startshapeeditresultfeedback",cbpathBreak);
+            shapectl.on("startshapeeditresultfeedback",saveEscInsertPathBreak);
             shapectl.on("stopshapeeditresultfeedback",function(){
-                shapectl.off("startshapeeditresultfeedback",cbpathBreak);
+                shapectl.off("startshapeeditresultfeedback",saveEscInsertPathBreak);
             });
-            function cbpathBreak() {
+
+            //保存或者取消pathBreak
+            function saveEscInsertPathBreak() {
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             }
