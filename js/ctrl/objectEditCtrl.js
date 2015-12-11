@@ -195,6 +195,9 @@ objectEditApp.controller("normalController", function ($scope) {
             }
 
             outputcontroller.pushOutput(info);
+            if(outputcontroller.updateOutPuts!=="") {
+                outputcontroller.updateOutPuts();
+            }
         });
         if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
             var stageParam = {
@@ -205,7 +208,24 @@ objectEditApp.controller("normalController", function ($scope) {
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
-                outputcontroller.pushOutput(data.data);
+                var info=[];
+                if(data.data){
+                    $.each(data.data.log,function(i,item){
+                        if(item.pid){
+                            info.push(item.op+item.type+"(pid:"+item.pid+")");
+                        }else{
+                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        }
+                    });
+                }else{
+                    info.push(data.errmsg+data.errid);
+                }
+
+                outputcontroller.pushOutput(info);
+                if(outputcontroller.updateOutPuts!=="") {
+                    outputcontroller.updateOutPuts();
+                }
+                //outputcontroller.pushOutput(data.data);
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
         }
@@ -240,6 +260,9 @@ objectEditApp.controller("normalController", function ($scope) {
                 info.push(data.errmsg+data.errid);
             }
             outputcontroller.pushOutput(info);
+            if(outputcontroller.updateOutPuts!=="") {
+                outputcontroller.updateOutPuts();
+            }
             console.log("交限 " + pid + " has been removed");
             $scope.$parent.$parent.objectEditURL = "";
         })
@@ -266,7 +289,10 @@ objectEditApp.controller("normalController", function ($scope) {
                 }else {
                     info.push(data.errmsg + data.errid);
                 }
-                outputcontroller.pushOutput(info+"\n");
+                outputcontroller.pushOutput(info);
+                if(outputcontroller.updateOutPuts!=="") {
+                    outputcontroller.updateOutPuts();
+                }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                 $scope.$parent.$parent.objectEditURL = "";
             })

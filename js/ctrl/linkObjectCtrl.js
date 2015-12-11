@@ -113,7 +113,10 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
             }else{
                 info.push(data.errmsg+data.errid)
             }
-            outputcontroller.pushOutput(info)
+            outputcontroller.pushOutput(info);
+            if(outputcontroller.updateOutPuts!=="") {
+                outputcontroller.updateOutPuts();
+            }
         })
     };
      $scope.$parent.$parent.delete=function(){
@@ -150,6 +153,9 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                  var restrict = layerCtrl.getLayerById("referenceLine");
                  restrict.redraw();
                  outputcontroller.pushOutput(info);
+                 if(outputcontroller.updateOutPuts!=="") {
+                     outputcontroller.updateOutPuts();
+                 }
                  console.log("link "+objId+" has been removed");
                  $scope.linkData=null;
                  var editorLayer=layerCtrl.getLayerById("edit")
@@ -158,6 +164,9 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
              }else{
                  var outputcontroller = new fastmap.uikit.OutPutController({});
                  outputcontroller.pushOutput(data.errmsg);
+                 if(outputcontroller.updateOutPuts!=="") {
+                     outputcontroller.updateOutPuts();
+                 }
              }
 
          })

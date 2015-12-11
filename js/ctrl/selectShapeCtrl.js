@@ -10,6 +10,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var layerCtrl = fastmap.uikit.LayerController();
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var tooltipsCtrl=fastmap.uikit.ToolTipsController();
+
+
         if (type === "link") {
             //如果点击了修改图形
             shapeCtrl.stopEditing();
@@ -27,14 +29,18 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             map.currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
             map.currentTool.enable();
 
-            var tooltiptext = '选择一条线！';
-            tooltipsCtrl.setMap(map);
-            tooltipsCtrl.setCurrentTooltip(tooltiptext);
             rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
-            rdLink.on("getId", function (data) {
+
+            //初始化鼠标提示
+            var tooltiptext = '请选择线！';
+            tooltipsCtrl.setMap(map);
+            if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
+            }
+            tooltipsCtrl.setCurrentTooltip(tooltiptext);
+            rdLink.on("getId", function (data) {
                 $scope.data = data;
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
                     if (data.errcode === -1) {
@@ -79,10 +85,17 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             var rdLink = layerCtrl.getLayerById('referenceLine');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
+            $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
+                $scope.$parent.$parent.objectEditURL = "js/tepl/nodeObjTepl/rdNodeFromTepl.html";
+            });
+
         }
         if (type === "relation") {
             //如果点击了修改图形
             shapeCtrl.stopEditing();
+            if(tooltipsCtrl.getCurrentTooltip()){
+                tooltipsCtrl.onRemoveTooltip();
+            }
             layerCtrl.getLayerById('edit').bringToBack();
             $(layerCtrl.getLayerById('edit').options._div).unbind();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -97,7 +110,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.selectType = 'relation';
             rdLink.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            var tooltiptext = '选择一个交线！';
+            var tooltiptext = '请选择交线！';
             tooltipsCtrl.setMap(map);
             tooltipsCtrl.setCurrentTooltip(tooltiptext);
             rdLink.on("getNodeId", function (data) {
@@ -126,6 +139,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         if (type == "tips") {
             //如果点击了修改图形
             shapeCtrl.stopEditing();
+            if(tooltipsCtrl.getCurrentTooltip()){
+                tooltipsCtrl.onRemoveTooltip();
+            }
             layerCtrl.getLayerById('edit').bringToBack();
             $(layerCtrl.getLayerById('edit').options._div).unbind();
 
@@ -140,7 +156,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             map.currentTool.enable();
             rdLink.options.selectType = 'tips';
             rdLink.options.editable = true;
-            var tooltiptext = '选择一个tips！';
+            var tooltiptext = '请选择tips！';
             tooltipsCtrl.setMap(map);
             tooltipsCtrl.setCurrentTooltip(tooltiptext);
             rdLink.on("getNodeId", function (data) {
@@ -230,5 +246,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         )
     }
 
+        if(type==="rdCross"){
+            $ocLazyLoad.load("ctrl/rdCrossCtrl").then(function () {
+                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+            });
+        }
 };
 }])

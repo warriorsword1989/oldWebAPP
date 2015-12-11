@@ -26,6 +26,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 $scope.$parent.$parent.changeBtnClass(num);
                 $scope.limit = {};
                // outPutCtrl.pushOutput({label: "正要新建交限,先选择线"});
+                shapectl.stopEditing();
+                if(tooltipsCtrl.getCurrentTooltip()){
+                    tooltipsCtrl.onRemoveTooltip();
+                }
                 tooltipsCtrl.setEditEventType('restriction');
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -53,13 +57,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
 
+            }else if(type==="speedLimit"){
+                $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                    $scope.$parent.$parent.objectEditURL = "js/tepl/speedLimitTepl.html";
+                });
             }
             else if (type === "link") {
-                if(tooltipsCtrl.getCurrentTooltip()=="点击空格保存画线!"){
-                    shapectl.stopEditing();
-                    tooltipsCtrl.onRemoveTooltip();
-                    shapectl.off("stopshapeeditresultfeedback",innertips);
-                }
                 $scope.type = "link";
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {
@@ -72,22 +75,24 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     var editLyer = layerCtrl.getLayerById('edit');
                     layerCtrl.pushLayerFront('edit');
                 }
+                //因为线没有stopEditing，innerHTML是选择线的话就清空提示
+                if(tooltipsCtrl.getCurrentTooltip()){
+                    tooltipsCtrl.onRemoveTooltip();
+                }
                 shapectl.setEditingType('drawPath');
                 shapectl.startEditing();
                 tooltipsCtrl.setEditEventType('drawPath');
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("双击地图结束画线!");
-                shapectl.on("stopshapeeditresultfeedback",innertips);
-                function innertips(){
-                    tooltipsCtrl.setChangeInnerHtml("点击空格保存画线!");
-                    tooltipsCtrl.setStyleTooltip("color:blue;");
-                    tooltipsCtrl.onDbClickTooltip();
-                }
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
+
             }
         }
         $(document).bind('keypress',
             function (event) {
+                //ESC 键取消
+
                 if (event.keyCode == 32) {
                     if ($scope.type == 'link') {
 
@@ -109,12 +114,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         //结束编辑状态
                         shapectl.stopEditing();
                         tooltipsCtrl.onRemoveTooltip();
-                        shapectl.off("stopshapeeditresultfeedback",function (){
-                            tooltipsCtrl.setChangeInnerHtml("点击空格保存画线!");
-                            tooltipsCtrl.setStyleTooltip("color:blue;");
-                            tooltipsCtrl.onDbClickTooltip();
-                        });
-
                         Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                             var outputcontroller = new fastmap.uikit.OutPutController({});
                             var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -132,6 +131,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         });
 
                     } else if ($scope.type === "restriction") {
+                        tooltipsCtrl.onRemoveTooltip();
                         var paramOfRestrict = {
                             "command": "createrestriction",
                             "projectId": 1,
@@ -161,6 +161,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             }
                             //outPutCtrl.pushOutput(data.data.log[0]);
                             outPutCtrl.pushOutput(info);
+                            if(outputcontroller.updateOutPuts!=="") {
+                                outputcontroller.updateOutPuts();
+                            }
                             Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                                 objEditCtrl.setCurrentObject(data.data);
                                 $scope.type = "";

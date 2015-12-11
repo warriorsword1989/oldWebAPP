@@ -44,6 +44,9 @@ fastmap.uikit.ToolTipsController=(function() {
             setChangeInnerHtml:function(innerhtmltext){
                 this.innervalue = innerhtmltext;
             },
+            setDbClickChangeInnerHtml:function(innerhtmltext){
+                this.DbClickInnervalue = innerhtmltext;
+            },
             setStyleTooltip:function(style){
                 this.tooltipstyle=style;
             },
@@ -72,6 +75,21 @@ fastmap.uikit.ToolTipsController=(function() {
                         this.toolsdiv.innerHTML=this.innervalue;
                     }
                     this.toolsdiv.style.cssText+=this.tooltipstyle;
+                }else if(this.eventType=="deleteDot"){
+                    if(this.innervalue){
+                        this.toolsdiv.innerHTML=this.innervalue;
+                    }
+                    this.toolsdiv.style.cssText+=this.tooltipstyle;
+                }else if(this.eventType=="moveDot"){
+                    if(this.innervalue){
+                        this.toolsdiv.innerHTML=this.innervalue;
+                    }
+                    this.toolsdiv.style.cssText+=this.tooltipstyle;
+                }else if(this.eventType=="pathBreak"){
+                    if(this.innervalue){
+                        this.toolsdiv.innerHTML=this.innervalue;
+                    }
+                    this.toolsdiv.style.cssText+=this.tooltipstyle;
                 }
             },
             onRemoveTooltip:function(){
@@ -84,7 +102,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this._map.off('dblclick', this.onDbClickTooltip,this);
             },
             onDbClickTooltip:function(){
-                this.toolsdiv.innerHTML=this.innervalue;
+                this.toolsdiv.innerHTML=this.DbClickInnervalue;
                 this.toolsdiv.style.cssText+=this.tooltipstyle;
             },
             /***

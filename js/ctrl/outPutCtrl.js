@@ -4,14 +4,19 @@
 var outPutModule = angular.module('lazymodule', []);
 outPutModule.controller('outPutController',function($scope,$timeout) {
     var output = fastmap.uikit.OutPutController();
-    updateme();
-    function updateme(){
-        $timeout(function(){
-            //$scope.outputtext = JSON.stringify(output.outPuts);
-            var outvalue=output.outPuts;
-            $scope.outputtext = outvalue.join("\n");
-            updateme();
-        },500);
+
+    output.updateOutPuts=function(){
+        var outvalue=output.outPuts;
+        $scope.outputtext = outvalue.join("\n----------------------------------\n");
     }
 
+    //$scope.outputtext = outvalue.join("\n----------------------------------\n");
+    ////updateme();
+    //if($scope.$parent.$parent.updateme!=""){
+    //    updateme();
+    //}
+    //function updateme(){
+    //    var outvalue=output.outPuts;
+    //    $scope.outputtext = outvalue.join("\n----------------------------------\n");
+    //}
 });
