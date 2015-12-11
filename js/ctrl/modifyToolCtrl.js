@@ -6,6 +6,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
     var selectCtrl = fastmap.uikit.SelectController();
     var shapectl = new fastmap.uikit.ShapeEditorController();
+    var tooltipsCtrl=fastmap.uikit.ToolTipsController();
+
+    tooltipsCtrl.setMap(map);
     map.currentTool = shapectl.getCurrentTool();
     shapectl.setMap(map);
     $scope.type="";
@@ -18,11 +21,21 @@ modifyApp.controller("modifyToolController", function ($scope) {
         }
         var feature = null;
         if (type == "insertDot") {
+            shapectl.stopEditing();
             $scope.type = "insertDot";
             $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
                 feature = selectCtrl.selectedFeatures.geometry;
+                if(tooltipsCtrl.getCurrentTooltip()!=""){
+                    tooltipsCtrl.onRemoveTooltip();
+                }
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('insertDot');
+                    tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
+                }
                 var editLyer = ly.getLayerById('edit');
                 ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
@@ -34,13 +47,32 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathVertexInsert');
             shapectl.startEditing();
 
+            shapectl.on("startshapeeditresultfeedback",cb);
+            shapectl.on("stopshapeeditresultfeedback",function(){
+                shapectl.off("startshapeeditresultfeedback",cb);
+            });
+            function cb(){
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            }
+
         }
 
         if (type == "deleteDot") {
+            shapectl.stopEditing();
             $scope.type = "deleteDot";
             $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
+                if(selectCtrl.selectedFeatures){
+                    if(tooltipsCtrl.getCurrentTooltip()!=""){
+                        tooltipsCtrl.onRemoveTooltip();
+                    }
+                    tooltipsCtrl.setEditEventType('deleteDot');
+                    tooltipsCtrl.setCurrentTooltip('开始删除形状点！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                }
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
                 ly.pushLayerFront('edit');
@@ -50,15 +82,36 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 sobj.setOriginalGeometry(feature);
                 sobj.setFinalGeometry(feature);
             }
+
             shapectl.setEditingType('pathVertexReMove');
 
             shapectl.startEditing();
+
+            shapectl.on("startshapeeditresultfeedback",cbdeleteDot);
+            shapectl.on("stopshapeeditresultfeedback",function(){
+                shapectl.off("startshapeeditresultfeedback",cbdeleteDot);
+            });
+            function cbdeleteDot() {
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            }
         }
         if (type == "moveDot") {
+            shapectl.stopEditing();
+
             $scope.type = "moveDot";
             $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
+                if(tooltipsCtrl.getCurrentTooltip()!=""){
+                    tooltipsCtrl.onRemoveTooltip();
+                }
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('moveDot');
+                    tooltipsCtrl.setCurrentTooltip('开始移动形状点！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
+                }
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
                 ly.pushLayerFront('edit');
@@ -71,6 +124,14 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathVertexMove');
 
             shapectl.startEditing();
+            shapectl.on("startshapeeditresultfeedback",cbmoveDot);
+            shapectl.on("stopshapeeditresultfeedback",function(){
+                shapectl.off("startshapeeditresultfeedback",cbmoveDot);
+            });
+            function cbmoveDot() {
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            }
         }
         if (type == "extendDot") {
             $scope.type = "extendDot";
@@ -89,14 +150,27 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathVertexInsert');
 
             shapectl.startEditing();
+
+
+
         }
 
 
         if(type == 'pathBreak'){
+            shapectl.stopEditing();
             $scope.type = "pathBreak";
             $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
+                if(tooltipsCtrl.getCurrentTooltip()!=""){
+                    tooltipsCtrl.onRemoveTooltip();
+                }
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('pathBreak');
+                    tooltipsCtrl.setCurrentTooltip('开始打断link！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
+                }
                 var feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
                 ly.pushLayerFront('edit');
@@ -109,13 +183,22 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapectl.setEditingType('pathBreak');
 
             shapectl.startEditing();
+
+            shapectl.on("startshapeeditresultfeedback",cbpathBreak);
+            shapectl.on("stopshapeeditresultfeedback",function(){
+                shapectl.off("startshapeeditresultfeedback",cbpathBreak);
+            });
+            function cbpathBreak() {
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            }
         }
         //var link = ly.getLayerById('edit').drawGeometry;
     };
     $(document).bind('keypress',
         function(event){
-
             if(event.keyCode==32){
+                tooltipsCtrl.onRemoveTooltip();
                 //为了保证捕获到这里时提交的形式正确,addShape时id为（非）未定义时return，modifyToolCtrl时id为未定义时return
                 if((selectCtrl.selectedFeatures===null)||typeof(selectCtrl.selectedFeatures.id)=="undefined"){
                     map.currentTool.disable();
@@ -164,7 +247,19 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     shapectl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
                         var outputcontroller = new fastmap.uikit.OutPutController({});
-                        outputcontroller.pushOutput(data.data);
+                        var info=[];
+                        $.each(data.data.log,function(i,item){
+                            if(item.pid){
+                                info.push(item.op+item.type+"(pid:"+item.pid+")");
+                            }else{
+                                info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                            }
+                        });
+                        outputcontroller.pushOutput(info);
+                        if(outputcontroller.updateOutPuts!=="") {
+                            outputcontroller.updateOutPuts();
+                        }
+
                         var rdLink = ly.getLayerById('referenceLine');
                         rdLink.redraw();
                         ly.getLayerById('edit').bringToBack()
@@ -189,14 +284,29 @@ modifyApp.controller("modifyToolController", function ($scope) {
                                 "geometry": {"type": "LineString", "coordinates": coordinate}
                             }
                         }
+
+
                         //结束编辑状态
                         shapectl.stopEditing();
+
                         Application.functions.saveLinkGeometry(JSON.stringify(param),function(data){
                             var outputcontroller = new fastmap.uikit.OutPutController({});
-                            var resultdata=[];
-
-                            resultdata.push("类型："+data.data.log[0].type+"; pid:"+data.data.log[0].pid+"; 操作:"+data.data.log[0].op);
-                            outputcontroller.pushOutput(resultdata);
+                            var info=[];
+                            if(data.data){
+                                $.each(data.data.log,function(i,item){
+                                    if(item.pid){
+                                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                                    }else{
+                                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                                    }
+                                });
+                            }else{
+                                info.push(data.errmsg + data.errid);
+                            }
+                            outputcontroller.pushOutput(info);
+                            if(outputcontroller.updateOutPuts!=="") {
+                                outputcontroller.updateOutPuts();
+                            }
                             var rdLink = ly.getLayerById('referenceLine');
                             rdLink.redraw();
                             ly.getLayerById('edit').bringToBack()

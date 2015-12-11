@@ -29,7 +29,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     };
     var ly = fastmap.uikit.LayerController();
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-
+    var tooltipsCtrl=new fastmap.uikit.ToolTipsController();
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
@@ -70,8 +70,10 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 
                 $(ly.getLayerById('edit').options._div).unbind();
 
+                tooltipsCtrl.onRemoveTooltip();
             }
         });
+
 
 
     $scope.changeLayers = function (layers) {

@@ -18,6 +18,7 @@ basicApp.controller("basicController",function($scope) {
                 $('#'+$scope.linkData.names[0].linkPid+'_'+0).collapse('show');
             }else{
 
+
             }
         }
     },10)
