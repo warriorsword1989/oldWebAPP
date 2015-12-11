@@ -31,8 +31,9 @@ fastmap.uikit.ToolTipsController=(function() {
              * 设置地图对象
              * @param map
              */
-            setMap:function(map){
+            setMap:function(map,divid){
                 this._map = map;
+                this._divid=divid;
             },
             /***
              *
@@ -65,27 +66,7 @@ fastmap.uikit.ToolTipsController=(function() {
                     this.toolsdiv.innerHTML=this.innervalue;
                     this.toolsdiv.style.cssText+=this.tooltipstyle;
                     this._map.on('dblclick', this.onDbClickTooltip,this);
-                }else if(this.eventType=="restriction"){
-                    if(this.innervalue){
-                        this.toolsdiv.innerHTML=this.innervalue;
-                    }
-                    this.toolsdiv.style.cssText+=this.tooltipstyle;
-                }else if(this.eventType=="insertDot"){
-                    if(this.innervalue){
-                        this.toolsdiv.innerHTML=this.innervalue;
-                    }
-                    this.toolsdiv.style.cssText+=this.tooltipstyle;
-                }else if(this.eventType=="deleteDot"){
-                    if(this.innervalue){
-                        this.toolsdiv.innerHTML=this.innervalue;
-                    }
-                    this.toolsdiv.style.cssText+=this.tooltipstyle;
-                }else if(this.eventType=="moveDot"){
-                    if(this.innervalue){
-                        this.toolsdiv.innerHTML=this.innervalue;
-                    }
-                    this.toolsdiv.style.cssText+=this.tooltipstyle;
-                }else if(this.eventType=="pathBreak"){
+                }else {
                     if(this.innervalue){
                         this.toolsdiv.innerHTML=this.innervalue;
                     }
@@ -110,7 +91,7 @@ fastmap.uikit.ToolTipsController=(function() {
              * @param {Object}tooltip
              */
             setCurrentTooltip: function (tooltip) {
-                var tools=L.DomUtil.get('tooltip');
+                var tools=L.DomUtil.get(this._divid);
                 this._map.on('mousemove', this.onMoveTooltip,this);
                 tools.style.display = 'block';
                 tools.innerHTML=tooltip;
