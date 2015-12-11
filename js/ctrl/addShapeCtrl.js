@@ -16,7 +16,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         $scope.type = "";
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
         $scope.addShape = function (type,num) {
-            tooltipsCtrl.setMap(map);
+            tooltipsCtrl.setMap(map,"tooltip");
             if (type === "restriction") {
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {

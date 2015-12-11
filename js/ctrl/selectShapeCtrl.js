@@ -11,7 +11,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var tooltipsCtrl=fastmap.uikit.ToolTipsController();
 
-
+        tooltipsCtrl.setMap(map,"tooltip");
         if (type === "link") {
             //如果点击了修改图形
             shapeCtrl.stopEditing();
@@ -35,7 +35,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
             //初始化鼠标提示
             var tooltiptext = '请选择线！';
-            tooltipsCtrl.setMap(map);
+
             if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -111,7 +111,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
             var tooltiptext = '请选择交线！';
-            tooltipsCtrl.setMap(map);
             tooltipsCtrl.setCurrentTooltip(tooltiptext);
             rdLink.on("getNodeId", function (data) {
                 tooltipsCtrl.onRemoveTooltip();
@@ -157,7 +156,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.selectType = 'tips';
             rdLink.options.editable = true;
             var tooltiptext = '请选择tips！';
-            tooltipsCtrl.setMap(map);
             tooltipsCtrl.setCurrentTooltip(tooltiptext);
             rdLink.on("getNodeId", function (data) {
                 tooltipsCtrl.onRemoveTooltip();
