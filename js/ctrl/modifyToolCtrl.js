@@ -8,7 +8,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var shapectl = new fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
 
-    tooltipsCtrl.setMap(map);
+    tooltipsCtrl.setMap(map,"tooltip");
     map.currentTool = shapectl.getCurrentTool();
     shapectl.setMap(map);
     $scope.type="";
