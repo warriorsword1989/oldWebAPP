@@ -59,6 +59,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this.removeHooks();
     },
 
+
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());

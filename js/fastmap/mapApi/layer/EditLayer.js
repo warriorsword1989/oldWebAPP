@@ -39,7 +39,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         this.shapEditor.on('stopshapeeditresultfeedback',function(){
-            this.map._container.style.cursor = '';
+            that.map._container.style.cursor = '';
 
             var coordinate1 = []
             for(var index in that.drawGeometry.components){
@@ -130,7 +130,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var  proj = [], i;
             //coords = this._clip(ctx, coords);
             //coords = L.LineUtil.simplify(coords, 1);
-            for (i = 0; i < geom.length; i++) {
+            for (var i = 0; i < geom.length; i++) {
                 if(boolPixelCrs){
                     proj.push({x:geom[i][0],y:geom[i][1]});
                 }else{
@@ -206,7 +206,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.clear();
 
         this.draw(this.drawGeometry, this);
-        this._resetCanvasPosition()
+        this._resetCanvasPosition();
         return this;
     }
 });

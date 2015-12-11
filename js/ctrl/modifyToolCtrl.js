@@ -16,13 +16,13 @@ modifyApp.controller("modifyToolController", function ($scope) {
         if (shapectl.getCurrentTool()['options']) {
             shapectl.stopEditing();
         }
-        var feature = null
+        var feature = null;
         if (type == "insertDot") {
             $scope.type = "insertDot";
             $scope.$parent.$parent.changeBtnClass(num);
             map.currentTool.disable();
             if (shapectl.shapeEditorResult) {
-                var feature = selectCtrl.selectedFeatures.geometry;
+                feature = selectCtrl.selectedFeatures.geometry;
                 var editLyer = ly.getLayerById('edit');
                 ly.pushLayerFront('edit');
                 var sobj = shapectl.shapeEditorResult;
@@ -31,12 +31,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 sobj.setOriginalGeometry(feature);
                 sobj.setFinalGeometry(feature);
             }
-
-            //editLyer.options.zindex = 10;
-
-
             shapectl.setEditingType('pathVertexInsert');
-
             shapectl.startEditing();
 
         }

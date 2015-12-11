@@ -61,6 +61,10 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $(document).bind('keydown',
         function (event) {
             if (event.keyCode == 27) {
+                map.currentTool.cleanHeight();
+                ly.getLayerById('edit').drawGeometry = null;
+                ly.getLayerById('edit').clear();
+
                 shapeCtrl.stopEditing();
                 ly.getLayerById('edit').bringToBack();
 

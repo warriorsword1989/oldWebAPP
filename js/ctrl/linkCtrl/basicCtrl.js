@@ -14,10 +14,10 @@ basicApp.controller("basicController",function($scope) {
             $("#codebtn"+codeflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
         }
         if($scope.linkData.names!="undefined"){
-            if($scope.linkData.names.length>1){
-
-            }else{
+            if($scope.linkData.names.length>=1){
                 $('#'+$scope.linkData.names[0].linkPid+'_'+0).collapse('show');
+            }else{
+
             }
         }
     },10)
