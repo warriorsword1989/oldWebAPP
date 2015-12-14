@@ -17,7 +17,7 @@ basicApp.controller("basicController",function($scope) {
             if($scope.linkData.names.length>1){
 
             }else{
-                $('#'+$scope.linkData.names[0].linkPid+'_'+0).collapse('show');
+                $("#"+$scope.linkData.names[0].linkPid+"_"+0).collapse("show");
             }
         }
     },10)

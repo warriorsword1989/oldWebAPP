@@ -42,11 +42,14 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             this.map._container.style.cursor = '';
 
             var coordinate1 = []
-            for(var index in that.drawGeometry.components){
-                coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
+            if(that.drawGeometry){
+                for(var index in that.drawGeometry.components){
+                    coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
+                }
+                console.log('绘制后:'+coordinate1);
+                that._redraw();
             }
-            console.log('绘制后:'+coordinate1);
-            that._redraw();
+
         });
 
 

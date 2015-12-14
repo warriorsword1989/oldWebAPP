@@ -21,6 +21,7 @@ fastmap.uikit.OutPutController=(function() {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.outPuts = [];
+                this.updateOutPuts="";
                 this.on("objectSaved",this.pushOutput,this);
             },
 
