@@ -17,9 +17,8 @@ requirejs.config({
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
-
-        "testData":"tepl/data",
-        'applicationfuns':'functions/appfunctions'
+        'applicationfuns':'functions/appfunctions',
+        'keyPressFunctions':'functions/keyPressFunctions'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -29,7 +28,8 @@ requirejs.config({
         'ngLayout': ['angular'],
         'smart-table':['angular'],
         'applicationfuns':['application'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','testData']
+        'keyPressFunctions':['jquery','applicationfuns'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions']
     }
 });
 

@@ -7,7 +7,7 @@
 fastmap.uikit.ToolTipsController=(function() {
     var instantiated;
     function init(options) {
-            var toolTipsController = L.Class.extend({
+        var toolTipsController = L.Class.extend({
             /**
              * 事件管理器
              * @property includes

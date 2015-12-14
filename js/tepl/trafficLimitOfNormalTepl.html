@@ -81,7 +81,15 @@
                 <label class="col-sm-3 control-label">退出</label>
 
                 <div class="col-sm-9">
-                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdSubRestrictData.outLinkPid">
+                    <ul class="nav nav-pills nav-stacked" style="max-width: 260px;">
+                        <li class="active">
+                            <a>
+                                <span class="pull-right glyphicon glyphicon-pencil" ng-click="changeOutLink(rdSubRestrictData)"></span>
+                                {{rdSubRestrictData.outLinkPid}}
+                            </a>
+                        </li>
+                    </ul>
+                    <!--<input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdSubRestrictData.outLinkPid">-->
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>

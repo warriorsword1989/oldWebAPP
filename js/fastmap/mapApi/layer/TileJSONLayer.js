@@ -27,8 +27,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
         var that = this;
-        this.on("getId", this.getFeatureId, this);
-        this.on("getNodeId", this.getFeatureId, this);
         this.redrawTiles = [];
         this.drawTile = function (canvas, tilePoint, zoom) {
             var ctx = {
@@ -43,14 +41,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             this._draw(ctx, this.options.boolPixelCrs, this.options.parse);
         };
 
-    },
-
-    /**
-     * 获取feature的id
-     * @param event
-     */
-    getFeatureId: function (event) {
-        this.id = event.id;
     },
     /***
      * 根据瓦片id移除瓦片
@@ -277,7 +267,122 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
     },
+    _drawText: function (ctx, geom, name) {
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        g.font = "10px Courier New";
+        g.textAlign = "center";
+        var angle,
+            nameArr = name.split(""),
+            nameLen = name.length * 10, lineLen = 0;
+        if (geom.length === 2) {
+            angle = this._rotateAngle(geom[0][0], geom[1][0]);
+            lineLen = this.distance(geom[0][0], geom[1][0]);
+            if (nameLen < lineLen&&lineLen>60) {
+                this._showTextOfAngle(g, 0, nameArr.length, name, angle, geom[0][0]);
+            }
 
+        } else {
+            var startPoint = geom[0][0],startPointForLen=geom[0][0],
+                textLength = 0, startText = 0, textIndex = 0,
+                betPointsLen,realLineLen= 0,linkArrLen=geom.length;
+            for (var m = 1; m < linkArrLen; m++) {
+                betPointsLen = this.distance(geom[m][0], startPointForLen);
+                if(betPointsLen>10) {
+                    lineLen += parseInt(betPointsLen/10);
+                    realLineLen += betPointsLen;
+                }
+
+                startPointForLen = geom[m][0];
+            }
+            if (nameLen < lineLen&&realLineLen>1000) {
+                for (var linkFLag = 1; linkFLag < linkArrLen; linkFLag++) {
+                    if (textLength < nameArr.length) {
+                         betPointsLen = this.distance(geom[linkFLag][0], startPoint);
+                        angle = this._rotateAngle(startPoint, geom[linkFLag][0]);
+                        if (betPointsLen > 10) {
+                            textIndex =parseInt(betPointsLen/ 10);
+                            if (textIndex >= nameArr.length) {
+                                this._showTextOfAngle(g, 0, nameArr.length, name, angle, startPoint);
+                                break;
+                            } else {
+                                if ((startText + textIndex) > nameArr.length) {
+                                    textIndex = nameArr.length - startText;
+                                }
+                                this._showTextOfAngle(g, startText, textIndex, name, angle, startPoint);
+                                startPoint = geom[linkFLag][0];
+                                textLength += textIndex;
+                                startText = textLength;
+                            }
+                        } else {
+                            startPoint = geom[linkFLag][0];
+                        }
+
+                    }
+
+                }
+            }
+        }
+    },
+    /**
+     * 字体的旋转角度
+     * @param startPoint
+     * @param endPoint
+     * @returns {*}
+     * @private
+     */
+    _rotateAngle: function (startPoint, endPoint) {
+        var angle;
+        if ((startPoint[0] - endPoint[0]) === 0) {
+            angle = Math.PI/2;
+        } else {
+            angle = Math.atan((startPoint[1] - endPoint[1]) / (startPoint[0] - endPoint[0]));
+        }
+        return angle;
+
+
+    },
+    _showTextOfAngle: function (ctx, start, end, name, angle, textGeom) {
+        var nameArr = name.split(""), PI=Math.PI;
+        if (angle === 0) {
+            ctx.fillText(name, textGeom[0], textGeom[1]);
+            ctx.save();
+        } else if ((angle<PI&&angle>2*(PI/5))) {
+            if(name==="利泽中二路") {
+
+                console.log(textGeom);
+            }
+            for (var i = start; i < end; i++) {
+                ctx.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 10);
+                ctx.save();
+            }
+        } else {
+
+            var showName = name.substr(start, end);
+            ctx.save();
+            ctx.translate(textGeom[0], textGeom[1]);
+            ctx.rotate(angle);
+            ctx.fillText(showName, 0, 0);
+            ctx.restore();
+            //for (var k = start; k < end; k++) {
+            //    var pointX, pointY;
+            //    if (angle > 0) {
+            //        pointX = textGeom[0] + flag * 10;
+            //    } else {
+            //        pointX = textGeom[0] - flag * 10;
+            //    }
+            //    pointY = parseInt(pointX * Math.tan(angle));
+            //    console.log("angle"+angle+";pointX" + pointX + ";pointY" + pointY);
+            //    ctx.save();
+            //    ctx.translate(pointX, pointY);
+            //    ctx.rotate(angle);
+            //    ctx.fillText(nameArr[k], 0, 0, 10);
+            //    ctx.restore();
+            //    flag++;
+            //}
+        }
+
+    },
     /***
      * _drawArrow绘制方向箭头
      * @param {Object}ctx
@@ -292,8 +397,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             return;
         }
 
-        for (i = 0, len = data.length; i < len; i++) {
-            for (j = 0, len2 = data[i].length; j < len2 - 1; j = j + 2) {
+        for (var i = 0, len = data.length; i < len; i++) {
+            for (var j = 0, len2 = data[i].length; j < len2 - 1; j = j + 2) {
 
                 ctx.beginPath();
                 ctx.translate(0, 0, 0);
@@ -580,7 +685,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _drawfeature: function (data, ctx, boolPixelCrs) {
 
         for (var i = 0; i < data.features.length; i++) {
-            var drawFlag = false;
             var feature = data.features[i];
 
             var color = null;
@@ -591,9 +695,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
             var style = this.styleFor(feature, color);
             var type = feature.geometry.type;
-            if (this.id !== undefined && feature.properties.id === this.id) {
-                drawFlag = true;
-            }
 
             var geom = feature.geometry.coordinates;
             var len = geom.length;
@@ -604,27 +705,20 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (feature.properties.restrictioninfo === undefined) {
                             return;
                         }
-                        var restrictFlag = true;
-                        if (this.id !== undefined && feature.properties.id === this.id) {
-                            restrictFlag = false;
-                        }
-                        var newstyle="";
+                        var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
-                        var geom = feature.geometry.coordinates;
-                        var newgeom=[];
+                        var newgeom = [];
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    if(restrictFlag) {
-                                        newstyle= {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    }else{
-                                        newstyle= {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    }
+
+                                        newstyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+
                                     if (theory > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + theory*16;
-                                        newgeom[1]=parseInt(geom[1]);
+                                        newgeom[0] = parseInt(geom[0]) + theory * 16;
+                                        newgeom[1] = parseInt(geom[1]);
                                         this._drawImg(ctx, newgeom, newstyle, boolPixelCrs);
-                                    }else{
+                                    } else {
                                         this._drawImg(ctx, geom, newstyle, boolPixelCrs);
                                     }
 
@@ -634,33 +728,24 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                     if (restrictArr[fact].constructor === Array) {
-                                        if(restrictFlag) {
-                                            newstyle= {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                        }else{
-                                            newstyle= {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                        }
+                                            newstyle = {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+
                                     } else {
-                                        if(restrictArr[fact].indexOf("[")>-1){
-                                            restrictArr[fact]=restrictArr[fact].replace("[","");
-                                            restrictArr[fact]=restrictArr[fact].replace("]","");
-                                            if(restrictFlag) {
+                                        if (restrictArr[fact].indexOf("[") > -1) {
+                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
+                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
                                                 newstyle = {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                            }else{
-                                                newstyle= {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                            }
-                                        }else {
-                                            if(restrictFlag) {
-                                                newstyle= {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-                                            }else{
-                                                newstyle= {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-                                            }
+
+                                        } else {
+                                                newstyle = {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
+
                                         }
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact*16;
+                                        newgeom[0] = parseInt(geom[0]) + fact * 16;
                                         newgeom[1] = parseInt(geom[1]);
                                         this._drawImg(ctx, newgeom, newstyle, boolPixelCrs);
-                                    }else{
+                                    } else {
                                         this._drawImg(ctx, geom, newstyle, boolPixelCrs);
                                     }
 
@@ -683,21 +768,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    if (drawFlag) {
-
-                        this._drawLineString(ctx, geom, boolPixelCrs, {
-                                size: 3,
-                                color: '#F63428'
-                            }, {color: 'rgba(105,105,105,1)', radius: 3},
-                            feature.properties.direct);
-                    } else {
                         this._drawLineString(ctx, geom, boolPixelCrs, style, {
                             color: 'rgba(105,105,105,1)',
                             radius: 3
                         }, feature.properties.direct);
-                    }
+                        if (feature.properties.name) {
+                            if (this._map.getZoom() >= this.showNodeLevel) {
+                                this._drawText(ctx, geom, feature.properties.name);
+                            }
 
 
+                        }
                     break;
 
                 case 'MultiLineString':
@@ -720,6 +801,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     throw new Error('Unmanaged type: ' + type);
             }
         }
+
+        this.fire("tileDrawend", {id:ctx.tile.x + ":" + ctx.tile.y,zoom:ctx.zoom});
     },
     // NOTE: a placeholder for a function that, given a tile context, returns a string to a GeoJSON service that retrieve features for that context
     /***
@@ -788,8 +871,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     );
                     var intersection = greinerHormann.intersection(achievementblocklayers.getLayers().pop(), layer);
                     if (intersection) {
-
-
                         url = 'http://192.168.3.155/fos/datum/didi/GetTileData?parameter=' +
                         '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}'
                     } else {
@@ -866,56 +947,23 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case 'Marker':
-                var restrictFlag = true;
-                if (this.id !== undefined && feature.properties.id === this.id) {
-                    restrictFlag = false;
-                }
                 var restrictObj = feature.properties.restrictioninfo;
                 var geom = feature.geometry.coordinates;
                 if (restrictObj !== undefined) {
                     if (restrictObj.constructor === Array) {
                         for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
                             if (theory > 0) {
-                                geom[0] = parseInt(geom[0]) + theory*16;
+                                geom[0] = parseInt(geom[0]) + 16;
                             }
-                            if(restrictFlag) {
                                 return {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-
-                            }else{
-                                return {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-
-                            }
                         }
                     } else {
                         var restrictArr = restrictObj.split(",");
                         for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
                             if (fact > 0) {
-                                geom[0] = parseInt(geom[0]) + fact*16;
+                                geom[0] = parseInt(geom[0]) + 16;
                             }
-                            if (restrictArr[fact].constructor === Array) {
-                                if(restrictFlag) {
-                                    return {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-
-                                }else{
-                                    return {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-
-                                }
-                            } else {
-                                if(restrictArr[fact].indexOf("[")>-1){
-                                    restrictArr[fact]=restrictArr[fact].replace("[","");
-                                    restrictArr[fact]=restrictArr[fact].replace("]","");
-                                }
-
-                                if(restrictFlag) {
                                     return {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-
-                                }else{
-                                    return {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-
-                                }
-
-                            }
-
                         }
                     }
                 }
@@ -952,7 +1000,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     },
     //两点之间的距离
     distance: function (pointA, pointB) {
-        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+        var len;
+        if (pointA.x) {
+            len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+        } else {
+            len = Math.pow((pointA[0] - pointB[0]), 2) + Math.pow((pointA[1] - pointB[1]), 2);
+        }
+
         return Math.sqrt(len);
     }
 });

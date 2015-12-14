@@ -10,11 +10,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.save = "";//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
-    $scope.rdRestrictData = {};//交限对象
     $scope.rowkeyOfDataTips = "";
-    $scope.updateLinkData = "";
     $scope.updateDataTips = "";
-    $scope.updateRestrictData = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
@@ -27,14 +24,12 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         }
     };
-    var ly = fastmap.uikit.LayerController();
-    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-    var tooltipsCtrl=new fastmap.uikit.ToolTipsController();
+
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
     //登录时
-
+    keyEvent($ocLazyLoad,$scope);
     $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
         $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
         $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
@@ -56,25 +51,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         );
     });
-
-
-    $(document).bind('keydown',
-        function (event) {
-            if (event.keyCode == 27) {
-                ly.getLayerById('edit').drawGeometry=null;
-                ly.getLayerById('edit').clear();
-
-                shapeCtrl.stopEditing();
-                ly.getLayerById('edit').bringToBack();
-
-                $(ly.getLayerById('edit').options._div).unbind();
-
-                tooltipsCtrl.onRemoveTooltip();
-            }
-        });
-
-
-
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -145,8 +121,14 @@ function appInit(){
 
     map = L.map('map',{ attributionControl: false}).setView([40.012834, 116.476293], 17);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
-    //layerCtrl.getLayerById('work').options.zIndex = 9
-    //layerCtrl.getLayerById('work').addTo(map);
+    var highLightLayer = new fastmap.uikit.HighLightController({});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var outPutCtrl = new fastmap.uikit.OutPutController();
+    var objCtrl = new fastmap.uikit.ObjectEditController({});
+    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
+    var featCode = new fastmap.uikit.FeatCodeController();
+    var tooltipsCtrl=new fastmap.uikit.ToolTipsController();
+    tooltipsCtrl.setMap(map);
     layerCtrl.on('layerOnShow',function(event){
         if(event.flag == true){
             map.addLayer(event.layer);
