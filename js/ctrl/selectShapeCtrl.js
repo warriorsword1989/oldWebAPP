@@ -4,42 +4,39 @@
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     $scope.selectClaArr = $scope.$parent.$parent.classArr;
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var objCtrl =  fastmap.uikit.ObjectEditController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var highLightLayer = fastmap.uikit.HighLightController();
+    var tooltipsCtrl=fastmap.uikit.ToolTipsController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var restrict = layerCtrl.getLayerById('referencePoint');
+    var workPoint = layerCtrl.getLayerById('workPoint');
+    $scope.toolTipText = "";
     $scope.selectShape = function (type, num) {
-        var selectCtrl = new fastmap.uikit.SelectController();
-        var objCtrl = new fastmap.uikit.ObjectEditController();
-        var layerCtrl = fastmap.uikit.LayerController();
-        var shapeCtrl = fastmap.uikit.ShapeEditorController();
-        var tooltipsCtrl=fastmap.uikit.ToolTipsController();
-
-        tooltipsCtrl.setMap(map,"tooltip");
+        if(highLightLayer.highLightLayersArr.length!==0) {
+            highLightLayer.removeHighLightLayers();
+        }
+        if(tooltipsCtrl.getCurrentTooltip()){
+            tooltipsCtrl.onRemoveTooltip();
+        }
         if (type === "link") {
-            //如果点击了修改图形
-            shapeCtrl.stopEditing();
-            layerCtrl.getLayerById('edit').bringToBack();
-            $(layerCtrl.getLayerById('edit').options._div).unbind();
-
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referenceLine');
-            var rdLink = layerCtrl.getLayerById('referenceLine');
+
             if (typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
             }
-            map.currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink});
+            map.currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink,linksFlag:true});
             map.currentTool.enable();
-
+            //初始化鼠标提示
+            $scope.toolTipText = '请选择线！';
+            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
-
-            //初始化鼠标提示
-            var tooltiptext = '请选择线！';
-
-            if(tooltipsCtrl.getCurrentTooltip()){
-                tooltipsCtrl.onRemoveTooltip();
-            }
-            tooltipsCtrl.setCurrentTooltip(tooltiptext);
             rdLink.on("getId", function (data) {
                 $scope.data = data;
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
@@ -52,19 +49,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         points.push(point);
                     }
                     var line = fastmap.mapApi.lineString(points);
-
                     selectCtrl.onSelected({geometry: line, id: $scope.data.id});
                     objCtrl.setCurrentObject(data);
+                    if(objCtrl.updateObject!=="") {
+                        objCtrl.updateObject();
+                    }
                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-
                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                        if ($scope.$parent.$parent.updateLinkData !== "") {
-                            $scope.$parent.$parent.updateLinkData(data.data);
-                        }
-
                     })
-
-
                 })
 
             })
@@ -73,58 +65,38 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
 
         if (type === "node") {
-
-            //如果点击了修改图形
-            shapeCtrl.stopEditing();
-            layerCtrl.getLayerById('edit').bringToBack();
-            $(layerCtrl.getLayerById('edit').options._div).unbind();
-
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
-            var rdLink = layerCtrl.getLayerById('referenceLine');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
-            $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
-                $scope.$parent.$parent.objectEditURL = "js/tepl/nodeObjTepl/rdNodeFromTepl.html";
-            });
-
         }
         if (type === "relation") {
-            //如果点击了修改图形
-            shapeCtrl.stopEditing();
-            if(tooltipsCtrl.getCurrentTooltip()){
-                tooltipsCtrl.onRemoveTooltip();
-            }
-            layerCtrl.getLayerById('edit').bringToBack();
-            $(layerCtrl.getLayerById('edit').options._div).unbind();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referencePoint');
-            var rdLink = layerCtrl.getLayerById('referencePoint');
             if (typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
             }
-            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink});
+            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: restrict});
             map.currentTool.enable();
-            rdLink.options.selectType = 'relation';
-            rdLink.options.editable = true;
+            restrict.options.selectType = 'relation';
+            restrict.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            var tooltiptext = '请选择交线！';
-            tooltipsCtrl.setCurrentTooltip(tooltiptext);
-            rdLink.on("getNodeId", function (data) {
-                tooltipsCtrl.onRemoveTooltip();
+            $scope.toolTipText= '请选择交线！';
+            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+            restrict.on("getNodeId", function (data) {
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
                     objCtrl.setCurrentObject(data.data);
-                    $scope.$parent.$parent.rdRestrictData = data.data;
+                    if(objCtrl.updateObject!=="") {
+                        objCtrl.updateObject();
+                    }
+
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                            if ($scope.$parent.$parent.updateRestrictData !== "") {
-                                $scope.$parent.$parent.updateRestrictData(data.data);
-                            }
                         } else if ($scope.type === 1) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
                         }
@@ -136,39 +108,23 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             })
         }
         if (type == "tips") {
-            //如果点击了修改图形
-            shapeCtrl.stopEditing();
-            if(tooltipsCtrl.getCurrentTooltip()){
-                tooltipsCtrl.onRemoveTooltip();
-            }
-            layerCtrl.getLayerById('edit').bringToBack();
-            $(layerCtrl.getLayerById('edit').options._div).unbind();
-
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('workPoint');
-            var rdLink = layerCtrl.getLayerById('workPoint');
             if (typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
             }
-            map.currentTool = new fastmap.uikit.SelectDataTips({map: map, currentEditLayer: rdLink});
+            map.currentTool = new fastmap.uikit.SelectDataTips({map: map, currentEditLayer: workPoint});
             map.currentTool.enable();
-            rdLink.options.selectType = 'tips';
-            rdLink.options.editable = true;
-            var tooltiptext = '请选择tips！';
-            tooltipsCtrl.setCurrentTooltip(tooltiptext);
-            rdLink.on("getNodeId", function (data) {
-                tooltipsCtrl.onRemoveTooltip();
+            workPoint.options.selectType = 'tips';
+            workPoint.options.editable = true;
+            $scope.$parent.$parent.objectEditURL = "";
+            $scope.toolTipText = '请选择tips！';
+            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+            workPoint.on("getNodeId", function (data) {
                 $scope.data = data;
                 $("#popoverTips").css("display", "block");
                 Application.functions.getTipsResult(data.id, function (data) {
-                    selectCtrl.fire("selectByAttribute", {feather: data});
-                    if ($scope.$parent.$parent.dataTipsURL) {
-                        $scope.$parent.$parent.dataTipsURL = "";
-                    }
-                    if ($scope.$parent.$parent.objectEditURL) {
-                        $scope.$parent.$parent.objectEditURL = "";
-                    }
                     if (data.rowkey === "undefined") {
                         return;
                     }
@@ -176,6 +132,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if ($scope.$parent.$parent.updateDataTips !== "") {
                         $scope.$parent.$parent.updateDataTips(data);
                     }
+                    selectCtrl.fire("selectByAttribute", {feather: data});
                     if (data.t_lifecycle === 1) {
                         var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
 
@@ -193,7 +150,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         } else {
                             Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                 objCtrl.setCurrentObject(data.data);
-                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                if(objCtrl.updateObject!=="") {
+                                    objCtrl.updateObject();
+                                }
+
                                 $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
                                     $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
@@ -211,7 +171,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         } else {
                             Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                 objCtrl.setCurrentObject(data.data);
-                                $scope.$parent.$parent.rdRestrictData = data.data;
+                               if(objCtrl.updateObject!=="") {
+                                   objCtrl.updateObject();
+                               }
                                 $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
                                     $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
@@ -221,33 +183,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             })
                         }
                     }
-                //if (id === 0 || id === "0") {
-                //    //var oriDataTipsData = {};
-                //    //oriDataTipsData.inLinkPid = 0;
-                //    //oriDataTipsData.details = [];
-                //    //var outLinkObj = {};
-                //    //outLinkObj.conditions = [];
-                //    //outLinkObj.outLinkPid = 0;
-                //    //outLinkObj.flag = 0;
-                //    //outLinkObj.relationshipType = 0;
-                //    //outLinkObj.restricInfo = 0;
-                //    //outLinkObj.type = 0;
-                //    //oriDataTipsData.details.push(outLinkObj);
-                //    //objCtrl.setCurrentObject(oriDataTipsData);
-                //    //$scope.$parent.$parent.rdRestrictData = oriDataTipsData;
-                //
-                //
-                //}
 
             })
         }
         )
     }
 
-        if(type==="rdCross"){
-            $ocLazyLoad.load("ctrl/rdCrossCtrl").then(function () {
-                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
-            });
-        }
 };
 }])

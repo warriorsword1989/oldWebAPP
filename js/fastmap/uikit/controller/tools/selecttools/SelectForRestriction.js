@@ -53,7 +53,9 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
     },
 
     disable: function () {
-        if (!this._enabled) { return; }
+        if (!this._enabled) {
+            return;
+        }
         this._map.dragging.enable();
         this._enabled = false;
         this.removeHooks();
@@ -77,24 +79,29 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
-        if(this.selectedFeatures.length ==1){
-
+        if (this.selectedFeatures.length == 1) {
             for (var item in data) {
                 var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
                 if (touchids.length) {
                     var id = data[item].properties.id;
 
-                    if(id == this.selectedFeatures[0]){
-                        if(touchids[0] ==0){
-                            this.currentEditLayer.fire("getId", {id: data[item].properties.snode,index:this.selectedFeatures.length})
-                        }else{
-                            this.currentEditLayer.fire("getId", {id: data[item].properties.enode,index:this.selectedFeatures.length})
+                    if (id == this.selectedFeatures[0]) {
+                        if (touchids[0] == 0) {
+                            this.currentEditLayer.fire("getId", {
+                                id: data[item].properties.snode,
+                                index: this.selectedFeatures.length
+                            })
+                        } else {
+                            this.currentEditLayer.fire("getId", {
+                                id: data[item].properties.enode,
+                                index: this.selectedFeatures.length
+                            })
                         }
                         var point = data[item].geometry.coordinates[touchids[0]];
                         this.selectedFeatures.push(id);
 
                         var ctx = {
-                            canvas: this.currentEditLayer.tiles[tilePoint[0]+":"+tilePoint[1]].options.context,
+                            canvas: this.currentEditLayer.tiles[tilePoint[0] + ":" + tilePoint[1]].options.context,
                             tile: tilePoint,
                             zoom: this._map.getZoom()
                         }
@@ -102,21 +109,25 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         this._drawPointHeight(ctx, point);
                     }
                 }
-
-
             }
-
-
-
-
-        }else {
+        } else {
             for (var item in data) {
-
-                if (this._TouchesPath(data[item].geometry.coordinates, x, y, 3)) {
+                if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                     var id = data[item].properties.id;
-                    this.currentEditLayer.fire("getId", {id: id,index:this.selectedFeatures.length})
-                    this.selectedFeatures.push(id);
-                    this._drawLineHeight(id);
+                    this.currentEditLayer.fire("getId", {id: id, index: this.selectedFeatures.length})
+                    this.selectedFeatures.push(id)
+                    if (this.selectedFeatures.length === 1) {
+                        this._drawLineHeight(id, {
+                            size: 3,
+                            color: '#F63428'
+                        });
+                    } else {
+                        this._drawLineHeight(id, {
+                            size: 3,
+                            color: '#253B76'
+                        });
+                    }
+
                 }
 
             }
@@ -175,10 +186,10 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
      * @returns {number}
      * @private
      */
-    _TouchesNodePoint: function (d, x, y, r){
-        var touched =false;
-        for(var i = 0, len = d.length; i < len; i++){
-            if(i ==0 || i ==len -1){
+    _TouchesNodePoint: function (d, x, y, r) {
+        var touched = false;
+        for (var i = 0, len = d.length; i < len; i++) {
+            if (i == 0 || i == len - 1) {
                 var dx = x - d[i][0][0];
                 var dy = y - d[i][0][1];
                 if ((dx * dx + dy * dy) <= r * r) {
@@ -195,7 +206,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
      * @param id
      * @private
      */
-    _drawLineHeight: function (id) {
+    _drawLineHeight: function (id, lineStyle) {
 
         for (var obj in this.tiles) {
 
@@ -205,17 +216,16 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
                 if (data[key].properties.id == id) {
 
-                    this.redrawTiles=this.tiles;
+                    this.redrawTiles = this.tiles;
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
-                        tile: L.point(key.split(',')[0],key.split(',')[1]),
+                        tile: L.point(key.split(',')[0], key.split(',')[1]),
                         zoom: this._map.getZoom()
                     }
-                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates,true, {
-                        size: 3,
-                        color: '#F63428'
-                    }, {color: '#F63428',
-                        radius:3});
+                    this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, lineStyle, {
+                        color: '#F63428',
+                        radius: 3
+                    });
 
 
                 }
@@ -225,54 +235,55 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
     },
 
-    _drawPointHeight:function(ctx,point){
+    _drawPointHeight: function (ctx, point) {
 
         this.currentEditLayer._drawPoint(ctx, point[0], {
             color: '#FFFF00',
-            radius:3
-        },true);
+            radius: 3
+        }, true);
     },
-    cleanHeight:function(){
+    cleanHeight: function () {
         this._cleanHeight();
         this.currentEditLayer.fire("getId")
     },
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
      */
-    _cleanHeight:function(){
+    _cleanHeight: function () {
         console.log("from clear");
-        for(var index in this.redrawTiles){
+        for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
-            if(!data) {
+            if (!data) {
                 return;
             }
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
+            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
             var ctx = {
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
-             if(data.hasOwnProperty("features")) {
-                 for (var i = 0; i < data.features.length; i++) {
-                     var feature = data.features[i];
+            if (data.hasOwnProperty("features")) {
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
 
-                     var color = null;
-                     if(feature.hasOwnProperty('properties')){
-                         color = feature.properties.c;
-                     }
+                    var color = null;
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.c;
+                    }
 
-                     var style = this.currentEditLayer.styleFor(feature, color);
+                    var style = this.currentEditLayer.styleFor(feature, color);
 
-                     var geom = feature.geometry.coordinates;
+                    var geom = feature.geometry.coordinates;
 
-                     this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                         radius:3});
+                    this.currentEditLayer._drawLineString(ctx, geom, true, style, {
+                        color: '#696969',
+                        radius: 3
+                    });
 
-                 }
-             }
+                }
+            }
 
         }
-
 
 
     }

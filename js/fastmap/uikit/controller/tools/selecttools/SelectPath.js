@@ -26,7 +26,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
-
+        this.linksFlag = this.options.linksFlag;
     },
 
     /***
@@ -58,25 +58,30 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
-        this.currentEditLayer.on("getTiles",function(event) {
-            var tiles = event.tiles;
-        });
-        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
-        var id = null;
-        for (var item in data) {
-            if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
-                id = data[item].properties.id;
-                this.currentEditLayer.fire("getId", {id: id})
+       if( this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
+           var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+           var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+           var id = null;
+           for (var item in data) {
+               if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                   id = data[item].properties.id;
 
-                if( this.redrawTiles.length != 0){
-                    this._cleanHeight();
-                }
+                   if (this.linksFlag) {
+                       this.currentEditLayer.fire("getId", {id: id});
+                       if (this.redrawTiles.length != 0) {
+                           this._cleanHeight();
+                       }
 
-                this._drawHeight(id);
-                break;
-            }
-        }
+                       this._drawHeight(id);
+                   }else{
+                       this.currentEditLayer.fire("getOutLinksPid", {id: id});
+                   }
+
+                   break;
+               }
+           }
+
+       }
 
 
     },
@@ -121,44 +126,45 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         }
         return 0
     },
-     cleanHeight:function(){
-         this._cleanHeight();
-         this.currentEditLayer.fire("getId")
-     },
+    cleanHeight: function () {
+        this._cleanHeight();
+        this.currentEditLayer.fire("getId")
+    },
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
      */
-    _cleanHeight:function(){
+    _cleanHeight: function () {
         console.log("from clear");
-        for(var index in this.redrawTiles){
+        for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0,0,256,256);
+            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
             var ctx = {
                 canvas: this.redrawTiles[index].options.context,
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
-          if(data.hasOwnProperty("features")) {
-              for (var i = 0; i < data.features.length; i++) {
-                  var feature = data.features[i];
+            if (data.hasOwnProperty("features")) {
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
 
-                  var color = null;
-                  if(feature.hasOwnProperty('properties')){
-                      color = feature.properties.c;
-                  }
+                    var color = null;
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.c;
+                    }
 
-                  var style = this.currentEditLayer.styleFor(feature, color);
+                    var style = this.currentEditLayer.styleFor(feature, color);
 
-                  var geom = feature.geometry.coordinates;
+                    var geom = feature.geometry.coordinates;
 
-                  this.currentEditLayer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                      radius:3},feature.properties.direct);
+                    this.currentEditLayer._drawLineString(ctx, geom, true, style, {
+                        color: '#696969',
+                        radius: 3
+                    }, feature.properties.direct);
 
-              }
-          }
+                }
+            }
 
         }
-
 
 
     }
@@ -169,7 +175,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      * @private
      */
     _drawHeight: function (id) {
-        this.redrawTiles=this.tiles;
+        this.redrawTiles = this.tiles;
         for (var obj in this.tiles) {
 
             var data = this.tiles[obj].data.features;
@@ -189,7 +195,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         color: '#F63428'
                     }, {
                         color: '#F63428',
-                        radius: 5
+                        radius: 3
                     });
 
 

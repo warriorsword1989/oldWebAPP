@@ -31,6 +31,9 @@ fastmap.uikit.FeatCodeController=(function() {
              */
             setFeatCode: function (featCode) {
                 this.newObj = featCode;
+            },
+            getFeatCode:function() {
+                return this.newObj;
             }
         });
         return new featCodeController(options);

@@ -151,7 +151,7 @@ fastmap.uikit.PathVertexAdd = L.Handler.extend({
 
             if(this.start == true){
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0,1);
-                this.start == false;
+                this.start = false;
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 0, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
             }
 

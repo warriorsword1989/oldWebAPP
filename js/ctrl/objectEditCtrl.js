@@ -3,45 +3,46 @@
  */
 var objectEditApp = angular.module("lazymodule", []);
 objectEditApp.controller("normalController", function ($scope) {
-    var objectEditCtrl = new fastmap.uikit.ObjectEditController();
+
+    var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var layerCtrl = fastmap.uikit.LayerController();
+    var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    $scope.showTips = function (item) {
-        $scope.rdSubRestrictData = item;
-        var outLinkPid = item.outLinkPid;
-        var tiles = rdLink.tiles;
-        for (var obj in tiles) {
-            var data = tiles[obj].data.features;
-            for (var key in data) {
-                if (data[key].properties.id === objectEditCtrl.data.inLinkPid || data[key].properties.id === outLinkPid) {
-                    var ctx = {
-                        canvas: tiles[obj].options.context,
-                        tile: L.point(key.split(',')[0], key.split(',')[1]),
-                        zoom: map.getZoom()
-                    }
-                    rdLink._drawLineString(ctx, data[key].geometry.coordinates, true, {
-                        size: 3,
-                        color: '#FFFF00'
-                    }, {
-                        color: '#FFFF00',
-                        radius: 3
-                    });
+    var linksObj = {};//存放需要高亮的进入线和退出线的id
 
-
-                }
-            }
+    //删除以前高亮的进入线和退出线
+    if(highLightLayer.highLightLayersArr.length!==0) {
+        highLightLayer.removeHighLightLayers();
+    }
+    //初始化数据
+    $scope.initializeData = function () {
+        $scope.rdRestrictData = objectEditCtrl.data;
+        //删除以前高亮的进入线和退出线
+        if(highLightLayer.highLightLayersArr.length!==0) {
+            highLightLayer.removeHighLightLayers();
         }
+        //高亮进入线和退出线
+        linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
+        for(var i= 0,len=(objectEditCtrl.data.details).length;i<len;i++) {
+            linksObj["outLink" + i] = objectEditCtrl.data.details[i].outLinkPid.toString();
+        }
+        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
+        highLightLinks.drawOfLinksForInit();
+        highLightLayer.pushHighLightLayers(highLightLinks);
 
-
-        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        //初始化交限中的第一个禁止方向的信息
+        $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     };
-
+    //objectController初始化 数据初始化
+    if (objectEditCtrl.data === null) {
+        $scope.rdSubRestrictData = [];
+    } else {
+        $scope.initializeData();
+    }
     //初始化交限
     $scope.addLimitedData = [
         {"id": 1},
@@ -94,31 +95,58 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    if (objectEditCtrl.data === null) {
-        $scope.rdSubRestrictData = [];
-    } else {
-        if(objectEditCtrl.data.details.length>0){
-            $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-            $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
-            $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
-            $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
-        }else{
-            $scope.rdSubRestrictData=[];
+    //调用的方法
+    objectEditCtrl.updateObject=function(){
+        if (objectEditCtrl.data === null) {
+            $scope.rdSubRestrictData = [];
+        } else {
+            $scope.initializeData();
         }
-
     }
 
-    $scope.$parent.$parent.updateRestrictData = function (data) {
-        $scope.rdSubRestrictData = data.details[0];
+    //点击限制方向时,显示其有的属性信息
+    $scope.showTips = function (item) {
+        $scope.rdSubRestrictData = item;
+        //删除以前高亮的进入线和退出线
+        if(highLightLayer.highLightLayersArr.length!==0) {
+            highLightLayer.removeHighLightLayers();
+        }
+        //高亮选择限制防线的进入线和退出线
+        var linksOfRestric = {};
+        linksOfRestric["inLink"] = linksObj["inLink"];
+        linksOfRestric["outLink"] = item.outLinkPid.toString();
+        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
+        highLightLinks.drawOfLinksForInit();
+        highLightLayer.pushHighLightLayers(highLightLinks);
+
         $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
-
     };
 
+    //修改退出线
+    $scope.changeOutLink=function(item) {
+        var currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink,linksFlag:false});
+        currentTool.enable();
+        rdLink.on("getOutLinksPid",function(data) {
+            $scope.$apply(function () {
+                $scope.rdSubRestrictData.outLinkPid = data.id;
+            });
+            var changedOutLink = {};
+            changedOutLink["inLink"] = linksObj["inLink"];
+            changedOutLink["outLink"] = data.id.toString();
+            //删除以前高亮的进入线和退出线
+            if(highLightLayer.highLightLayersArr.length!==0) {
+                highLightLayer.removeHighLightLayers();
+            }
+            var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:changedOutLink})
+            highLightLinks.drawOfLinksForInit();
+            highLightLayer.pushHighLightLayers(highLightLinks);
+        })
+    };
     //选择弹出框中的交限
     $scope.selectTip = function (item) {
         $scope.tipsId = item.id;
@@ -143,10 +171,10 @@ objectEditApp.controller("normalController", function ($scope) {
     $scope.addTips = function () {
 
         if ($scope.modifyItem !== undefined) {
-            var arr = $scope.$parent.$parent.rdRestrictData.details
+            var arr = $scope.rdRestrictData.details
             for (var i = 0, len = arr.length; i < len; i++) {
                 if (arr[i].pid === $scope.modifyItem.pid) {
-                    $scope.$parent.$parent.rdRestrictData.details[i].restricInfo = $scope.tipsId;
+                    $scope.rdRestrictData.details[i].restricInfo = $scope.tipsId;
                     $scope.modifyItem = undefined;
                     break;
                 }
@@ -156,8 +184,6 @@ objectEditApp.controller("normalController", function ($scope) {
                 alert("请先选择tips");
                 return;
             }
-            console.log($scope.rdRestrictData.details);
-            //$scope.rdRestrictData.details.push($scope.newLimited);
             $scope.rdRestrictData.details.unshift($scope.newLimited);
         }
     }
@@ -169,8 +195,9 @@ objectEditApp.controller("normalController", function ($scope) {
     $scope.minusTime = function (id) {
         $scope.rdRestrictData.time.splice(id, 1);
     };
+    //修改属性
     $scope.$parent.$parent.save = function () {
-        objectEditCtrl.setCurrentObject($scope.$parent.$parent.rdRestrictData);
+        objectEditCtrl.setCurrentObject($scope.rdRestrictData);
         objectEditCtrl.save();
         var param = {
             "command": "updaterestriction",
@@ -181,23 +208,7 @@ objectEditApp.controller("normalController", function ($scope) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
             var outputcontroller = fastmap.uikit.OutPutController({});
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
-            }else{
-                info.push(data.errmsg+data.errid);
-            }
-
-            outputcontroller.pushOutput(info);
-            if(outputcontroller.updateOutPuts!=="") {
-                outputcontroller.updateOutPuts();
-            }
+            outputcontroller.pushOutput(data.data);
         });
         if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
             var stageParam = {
@@ -208,30 +219,14 @@ objectEditApp.controller("normalController", function ($scope) {
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
-                var info=[];
-                if(data.data){
-                    $.each(data.data.log,function(i,item){
-                        if(item.pid){
-                            info.push(item.op+item.type+"(pid:"+item.pid+")");
-                        }else{
-                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                        }
-                    });
-                }else{
-                    info.push(data.errmsg+data.errid);
-                }
-
-                outputcontroller.pushOutput(info);
-                if(outputcontroller.updateOutPuts!=="") {
-                    outputcontroller.updateOutPuts();
-                }
-                //outputcontroller.pushOutput(data.data);
+                outputcontroller.pushOutput(data.data);
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
         }
     };
+    //删除交限
     $scope.$parent.$parent.delete = function () {
-        var pid = parseInt($scope.$parent.$parent.rdRestrictData.pid);
+        var pid = parseInt($scope.rdRestrictData.pid);
         var param = {
             "command": "updaterestriction",
             "projectId": 1,
@@ -239,32 +234,14 @@ objectEditApp.controller("normalController", function ($scope) {
                 "pid": pid,
                 "objStatus": "DELETE"
             }
-        }
-
+        };
         //结束编辑状态
-        console.log("I am removing obj" + pid);
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
-            }else{
-                info.push(data.errmsg+data.errid);
-            }
-            outputcontroller.pushOutput(info);
-            if(outputcontroller.updateOutPuts!=="") {
-                outputcontroller.updateOutPuts();
-            }
+            outputcontroller.pushOutput(data.data);
             console.log("交限 " + pid + " has been removed");
-            $scope.$parent.$parent.objectEditURL = "";
         })
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
@@ -277,22 +254,7 @@ objectEditApp.controller("normalController", function ($scope) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
-                var info=[];
-                if(data.data){
-                    $.each(data.data.log,function(i,item){
-                        if(item.pid){
-                            info.push(item.op+item.type+"(pid:"+item.pid+")");
-                        }else{
-                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                        }
-                    });
-                }else {
-                    info.push(data.errmsg + data.errid);
-                }
-                outputcontroller.pushOutput(info);
-                if(outputcontroller.updateOutPuts!=="") {
-                    outputcontroller.updateOutPuts();
-                }
+                outputcontroller.pushOutput(data.data+"\n");
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                 $scope.$parent.$parent.objectEditURL = "";
             })

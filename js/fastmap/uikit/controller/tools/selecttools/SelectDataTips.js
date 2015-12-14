@@ -57,7 +57,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
+        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].hasOwnProperty("data")) {
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
             var id = null;
