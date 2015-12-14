@@ -26,6 +26,7 @@ fastmap.uikit.LayerController = (function () {
                 L.setOptions(this, options);
                 this.config = this.options.config;
                 this.layers = [];
+                this.highLightLayersArr = [];
                 this.zIndexQueue=[];
                 this.maxZIndex=1;
                 this.initLayer();
@@ -198,6 +199,15 @@ fastmap.uikit.LayerController = (function () {
                     }
                 }
                 return layers;
+            },
+            highLightLayers:function(highLayer){
+                this.highLightLayersArr.push(highLayer);
+            },
+            removeHighLightLayer:function() {
+               for(var i= 0,len=this.highLightLayersArr.length;i<len;i++) {
+                   this.highLightLayersArr(i).cleanHighLight();
+               }
+                this.highLightLayersArr.length = 0;
             },
             /**
              * 获取可编辑的图层

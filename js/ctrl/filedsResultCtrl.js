@@ -201,9 +201,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         return;
                     }
                     $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
-                    if ($scope.$parent.$parent.updateDataTips !== "") {
-                        $scope.$parent.$parent.updateDataTips(data);
-                    }
+                    //if ($scope.$parent.$parent.updateDataTips !== "") {
+                    //    $scope.$parent.$parent.updateDataTips(data);
+                    //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     if (data.t_lifecycle === 1) {
                         var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
@@ -222,7 +222,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         } else {
                             Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                 objCtrl.setCurrentObject(data.data);
-                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                if(objCtrl.updateObject!=="") {
+                                    objCtrl.updateObject();
+                                }
                                 $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
                                     $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
@@ -232,7 +234,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             })
                         }
                     } else {
-
                         if (data.resID[0].id === 0) {
                             $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
@@ -241,7 +242,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         } else {
                             Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                 objCtrl.setCurrentObject(data.data);
-                                $scope.$parent.$parent.rdRestrictData = data.data;
+                                if(objCtrl.updateObject!=="") {
+                                    objCtrl.updateObject();
+                                }
                                 $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
                                     $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {

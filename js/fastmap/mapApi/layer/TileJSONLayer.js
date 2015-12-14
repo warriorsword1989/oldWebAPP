@@ -27,8 +27,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
         var that = this;
-        this.on("getId", this.getFeatureId, this);
-        this.on("getNodeId", this.getFeatureId, this);
         this.redrawTiles = [];
         this.drawTile = function (canvas, tilePoint, zoom) {
             var ctx = {
@@ -43,14 +41,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             this._draw(ctx, this.options.boolPixelCrs, this.options.parse);
         };
 
-    },
-
-    /**
-     * 获取feature的id
-     * @param event
-     */
-    getFeatureId: function (event) {
-        this.id = event.id;
     },
     /***
      * 根据瓦片id移除瓦片
@@ -407,8 +397,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             return;
         }
 
-        for (i = 0, len = data.length; i < len; i++) {
-            for (j = 0, len2 = data[i].length; j < len2 - 1; j = j + 2) {
+        for (var i = 0, len = data.length; i < len; i++) {
+            for (var j = 0, len2 = data[i].length; j < len2 - 1; j = j + 2) {
 
                 ctx.beginPath();
                 ctx.translate(0, 0, 0);
@@ -695,7 +685,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _drawfeature: function (data, ctx, boolPixelCrs) {
 
         for (var i = 0; i < data.features.length; i++) {
-            var drawFlag = false;
             var feature = data.features[i];
 
             var color = null;
@@ -706,9 +695,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
             var style = this.styleFor(feature, color);
             var type = feature.geometry.type;
-            if (this.id !== undefined && feature.properties.id === this.id) {
-                drawFlag = true;
-            }
 
             var geom = feature.geometry.coordinates;
             var len = geom.length;
@@ -719,22 +705,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (feature.properties.restrictioninfo === undefined) {
                             return;
                         }
-                        var restrictFlag = true;
-                        if (this.id !== undefined && feature.properties.id === this.id) {
-                            restrictFlag = false;
-                        }
                         var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
-                        var geom = feature.geometry.coordinates;
                         var newgeom = [];
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    if (restrictFlag) {
+
                                         newstyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    } else {
-                                        newstyle = {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    }
+
                                     if (theory > 0) {
                                         newgeom[0] = parseInt(geom[0]) + theory * 16;
                                         newgeom[1] = parseInt(geom[1]);
@@ -749,26 +728,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                     if (restrictArr[fact].constructor === Array) {
-                                        if (restrictFlag) {
                                             newstyle = {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                        } else {
-                                            newstyle = {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                        }
+
                                     } else {
                                         if (restrictArr[fact].indexOf("[") > -1) {
                                             restrictArr[fact] = restrictArr[fact].replace("[", "");
                                             restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            if (restrictFlag) {
                                                 newstyle = {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                            } else {
-                                                newstyle = {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                            }
+
                                         } else {
-                                            if (restrictFlag) {
                                                 newstyle = {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-                                            } else {
-                                                newstyle = {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-                                            }
+
                                         }
                                     }
                                     if (fact > 0) {
@@ -798,14 +768,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    if (drawFlag) {
-
-                        this._drawLineString(ctx, geom, boolPixelCrs, {
-                                size: 3,
-                                color: '#F63428'
-                            }, {color: 'rgba(105,105,105,1)', radius: 3},
-                            feature.properties.direct);
-                    } else {
                         this._drawLineString(ctx, geom, boolPixelCrs, style, {
                             color: 'rgba(105,105,105,1)',
                             radius: 3
@@ -817,9 +779,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
                         }
-                    }
-
-
                     break;
 
                 case 'MultiLineString':
@@ -842,6 +801,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     throw new Error('Unmanaged type: ' + type);
             }
         }
+
+        this.fire("tileDrawend", {id:ctx.tile.x + ":" + ctx.tile.y,zoom:ctx.zoom});
     },
     // NOTE: a placeholder for a function that, given a tile context, returns a string to a GeoJSON service that retrieve features for that context
     /***
@@ -910,8 +871,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     );
                     var intersection = greinerHormann.intersection(achievementblocklayers.getLayers().pop(), layer);
                     if (intersection) {
-
-
                         url = 'http://192.168.3.155/fos/datum/didi/GetTileData?parameter=' +
                         '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}'
                     } else {
@@ -988,56 +947,23 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case 'Marker':
-                var restrictFlag = true;
-                if (this.id !== undefined && feature.properties.id === this.id) {
-                    restrictFlag = false;
-                }
                 var restrictObj = feature.properties.restrictioninfo;
                 var geom = feature.geometry.coordinates;
                 if (restrictObj !== undefined) {
                     if (restrictObj.constructor === Array) {
                         for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
                             if (theory > 0) {
-                                geom[0] = parseInt(geom[0]) + theory * 16;
+                                geom[0] = parseInt(geom[0]) + 16;
                             }
-                            if (restrictFlag) {
                                 return {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-
-                            } else {
-                                return {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-
-                            }
                         }
                     } else {
                         var restrictArr = restrictObj.split(",");
                         for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
                             if (fact > 0) {
-                                geom[0] = parseInt(geom[0]) + fact * 16;
+                                geom[0] = parseInt(geom[0]) + 16;
                             }
-                            if (restrictArr[fact].constructor === Array) {
-                                if (restrictFlag) {
-                                    return {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-
-                                } else {
-                                    return {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-
-                                }
-                            } else {
-                                if (restrictArr[fact].indexOf("[") > -1) {
-                                    restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                    restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                }
-
-                                if (restrictFlag) {
                                     return {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-
-                                } else {
-                                    return {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-
-                                }
-
-                            }
-
                         }
                     }
                 }

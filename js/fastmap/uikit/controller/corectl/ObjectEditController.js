@@ -31,6 +31,7 @@ fastmap.uikit.ObjectEditController = (function () {
                 L.setOptions(this, options);
                 this.data = {};
                 this.originalData = null;
+                this.updateObject = "";
                 this.on("FeatureSelected", this.setCurrentObject, this);
                 this.on("switchedData", this.setCurrentObject, this);
             },

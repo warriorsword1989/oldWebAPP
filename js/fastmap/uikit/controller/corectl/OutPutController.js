@@ -56,7 +56,9 @@ fastmap.uikit.OutPutController=(function() {
             removeOutput:function(id){
 
             },
-
+            showOutPut:function(content){
+                content = "ddddddd";
+            },
             /***
              * 清空
              */
