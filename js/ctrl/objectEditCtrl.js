@@ -36,7 +36,11 @@ objectEditApp.controller("normalController", function ($scope) {
         $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
+
+
     };
+
+
     //objectController初始化 数据初始化
     if (objectEditCtrl.data === null) {
         $scope.rdSubRestrictData = [];
@@ -95,8 +99,37 @@ objectEditApp.controller("normalController", function ($scope) {
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
+
+
+    //车辆类型为10进制数转为二进制数
+    //var towbin=$scope.dec2bin($scope.rdSubRestrictData.vehicleExpression);
+    var towbin=dec2bin(6);
+    //var towbin=dec2bin("2147483655");
+
+    //循环车辆值域，根据数据库数据取出新的数组显示在页面
+    var originArray=[];
+    $scope.checkValue=false;
+    var len=towbin.length-1;
+    //长度小于32即是没有选中checkbox，不允许
+    if(towbin.length<32){
+        $scope.checkValue=false;
+    }else{
+        len=towbin.length-2;
+        $scope.checkValue=true;
+    }
+    for(var i=len;i>=0;i--){
+        if(towbin.split("").reverse().join("")[i]==1){
+            originArray.push($scope.vehicleOptions[i]);
+        }
+    }
+    //初始化数据
+    initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv");
+
+    $scope.showPopover=function(){
+        $('#vehicleExpressiondiv').popover('show');
+    }
     //调用的方法
-    objectEditCtrl.updateObject=function(){
+    objectEditCtrl.rdrestrictionObject=function(){
         if (objectEditCtrl.data === null) {
             $scope.rdSubRestrictData = [];
         } else {
@@ -197,6 +230,25 @@ objectEditApp.controller("normalController", function ($scope) {
     };
     //修改属性
     $scope.$parent.$parent.save = function () {
+        //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
+        var resultStr="";
+        if($scope.checkValue){
+            resultStr="1";
+        }else{
+            resultStr="0";
+        }
+        var re31sult=""
+        for(var j=0;j<31;j++){
+            if(inArray(getEdnArray(), j)){
+                re31sult+="1";
+            }else{
+                re31sult+="0";
+            }
+        }
+        resultStr+=re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
+        $scope.rdRestrictData.vehicleExpression=bin2dec(resultStr);
+
+
         objectEditCtrl.setCurrentObject($scope.rdRestrictData);
         objectEditCtrl.save();
         var param = {
@@ -208,7 +260,22 @@ objectEditApp.controller("normalController", function ($scope) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
             var outputcontroller = fastmap.uikit.OutPutController({});
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid)
+            }
             outputcontroller.pushOutput(data.data);
+            if(outputcontroller.updateOutPuts!==info) {
+                outputcontroller.updateOutPuts();
+            }
         });
         if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
             var stageParam = {
@@ -219,7 +286,22 @@ objectEditApp.controller("normalController", function ($scope) {
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
-                outputcontroller.pushOutput(data.data);
+                var info=[];
+                if(data.data){
+                    $.each(data.data.log,function(i,item){
+                        if(item.pid){
+                            info.push(item.op+item.type+"(pid:"+item.pid+")");
+                        }else{
+                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        }
+                    });
+                }else{
+                    info.push(data.errmsg+data.errid)
+                }
+                outputcontroller.pushOutput(info);
+                if(outputcontroller.updateOutPuts!=="") {
+                    outputcontroller.updateOutPuts();
+                }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
         }
@@ -240,7 +322,22 @@ objectEditApp.controller("normalController", function ($scope) {
             var outputcontroller = new fastmap.uikit.OutPutController({});
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
-            outputcontroller.pushOutput(data.data);
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid)
+            }
+            outputcontroller.pushOutput(info);
+            if(outputcontroller.updateOutPuts!=="") {
+                outputcontroller.updateOutPuts();
+            }
             console.log("交限 " + pid + " has been removed");
         })
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
@@ -254,7 +351,22 @@ objectEditApp.controller("normalController", function ($scope) {
                 var outputcontroller = fastmap.uikit.OutPutController({});
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
-                outputcontroller.pushOutput(data.data+"\n");
+                var info=[];
+                if(data.data){
+                    $.each(data.data.log,function(i,item){
+                        if(item.pid){
+                            info.push(item.op+item.type+"(pid:"+item.pid+")");
+                        }else{
+                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        }
+                    });
+                }else{
+                    info.push(data.errmsg+data.errid)
+                }
+                outputcontroller.pushOutput(info);
+                if(outputcontroller.updateOutPuts!=="") {
+                    outputcontroller.updateOutPuts();
+                }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                 $scope.$parent.$parent.objectEditURL = "";
             })

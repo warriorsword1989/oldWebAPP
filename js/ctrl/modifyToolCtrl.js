@@ -14,10 +14,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
     shapeCtrl.setMap(map);
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
-    $scope.saveOrEsc = function () {
-        tooltipsCtrl.setStyleTooltip("color:black;");
-        tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
-    };
     $scope.modifyShape = function (type, num) {
 
         if (shapeCtrl.getCurrentTool()['options']) {
@@ -69,10 +65,15 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
-            shapeCtrl.on("startshapeeditresultfeedback",$scope.saveOrEsc());
+            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc());
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
-                shapeCtrl.off("startshapeeditresultfeedback",$scope.saveOrEsc());
+                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc());
             });
+            function saveOrEsc () {
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            };
+
         }
 
     };

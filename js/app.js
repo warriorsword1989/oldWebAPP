@@ -102,6 +102,9 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();
         output.clear();
+        if(output.updateOutPuts!=="") {
+            output.updateOutPuts();
+        }
     };
     $scope.showOrHide = function () {
         var modifyToolsDiv = $("#modifyToolsDiv");
