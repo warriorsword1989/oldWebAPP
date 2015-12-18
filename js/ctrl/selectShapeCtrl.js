@@ -9,11 +9,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrict = layerCtrl.getLayerById('referencePoint');
     var workPoint = layerCtrl.getLayerById('workPoint');
     $scope.toolTipText = "";
     $scope.selectShape = function (type, num) {
+        tooltipsCtrl.setMap(map,"tooltip");
         if(highLightLayer.highLightLayersArr.length!==0) {
             highLightLayer.removeHighLightLayers();
         }
@@ -90,10 +92,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
                     objCtrl.setCurrentObject(data.data);
-                    if(objCtrl.updateObject!=="") {
-                        objCtrl.updateObject();
+                    if(objCtrl.rdrestrictionObject!=="") {
+                        objCtrl.rdrestrictionObject();
                     }
-
+                    tooltipsCtrl.onRemoveTooltip();
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
@@ -102,12 +104,15 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         }
 
                     })
+
                 })
 
 
             })
         }
         if (type == "tips") {
+            $scope.toolTipText = '请选择tips！';
+            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('workPoint');
@@ -119,8 +124,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             workPoint.options.selectType = 'tips';
             workPoint.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            $scope.toolTipText = '请选择tips！';
-            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+
             workPoint.on("getNodeId", function (data) {
                 $scope.data = data;
                 $("#popoverTips").css("display", "block");
@@ -133,7 +137,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         $scope.$parent.$parent.updateDataTips(data);
                     }
                     selectCtrl.fire("selectByAttribute", {feather: data});
+
                     if (data.t_lifecycle === 1) {
+
                         var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
 
                         for (var trackNum = 0, trackLen = tracInfoArr.length; trackNum < trackLen; trackNum++) {
@@ -150,8 +156,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         } else {
                             Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                 objCtrl.setCurrentObject(data.data);
-                                if(objCtrl.updateObject!=="") {
-                                    objCtrl.updateObject();
+                                if(objCtrl.tipsUpdateObject!=="") {
+                                    objCtrl.tipsUpdateObject();
                                 }
 
                                 $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
@@ -162,6 +168,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 });
                             })
                         }
+                        tooltipsCtrl.onRemoveTooltip();
                     } else {
                         if (data.resID[0].id === 0) {
                             $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
@@ -171,8 +178,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         } else {
                             Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                 objCtrl.setCurrentObject(data.data);
-                               if(objCtrl.updateObject!=="") {
-                                   objCtrl.updateObject();
+                               if(objCtrl.tipsUpdateObject!=="") {
+                                   objCtrl.tipsUpdateObject();
                                }
                                 $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
@@ -182,7 +189,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 });
                             })
                         }
+                        tooltipsCtrl.onRemoveTooltip();
                     }
+
+
 
             })
         }
