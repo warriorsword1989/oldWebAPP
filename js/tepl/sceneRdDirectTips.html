@@ -1,0 +1,194 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
+<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
+<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
+<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
+<script src="../lib/angularjs/1.4.4/angular.js"></script>
+
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    label {
+        font-weight: normal;
+    }
+
+    .title {
+        height: 20%;
+        width: 70%;
+        background-color: #FFFFFF;
+        border: 1px solid #eeeeee;
+    }
+
+    .middle {
+        float: left;
+        margin: auto;
+        height: 80%;
+        width: 70%;
+    }
+
+    .left {
+        float: left;
+        clear: right;
+        height: 100%;
+        width: 100%;
+        background-color: #eeefff;
+        border: 1px solid #eeeeee;
+    }
+
+    .right {
+
+        float: left;
+        clear: right;
+        height: 60%;
+        width: 30%;
+        background-color: #FFFFFF;
+    }
+
+    .both {
+        clear: both;
+        height: 40%;
+        width: 100%;
+        background-color: #666999;
+    }
+
+    .footer {
+        height: 10%;
+        margin: 0 auto;
+        width: 100%;
+        clear: both;
+        background-color: #eeeeee;
+    }
+
+    #sceneRdDirectTipsDiv {
+        width: 350px;
+        height: 330px;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    .pull-in {
+        margin-left: 0px;
+        margin-right: -15px;
+    }
+    .form-horizontal .control-label{
+        text-align: center;
+    }
+</style>
+<div ng-controller="sceneRdDirectTipsController" id="sceneRdDirectTipsDiv">
+    <div class="title" >
+        <div class="col-sm-12"   style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 1px;">
+            <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
+        </div>
+    </div>
+    <div class="middle">
+        <div class="left"  >
+            <div class="panel panel-default" style="height: 100%; width: 100%;">
+                <div class="panel-body">
+                    <form class="form-horizontal" method="get">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                            <label class="col-sm-4 control-label">状态:</label>
+
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <span  class="label label-info" ></span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                            <label class="col-sm-4 control-label">关联道路ID:</label>
+
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <span class="label label-default" ></span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                            <label class="col-sm-4 control-label">方向:</label>
+
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <span class="label label-default" ></span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                            <label class="col-sm-4 control-label">时间:</label>
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <div ng-repeat="">
+                                    <span class="label label-default" ></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                            <label class="col-sm-4 control-label">车辆限制:</label>
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <div ng-repeat="">
+                                    <span class="label label-default" ></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="both">
+            <div class="panel panel-default" >
+                <div class="panel-body" style="padding-bottom: 0px; ">
+                    <form class="form-horizontal" method="get" style="text-align:left ;">
+                        <div class="form-group" style="height: 60%;margin-bottom: 3px;">
+                            <label class="col-sm-3 control-label"> 备注：</label>
+
+                            <div class="col-sm-8">
+
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height:10%; width:100%; margin:auto; ">
+
+                            <div class="col-sm-4" >
+                                <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;" ng-click="increaseBridge()">增加
+                                </button>
+                            </div>
+                            <div class="col-sm-4" >
+                                <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;" ng-click="transBridge()">转换</button>
+                            </div>
+                            <div class="col-sm-4" >
+                                <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;"  ng-click="closeBridge()">关闭
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--<div class="footer">-->
+    <!--<form class="form-horizontal" method="get" style="margin-bottom: 0px;">-->
+
+    <!--</form>-->
+    <!--</div>-->
+</div>
