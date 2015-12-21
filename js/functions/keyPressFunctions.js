@@ -52,10 +52,6 @@ function keyEvent(ocLazyLoad, scope) {
             }
 
             function resetPage(data) {
-                outPutCtrl.pushOutput(data);
-                if(outPutCtrl.updateOutPuts!=="") {
-                    outPutCtrl.updateOutPuts();
-                }
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
@@ -90,7 +86,11 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-                        resetPage(data.data);
+                        resetPage();
+                        outPutCtrl.pushOutput(data);
+                        if(outPutCtrl.updateOutPuts!=="") {
+                            outPutCtrl.updateOutPuts();
+                        }
                     });
 
                 } else if (shapeCtrl.editType === "restriction") {

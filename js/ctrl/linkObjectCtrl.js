@@ -112,8 +112,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             outputCtrl.pushOutput(data);
-            if(outPutCtrl.updateOutPuts!=="") {
-                outPutCtrl.updateOutPuts();
+            if(outputCtrl.updateOutPuts!=="") {
+                outputCtrl.updateOutPuts();
             }
         })
     };

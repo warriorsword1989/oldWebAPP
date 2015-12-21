@@ -101,6 +101,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case'Polygon':
                 drawPolygon();
                 break;
+            case 'marker':
+                drawMarker();
+                break;
         }
 
 
@@ -201,6 +204,22 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 }
             }
         }
+        function drawMarker(geom,url,boolPixelCrs) {
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+            }
+
+            var g = self._ctx;
+          this._loadImg(url,function(img){
+              g.drawImage(img, p.x, p.y);
+          })
+        }
 
     },
 
@@ -210,7 +229,13 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
     clear: function () {
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
-
+   _loadImg:function(url,callBack){
+       var img = new Image();
+       img.onload=function() {
+           callBack(img);
+       };
+       img.src = url;
+   },
     _redraw: function () {
 
         this.clear();
