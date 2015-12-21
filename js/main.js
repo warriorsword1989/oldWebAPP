@@ -18,7 +18,8 @@ requirejs.config({
         'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
         'applicationfuns':'functions/appfunctions',
-        'keyPressFunctions':'functions/keyPressFunctions'
+        'keyPressFunctions':'functions/keyPressFunctions',
+        'bootspopover':'popoverSelect'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -29,7 +30,8 @@ requirejs.config({
         'smart-table':['angular'],
         'applicationfuns':['application'],
         'keyPressFunctions':['jquery','applicationfuns'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions']
+        'bootspopover':['jquery'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover']
     }
 });
 

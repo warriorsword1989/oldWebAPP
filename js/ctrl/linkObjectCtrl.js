@@ -111,7 +111,19 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         };
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            outputCtrl.pushOutput(data);
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid)
+            }
+            outputCtrl.pushOutput(info);
             if(outputCtrl.updateOutPuts!=="") {
                 outputCtrl.updateOutPuts();
             }
@@ -125,10 +137,22 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid)
+            }
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
                 rdLink.redraw();
-                outputCtrl.pushOutput(data);
+                outputCtrl.pushOutput(info);
                 if(outputCtrl.updateOutPuts!=="") {
                     outputCtrl.updateOutPuts();
                 }
@@ -137,7 +161,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 editorLayer.clear();
                 $scope.$parent.$parent.objectEditURL = "";
             } else {
-                outputCtrl.pushOutput(data);
+                outputCtrl.pushOutput(info);
                 if(outputCtrl.updateOutPuts!=="") {
                     outputCtrl.updateOutPuts();
                 }

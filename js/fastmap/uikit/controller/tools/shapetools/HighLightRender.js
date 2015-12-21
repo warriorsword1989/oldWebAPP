@@ -60,10 +60,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     } else {//已处理
                         style = {src: './css/tips/selected/processed.png'};
                     }
+                    this.layer._drawImg(ctx, geom, style, true);
                 }
-
-                this.layer._drawImg(ctx, geom, style, true);
-
             }
         }
         this.initFlag = true;

@@ -56,6 +56,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         //获取数据中的图片数组
         $scope.photoTipsData = selectCtrl.rowKey.f_array;
 
+
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';

@@ -62,7 +62,7 @@ function keyEvent(ocLazyLoad, scope) {
                 editLayer.drawGeometry = null;
                 editLayer.clear();
                 shapeCtrl.stopEditing();
-                editLayer.bringToBack()
+                editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
             }
 
@@ -86,8 +86,21 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-                        resetPage();
-                        outPutCtrl.pushOutput(data);
+
+                        var info=[];
+                        if(data.data){
+                            $.each(data.data.log,function(i,item){
+                                if(item.pid){
+                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
+                                }else{
+                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                                }
+                            });
+                        }else{
+                            info.push(data.errmsg+data.errid)
+                        }
+                        resetPage(info);
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }
@@ -107,11 +120,24 @@ function keyEvent(ocLazyLoad, scope) {
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-
-                        outPutCtrl.pushOutput(data.data.log[0]);
+                        var info=[];
+                        if(data.data){
+                            $.each(data.data.log,function(i,item){
+                                if(item.pid){
+                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
+                                }else{
+                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                                }
+                            });
+                        }else{
+                            info.push(data.errmsg+data.errid)
+                        }
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }
+                        toolTipsCtrl.onRemoveTooltip();
+
                         Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                             objEditCtrl.setCurrentObject(data.data);
                             if (objEditCtrl.updateObject !== "") {
@@ -150,7 +176,11 @@ function keyEvent(ocLazyLoad, scope) {
                                 info.push(item.op+item.type+"(rowId:"+item.rowId+")");
                             }
                         });
-                        resetPage(info);
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if(outPutCtrl.updateOutPuts!=="") {
+                            outPutCtrl.updateOutPuts();
+                        }
                     })
                 } else if (shapeCtrl.editType === "pathVertexReMove"||shapeCtrl.editType==="pathVertexInsert"||shapeCtrl.editType==="pathVertexMove") {
                     if (coordinate.length !== 0) {
@@ -184,7 +214,12 @@ function keyEvent(ocLazyLoad, scope) {
                             }else{
                                 info.push(data.errmsg + data.errid);
                             }
-                            resetPage(info);
+                            resetPage();
+                            outPutCtrl.pushOutput(info);
+                            if(outPutCtrl.updateOutPuts!=="") {
+                                outPutCtrl.updateOutPuts();
+                            }
+
                         })
                     }
                 }

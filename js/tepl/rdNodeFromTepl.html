@@ -1,0 +1,188 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
+<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
+<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
+<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
+<script src="../lib/angularjs/1.4.4/angular.js"></script>
+
+
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    label {
+        font-weight: normal;
+    }
+
+    #traffiLimitedDiv {
+        border: 1px solid #FBFBFB;
+        width: 100%;
+        height: 530px;
+        min-height: 300px;
+        overflow-y: scroll;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .pull-in {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+    .form-horizontal .control-label{
+        text-align: center;
+    }
+</style>
+<div id="rdNodediv" ng-app="rdNodeFromApp" ng-controller="rdNodeFromController" class="panel panel-default" id="traffiLimitedDiv">
+    <div class="panel-heading font-bold" style=" text-align: center;height: 7%">
+        道路点
+        <span class="label label-info">{{rdNodeData.pid}}</span>
+    </div>
+    <div class="panel-body" style="height: 95%;">
+        <form class="form-horizontal" method="get">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">NODE种别</label>
+
+                <div class="col-sm-9">
+                    <select class="form-control" ng-model="rdNodeData.kind"
+                            ng-options="value.id as value.label for value in kindOptions" >
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">差分产品ID</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="rdNodeData.difGroupid">
+                </div>
+            </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">数据来源</label>
+                <div class="col-sm-9">
+                    <select class="form-control" ng-model="rdNodeData.srcFlag"
+                            ng-options="value.id as value.label for value in srcFlagOptions" >
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">精度级别</label>
+
+                <div class="col-sm-9">
+                    <select class="form-control" ng-model="rdNodeData.digitalLeve"
+                            ng-options="value.id as value.label for value in digitalLeveOptions" >
+                    </select>
+                </div>
+            </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="form-group">
+                <div class="panel panel-default">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            Node形态<a href="#myModal"  class="glyphicon glyphicon-plus" style="float: right;color: darkgray;text-decoration:none;outline: none;" data-toggle="modal"></a>
+                        </label>
+                        <div class="col-sm-8">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-12 control-label">
+                            <label class="col-sm-4 control-label" ng-repeat="item in newFromOfWayDate track by $index">
+                                <span class="text-primary">{{item.name}}</span><span class="glyphicon glyphicon-remove" style="color: darkgray;" ng-click="deleteroadtype($index)"></span>
+                            </label>
+                        </label>
+                    </div>
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog" style="width:400px;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close"
+                                            data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        NODE形态添加
+                                    </h4>
+                                </div>
+                                <div class="modal-body" >
+                                    名称
+                                    <select class="form-control" id="roadtypename">
+                                        <option value="0">未调查</option>
+                                        <option value="1">无属性</option>
+                                        <option value="2">图廓点</option>
+                                        <option value="3">CRF Info点</option>
+                                        <option value="4">收费站</option>
+                                        <option value="5">Hihgway起点</option>
+                                        <option value="6">Highway终点</option>
+                                        <option value="10">IC</option>
+                                        <option value="11">JCT</option>
+                                        <option value="12">桥</option>
+                                        <option value="13">隧道</option>
+                                        <option value="14">车站</option>
+                                        <option value="15">障碍物</option>
+                                        <option value="16">门牌号码点</option>
+                                        <option value="20">幅宽变化点</option>
+                                        <option value="21">种别变化点</option>
+                                        <option value="22">车道变化点</option>
+                                        <option value="23">分隔带变化点</option>
+                                        <option value="30">铁道道口</option>
+                                        <option value="31">有人看守铁道道口</option>
+                                        <option value="32">无人看守铁道道口</option>
+                                        <option value="41">KDZone与道路交点</option>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                            data-dismiss="modal">关闭
+                                    </button>
+                                    <button type="button" class="btn btn-primary" ng-click="saveroadtype()">
+                                        保存
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">辅助标志</label>
+
+                <div class="col-sm-9">
+                    <select class="form-control" ng-model="rdNodeData.auxiFlag"
+                            ng-options="value.id as value.label for value in auxiFlagOptions" >
+                    </select>
+                </div>
+            </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">图幅号码</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" ng-model="rdNodeData.meshId">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="../ctrl/rdNodeFromCtrl.js"></script>
