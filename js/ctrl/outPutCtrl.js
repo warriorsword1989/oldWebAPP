@@ -2,9 +2,10 @@
  * Created by liwanchong on 2015/10/10.
  */
 var outPutModule = angular.module('lazymodule', []);
-outPutModule.controller('outPutController',function($scope,$timeout) {
-    $scope.outputtext=""
+outPutModule.controller('outPutController', function ($scope, $timeout) {
+    $scope.outputtext = ""
     var output = fastmap.uikit.OutPutController();
+
     output.updateOutPuts=function(){
         var outValue=output.outPuts;
         if(outValue.length===0) {

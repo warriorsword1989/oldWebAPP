@@ -124,8 +124,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 info.push(data.errmsg+data.errid)
             }
             outputCtrl.pushOutput(info);
-            if(outPutCtrl.updateOutPuts!=="") {
-                outPutCtrl.updateOutPuts();
+            if(outputCtrl.updateOutPuts!=="") {
+                outputCtrl.updateOutPuts();
             }
         })
     };
