@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/10.
  */
 //var otherApp=angular.module("lazymodule", []);
-var otherApp=angular.module("rdBanchApp", []);
+var otherApp=angular.module("lazymodule", []);
 otherApp.controller("rdBranchController",function($scope){
 
 

@@ -33,7 +33,10 @@ objectEditApp.controller("normalController", function ($scope) {
 
         //初始化交限中的第一个禁止方向的信息
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+       // $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
 
@@ -253,7 +256,7 @@ objectEditApp.controller("normalController", function ($scope) {
         objectEditCtrl.save();
         var param = {
             "command": "updaterestriction",
-            "projectId": 1,
+            "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
@@ -311,7 +314,7 @@ objectEditApp.controller("normalController", function ($scope) {
         var pid = parseInt($scope.rdRestrictData.pid);
         var param = {
             "command": "updaterestriction",
-            "projectId": 1,
+            "projectId": 11,
             "data": {
                 "pid": pid,
                 "objStatus": "DELETE"
