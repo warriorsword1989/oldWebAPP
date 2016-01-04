@@ -2,9 +2,12 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 //var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-var selectApp = angular.module("speedLimitApp",[]);
+//var selectApp = angular.module("speedLimitApp",[]);
+var selectApp=angular.module('lazymodule', []);
 selectApp.controller("speedlimitTeplController",function ($scope) {
 
+    $scope.speedLimitData= $scope.$parent.$parent.speedLimitDatas.deep;
+    $scope.speedLimitGeometryData= $scope.$parent.$parent.speedLimitGeometryDatas.geometry.g_guide;
     $scope.speedTypeOptions=[
         {"id":0,"label":"0  普通(General)"},
         {"id": 1, "label": "1 指示牌(Advisory)"},
@@ -45,12 +48,12 @@ selectApp.controller("speedlimitTeplController",function ($scope) {
         {"id": 9, "label": "9 未调查"}
     ];
 
-    //var flag=$scope.speedLimitData.speedFlag;
-    //$("#speedFlag"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-    //var  gaptureFlag=$scope.speedLimitData.gaptureFlag;
-    //$("#gaptureFlag"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-    //var  tollgateFlag=$scope.speedLimitData.tollgateFlag;
-    //$("#tollgateFlag"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+    var flag=$scope.speedLimitData.se;//限速标志
+    $("#speedFlag"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
+    var  gaptureFlag=$scope.speedLimitData.flag;//采集标志
+    $("#gaptureFlag"+gaptureFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+    var  tollgateFlag=$scope.speedLimitData.toll;//收费站前限速
+    $("#tollgateFlag"+tollgateFlag).removeClass("btn btn-default").addClass("btn btn-primary");
     $scope.checkspeedFlag=function(flag){
         $("#speedFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#speedFlag"+flag).removeClass("btn btn-default").addClass("btn btn-primary");

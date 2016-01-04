@@ -26,26 +26,8 @@ limitedApp.controller("limitedController",function($scope) {
             //车辆类型为10进制数转为二进制数
             //var towbin=$scope.dec2bin($scope.rdSubRestrictData.vehicleExpression);
             //var towbin=dec2bin($scope.linkLimitData.limits[sitem].vehicle);
-            var towbin=dec2bin("2147483655");
-
-            //循环车辆值域，根据数据库数据取出新的数组显示在页面
-            var originArray=[];
-            $scope.checkValue=false;
-            var len=towbin.length-1;
-            //长度小于32即是没有选中checkbox，不允许
-            if(towbin.length<32){
-                $scope.checkValue=false;
-            }else{
-                len=towbin.length-2;
-                $scope.checkValue=true;
-            }
-            for(var i=len;i>=0;i--){
-                if(towbin.split("").reverse().join("")[i]==1){
-                    originArray.push($scope.vehicleOptions[i]);
-                }
-            }
-            //初始化数据
-            initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv"+sitem);
+           // var towbin=dec2bin("2147483655");
+            $scope.showvehicle("2147483655",sitem);
         }
 
         for(var l in  $scope.truckFlagarray) {
@@ -60,6 +42,34 @@ limitedApp.controller("limitedController",function($scope) {
           }
     },10)
 
+
+    $scope.showvehicle=function(vehicle,sitem){
+        var towbin=dec2bin(vehicle);
+
+        //循环车辆值域，根据数据库数据取出新的数组显示在页面
+        var originArray=[];
+        $scope.checkValue=false;
+        var len=towbin.length-1;
+        //长度小于32即是没有选中checkbox，不允许
+        if(towbin.length<32){
+            $scope.checkValue=false;
+        }else{
+            len=towbin.length-2;
+            $scope.checkValue=true;
+        }
+        for(var i=len;i>=0;i--){
+            if(towbin.split("").reverse().join("")[i]==1){
+                originArray.push($scope.vehicleOptions[i]);
+            }
+        }
+        //初始化数据
+        initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv"+sitem);
+        //点击内容显示框时，关闭下拉，保存数据
+        $("#vehicleExpressiondiv"+sitem).click(function(){
+            $("#vehicleExpressiondiv"+sitem).popover('hide');
+            $scope.linkLimitData.limits[sitem].vehicle=getEndArray();
+        });
+    }
 
     $scope.showPopover=function(ind){
         $('#vehicleExpressiondiv'+ind).popover('show');
@@ -155,7 +165,12 @@ limitedApp.controller("limitedController",function($scope) {
             tollType: 1,
             weather: 1,
             processFlag: 1,
-            linkPid:0
+            linkPid:0,
+            vehicle:6
+        });
+
+        setTimeout(function() {
+            $scope.showvehicle($scope.linkLimitData.limits[$scope.linkLimitData.limits.length - 1].vehicle, $scope.linkLimitData.limits.length - 1);
         });
     };
 

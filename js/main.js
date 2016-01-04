@@ -19,7 +19,7 @@ requirejs.config({
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
         'applicationfuns':'functions/appfunctions',
         'keyPressFunctions':'functions/keyPressFunctions',
-        'bootspopover':'popoverSelect'
+        'bootspopover':'ctrl/popoverSelect'
     },
     shim: {
         'bootstrap':['jquery'],
