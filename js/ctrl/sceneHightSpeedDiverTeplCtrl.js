@@ -1,8 +1,8 @@
 /**
- * Created by liuzhaoxia on 2016/1/5.
+ * Created by liuzhaoxia on 2016/1/4.
  */
 var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLazyLoad) {
+dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var checkCtrl = fastmap.uikit.CheckResultController();
@@ -23,9 +23,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
     if (selectCtrl.rowKey) {
         //初始化dataTips面板中的数据
         $scope.dataTipsData = selectCtrl.rowKey;
-        $scope.allTipsType=$scope.$parent.$parent.tipsType;
-
-
+        console.log($scope.dataTipsData);
+        $scope.oarrayData=$scope.dataTipsData.o_array;
+        for(var i in $scope.oarrayData){
+        //.d_array[$index].out[$index].id
+            for(var j in $scope.oarrayData[i].d_array){
+                for(var m in $scope.oarrayData[i].d_array[j].out){
+                    $scope.outIdS.push({id:$scope.oarrayData[i].d_array[j].out[m].id});
+                }
+            }
+        }
         //dataTips的初始化数据
         initializeDataTips();
 
@@ -35,7 +42,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
 
     //初始化DataTips相关数据
     function initializeDataTips() {
-
+        /*进入*/
+        $scope.sceneEnty = $scope.dataTipsData.in.id;
+        /*模式图号*/
+        $scope.schemaNo = $scope.dataTipsData.ptn;
+        /*退出*/
+        $scope.sceneExit = [];
+        $.each($scope.dataTipsData.o_array,function(i,v){
+            $scope.sceneExit.push(v.out.id);
+        });
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -52,50 +67,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
                     $scope.showContent = "默认值";
                     break;
             }
-        }
-
-        switch ($scope.allTipsType){
-            case "1101":
-                break;
-            case "1201":
-                break;
-            case "1203"://道路方向
-                if($scope.dataTipsData.dr==1){
-                    $scope.drs="双方向";
-                }else{
-                    $scope.drs="单方向";
-                }
-                $scope.fData=$scope.dataTipsData.f;
-                break;
-            case "1301"://车信
-                $scope.oarrayData=$scope.dataTipsData.o_array;
-                for(var i in $scope.oarrayData){
-                    //.d_array[$index].out[$index].id
-                    for(var j in $scope.oarrayData[i].d_array){
-                        for(var m in $scope.oarrayData[i].d_array[j].out){
-                            $scope.outIdS.push({id:$scope.oarrayData[i].d_array[j].out[m].id});
-                        }
-                    }
-                }
-                break;
-            case "1302":
-                break;
-            case "1407":
-                break;
-            case "1510":
-                break;
-            case "1604":
-                break;
-            case "1704"://交叉路口
-                $scope.fData=$scope.dataTipsData.f;
-                break;
-            case "1803":
-                break;
-            case "1901":
-                break;
-            case "2001":
-                break;
-
         }
 
         //获取数据中的图片数组
@@ -122,25 +93,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
                 $scope.photos.push(newimgs);
             }
         }
-        $timeout(function(){
-            $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
-                $scope.dateReadyURL = 'js/tepl/fmdateTimerReadonly.html';
-                /*查询数据库取出时间字符串*/
-                var tmpStr = $scope.dataTipsData.time;
-                $scope.fmdateTimer(tmpStr);
-            });
-        })
-        /*时间控件*/
-        $scope.fmdateTimer = function(str){
-            /*获取新数据*/
-            $scope.$on('get-date', function(event,data) {
-                $scope.codeOutputRead = data;
-            });
-            $timeout(function(){
-                $scope.$broadcast('set-code',str);
-                $scope.codeOutputRead = str;
-                $scope.$apply();
-            },100);
-        }
+
     };
 });

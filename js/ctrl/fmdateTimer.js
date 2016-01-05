@@ -127,6 +127,10 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         $scope.dateList = [];
         $scope.dateString = '';
         $scope.dateString = data;
+        /*如果服务返回的字符串只有一段时间，则加上[]然后进行解析*/
+        if(($scope.dateString).indexOf('(') == 1){
+            $scope.dateString = '['+$scope.dateString+']';
+        }
         newArr = $scope.newStr($scope.dateString);
         $scope.listInit();
         $scope.translate($scope.arrEmpty(newArr));
