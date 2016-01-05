@@ -1,8 +1,8 @@
 /**
- * Created by liuzhaoxia on 2016/1/4.
+ * Created by liuzhaoxia on 2016/1/5.
  */
 var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneRoadTipsController", function ($scope) {
+dataTipsApp.controller("sceneAllTipsController", function ($scope) {
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var checkCtrl = fastmap.uikit.CheckResultController();
@@ -18,10 +18,12 @@ dataTipsApp.controller("sceneRoadTipsController", function ($scope) {
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
+    $scope.outIdS=[];
 
     if (selectCtrl.rowKey) {
         //初始化dataTips面板中的数据
         $scope.dataTipsData = selectCtrl.rowKey;
+        $scope.allTipsType=$scope.$parent.$parent.tipsType;
 
 
         //dataTips的初始化数据
@@ -51,7 +53,50 @@ dataTipsApp.controller("sceneRoadTipsController", function ($scope) {
                     break;
             }
         }
-        $scope.fData=selectCtrl.rowKey.f;
+
+        switch ($scope.allTipsType){
+            case "1101":
+                break;
+            case "1201":
+                break;
+            case "1203"://道路方向
+                if($scope.dataTipsData.dr==1){
+                    $scope.drs="双方向";
+                }else{
+                    $scope.drs="单方向";
+                }
+                $scope.fData=$scope.dataTipsData.f;
+                break;
+            case "1301"://车信
+                $scope.oarrayData=$scope.dataTipsData.o_array;
+                for(var i in $scope.oarrayData){
+                    //.d_array[$index].out[$index].id
+                    for(var j in $scope.oarrayData[i].d_array){
+                        for(var m in $scope.oarrayData[i].d_array[j].out){
+                            $scope.outIdS.push({id:$scope.oarrayData[i].d_array[j].out[m].id});
+                        }
+                    }
+                }
+                break;
+            case "1302":
+                break;
+            case "1407":
+                break;
+            case "1510":
+                break;
+            case "1604":
+                break;
+            case "1704"://交叉路口
+                $scope.fData=$scope.dataTipsData.f;
+                break;
+            case "1803":
+                break;
+            case "1901":
+                break;
+            case "2001":
+                break;
+
+        }
 
         //获取数据中的图片数组
         $scope.photoTipsData = selectCtrl.rowKey.f_array;
