@@ -132,13 +132,13 @@
                             <!--</div>-->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">车道总数</label>
-                                <label class="col-sm-8 control-label">(1条)</label>
+                                <label class="col-sm-8 control-label">({{data.laneNum}}条)</label>
 
                             </div>
                             <div class="line line-dashed b-b line-lg pull-in"></div>
                             <div class="form-group">
                                 <div class="col-sm-3" >
-                                    <li style="list-style:none;width: 30px;height: 30px; display: inline;" ng-repeat="item in ptOriginArray"> <img  ng-src="../../css/laneinfo/{{item.id}}.png" ></li>
+                                    <li style="list-style:none;width: 30px;height: 30px; display: inline;" ng-repeat="item in ptOriginArray"> <img  ng-src="./css/laneinfo/{{item.id}}.png" ></li>
                                 </div>
                                     <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" data-toggle="modal"
                                           data-target="#myModal">普通</span>
@@ -146,7 +146,7 @@
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <li style="list-style:none;width: 30px;height: 30px; display: inline;" ng-repeat="gjitem in gjOriginArray">
-                                        <span ng-if="gjitem.id!=0"><img  ng-src="../../css/laneinfo/{{gjitem.id}}.png" ></span>
+                                        <span ng-if="gjitem.id!=0"><img  ng-src="./css/laneinfo/{{gjitem.id}}.png" ></span>
                                     </li>
                                 </div>
                                     <span style="float:right;font-size: 14px" >公交</span>
@@ -157,32 +157,32 @@
                                 <div class="col-sm-8">
                                     <label class="col-sm-2 control-label">左</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.outLinkPid">
+                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.leftExtend">
                                     </div>
                                     <label class="col-sm-2 control-label">右</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.outLinkPid">
+                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.rightExtend">
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-            <div class="panel panel-default">
-                <div class="panel-body">
+            <div ng-repeat="item in data.topos" class="panel panel-default">
+                <div  class="panel-body">
                     <form class="form-horizontal" method="get">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">退出lindID</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="退出lindID" ng-model="data.inLinkPid">
+                                <input type="text" class="form-control rounded" placeholder="退出lindID" ng-model="item.outLinkPid">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">通达方向</label>
                             <div class="col-sm-8">
-                                    <img src="">
+                                    <select ng-options="value.id as value.label for value in reachDirOptions" ng-model="item.reachDir"></select>
                             </div>
                         </div>
 
@@ -190,21 +190,24 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">进入车道序号</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="进入车道序号">
+                                <input type="text" class="form-control rounded" placeholder="进入车道序号" ng-model="item.connexityPid">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">公交车道信息</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="公交车道信息">
+                                <input type="text" class="form-control rounded" placeholder="公交车道信息" ng-model="item.busLaneInfo">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">关系类型</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="关系类型">
+                                <div id="relationshipTypediv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="relationshipType0_{{$index}}" ng-click="checkrelationshipType(0,item,$index)" ng-model="item.relationshipType">路口车信</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="relationshipType1_{{$index}}" ng-click="checkrelationshipType(1,item,$index)" ng-model="item.relationshipType">线线车信</button>
+                                </div>
                             </div>
                         </div>
                     </form>

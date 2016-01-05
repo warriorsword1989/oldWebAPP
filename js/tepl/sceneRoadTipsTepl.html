@@ -1,9 +1,3 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
 
 <style>
     div {
@@ -108,7 +102,7 @@
                             <label class="col-sm-4 control-label">状态:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span  class="label label-info" ></span>
+                                <span  class="label label-info" >{{showContent}}</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -117,7 +111,7 @@
                             <label class="col-sm-4 control-label">关联道路ID:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
+                                <span class="label label-default" >{{fData.id}}</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
