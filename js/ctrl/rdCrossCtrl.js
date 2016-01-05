@@ -3,28 +3,34 @@
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("rdCrossController",function ($scope) {
-
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.langCodeOptions=[
         {"id":0,"label":"0  中文"},
     ];
 
 
+
+    $scope.rdCrossData=objCtrl.data;
+    $("#signalbtn"+$scope.rdCrossData.signal).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#typebtn"+$scope.rdCrossData.type).removeClass("btn btn-default").addClass("btn btn-primary");
+    $("#electRoeyebtn"+$scope.rdCrossData.electroeye).removeClass("btn btn-default").addClass("btn btn-primary");
     $scope.checksignal=function(flag){
         $("#signaldiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#signalbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        //$scope.rdCrossData.signal=flag;
+        $scope.rdCrossData.signal=flag;
     }
 
     $scope.checktype=function(flag){
         $("#typediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#typebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        //$scope.rdCrossData.type=flag;
+        $scope.rdCrossData.type=flag;
     }
 
     $scope.checkelectRoeye=function(flag){
         $("#electRoeyediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#electRoeyebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        //$scope.rdCrossData.electRoeye=flag;
+        $scope.rdCrossData.electRoeye=flag;
     }
 
     $scope.checksrcFlag=function(flag,item,index){

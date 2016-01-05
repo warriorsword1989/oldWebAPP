@@ -4,6 +4,19 @@
 var otherApp=angular.module("lazymodule", []);
 otherApp.controller("rdLaneConnexityController",function($scope) {
 
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var objCtrl = fastmap.uikit.ObjectEditController();
+
+    $scope.data=objCtrl.data;
+
+
+    setTimeout(function(){
+        for(var sitem in $scope.data.topos){
+            var flag=$scope.data.topos[sitem].relationshipType;
+            $("#relationshipType"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+        }
+    },10)
+
     $scope.addRdLancdData = [
         {"id": 1,"class":false},
         {"id": 2,"class":false},
@@ -120,6 +133,17 @@ otherApp.controller("rdLaneConnexityController",function($scope) {
             }
         }
     }
+
+    //REACH_DIR
+    $scope.reachDirOptions=[
+        {"id": 0, "label": "0 未调查"},
+        {"id": 1, "label": "1 直"},
+        {"id": 2, "label": "2 左"},
+        {"id": 3, "label": "3 右"},
+        {"id": 4, "label": "4 调"},
+        {"id": 5, "label": "5 左斜前"},
+        {"id": 6, "label": "6 右斜前"}
+    ]
 
 
 

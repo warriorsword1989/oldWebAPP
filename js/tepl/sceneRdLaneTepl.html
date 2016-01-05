@@ -99,13 +99,13 @@
                     <form class="form-horizontal" method="get">
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;">
                             <div class="col-sm-6" style="padding-top: 5px">
-                                <img src="../../css/laneinfo/G.png" ng-click="showTips('item.flag')">
+                                <img src="./css/laneinfo/G.png" ng-click="showTips('item.flag')">
                             </div>
                             <label class="col-sm-4 control-label">普通</label>
                         </div>
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;">
                             <div class="col-sm-6" style="padding-top: 5px">
-                                <img src="../../css/laneinfo/tgreen.png" ng-click="showTips('item.flag')">
+                                <img src="./css/laneinfo/tgreen.png" ng-click="showTips('item.flag')">
                             </div>
                             <label class="col-sm-4 control-label">公交</label>
                         </div>
@@ -116,7 +116,7 @@
                             <label class="col-sm-4 control-label">状态:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span  class="label label-info" ></span>
+                                <span  class="label label-info" >{{showContent}}</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -125,7 +125,7 @@
                             <label class="col-sm-4 control-label">进入:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
+                                <span class="label label-default" >{{dataTipsData.in.id}}</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -133,9 +133,9 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;">
                             <label class="col-sm-4 control-label">退出:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <div ng-repeat="" >
-                                    <span class="label label-default" ></span>
+                            <div class="col-sm-8" style="padding-top: 5px" >
+                                <div ng-repeat="outitem in outIdS" >
+                                    <span class="label label-default" >{{outitem.id}}</span>
                                 </div>
                             </div>
                         </div>
