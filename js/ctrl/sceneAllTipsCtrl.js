@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2016/1/5.
  */
 var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneAllTipsController", function ($scope) {
+dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLazyLoad) {
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var checkCtrl = fastmap.uikit.CheckResultController();
@@ -122,6 +122,25 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope) {
                 $scope.photos.push(newimgs);
             }
         }
-
+        $timeout(function(){
+            $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+                $scope.dateReadyURL = 'js/tepl/fmdateTimerReadonly.html';
+                /*查询数据库取出时间字符串*/
+                var tmpStr = $scope.dataTipsData.time;
+                $scope.fmdateTimer(tmpStr);
+            });
+        })
+        /*时间控件*/
+        $scope.fmdateTimer = function(str){
+            /*获取新数据*/
+            $scope.$on('get-date', function(event,data) {
+                $scope.codeOutputRead = data;
+            });
+            $timeout(function(){
+                $scope.$broadcast('set-code',str);
+                $scope.codeOutputRead = str;
+                $scope.$apply();
+            },100);
+        }
     };
 });
