@@ -1,0 +1,16 @@
+<style type="text/css">
+.date-code-list{
+    margin-top:3px;
+    text-align: left !important;
+    line-height: 1.5em !important;
+    white-space: normal !important 
+}
+</style>
+<div ng-controller="DateCtrl">
+    <div class="date-list"></div>
+    <div class="date-list" ng-repeat="item in dateList">
+        <span class="col-xs-11 col-md-11 col-lg-11 label label-default date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
+        </span>
+        <!-- <div class="line"></div> -->
+    </div>
+</div>

@@ -240,7 +240,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     })
     /*时间控件*/
     $scope.fmdateTimer = function(str){
-        /*获取新数据*/
         $scope.$on('get-date', function(event,data) {
             $scope.codeOutput = data;
         });
@@ -252,7 +251,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //修改属性
     $scope.$parent.$parent.save = function () {
-        $scope.$broadcast('set-code',$scope.codeOutput);
+        // $scope.$broadcast('set-code',$scope.codeOutput);
     alert($scope.codeOutput)
         //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
         var resultStr="";

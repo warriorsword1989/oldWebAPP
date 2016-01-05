@@ -310,9 +310,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
-                                // $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
-                                //});
+                                $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
+                                });
                             });
                         });
                     }else if(pItemId==="1510"){//桥1510
