@@ -23,7 +23,6 @@ dataTipsApp.controller("sceneRdLaneController", function ($scope) {
     if (selectCtrl.rowKey) {
         //初始化dataTips面板中的数据
         $scope.dataTipsData = selectCtrl.rowKey;
-        console.log($scope.dataTipsData);
         $scope.oarrayData=$scope.dataTipsData.o_array;
         for(var i in $scope.oarrayData){
         //.d_array[$index].out[$index].id

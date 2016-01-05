@@ -195,6 +195,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if ($scope.$parent.$parent.objectEditURL) {
                     $scope.$parent.$parent.objectEditURL = "";
                 }
+                $scope.$parent.$parent.tipsType=pItemId;
                 $("#popoverTips").css("display", "block");
                 map.panTo({lat: item["g"][1], lon: item["g"][0]});
                 Application.functions.getTipsResult(item.i, function (data) {
@@ -207,6 +208,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //    $scope.$parent.$parent.updateDataTips(data);
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
+                    console.log(data);
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
@@ -230,23 +232,25 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             //});
                         //});
                     }else if(pItemId==="1203"){//道路方向
-
-                        //Application.functions.getRdObjectById(data.id, "", function (data) {
-                           // objCtrl.setCurrentObject(data);
-                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                // $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRdDirectTips.html";
-                                //});
+                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        });
+                        if(data.f.type==1){
+                            Application.functions.getRdObjectById(data.f.id, "RDLINK", function (data) {
+                                objCtrl.setCurrentObject(data);
+                                $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                });
                             });
-                        //});
+                        }
+
                     }else if(pItemId==="1301"){//车信
                         Application.functions.getRdObjectById(data.id, "RDLANECONNEXITY", function (data) {
                             objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
-                                $ocLazyLoad.load('ctrl/sceneRdLaneTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRdLaneTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 });
                             });
                         });
@@ -331,8 +335,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
-                                $ocLazyLoad.load('ctrl/sceneRoadTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRoadTipsTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 });
                             });
                         });
