@@ -47,7 +47,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     break;
                                 case "1510"://1501
                                     objArr.name = "桥";
-                                    objArr.id = "1501";
+                                    objArr.id = "1510";
                                     objArr.total = obj[item];
                                     break;
                                 case "1604":
@@ -127,9 +127,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         objArr.id = "1407";
                                         objArr.total = obj[item];
                                         break;
-                                    case "1510"://1501
+                                    case "1510"://1510
                                         objArr.name = "桥";
-                                        objArr.id = "1501";
+                                        objArr.id = "1510";
                                         objArr.total = obj[item];
                                         break;
                                     case "1604":
@@ -208,12 +208,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     if(pItemId==="1101") {//限速
-                        $scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
-                        $scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
-                        $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/speedLimitTepl.html";
-                            $ocLazyLoad.load('ctrl/sceneSpeedLimitCtrl').then(function () {
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneSpeedLimitTepl.html";
+                        //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
+                        //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
+
+                        Application.functions.getRdObjectById(data.id, "RDSPEEDLIMIT", function (data) {
+                            objCtrl.setCurrentObject(data.data);
+                            $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/speedLimitTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneSpeedLimitCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneSpeedLimitTepl.html";
+                                });
                             });
                         });
                     }else if(pItemId==="1201"){//道路种别
@@ -226,6 +230,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             //});
                         //});
                     }else if(pItemId==="1203"){//道路方向
+
                         //Application.functions.getRdObjectById(data.id, "", function (data) {
                            // objCtrl.setCurrentObject(data);
                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
@@ -236,14 +241,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             });
                         //});
                     }else if(pItemId==="1301"){//车信
-                        //Application.functions.getRdObjectById(data.id, "CROSSNAME", function (data) {
+                        Application.functions.getRdObjectById(data.id, "RDLANECONNEXITY", function (data) {
+                            objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
-                                // $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
-                               // $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRdLaneTepl.html";
-                                //});
+                                $ocLazyLoad.load('ctrl/sceneRdLaneTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRdLaneTepl.html";
+                                });
                             });
-                        //});
+                        });
                     }else if(pItemId==="1302") {//交限
                         if (data.t_lifecycle === 1) {
                             var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
@@ -297,26 +303,37 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     }else if(pItemId==="1407"){//高速分歧
                         Application.functions.getRdObjectById(data.id, "RDBRANCH", function (data) {
+                            objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
                                 // $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRdLaneTepl.html";
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                                 //});
                             });
                         });
-                    }else if(pItemId==="1501"){//桥1501
-                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneBridgeTepl.html";
+                    }else if(pItemId==="1510"){//桥1510
+                        Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
+                            if (data.errcode === -1) {
+                                return;
+                            }
+                            objCtrl.setCurrentObject(data.data);
+                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneBridgeTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneBridgeTepl.html";
+                                });
+                            });
+                        });
                     }else if(pItemId==="1604"){//区域内道路
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRegionalRoadTepl.html";
                     }else if(pItemId==="1704"){//交叉路口
-
                         Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
-                            console.log(data);
+                            objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
-                            // $ocLazyLoad.load('ctrl/sceneSpeedLimitCtrl').then(function () {
-                            //$scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRoadTipsTepl.html";
-                            // });
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneRoadTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRoadTipsTepl.html";
+                                });
                             });
                         });
                     }else if(pItemId==="1801"){//挂接
