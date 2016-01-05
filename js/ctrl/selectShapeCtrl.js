@@ -102,7 +102,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         } else if ($scope.type === 1) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
                         }
-
                     })
 
                 })
