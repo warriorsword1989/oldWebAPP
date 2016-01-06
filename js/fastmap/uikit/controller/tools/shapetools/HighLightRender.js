@@ -60,10 +60,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     } else {//已处理
                         style = {src: './css/tips/selected/processed.png'};
                     }
+                    this.layer._drawImg(ctx, geom, style, true);
                 }
-
-                this.layer._drawImg(ctx, geom, style, true);
-
             }
         }
         this.initFlag = true;
@@ -135,7 +133,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                     }, {
                                         color: '#1056D9',
                                         radius: 3
-                                    }, feature.properties.direct);
+                                    }, feature.properties);
                                 } else if (item.substr(0, 7) === "outLink") {
                                     this.layer._drawLineString(ctx, geom, true, {
                                         size: 3,
@@ -143,7 +141,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                     }, {
                                         color: '#F63428',
                                         radius: 3
-                                    }, feature.properties.direct);
+                                    }, feature.properties);
                                 }
 
                             }
@@ -162,7 +160,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         this.layer._drawLineString(ctx, geom, true, style, {
                             color: '#696969',
                             radius: 3
-                        }, feature.properties.direct);
+                        }, feature.properties);
                     }
 
                 }
@@ -212,7 +210,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 }, {
                                     color: '#F63428',
                                     radius: 3
-                                }, feature.properties.direct);
+                                }, feature.properties);
                             }
 
                         }
@@ -231,7 +229,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     this.layer._drawLineString(ctx, geom, true, style, {
                         color: '#696969',
                         radius: 3
-                    }, feature.properties.direct);
+                    }, feature.properties);
                 }
 
             }
@@ -269,12 +267,12 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     }, {
                         color: '#F63428',
                         radius: 3
-                    }, feature.properties.direct);
+                    }, feature.properties);
                 } else {
                     this.layer._drawLineString(ctx, geom, true, style, {
                         color: '#696969',
                         radius: 3
-                    }, feature.properties.direct);
+                    }, feature.properties);
                 }
 
 

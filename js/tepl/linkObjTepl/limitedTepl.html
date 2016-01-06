@@ -1,4 +1,71 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
 
+    label {
+        font-weight: normal;
+    }
+
+    #traffiLimitedDiv {
+        border: 1px solid #FBFBFB;
+        width: 100%;
+        height: 530px;
+        min-height: 300px;
+        overflow-y: scroll;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .pull-in {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+    .form-horizontal .control-label{
+        text-align: center;
+    }
+
+    .checkboxli{
+        background-color: #e4e4e4;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+    }
+    .popover{
+        width: 100%;
+    }
+    .popover-content{
+        overflow-y:auto;height:200px;
+    }
+
+</style>
 <div id="realTimeDiv" ng-controller="limitedController">
     <div class="panel-group" id="popularLimited" style="margin: 0px;">
         <div class="panel panel-default">
@@ -133,19 +200,38 @@
 
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">车辆类型</label>-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<div class="row">-->
+                                            <!--<div class="col-sm-7" style="padding-left: 15px">-->
+                                                <!--<input type="text" class="form-control" ng-model="item.vehicle">-->
+                                            <!--</div>-->
+                                            <!--<div class="col-sm-3">-->
+                                                <!--<button type="submit" class="btn btn-default" >车辆控件</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">车辆类型</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-sm-7" style="padding-left: 15px">
-                                                <input type="text" class="form-control" ng-model="item.vehicle">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-default" >车辆控件</button>
-                                            </div>
+                                    <div class="col-sm-4 control-label">
+                                        <input  type="checkbox" id="checkallow()" ng-checked="checkValue" ng-model="checkValue">允许
+                                    </div>
+                                    <a  class="col-sm-4 control-label" ng-click="showPopover($index)">添加</a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-8">
+
+                                        <!--<select class="form-control" ng-model="rdSubRestrictData.vehicleExpression"-->
+                                        <!--ng-options="value.id as value.label for value in vehicleOptions" >-->
+                                        <!--</select>-->
+                                        <div  id="vehicleExpressiondiv{{$index}}"  style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;word-break: break-all;word-wrap: break-word;" tabindex="0" role="button" data-toggle="popover"  title="车辆类型"  >
+                                            <!--<ul id="newul" class="list-inline" style="width:100%;height:auto;white-spacing:nowrap;"></ul>-->
                                         </div>
                                     </div>
-
                                 </div>
                             </form></div>
                     </div>

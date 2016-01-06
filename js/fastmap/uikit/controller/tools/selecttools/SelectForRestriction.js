@@ -225,7 +225,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, lineStyle, {
                         color: '#F63428',
                         radius: 3
-                    });
+                    }, data[key].properties);
 
 
                 }
@@ -250,7 +250,6 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
      *清除高亮
      */
     _cleanHeight: function () {
-        console.log("from clear");
         for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
             if (!data) {
@@ -278,7 +277,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     this.currentEditLayer._drawLineString(ctx, geom, true, style, {
                         color: '#696969',
                         radius: 3
-                    });
+                    },feature.properties);
 
                 }
             }

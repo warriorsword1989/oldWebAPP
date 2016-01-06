@@ -79,7 +79,7 @@ fastmap.uikit.HighLightController=(function() {
                                 var geom = feature.geometry.coordinates;
                                 if(featureOfHigh==="links"||featureOfHigh==="link") {
                                     layer._drawLineString(ctx, geom, true,style,{color: '#696969',
-                                        radius:3},feature.properties.direct);
+                                        radius:3},feature.properties);
                                 }else if(featureOfHigh==="dataTips") {
                                     var styleForDataTips;
                                     if(feature.properties.srctype=="1"){//未处理

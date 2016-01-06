@@ -17,10 +17,17 @@ limitedApp.controller("limitedController",function($scope) {
         }
 
     }
+
+
     setTimeout(function(){
         for(var sitem in $scope.linkLimitData.limits){
             var flag=$scope.linkLimitData.limits[sitem].processFlag;
             $("#processFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
+            //车辆类型为10进制数转为二进制数
+            //var towbin=$scope.dec2bin($scope.rdSubRestrictData.vehicleExpression);
+            //var towbin=dec2bin($scope.linkLimitData.limits[sitem].vehicle);
+           // var towbin=dec2bin("2147483655");
+            $scope.showvehicle("2147483655",sitem);
         }
 
         for(var l in  $scope.truckFlagarray) {
@@ -34,6 +41,75 @@ limitedApp.controller("limitedController",function($scope) {
                 $("#resOut"+resOutflag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
           }
     },10)
+
+
+    $scope.showvehicle=function(vehicle,sitem){
+        var towbin=dec2bin(vehicle);
+
+        //循环车辆值域，根据数据库数据取出新的数组显示在页面
+        var originArray=[];
+        $scope.checkValue=false;
+        var len=towbin.length-1;
+        //长度小于32即是没有选中checkbox，不允许
+        if(towbin.length<32){
+            $scope.checkValue=false;
+        }else{
+            len=towbin.length-2;
+            $scope.checkValue=true;
+        }
+        for(var i=len;i>=0;i--){
+            if(towbin.split("").reverse().join("")[i]==1){
+                originArray.push($scope.vehicleOptions[i]);
+            }
+        }
+        //初始化数据
+        initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv"+sitem);
+        //点击内容显示框时，关闭下拉，保存数据
+        $("#vehicleExpressiondiv"+sitem).click(function(){
+            $("#vehicleExpressiondiv"+sitem).popover('hide');
+            $scope.linkLimitData.limits[sitem].vehicle=getEndArray();
+        });
+    }
+
+    $scope.showPopover=function(ind){
+        $('#vehicleExpressiondiv'+ind).popover('show');
+    }
+    $scope.vehicleOptions = [
+        {"id": 0, "label": "客车(小汽车)"},
+        {"id": 1, "label": "配送卡车"},
+        {"id": 2, "label": "运输卡车"},
+        {"id": 3, "label": "步行车"},
+        {"id": 4, "label": "自行车"},
+        {"id": 5, "label": "摩托车"},
+        {"id": 6, "label": "机动脚踏两用车"},
+        {"id": 7, "label": "急救车"},
+        {"id": 8, "label": "出租车"},
+        {"id": 9, "label": "公交车"},
+        {"id": 10, "label": "工程车"},
+        {"id": 11, "label": "本地车辆"},
+        {"id": 12, "label": "自用车辆"},
+        {"id": 13, "label": "多人乘坐车辆"},
+        {"id": 14, "label": "军车"},
+        {"id": 15, "label": "有拖车的车"},
+        {"id": 16, "label": "私营公共汽车"},
+        {"id": 17, "label": "农用车"},
+        {"id": 18, "label": "载有易爆品的车辆"},
+        {"id": 19, "label": "载有水污染品的车辆"},
+        {"id": 20, "label": "载有其他污染品的车辆"},
+        {"id": 21, "label": "电车"},
+        {"id": 22, "label": "轻轨"},
+        {"id": 23, "label": "校车"},
+        {"id": 24, "label": "四轮驱动车"},
+        {"id": 25, "label": "装有防雪链的车"},
+        {"id": 26, "label": "邮政车"},
+        {"id": 27, "label": "槽罐车"},
+        {"id": 28, "label": "残疾人车"},
+        {"id": 29, "label": "预留"},
+        {"id": 30, "label": "预留"},
+        {"id": 31, "label": "标志位,禁止/允许(0/1)"}
+    ];
+
+
 
     $scope.appInfoOptions = [
         {"id": 0, "label": "调查中"},
@@ -89,7 +165,12 @@ limitedApp.controller("limitedController",function($scope) {
             tollType: 1,
             weather: 1,
             processFlag: 1,
-            linkPid:0
+            linkPid:0,
+            vehicle:6
+        });
+
+        setTimeout(function() {
+            $scope.showvehicle($scope.linkLimitData.limits[$scope.linkLimitData.limits.length - 1].vehicle, $scope.linkLimitData.limits.length - 1);
         });
     };
 

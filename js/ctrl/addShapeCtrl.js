@@ -12,6 +12,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var rdLink = layerCtrl.getLayerById('referenceLine');
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
+        tooltipsCtrl.setMap(map,"tooltip");
         $scope.addShape = function (type,num) {
             if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();

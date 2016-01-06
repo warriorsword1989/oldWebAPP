@@ -1,0 +1,193 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    label {
+        font-weight: normal;
+    }
+    .form-group {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    #currentObjectDiv{
+        border: 1px solid #FBFBFB;
+        width:100%;
+        height: 100%;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    .pull-in {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+    .form-horizontal .control-label{
+        text-align: center;
+    }
+</style>
+<div id="rdCrossDiv" ng-controller="rdCrossController">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form class="form-horizontal" method="get">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">道路路口</label>
+
+                    <div  class="col-sm-9">
+                        <span class="label label-info">{{rdCrossData.pid}}</span>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal" method="get">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">信号灯</label>
+
+                            <div class="col-sm-8">
+
+                                <div id="signaldiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="signalbtn0" ng-click="checksignal(0)" ng-model="rdCrossData.signal">无</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="signalbtn1" ng-click="checksignal(1)" ng-model="rdCrossData.signal">路口</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="signalbtn2" ng-click="checksignal(2)" ng-model="rdCrossData.signal">行人</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">路口类型</label>
+
+                            <div class="col-sm-8">
+                                <div id="typediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="typebtn0" ng-click="checktype(0)" ng-model="rdCrossData.type">简单</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="typebtn1" ng-click="checktype(1)" ng-model="rdCrossData.type">复合</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">电子眼</label>
+
+                            <div class="col-sm-8">
+                                <div id="electRoeyediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="electRoeyebtn0" ng-click="checkelectRoeye(0)" ng-model="rdCrossData.electRoeye">未调查</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="electRoeyebtn1" ng-click="checkelectRoeye(1)" ng-model="rdCrossData.electRoeye">有</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="electRoeyebtn2" ng-click="checkelectRoeye(2)" ng-model="rdCrossData.electRoeye">无</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel-group" id="sideWalk" style="margin: 0px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    路口名称 共（<span ng-if="rdCrossData!=undefined">{{rdCrossData.names.length}}</span>）个
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#namesDiv">
+                        <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                    </a>
+
+                    <span class="glyphicon glyphicon-plus"
+                          style="float: right;color: darkgray;"
+                          ng-click="addrdCrossName()"></span>
+                </h4>
+
+            </div>
+            <div id="namesDiv" class="panel-collapse collapse in">
+                <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                    <div class="list-group" ng-repeat="nameitem in rdCrossData.names">
+                        <div class="list-group-item">
+                            <form class="form-horizontal" method="get">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">名称号码</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="nameitem.nameId">
+                                    </div>
+                                <span class="glyphicon glyphicon-remove-sign"
+                                      style="float: right;color: darkgray;margin-top: -45px;"
+                                      ng-click="minusrdCrossName($index)" ></span>
+                                </div>
+
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">名称组号</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="nameitem.nameGroupid" >
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">代码语言</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" ng-model="nameitem.langCode"
+                                                ng-options="value.id as value.label for value in langCodeOptions" >
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">名称内容</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="nameitem.name">
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">名称发音</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" ng-model="nameitem.phonetic">
+                                    </div>
+                                </div>
+                                <div class="line line-dashed b-b line-lg pull-in"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">名称来源</label>
+
+                                    <div class="col-sm-9">
+                                        <div id="srcFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="srcFlag0_{{$index}}" ng-click="checksrcFlag(0,nameitem,$index)" ng-model="nameitem.srcFlag">未定义</button>
+                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="srcFlag1_{{$index}}" ng-click="checksrcFlag(1,nameitem,$index)" ng-model="nameitem.srcFlag">翻译</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

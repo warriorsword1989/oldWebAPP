@@ -1,0 +1,74 @@
+.ti_tx, .mi_tx, .mer_tx{width: 100%;text-align: center;margin: 10px 0;}
+.time, .mins, .meridian{width: 60px;float: left;margin: 0px 10px;font-size: 20px;color: #2d2e2e;font-family: 'arial';font-weight: 700;}
+.time-prev, .time-next{cursor: pointer;padding: 18px;width: 28%;border: 1px solid #ccc;margin: auto;background: url(../images/arrow.png) no-repeat;border-radius: 5px;}
+.time-prev:hover, .time-next:hover{background-color:#ccc;}
+.time-next{
+	background-position: 50% 150%;
+	transition:all 0.5s;
+	-moz-transition:all 0.5s; /* Firefox 4 */
+	-webkit-transition:all 0.5s; /* Safari and Chrome */
+	-o-transition:all 0.5s; /* Opera */
+}
+.time-prev{
+	background-position: 50% -50%;
+	transition:all 0.5s;
+	-moz-transition:all 0.5s; /* Firefox 4 */
+	-webkit-transition:all 0.5s; /* Safari and Chrome */
+	-o-transition:all 0.5s; /* Opera */
+}
+.time_pick{position:relative;}
+.timepicker_wrap{
+	padding: 10px;
+	border-radius: 3px;
+	z-index: 99999;
+	display:none;
+	width:182px;
+	box-shadow: 1px 1px 10px 0px rgba(50, 50, 50, 0.35);
+	background:#ffffff;
+	border:1px solid #ccc;
+	float:left;
+	position:absolute;
+	top:27px;
+	left:0px;
+}
+.arrow_top{position: absolute;top: -10px;left: 20px;background: url(../images/top_arr.png) no-repeat;width: 18px;height: 10px;z-index: 3;}
+.date-now{
+    float: left;
+    text-align: center;
+    background-color: #3399FF;
+    color: #fff;
+    margin-bottom: -10px;
+    margin-left: -10px;
+    margin-top: 10px;
+    transition: all 0.5s;
+	-moz-transition:all 0.5s; /* Firefox 4 */
+	-webkit-transition:all 0.5s; /* Safari and Chrome */
+	-o-transition:all 0.5s; /* Opera */
+    cursor: pointer;
+    width: 90px;
+    border-bottom-left-radius: 3px;
+}
+.date-now:hover{
+	background-color: #3366FF;
+    color: #fff;
+}
+.date-empty{
+    float: left;
+    text-align: center;
+    background-color: #FF0000;
+    color: #fff;
+    margin-bottom: -10px;
+    margin-top: 10px;
+    margin-right: -10px;
+    transition: all 0.5s;
+	-moz-transition:all 0.5s; /* Firefox 4 */
+	-webkit-transition:all 0.5s; /* Safari and Chrome */
+	-o-transition:all 0.5s; /* Opera */
+    cursor: pointer;
+    width: 90px;
+    border-bottom-right-radius: 3px;
+}
+.date-empty:hover{
+	background-color: #CC0000;
+    color: #fff;
+}
