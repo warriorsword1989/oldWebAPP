@@ -23,6 +23,10 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
+        this.snapHandler.enable();
+
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
     },
     /***
      * 重写disable，加入地图拖动控制
@@ -75,11 +79,45 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         if(this.targetIndex == null)
             return;
         this.resetVertex(this.targetIndex);
+        this.snapHandler.setTargetIndex(this.targetIndex);
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
-    onMouseMove: function () {
+    onMouseMove: function (event) {
         this.container.style.cursor = 'pointer';
+
+        var layerPoint = event.layerPoint;
+
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
+
+        for (var j = 0, len = points.length; j < len; j++) {
+
+            //两个端点不能删除
+            if(j != 0 && j !=len-1){
+                var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
+
+                if (disAB > 0 && disAB < 5) {
+
+
+                    this.targetIndex = j;
+                }
+            }
+
+        }
+
+
+        this.snapHandler.setTargetIndex(this.targetIndex);
+        var that = this;
+        if(this.snapHandler.snaped == true){
+            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
+        }else{
+            this.shapeEditor.fire('snaped',{'snaped':false});
+            that.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
+
+
     },
 
     //两点之间的距离

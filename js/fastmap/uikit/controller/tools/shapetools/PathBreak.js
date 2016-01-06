@@ -21,6 +21,11 @@ fastmap.uikit.PathBreak = L.Handler.extend({
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
         this._mapDraggable = this._map.dragging.enabled();
+
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
     /***
@@ -53,16 +58,28 @@ fastmap.uikit.PathBreak = L.Handler.extend({
         var layerPoint = event.layerPoint;
         this.resetVertex(layerPoint);
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        this.disable();
-        this.container.style.cursor = '';
-
+       // this.disable();
+        //this.container.style.cursor = '';
     },
 
-    onMouseMove: function(){
+    onMouseMove: function(event){
         //this.container
-        this.container.style.cursor = 'crosshair';
+        this.snapHandler.setTargetIndex(0);
+        var that = this;
+        if(this.snapHandler.snaped == true){
+            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
+        }else{
+            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
     },
-
+    //两点之间的距离
+    distance:function(pointA, pointB) {
+        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+        return Math.sqrt(len);
+    },
     drawFeedBack: function(){},
 
     resetVertex:function(layerPoint){
