@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/10/13.
+ * Created by zhongxiaoming on 2015/10/14
  * Class EditLayer 可编辑图层
  */
 fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
@@ -25,7 +25,6 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
     initEvent: function () {
         var that = this;
-<<<<<<< HEAD
         this.shapeEditor =  fastmap.uikit.ShapeEditorController();
         this.shapeEditor.on('snaped',function(event){
             that.snaped = event.snaped;
@@ -33,13 +32,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.shapeEditor.on('startshapeeditresultfeedback',delegateDraw );
         function delegateDraw(event){
             if(that.shapeEditor.shapeEditorResult == null){
-=======
-        this.shapEditor = fastmap.uikit.ShapeEditorController();
 
-        this.shapEditor.on('startshapeeditresultfeedback', delegateDraw);
-        function delegateDraw(event) {
-            if (that.shapEditor.shapeEditorResult == null) {
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
                 return;
             }
             that.drawGeometry = that.shapeEditor.shapeEditorResult.getFinalGeometry();
@@ -57,35 +50,21 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         }
 
-<<<<<<< HEAD
         this.shapeEditor.on('stopshapeeditresultfeedback',function(){
             this.map._container.style.cursor = '';
-=======
-        this.shapEditor.on('stopshapeeditresultfeedback', function () {
-            that.map._container.style.cursor = '';
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
 
             var coordinate1 = []
             if (that.drawGeometry) {
                 for (var index in that.drawGeometry.components) {
                     coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
                 }
-<<<<<<< HEAD
 
-=======
-                console.log('绘制后:' + coordinate1);
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
                 that._redraw();
             }
 
         });
 
-
-<<<<<<< HEAD
-        this.shapeEditor.on('abortshapeeditresultfeedback',function(){
-=======
-        this.shapEditor.on('abortshapeeditresultfeedback', function () {
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
+        this.shapeEditor.on('abortshapeeditresultfeedback', function () {
             that.drawGeometry = that.shapEditor.shapeEditorResult.getOriginalGeometry();
             that.shapEditor.shapeEditorResult.setFinalGeometry(that.drawGeometry.clone());
 
@@ -122,13 +101,10 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         if (!currentGeo) {
             return;
         }
-<<<<<<< HEAD
-        //this.drawGeometry = currentGeo;
-        switch(currentGeo.type) {
-=======
+
         this.drawGeometry = currentGeo;
         switch (this.drawGeometry.type) {
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
+
             case 'LineString':
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
                 break;
@@ -189,17 +165,12 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var proj = [], i;
             //coords = this._clip(ctx, coords);
             //coords = L.LineUtil.simplify(coords, 1);
-<<<<<<< HEAD
-            for (i = 0; i < geom.length; i++) {
-                if(boolPixelCrs){
-                    proj.push({x:geom[i].x,y:geom[i].y});
-                }else{
-=======
+
             for (var i = 0; i < geom.length; i++) {
                 if (boolPixelCrs) {
                     proj.push({x: geom[i][0], y: geom[i][1]});
                 } else {
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
+
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
                     if (i == index) {
                         drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {

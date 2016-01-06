@@ -58,14 +58,8 @@ fastmap.uikit.PathBreak = L.Handler.extend({
         var layerPoint = event.layerPoint;
         this.resetVertex(layerPoint);
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-<<<<<<< HEAD
        // this.disable();
         //this.container.style.cursor = '';
-=======
-        this.disable();
-        this.container.style.cursor = '';
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
-
     },
 
     onMouseMove: function(event){

@@ -17,13 +17,8 @@ requirejs.config({
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
-<<<<<<< HEAD
-        "testData":"tepl/data",
-        'applicationfuns':'functions/appfunctions'
-=======
         'applicationfuns':'functions/appfunctions',
         'keyPressFunctions':'functions/keyPressFunctions'
->>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
     },
     shim: {
         'bootstrap':['jquery'],
