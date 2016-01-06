@@ -4,7 +4,7 @@
  */
 fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     options: {
-        debug: false
+        debug: true
     },
 
     tileSize: 256,

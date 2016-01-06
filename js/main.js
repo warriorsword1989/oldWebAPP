@@ -17,7 +17,6 @@ requirejs.config({
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
-
         "testData":"tepl/data",
         'applicationfuns':'functions/appfunctions'
     },
