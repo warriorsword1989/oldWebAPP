@@ -79,6 +79,7 @@
                 "fastmap/uikit/controller/corectl/SelectController.js",
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
+                "fastmap/uikit/controller/corectl/HighLightController.js",
                 //uikit/controller/tools/shapetools
 
                 "fastmap/uikit/controller/tools/shapetools/Snap.js",
@@ -97,6 +98,7 @@
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorFactory.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResult.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResultFeedback.js",
+                "fastmap/uikit/controller/tools/shapetools/HighLightRender.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectPath.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectForRestriction.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectNode.js",

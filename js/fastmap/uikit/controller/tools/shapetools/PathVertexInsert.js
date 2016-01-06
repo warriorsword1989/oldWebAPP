@@ -56,7 +56,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
         this.resetVertex(layerPoint);
-        //this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
     },
 
     onMouseMove: function(event){
@@ -93,8 +93,6 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
 
                 this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
-                this.shapeEditor.shapeEditorResultFeedback.setupFeedback();//lzx 修改开始开始编辑
-                break;
             }
         }
 

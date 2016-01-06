@@ -58,8 +58,13 @@ fastmap.uikit.PathBreak = L.Handler.extend({
         var layerPoint = event.layerPoint;
         this.resetVertex(layerPoint);
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+<<<<<<< HEAD
        // this.disable();
         //this.container.style.cursor = '';
+=======
+        this.disable();
+        this.container.style.cursor = '';
+>>>>>>> 88a5d17ace0ac00cf9857aac6dce217451129478
 
     },
 
@@ -95,11 +100,6 @@ fastmap.uikit.PathBreak = L.Handler.extend({
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
 
                 this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
-                this.shapeEditor.shapeEditorResultFeedback.setupFeedback();//lzx 修改开始开始编辑
-                this.disable();
-                this.container.style.cursor = '';
-                break;
-
             }
         }
 

@@ -3,19 +3,15 @@
  */
 var errorCheckModule = angular.module('lazymodule', ['smart-table']);
 errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
-    var checckOutCtrl = new fastmap.uikit.CheckResultController();
+    var checkOutCtrl = fastmap.uikit.CheckResultController();
     $scope.itemsByPage = 4;
 
     $scope.rowCollection = [];
-    updateme();
-    function updateme(){
-        $timeout(function(){
-            if(checckOutCtrl.errorCheckData) {
-                $scope.rowCollection= checckOutCtrl.errorCheckData.data.check;
-            }
-
-            updateme();
-        },500);
+    if(checkOutCtrl.errorCheckData) {
+        $scope.rowCollection= checkOutCtrl.errorCheckData.data.check;
     }
+   checkOutCtrl.updateCheck=function(){
+       $scope.rowCollection=checkOutCtrl.errorCheckData.data.check;
+   }
 
 });
