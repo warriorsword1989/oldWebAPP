@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/10/13.
+ * Created by zhongxiaoming on 2015/10/14
  * Class EditLayer 可编辑图层
  */
 fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
@@ -25,35 +25,46 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
     initEvent: function () {
         var that = this;
-        this.shapEditor = fastmap.uikit.ShapeEditorController();
+        this.shapeEditor =  fastmap.uikit.ShapeEditorController();
+        this.shapeEditor.on('snaped',function(event){
+            that.snaped = event.snaped;
+        })
+        this.shapeEditor.on('startshapeeditresultfeedback',delegateDraw );
+        function delegateDraw(event){
+            if(that.shapeEditor.shapeEditorResult == null){
 
-        this.shapEditor.on('startshapeeditresultfeedback', delegateDraw);
-        function delegateDraw(event) {
-            if (that.shapEditor.shapeEditorResult == null) {
                 return;
             }
-            that.drawGeometry = that.shapEditor.shapeEditorResult.getFinalGeometry();
+            that.drawGeometry = that.shapeEditor.shapeEditorResult.getFinalGeometry();
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
+            if(that.snaped == true){
+                var crosspoint = that.drawGeometry.components[event.index]?that.drawGeometry.components[event.index]:event.point;
+                if(crosspoint!=undefined){
+                    crosspoint = fastmap.mapApi.point(crosspoint.x,crosspoint.y);
+                    crosspoint.type = 'Cross';
+                    that.draw(crosspoint, that);
+                }
+
+            }
 
         }
 
-        this.shapEditor.on('stopshapeeditresultfeedback', function () {
-            that.map._container.style.cursor = '';
+        this.shapeEditor.on('stopshapeeditresultfeedback',function(){
+            this.map._container.style.cursor = '';
 
             var coordinate1 = []
             if (that.drawGeometry) {
                 for (var index in that.drawGeometry.components) {
                     coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
                 }
-                console.log('绘制后:' + coordinate1);
+
                 that._redraw();
             }
 
         });
 
-
-        this.shapEditor.on('abortshapeeditresultfeedback', function () {
+        this.shapeEditor.on('abortshapeeditresultfeedback', function () {
             that.drawGeometry = that.shapEditor.shapeEditorResult.getOriginalGeometry();
             that.shapEditor.shapeEditorResult.setFinalGeometry(that.drawGeometry.clone());
 
@@ -90,8 +101,10 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         if (!currentGeo) {
             return;
         }
+
         this.drawGeometry = currentGeo;
         switch (this.drawGeometry.type) {
+
             case 'LineString':
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
                 break;
@@ -101,11 +114,32 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case'Polygon':
                 drawPolygon();
                 break;
+<<<<<<< HEAD
+            case 'Cross':
+                drawCross(currentGeo, {color: 'blue', width: 1},false);
+=======
             case 'marker':
                 drawMarker();
+>>>>>>> d2c264c41eda58946f5e2ff3aee7be2a190f76d3
                 break;
         }
 
+        function drawCross(geom, style, boolPixelCrs){
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if(boolPixelCrs){
+                p = {x:geom.x, y:geom.y}
+            }else{
+                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+            }
+
+            var verLineArr = [{x:p.x, y:p.y + 20},{x:p.x, y:p.y - 20}];
+            drawLineString(verLineArr, {color: 'blue', size: 1}, true);
+            var horLineArr = [{x:p.x -20, y:p.y},{x:p.x + 20, y:p.y}];
+            drawLineString(horLineArr, {color: 'blue', size: 1}, true);
+        }
 
         function drawPoint(geom, style, boolPixelCrs) {
             if (!geom) {
@@ -136,10 +170,12 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var proj = [], i;
             //coords = this._clip(ctx, coords);
             //coords = L.LineUtil.simplify(coords, 1);
+
             for (var i = 0; i < geom.length; i++) {
                 if (boolPixelCrs) {
                     proj.push({x: geom[i][0], y: geom[i][1]});
                 } else {
+
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
                     if (i == index) {
                         drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
@@ -161,6 +197,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var g = self._ctx;
             g.strokeStyle = style.color;
             g.lineWidth = style.size;
+            //g.opacity = 0.5;
             g.beginPath();
             for (i = 0; i < proj.length; i++) {
                 var method = (i === 0 ? 'move' : 'line') + 'To';

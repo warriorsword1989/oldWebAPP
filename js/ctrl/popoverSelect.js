@@ -6,7 +6,7 @@ function getCheck(ind,names){
     if(inArray(applicArray,ind)){
         remove(ind,names);
     }else{
-        applicArray.push({id:ind,name:names});
+        applicArray.unshift({id:ind,label:names});
         var li =  '<li id="'+ind+'" class="checkboxli">'+names+'<a onclick="remove('+(applicArray[applicArray.length-1].id)+',\''+names+'\')">X</a></li>';
         $("#"+applicUL).append(li);
     }
@@ -53,12 +53,21 @@ function remove(ind,names){
 }
 
 //返回最终结果
-function getEdnArray(){
+function getEndArray(){
     return 	applicArray;
 }
 
 //初始化数据项及下拉框
 function  initOrig(origArray,vehicleOptions,ul){
+
+    //下拉框方法
+    $("#"+ul).popover({
+        trigger: 'click',
+        placement: 'bottom', //top, bottom, left or right
+        html: 'true',
+        content:function(){ return ContentMethod(origArray,vehicleOptions)}
+    });
+
     applicUL=ul;
     if(origArray){
         for(var j=0;j<origArray.length;j++){
@@ -67,15 +76,6 @@ function  initOrig(origArray,vehicleOptions,ul){
         }
         applicArray=origArray;
     }
-    //下拉框方法
-    $("#"+ul).popover({
-        trigger: 'click',
-        placement: 'bottom', //top, bottom, left or right
-        html: 'true',
-        content:function(){ return ContentMethod(origArray,vehicleOptions)}
-    }).click(function(){
-        $("#"+ul).popover('hide');
-    });
 
 }
 

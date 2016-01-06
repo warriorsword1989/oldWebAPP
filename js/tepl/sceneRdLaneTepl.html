@@ -1,10 +1,3 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
-
 <style>
     div {
         -webkit-font-smoothing: antialiased;
@@ -28,7 +21,7 @@
     .middle {
         float: left;
         margin: auto;
-        height: 80%;
+        height: 60%;
         width: 70%;
     }
 
@@ -106,13 +99,13 @@
                     <form class="form-horizontal" method="get">
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;">
                             <div class="col-sm-6" style="padding-top: 5px">
-                                <img src="../../css/limit/dataTips/1.png"><img src="../../css/limit/dataTips/1.png">
+                                <img src="./css/laneinfo/G.png" ng-click="showTips('item.flag')">
                             </div>
                             <label class="col-sm-4 control-label">普通</label>
                         </div>
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;">
                             <div class="col-sm-6" style="padding-top: 5px">
-                                <img src="../../css/limit/dataTips/1.png">
+                                <img src="./css/laneinfo/tgreen.png" ng-click="showTips('item.flag')">
                             </div>
                             <label class="col-sm-4 control-label">公交</label>
                         </div>
@@ -123,7 +116,7 @@
                             <label class="col-sm-4 control-label">状态:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span  class="label label-info" ></span>
+                                <span  class="label label-info" >{{showContent}}</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -132,7 +125,7 @@
                             <label class="col-sm-4 control-label">进入:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
+                                <span class="label label-default" >{{dataTipsData.in.id}}</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -140,9 +133,9 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;">
                             <label class="col-sm-4 control-label">退出:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <div ng-repeat="" >
-                                    <span class="label label-default" ></span>
+                            <div class="col-sm-8" style="padding-top: 5px" >
+                                <div ng-repeat="outitem in outIdS" >
+                                    <span class="label label-default" >{{outitem.id}}</span>
                                 </div>
                             </div>
                         </div>

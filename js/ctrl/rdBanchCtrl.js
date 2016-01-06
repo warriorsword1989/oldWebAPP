@@ -2,9 +2,13 @@
  * Created by liuzhaoxia on 2015/12/10.
  */
 //var otherApp=angular.module("lazymodule", []);
-var otherApp=angular.module("rdBanchApp", []);
+var otherApp=angular.module("lazymodule", []);
 otherApp.controller("rdBranchController",function($scope){
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var objCtrl = fastmap.uikit.ObjectEditController();
 
+
+    $scope.rdRestrictData=objCtrl.data;
 
     $scope.branchTypeOptions=[
         {"id": 0, "label": "0 高亮分歧(无名称)"},

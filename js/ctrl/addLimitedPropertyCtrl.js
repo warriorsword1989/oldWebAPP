@@ -107,7 +107,7 @@ addLimitedApp.controller("normalController", function ($scope) {
         var createRelation = $scope.rdRestrictData;
         var param = {
             "command": "updaterestriction",
-            "projectId": 1,
+            "projectId": 11,
             "data": $scope.rdRestrictData
         }
         Application.functions.save(param, function (data) {

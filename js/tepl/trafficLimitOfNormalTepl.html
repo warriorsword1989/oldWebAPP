@@ -66,7 +66,7 @@
     .popover-content{
         overflow-y:auto;height:200px;
     }
-
+    
 </style>
 
 <div  ng-controller="normalController" class="panel panel-default" id="traffiLimitedDiv">
@@ -185,68 +185,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">
-                        时间段
-                        <span class="glyphicon glyphicon-plus"
-                              style="float: right;color: darkgray;font-size: 20px"
-                              ng-click="addTime()"></span>
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" method="get">
-                            <div ng-repeat="item in rdSubRestrictData.time">
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">限时</label>
-
-                                    <div class="input-group m-b col-sm-10">
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <input class="form-control" type="text" ng-model="item.startTime">
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <input class="form-control" type="text" ng-model="item.endTime">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                      <span
-                                                              class="glyphicon glyphicon-remove-sign"
-                                                              style="color: darkgray;font-size: 20px"
-                                                              ng-click="minusTime($index)"></span>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">车辆类型</label>
-
-                                <div class="col-sm-4">
-                                    <input type="checkbox" id="checkallow()" ng-checked="checkValue" ng-model="checkValue">允许
-                                </div>
-                                <div class="col-sm-4">
-                                    <a ng-click="showPopover()">添加</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label"></label>
-                                <div class="col-sm-8">
-
-                                    <!--<select class="form-control" ng-model="rdSubRestrictData.vehicleExpression"-->
-                                    <!--ng-options="value.id as value.label for value in vehicleOptions" >-->
-                                    <!--</select>-->
-                                    <div  id="vehicleExpressiondiv"  style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;word-break: break-all;word-wrap: break-word;" tabindex="0" role="button" data-toggle="popover"  title="车辆类型"  >
-                                        <!--<ul id="newul" class="list-inline" style="width:100%;height:auto;white-spacing:nowrap;"></ul>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <div ng-include="dateURL"></div>
             </div>
+            
+            
         </form>
     </div>
     <!-- 模态框（Modal） -->

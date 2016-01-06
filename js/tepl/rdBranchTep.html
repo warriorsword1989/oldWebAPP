@@ -1,10 +1,3 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
-
 <style>
     div {
         -webkit-font-smoothing: antialiased;
@@ -20,7 +13,7 @@
 
     #rdBranchDiv {
         border: 1px solid #FBFBFB;
-        width: 100%;
+        width: 400px;
         height: 630px;
         min-height: 300px;
         overflow-y: scroll;
@@ -57,7 +50,7 @@
 
 </style>
 
-<div ng-app="rdBanchApp" ng-controller="rdBranchController" class="panel panel-default" id="rdBranchDiv">
+<div  ng-controller="rdBranchController" class="panel panel-default" id="rdBranchDiv">
     <div class="panel-heading font-bold" style=" text-align: center;height: 7%">
         分歧
         <span class="label label-info">{{rdRestrictData.pid}}</span>
@@ -88,6 +81,14 @@
                     </div>
                 </div>
             </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><span class="glyphicon glyphicon-chevron-down"></span>经过线</label>
+
+                <div class="col-sm-9">
+                    <input type="text" class="form-control rounded" placeholder="经过线" ng-model="rdRestrictData.inLinkPid">
+                </div>
+            </div>
             <div class="form-group">
                 <div class="panel panel-default">
                     <div class="panel-heading font-bold">
@@ -98,49 +99,34 @@
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal" method="get">
-                            <div >
-                                <div class="form-group">
-                                    <div class="col-sm-2"></div>
-                                    <table class="col-sm-8" style="border: 1px solid #1b6d85; float:left; ">
-                                        <tr>
-                                            <td ></td>
-                                            <td style="border: 1px solid #1b6d85;"><label class="col-sm-4 control-label">分歧类型</label></td>
-                                            <td style="border: 1px solid #1b6d85;"><label class="col-sm-4 control-label">箭头图代码</label></td>
-                                            <td style="border: 1px solid #1b6d85;"><label class="col-sm-4 control-label">底图代码</label></td>
-                                        </tr>
-                                        <!--<tr ng-repeat="">-->
-                                        <tr>
-                                            <td> <label class="col-sm-10 control-label">展开按钮</label></td>
-                                            <td style="border: 1px solid #1b6d85;">
-                                                <select class="form-control rounded"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
-                                            </td>
-                                            <td style="border: 1px solid #1b6d85;"><input type="text" class="form-control rounded" placeholder="箭头图代码" ng-model="arrowCode"></td>
-                                            <td style="border: 1px solid #1b6d85;"><input type="text" class="form-control rounded" placeholder="底图代码" ng-model="code"></td>
-                                        </tr>
-                                    </table>
-
-
-                                    <div class="col-sm-1" ><span class="glyphicon glyphicon-remove-sign" style="color: darkgray;font-size: 20px;" ng-click="minusTime($index)"></span></div>
-                                </div>
-
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">分歧类型</label>
+                                <div class="col-sm-8"> <select class="form-control rounded"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select></div>
                             </div>
-
-
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">箭头图代码</label>
+                                <div class="col-sm-8"> <input type="text" class="form-control rounded" placeholder="箭头图代码" ng-model="arrowCode"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">底图代码</label>
+                                <div class="col-sm-8"> <input type="text" class="form-control rounded" placeholder="底图代码" ng-model="code"></div>
+                                <span class="glyphicon glyphicon-remove-sign" style="color: darkgray;font-size: 20px;" ng-click="minusTime($index)"></span>
+                            </div>
                         </form>
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <ul id="myTab" class="nav nav-tabs nav-justified" >
-                            <li class="active">
-                                <a href="#allInfo" data-toggle="tab"  style="font-size: 10px">
-                                    详细信息
-                                </a>
-                            </li>
-                            <li><a href="#nameInfo" data-toggle="tab"  style="font-size: 10px">名称信息</a></li>
-                        </ul>
+                        <!--<ul id="myTab" class="nav nav-tabs nav-justified" >-->
+                            <!--<li class="active">-->
+                                <!--<a href="#allInfo" data-toggle="tab"  style="font-size: 10px">-->
+                                    <!--详细信息-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li><a href="#nameInfo" data-toggle="tab"  style="font-size: 10px">名称信息</a></li>-->
+                        <!--</ul>-->
                         <div id="myTabContent" class="tab-content">
-                            <div class="tab-pane fade in active" id="allInfo">
+                            <!--<div class="tab-pane fade in active" id="allInfo">-->
                                 <form class="form-horizontal" method="get">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">出口编号</label>
@@ -186,8 +172,8 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="tab-pane fade" id="nameInfo">
+                            <!--</div>-->
+                            <!--<div class="tab-pane fade in active" id="nameInfo">-->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
@@ -304,11 +290,11 @@
                                         </div>
                                     </div>
                             </div>
-                        </div>
+                        <!--</div>-->
+                          </div>
                     </div>
+                  </div>
                 </div>
-            </div>
         </form>
     </div>
 </div>
-<script src="../ctrl/rdBanchCtrl.js"></script>

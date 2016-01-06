@@ -19,7 +19,10 @@ requirejs.config({
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
         'applicationfuns':'functions/appfunctions',
         'keyPressFunctions':'functions/keyPressFunctions',
-        'bootspopover':'popoverSelect'
+        'bootspopover':'ctrl/popoverSelect',
+        'timepicki':'lib/timepicki/js/timepicki',
+        'bootstrapDatepicker':'lib/bootstrap-datepicker/js/bootstrap-datepicker',
+        'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -31,7 +34,10 @@ requirejs.config({
         'applicationfuns':['application'],
         'keyPressFunctions':['jquery','applicationfuns'],
         'bootspopover':['jquery'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover']
+        'bootstrapDatepicker':['jquery','bootstrap'],
+        'bootstrapDatepickerCN':['bootstrapDatepicker'],
+        'timepicki':['jquery','angular'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki']
     }
 });
 
