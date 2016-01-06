@@ -82,7 +82,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope) {
                 break;
             case "1407":
                 break;
-            case "1510":
+            case "1510"://桥
+
                 break;
             case "1604":
                 break;

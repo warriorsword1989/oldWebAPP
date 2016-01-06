@@ -208,7 +208,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //    $scope.$parent.$parent.updateDataTips(data);
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
-                    console.log(data);
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
@@ -238,6 +237,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         if(data.f.type==1){
                             Application.functions.getRdObjectById(data.f.id, "RDLINK", function (data) {
                                 objCtrl.setCurrentObject(data);
+                                if (objCtrl.updateObject !== "") {
+                                    objCtrl.updateObject();
+                                }
                                 $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                                 });
@@ -306,6 +308,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     }else if(pItemId==="1407"){//高速分歧
+                        console.log(data);
                         Application.functions.getRdObjectById(data.id, "RDBRANCH", function (data) {
                             objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
@@ -316,18 +319,20 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             });
                         });
                     }else if(pItemId==="1510"){//桥1510
-                        Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
-                            if (data.errcode === -1) {
-                                return;
-                            }
-                            objCtrl.setCurrentObject(data.data);
-                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                $ocLazyLoad.load('ctrl/sceneBridgeTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneBridgeTepl.html";
+                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        });
+                        if(data.f_array.length>0){
+                            Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
+                                if (data.errcode === -1) {
+                                    return;
+                                }
+                                objCtrl.setCurrentObject(data.data);
+                                $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                                 });
                             });
-                        });
+                        }
                     }else if(pItemId==="1604"){//区域内道路
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRegionalRoadTepl.html";
                     }else if(pItemId==="1704"){//交叉路口
