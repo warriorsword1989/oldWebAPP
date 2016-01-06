@@ -15,6 +15,7 @@ objectEditApp.controller("normalController", function ($scope) {
     if(highLightLayer.highLightLayersArr.length!==0) {
         highLightLayer.removeHighLightLayers();
     }
+
     //初始化数据
     $scope.initializeData = function () {
         $scope.rdRestrictData = objectEditCtrl.data;
@@ -253,7 +254,7 @@ objectEditApp.controller("normalController", function ($scope) {
         objectEditCtrl.save();
         var param = {
             "command": "updaterestriction",
-            "projectId": 1,
+            "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
@@ -311,7 +312,7 @@ objectEditApp.controller("normalController", function ($scope) {
         var pid = parseInt($scope.rdRestrictData.pid);
         var param = {
             "command": "updaterestriction",
-            "projectId": 1,
+            "projectId": 11,
             "data": {
                 "pid": pid,
                 "objStatus": "DELETE"

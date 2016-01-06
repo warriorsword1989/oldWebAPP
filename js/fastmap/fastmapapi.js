@@ -83,6 +83,7 @@
                 //uikit/controller/tools/shapetools
                 "fastmap/uikit/controller/tools/shapetools/PathCopy.js",
                 "fastmap/uikit/controller/tools/shapetools/DrawPath.js",
+                "fastmap/uikit/controller/tools/shapetools/CrossingAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCut.js",
                 "fastmap/uikit/controller/tools/shapetools/PathMove.js",
                 "fastmap/uikit/controller/tools/shapetools/PathSmooth.js",
@@ -93,6 +94,7 @@
                 "fastmap/uikit/controller/tools/shapetools/PathVertexRemove.js",
                 "fastmap/uikit/controller/tools/shapetools/PointVertexAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PointVertexMove.js",
+                "fastmap/uikit/controller/tools/shapetools/TransformDirection.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorFactory.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResult.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResultFeedback.js",

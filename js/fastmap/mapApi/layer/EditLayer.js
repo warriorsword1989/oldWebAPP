@@ -41,7 +41,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.shapEditor.on('stopshapeeditresultfeedback', function () {
             that.map._container.style.cursor = '';
 
-            var coordinate1 = []
+            var coordinate1 = [];
             if (that.drawGeometry) {
                 for (var index in that.drawGeometry.components) {
                     coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
@@ -49,7 +49,6 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 console.log('绘制后:' + coordinate1);
                 that._redraw();
             }
-
         });
 
 
@@ -102,7 +101,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawPolygon();
                 break;
             case 'marker':
-                drawMarker();
+                drawMarker(currentGeo.point,currentGeo.orientation,false);
                 break;
         }
 
@@ -204,23 +203,31 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 }
             }
         }
-        function drawMarker(geom,url,boolPixelCrs) {
+        function drawMarker(geom,type,boolPixelCrs) {
+            var url,p = null;
             if (!geom) {
                 return;
             }
-            var p = null;
+
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
                 p = this.map.latLngToLayerPoint([geom.y, geom.x]);
             }
-
+            url = "./css/img/" + type + ".png";
             var g = self._ctx;
-          this._loadImg(url,function(img){
+            p = {x: 300, y: 300};
+          loadImg(url,function(img){
               g.drawImage(img, p.x, p.y);
           })
         }
-
+        function loadImg(url,callBack){
+            var img = new Image();
+            img.onload=function() {
+                callBack(img);
+            };
+            img.src = url;
+        }
     },
 
     /***
@@ -229,13 +236,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
     clear: function () {
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
-   _loadImg:function(url,callBack){
-       var img = new Image();
-       img.onload=function() {
-           callBack(img);
-       };
-       img.src = url;
-   },
+
     _redraw: function () {
 
         this.clear();
