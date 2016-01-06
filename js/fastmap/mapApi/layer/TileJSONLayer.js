@@ -324,94 +324,36 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
     },
-    _drawBridge: function (cav, oriStart, oriEnd, direct) {
+    _drawBridge: function (cav, geom, that) {
         var c = cav.canvas;
         var ctx = c.getContext('2d');
-        var angle = this._rotateAngle(oriStart, oriEnd), endPoint,
-            drawPoint, linkLen = 0, sectionLen = 0;
-        linkLen = this.distance(oriStart, oriEnd);
-        if (angle === 0) {
-            if (oriStart[0] < oriEnd[0]) {
-                drawPoint = oriStart;
-                endPoint = oriEnd;
-            } else {
-                drawPoint = oriEnd;
-                endPoint = oriStart;
-            }
-        } else if (angle === (Math.PI / 2)) {
-            if (oriStart[1] < oriEnd[1]) {
-                drawPoint = oriStart;
-                endPoint = oriEnd;
-            } else {
-                drawPoint = oriEnd;
-                endPoint = oriStart;
-            }
-        } else {
-            if (angle > 0) {
-                if (oriStart[0] < oriEnd[0]) {
-                    drawPoint = oriStart;
-                    endPoint = oriEnd;
-                } else {
-                    drawPoint = oriEnd;
-                    endPoint = oriStart;
-                }
-
-                //if(direct==="1"||direct==="0") {
-                //
-                //}else{
-                //
-                //}
-            } else {
-                if (oriStart[0] > oriEnd[0]) {
-                    drawPoint = oriEnd;
-                    endPoint = oriStart;
-                } else {
-                    drawPoint = oriStart;
-                    endPoint = oriEnd;
-                }
-                //angle = angle + 2 * Math.PI;
-            }
-
-
+        var oriStart, oriEnd;
+        oriStart = geom[0][0];
+        for (var i = 1, len = geom.length; i < len; i++) {
+            oriEnd = geom[i][0];
+            var angle = that._rotateAngle(oriStart, oriEnd),
+                points = [];
+            points = that._pointsFromAngle([oriStart, oriEnd], angle);
+            that._drawObliqueLine(ctx, points, angle);
+            oriStart = geom[i][0];
         }
-        while (sectionLen <= linkLen) {
-
-            this._drawObliqueLine(ctx, drawPoint, angle);
-            var mePoint = this._plotPoint(drawPoint, angle, 20);
-
-            sectionLen += this.distance(mePoint, drawPoint);
-            drawPoint = mePoint;
-        }
-        this._drawObliqueLine(ctx, endPoint, angle);
-    },
-    _plotPoint: function (point, angle, interval) {
-        var meidiant, x, y, rePoint = [], radio;
-        if (angle === 0) {
-            x = point[0] + interval;
-            y = point[1];
-        } else if (angle === (Math.PI / 2)) {
-            x = point[0];
-            y = point[1] + interval;
-        } else {
-            radio = Math.tan(angle);
-            meidiant = Math.sqrt(Math.pow(interval, 2) / ((Math.pow(radio, 2) + 1)));
-            x = meidiant + point[0];
-            y = radio * meidiant + point[1];
-        }
-        rePoint = [x, y];
-        return rePoint;
 
     },
-    _drawObliqueLine: function (ctx, point, angle) {
-
-        ctx.save();
-        ctx.translate(point[0], point[1]);
-        ctx.rotate(angle);
+    _drawObliqueLine: function (ctx, points, angle) {
+        var len = Math.floor(this.distance(points[0], points[1]) / 20);
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#FF0000";
+        ctx.save();
+        ctx.translate(points[0][0], points[0][1]);
+        ctx.rotate(angle);
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, -6);
+        for (var i = 0; i < len; i++) {
+            ctx.moveTo(i * 20, 0);
+            ctx.lineTo(i * 20, -6);
+        }
+        //最后一个点
+        ctx.moveTo(points[1][0] - points[0][0], 0);
+        ctx.lineTo(points[1][0] - points[0][0], -6);
         ctx.stroke();
         ctx.restore();
 
@@ -533,6 +475,58 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
     },
+    /**
+     * 画区域内的道路
+     * @param ctx
+     * @param points
+     * @param dashLength
+     * @param that
+     * @private
+     */
+    _drawDashLineOfAngle: function (ctx, points, dashLength, that) {
+        var endPoint,
+            startPoint = points[0][0];
+        for (var i = 1, len = points.length; i < len; i++) {
+            endPoint = points[i][0];
+            var angle = that._rotateAngle(startPoint, endPoint);
+            that._drawDashLine(ctx, [startPoint, endPoint], angle, dashLength, that);
+            startPoint = points[i][0];
+
+        }
+    },
+    /**
+     * 画虚线
+     * @param ctx
+     * @param points
+     * @param angle
+     * @param dashLength
+     * @param self
+     * @private
+     */
+    _drawDashLine: function (ctx, points, angle, dashLength, self) {
+
+        var pointsOfChange = self._pointsFromAngle(points, angle);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "red";
+        var xPos = points[1][0] - points[0][0],
+            yPos = points[1][1] - points[0][1];
+        var dash = Math.floor(Math.sqrt(xPos * xPos + yPos * yPos) / dashLength);
+        ctx.save();
+        ctx.translate(pointsOfChange[0][0], pointsOfChange[0][1]);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        for (var i = 0; i < dash; i++) {
+            if (i % 2) {
+
+                ctx.lineTo(dashLength * i, 0);
+            } else {
+                ctx.moveTo(dashLength * i, 0);
+            }
+
+        }
+        ctx.stroke();
+        ctx.restore();
+    },
     /***
      * 绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
@@ -545,11 +539,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if (!linestyle) {
             return;
         }
-        var direct = properties.direct;
-        var coords = geom, proj = [], i;
+        var direct = properties.direct,
+            coords = geom, proj = [],
+            arrowlist = [];
         coords = this._clip(ctx, coords);
 
-        for (i = 0; i < coords.length; i++) {
+        for (var i = 0; i < coords.length; i++) {
 
             if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
                 this._drawPoint(ctx, coords[i][0], nodestyle, true);
@@ -566,12 +561,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.strokeStyle = linestyle.color;
         g.lineWidth = linestyle.size;
         g.beginPath();
-        var arrowlist = [];
-        for (i = 0; i < proj.length; i++) {
-            var method = (i === 0 ? 'move' : 'line') + 'To';
-            g[method](proj[i].x, proj[i].y);
-            if (i < proj.length - 1) {
-                var oneArrow = [proj[i], proj[i + 1]];
+        for (var j = 0; j < proj.length; j++) {
+            var method = (j === 0 ? 'move' : 'line') + 'To';
+            g[method](proj[j].x, proj[j].y);
+            if (j < proj.length - 1) {
+                var oneArrow = [proj[j], proj[j + 1]];
                 arrowlist.push(oneArrow);
             }
 
@@ -579,29 +573,25 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.stroke();
         g.restore();
         if (direct == null || typeof(direct) == "undefined" || direct == "") {
-            //alert("lsdkkls");
         } else {
             if (this._map.getZoom() >= this.showNodeLevel) {
                 this._drawArrow(g, direct, arrowlist);
             }
 
         }
+        //道路的名字
         if (properties.name) {
             if (this._map.getZoom() >= this.showNodeLevel) {
                 this._drawText(ctx, geom, properties.name);
             }
 
         }
-        if (properties.kind === '7') {
-            var midPoint = geom[0][0];
-            if (geom.length === 2) {
-                this._drawBridge(ctx, geom[0][0], geom[1][0], direct);
-            } else if (geom.length > 2) {
-                for (var briNum = 1, briLen = geom.length; briNum < briLen; briNum++) {
-                    this._drawBridge(ctx, midPoint, geom[briNum][0], direct);
-                    midPoint = geom[briNum][0];
-                }
-            }
+        if (linestyle.rdLinkType !== undefined) {
+            linestyle["rdLinkType"](ctx, coords, this);
+        }
+        //画桥
+        if (properties.kind === '2') {
+            this._drawDashLineOfAngle(g, coords, 5, this);
         }
 
     },
@@ -917,9 +907,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "LineString":
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
                 if (this._map.getZoom() >= this.showNodeLevel) {
-
-
-                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
                 } else {
                     url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
@@ -1059,16 +1047,23 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
                     '#000000', '#7364C8', '#000000', '#DCBEBE'
                 ];
+                var RD_LINK_TYPE = [this._drawBridge]
                 var c = feature.properties.color;
+                if (feature.properties.kind === '7') {
+                    var rdLinkType = RD_LINK_TYPE[0];
+                }
+
                 var color = RD_LINK_Colors[parseInt(c)];
                 return {
                     size: 1,
                     color: color,
+                    rdLinkType: rdLinkType,
                     mouseOverColor: 'rgba(255,0,0,1)',
                     clickColor: 'rgba(252,0,0,1)'
                 };
-
+                break;
             case 'Polygon':
+                break;
             case 'MultiPolygon':
                 return {
                     color: 'rgba(43,140,190,0.4)',
@@ -1077,7 +1072,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         size: 1
                     }
                 };
-
+                break;
             default:
                 return null;
         }
@@ -1092,7 +1087,58 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
 
         return Math.sqrt(len);
+    },
+    /**
+     * 根据角度重新获得开始点和结束点
+     * @param points
+     * @param angle
+     * @returns {*[]}
+     * @private
+     */
+    _pointsFromAngle: function (points, angle) {
+        var drawPoint, endPoint;
+        if (angle === 0) {
+            if (points[0][0] < points[1][0]) {
+                drawPoint = points[0];
+                endPoint = points[1];
+            } else {
+                drawPoint = points[1];
+                endPoint = points[0];
+            }
+        } else if (angle === (Math.PI / 2)) {
+            if (points[0][1] < points[1][1]) {
+                drawPoint = points[0];
+                endPoint = points[1];
+            } else {
+                drawPoint = points[1];
+                endPoint = points[0];
+            }
+        } else {
+            if (angle > 0) {
+                if (points[0][0] < points[1][0]) {
+                    drawPoint = points[0];
+                    endPoint = points[1];
+                } else {
+                    drawPoint = points[1];
+                    endPoint = points[0];
+                }
+
+            } else {
+                if (points[0][0] > points[1][0]) {
+                    drawPoint = points[1];
+                    endPoint = points[0];
+                } else {
+                    drawPoint = points[0];
+                    endPoint = points[1];
+                }
+
+            }
+
+
+        }
+        return [drawPoint, endPoint]
     }
+
 });
 
 

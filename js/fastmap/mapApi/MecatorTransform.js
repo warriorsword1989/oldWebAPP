@@ -51,8 +51,6 @@
 
         return lonlat;
     }
-
-
     /***
      * mecator到像素坐标转换
      * @param {number}x
@@ -159,11 +157,11 @@ fastmap.mapApi.MecatorTranform.prototype.lonlat2Pixel = function (lon, lat, zoom
     return xy;
 };
 
-fastmap.mapApi.MecatorTranform.prototype.PixelToLonlat = function(pixelX, pixelY,zoom){
+fastmap.mapApi.MecatorTranform.prototype.PixelToLonlat = function (pixelX, pixelY, zoom) {
 
     var x = 360 * ((pixelX / ( 256 << zoom)) - 0.5);
     var y = 0.5 - (pixelY / (256 << zoom));
     y = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
 
-    return [x,y];
-}
+    return [x, y];
+};

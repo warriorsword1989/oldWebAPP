@@ -6,12 +6,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
     var selectCtrl = fastmap.uikit.SelectController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var outCtrl = fastmap.uikit.OutPutController();
     var ly = fastmap.uikit.LayerController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var rdLink = ly.getLayerById('referenceLine');
     map.currentTool = shapeCtrl.getCurrentTool();
-    shapeCtrl.setMap(map);
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
     $scope.modifyShape = function (type, num) {

@@ -6,6 +6,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
     var outputCtrl = fastmap.uikit.OutPutController({});
     $scope.isActive = [true, false, false, false, false, false];
@@ -87,6 +88,24 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     }
 
     $scope.changeDirect = function (direc) {
+        map.currentTool = shapeCtrl.getCurrentTool();
+        map.currentTool.disable();
+        var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
+        var marker = {
+            point: point,
+            type: "marker",
+            orientation:"1"
+        };
+
+        var editLayer = layerCtrl.getLayerById('edit');
+        layerCtrl.pushLayerFront('edit');
+        var sobj = shapeCtrl.shapeEditorResult;
+        editLayer.drawGeometry =  marker;
+        editLayer.draw( marker, editLayer);
+        sobj.setOriginalGeometry( marker);
+        sobj.setFinalGeometry(marker);
+        shapeCtrl.setEditingType("transformDirect");
+        shapeCtrl.startEditing();
     };
 
     $scope.addSideWalk = function () {
@@ -111,20 +130,20 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         };
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+            var info = [];
+            if (data.data) {
+                $.each(data.data.log, function (i, item) {
+                    if (item.pid) {
+                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                    } else {
+                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
-            }else{
-                info.push(data.errmsg+data.errid)
+            } else {
+                info.push(data.errmsg + data.errid)
             }
             outputCtrl.pushOutput(info);
-            if(outputCtrl.updateOutPuts!=="") {
+            if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
             }
         })
@@ -137,23 +156,23 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+            var info = [];
+            if (data.data) {
+                $.each(data.data.log, function (i, item) {
+                    if (item.pid) {
+                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                    } else {
+                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
-            }else{
-                info.push(data.errmsg+data.errid)
+            } else {
+                info.push(data.errmsg + data.errid)
             }
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
                 rdLink.redraw();
                 outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
+                if (outputCtrl.updateOutPuts !== "") {
                     outputCtrl.updateOutPuts();
                 }
                 $scope.linkData = null;
@@ -162,7 +181,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 $scope.$parent.$parent.objectEditURL = "";
             } else {
                 outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
+                if (outputCtrl.updateOutPuts !== "") {
                     outputCtrl.updateOutPuts();
                 }
             }

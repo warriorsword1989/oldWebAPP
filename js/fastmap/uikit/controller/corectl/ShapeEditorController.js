@@ -103,7 +103,15 @@ fastmap.uikit.ShapeEditorController=(function() {
             getEditingGeometry: function () {
                 return this.currentEditinGeometry;
             },
-
+            /**
+             * 不在editorLayer中使用的工具
+             * @param type
+             * @param options
+             */
+             toolsSeparateOfEditor: function (type, options) {
+                this.currentTool = new fastmap.uikit.CrossingAdd(options);
+                this.currentTool.enable();
+             },
             /***
              * 当前工具类型
              * @param {String}type
@@ -114,6 +122,10 @@ fastmap.uikit.ShapeEditorController=(function() {
                 this.currentTool = null;
                 var toolsObj = this.shapeEditorToolsObj.CreateShapeToolsObject(this);
                 switch (type) {
+                    case 'transformDirect':
+                        this.currentTool = toolsObj[type];
+                        this.currentTool.enable();
+                        break;
                     case 'drawPath':
                         this.currentTool = toolsObj[type];
                         this.currentTool.enable();
