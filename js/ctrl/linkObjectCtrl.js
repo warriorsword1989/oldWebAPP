@@ -125,7 +125,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         objectCtrl.save();
         var param = {
             "command": "updatelink",
-            "projectId": 1,
+            "projectId": 11,
             "data": objectCtrl.changedProperty
         };
 
@@ -152,7 +152,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         var objId = parseInt($scope.linkData.pid);
         var param = {
             "command": "deletelink",
-            "projectId": 1,
+            "projectId": 11,
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {

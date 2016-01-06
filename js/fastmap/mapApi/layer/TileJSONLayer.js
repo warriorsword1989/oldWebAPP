@@ -324,12 +324,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
     },
-    _drawBridge: function (cav,geom,that) {
+    _drawBridge: function (cav, geom, that) {
         var c = cav.canvas;
         var ctx = c.getContext('2d');
         var oriStart, oriEnd;
         oriStart = geom[0][0];
-        for (var i= 1,len=geom.length;i<len;i++) {
+        for (var i = 1, len = geom.length; i < len; i++) {
             oriEnd = geom[i][0];
             var angle = that._rotateAngle(oriStart, oriEnd),
                 points = [];
@@ -340,16 +340,16 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
     },
     _drawObliqueLine: function (ctx, points, angle) {
-        var len =Math.floor(this.distance(points[0], points[1])/20);
+        var len = Math.floor(this.distance(points[0], points[1]) / 20);
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#FF0000";
         ctx.save();
         ctx.translate(points[0][0], points[0][1]);
         ctx.rotate(angle);
         ctx.beginPath();
-        for (var i=0;i<len;i++) {
-            ctx.moveTo(i*20, 0);
-            ctx.lineTo(i*20, -6);
+        for (var i = 0; i < len; i++) {
+            ctx.moveTo(i * 20, 0);
+            ctx.lineTo(i * 20, -6);
         }
         //最后一个点
         ctx.moveTo(points[1][0] - points[0][0], 0);
@@ -483,13 +483,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param that
      * @private
      */
-    _drawDashLineOfAngle: function (ctx, points, dashLength,that) {
+    _drawDashLineOfAngle: function (ctx, points, dashLength, that) {
         var endPoint,
             startPoint = points[0][0];
         for (var i = 1, len = points.length; i < len; i++) {
             endPoint = points[i][0];
             var angle = that._rotateAngle(startPoint, endPoint);
-            that._drawDashLine(ctx, [startPoint, endPoint],angle, dashLength,that);
+            that._drawDashLine(ctx, [startPoint, endPoint], angle, dashLength, that);
             startPoint = points[i][0];
 
         }
@@ -503,9 +503,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param self
      * @private
      */
-    _drawDashLine: function (ctx, points, angle,dashLength,self) {
+    _drawDashLine: function (ctx, points, angle, dashLength, self) {
 
-         var pointsOfChange = self._pointsFromAngle(points, angle);
+        var pointsOfChange = self._pointsFromAngle(points, angle);
         ctx.lineWidth = 2;
         ctx.strokeStyle = "red";
         var xPos = points[1][0] - points[0][0],
@@ -586,12 +586,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
 
         }
-        if(linestyle.rdLinkType!==undefined) {
-            linestyle["rdLinkType"](ctx, coords,this);
+        if (linestyle.rdLinkType !== undefined) {
+            linestyle["rdLinkType"](ctx, coords, this);
         }
         //画桥
         if (properties.kind === '2') {
-            this._drawDashLineOfAngle(g, coords, 5,this);
+            this._drawDashLineOfAngle(g, coords, 5, this);
         }
 
     },
@@ -900,16 +900,14 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
                 }
-                    break;
-                case "LineString":
-                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-                    if (this._map.getZoom() >= this.showNodeLevel) {
-
-
-                        url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                break;
+            case "LineString":
+                var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
                 } else {
                     url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
@@ -1049,9 +1047,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
                     '#000000', '#7364C8', '#000000', '#DCBEBE'
                 ];
-                var RD_LINK_TYPE=[this._drawBridge]
+                var RD_LINK_TYPE = [this._drawBridge]
                 var c = feature.properties.color;
-                if(feature.properties.kind==='7') {
+                if (feature.properties.kind === '7') {
                     var rdLinkType = RD_LINK_TYPE[0];
                 }
 
@@ -1059,7 +1057,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 return {
                     size: 1,
                     color: color,
-                    rdLinkType:rdLinkType,
+                    rdLinkType: rdLinkType,
                     mouseOverColor: 'rgba(255,0,0,1)',
                     clickColor: 'rgba(252,0,0,1)'
                 };

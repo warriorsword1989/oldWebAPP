@@ -329,3 +329,447 @@ var fromOfWay=[
         {id:"81",name:"停车位引导道路"},
         {id:"82",name:"虚拟提左提右"}
     ];
+
+
+var speedLimitDate=[
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10003",
+            "f": {
+                "id": "298022",
+                "type": 1
+            },
+            "agl": 4.807954,
+            "toll": 0,
+            "rdDir": 2,
+            "value": 700,
+            "se": 0,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010493707,
+                    3.5986115E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.85393,
+                    39.94691
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10004",
+            "f": {
+                "id": "299148",
+                "type": 1
+            },
+            "agl": 187.00127,
+            "toll": 0,
+            "rdDir": 3,
+            "value": 600,
+            "se": 0,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010487753,
+                    3.5981883E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.7877,
+                    39.94209
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10005",
+            "f": {
+                "id": "298372",
+                "type": 1
+            },
+            "agl": 348.02386,
+            "toll": 0,
+            "rdDir": 3,
+            "value": 400,
+            "se": 1,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010486302,
+                    3.6031395E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.77174,
+                    39.99683
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10006",
+            "f": {
+                "id": "298374",
+                "type": 1
+            },
+            "agl": 169.11447,
+            "toll": 0,
+            "rdDir": 2,
+            "value": 400,
+            "se": 0,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010486313,
+                    3.6030944E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.77185,
+                    39.99633
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10007",
+            "f": {
+                "id": "18057410",
+                "type": 1
+            },
+            "agl": 60.25512,
+            "toll": 0,
+            "rdDir": 3,
+            "value": 400,
+            "se": 0,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010486172,
+                    3.602753E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.77027,
+                    39.99255
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10008",
+            "f": {
+                "id": "18057410",
+                "type": 1
+            },
+            "agl": 239.03624,
+            "toll": 0,
+            "rdDir": 2,
+            "value": 400,
+            "se": 1,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010486172,
+                    3.602753E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.77027,
+                    39.99255
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10009",
+            "f": {
+                "id": "298380",
+                "type": 1
+            },
+            "agl": 77.90524,
+            "toll": 0,
+            "rdDir": 3,
+            "value": 400,
+            "se": 0,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010484874,
+                    3.6004063E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.75575,
+                    39.96656
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10010",
+            "f": {
+                "id": "298380",
+                "type": 1
+            },
+            "agl": 247.0679,
+            "toll": 0,
+            "rdDir": 2,
+            "value": 400,
+            "se": 1,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010484874,
+                    3.6004063E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.75575,
+                    39.96656
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10011",
+            "f": {
+                "id": "298383",
+                "type": 1
+            },
+            "agl": 3.8140748,
+            "toll": 0,
+            "rdDir": 2,
+            "value": 400,
+            "se": 0,
+            "flag": 0,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.001049349,
+                    3.5985938E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.8515,
+                    39.94671
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    },
+    {
+        "deep": {
+            "tp": 1,
+            "id": "10012",
+            "f": {
+                "id": "86527085",
+                "type": 1
+            },
+            "agl": 4.0856166,
+            "toll": 0,
+            "rdDir": 2,
+            "value": 700,
+            "se": 1,
+            "flag": 1,
+            "src": 1
+        },
+        "geometry": {
+            "g_location": {
+                "type": "Point",
+                "coordinates": [
+                    0.0010495322,
+                    3.5987372E-4
+                ]
+            },
+            "g_guide": {
+                "type": "Point",
+                "coordinates": [
+                    116.87188,
+                    39.94834
+                ]
+            }
+        },
+        "source": {
+            "s_featureKind": 2,
+            "s_Project": null,
+            "s_sourceCode": 11,
+            "s_sourceId": null,
+            "s_sourceType": "1101",
+            "s_reliability": 100
+        },
+        "track": [
+
+        ]
+    }
+];

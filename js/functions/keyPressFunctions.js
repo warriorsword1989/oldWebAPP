@@ -80,7 +80,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     var paramOfLink = {
                         "command": "createlink",
-                        "projectId": 1,
+                        "projectId": 11,
                         "data": {
                             "eNodePid": 0,
                             "sNodePid": 0,
@@ -113,7 +113,7 @@ function keyEvent(ocLazyLoad, scope) {
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
                         "command": "createrestriction",
-                        "projectId": 1,
+                        "projectId": 11,
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
@@ -163,7 +163,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     var param = {
                         "command": "breakpoint",
-                        "projectId": 1,
+                        "projectId": 11,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
                         "data": {"longitude": breakPoint.x, "latitude": breakPoint.y}
@@ -206,7 +206,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         var param = {
                             "command": "updatelink",
-                            "projectId": 1,
+                            "projectId": 11,
                             "data": {
                                 "pid": parseInt(selectCtrl.selectedFeatures.id),
                                 "objStatus": "UPDATE",
