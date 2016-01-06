@@ -23,6 +23,10 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
     /***
@@ -70,9 +74,7 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
                 this.targetIndex = j;
             }
         }
-
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:this.targetIndex});
-
+        this.snapHandler.setTargetIndex(this.targetIndex);
     },
 
     onMouseMove: function (event) {
@@ -85,12 +87,22 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         if(this.targetIndex == null){
             return;
         }
-        this.resetVertex(layerPoint);
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:this.targetIndex});
+
+        var that = this;
+        if(this.snapHandler.snaped == true){
+            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+        }else{
+            this.shapeEditor.fire('snaped',{'snaped':false});
+        }
+
+        that.resetVertex(layerPoint);
+        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
     },
 
     onMouseUp: function(event){
         this.targetIndex = null;
+        this.snapHandler.setTargetIndex(this.targetIndex);
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
     },
 
@@ -105,5 +117,12 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
      */
     resetVertex:function(){
         this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+        var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
+        distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
+        distance = distance1<distance2?distance1:distance2
+        if(distance < 2){
+            console.log('形状点之间距离不能小于2米！')
+        }
+
     }
 })

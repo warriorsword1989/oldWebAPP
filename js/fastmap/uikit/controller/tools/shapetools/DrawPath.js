@@ -27,7 +27,10 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this.insertPoint = null;
         this.clickcount=1;
         this.targetGeoIndex=0;
-
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:true});
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
     /***
@@ -54,13 +57,17 @@ fastmap.uikit.DrawPath = L.Handler.extend({
     onMouseDown: function (event) {
         if(this.clickcount==1){
             var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
-            //var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)]);
-            //this.shapeEditor.shapeEditorResult.setFinalGeometry(line);
+            if(this.snapHandler.snaped == true){
+                mousePoint = this.targetPoint;
+            }
             this.clickcount++;
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }else{
             var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
+            if(this.snapHandler.snaped == true){
+                mousePoint = this.targetPoint;
+            }
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
@@ -81,8 +88,17 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                 this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(points.length-1,1,this.insertPoint);
             }
         }
-
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        this.snapHandler.setTargetIndex(0);
+        var that = this;
+        if(this.snapHandler.snaped == true){
+            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
+        }else{
+            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
+        //this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
     disable: function () {
         if (!this._enabled) { return; }
