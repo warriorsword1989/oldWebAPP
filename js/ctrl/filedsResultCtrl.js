@@ -249,6 +249,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else if(pItemId==="1301"){//车信
                         Application.functions.getRdObjectById(data.id, "RDLANECONNEXITY", function (data) {
                             objCtrl.setCurrentObject(data.data);
+
                             $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
                                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
@@ -308,7 +309,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     }else if(pItemId==="1407"){//高速分歧
-                        console.log(data);
                         Application.functions.getRdObjectById(data.id, "RDBRANCH", function (data) {
                             objCtrl.setCurrentObject(data.data);
                             $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
