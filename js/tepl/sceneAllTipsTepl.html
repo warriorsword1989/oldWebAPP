@@ -97,7 +97,7 @@
     </div>
     <div class="middle">
         <div class="left" >
-            <div class="panel panel-default" style="margin-bottom: 0px;" >
+            <div class="panel panel-default" style="margin-bottom: 0px;height:100%;" >
                 <div class="panel-body" style="padding: 0px;" ng-if="allTipsType==1203">
                     <form class="form-horizontal" method="get">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
@@ -240,7 +240,7 @@
                             <label class="col-sm-4 control-label">关联道路ID:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" >{{fData.id}}</span>
+                                <span class="label label-default" ng-bind="fData.id"></span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"

@@ -197,7 +197,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
                 $scope.$parent.$parent.tipsType=pItemId;
                 $("#popoverTips").css("display", "block");
-                map.panTo({lat: item["g"][1], lon: item["g"][0]});
                 Application.functions.getTipsResult(item.i, function (data) {
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     if (data.rowkey === "undefined") {
@@ -235,7 +234,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
                         if(data.f.type==1){
-                            Application.functions.getRdObjectById(data.f.id, "RDLINK", function (data) {
+                            $scope.dataId=data.f.id;
+                            Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (data) {
+                                var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                                for (var i = 0, len = linkArr.length; i < len; i++) {
+                                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                                    points.push(point);
+                                }
+                                map.panTo({lat: points[0].y, lon: points[0].x});
+                                var line = fastmap.mapApi.lineString(points);
+                                selectCtrl.onSelected({geometry: line, id: $scope.dataId});
                                 objCtrl.setCurrentObject(data);
                                 if (objCtrl.updateObject !== "") {
                                     objCtrl.updateObject();
@@ -249,7 +257,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else if(pItemId==="1301"){//车信
                         Application.functions.getRdObjectById(data.id, "RDLANECONNEXITY", function (data) {
                             objCtrl.setCurrentObject(data.data);
-
                             $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
                                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
@@ -322,17 +329,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                        if(data.f_array.length>0){
-                            Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
-                                if (data.errcode === -1) {
-                                    return;
-                                }
-                                objCtrl.setCurrentObject(data.data);
-                                $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                });
-                            });
-                        }
+                            //Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
+                            //    if (data.errcode === -1) {
+                            //        return;
+                            //    }
+                            //    objCtrl.setCurrentObject(data.data);
+                            //    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                            //        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                            //    });
+                            //});
+
                     }else if(pItemId==="1604"){//区域内道路
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRegionalRoadTepl.html";
                     }else if(pItemId==="1704"){//交叉路口
