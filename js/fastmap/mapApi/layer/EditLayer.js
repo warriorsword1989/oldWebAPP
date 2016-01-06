@@ -161,6 +161,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var g = self._ctx;
             g.strokeStyle = style.color;
             g.lineWidth = style.size;
+            //g.opacity = 0.5;
             g.beginPath();
             for (i = 0; i < proj.length; i++) {
                 var method = (i === 0 ? 'move' : 'line') + 'To';
