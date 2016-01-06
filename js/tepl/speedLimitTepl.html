@@ -1,0 +1,173 @@
+
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    label {
+        font-weight: normal;
+    }
+    .form-group {
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    #speedlimitTeplDiv{
+        border: 1px solid #FBFBFB;
+        width:400px;
+        height: 100%;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    .pull-in {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .col-centered {
+        float: none;
+        margin: 0 auto;
+    }
+    .form-horizontal .control-label{
+        text-align: center;
+    }
+</style>
+<div  id="speedlimitTeplDiv" ng-controller="speedlimitTeplController">
+    <div class="panel panel-default">
+        <div class="panel-body" style="overflow-y: auto;">
+            <div class="list-group">
+                <div class="list-group-item">
+                    <form class="form-horizontal" method="get">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速PID</label>
+
+                            <div class="col-sm-9">
+                                <span class="label label-info">{{speedLimitData.id}}</span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速值</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" ng-model="speedLimitData.value">
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速类型</label>
+
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="speedLimitData.tp"
+                                        ng-options="value.id as value.label for value in speedTypeOptions" >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速标志</label>
+
+                            <div class="col-sm-9">
+                                <div id="speedFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="speedFlag0" ng-click="checkspeedFlag(0)" ng-model="speedLimitData.se">限速开始</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="speedFlag1" ng-click="checkspeedFlag(1)" ng-model="speedLimitData.se">解除限速</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">作用方向</label>
+
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="speedLimitData.rdDir"
+                                        ng-options="value.id as value.label for value in speedDirectTypeOptions" >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速条件</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="speedLimitData.speedDependent" ng-options="value.id as value.label for value in speedDependentOption">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速来源</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="speedLimitData.src" ng-options="value.id as value.label for value in limitSrcOption">
+                                    <option>--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">采集标志</label>
+
+                            <div class="col-sm-9">
+                                <div id="gaptureFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="gaptureFlag0" ng-click="checkgaptureFlag(0)" ng-model="speedLimitData.flag">现场采集</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="gaptureFlag1" ng-click="checkgaptureFlag(1)" ng-model="speedLimitData.flag">理论判断</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">时间段</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="speedLimitData.timeDomain">
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                        <label class="col-sm-3 control-label">是否收费站前限速</label>
+                            <div class="col-sm-9">
+                                <div id="tollgateFlagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="tollgateFlag0" ng-click="checktollgateFlag(0)" ng-model="speedLimitData.toll">否</button>
+                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="tollgateFlag1" ng-click="checktollgateFlag(1)" ng-model="speedLimitData.toll">是</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">关联LinkID</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="speedLimitData.f.id">
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">限速标牌坐标</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" ng-model="speedLimitGeometryData.coordinates">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

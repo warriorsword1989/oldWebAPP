@@ -30,54 +30,57 @@ otherApp.controller("otherController",function($scope){
     $("#specialbtn"+$scope.roadlinkData.specialTraffic).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#paveStatusbtn"+$scope.roadlinkData.paveStatus).removeClass("btn btn-default").addClass("btn btn-primary");
     $("#adasFlagbtn"+$scope.roadlinkData.adasFlag).removeClass("btn btn-default").addClass("btn btn-primary");
+
+
     setTimeout(function() {
         for (var sitem in $scope.roadlinkData.speedlimits) {
             var flag = $scope.roadlinkData.speedlimits[sitem].speedClassWork;
             $("#speedClassWorkbtn" + flag + "_" + sitem).removeClass("btn btn-default").addClass("btn btn-primary");
         }
+
     },10)
 
     $scope.fromOfWayOption=[
-        {id:"0",name:"未调查"},
-        {id:"1",name:"无属性"},
-        {id:"2",name:"其他"},
-        {id:"10",name:"IC"},
-        {id:"11",name:"JCT"},
-        {id:"12",name:"SA"},
-        {id:"13",name:"PA"},
-        {id:"14",name:"全封闭道路"},
-        {id:"15",name:"匝道"},
-        {id:"16",name:"跨线天桥"},
-        {id:"17",name:"跨线地道"},
-        {id:"18",name:"私道"},
-        {id:"20",name:"步行街"},
-        {id:"21",name:"过街天桥"},
-        {id:"22",name:"公交专用道"},
-        {id:"23",name:"自行车道"},
-        {id:"24",name:"跨线立交桥"},
-        {id:"30",name:"桥"},
-        {id:"31",name:"隧道"},
-        {id:"32",name:"立交桥"},
-        {id:"33",name:"环岛"},
-        {id:"34",name:"辅路"},
-        {id:"35",name:"掉头口"},
-        {id:"36",name:"POI连接路"},
-        {id:"37",name:"提右"},
-        {id:"38",name:"提左"},
-        {id:"39",name:"主辅路入口"},
-        {id:"43",name:"窄道路"},
-        {id:"48",name:"主路"},
-        {id:"49",name:"侧道"},
-        {id:"50",name:"交叉点内道路"},
-        {id:"51",name:"未定义交通区域"},
-        {id:"52",name:"区域内道路"},
-        {id:"53",name:"停车场出入口连接路"},
-        {id:"54",name:"停车场出入口虚拟连接路"},
-        {id:"57",name:"Highway对象外JCT"},
-        {id:"60",name:"风景路线"},
-        {id:"80",name:"停车位引导道路"},
-        {id:"81",name:"停车位引导道路"},
-        {id:"82",name:"虚拟提左提右"}
+        {"id":"0","label":"未调查"},
+        {"id":"1","label":"无属性"},
+        {"id":"2","label":"其他"},
+        {"id":"10","label":"IC"},
+        {"id":"11","label":"JCT"},
+        {"id":"12","label":"SA"},
+        {"id":"13","label":"PA"},
+        {"id":"14","label":"全封闭道路"},
+        {"id":"15","label":"匝道"},
+        {"id":"16","label":"跨线天桥"},
+        {"id":"17","label":"跨线地道"},
+        {"id":"18","label":"私道"},
+        {"id":"20","label":"步行街"},
+        {"id":"21","label":"过街天桥"},
+        {"id":"22","label":"公交专用道"},
+        {"id":"23","label":"自行车道"},
+        {"id":"24","label":"跨线立交桥"},
+        {"id":"30","label":"桥"},
+        {"id":"31","label":"隧道"},
+        {"id":"32","label":"立交桥"},
+        {"id":"33","label":"环岛"},
+        {"id":"34","label":"辅路"},
+        {"id":"35","label":"掉头口"},
+        {"id":"36","label":"POI连接路"},
+        {"id":"37","label":"提右"},
+        {"id":"38","label":"提左"},
+        {"id":"39","label":"主辅路入口"},
+        {"id":"43","label":"窄道路"},
+        {"id":"48","label":"主路"},
+        {"id":"49","label":"侧道"},
+        {"id":"50","label":"交叉点内道路"},
+        {"id":"51","label":"未定义交通区域"},
+        {"id":"52","label":"区域内道路"},
+        {"id":"53","label":"停车场出入口连接路"},
+        {"id":"54","label":"停车场出入口虚拟连接路"},
+        {"id":"57","label":"Highway对象外JCT"},
+        {"id":"60","label":"风景路线"},
+        {"id":"80","label":"停车位引导道路"},
+        {"id":"81","label":"停车位引导道路"},
+        {"id":"82","label":"虚拟提左提右"}
     ];
     for(var p in $scope.roadlinkData.forms){
         for(var s in $scope.fromOfWayOption){
@@ -86,7 +89,21 @@ otherApp.controller("otherController",function($scope){
             }
         }
     }
-
+    $scope.otherFromOfWay=[];
+    //初始化数据
+    initOrig($scope.newFromOfWRoadDate,$scope.fromOfWayOption,"fromOfWRoaddiv");
+    //点击内容显示框时，关闭下拉，保存数据
+    $("#fromOfWRoaddiv").click(function(){
+        $("#fromOfWRoaddiv").popover('hide');
+        $scope.endFromOfWayArray=getEndArray();
+        for(var p in $scope.endFromOfWayArray){
+            $scope.otherFromOfWay.push({
+                formOfWay: $scope.endFromOfWayArray[p].id,
+                linkPid:$scope.roadlinkData.pid
+            })
+        }
+        $scope.roadlinkData.forms=$scope.otherFromOfWay;
+    });
 
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},
@@ -133,7 +150,6 @@ otherApp.controller("otherController",function($scope){
         {"id": 9, "label": "不应用"}
     ];
     $scope.saveroadname = function () {
-
         $scope.roadlinkData.forms.unshift({
             formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
             linkPid:$scope.roadlinkData.pid
@@ -159,7 +175,7 @@ otherApp.controller("otherController",function($scope){
             fromLimitSrc: 1,
             fromSpeedLimit: 0,
             linkPid: 0,
-            rowId: "",
+            rowid: "",
             speedClass: 5,
             speedClassWork: 0,
             speedDependent: 0,
@@ -207,4 +223,11 @@ otherApp.controller("otherController",function($scope){
         item.speedClassWork=flag;
     }
 
+    $scope.showPopover=function(){
+        $('#fromOfWRoaddiv').popover('show');
+    }
+
+   // $scope.savefromOfWay=function(){
+       // $scope.roadlinkData.forms=getEdnArray();
+    //}
 });

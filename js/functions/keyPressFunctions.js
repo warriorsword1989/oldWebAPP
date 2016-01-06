@@ -52,10 +52,6 @@ function keyEvent(ocLazyLoad, scope) {
             }
 
             function resetPage(data) {
-                outPutCtrl.pushOutput(data);
-                if(outPutCtrl.updateOutPuts!=="") {
-                    outPutCtrl.updateOutPuts();
-                }
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
@@ -66,7 +62,7 @@ function keyEvent(ocLazyLoad, scope) {
                 editLayer.drawGeometry = null;
                 editLayer.clear();
                 shapeCtrl.stopEditing();
-                editLayer.bringToBack()
+                editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
             }
 
@@ -80,7 +76,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     var paramOfLink = {
                         "command": "createlink",
-                        "projectId": 1,
+                        "projectId": 11,
                         "data": {
                             "eNodePid": 0,
                             "sNodePid": 0,
@@ -90,13 +86,30 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-                        resetPage(data.data);
+
+                        var info=[];
+                        if(data.data){
+                            $.each(data.data.log,function(i,item){
+                                if(item.pid){
+                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
+                                }else{
+                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                                }
+                            });
+                        }else{
+                            info.push(data.errmsg+data.errid)
+                        }
+                        resetPage(info);
+                        outPutCtrl.pushOutput(info);
+                        if(outPutCtrl.updateOutPuts!=="") {
+                            outPutCtrl.updateOutPuts();
+                        }
                     });
 
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
                         "command": "createrestriction",
-                        "projectId": 1,
+                        "projectId": 11,
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
@@ -107,11 +120,24 @@ function keyEvent(ocLazyLoad, scope) {
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-
-                        outPutCtrl.pushOutput(data.data.log[0]);
+                        var info=[];
+                        if(data.data){
+                            $.each(data.data.log,function(i,item){
+                                if(item.pid){
+                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
+                                }else{
+                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                                }
+                            });
+                        }else{
+                            info.push(data.errmsg+data.errid)
+                        }
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }
+                        toolTipsCtrl.onRemoveTooltip();
+
                         Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                             objEditCtrl.setCurrentObject(data.data);
                             if (objEditCtrl.updateObject !== "") {
@@ -133,7 +159,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     var param = {
                         "command": "breakpoint",
-                        "projectId": 1,
+                        "projectId": 11,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
                         "data": {"longitude": breakPoint.x, "latitude": breakPoint.y}
@@ -150,7 +176,11 @@ function keyEvent(ocLazyLoad, scope) {
                                 info.push(item.op+item.type+"(rowId:"+item.rowId+")");
                             }
                         });
-                        resetPage(info);
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if(outPutCtrl.updateOutPuts!=="") {
+                            outPutCtrl.updateOutPuts();
+                        }
                     })
                 } else if (shapeCtrl.editType === "pathVertexReMove"||shapeCtrl.editType==="pathVertexInsert"||shapeCtrl.editType==="pathVertexMove") {
                     if (coordinate.length !== 0) {
@@ -162,7 +192,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         var param = {
                             "command": "updatelink",
-                            "projectId": 1,
+                            "projectId": 11,
                             "data": {
                                 "pid": parseInt(selectCtrl.selectedFeatures.id),
                                 "objStatus": "UPDATE",
@@ -184,7 +214,12 @@ function keyEvent(ocLazyLoad, scope) {
                             }else{
                                 info.push(data.errmsg + data.errid);
                             }
-                            resetPage(info);
+                            resetPage();
+                            outPutCtrl.pushOutput(info);
+                            if(outPutCtrl.updateOutPuts!=="") {
+                                outPutCtrl.updateOutPuts();
+                            }
+
                         })
                     }
                 }

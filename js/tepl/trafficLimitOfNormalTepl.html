@@ -1,3 +1,5 @@
+
+
 <style>
     div {
         -webkit-font-smoothing: antialiased;
@@ -46,7 +48,27 @@
     .form-horizontal .control-label{
         text-align: center;
     }
+
+    .checkboxli{
+        background-color: #e4e4e4;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+    }
+    .popover{
+        width: 100%;
+    }
+    .popover-content{
+        overflow-y:auto;height:200px;
+    }
+    
 </style>
+
 <div  ng-controller="normalController" class="panel panel-default" id="traffiLimitedDiv">
     <div class="panel-heading font-bold" style=" text-align: center;height: 7%">
         普通交限
@@ -163,58 +185,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">
-                        时间段
-                        <span class="glyphicon glyphicon-plus"
-                              style="float: right;color: darkgray;font-size: 20px"
-                              ng-click="addTime()"></span>
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" method="get">
-                            <div ng-repeat="item in rdSubRestrictData.time">
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">限时</label>
-
-                                    <div class="input-group m-b col-sm-10">
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <input class="form-control" type="text" ng-model="item.startTime">
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <input class="form-control" type="text" ng-model="item.endTime">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                      <span
-                                                              class="glyphicon glyphicon-remove-sign"
-                                                              style="color: darkgray;font-size: 20px"
-                                                              ng-click="minusTime($index)"></span>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">车辆类型</label>
-
-                                <div class="col-sm-8">
-
-                                    <select class="form-control" ng-model="rdSubRestrictData.vehicleExpression"
-                                            ng-options="value.id as value.label for value in vehicleOptions" >
-
-
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <div ng-include="dateURL"></div>
             </div>
+            
+            
         </form>
     </div>
     <!-- 模态框（Modal） -->

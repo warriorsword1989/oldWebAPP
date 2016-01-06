@@ -102,6 +102,9 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();
         output.clear();
+        if(output.updateOutPuts!=="") {
+            output.updateOutPuts();
+        }
     };
     $scope.showOrHide = function () {
         var modifyToolsDiv = $("#modifyToolsDiv");
@@ -128,7 +131,7 @@ function appInit(){
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl=new fastmap.uikit.ToolTipsController();
-    tooltipsCtrl.setMap(map);
+    tooltipsCtrl.setMap(map,'tooltip');
     layerCtrl.on('layerOnShow',function(event){
         if(event.flag == true){
             map.addLayer(event.layer);
