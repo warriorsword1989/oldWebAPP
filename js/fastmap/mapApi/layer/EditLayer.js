@@ -101,8 +101,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             return;
         }
 
-        this.drawGeometry = currentGeo;
-        switch (this.drawGeometry.type) {
+        //this.drawGeometry = currentGeo;
+        switch (currentGeo.type) {
 
             case 'LineString':
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
@@ -170,7 +170,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
             for (var i = 0; i < geom.length; i++) {
                 if (boolPixelCrs) {
-                    proj.push({x: geom[i][0], y: geom[i][1]});
+                    proj.push({x:geom[i].x,y:geom[i].y});
                 } else {
 
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));

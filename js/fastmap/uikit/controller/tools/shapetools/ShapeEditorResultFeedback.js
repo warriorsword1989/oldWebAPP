@@ -20,7 +20,7 @@ fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
 
     /***
      *开始编辑
-     * @param {Object}result
+     * @param {Object}data
      * @constructor
      */
     setupFeedback: function (data) {

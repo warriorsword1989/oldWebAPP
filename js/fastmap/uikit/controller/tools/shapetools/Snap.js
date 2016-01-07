@@ -37,6 +37,12 @@ fastmap.uikit.Snap = L.Handler.extend({
     addHooks: function () {
         this._map.on('mousemove', this.onMouseMove, this);
     },
+    /***
+     * 移除事件
+     */
+    removeHooks: function(){
+        this._map.off('mousemove', this.onMouseMove, this);
+    },
     addGuideLayer: function (layer) {
         for (var i=0, n=this._guides.length; i<n; i++)
             if (L.stamp(layer) === L.stamp(this._guides[i]))
@@ -94,6 +100,7 @@ fastmap.uikit.Snap = L.Handler.extend({
     },
 
     disable: function () {
+        //this.removeHooks();
     },
 
     snapList:function(){
@@ -249,11 +256,6 @@ fastmap.uikit.Snap = L.Handler.extend({
                 }
         }
         return result;
-    },
-
-
-    addGuideLayer: function (layer) {
-        this._guides.push(layer);
     }
 
 });

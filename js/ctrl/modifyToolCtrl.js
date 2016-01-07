@@ -63,11 +63,11 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
-            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc());
+            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
-                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc());
+                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
             });
-            function saveOrEsc () {
+            function saveOrEsc (event) {
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             };
