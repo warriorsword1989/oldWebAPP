@@ -18,7 +18,7 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
-    $scope.outIdS=[];
+    $scope.outIdS=[]; 
 
     if (selectCtrl.rowKey) {
         //初始化dataTips面板中的数据

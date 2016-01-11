@@ -98,7 +98,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 if($scope.diverObj.details[0].names.length == 1){
                     $scope.diverObj.details[0].names[0].nameGroupid = 1;
                 }
-            }
+            } 
         });
     }
     /*新增名称信息*/
