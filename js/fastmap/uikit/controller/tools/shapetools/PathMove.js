@@ -37,12 +37,6 @@ fastmap.uikit.PathMove = L.Handler.extend({
         this._map.on('mousemove', this.onMouseMove, this);
         this._map.on('mouseup', this.onMouseUp, this);
     },
-    disable: function () {
-        if (!this._enabled) { return; }
-        this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
-    },
     /***
      * 移除事件
      */
@@ -172,7 +166,7 @@ fastmap.uikit.PathMove = L.Handler.extend({
         this.borderpoint=apoint;
 
         //console.log(points);
-        var newpointsArray=new Array();
+        var newpointsArray=[];
         for(var i=0;i<points.length;i++){
             //var latlngpoint=this._map.layerPointToLatLng(points[i]);
             var pointB=this._map.latLngToLayerPoint([points[i].y,points[i].x]);

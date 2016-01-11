@@ -9,12 +9,16 @@ function keyEvent(ocLazyLoad, scope) {
             var layerCtrl = fastmap.uikit.LayerController();
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+            var highCtrl = fastmap.uikit.HighLightController();
             if (event.keyCode == 27) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                if(toolTipsCtrl.getCurrentTooltip()){
+                if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
+                }
+                if(highCtrl.highLightLayersArr.length!==0) {
+                    highCtrl.removeHighLightLayers();
                 }
                 layerCtrl.getLayerById('edit').drawGeometry = null;
                 layerCtrl.getLayerById('edit').clear();
@@ -55,7 +59,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                if(toolTipsCtrl.getCurrentTooltip()){
+                if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
                 rdLink.redraw();
@@ -87,21 +91,21 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
 
-                        var info=[];
-                        if(data.data){
-                            $.each(data.data.log,function(i,item){
-                                if(item.pid){
-                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                }else{
-                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                 }
                             });
-                        }else{
-                            info.push(data.errmsg+data.errid)
+                        } else {
+                            info.push(data.errmsg + data.errid)
                         }
                         resetPage(info);
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                     });
@@ -120,20 +124,20 @@ function keyEvent(ocLazyLoad, scope) {
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-                        var info=[];
-                        if(data.data){
-                            $.each(data.data.log,function(i,item){
-                                if(item.pid){
-                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                }else{
-                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                 }
                             });
-                        }else{
-                            info.push(data.errmsg+data.errid)
+                        } else {
+                            info.push(data.errmsg + data.errid)
                         }
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                         toolTipsCtrl.onRemoveTooltip();
@@ -168,21 +172,31 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        var info=[];
-                        $.each(data.data.log,function(i,item){
-                            if(item.pid){
-                                info.push(item.op+item.type+"(pid:"+item.pid+")");
-                            }else{
-                                info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                             }
                         });
                         resetPage();
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                     })
-                } else if (shapeCtrl.editType === "pathVertexReMove"||shapeCtrl.editType==="pathVertexInsert"||shapeCtrl.editType==="pathVertexMove") {
+                } else if(shapeCtrl.editType==="transformDirect"){
+                    objEditCtrl.data.data.direct = editLayer.drawGeometry.orientation;
+                    if(objEditCtrl.updateObject!=="") {
+                        objEditCtrl.updateObject();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
@@ -202,21 +216,21 @@ function keyEvent(ocLazyLoad, scope) {
                         //结束编辑状态
                         shapeCtrl.stopEditing();
                         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                            var info=[];
-                            if(data.data){
-                                $.each(data.data.log,function(i,item){
-                                    if(item.pid){
-                                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                    }else{
-                                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                            var info = [];
+                            if (data.data) {
+                                $.each(data.data.log, function (i, item) {
+                                    if (item.pid) {
+                                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                    } else {
+                                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                     }
                                 });
-                            }else{
+                            } else {
                                 info.push(data.errmsg + data.errid);
                             }
                             resetPage();
                             outPutCtrl.pushOutput(info);
-                            if(outPutCtrl.updateOutPuts!=="") {
+                            if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
                             }
 
