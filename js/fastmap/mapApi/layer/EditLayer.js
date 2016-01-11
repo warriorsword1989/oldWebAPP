@@ -103,7 +103,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         this.drawGeometry = currentGeo;
-        switch (this.drawGeometry.type) {
+        switch (currentGeo.type) {
 
             case 'LineString':
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
@@ -114,13 +114,11 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case'Polygon':
                 drawPolygon();
                 break;
-<<<<<<< HEAD
             case 'Cross':
                 drawCross(currentGeo, {color: 'blue', width: 1},false);
-=======
+                break;
             case 'marker':
                 drawMarker();
->>>>>>> d2c264c41eda58946f5e2ff3aee7be2a190f76d3
                 break;
         }
 

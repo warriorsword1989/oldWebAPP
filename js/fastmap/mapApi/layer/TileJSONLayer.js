@@ -919,7 +919,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (this._map.getZoom() >= this.showNodeLevel) {
 
 
-                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"projectId":1,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
                 } else {
                     url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
