@@ -104,19 +104,18 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
         var protoArr = $scope.diverObj.details[0].names;
-        var newInfo = protoArr.slice(-1);
         var newArr = {};
-        newArr.codeType = newInfo[0].codeType;
-        newArr.detailId = newInfo[0].detailId;
-        newArr.langCode = newInfo[0].langCode;
-        newArr.name = newInfo[0].name;
-        newArr.nameClass = newInfo[0].nameClass;
+        newArr.codeType = 0;
+        newArr.detailId = '';
+        newArr.langCode = '';
+        newArr.name = '';
+        newArr.nameClass = 0;
         newArr.nameGroupid = protoArr.length + 1;
-        newArr.phonetic = newInfo[0].phonetic;
-        newArr.pid = newInfo[0].pid;
-        newArr.voiceFile = newInfo[0].voiceFile;
-        newArr.srcFlag = newInfo[0].srcFlag;
-        newArr.seqNum = newInfo[0].seqNum;
+        newArr.phonetic = '';
+        newArr.pid = '';
+        newArr.voiceFile = '';
+        newArr.srcFlag = 0;
+        newArr.seqNum = '';
         protoArr.push(newArr);
     }
     /*关系类型*/
