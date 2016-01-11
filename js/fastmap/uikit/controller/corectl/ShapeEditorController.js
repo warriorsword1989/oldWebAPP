@@ -109,6 +109,7 @@ fastmap.uikit.ShapeEditorController=(function() {
              * @param options
              */
              toolsSeparateOfEditor: function (type, options) {
+                this.editType = type;
                 this.currentTool = new fastmap.uikit.CrossingAdd(options);
                 this.currentTool.enable();
              },

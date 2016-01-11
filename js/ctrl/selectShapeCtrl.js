@@ -216,7 +216,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             });
             highLightLayer.pushHighLightLayers(highLightLink);
             map.on("dataOfBoxEvent", function (event) {
-                var data = event.data;
+                var data = event.data,options={};
                 if(linksArr.length===0) {
                     linksArr = data["crossLinks"];
                 }else{
@@ -230,6 +230,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 }
 
                 highLightLink.drawLinksOfCrossForInit(linksArr);
+                options = {"nodePids": data["crossNodes"], "linkPids": linksArr};
+                selectCtrl.onSelected(options);
             });
 
 

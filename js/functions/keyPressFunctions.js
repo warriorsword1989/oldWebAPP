@@ -17,7 +17,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
-                if(highCtrl.highLightLayersArr.length!==0) {
+                if (highCtrl.highLightLayersArr.length !== 0) {
                     highCtrl.removeHighLightLayers();
                 }
                 layerCtrl.getLayerById('edit').drawGeometry = null;
@@ -186,9 +186,9 @@ function keyEvent(ocLazyLoad, scope) {
                             outPutCtrl.updateOutPuts();
                         }
                     })
-                } else if(shapeCtrl.editType==="transformDirect"){
+                } else if (shapeCtrl.editType === "transformDirect") {
                     objEditCtrl.data.data.direct = editLayer.drawGeometry.orientation;
-                    if(objEditCtrl.updateObject!=="") {
+                    if (objEditCtrl.updateObject !== "") {
                         objEditCtrl.updateObject();
                     }
                     editLayer.drawGeometry = null;
@@ -196,7 +196,7 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
-                }else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
+                } else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
@@ -236,6 +236,38 @@ function keyEvent(ocLazyLoad, scope) {
 
                         })
                     }
+                } else if (shapeCtrl.editType==="linksOfCross") {
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDCROSS",
+                        "projectId": 11,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        if(data.errcode===-1) {
+                            outPutCtrl.pushOutput(data.errmsg);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            return;
+                        }
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                            }
+                        });
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                    })
                 }
             }
         });
