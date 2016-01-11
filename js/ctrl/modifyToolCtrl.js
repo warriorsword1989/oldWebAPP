@@ -63,9 +63,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
-            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc());
+            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
-                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc());
+                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
             });
             function saveOrEsc () {
                 tooltipsCtrl.setStyleTooltip("color:black;");

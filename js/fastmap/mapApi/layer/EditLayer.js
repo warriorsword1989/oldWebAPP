@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/10/14
+ * Created by zhongxiaoming on 2015/10/19
  * Class EditLayer 可编辑图层
  */
 fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
@@ -102,7 +102,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         this.drawGeometry = currentGeo;
-        switch (this.drawGeometry.type) {
+        switch (currentGeo.type) {
 
             case 'LineString':
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
