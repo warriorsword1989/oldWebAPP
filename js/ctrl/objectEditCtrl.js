@@ -15,7 +15,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     if(highLightLayer.highLightLayersArr.length!==0) {
         highLightLayer.removeHighLightLayers();
     }
-    
     //初始化数据
     $scope.initializeData = function () {
         $scope.rdRestrictData = objectEditCtrl.data;

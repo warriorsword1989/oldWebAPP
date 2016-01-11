@@ -22,7 +22,8 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
             'pathVertexMove': new fastmap.uikit.PathVertexMove({shapeEditor:shapeEditor}),
             'pathVertexReMove': new fastmap.uikit.PathVertexRemove({shapeEditor:shapeEditor}),
             'pathVertexAdd': new fastmap.uikit.PathVertexAdd({shapeEditor:shapeEditor}),
-            'pathBreak': new fastmap.uikit.PathBreak({shapeEditor:shapeEditor})
+            'pathBreak': new fastmap.uikit.PathBreak({shapeEditor:shapeEditor}),
+            'transformDirect':new fastmap.uikit.TransformDirection({shapeEditor:shapeEditor})
         };
         return toolsObject;
     }

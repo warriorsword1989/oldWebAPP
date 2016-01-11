@@ -6,12 +6,10 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
     var selectCtrl = fastmap.uikit.SelectController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var outCtrl = fastmap.uikit.OutPutController();
     var ly = fastmap.uikit.LayerController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var rdLink = ly.getLayerById('referenceLine');
     map.currentTool = shapeCtrl.getCurrentTool();
-    shapeCtrl.setMap(map);
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
     $scope.modifyShape = function (type, num) {
@@ -65,11 +63,11 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
-            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc());
+            shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
-                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc());
+                shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
             });
-            function saveOrEsc () {
+            function saveOrEsc (event) {
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             };

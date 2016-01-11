@@ -16,6 +16,9 @@
 <div id="mapId" style="width:1000px;height:500px">
 
 </div>
+<div>
+    <img style="width: 100px;height: 90px" id="imgage" src=""/>
+</div>
 <input type="button" id="btn_insert" value="插入节点">
 <input type="button" id="btn_move" value="移动节点">
 <input type="button" id="btn_delete" value="删除节点">
@@ -26,189 +29,192 @@
 <input type="button" id="btn_cut" value="剪切">
 </body>
 <script>
-    var map = L.map('mapId').setView([39.907333, 116.391083], 14);
-
-    //    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
-    //        maxZoom: 18,
-    //        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-    //        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-    //        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    //        id: 'mapbox.streets'
-    //    }).addTo(map);
-    L.tileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
-        subdomains: ["rt0", "rt1", "rt2", "rt3"],
-        tms: true,
-        maxZoom: 18
-    }).addTo(map);
-
-    //    var l = fastmap.mapApi.meshLayer();
-    //    map.addLayer(l)
-    //
-    //    var c = l.canv;
-    //    var ctx = c.getContext('2d');
-    //    ctx.translate(200,200)
-    //    ctx.beginPath();
-    //    ctx.fillStyle = 'red'
-    //    ctx.moveTo(0,4)
-    //    ctx.quadraticCurveTo(6,-3,12,4);
-    //    ctx.lineTo(6,12);
-    //    ctx.lineTo(0,4);
-    //    ctx.closePath();
-    //    ctx.strokeStyle = 'red';
-    //    ctx.fill();
-    //
-    //    ctx.stroke();
-
-    var editLayer = new  fastmap.mapApi.EditLayer();
-    map.addLayer(editLayer);
-
-    //    var latlngs = [[39.907333, 116.391083],[39.909333, 116.394083]];
-    //    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-    //    var p = map.project(new L.LatLng(39.909333, 116.394083));
-
-
-    var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
-    var lines =new  fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
-    var line2 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
-    var lines1 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
-    console.log(line ===line2)
-    editLayer.drawGeometry=new Array();
-    editLayer.drawGeometry.push(line);
-    editLayer.drawGeometry.push(lines);
-    var originalarray=new Array();
-    originalarray.push(line2);
-    originalarray.push(lines1);
-    editLayer.draw(editLayer.drawGeometry,editLayer);
-
-    //    var tileJson = new fastmap.mapApi.TileJSON({
-    //        id:'ee',
-    //        url:'http://192.168.1.111:8080/FosEngineWeb/pdh/obj/getByTileWithGap?',
-    //        hitDetection: true,
-    //        debug: false,
-    //        // this value should be equal to 'radius' of your points
-    //        buffer: 10,
-    //        boolPixelCrs: true ,
-    //        parse: parseLineStringData,
-    //        boundsArr: [],
-    //        unloadInvisibleTiles: true,
-    //        reuseTiles: false,
-    //        mecator:new fastmap.mapApi.MecatorTranform(),
-    //        updateWhenIdle: true,
-    //        tileSize:256,
-    //        type: 'LineString',
-    //
-    //        restrictZoom:10
-    //    }).addTo(map);
-    var tileJson = new fastmap.mapApi.TileJSON('http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',{
-        id:'ee',
-
-        hitDetection: true,
-        debug: false,
-        // this value should be equal to 'radius' of your points
-        buffer: 10,
-        boolPixelCrs: true ,
-        parse: parseLineStringData,
-        boundsArr: [],
-        unloadInvisibleTiles: true,
-        reuseTiles: false,
-        mecator:new fastmap.mapApi.MecatorTranform(),
-        updateWhenIdle: true,
-        tileSize:256,
-        type: 'LineString',
-
-        restrictZoom:10
-    }).addTo(map);
-    function parseLineStringData(data) {
-        var geojson = {};
-        geojson['features'] = [];
-        $.each(data.data.RDLINK, function (index, item) {
-            var obj = {};
-            obj['type'] = "Feature";
-            obj['geometry'] = {};
-            obj['geometry']['type'] = 'LineString';
-            obj['geometry']['coordinates'] = [];
-            for (var i = 0, len = item.g.length; i < len; i = i+1) {
-                obj['geometry']['coordinates'].push([item.g[i]]);
-            }
-            obj['properties'] = {
-                'id': item.i,
-                'color': item.s
-            }
-            geojson['features'].push(obj);
-        });
-        return geojson;
-    }
-    $('#btn_insert').click(
-            function(){
-                var shapectl = fastmap.uikit.ShapeEditorController();
-                shapectl.setMap(map);
-                shapectl.setEditingType('pathVertexInsert');
-                var sobj = new fastmap.uikit.ShapeEditorResult();
-                sobj.setOriginalGeometry(originalarray);
-                sobj.setFinalGeometry(editLayer.drawGeometry);
-                shapectl.startEditing(sobj);
-            }
-    );
-
-    $('#btn_enable').click(function(){
-        fastmap.uikit.ShapeEditorController().stopEditing();
-    })
-    //放弃编辑
-    $('#btn_abort').click(function(){
-        fastmap.uikit.ShapeEditorController().abortEditing();
-    })
-
-    $("#btn_copy").click(function(){
-        var shapecopy = fastmap.uikit.ShapeEditorController();
-        shapecopy.setMap(map);
-        shapecopy.setEditingType('pathcopy');
-        var sobjcopy = new fastmap.uikit.ShapeEditorResult();
-        sobjcopy.setOriginalGeometry(originalarray);
-        sobjcopy.setFinalGeometry(editLayer.drawGeometry);
-        shapecopy.startEditing(sobjcopy);
+    $(document).ready(function(){
+        $('#imgage').prop('src','data:image/jpg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAHgAZADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiimu6xqWY8VM5xhFyk7JBuOoqKGcTFhjGOn0qWooV6deCqU3dMbTTswoqCS5SNto+Y55x2qcEEZHIqaeJpVZyhCV3HcGmtWFFNd1jUsx4psMwmUkDBHUU3iKSqqi5e89bBZ2uSUUVA9yiSBOvqR2or4ilQipVZWWwJN7E9FAIIyORRW24gooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooADnHHWs+5BWT5n3tjnjGKvswRSx6Cs5AZrgbv4jk187n8ozUKC1nJ6av8tv6ZtS6ssw27IVffg45GKmkRnXCvs9SBT6iuX2QN6ngV6Lw2HweFnFL3bXer1/HS/kRzOUijGgklCA4B74q/DGYk2ltw7cYqtZKfMZuwGKu153D+EgqP1hr3m3327b66ourJ3sUrqNgN7SbsnGMdKLWJm/eK+0g4xjOadetyi59yKltQBbqR3yTXPTwtGpm0oJaRV93e+nW9+vcbk1TJHVmUhW2k98VnSII5ShOQO+K06z7n/j4b8P5VtxHRh7GNW2t7bvaz6bCot3sW4YmiGN+5ewx0qWgEEZHIor36NKFGChT2W2rf5mTbbuwooorUQUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRSMwRSx6ClKSinJ7ICreSdIwfc0WScM/wCAqqzF2LHqa0ok2RKvcDmvlMuk8fmMsTLaO35L9X6m8/dhYfVO8fLKg7cnmrlZcj+ZIzeprt4hxHs8MqS3k/wX9Imiru5bs1xEWxyTVmo4F2wIM9s1JXp5fS9lhacPJfjqyJu8mULtszkY6ACrVt/x7r+P86oSNulZs5BPFX7cEW6A/Wvn8nqOtmVWp0af5q34GtRWgkS1mztunc47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');
     });
-
-    $("#btn_cut").click(function(){
-        var shapecopy = fastmap.uikit.ShapeEditorController();
-        shapecopy.setMap(map);
-        shapecopy.setEditingType('pathcut');
-        var sobjcopy = new fastmap.uikit.ShapeEditorResult();
-        sobjcopy.setOriginalGeometry(originalarray);
-        sobjcopy.setFinalGeometry(editLayer.drawGeometry);
-        shapecopy.startEditing(sobjcopy);
-    });
-
-    $('#btn_move').click(function(){
-        var shapectl1 = fastmap.uikit.ShapeEditorController();
-        shapectl1.setMap(map);
-        shapectl1.setEditingType('pathVertexMove');
-        var sobj = new fastmap.uikit.ShapeEditorResult();
-        sobj.setOriginalGeometry(originalarray);
-        sobj.setFinalGeometry(editLayer.drawGeometry);
-        shapectl1.startEditing(sobj);
-    });
-
-    $("#btn_delete").click(function(){
-        var shapectl2 = fastmap.uikit.ShapeEditorController();
-        shapectl2.setMap(map);
-        shapectl2.setEditingType('pathVertexReMove');
-        var sobj = new fastmap.uikit.ShapeEditorResult();
-        sobj.setOriginalGeometry(originalarray);
-        sobj.setFinalGeometry(editLayer.drawGeometry);
-        shapectl2.startEditing(sobj);
-    });
-
-    $('#btn_extend').click(function(){
-        var shapectl3 = fastmap.uikit.ShapeEditorController();
-        shapectl3.setMap(map);
-        shapectl3.setEditingType('pathVertexAdd');
-        var sobj = new fastmap.uikit.ShapeEditorResult();
-        sobj.setOriginalGeometry(originalarray);
-        sobj.setFinalGeometry(editLayer.drawGeometry);
-        shapectl3.startEditing(sobj);
-    });
-
-    var layerc = new fastmap.uikit.LayerController();
+//    var map = L.map('mapId').setView([39.907333, 116.391083], 14);
+//
+//    //    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+//    //        maxZoom: 18,
+//    //        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+//    //        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+//    //        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+//    //        id: 'mapbox.streets'
+//    //    }).addTo(map);
+//    L.tileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
+//        subdomains: ["rt0", "rt1", "rt2", "rt3"],
+//        tms: true,
+//        maxZoom: 18
+//    }).addTo(map);
+//
+//    //    var l = fastmap.mapApi.meshLayer();
+//    //    map.addLayer(l)
+//    //
+//    //    var c = l.canv;
+//    //    var ctx = c.getContext('2d');
+//    //    ctx.translate(200,200)
+//    //    ctx.beginPath();
+//    //    ctx.fillStyle = 'red'
+//    //    ctx.moveTo(0,4)
+//    //    ctx.quadraticCurveTo(6,-3,12,4);
+//    //    ctx.lineTo(6,12);
+//    //    ctx.lineTo(0,4);
+//    //    ctx.closePath();
+//    //    ctx.strokeStyle = 'red';
+//    //    ctx.fill();
+//    //
+//    //    ctx.stroke();
+//
+//    var editLayer = new  fastmap.mapApi.EditLayer();
+//    map.addLayer(editLayer);
+//
+//    //    var latlngs = [[39.907333, 116.391083],[39.909333, 116.394083]];
+//    //    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+//    //    var p = map.project(new L.LatLng(39.909333, 116.394083));
+//
+//
+//    var line =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
+//    var lines =new  fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
+//    var line2 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.391083,39.907333),fastmap.mapApi.point(116.394083,39.909333),fastmap.mapApi.point(116.391083,39.902333),fastmap.mapApi.point(116.396083,39.902933)]);
+//    var lines1 =new fastmap.mapApi.lineString([fastmap.mapApi.point(116.361083,39.907333),fastmap.mapApi.point(116.364083,39.909333),fastmap.mapApi.point(116.361083,39.902333),fastmap.mapApi.point(116.366083,39.902933)]);
+//    console.log(line ===line2)
+//    editLayer.drawGeometry=new Array();
+//    editLayer.drawGeometry.push(line);
+//    editLayer.drawGeometry.push(lines);
+//    var originalarray=new Array();
+//    originalarray.push(line2);
+//    originalarray.push(lines1);
+//    editLayer.draw(editLayer.drawGeometry,editLayer);
+//
+//    //    var tileJson = new fastmap.mapApi.TileJSON({
+//    //        id:'ee',
+//    //        url:'http://192.168.1.111:8080/FosEngineWeb/pdh/obj/getByTileWithGap?',
+//    //        hitDetection: true,
+//    //        debug: false,
+//    //        // this value should be equal to 'radius' of your points
+//    //        buffer: 10,
+//    //        boolPixelCrs: true ,
+//    //        parse: parseLineStringData,
+//    //        boundsArr: [],
+//    //        unloadInvisibleTiles: true,
+//    //        reuseTiles: false,
+//    //        mecator:new fastmap.mapApi.MecatorTranform(),
+//    //        updateWhenIdle: true,
+//    //        tileSize:256,
+//    //        type: 'LineString',
+//    //
+//    //        restrictZoom:10
+//    //    }).addTo(map);
+//    var tileJson = new fastmap.mapApi.TileJSON('http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',{
+//        id:'ee',
+//
+//        hitDetection: true,
+//        debug: false,
+//        // this value should be equal to 'radius' of your points
+//        buffer: 10,
+//        boolPixelCrs: true ,
+//        parse: parseLineStringData,
+//        boundsArr: [],
+//        unloadInvisibleTiles: true,
+//        reuseTiles: false,
+//        mecator:new fastmap.mapApi.MecatorTranform(),
+//        updateWhenIdle: true,
+//        tileSize:256,
+//        type: 'LineString',
+//
+//        restrictZoom:10
+//    }).addTo(map);
+//    function parseLineStringData(data) {
+//        var geojson = {};
+//        geojson['features'] = [];
+//        $.each(data.data.RDLINK, function (index, item) {
+//            var obj = {};
+//            obj['type'] = "Feature";
+//            obj['geometry'] = {};
+//            obj['geometry']['type'] = 'LineString';
+//            obj['geometry']['coordinates'] = [];
+//            for (var i = 0, len = item.g.length; i < len; i = i+1) {
+//                obj['geometry']['coordinates'].push([item.g[i]]);
+//            }
+//            obj['properties'] = {
+//                'id': item.i,
+//                'color': item.s
+//            }
+//            geojson['features'].push(obj);
+//        });
+//        return geojson;
+//    }
+//    $('#btn_insert').click(
+//            function(){
+//                var shapectl = fastmap.uikit.ShapeEditorController();
+//                shapectl.setMap(map);
+//                shapectl.setEditingType('pathVertexInsert');
+//                var sobj = new fastmap.uikit.ShapeEditorResult();
+//                sobj.setOriginalGeometry(originalarray);
+//                sobj.setFinalGeometry(editLayer.drawGeometry);
+//                shapectl.startEditing(sobj);
+//            }
+//    );
+//
+//    $('#btn_enable').click(function(){
+//        fastmap.uikit.ShapeEditorController().stopEditing();
+//    })
+//    //放弃编辑
+//    $('#btn_abort').click(function(){
+//        fastmap.uikit.ShapeEditorController().abortEditing();
+//    })
+//
+//    $("#btn_copy").click(function(){
+//        var shapecopy = fastmap.uikit.ShapeEditorController();
+//        shapecopy.setMap(map);
+//        shapecopy.setEditingType('pathcopy');
+//        var sobjcopy = new fastmap.uikit.ShapeEditorResult();
+//        sobjcopy.setOriginalGeometry(originalarray);
+//        sobjcopy.setFinalGeometry(editLayer.drawGeometry);
+//        shapecopy.startEditing(sobjcopy);
+//    });
+//
+//    $("#btn_cut").click(function(){
+//        var shapecopy = fastmap.uikit.ShapeEditorController();
+//        shapecopy.setMap(map);
+//        shapecopy.setEditingType('pathcut');
+//        var sobjcopy = new fastmap.uikit.ShapeEditorResult();
+//        sobjcopy.setOriginalGeometry(originalarray);
+//        sobjcopy.setFinalGeometry(editLayer.drawGeometry);
+//        shapecopy.startEditing(sobjcopy);
+//    });
+//
+//    $('#btn_move').click(function(){
+//        var shapectl1 = fastmap.uikit.ShapeEditorController();
+//        shapectl1.setMap(map);
+//        shapectl1.setEditingType('pathVertexMove');
+//        var sobj = new fastmap.uikit.ShapeEditorResult();
+//        sobj.setOriginalGeometry(originalarray);
+//        sobj.setFinalGeometry(editLayer.drawGeometry);
+//        shapectl1.startEditing(sobj);
+//    });
+//
+//    $("#btn_delete").click(function(){
+//        var shapectl2 = fastmap.uikit.ShapeEditorController();
+//        shapectl2.setMap(map);
+//        shapectl2.setEditingType('pathVertexReMove');
+//        var sobj = new fastmap.uikit.ShapeEditorResult();
+//        sobj.setOriginalGeometry(originalarray);
+//        sobj.setFinalGeometry(editLayer.drawGeometry);
+//        shapectl2.startEditing(sobj);
+//    });
+//
+//    $('#btn_extend').click(function(){
+//        var shapectl3 = fastmap.uikit.ShapeEditorController();
+//        shapectl3.setMap(map);
+//        shapectl3.setEditingType('pathVertexAdd');
+//        var sobj = new fastmap.uikit.ShapeEditorResult();
+//        sobj.setOriginalGeometry(originalarray);
+//        sobj.setFinalGeometry(editLayer.drawGeometry);
+//        shapectl3.startEditing(sobj);
+//    });
+//
+//    var layerc = new fastmap.uikit.LayerController();
 </script>
 
 </html>
