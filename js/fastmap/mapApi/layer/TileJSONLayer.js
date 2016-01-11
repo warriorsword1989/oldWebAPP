@@ -586,13 +586,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
 
         }
-        if (linestyle.rdLinkType !== undefined) {
-            linestyle["rdLinkType"](ctx, coords, this);
-        }
-        //画桥
-        if (properties.kind === '2') {
-            this._drawDashLineOfAngle(g, coords, 5, this);
-        }
+        //if (linestyle.rdLinkType !== undefined) {
+        //    linestyle["rdLinkType"](ctx, coords, this);
+        //}
+        ////画桥
+        //if (properties.kind === '2') {
+        //    this._drawDashLineOfAngle(g, coords, 5, this);
+        //}
 
     },
 

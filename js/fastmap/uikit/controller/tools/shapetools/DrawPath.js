@@ -39,7 +39,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
-        this._map.on('mouseup', this.onMouseUp, this);
+        //this._map.on('mouseup', this.onMouseUp, this);
         this._map.on('dblclick', this.onDbClick, this);
     },
 
@@ -49,7 +49,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
-        this._map.off('mouseup', this.onMouseUp, this);
+        //this._map.off('mouseup', this.onMouseUp, this);
         this._map.off('dblclick', this.onDbClick, this);
     },
 
@@ -69,7 +69,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                 mousePoint = this.targetPoint;
             }
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+            //this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
 
     },
