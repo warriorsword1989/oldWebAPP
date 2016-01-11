@@ -157,19 +157,19 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                         endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
                         endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
                         if (polygon.containsPoint(startPoint)) {
-                            linkArr.push(data[item].properties.id);
-                            nodeArr.push(data[item].properties.snode);
+                            linkArr.push(parseInt(data[item].properties.id));
+                            nodeArr.push(parseInt(data[item].properties.snode));
                             if(polygon.containsPoint(endPoint)) {
-                                crossLinks.push(data[item].properties.id);
-                                crossNodes.push(data[item].properties.snode);
-                                crossNodes.push(data[item].properties.enode);
+                                crossLinks.push(parseInt(data[item].properties.id));
+                                crossNodes.push(parseInt(data[item].properties.snode));
+                                crossNodes.push(parseInt(data[item].properties.enode));
 
                             }
 
 
                         } else if (polygon.containsPoint(endPoint)) {
-                            linkArr.push(data[item].properties.id);
-                            nodeArr.push(data[item].properties.enode);
+                            linkArr.push(parseInt(data[item].properties.id));
+                            nodeArr.push(parseInt(data[item].properties.enode));
                         }
 
 
@@ -179,6 +179,8 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         }
         linkArr = this._arrayToWeigh(linkArr);
         nodeArr = this._arrayToWeigh(nodeArr);
+        crossLinks = this._arrayToWeigh(crossLinks);
+        crossNodes = this._arrayToWeigh(crossNodes);
         dataOfRectangle={
             links:linkArr,
             nodes:nodeArr,
