@@ -104,10 +104,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
         var protoArr = $scope.diverObj.details[0].names;
-        Array.prototype.clone=function(){ 
-            return this.slice(0); 
-        } 
-        var newInfo = protoArr.slice(-1).clone()
+        var newInfo = protoArr.slice(-1);
         var newArr = {};
         newArr.codeType = newInfo[0].codeType;
         newArr.detailId = newInfo[0].detailId;
