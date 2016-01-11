@@ -171,6 +171,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage) {
+                for(var k  in $scope.items) {
+                    if($('#'+ $scope.items[k].id).hasClass('in')) {
+                        $('#'+ $scope.items[k].id).removeClass('in')
+                    }
+                }
                     //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
                     Application.functions.getTipsListItems([59567201], arr, item.id, function (data) {
                         if (stage === 0) {
