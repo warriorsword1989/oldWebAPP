@@ -208,7 +208,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //    $scope.$parent.$parent.updateDataTips(data);
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
-                    console.log(data);
+                    // console.log(data);
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
@@ -306,15 +306,19 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     }else if(pItemId==="1407"){//高速分歧
-                        Application.functions.getRdObjectById(data.id, "RDBRANCH", function (data) {
-                            objCtrl.setCurrentObject(data.data);
-                            $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
-                                $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
-                                });
+                        $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
+                            $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                             });
                         });
+                        objCtrl.setCurrentObject(data.brID);
+                        /*$.each(data.brID,function(i,v){
+                                console.log(v.id)
+                            Application.functions.getRdObjectById(v.id, "RDBRANCH", function (d) {
+                                objCtrl.setCurrentObject(d.data);
+                            });
+                        });*/
                     }else if(pItemId==="1510"){//桥1510
                         Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
                             if (data.errcode === -1) {
@@ -353,7 +357,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //checkbox中的处理方法
             $scope.showLayers = function (item) {
                 item.choose = !item.choose;
-                console.log($scope.items);
+                // console.log($scope.items);
             };
         }
 
