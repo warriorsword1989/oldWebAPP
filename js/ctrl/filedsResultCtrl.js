@@ -212,11 +212,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //    $scope.$parent.$parent.updateDataTips(data);
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
-<<<<<<< HEAD
                     $("#picMapShow").css("display", "none");
                     // console.log(data);
-=======
->>>>>>> a4d3ac953c3ff35355866955a8a782465b2af8cd
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
