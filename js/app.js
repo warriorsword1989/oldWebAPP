@@ -132,6 +132,7 @@ function appInit(){
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl=new fastmap.uikit.ToolTipsController();
     tooltipsCtrl.setMap(map,'tooltip');
+    shapeCtrl.setMap(map);
     layerCtrl.on('layerOnShow',function(event){
         if(event.flag == true){
             map.addLayer(event.layer);

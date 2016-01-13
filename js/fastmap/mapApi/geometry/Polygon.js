@@ -6,17 +6,17 @@
  */
 fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
     type: "Polygon",
-    coordinates: [],
+    components: [],
     options: {},
     /**
      * 构造函数
      * @class Polygon
      * @constructor
-     * @param {Array}coordinates
+     * @param {Array}components
      * @param {Object}options
      */
-    initialize: function (coordinates, options) {
-        this.coordinates = coordinates;
+    initialize: function (components, options) {
+        this.components = components;
         this.options = options;
     },
     /**
@@ -146,8 +146,21 @@ fastmap.mapApi.Polygon = fastmap.mapApi.Collection.extend({
     clone: function () {
         var polygon = new fastmap.mapApi.Polygon(null);
         return polygon;
+    },
+    /**
+     * 获取多少为小数
+     * @param num
+     * @param sig
+     * @returns {number}
+     */
+    limitSigDigs: function(num, sig) {
+        var fig = 0;
+        if (sig > 0) {
+            fig = parseFloat(num.toPrecision(sig));
+        }
+        return fig;
     }
 });
-fastmap.mapApi.polygon=function(coordiates,options) {
-    return new fastmap.mapApi.Polygon(coordiates, options);
+fastmap.mapApi.polygon=function(components,options) {
+    return new fastmap.mapApi.Polygon(components, options);
 };

@@ -163,12 +163,6 @@ fastmap.uikit.PathCut = L.Handler.extend({
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     },
-    disable: function () {
-        if (!this._enabled) { return; }
-        this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
-    },
     /***
      * 重新设置节点
      */

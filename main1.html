@@ -115,14 +115,14 @@
                         <div class="tab-pane fade in active" id="wrongDiv">
                             <div ng-include="errorCheckTab"></div>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>
-        <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden" max-size="350px" min-size="350px">
+        <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden;overflow-x:hidden" max-size="350px" min-size="350px">
             <div ng-include="objectEditURL" style="margin-bottom: 30px; overflow-y: auto; height: 98%; "></div>
-            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; height: 35px;">
-                <div  style=" margin: 0 auto;text-align:center;">
+            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; ">
+                <div  style=" margin: 0 auto;padding-top: 5px;padding-bottom:5px;border-top: 1px solid #ccc;text-align:center;">
                     <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;"  ng-click="save()">保存</button>
                     <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="delete()">删除</button>
                     <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="cancel()">取消</button>
