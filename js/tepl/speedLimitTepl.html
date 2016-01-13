@@ -59,7 +59,7 @@
                             <label class="col-sm-3 control-label">限速PID</label>
 
                             <div class="col-sm-9">
-                                <span class="label label-info">{{speedLimitData.id}}</span>
+                                <span class="label label-info" ng-bind="speedLimitData.pid"></span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -67,7 +67,7 @@
                             <label class="col-sm-3 control-label">限速值</label>
 
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" ng-model="speedLimitData.value">
+                                <input type="text" class="form-control" ng-model="speedLimitData.speedValue">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -75,7 +75,7 @@
                             <label class="col-sm-3 control-label">限速类型</label>
 
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="speedLimitData.tp"
+                                <select class="form-control" ng-model="speedLimitData.speedType"
                                         ng-options="value.id as value.label for value in speedTypeOptions" >
                                 </select>
                             </div>
@@ -96,7 +96,7 @@
                             <label class="col-sm-3 control-label">作用方向</label>
 
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="speedLimitData.rdDir"
+                                <select class="form-control" ng-model="speedLimitData.direct"
                                         ng-options="value.id as value.label for value in speedDirectTypeOptions" >
                                 </select>
                             </div>
@@ -114,7 +114,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">限速来源</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="speedLimitData.src" ng-options="value.id as value.label for value in limitSrcOption">
+                                <select class="form-control" ng-model="speedLimitData.limitSrc" ng-options="value.id as value.label for value in limitSrcOption">
                                     <option>--</option>
                                 </select>
                             </div>
@@ -154,7 +154,7 @@
                             <label class="col-sm-3 control-label">关联LinkID</label>
 
                             <div class="col-sm-9">
-                                <input type="text" ng-model="speedLimitData.f.id">
+                                <input type="text" ng-model="speedLimitData.linkPid">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
