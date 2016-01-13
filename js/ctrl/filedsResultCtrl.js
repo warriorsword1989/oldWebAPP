@@ -207,16 +207,33 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //    $scope.$parent.$parent.updateDataTips(data);
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
+                    //if(pItemId!="1203"){
+                    //    map.panTo({lat: item["g"][1], lon: item["g"][0]});
+                    //}
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
 
                         Application.functions.getRdObjectById(data.id, "RDSPEEDLIMIT", function (data) {
                             objCtrl.setCurrentObject(data.data);
+                            $scope.dataId=data.data.linkPid;
+                            Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (data) {
+                                var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                                for (var i = 0, len = linkArr.length; i < len; i++) {
+                                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                                    points.push(point);
+                                }
+                                map.panTo({lat: points[0].y, lon: points[0].x});
+                                var line = fastmap.mapApi.lineString(points);
+                                selectCtrl.onSelected({geometry: line, id: $scope.dataId});
+                                if (objCtrl.updateObject !== "") {
+                                    objCtrl.updateObject();
+                                }
+                            });
                             $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/speedLimitTepl.html";
-                                $ocLazyLoad.load('ctrl/sceneSpeedLimitCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneSpeedLimitTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 });
                             });
                         });
@@ -367,6 +384,5 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 console.log($scope.items);
             };
         }
-
     ]
 )

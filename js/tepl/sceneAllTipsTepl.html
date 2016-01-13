@@ -98,6 +98,69 @@
     <div class="middle">
         <div class="left" >
             <div class="panel panel-default" style="margin-bottom: 0px;height:100%;" >
+                <div class="panel-body" style="padding: 0px;" ng-if="allTipsType==1101">
+                    <form class="form-horizontal" method="get">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top: 0px;">
+                            <label class="col-sm-4 control-label" >状态:</label>
+
+                            <div class="col-sm-8" style="padding-top: 2px">
+                                <span  class="label label-info" ng-bind="showContent"></span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-top: 0px;">
+                            <label class="col-sm-4 control-label">关联道路ID:</label>
+
+                            <div class="col-sm-8" style="padding-top: 2px">
+                                <span class="label label-default" >{{dataTipsData.f.id}}</span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top: 0px;">
+                            <label class="col-sm-4 control-label">限速方向:</label>
+
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <span class="label label-default" >{{rdDir}}</span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top: 0px;">
+                            <label class="col-sm-4 control-label">限速时速:</label>
+                            <div class="col-sm-8" style="padding-top: 5px">
+                                <span class="label label-default" >{{dataTipsData.value}}</span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top: 0px;">
+                            <label class="col-sm-4 control-label">限速标志:</label>
+                            <div class="col-sm-8" style="padding-top: 2px">
+                                <span ng-if="dataTipsData.se==0" class="label label-default" >限速开始</span>
+                                <span ng-if="dataTipsData.se==1" class="label label-default" >解除限速</span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top: 0px;">
+                            <label class="col-sm-4 control-label">采集标志:</label>
+                            <div class="col-sm-8" style="padding-top: 2px">
+                                <span ng-if="dataTipsData.flag==0" class="label label-default" >现场采集</span>
+                                <span ng-if="dataTipsData.flag==1" class="label label-default" >理论判断</span>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"
+                             style="margin-top: 1px;margin-bottom: 1px"></div>
+                        <div class="form-group" style="height: 10%;margin-top: 0px;margin-bottom: 3px;">
+                            <label class="col-sm-4 control-label">限速来源:</label>
+                            <div class="col-sm-8" style="padding-top: 2px">
+                                <span class="label label-default" ng-bind="limitSrc"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="panel-body" style="padding: 0px;" ng-if="allTipsType==1203">
                     <form class="form-horizontal" method="get">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
