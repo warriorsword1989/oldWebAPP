@@ -424,8 +424,11 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     $scope.dateSelect = function(e){
         var $datetip = $(e.target).parents(".date-well").find(".datetip");
         if($datetip.css('display') == 'none'){
-            $(".datetip").css('top',(getMousePos(e).y -20) + 'px');
-            $(".arrow").css('right',(15) + 'px');
+            // $(".datetip").css('top',(getMousePos(e).y -20) + 'px');
+            // $(".arrow").css('right',(15) + 'px');
+            $(".datetip").css('top','10%');
+            // $(e.target).parents(".date-well").find('.bg-hide-div').css('background-color')
+            console.log(document.documentElement.scrollTop,getMousePos(e).y,250)
             $datetip.fadeIn();
         }else{
             $datetip.fadeOut();
