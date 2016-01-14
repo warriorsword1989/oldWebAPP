@@ -385,10 +385,6 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
             /*如果图形表有数据 schematic*/
             if(dObj.schematics.length > 0){
             }
-                /*$scope.arrowCode = '032a4031';
-                $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
-                $("#picMapImg").attr('src',$scope.arrowMapShow);
-                $("#picMapDesc").text($scope.arrowCode);*/
         }
     }
     /*clone对象*/
@@ -428,28 +424,17 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     }
     /*过滤details[0].names中未修改的名称*/
     $scope.delEmptyNames = function(arr){
-        $.each(arr,function(i,v){
-            if(!v.objStatus)
-                $scope.arrRemove(arr,i);
-        })
+        for(var i=arr.length-1;i>-1;i--){
+            if(!arr[i].objStatus){
+                // $scope.arrRemove(arr,i);
+                arr.splice(i,1);
+            }
+        }
     }
-    /*$scope.resetAlertify = function () {
-        alertify.set({
-            labels : {
-                ok     : "OK",
-                cancel : "Cancel"
-            },
-            delay : 5000,
-            buttonReverse : false,
-            buttonFocus   : "ok"
-        });
-    }*/
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
         newObjData = $scope.clone($scope.diverObj);
         newObjData.relationshipType = $scope.relationCode;
-console.log($scope.branchType,$scope.exitNum,$scope.estabType,$scope.nameKind,$scope.voiceDir)
-console.log(newObjData)
         if(newObjData.details.length == 0)
             newObjData.details.push({});
         newObjData.details[0].branchType = $scope.branchType;
@@ -464,7 +449,6 @@ console.log(newObjData)
         newObjData.details[0].branchPid = $scope.branchPid;
         if(newObjData.details[0].names)
             newObjData.details[0].names = $scope.diverObj.details[0].names.reverse();
-// console.log(newObjData)
         objectEditCtrl.setCurrentObject(newObjData);
         objectEditCtrl.save();
         var param = {};
@@ -473,25 +457,19 @@ console.log(newObjData)
         param.projectId = 11;
         param.data = objectEditCtrl.changedProperty;
         /*解决linkPid报错*/
-    // console.log(param)
-    // console.log($scope.diverObj.details[0].names)
-    // console.log(param.data.details[0].names)
         if(param.data.details){
             delete param.data.details[0].linkPid;
             if(param.data.details[0].names){
                 $.each(param.data.details[0].names,function(i,v){
                     delete v.linkPid;
-                    // delete v.objStatus;
                 });
                 $scope.delEmptyNames(param.data.details[0].names);
             }
         }
-    // console.log(objectEditCtrl)
         if(param.data == false){
             swal("操作失败", "属性值无任何改变！", "error");
             return false;
         }
-    console.log(JSON.stringify(param))
         Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
             var outPutCtrl = fastmap.uikit.OutPutController();
             if(data.errcode == 0){
