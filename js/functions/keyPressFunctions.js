@@ -83,7 +83,8 @@ function keyEvent(ocLazyLoad, scope) {
                         coordinate.push([link.components[index].x, link.components[index].y]);
                     }
                     var paramOfLink = {
-                        "command": "createlink",
+                        "command": "CREATE",
+                        "type":"RDLINK",
                         "projectId": 11,
                         "data": {
                             "eNodePid": 0,
@@ -116,7 +117,8 @@ function keyEvent(ocLazyLoad, scope) {
 
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
-                        "command": "createrestriction",
+                        "command": "CREATE",
+                        "type":"RESTRICTION",
                         "projectId": 11,
                         "data": featCodeCtrl.getFeatCode()
                     };
@@ -269,7 +271,8 @@ function keyEvent(ocLazyLoad, scope) {
                             coordinate.push([link.components[index].x, link.components[index].y]);
                         }
                         var param = {
-                            "command": "updatelink",
+                            "command": "UPDATE",
+                            "type":"RDLINK",
                             "projectId": 11,
                             "data": {
                                 "pid": parseInt(selectCtrl.selectedFeatures.id),
