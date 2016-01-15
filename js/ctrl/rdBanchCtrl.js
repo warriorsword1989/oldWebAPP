@@ -36,12 +36,17 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         Application.functions.getRdObjectById($scope.diverId, "RDBRANCH", function (data) {
             // oldData = data.data;
             // objectEditCtrl.setOriginalData(data.data);
-    // console.log('data:',oldData)
-            $scope.diverObj = data.data;
-            // $scope.diverObj.vias = [{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1}]
-            $scope.initDiver();
-            $scope.$parent.$parent.showLoading = false;  //showLoading
-            $scope.$apply();
+            if(data.errcode == 0){
+                $scope.diverObj = data.data;
+                // $scope.diverObj.vias = [{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1}]
+                $scope.initDiver();
+                $scope.$parent.$parent.showLoading = false;  //showLoading
+                $scope.$apply();
+            }else{
+                $scope.$parent.$parent.showLoading = false;  //showLoading
+                $scope.$apply();
+                swal("查询失败", "问题原因："+data.errmsg, "error");
+            }
         });
     }
     $scope.getObjectById();
@@ -450,6 +455,11 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
         $scope.$parent.$parent.showLoading = true;  //showLoading
+        if(!$scope.diverObj){
+            $scope.$parent.$parent.showLoading = false;  //showLoading
+            swal("操作失败", "请输入属性值！", "error");
+            return false;
+        }
         newObjData = $scope.clone($scope.diverObj);
         newObjData.relationshipType = $scope.relationCode;
         newObjData.pid = parseInt($scope.diverId);
