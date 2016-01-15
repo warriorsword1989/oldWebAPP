@@ -46,6 +46,7 @@ fastmap.uikit.HighLightController = (function () {
                     }
                     if (this.highLightLayersArr[i].linksArr) {
                         this.highLightLayersArr[i].linksArr = [];
+                        this.highLightLayersArr[i].nodesArr = [];
                     }
                     this.highLightLayersArr[i].initFlag = false;
                     var map = this.highLightLayersArr[i]._map;

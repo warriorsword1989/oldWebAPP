@@ -77,4 +77,47 @@ Application.functions.changeDataTipsState=function(param,func) {
             func(data)
         });
 };
+/**
+ *  获取箭头图图片组
+ * @param param
+ * @param func
+ */
+Application.functions.getArrowImgGroup=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/meta/patternImage/search?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
+
+/**
+ *  获取箭头图图片 
+ * @param param
+ * @param func
+ */
+Application.functions.getArrowImg=function(param) {
+    return Application.url+'/meta/patternImage/getById?parameter=' + param;
+};
+
+/**
+ *  更新高速分歧属性值 
+ * @param param
+ * @param func
+ */
+Application.functions.saveBranchInfo=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/edit?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
+/**
+ *  高速分歧 名称发音和语音 
+ * @param param
+ * @param func
+ */
+Application.functions.getNamePronunciation=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/meta/pinyin/convert?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
 

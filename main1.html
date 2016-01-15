@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="js/lib/leaflet-0.7.3/leaflet.css">
     <link rel="stylesheet" type="text/css" href="js/lib/timepicki/css/timepicki.css">
     <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
     <link rel="stylesheet" href="css/main.css">
 
     <style>
@@ -18,7 +19,39 @@
             display: inline-block;
 
         }
-
+        /*高速分歧map上图片显示*/
+        #picMapShow{
+            width: 120px;
+            height: 98px;
+            border-right: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+            top: 40px;
+            position: absolute;
+            right: 0px;
+            background-color: #fff;
+            z-index: 999;
+            border-bottom-left-radius: 4px;
+            box-shadow: -4px 5px 8px 0px;
+            display: none;
+        }
+        #picMapImg{
+            width: 100%;
+            height: 100%;
+            border-bottom-left-radius: 4px;
+            text-align: center;
+        }
+        #picMapDesc{
+            background-color: #fff;
+            top: 5px;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            /*border-left: 1px solid #C0C0C0;
+            border-right: 1px solid #c0c0c0;*/
+        }
+        .show-animation{
+            transition:all 0.5s;
+        }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -93,7 +126,10 @@
                         <div id="popoverTips" style="position:relative;display:none;z-index:2;width:400px">
                                 <div ng-include="dataTipsURL" style="width: 400px"></div>
                         </div>
-
+                        <div id="picMapShow">
+                            <img id="picMapImg" alt="无此箭头图">
+                            <div id="picMapDesc"></div>
+                        </div>
                     </div>
                 </div>
                 <div ui-layout-container style="overflow: hidden">
@@ -130,7 +166,8 @@
             </div>
         </div>
     </div>
-
+    <div></div>
+<div ng-show="showLoading" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>
 <div id='tooltip' class="tooltipclass"></div>
 <div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">

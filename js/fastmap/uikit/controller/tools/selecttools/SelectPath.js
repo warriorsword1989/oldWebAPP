@@ -62,12 +62,15 @@ fastmap.uikit.SelectPath = L.Handler.extend({
             var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
             var id = null;
+            var transform = new fastmap.mapApi.MecatorTranform();
             for (var item in data) {
                 if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
+                    var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
+                    point= new fastmap.mapApi.Point(point[0], point[1]);
                     id = data[item].properties.id;
 
                     if (this.linksFlag) {
-                        this.currentEditLayer.fire("getId", {id: id});
+                        this.currentEditLayer.fire("getId", {id: id,point:point});
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
                         }

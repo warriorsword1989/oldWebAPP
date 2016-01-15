@@ -212,6 +212,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     //    $scope.$parent.$parent.updateDataTips(data);
                     //}
                     selectCtrl.fire("selectByAttribute", {feather: data});
+                    $("#picMapShow").css("display", "none");
+                    // console.log(data);
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
@@ -335,6 +337,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     }else if(pItemId==="1407"){//高速分歧
+                        $("#picMapShow").css("display", "block");
                         $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
                             $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
@@ -342,6 +345,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             });
                         });
                         objCtrl.setCurrentObject(data.brID);
+                        map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
                         /*$.each(data.brID,function(i,v){
                                 console.log(v.id)
                             Application.functions.getRdObjectById(v.id, "RDBRANCH", function (d) {

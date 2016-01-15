@@ -8,13 +8,29 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
-        var tooltipsCtrl=fastmap.uikit.ToolTipsController();
+        var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
-        tooltipsCtrl.setMap(map,"tooltip");
-        $scope.addShape = function (type,num) {
-            if(tooltipsCtrl.getCurrentTooltip()){
+        //两点之间的距离
+        $scope.distance = function (pointA, pointB) {
+            var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+            return Math.sqrt(len);
+        };
+        $scope.includeAngle = function (pointA, pointB) {
+            var angle, dValue = pointA.x - pointB.x,
+                PI = Math.PI;
+
+            if (dValue === 0) {
+                angle = PI / 2;
+            } else {
+                angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
+            }
+            return angle
+        };
+        $scope.addShape = function (type, num) {
+            if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
             if (type === "restriction") {
@@ -65,6 +81,53 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("双击地图结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
+            } else if (type === "speedLimit") {
+                var minLen = 100000, pointsOfDis, pointForAngle, angle;
+                map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.disable();
+
+                if (selectCtrl.selectedFeatures) {
+                    if (selectCtrl.selectedFeatures.direct === 1) {
+                        tooltipsCtrl.setEditEventType('speedLimit');
+                        var point = selectCtrl.selectedFeatures.point;
+                        var link = selectCtrl.selectedFeatures.geometry.components;
+                        for (var i = 0, len = link.length; i < len; i++) {
+                            pointsOfDis = $scope.distance(point, link[i]);
+                            if (pointsOfDis < minLen) {
+                                minLen = pointsOfDis;
+                                pointForAngle = link[i];
+                            }
+                        }
+                        angle = $scope.includeAngle(point, pointForAngle);
+                        console.log(angle);
+                        console.log("angle  " + angle)
+                        var marker = {
+                            flag: false,
+                            point: point,
+                            type: "marker",
+                            angle: angle,
+                            orientation: "2",
+                            pointForDirect: point
+                        };
+                        var editLayer = layerCtrl.getLayerById('edit');
+                        layerCtrl.pushLayerFront('edit');
+                        var sobj = shapeCtrl.shapeEditorResult;
+                        editLayer.drawGeometry = marker;
+                        editLayer.draw(marker, editLayer);
+                        sobj.setOriginalGeometry(marker);
+                        sobj.setFinalGeometry(marker);
+                        shapeCtrl.setEditingType("transformDirect");
+                        shapeCtrl.startEditing();
+                        tooltipsCtrl.setCurrentTooltip("选择方向!");
+                    }else {
+                        tooltipsCtrl.setEditEventType('speedLimit');
+                        tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
+                        shapeCtrl.setEditingType("transformDirect");
+                    }
+
+                }
+
+
             }
         }
 
