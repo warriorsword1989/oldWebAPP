@@ -19,6 +19,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.linksObj = this.options.linksObj;//高亮进入线和退出线的id
         this.dataTipsId = this.options.dataTips;//高亮dataTips的id
         this.linksArr = this.options.linksArr;//高亮的路口的线
+        this.nodesArr=this.options.nodesArr;//高亮路口的点
         this.linkPid = this.options.linkPid;//高亮link的id
         this.restrictId = this.options.restrictId;//高亮交限的id
         this.initFlag = this.options.initFlag || false;//当地图变化时,才能激发this.draw()函数
@@ -272,15 +273,19 @@ fastmap.uikit.HighLightRender = L.Class.extend({
     },
     /**
      *初始化路口的线高亮
-     * @param idArr
+     * @param linksArr
+     * @param nodesArr
      */
-    drawLinksOfCrossForInit: function (idArr) {
-        this.linksArr = idArr;
-        var idObj = {};
+    drawLinksOfCrossForInit: function (linksArr,nodesArr) {
+        this.linksArr = linksArr,
+        this.nodesArr=nodesArr;
+        var linkObj = {},nodeObj={},nodeStyle;
         for (var k = 0, lenK = this.linksArr.length; k < lenK; k++) {
-            idObj[this.linksArr[k]] = true;
+            linkObj[this.linksArr[k]] = true;
         }
-
+        for (var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
+            nodeObj[this.nodesArr[j]] = true;
+        }
         for (var index in this.tiles) {
             this.tiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
             var data = this.tiles[index].data;
@@ -301,14 +306,22 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     var style = this.layer.styleFor(feature, color);
 
                     var geom = feature.geometry.coordinates;
-                    if (idObj[feature.properties.id]) {
+                    if (linkObj[feature.properties.id]) {
+                        if(nodeObj[feature.properties.enode]||nodeObj[feature.properties.snode]) {
+                            nodeStyle={
+                                color: '#FFFF00',
+                                radius: 4}
+                        }else{
+                            nodeStyle={
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }
+
+                        }
                         this.layer._drawLineString(ctx, geom, true, {
                             size: 2,
                             color: '#F63428'
-                        }, {
-                            color: '#FFFF00',
-                            radius: 4
-                        }, feature.properties);
+                        }, nodeStyle, feature.properties);
                     } else {
                         this.layer._drawLineString(ctx, geom, true, style, {
                             color: 'rgba(105,105,105,1)',
@@ -328,9 +341,12 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param zoom
      */
     drawLinksOfCross: function (tile, zoom) {
-        var idObj = {};
+        var linkObj = {},nodeObj={},nodeStyle;
         for (var k = 0, lenK = this.linksArr.length; k < lenK; k++) {
-            idObj[this.linksArr[k]] = true;
+            linkObj[this.linksArr[k]] = true;
+        }
+        for (var j= 0,lenJ=this.nodesArr.length;j<lenJ;j++) {
+            nodeObj[this.nodesArr[j]] = true;
         }
         var data = tile.data;
         var ctx = {
@@ -350,14 +366,22 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 var style = this.layer.styleFor(feature, color);
 
                 var geom = feature.geometry.coordinates;
-                if (idObj[feature.properties.id]) {
+                if (linkObj[feature.properties.id]) {
+                    if(nodeObj[feature.properties.enode]||nodeObj[feature.properties.snode]) {
+                        nodeStyle={
+                            color: '#FFFF00',
+                            radius: 4}
+                    }else{
+                        nodeStyle={
+                            color: 'rgba(105,105,105,1)',
+                            radius: 3
+                        }
+
+                    }
                     this.layer._drawLineString(ctx, geom, true, {
                         size: 2,
                         color: '#F63428'
-                    }, {
-                        color: '#FFFF00',
-                        radius: 4
-                    }, feature.properties);
+                    }, nodeStyle, feature.properties);
                 } else {
                     this.layer._drawLineString(ctx, geom, true, style, {
                         color: 'rgba(105,105,105,1)',

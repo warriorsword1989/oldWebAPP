@@ -92,11 +92,12 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         map.currentTool.disable();
         var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
         var marker = {
+            flag:true,
             point: point,
             type: "marker",
-            orientation:"1"
+            angle:Math.PI/3,
+            orientation:"2"
         };
-
         var editLayer = layerCtrl.getLayerById('edit');
         layerCtrl.pushLayerFront('edit');
         var sobj = shapeCtrl.shapeEditorResult;
@@ -121,6 +122,10 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         }
     };
     $scope.$parent.$parent.save = function () {
+        if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
+            console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
+            return;
+        }
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         var param = {
