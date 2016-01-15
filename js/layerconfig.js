@@ -78,7 +78,7 @@ Application.layersConfig =
         groupid: "dataLayers",
         groupname: "作业参考",
         layers: [{
-            url:'http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考线数据',
@@ -130,7 +130,7 @@ Application.layersConfig =
             }
 
         },{
-            url:'http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考点数据',
@@ -183,7 +183,7 @@ Application.layersConfig =
         groupid:'worklayer',
         groupname:'编辑图层',
         layers: [{
-            url:'http://192.168.4.130/FosEngineWeb/fcc/tip/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/fcc/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -233,7 +233,7 @@ Application.layersConfig =
             }
 
         },{
-            url:'http://192.168.4.130/FosEngineWeb/fcc/tip/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/fcc/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
