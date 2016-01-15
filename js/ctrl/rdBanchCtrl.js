@@ -9,6 +9,10 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     var divergenceIds = objCtrl.data;
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var newObjData = {};
+    var linksOfRestric = {};
+    var layerCtrl = fastmap.uikit.LayerController();
+    var highLightLayer = fastmap.uikit.HighLightController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.divergenceIds = divergenceIds;
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
@@ -24,6 +28,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     }
     $scope.setOriginalDataFunc();
     $scope.getObjectById = function(){
+        $scope.$parent.$parent.showLoading = true;  //showLoading
         // Application.functions.getRdObjectById(13920, "RDBRANCH", function (data) {
         // Application.functions.getRdObjectById(40378080, "RDBRANCH", function (data) {
         // Application.functions.getRdObjectById(3893, "RDBRANCH", function (data) {      //箭头图
@@ -35,6 +40,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
             $scope.diverObj = data.data;
             // $scope.diverObj.vias = [{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1}]
             $scope.initDiver();
+            $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();
         });
     }
@@ -44,6 +50,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         $scope.diverObj = {};
         $scope.diverId = id;
         $scope.getObjectById();
+        $scope.setOriginalDataFunc();
     }
     /*点击关系类型*/
     $scope.switchRelType = function(code){
@@ -150,7 +157,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         newArr.nameClass = 0;
         newArr.nameGroupid = protoArr.length + 1;
         newArr.phonetic = '';
-        newArr.pid = '';
+        newArr.pid = 0;
         newArr.voiceFile = '';
         newArr.srcFlag = 0;
         newArr.seqNum = 0;
@@ -332,10 +339,13 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     ];
     /*分歧名称输入完查询发音和拼音*/
     $scope.diverName = function(id,name){
+        $scope.$parent.$parent.showLoading = true;  //showLoading
         var param = {
             "word":name
         }
         Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
+            $scope.$parent.$parent.showLoading = false;  //showLoading
+            $scope.$apply();
             if(data.errcode == 0){
                 $.each($scope.diverObj.details[0].names,function(i,v){
                     if(v.nameGroupid == id){
@@ -355,8 +365,12 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         /*经过线*/
         if(dObj){
             $scope.relationCode = dObj.relationshipType;
+            linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
+            linksOfRestric["outLink"] = $scope.diverObj.outLinkPid+'';
+            var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
+            highLightLinks.drawOfLinksForInit();
+            highLightLayer.pushHighLightLayers(highLightLinks);
             /*模式图信息条数*/
-            $scope.detailLength = dObj.details.length + dObj.schematics.length;
             if(dObj.details.length > 0){
                 $scope.arrowFlag = dObj.details[0].arrowFlag;
                 /*分歧类型*/
@@ -381,9 +395,11 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 $scope.branchPid = dObj.details[0].branchPid;
                 /*底图代码*/
                 $scope.patternCode = dObj.details[0].patternCode;
-            }
-            /*如果图形表有数据 schematic*/
-            if(dObj.schematics.length > 0){
+                $(".detail-well").show();
+                $("#picMapShow").show();
+            }else{
+                $(".detail-well").hide();
+                $("#picMapShow").hide();
             }
         }
     }
@@ -433,8 +449,10 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     }
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
+        $scope.$parent.$parent.showLoading = true;  //showLoading
         newObjData = $scope.clone($scope.diverObj);
         newObjData.relationshipType = $scope.relationCode;
+        newObjData.pid = parseInt($scope.diverId);
         if(newObjData.details.length == 0)
             newObjData.details.push({});
         newObjData.details[0].branchType = $scope.branchType;
@@ -467,11 +485,14 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
             }
         }
         if(param.data == false){
+            $scope.$parent.$parent.showLoading = false;  //showLoading
             swal("操作失败", "属性值无任何改变！", "error");
             return false;
         }
         Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
             var outPutCtrl = fastmap.uikit.OutPutController();
+            $scope.$parent.$parent.showLoading = false;  //showLoading
+            $scope.$apply();
             if(data.errcode == 0){
                 $scope.setOriginalDataFunc();
                 objectEditCtrl.setOriginalData(param.data);
@@ -482,5 +503,56 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 outPutCtrl.pushOutput(data.errmsg);
             }
         });
+    }
+    /*删除pid*/
+    $scope.$parent.$parent.delete = function(){
+        swal({
+            title: "确定操作吗？",
+            text: "你确定要删除此PID数据吗？",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: '删除',
+            cancelButtonText:'取消'
+        },
+        function(){
+            $scope.$parent.$parent.showLoading = true;  //showLoading
+            $scope.$apply();
+            var param = {
+                "command":"DELETE",
+                "type":"RDBRANCHDETAIL",
+                "projectId":11,
+                "objId":$scope.diverObj.details[0].pid
+            };
+            Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
+                var outPutCtrl = fastmap.uikit.OutPutController();
+                $scope.$parent.$parent.showLoading = false;  //showLoading
+                $scope.$apply();
+                if(data.errcode == 0){
+                    $scope.getObjectById();
+                    $scope.setOriginalDataFunc();
+                    objectEditCtrl.setOriginalData(param.data);
+                    if(highLightLayer.highLightLayersArr.length!==0) {
+                        highLightLayer.removeHighLightLayers();
+                    }
+                    $timeout(function(){
+                        swal("删除成功", "PID数据删除成功！", "success");
+                    },500)
+                    outPutCtrl.pushOutput(data.errmsg);
+                }else{
+                    $timeout(function(){
+                        swal("删除失败", "问题原因："+data.errmsg, "error");
+                    })
+                    outPutCtrl.pushOutput(data.errmsg);
+                }
+            });
+        });
+    }
+    /*取消属性编辑*/
+    $scope.$parent.$parent.cancel = function(){
+        if($scope.getObjectById()){
+            $scope.$parent.$parent.showLoading = false;  //showLoading
+            $scope.$apply();
+        }
     }
 })

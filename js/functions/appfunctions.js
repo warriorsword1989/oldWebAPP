@@ -99,7 +99,7 @@ Application.functions.getArrowImg=function(param) {
 };
 
 /**
- *  保存高速分歧属性值 
+ *  更新高速分歧属性值 
  * @param param
  * @param func
  */
