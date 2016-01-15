@@ -345,6 +345,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             });
                         });
                         objCtrl.setCurrentObject(data.brID);
+                        map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
                         /*$.each(data.brID,function(i,v){
                                 console.log(v.id)
                             Application.functions.getRdObjectById(v.id, "RDBRANCH", function (d) {
