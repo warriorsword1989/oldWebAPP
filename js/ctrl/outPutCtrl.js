@@ -5,7 +5,7 @@ var outPutModule = angular.module('lazymodule', []);
 outPutModule.controller('outPutController', function ($scope, $timeout) {
     $scope.outputtext = ""
     var output = fastmap.uikit.OutPutController();
-
+    $scope.outputtext=output.outPuts.join("\n----------------------------------\n");
     output.updateOutPuts=function(){
         var outValue=output.outPuts;
         if(outValue.length===0) {

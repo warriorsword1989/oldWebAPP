@@ -53,9 +53,37 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
                     break;
             }
         }
-
         switch ($scope.allTipsType){
             case "1101":
+                $scope.speedDirectTypeOptions=[
+                    {"id":0,"label":"0  未调查"},
+                    {"id": 2, "label": "2 顺方向"},
+                    {"id": 3, "label": "3 逆方向"}
+                ];
+                for(var i in $scope.speedDirectTypeOptions){
+                    if($scope.speedDirectTypeOptions[i].id==$scope.dataTipsData.rdDir){
+                        $scope.rdDir=$scope.speedDirectTypeOptions[i].label;
+                    }
+                }
+
+
+                $scope.limitSrcOption=[
+                    {"id": 0, "label":"0  无"},
+                    {"id": 1, "label": "1 现场标牌"},
+                    {"id": 2, "label": "2 城区标识"},
+                    {"id": 3, "label": "3 高速标识"},
+                    {"id": 4, "label": "4 车道限速"},
+                    {"id": 5, "label": "5 方向限速"},
+                    {"id": 6, "label": "6 机动车限速"},
+                    {"id": 7, "label": "7 匝道未调查"},
+                    {"id": 8, "label": "8 缓速行驶"},
+                    {"id": 9, "label": "9 未调查"}
+                ];
+                for(var i in $scope.limitSrcOption){
+                    if($scope.limitSrcOption[i].id==$scope.dataTipsData.src){
+                        $scope.limitSrc=$scope.limitSrcOption[i].label;
+                    }
+                }
                 break;
             case "1201":
                 break;
@@ -82,7 +110,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
                 break;
             case "1407":
                 break;
-            case "1510":
+            case "1510"://桥
+
                 break;
             case "1604":
                 break;

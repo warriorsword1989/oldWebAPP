@@ -180,8 +180,10 @@ fastmap.uikit.LayerController = (function () {
             getLayerById: function (id) {
                 var layer = null;
                 for(var item in this.layers){
-                    if(this.layers[item].options.id === id){
-                        layer = this.layers[item];
+                    if(this.layers[item].options){
+                        if(this.layers[item].options.id === id){
+                            layer = this.layers[item];
+                        }
                     }
                 }
                 return layer;
