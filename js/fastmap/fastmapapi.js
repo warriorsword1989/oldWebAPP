@@ -101,9 +101,11 @@
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResult.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResultFeedback.js",
                 "fastmap/uikit/controller/tools/shapetools/HighLightRender.js",
+                "fastmap/uikit/controller/tools/shapetools/PathNodeMove.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectNode.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectPath.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectForRestriction.js",
-                "fastmap/uikit/controller/tools/selecttools/SelectNode.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectRestriction.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectDataTips.js",
                 "fastmap/uikit/controller/tools/shapetools/GeometryValidation.js",
                 //uikit/controller/ctlmodel

@@ -205,7 +205,8 @@ function keyEvent(ocLazyLoad, scope) {
                             coordinate.push([link.components[index].x, link.components[index].y]);
                         }
                         var param = {
-                            "command": "updatelink",
+                            "command": "UPDATE",
+                            "type":"RDLINK",
                             "projectId": 11,
                             "data": {
                                 "pid": parseInt(selectCtrl.selectedFeatures.id),

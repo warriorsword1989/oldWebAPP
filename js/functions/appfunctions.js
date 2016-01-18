@@ -78,3 +78,9 @@ Application.functions.changeDataTipsState=function(param,func) {
         });
 };
 
+Application.functions.getLinksbyNodeId = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getLinkByNodePid?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}

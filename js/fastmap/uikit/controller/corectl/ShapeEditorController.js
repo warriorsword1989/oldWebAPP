@@ -146,6 +146,10 @@ fastmap.uikit.ShapeEditorController=(function() {
                         this.currentTool = toolsObj[type];
                         this.currentTool.enable();
                         break;
+                    case 'pathNodeMove':
+                        this.currentTool = toolsObj[type];
+                        this.currentTool.enable();
+                        break;
                     case  'reShape':
                         this.currentTool = function (line) {
                             line.reShape();

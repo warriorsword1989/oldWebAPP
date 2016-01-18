@@ -1,9 +1,7 @@
 /**
- * Created by zhongxiaoming on 2016/1/12.
- * Class SelectNode
+ * Created by liwanchong on 2015/11/4.
  */
-
-fastmap.uikit.SelectNode = L.Handler.extend({
+fastmap.uikit.SelectRestriction = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
@@ -17,7 +15,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        this.shapeEditor = this.options.shapeEditor;
+        //this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
         //this.container = this._map._container;
         //this._mapDraggable = this._map.dragging.enabled();
@@ -26,10 +24,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
-
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
-        this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
     },
 
     /***
@@ -37,7 +31,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('mousemove',this.onMouseMove,this);
     },
 
     /***
@@ -45,7 +38,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        this._map.off('mousemove', this.onMouseMove, this);
     },
 
     //disable: function () {
@@ -54,17 +46,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     //    this._enabled = false;
     //    this.removeHooks();
     //},
-    onMouseMove:function(event){
-        this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
-            this.shapeEditor.fire('snaped',{'snaped':true});
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
-        }else{
-            this.shapeEditor.fire('snaped',{'snaped':false});
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        }
-    },
 
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
@@ -75,40 +56,84 @@ fastmap.uikit.SelectNode = L.Handler.extend({
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
 
-        //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
-        var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
+        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data===undefined) {
+            return;
+        }
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
+        var id = null;
+        for (var item in data) {
+            var restrictObj = data[item].properties.restrictioninfo;
+            var geom=data[item].geometry.coordinates;
+            var newGeom=[];
+            if (restrictObj !== undefined) {
+                if (restrictObj.constructor === Array) {
+                    for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+                        if (theory > 0) {
+                            newGeom[0] = (parseInt(geom[0]) + theory * 16);
+                            newGeom[1] = (parseInt(geom[1]));
+                            if(this._TouchesPoint(newGeom, x, y, 20)){
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-            for (var item in data) {
-                var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
-                if (touchids.length) {
-                    var id = data[item].properties.id;
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
 
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }else{
+                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                        if (touchids[0] == 0) {
-                            this.currentEditLayer.fire("getId", {
-                                id: data[item].properties.snode
-                            })
-                        } else {
-                            this.currentEditLayer.fire("getId", {
-                                id: data[item].properties.enode
-                            })
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
                         }
-                        //var point = data[item].geometry.coordinates[touchids[0]];
-                        //this.selectedFeatures.push(id);
-                        //
-                        //var ctx = {
-                        //    canvas: this.currentEditLayer.tiles[tilePoint[0] + ":" + tilePoint[1]].options.context,
-                        //    tile: tilePoint,
-                        //    zoom: this._map.getZoom()
-                        //}
-                        //
-                        //this._drawPointHeight(ctx, point);
 
+                    }
+                }else{
+                    var restrictArr = restrictObj.split(",");
+                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+                        if (fact > 0) {
+                            newGeom[0] = (parseInt(geom[0]) + fact * 16);
+                            newGeom[1] = (parseInt(geom[1]));
+                            if(this._TouchesPoint(newGeom, x, y, 20)){
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }else{
+                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
+
+        }
 
 
     },
@@ -280,29 +305,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         }
 
 
-    },
-    /***
-     * 点击node点
-     * @param d
-     * @param x
-     * @param y
-     * @param r
-     * @returns {number}
-     * @private
-     */
-    _TouchesNodePoint: function (d, x, y, r) {
-        var touched = false;
-        for (var i = 0, len = d.length; i < len; i++) {
-            if (i == 0 || i == len - 1) {
-                var dx = x - d[i][0][0];
-                var dy = y - d[i][0][1];
-                if ((dx * dx + dy * dy) <= r * r) {
-                    return [i];
-                }
-            }
-        }
-
-        return [];
-
     }
+
 });
