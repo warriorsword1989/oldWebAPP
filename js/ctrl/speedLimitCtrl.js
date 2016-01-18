@@ -48,6 +48,7 @@ selectApp.controller("speedlimitTeplController",function ($scope,$timeout,$ocLaz
         {"id": 8, "label": "8 缓速行驶"},
         {"id": 9, "label": "9 未调查"}
     ];
+    $scope.speedLimitValue=$scope.speedLimitData.speedValue/10;
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';

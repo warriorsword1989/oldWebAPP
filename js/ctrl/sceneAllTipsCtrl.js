@@ -111,7 +111,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
             case "1407":
                 break;
             case "1510"://桥
-
+                $scope.brigeArrayLink=$scope.dataTipsData.f_array;
+                console.log($scope.brigeArrayLink)
                 break;
             case "1604":
                 break;
@@ -172,4 +173,39 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
             },100);
         }
     };
+
+    $scope.upBridgeStatus=function() {
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
+
+            }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                var outputcontroller = fastmap.uikit.OutPutController({});
+                var info = [];
+                if (data.data) {
+                    $.each(data.data.log, function (i, item) {
+                        if (item.pid) {
+                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        } else {
+                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        }
+                    });
+                } else {
+                    info.push(data.errmsg + data.errid);
+                }
+                outputcontroller.pushOutput(info);
+                if (outputcontroller.updateOutPuts !== "") {
+                    outputcontroller.updateOutPuts();
+                }
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+            })
+        }
+    }
+
+    $scope.closeTips=function(){
+        $("#popoverTips").css("display", "none");
+    }
 });
