@@ -10,6 +10,9 @@
             ele_hei += 15;
             $(ele).wrap("<div class='time_pick'>");
             var ele_par = $(this).parents(".time_pick");
+            $.each($(".timepicker_wrap"),function(i,v){
+                $(v).hide();
+            })
             ele_par.append("<div class='timepicker_wrap'>"+
                 "<div class='arrow_top'></div>"+
                 "<div class='time'><div class='time-prev'></div>"+
