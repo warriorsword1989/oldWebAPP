@@ -182,7 +182,7 @@ Application.layersConfig =
             url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: '参考点数据',
+                layername: '参考点数据111',
                 id: 'highSpeedDivergence',
                 maxZoom: 20,
                 hitDetection: true,
@@ -222,7 +222,7 @@ Application.layersConfig =
                 type: 'Diverge',
                 zIndex:10,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:'RDBRANCH',
                 showNodeLevel:17
             }
