@@ -223,6 +223,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 propertyTepl = "js/tepl/sceneAllTipsTepl.html";
                                 $scope.showTipsOrProperty(data, type, objCtrl, propertyCtrl, propertyTepl);
 
+
                         }
                         $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
