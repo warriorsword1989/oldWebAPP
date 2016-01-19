@@ -55,7 +55,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     },
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
-
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
         if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data===undefined) {
             return;

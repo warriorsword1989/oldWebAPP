@@ -35,7 +35,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
 
     //初始化DataTips相关数据
     function initializeDataTips() {
-
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
