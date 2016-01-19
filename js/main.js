@@ -23,7 +23,7 @@ requirejs.config({
         'timepicki':'lib/timepicki/js/timepicki',
         'bootstrapDatepicker':'lib/bootstrap-datepicker/js/bootstrap-datepicker',
         'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
-        'sweet-alert':'lib/sweet-alert/js/sweet-alert.min',
+        'sweet-alert':'lib/sweet-alert/js/sweet-alert.min'
     },
     shim: {
         'bootstrap':['jquery'],

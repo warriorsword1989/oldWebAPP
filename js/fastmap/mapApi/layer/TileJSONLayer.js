@@ -246,7 +246,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @private
      */
     _drawImg: function (ctx, geom, imgsrc, boolPixelCrs) {
-        if (!imgsrc.src) {
+        if (!imgsrc) {
             return;
         }
         var p = null;

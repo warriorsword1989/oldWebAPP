@@ -133,7 +133,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         var param = {
-            "command": "updatelink",
+            "command": "UPDATE",
+            "type":"RDLINK",
             "projectId": 11,
             "data": objectCtrl.changedProperty
         };
@@ -160,7 +161,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     $scope.$parent.$parent.delete = function () {
         var objId = parseInt($scope.linkData.pid);
         var param = {
-            "command": "deletelink",
+            "command": "DELETE",
+            "type":"RDLINK",
             "projectId": 11,
             "objId": objId
         }

@@ -1,10 +1,3 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
-
 <style>
     div {
         -webkit-font-smoothing: antialiased;
@@ -93,7 +86,7 @@
         text-align: center;
     }
 </style>
-<div ng-controller="sceneKindController" id="sceneKindDiv">
+<div ng-controller="sceneKindCtrl" id="sceneKindDiv">
     <div class="title" >
         <div class="col-sm-12"   style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 1px;">
             <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
@@ -108,7 +101,7 @@
                             <label class="col-sm-4 control-label">状态:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span  class="label label-info" ></span>
+                                <span  class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -117,7 +110,7 @@
                             <label class="col-sm-4 control-label">关联道路ID:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
+                                <span class="label label-default" ng-bind="dataTipsData.f.id"></span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -126,7 +119,7 @@
                             <label class="col-sm-4 control-label">种别:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
+                                <span class="label label-default" ng-bind="kindType"></span>
                             </div>
                         </div>
                     </form>
@@ -140,9 +133,9 @@
                         <div class="form-group" style="height: 60%;margin-bottom: 3px;">
                             <label class="col-sm-3 control-label"> 备注：</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-sm-8" ng-bind="remarksContent">
 
-                            </div>
+                            </div >
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
                              style="margin-top: 1px;margin-bottom: 1px"></div>
@@ -166,9 +159,4 @@
 
         </div>
     </div>
-    <!--<div class="footer">-->
-    <!--<form class="form-horizontal" method="get" style="margin-bottom: 0px;">-->
-
-    <!--</form>-->
-    <!--</div>-->
 </div>

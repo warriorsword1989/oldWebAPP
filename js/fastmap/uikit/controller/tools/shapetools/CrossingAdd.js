@@ -65,8 +65,8 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
             this._container.style.cursor = '';
 
             this._map
-                .off('mousedown', this._onMouseDown, this)
-                .off('mousemove', this._onMouseMove, this);
+                .off('mousedown', this.onMouseDown, this)
+                .off('mousemove', this.onMouseMove, this);
 
             L.DomEvent.off(document, 'mouseup', this.onMouseUp, this);
 
@@ -91,9 +91,9 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     onMouseDown: function (e) {
         this._isDrawing = true;
         this._startLatLng = e.latlng;
-        if(this._map.getPanes().overlayPane.style.zIndex==="1") {
-            this._map.getPanes().overlayPane.style.zIndex = "4";
-        }
+        //if(this._map.getPanes().overlayPane.style.zIndex==="1") {
+        //    this._map.getPanes().overlayPane.style.zIndex = "4000";
+        //}
 
         L.DomEvent
             .on(document, 'mouseup', this.onMouseUp, this)
@@ -113,6 +113,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         var latlng = e.latlng;
         if (this._isDrawing) {
             this._drawShape(latlng);
+
         }
     },
     _fireCreatedEvent: function () {

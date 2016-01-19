@@ -241,14 +241,22 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             });
                         });
                     }else if(pItemId==="1201"){//道路种别
-                       // Application.functions.getRdObjectById(data.id, "", function (data) {
-                            //$ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                            //$scope.$parent.$parent.objectEditURL = "";
-                            // $ocLazyLoad.load('ctrl/sceneSpeedLimitCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
-                            // });
-                            //});
-                        //});
+                        Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
+                           $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
+                                objCtrl.setCurrentObject(data);
+                                if (d.errcode === -1) {
+                                   swal("查询失败", d.errmsg, "error");
+                                   return;
+                               }else{
+                                    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                        objCtrl.setCurrentObject(d);
+                                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                                    });
+                               }
+                            });
+                        });
                     }else if(pItemId==="1203"){//道路方向
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
@@ -382,15 +390,50 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else if(pItemId==="1604"){//区域内道路
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRegionalRoadTepl.html";
                     }else if(pItemId==="1704"){//交叉路口
-                        Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
-                            objCtrl.setCurrentObject(data.data);
-                            $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
-                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 19)
+                        //map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
+                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            if(data.t_lifecycle===2) {
+                                Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
+                                    objCtrl.setCurrentObject(data.data);
+                                    $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+
+                                    });
                                 });
-                            });
+                            }else{
+                                var stageLen = data.t_trackInfo.length;
+                                var stage = data.t_trackInfo[stageLen - 1];
+                                if(stage===1) {
+                                    if(data.t_lifecycle ===1) {
+                                        Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
+                                            objCtrl.setCurrentObject(data.data);
+                                            $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+
+                                            });
+                                        });
+                                    }
+
+                                }else if(stage===3) {
+                                    if(data.t_lifecycle===3) {
+                                        Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
+                                            objCtrl.setCurrentObject(data.data);
+                                            $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+
+                                            });
+                                        });
+                                    }
+                                }
+                            }
                         });
+                        if(data.id!=="123") {
+
+                        }
+
+
                     }else if(pItemId==="1801"){//挂接
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
                     }else if(pItemId==="1901"){//道路名
