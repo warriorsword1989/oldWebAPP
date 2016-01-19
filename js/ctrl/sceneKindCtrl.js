@@ -19,8 +19,6 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
-console.log('selectCtrl.rowKey:'+selectCtrl.rowKey)
-    console.log(objectEditCtrl.data)
     /*种别*/
     $scope.returnKindType = function(code){
         switch(code){
@@ -57,7 +55,6 @@ console.log('selectCtrl.rowKey:'+selectCtrl.rowKey)
 
     //初始化DataTips相关数据
     $scope.initializeDataTips = function() {
-    console.log('init')
         $scope.$parent.$parent.showLoading = true;  //showLoading
         $scope.dataTipsData = objectEditCtrl.data;
         //显示状态
@@ -82,8 +79,6 @@ console.log('selectCtrl.rowKey:'+selectCtrl.rowKey)
 
         //获取数据中的图片数组
         $scope.photoTipsData = selectCtrl.rowKey.f_array;
-
-
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
@@ -104,7 +99,6 @@ console.log('selectCtrl.rowKey:'+selectCtrl.rowKey)
                 $scope.photos.push(newimgs);
             }
         }
-
         $scope.$parent.$parent.showLoading = false;  //showLoading
     };
     //调用的方法
@@ -161,5 +155,12 @@ console.log('selectCtrl.rowKey:'+selectCtrl.rowKey)
                 outputCtrl.updateOutPuts();
             }*/
         })
+    }
+    $scope.openOrigin = function (id) {
+        if(id <= selectCtrl.rowKey.f_array.length-1){
+            $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
+            $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            $("#dataTipsOriginModal").modal('show');
+        }
     }
 });
