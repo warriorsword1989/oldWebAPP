@@ -218,20 +218,20 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             }
                             if(data.s_sourceType == '1201'){        //种别
                                 Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
-                                   if (data.errcode === -1) {
-                                       return;
-                                   }
                                    $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
                                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
                                         objCtrl.setCurrentObject(data);
-                                        $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                            $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                            objCtrl.setCurrentObject(d);
-                                        });
+                                        if (d.errcode === -1) {
+                                           swal("RDLink查询失败", d.errmsg, "error");
+                                           return;
+                                       }else{
+                                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                                objCtrl.setCurrentObject(d);
+                                            });
+                                       }
                                     });
                                 });
-                                
-                                
                             }
                             // objCtrl.setCurrentObject();
                             tooltipsCtrl.onRemoveTooltip();
