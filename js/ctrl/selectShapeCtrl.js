@@ -217,19 +217,20 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 })
                             }
                             if(data.s_sourceType == '1201'){        //种别
-                                objCtrl.setCurrentObject(data);
-                                if (objCtrl.tipsUpdateObject !== "") {
-                                    objCtrl.tipsUpdateObject();
-                                }
-                                $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
-                                    // objCtrl.setCurrentObject(data);
-                                    // console.log('zhongbie',data)
-                                    /*$ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                        
-                                    });*/
+                                Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
+                                   if (data.errcode === -1) {
+                                       return;
+                                   }
+                                   $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
+                                        objCtrl.setCurrentObject(data);
+                                        $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                            $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                            objCtrl.setCurrentObject(d);
+                                        });
+                                    });
                                 });
+                                
                                 
                             }
                             // objCtrl.setCurrentObject();
