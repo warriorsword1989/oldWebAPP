@@ -35,7 +35,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
 
     //初始化DataTips相关数据
     function initializeDataTips() {
-
+        var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+            map: map,
+            highLightFeature: "dataTips",
+            dataTips: $scope.dataTipsData.rowkey
+        });
+        highLightDataTips.drawTipsForInit();
+        highLightLayer.pushHighLightLayers(highLightDataTips);
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -116,7 +122,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope,$timeout,$ocLa
             case "1604":
                 break;
             case "1704"://交叉路口
-                $scope.fData=$scope.dataTipsData.f;
+                $scope.fData=$scope.dataTipsData;
                 break;
             case "1803":
                 break;

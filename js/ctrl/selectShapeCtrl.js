@@ -41,6 +41,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
         return flag;
     };
+   
     $scope.selectShape = function (type, num) {
         if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
@@ -160,9 +161,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             return;
                         }
                         $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
-                        if ($scope.$parent.$parent.updateDataTips !== "") {
-                            $scope.$parent.$parent.updateDataTips(data);
-                        }
                         selectCtrl.fire("selectByAttribute", {feather: data});
 
                         if (data.t_lifecycle === 1) {
