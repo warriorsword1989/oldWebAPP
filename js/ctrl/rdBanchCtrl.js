@@ -16,7 +16,12 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     $scope.divergenceIds = divergenceIds;
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
-    $scope.diverId = divergenceIds[0].id;
+    if(divergenceIds[0]) {
+        $scope.diverId = divergenceIds[0].id;
+    }else{
+        $scope.diverId = divergenceIds.log[0].pid;
+    }
+
     $timeout(function(){
         $('.diverRadio:first').triggerHandler('click');
     });

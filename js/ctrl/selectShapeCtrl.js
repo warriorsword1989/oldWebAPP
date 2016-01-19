@@ -41,6 +41,55 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
         return flag;
     };
+    $scope.showTipsOrProperty=function(data,type,objCtrl,propertyCtrl,propertyTepl){
+        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+            if(data.t_lifecycle===2) {
+                Application.functions.getRdObjectById(data.id, type, function (data) {
+                    objCtrl.setCurrentObject(data.data);
+                    if (objCtrl.tipsUpdateObject !== "") {
+                        objCtrl.tipsUpdateObject();
+                    }
+                    $ocLazyLoad.load(propertyCtrl).then(function () {
+                        $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                    });
+                });
+            }else{
+                var stageLen = data.t_trackInfo.length;
+                var stage = data.t_trackInfo[stageLen - 1];
+                if(stage===1) {
+                    if(data.t_lifecycle ===1) {
+                        Application.functions.getRdObjectById(data.id, type, function (data) {
+                            objCtrl.setCurrentObject(data.data);
+                            if (objCtrl.tipsUpdateObject !== "") {
+                                objCtrl.tipsUpdateObject();
+                            }
+                            $ocLazyLoad.load(propertyCtrl).then(function () {
+                                $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                            });
+                        });
+                    }
+
+                }else if(stage===3) {
+                    if(data.t_lifecycle===3) {
+                        Application.functions.getRdObjectById(data.id, type, function (data) {
+                            objCtrl.setCurrentObject(data.data);
+                            if (objCtrl.tipsUpdateObject !== "") {
+                                objCtrl.tipsUpdateObject();
+                            }
+                            $ocLazyLoad.load(propertyCtrl).then(function () {
+                                $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                            });
+                        });
+                    }
+                }
+            }
+        });
+
+    }
     $scope.selectShape = function (type, num) {
         if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
@@ -151,7 +200,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             workPoint.options.selectType = 'tips';
             workPoint.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-
+            var type,propertyCtrl,propertyTepl;
             workPoint.on("getNodeId", function (data) {
                     $scope.data = data;
                     $("#popoverTips").css("display", "block");
@@ -159,84 +208,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         if (data.rowkey === "undefined") {
                             return;
                         }
-                        $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
-                        if ($scope.$parent.$parent.updateDataTips !== "") {
-                            $scope.$parent.$parent.updateDataTips(data);
-                        }
                         selectCtrl.fire("selectByAttribute", {feather: data});
-
-                        if (data.t_lifecycle === 1) {
-
-                            var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
-
-                            for (var trackNum = 0, trackLen = tracInfoArr.length; trackNum < trackLen; trackNum++) {
-                                if (tracInfoArr[trackNum].stage === 3) {
-                                    trackInfoFlag = true;
-                                    break;
-                                }
-                            }
-                            if (trackInfoFlag) {
-                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                                    $scope.$parent.$parent.objectEditURL = "";
-                                });
-                            } else {
-                                Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
-                                    objCtrl.setCurrentObject(data.data);
-                                    if (objCtrl.tipsUpdateObject !== "") {
-                                        objCtrl.tipsUpdateObject();
-                                    }
-
-                                    $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                                        });
-                                    });
-                                })
-                            }
-                            tooltipsCtrl.onRemoveTooltip();
-                        } else {
-                            if (data.resId && data.resID[0].id === 0) {
-                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                                    $scope.$parent.$parent.objectEditURL = "";
-                                });
-                            } else if(data.resId && data.resID[0].id != 0) {
-                                Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
-                                    objCtrl.setCurrentObject(data.data);
-                                    if (objCtrl.tipsUpdateObject !== "") {
-                                        objCtrl.tipsUpdateObject();
-                                    }
-                                    $ocLazyLoad.load("ctrl/objectEditCtrl").then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                                        });
-                                    });
-                                })
-                            }
-                            if(data.s_sourceType == '1201'){        //种别
-                                Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
-                                   $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
-                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
-                                        objCtrl.setCurrentObject(data);
-                                        if (d.errcode === -1) {
-                                           swal("RDLink查询失败", d.errmsg, "error");
-                                           return;
-                                       }else{
-                                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                                objCtrl.setCurrentObject(d);
-                                            });
-                                       }
-                                    });
-                                });
-                            }
-                            // objCtrl.setCurrentObject();
-                            tooltipsCtrl.onRemoveTooltip();
-                            // workPoint.off("getNodeId");
+                        if(selectCtrl.updateTipsCtrl!=="") {
+                            selectCtrl.updateTipsCtrl();
                         }
+
+                        console.log(data.s_sourceType);
+                        switch (data.s_sourceType) {
+                            case "1201"://种别
+                                break;
+                            case  "1704"://交叉路口
+                                type = "RDCROSS";
+                                propertyCtrl = "ctrl/rdCrossCtrl";
+                                propertyTepl = "js/tepl/sceneAllTipsTepl.html";
+                                $scope.showTipsOrProperty(data, type, objCtrl, propertyCtrl, propertyTepl);
+
+
+                        }
+                        $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
+
 
 
                     })

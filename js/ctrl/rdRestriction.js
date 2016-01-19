@@ -274,7 +274,8 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         objectEditCtrl.setCurrentObject($scope.rdRestrictData);
         objectEditCtrl.save();
         var param = {
-            "command": "updaterestriction",
+            "command": "UPDATE",
+            "type":"RESTRICTION",
             "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
@@ -332,7 +333,8 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     $scope.$parent.$parent.delete = function () {
         var pid = parseInt($scope.rdRestrictData.pid);
         var param = {
-            "command": "updaterestriction",
+            "command": "UPDATE",
+            "type":"RESTRICTION",
             "projectId": 11,
             "data": {
                 "pid": pid,
