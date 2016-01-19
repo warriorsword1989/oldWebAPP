@@ -197,12 +197,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             }
                             tooltipsCtrl.onRemoveTooltip();
                         } else {
-                            if (data.resID[0].id === 0) {
+                            if (data.resId && data.resID[0].id === 0) {
                                 $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
                                     $scope.$parent.$parent.objectEditURL = "";
                                 });
-                            } else {
+                            } else if(data.resId && data.resID[0].id != 0) {
                                 Application.functions.getRdObjectById(data.resID[0].id, "RDRESTRICTION", function (data) {
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.tipsUpdateObject !== "") {
@@ -216,7 +216,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                     });
                                 })
                             }
+                            if(data.s_sourceType == '1201'){        //种别
+                                objCtrl.setCurrentObject(data);
+                                if (objCtrl.tipsUpdateObject !== "") {
+                                    objCtrl.tipsUpdateObject();
+                                }
+                                $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
+                                    // objCtrl.setCurrentObject(data);
+                                    // console.log('zhongbie',data)
+                                    /*$ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                        
+                                    });*/
+                                });
+                                
+                            }
+                            // objCtrl.setCurrentObject();
                             tooltipsCtrl.onRemoveTooltip();
+                            // workPoint.off("getNodeId");
                         }
 
 
