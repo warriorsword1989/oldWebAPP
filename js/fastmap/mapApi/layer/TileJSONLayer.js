@@ -226,7 +226,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         } else {
             p = this._tilePoint(ctx, geom);
         }
-
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.beginPath();
@@ -264,8 +263,43 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
             g.drawImage(image, p.x, p.y);
         };
-
-
+    },
+    _drawImgRoute: function (ctx, geom, imgsrc,arrorSrc, boolPixelCrs,rount) {
+        if (!imgsrc.src) {
+            return;
+        }
+        var p = null;
+        if (boolPixelCrs) {
+            p = {x: geom[0], y: geom[1]}
+        } else {
+            p = this._tilePoint(ctx, imgsrc);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        var image = new Image(),
+            arrorImg=new Image();
+        image.src = imgsrc.src;
+        arrorImg.src = arrorSrc.src;
+        var xpos=parseInt(geom[0]);
+        var ypos=parseInt(geom[1]);
+        image.onload = function () {
+            g.save();
+            g.translate(p.x, p.y);
+            g.rotate(rount);//旋转度数
+           // g.translate(-xpos, -ypos);
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            g.drawImage(image, - image.width / 2, -image.height/2);
+            g.restore();
+        };
+        arrorImg.onload= function () {
+            g.save();
+            g.translate(p.x, p.y);
+            g.rotate(rount);//旋转度数
+            //g.translate(-p.x, -p.y);
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            g.drawImage(arrorImg,10, -arrorImg.height/2);
+            g.restore();
+        }
     },
     _drawText: function (ctx, geom, name) {
         var c = ctx.canvas;
@@ -791,9 +825,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-
                                     newstyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-
                                     if (theory > 0) {
                                         newgeom[0] = parseInt(geom[0]) + theory * 16;
                                         newgeom[1] = parseInt(geom[1]);
@@ -801,7 +833,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     } else {
                                         this._drawImg(ctx, geom, newstyle, boolPixelCrs);
                                     }
-
                                 }
                             } else {
                                 var restrictArr = restrictObj.split(",");
@@ -864,7 +895,42 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 });
                             });
                         }
-                    } else {
+                    } else if(this.options.type === 'rdSpeedLimitPoint'){//限速图标
+                        if (feature.properties.restrictioncondition === undefined) {
+                            return;
+                        }
+                        var speedFlagstyle=null;
+                        var jttype=null;
+                        var restrictObj = feature.properties.restrictioncondition;
+                        var route = feature.properties.rotate*(Math.PI/180);
+                        var resArray=restrictObj.split("|");
+                        var gaptureFlag=resArray[0];//采集标志（0,现场采集;1,理论判断）
+                        var speedFlag=resArray[1];//限速标志(0,限速开始;1,解除限速)
+                        var speedValue=resArray[2]/10;//限速值
+                        if(gaptureFlag===1){//理论判断，限速开始和结束都为蓝色
+                            if(speedFlag===1){//解除限速
+                                speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue  + '.png'};
+                                jttype={src: './css/speedLimit/normal/llend_gray.png'};
+                            }else{
+                                speedFlagstyle = {src: './css/speedLimit/normal/llstart_' + speedValue + '.png'};
+                                jttype={src: './css/speedLimit/normal/llstart_blue.png'};
+                            }
+
+                        }else{//现场采集，限速开始为红色，结束为黑色
+                            if(speedFlag===1){//解除限速
+                                speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue  + '.png'};
+                                jttype={src: './css/speedLimit/normal/end_black.png'};
+                            }else{
+                                speedFlagstyle = {src: './css/speedLimit/normal/start_' + speedValue + '.png'};
+                                jttype={src: './css/speedLimit/normal/start_red.png'};
+                            }
+                        }
+                        this._drawImgRoute(ctx, geom, speedFlagstyle,jttype, boolPixelCrs,route);
+
+
+                    } else if(this.options.type === 'rdCrossPoint'){
+
+                    }else{
                         this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
 
@@ -923,6 +989,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                     url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
+
                 }
                 break;
             case "Marker":
@@ -932,6 +999,22 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
                 }
                 break;
+            case "rdSpeedLimitPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
+                break;
+            case "rdCrossPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+
             case "Diverge":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());

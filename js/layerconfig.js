@@ -227,6 +227,104 @@ Application.layersConfig =
                 showNodeLevel:17
             }
 
+        },{
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '限速',
+                id: 'speedlimit',
+                maxZoom: 20,
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
+
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'rdSpeedLimitPoint',
+                zIndex:10,
+                restrictZoom:10,
+                visible: true,
+                requestType:'RDSPEEDLIMIT',
+                showNodeLevel:17
+            }
+
+        },{
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: 'rdcross',
+                id: 'rdcross',
+                maxZoom: 20,
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
+
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'rdCrossPoint',
+                zIndex:10,
+                restrictZoom:10,
+                visible: true,
+                requestType:'RDCROSS',
+                showNodeLevel:17
+            }
+
         }]
     },{
         groupid:'worklayer',
