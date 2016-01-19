@@ -243,17 +243,19 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         });
                     }else if(pItemId==="1201"){//道路种别
                         Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
-                           if (data.errcode === -1) {
-                               return;
-                           }
                            $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
                                 objCtrl.setCurrentObject(data);
-                                $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                    objCtrl.setCurrentObject(d);
-                                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
-                                });
+                                if (d.errcode === -1) {
+                                   swal("查询失败", d.errmsg, "error");
+                                   return;
+                               }else{
+                                    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                        objCtrl.setCurrentObject(d);
+                                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                                    });
+                               }
                             });
                         });
                     }else if(pItemId==="1203"){//道路方向

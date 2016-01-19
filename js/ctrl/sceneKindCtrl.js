@@ -121,6 +121,7 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
     }
     /*转换*/
     $scope.transBridge = function(){
+        $scope.$parent.$parent.showLoading = true;  //showLoading
         var kindObj = {
             "objStatus":"UPDATE",
             "pid":parseInt($scope.dataTipsData.f.id),
@@ -133,6 +134,8 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
             "data":kindObj
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+            $scope.$parent.$parent.showLoading = false;  //showLoading
+            $scope.$parent.$parent.$apply();
             if(data.errcode==0){
                 swal("操作成功", "种别转换操作成功！", "success");
             }else{
