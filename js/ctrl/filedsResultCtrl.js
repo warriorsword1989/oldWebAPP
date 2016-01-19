@@ -243,12 +243,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         });
                     }else if(pItemId==="1201"){//道路种别
                        // Application.functions.getRdObjectById(data.id, "", function (data) {
-                            //$ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                            //$scope.$parent.$parent.objectEditURL = "";
-                            // $ocLazyLoad.load('ctrl/sceneSpeedLimitCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
-                            // });
-                            //});
+                            $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
+                                // $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                    // $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                    map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                                // });
+                            });
+                            objCtrl.setCurrentObject(data);
+                            // map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
                         //});
                     }else if(pItemId==="1203"){//道路方向
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {

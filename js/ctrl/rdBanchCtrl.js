@@ -405,10 +405,10 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 $scope.branchPid = dObj.details[0].branchPid;
                 /*底图代码*/
                 $scope.patternCode = dObj.details[0].patternCode;
-                $(".detail-well").show();
+                // $(".detail-well").show();
                 $("#picMapShow").show();
             }else{
-                $(".detail-well").hide();
+                // $(".detail-well").hide();
                 $("#picMapShow").hide();
             }
         }
