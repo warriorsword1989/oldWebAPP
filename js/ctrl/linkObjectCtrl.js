@@ -23,10 +23,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     $scope.initializeLinkData = function () {
         objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
         $scope.linkData = objectCtrl.data.data;
-        for (var item = 0, len = ($scope.linkData.speedlimits).length; item < len; item++) {
-            $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
-            $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
-        }
         $("#basicModule").css("background-color", "#49C2FC");
         $scope.changeActive(0);
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
@@ -153,6 +149,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 outputCtrl.updateOutPuts();
             }
         })
+
     };
     $scope.$parent.$parent.delete = function () {
         var objId = parseInt($scope.linkData.pid);

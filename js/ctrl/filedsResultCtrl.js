@@ -203,7 +203,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$parent.$parent.tipsType=pItemId;
                 $("#popoverTips").css("display", "block");
                 Application.functions.getTipsResult(item.i, function (data) {
-                    selectCtrl.fire("selectByAttribute", {feather: data});
                     if (data.rowkey === "undefined") {
                         return;
                     }
@@ -243,9 +242,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         });
                     }else if(pItemId==="1201"){//道路种别
                         Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
-                           $ocLazyLoad.load("ctrl/sceneKindCtrl").then(function () {
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneKindTepl.html";
-                                objCtrl.setCurrentObject(data);
+                           $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
+                               map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 19)
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 if (d.errcode === -1) {
                                    swal("查询失败", d.errmsg, "error");
                                    return;
@@ -253,7 +252,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                                         objCtrl.setCurrentObject(d);
-                                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
                                     });
                                }
                             });

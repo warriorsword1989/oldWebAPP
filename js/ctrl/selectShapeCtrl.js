@@ -42,10 +42,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         return flag;
     };
     $scope.showTipsOrProperty=function(data,type,objCtrl,propertyCtrl,propertyTepl){
-        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+        $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
             if(data.t_lifecycle===2) {
-                Application.functions.getRdObjectById(data.id, type, function (data) {
+                Application.functions.getRdObjectById(data.f.id, type, function (data) {
                     objCtrl.setCurrentObject(data.data);
                     if (objCtrl.tipsUpdateObject !== "") {
                         objCtrl.tipsUpdateObject();
@@ -57,11 +57,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 });
             }else{
                 var stageLen = data.t_trackInfo.length;
-                var stage = data.t_trackInfo[stageLen - 1];
+                var stage =parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
                 if(stage===1) {
-                    if(data.t_lifecycle ===1) {
-                        Application.functions.getRdObjectById(data.id, type, function (data) {
-                            objCtrl.setCurrentObject(data.data);
+                    if(data.s_sourceType==="1201") {
+                        Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                            objCtrl.setCurrentObject(data);
                             if (objCtrl.tipsUpdateObject !== "") {
                                 objCtrl.tipsUpdateObject();
                             }
@@ -70,11 +70,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                             });
                         });
+                    }else{
+                        if(data.t_lifecycle ===1) {
+                            Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                                objCtrl.setCurrentObject(data.data);
+                                if (objCtrl.tipsUpdateObject !== "") {
+                                    objCtrl.tipsUpdateObject();
+                                }
+                                $ocLazyLoad.load(propertyCtrl).then(function () {
+                                    $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                                });
+                            });
+                        }
                     }
+
 
                 }else if(stage===3) {
                     if(data.t_lifecycle===3) {
-                        Application.functions.getRdObjectById(data.id, type, function (data) {
+                        Application.functions.getRdObjectById(data.f.id, type, function (data) {
                             objCtrl.setCurrentObject(data.data);
                             if (objCtrl.tipsUpdateObject !== "") {
                                 objCtrl.tipsUpdateObject();
@@ -209,22 +223,28 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             return;
                         }
                         selectCtrl.fire("selectByAttribute", {feather: data});
-                        if(selectCtrl.updateTipsCtrl!=="") {
-                            selectCtrl.updateTipsCtrl();
-                        }
+
 
                         console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
                             case "1201"://种别
+                                type = "RDLINK";
+                                propertyCtrl = "ctrl/linkObjectCtrl";
+                                propertyTepl = "js/tepl/currentObjectTepl.html";
                                 break;
                             case  "1704"://交叉路口
                                 type = "RDCROSS";
                                 propertyCtrl = "ctrl/rdCrossCtrl";
                                 propertyTepl = "js/tepl/sceneAllTipsTepl.html";
-                                $scope.showTipsOrProperty(data, type, objCtrl, propertyCtrl, propertyTepl);
-
+                                break;
 
                         }
+                        $scope.showTipsOrProperty(data, type, objCtrl, propertyCtrl, propertyTepl);
+                        if(selectCtrl.updateTipsCtrl!=="") {
+                               selectCtrl.updateTipsCtrl();
+                        }
+
+
                         $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
 
