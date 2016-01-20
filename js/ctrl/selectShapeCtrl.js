@@ -67,7 +67,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             }
                             $ocLazyLoad.load(propertyCtrl).then(function () {
                                 $scope.$parent.$parent.objectEditURL = propertyTepl;
-
                             });
                         });
                     }else{
