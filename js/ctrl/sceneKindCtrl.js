@@ -160,6 +160,10 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
             }*/
         })
     }
+    /*tips关闭功能*/
+    $scope.closeBridge = function(){
+        $("#popoverTips").hide();
+    }
     $scope.openOrigin = function (id) {
         if(id <= selectCtrl.rowKey.f_array.length-1){
             $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
