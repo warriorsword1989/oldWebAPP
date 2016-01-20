@@ -54,7 +54,11 @@
      <div class="panel panel-default ">
          <div class="panel-heading font-bold" style=" text-align: center;height: 100%;">
              道路线
-             <span class="label label-info" >{{linkData.pid}}</span>
+
+             <span ng-if="brigeLinkArrays==null" class="label label-info" >{{linkData.pid}}</span>
+             <span ng-if="brigeLinkArrays!=null" ng-class="{'active':$index==brigeIndex,'btn btn-primary btn-xs':true}" ng-repeat="item in brigeLinkArrays"  >
+                  <label ng-click="changeLink($index,item.id)">{{item.id}}</label>
+             </span>
          </div>
      </div>
         </form>
