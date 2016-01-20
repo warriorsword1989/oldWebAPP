@@ -350,12 +350,12 @@ function keyEvent(ocLazyLoad, scope) {
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
 
-                        var pid = data.data.log[0].pid;
+                        var pids = [];
+                        pids.push({id:data.data.pid});
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
-                        restrict.redraw();
                         var info = [];
                         if (data.data) {
                             $.each(data.data.log, function (i, item) {
@@ -375,7 +375,7 @@ function keyEvent(ocLazyLoad, scope) {
                         toolTipsCtrl.onRemoveTooltip();
 
 
-                        objEditCtrl.setCurrentObject(data.data);
+                        objEditCtrl.setCurrentObject(pids);
                         if (objEditCtrl.updateObject !== "") {
                             objEditCtrl.updateObject();
                         }
