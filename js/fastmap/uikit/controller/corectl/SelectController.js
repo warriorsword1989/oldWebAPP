@@ -31,6 +31,7 @@ fastmap.uikit.SelectController=(function() {
                 L.setOptions(this, options);
                 this.selectedFeatures = null;
                 this.updateTipsCtrl = "";
+                this.updateKindTips = "";
                 this.on("selectByAttribute", this.OnSelectByAttribute, this);
             },
             /**
