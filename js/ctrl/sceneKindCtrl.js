@@ -14,7 +14,7 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
-    $scope.photos = [];
+
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -56,7 +56,16 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
     //初始化DataTips相关数据
     $scope.initializeDataTips = function() {
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        $scope.dataTipsData = objectEditCtrl.data;
+        $scope.dataTipsData = selectCtrl.rowKey;
+        $scope.photos = [];
+        var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+            map: map,
+            highLightFeature: "dataTips",
+            dataTips: $scope.dataTipsData.rowkey
+        });
+        highLightDataTips.drawTipsForInit();
+        highLightLayer.pushHighLightLayers(highLightDataTips);
+
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -101,23 +110,13 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
         }
         $scope.$parent.$parent.showLoading = false;  //showLoading
     };
-    //调用的方法
-    objectEditCtrl.rdrestrictionObject=function(){
-        if (objectEditCtrl.data === null) {
-            $scope.rdSubRestrictData = [];
-        } else {
-            $scope.initializeDataTips();
-        }
-    }
     if (selectCtrl.rowKey) {
-        //初始化dataTips面板中的数据
-        $scope.dataTipsData = selectCtrl.rowKey;
-
         //dataTips的初始化数据
         $scope.initializeDataTips();
 
-    } else {
-        $scope.rdSubTipsData = [];
+    }
+    selectCtrl.updateKindTips = function () {
+        $scope.initializeDataTips();
     }
     /*转换*/
     $scope.transBridge = function(){
