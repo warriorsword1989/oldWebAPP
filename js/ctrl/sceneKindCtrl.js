@@ -121,6 +121,7 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
     }
     /*转换*/
     $scope.transBridge = function(){
+        $scope.changeLinkInfo();
         $scope.$parent.$parent.showLoading = true;  //showLoading
         var kindObj = {
             "objStatus":"UPDATE",
@@ -158,6 +159,10 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
                 outputCtrl.updateOutPuts();
             }*/
         })
+    }
+    /*tips关闭功能*/
+    $scope.closeBridge = function(){
+        $("#popoverTips").hide();
     }
     $scope.openOrigin = function (id) {
         if(id <= selectCtrl.rowKey.f_array.length-1){
