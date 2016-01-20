@@ -193,7 +193,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     })
             };
             //点击列表需要的方法
-            $scope.showTab = function (item,pItemId) {
+            $scope.showTab = function (item,e,pItemId) {
+                /*高亮显示当前选中的item*/
+                $.each($(".item-detail").find('td'),function(i,v){
+                    $(v).removeClass('item-active');
+                })
+                $(e.target).addClass('item-active');
                 if ($scope.$parent.$parent.dataTipsURL) {
                     $scope.$parent.$parent.dataTipsURL = "";
                 }
@@ -446,7 +451,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                 })
             };
-
             //checkbox中的处理方法
             $scope.showLayers = function (item) {
                 item.choose = !item.choose;
