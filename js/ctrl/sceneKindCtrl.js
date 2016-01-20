@@ -1,8 +1,8 @@
 /**
  * Created by liuzhaoxia on 2016/1/4.
  */
-var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneKindCtrl", function ($scope) {
+var dataTipsApp = angular.module("lazymodule", ['oc.lazyLoad']);
+dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
@@ -157,6 +157,10 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
                 outputCtrl.updateOutPuts();
             }*/
         })
+    }
+    /*tips关闭功能*/
+    $scope.closeBridge = function(){
+        $("#popoverTips").hide();
     }
     $scope.openOrigin = function (id) {
         if(id <= selectCtrl.rowKey.f_array.length-1){

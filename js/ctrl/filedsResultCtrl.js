@@ -8,7 +8,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
-                   // data.data.rows.push({"1101":10});
+                   // data.data.rows.push({"1901":10});
                     transArr = data.data.rows;
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
@@ -193,7 +193,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     })
             };
             //点击列表需要的方法
-            $scope.showTab = function (item,pItemId) {
+            $scope.showTab = function (item,e,pItemId) {
+                /*高亮显示当前选中的item*/
+                $.each($(".item-detail").find('td'),function(i,v){
+                    $(v).removeClass('item-active');
+                })
+                $(e.target).addClass('item-active');
                 if ($scope.$parent.$parent.dataTipsURL) {
                     $scope.$parent.$parent.dataTipsURL = "";
                 }
@@ -216,10 +221,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     if(pItemId==="1101") {//限速
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
-
                         Application.functions.getRdObjectById(data.id, "RDSPEEDLIMIT", function (data) {
                             objCtrl.setCurrentObject(data.data);
-                            $scope.dataId=data.data.linkPid;
+                            $scope.dataId=data.data.f.id;
                             Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (data) {
                                 var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
                                 for (var i = 0, len = linkArr.length; i < len; i++) {
@@ -363,15 +367,29 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                            //Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
-                            //    if (data.errcode === -1) {
-                            //        return;
-                            //    }
-                            //    objCtrl.setCurrentObject(data.data);
-                            //    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                            //        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                            //    });
-                            //});
+                        data.f_array.push({id:"413226",type:1});
+                        data.f_array.push({id:"49101507",type:1});
+                        $scope.$parent.$parent.brigeLinkArray= data.f_array;
+                            Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
+                                if (data.errcode === -1) {
+                                    return;
+                                }
+                                var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                                for (var i = 0, len = linkArr.length; i < len; i++) {
+                                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                                    points.push(point);
+                                }
+                                map.panTo({lat: points[0].y, lon: points[0].x});
+                                var line = fastmap.mapApi.lineString(points);
+                                selectCtrl.onSelected({geometry: line, id: $scope.dataId});
+                                objCtrl.setCurrentObject(data);
+                                if (objCtrl.updateObject !== "") {
+                                    objCtrl.updateObject();
+                                }
+                                $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                });
+                            });
 
                     }else if(pItemId==="1604"){//区域内道路
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRegionalRoadTepl.html";
@@ -423,13 +441,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else if(pItemId==="1801"){//挂接
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
                     }else if(pItemId==="1901"){//道路名
-                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneIntersectionTepl.html";
+                        //$scope.$parent.$parent.dataTipsURL = "js/tepl/sceneIntersectionTepl.html";
+                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        });
                     }else if(pItemId==="2001"){//测线
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneMeasuringLine.html";
                     }
                 })
             };
-
             //checkbox中的处理方法
             $scope.showLayers = function (item) {
                 item.choose = !item.choose;

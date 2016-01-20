@@ -140,7 +140,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1407":
                 break;
             case "1510"://桥
-
+                $scope.brigeArrayLink=$scope.dataTipsData.f_array;
+                console.log($scope.brigeArrayLink)
                 break;
             case "1604":
                 break;
@@ -217,35 +218,35 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$apply();
     }
     /*转换*/
-    $scope.transBridge = function(){
+    $scope.transBridge = function() {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
-        var stage =parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
+        var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
         var kindObj = {
-            "objStatus":"UPDATE",
-            "pid":parseInt($scope.dataTipsData.f.id),
-            "kind":$scope.dataTipsData.kind
+            "objStatus": "UPDATE",
+            "pid": parseInt($scope.dataTipsData.f.id),
+            "kind": $scope.dataTipsData.kind
         };
         var param = {
-            "type":"RDLINK",
+            "type": "RDLINK",
             "command": "UPDATE",
             "projectId": 11,
-            "data":kindObj
+            "data": kindObj
         };
-        if(stage===1) {
+        if (stage === 1) {
             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                 $scope.$parent.$parent.showLoading = false;  //showLoading
                 $scope.$parent.$parent.$apply();
-                if(data.errcode==0){
+                if (data.errcode == 0) {
                     objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
-                    if(objCtrl.updateObject!=="") {
+                    if (objCtrl.updateObject !== "") {
                         objCtrl.updateObject();
                     }
                     swal("操作成功", "种别转换操作成功！", "success");
-                }else{
+                } else {
                     swal("操作失败", data.errmsg, "error");
                 }
-                if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
+                if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
                     var stageParam = {
                         "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                         "stage": 3,
@@ -253,29 +254,62 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     }
                     Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info=[];
-                        if(data.data){
-                            $.each(data.data.log,function(i,item){
-                                if(item.pid){
-                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                }else{
-                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                 }
                             });
-                        }else{
+                        } else {
                             info.push(data.errmsg + data.errid);
                         }
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                         $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                     })
                 }
             })
-        }else{
+        } else {
             alert("数据已经转换");
         }
+    }
+    $scope.upBridgeStatus=function() {
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
 
+            }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                var outputcontroller = fastmap.uikit.OutPutController({});
+                var info = [];
+                if (data.data) {
+                    $.each(data.data.log, function (i, item) {
+                        if (item.pid) {
+                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        } else {
+                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        }
+                    });
+                } else {
+                    info.push(data.errmsg + data.errid);
+                }
+                outputcontroller.pushOutput(info);
+                if (outputcontroller.updateOutPuts !== "") {
+                    outputcontroller.updateOutPuts();
+                }
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+            })
+        }
+    }
+
+    $scope.closeTips=function(){
+        $("#popoverTips").css("display", "none");
     }
 });
