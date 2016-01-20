@@ -1,8 +1,8 @@
 /**
  * Created by liuzhaoxia on 2016/1/4.
  */
-var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneKindCtrl", function ($scope) {
+var dataTipsApp = angular.module("lazymodule", ['oc.lazyLoad']);
+dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
@@ -121,7 +121,6 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope) {
     }
     /*转换*/
     $scope.transBridge = function(){
-        $scope.changeLinkInfo();
         $scope.$parent.$parent.showLoading = true;  //showLoading
         var kindObj = {
             "objStatus":"UPDATE",
