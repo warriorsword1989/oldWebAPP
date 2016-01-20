@@ -46,7 +46,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
             if(data.t_lifecycle===2) {
                 Application.functions.getRdObjectById(data.f.id, type, function (data) {
-                    objCtrl.setCurrentObject(data.data);
+                    objCtrl.setCurrentObject(data);
                     if (objCtrl.tipsUpdateObject !== "") {
                         objCtrl.tipsUpdateObject();
                     }
@@ -73,7 +73,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     }else{
                         if(data.t_lifecycle ===1) {
                             Application.functions.getRdObjectById(data.f.id, type, function (data) {
-                                objCtrl.setCurrentObject(data.data);
+                                objCtrl.setCurrentObject(data);
                                 if (objCtrl.tipsUpdateObject !== "") {
                                     objCtrl.tipsUpdateObject();
                                 }
@@ -89,7 +89,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 }else if(stage===3) {
                     if(data.t_lifecycle===3) {
                         Application.functions.getRdObjectById(data.f.id, type, function (data) {
-                            objCtrl.setCurrentObject(data.data);
+                            objCtrl.setCurrentObject(data);
                             if (objCtrl.tipsUpdateObject !== "") {
                                 objCtrl.tipsUpdateObject();
                             }
