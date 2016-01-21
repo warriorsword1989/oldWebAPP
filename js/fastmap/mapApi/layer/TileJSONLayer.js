@@ -942,9 +942,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                             var newgeom = [];
                         if (restrictObj !== undefined) {
+                            if(restrictObj.length>1){
                                 var restrictArr = restrictObj.split(",");
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
                                     if (restrictArr[fact].constructor === Array) {
                                         newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0]  + '.png'};
                                     } else {
@@ -958,12 +958,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                             restrictArr[fact] = restrictArr[fact].replace(">", "");
                                             newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact]  + '.png'};
 
-                                        }  else if(restrictArr[fact]!=9){
+                                        }  else if(restrictArr[fact]!="9"){
                                             newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
                                         }
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 13;
+                                        newgeom[0] = parseInt(geom[0]) + fact * 10;
                                         newgeom[1] = parseInt(geom[1]);
                                         this._drawImgRoute(ctx, newgeom, newstyle, boolPixelCrs,route);
                                     } else {
@@ -971,7 +971,26 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     }
 
                                 }
+                            }else{
+                                    if (restrictObj.constructor === Array) {
+                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[0]  + '.png'};
+                                    } else {
+                                        if (restrictObj.indexOf("[") > -1) {
+                                            restrictObj = restrictObj.replace("[", "");
+                                            restrictObj = restrictObj.replace("]", "");
+                                            newstyle = {src: './css/laneinfo/extF/' + restrictObj  + '.png'};
 
+                                        }else if (restrictObj.indexOf("<") > -1) {
+                                            restrictObj = restrictObj.replace("<", "");
+                                            restrictObj = restrictObj.replace(">", "");
+                                            newstyle = {src: './css/laneinfo/arwB/' + restrictObj  + '.png'};
+
+                                        }  else if(restrictObj!="9"){
+                                            newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
+                                        }
+                                    }
+                                    this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
+                            }
                         }
 
                     }else{
