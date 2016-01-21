@@ -13,6 +13,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
+    var speedlimtPoint=layerCtrl.getLayerById("speedlimit");
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -143,7 +144,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 $scope.brigeArrayLink=$scope.dataTipsData.f_array;
                 console.log($scope.brigeArrayLink)
                 break;
-            case "1604":
+            case "1604"://区域内道路
+                $scope.fData = $scope.dataTipsData.f_array;
                 break;
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
