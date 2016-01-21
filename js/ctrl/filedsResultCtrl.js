@@ -398,44 +398,23 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         //map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                            if(data.t_lifecycle===2) {
-                                Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
-                                    objCtrl.setCurrentObject(data.data);
+                            if(data.f.id) {
+                                var obj = {"nodePid": parseInt(data.f.id)};
+                                var param={
+                                    "projectId":11,
+                                    "type":"RDCROSS",
+                                     "data":obj
+                                }
+                                Application.functions.getByCondition(JSON.stringify(param), function (data) {
+                                    objCtrl.setCurrentObject(data.data[0]);
                                     $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
 
                                     });
                                 });
-                            }else{
-                                var stageLen = data.t_trackInfo.length;
-                                var stage = data.t_trackInfo[stageLen - 1];
-                                if(stage===1) {
-                                    if(data.t_lifecycle ===1) {
-                                        Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
-                                            objCtrl.setCurrentObject(data.data);
-                                            $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
-
-                                            });
-                                        });
-                                    }
-
-                                }else if(stage===3) {
-                                    if(data.t_lifecycle===3) {
-                                        Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
-                                            objCtrl.setCurrentObject(data.data);
-                                            $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
-
-                                            });
-                                        });
-                                    }
-                                }
                             }
-                        });
-                        if(data.id!=="123") {
 
-                        }
+                        });
 
 
                     }else if(pItemId==="1801"){//挂接
