@@ -42,6 +42,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         return flag;
     };
     $scope.showTipsOrProperty=function(data,type,objCtrl,propertyCtrl,propertyTepl){
+        $scope.$parent.$parent.objectEditURL = "";
         $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
             if(data.t_lifecycle===2) {
