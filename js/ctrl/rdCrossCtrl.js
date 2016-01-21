@@ -103,7 +103,7 @@ selectApp.controller("rdCrossController", function ($scope) {
         }
         var names = $scope.rdCrossData.names, maxNum = -1;
         if(names.length===0) {
-            maxNum = 1;
+            maxNum = 0;
         }else{
             for (var i = 0, len = names.length; i < len; i++) {
                 if (names[i]["nameGroupid"] > maxNum) {
