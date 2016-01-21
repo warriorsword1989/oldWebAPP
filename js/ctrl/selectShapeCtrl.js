@@ -191,7 +191,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         objCtrl.rdrestrictionObject();
                     }
                     tooltipsCtrl.onRemoveTooltip();
-                    $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
+                    $ocLazyLoad.load('ctrl/rdRestriction').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
                         } else if ($scope.type === 1) {
