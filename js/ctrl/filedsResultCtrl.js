@@ -394,7 +394,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else if(pItemId==="1604"){//区域内道路
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneRegionalRoadTepl.html";
                     }else if(pItemId==="1704"){//交叉路口
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 19)
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         //map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";

@@ -161,7 +161,7 @@
                                     <label class="col-sm-3 control-label">名称内容</label>
 
                                     <div class="col-sm-9">
-                                        <input type="text" ng-model="nameitem.name">
+                                        <input type="text" ng-model="nameitem.name" ng-blur="diverName(nameitem.nameGroupid,nameitem.name)">
                                     </div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>

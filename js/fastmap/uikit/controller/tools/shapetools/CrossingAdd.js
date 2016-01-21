@@ -91,9 +91,9 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     onMouseDown: function (e) {
         this._isDrawing = true;
         this._startLatLng = e.latlng;
-        //if(this._map.getPanes().overlayPane.style.zIndex==="1") {
-        //    this._map.getPanes().overlayPane.style.zIndex = "4000";
-        //}
+        if(this._map.getPanes().overlayPane.style.zIndex==="1") {
+            this._map.getPanes().overlayPane.style.zIndex = "4";
+        }
 
         L.DomEvent
             .on(document, 'mouseup', this.onMouseUp, this)

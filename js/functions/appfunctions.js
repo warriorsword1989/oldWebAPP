@@ -132,3 +132,9 @@ Application.functions.getNamePronunciation=function(param,func) {
         });
 };
 
+Application.functions.getByCondition=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByCondition?parameter='+param,
+        function (data) {
+            func(data)
+        });
+};
