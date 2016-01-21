@@ -48,6 +48,7 @@
                 "fastmap/dataApi/datamodel/GeoDataModel.js",
                 "fastmap/dataApi/datamodel/Rdlink.js",
                 "fastmap/dataApi/datamodel/Rdnode.js",
+                "fastmap/dataApi/ajaxConstruct.js",
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
                 "fastmap/mapApi/geometry/Collection.js",
@@ -78,20 +79,33 @@
                 "fastmap/uikit/controller/corectl/SelectController.js",
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
+                "fastmap/uikit/controller/corectl/HighLightController.js",
                 //uikit/controller/tools/shapetools
+
+                "fastmap/uikit/controller/tools/shapetools/Snap.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCopy.js",
+                "fastmap/uikit/controller/tools/shapetools/DrawPath.js",
+                "fastmap/uikit/controller/tools/shapetools/CrossingAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCut.js",
                 "fastmap/uikit/controller/tools/shapetools/PathMove.js",
                 "fastmap/uikit/controller/tools/shapetools/PathSmooth.js",
+                "fastmap/uikit/controller/tools/shapetools/PathBreak.js",
                 "fastmap/uikit/controller/tools/shapetools/PathVertexAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PathVertexInsert.js",
                 "fastmap/uikit/controller/tools/shapetools/PathVertexMove.js",
                 "fastmap/uikit/controller/tools/shapetools/PathVertexRemove.js",
                 "fastmap/uikit/controller/tools/shapetools/PointVertexAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PointVertexMove.js",
+                "fastmap/uikit/controller/tools/shapetools/TransformDirection.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorFactory.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResult.js",
                 "fastmap/uikit/controller/tools/shapetools/ShapeEditorResultFeedback.js",
+                "fastmap/uikit/controller/tools/shapetools/HighLightRender.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectPath.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectForRestriction.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectNode.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectDataTips.js",
+                "fastmap/uikit/controller/tools/shapetools/GeometryValidation.js",
                 //uikit/controller/ctlmodel
                 "fastmap/uikit/ctlmodel/CheckResult.js",
                 "fastmap/uikit/ctlmodel/ContentStyle.js",
@@ -99,7 +113,6 @@
                 "fastmap/uikit/ctlmodel/FeatCode.js",
                 "fastmap/uikit/ctlmodel/OutPut.js",
                 "fastmap/uikit/ctlmodel/ToolTip.js"
-
             ]; // etc.
         }
 
@@ -113,6 +126,7 @@
         }
         if (scriptTags.length > 0) {
             document.write(scriptTags.join(""));
+
         }
     }
 })();

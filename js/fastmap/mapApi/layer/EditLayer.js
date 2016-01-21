@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/10/13.
+ * Created by zhongxiaoming on 2015/10/19
  * Class EditLayer 可编辑图层
  */
 fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
@@ -13,8 +13,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * 初始化可选参数
      * @param {Object}options
      */
-    initialize: function (options) {
+    initialize: function (url, options) {
         this.options = options || {};
+        this.url = url;
         fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
         this.minShowZoom = this.options.minShowZoom || 9;
         this.maxShowZoom = this.options.maxShowZoom || 18;
@@ -24,23 +25,45 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
     initEvent: function () {
         var that = this;
-        this.shapEditor =  fastmap.uikit.ShapeEditorController();
+        this.shapeEditor = fastmap.uikit.ShapeEditorController();
+        this.shapeEditor.on('snaped', function (event) {
+            that.snaped = event.snaped;
+        })
+        this.shapeEditor.on('startshapeeditresultfeedback', delegateDraw);
+        function delegateDraw(event) {
+            if (that.shapeEditor.shapeEditorResult == null) {
 
-        this.shapEditor.on('startshapeeditresultfeedback',delegateDraw );
-        function delegateDraw(){
-            if(that.shapEditor.shapeEditorResult == null){
                 return;
             }
-            that.drawGeometry = that.shapEditor.shapeEditorResult.getFinalGeometry();
-            that.draw(that.drawGeometry,that);
+            that.drawGeometry = that.shapeEditor.shapeEditorResult.getFinalGeometry();
+            that.clear();
+            that.draw(that.drawGeometry, that, event.index);
+            if (that.snaped == true) {
+                var crosspoint = that.drawGeometry.components[event.index] ? that.drawGeometry.components[event.index] : event.point;
+                if (crosspoint != undefined) {
+                    crosspoint = fastmap.mapApi.point(crosspoint.x, crosspoint.y);
+                    crosspoint.type = 'Cross';
+                    that.draw(crosspoint, that);
+                }
+
+            }
+
         }
 
-        this.shapEditor.on('stopshapeeditresultfeedback',function(){
+        this.shapeEditor.on('stopshapeeditresultfeedback', function () {
+            this.map._container.style.cursor = '';
 
+            var coordinate1 = [];
+            if (that.drawGeometry) {
+                for (var index in that.drawGeometry.components) {
+                    coordinate1.push([that.drawGeometry.components[index].x, that.drawGeometry.components[index].y]);
+                }
+
+                that._redraw();
+            }
         });
 
-
-        this.shapEditor.on('abortshapeeditresultfeedback',function(){
+        this.shapeEditor.on('abortshapeeditresultfeedback', function () {
             that.drawGeometry = that.shapEditor.shapeEditorResult.getOriginalGeometry();
             that.shapEditor.shapeEditorResult.setFinalGeometry(that.drawGeometry.clone());
 
@@ -53,7 +76,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      */
     onAdd: function (map) {
         this.map = map;
-        this._initContainer(this.map, this.options);
+        this._initContainer(this.options);
         map.on("moveend", this._redraw, this);
         this._redraw();
     },
@@ -63,35 +86,65 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * @param {L.Map}map
      */
     onRemove: function (map) {
-        map.getPanes().overlayPane.removeChild(this._div);
+        map.getPanes().tilePane.removeChild(this._div);
         map.off("moveend", this._redraw, this);
     },
-    draw: function (currentGeo,self) {
-        if(!currentGeo){
+
+    /***
+     * 绘制几何图形
+     * @param currentGeo 当前几何
+     * @param self
+     * @param index 鼠标拖动的当前点
+     */
+    draw: function (currentGeo, self, index) {
+        if (!currentGeo) {
             return;
         }
-        this.drawGeometry = currentGeo;
-        switch(this.drawGeometry.type) {
+
+        switch (currentGeo.type) {
+
             case 'LineString':
-                drawLineString(currentGeo.points, {color: 'red', size: 2}, false);
+                drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
                 break;
             case 'Point':
-                drawPoint(currentGeo.points, {color: 'red', radius: 3}, false);
+                drawPoint(currentGeo.components, {color: 'red', radius: 3}, false);
                 break;
             case'Polygon':
                 drawPolygon();
                 break;
+            case 'Cross':
+                drawCross(currentGeo, {color: 'blue', width: 1}, false);
+                break;
+            case 'marker':
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false);
+                break;
         }
 
-
-        function drawPoint( geom, style, boolPixelCrs) {
+        function drawCross(geom, style, boolPixelCrs) {
             if (!geom) {
                 return;
             }
             var p = null;
-            if(boolPixelCrs){
-                p = {x:geom.x, y:geom.y}
-            }else{
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+            }
+
+            var verLineArr = [{x: p.x, y: p.y + 20}, {x: p.x, y: p.y - 20}];
+            drawLineString(verLineArr, {color: 'blue', size: 1}, true);
+            var horLineArr = [{x: p.x - 20, y: p.y}, {x: p.x + 20, y: p.y}];
+            drawLineString(horLineArr, {color: 'blue', size: 1}, true);
+        }
+
+        function drawPoint(geom, style, boolPixelCrs) {
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
                 p = this.map.latLngToLayerPoint([geom.y, geom.x]);
             }
 
@@ -105,20 +158,33 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
 
-        function drawLineString(geom, style, boolPixelCrs) {
+        function drawLineString(geom, style, boolPixelCrs, index) {
             if (!geom) {
                 return;
             }
 
-            var  proj = [], i;
+            var proj = [], i;
             //coords = this._clip(ctx, coords);
             //coords = L.LineUtil.simplify(coords, 1);
-            for (i = 0; i < geom.length; i++) {
-                if(boolPixelCrs){
-                    proj.push({x:geom[i][0],y:geom[i][1]});
-                }else{
+
+            for (var i = 0; i < geom.length; i++) {
+                if (boolPixelCrs) {
+                    proj.push({x: geom[i].x, y: geom[i].y});
+                } else {
+
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
-                    drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]),{color:'red', radius:3},true)
+                    if (i == index) {
+                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                            color: 'blue',
+                            radius: 4
+                        }, true)
+                    } else {
+                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                            color: 'blue',
+                            radius: 4
+                        }, true)
+                    }
+
                 }
             }
             //if (!this._isActuallyVisible(proj)) {
@@ -127,6 +193,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var g = self._ctx;
             g.strokeStyle = style.color;
             g.lineWidth = style.size;
+            //g.opacity = 0.5;
             g.beginPath();
             for (i = 0; i < proj.length; i++) {
                 var method = (i === 0 ? 'move' : 'line') + 'To';
@@ -135,7 +202,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             g.stroke();
             g.restore();
         }
-        function drawPolygon( geom, style) {
+
+        function drawPolygon(geom, style) {
             if (!style) {
                 return;
             }
@@ -170,6 +238,49 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
         }
 
+        function drawMarker(geom, type, angle, boolPixelCrs) {
+            var url, p = null,angleOfTran=angle;
+            if (!geom) {
+                return;
+            }
+
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p =this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+            if(type==="1") {
+                angleOfTran = angleOfTran + Math.PI;
+            }
+            url = "./css/img/" + type + ".png";
+            var g = self._ctx;
+            console.log(p);
+            loadImg(url, function (img) {
+                g.save();
+                g.translate(p.x, p.y);
+                g.rotate(angleOfTran);
+                g.drawImage(img, 0, 0);
+                g.restore();
+                currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
+
+            })
+        }
+
+        function loadImg(url, callBack) {
+            var img = new Image();
+            img.onload = function () {
+                callBack(img);
+            };
+            img.src = url;
+        }
+        function directOfPoint(point,length,width,angle) {
+            point.x = point.x + length;
+            point.y = point.y + width / 2;
+            point.x = point.x + Math.tan(angle);
+            point.y = point.y + Math.tan(angle);
+            point=this.map.containerPointToLatLng(point);
+            return point;
+        }
     },
 
     /***
@@ -179,12 +290,17 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
 
-    _redraw: function (){
+    _redraw: function () {
 
         this.clear();
 
         this.draw(this.drawGeometry, this);
-        this._resetCanvasPosition()
+        this._resetCanvasPosition();
         return this;
     }
 });
+
+fastmap.mapApi.editLayer = function (url, options) {
+    return new fastmap.mapApi.EditLayer(url, options);
+};
+

@@ -4,17 +4,26 @@
 requirejs.config({
     baseUrl: 'js/',
     paths: {
+        'application':'Application',
+        'layers':"layerconfig",
         'jquery': 'lib/jquery/2.1.1/jquery-2.1.1',
         'bootstrap':'lib/bootstrap-3.3.5/js/bootstrap',
-        'angular': 'lib/angularjs/1.4.4/angular.min',
+        'angular': 'lib/angularjs/1.4.4/angular',
         'leaflet':'lib/leaflet-0.7.3/leaflet-src',
         'select2':'lib/select2/4.0.0/js/select2',
+        'fastmap':"fastmap/fastmapapi",
         'lodash':'lib/lodash/lodash',
         'test': 'app',
         'ngLayout': 'lib/ui-layout/ui-layout',
         'smart-table':'lib/smart-table/smart-table',
-        'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require'
-
+        'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
+        'applicationfuns':'functions/appfunctions',
+        'keyPressFunctions':'functions/keyPressFunctions',
+        'bootspopover':'ctrl/popoverSelect',
+        'timepicki':'lib/timepicki/js/timepicki',
+        'bootstrapDatepicker':'lib/bootstrap-datepicker/js/bootstrap-datepicker',
+        'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
+        'sweet-alert':'lib/sweet-alert/js/sweet-alert.min'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -23,7 +32,14 @@ requirejs.config({
         'ocLazyLoad': ['angular'],
         'ngLayout': ['angular'],
         'smart-table':['angular'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','leaflet','select2']
+        'applicationfuns':['application'],
+        'keyPressFunctions':['jquery','applicationfuns'],
+        'bootspopover':['jquery'],
+        'bootstrapDatepicker':['jquery','bootstrap'],
+        'bootstrapDatepickerCN':['bootstrapDatepicker'],
+        'timepicki':['jquery','angular'],
+        'sweet-alert':['jquery'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert']
     }
 });
 

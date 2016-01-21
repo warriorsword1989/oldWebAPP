@@ -30,9 +30,17 @@ fastmap.uikit.PathCopy = L.Handler.extend({
      */
     removeHooks: function () {
     },
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
 
     onMouseDown: function () {
+        //获取元素
+        //
     },
 
     onMouseMove: function () {

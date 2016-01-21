@@ -1,14 +1,7 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
-<script src="data.js"></script>
+
+
 <style>
     div {
-        font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 14px;
         -webkit-font-smoothing: antialiased;
         line-height: 1.42857143;
         color: #58666e;
@@ -22,8 +15,10 @@
 
     #traffiLimitedDiv {
         border: 1px solid #FBFBFB;
-        width: 30%;
-        height: 100%;
+        width: 100%;
+        height: 530px;
+        min-height: 300px;
+        overflow-y: scroll;
     }
 
     .line-dashed {
@@ -50,68 +45,117 @@
         float: none;
         margin: 0 auto;
     }
+    .form-horizontal .control-label{
+        text-align: center;
+    }
+
+    .checkboxli{
+        background-color: #e4e4e4;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+    }
+    .popover{
+        width: 100%;
+    }
+    .popover-content{
+        overflow-y:auto;height:200px;
+    }
+    
 </style>
-<div ng-app="normalApp" ng-controller="normalController" class="panel panel-default" id="traffiLimitedDiv">
-    <div class="panel-heading font-bold" style=" text-align: center;">
+
+<div  ng-controller="normalController" class="panel panel-default" id="traffiLimitedDiv">
+    <div class="panel-heading font-bold" style=" text-align: center;height: 7%">
         普通交限
-        <span>({{data.pid}})</span>
-
-
+        <span class="label label-info">{{rdRestrictData.pid}}</span>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="height: 95%;">
         <form class="form-horizontal" method="get">
 
             <div class="form-group">
-                <label class="col-sm-2 control-label">入</label>
+                <label class="col-sm-3 control-label">进入</label>
 
-                <div class="col-sm-10">
-                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.exitNode">
+                <div class="col-sm-9">
+                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdRestrictData.inLinkPid">
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
-                <div class="col-sm-2" ng-repeat="item in data.info">
-                    <img src="../../css/limit/{{item.flag}}.png" ng-click="showTips('item.flag')">
+                <div class="col-sm-3" ng-repeat="item in rdRestrictData.details">
+                    <div ng-if="item.flag===1">
+                        <img ng-src="./css/limit/{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                    </div>
+                    <div ng-if="item.flag===2||item.flag===0">
+                        <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                    </div>
+
                 </div>
                     <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus" data-toggle="modal"
                           data-target="#myModal"></span>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">出</label>
+                <label class="col-sm-3 control-label">退出</label>
 
-                <div class="col-sm-10">
-                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.exitNode">
+                <div class="col-sm-9">
+                    <ul class="nav nav-pills nav-stacked" style="max-width: 260px;">
+                        <li class="active">
+                            <a>
+                                <span class="pull-right glyphicon glyphicon-pencil" ng-click="changeOutLink(rdSubRestrictData)"></span>
+                                {{rdSubRestrictData.outLinkPid}}
+                            </a>
+                        </li>
+                    </ul>
+                    <!--<input type="text" class="form-control rounded" placeholder="link编号" ng-model="rdSubRestrictData.outLinkPid">-->
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
-                <div class="col-sm-12">
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="theoryOrActual" value="0" ng-model="data.theory">
-                            理论
-                        </label>
-                        <label>
-                            <input type="radio" name="theoryOrActual" value="1" ng-model="data.theory">
-                            实际
-                        </label> <label>
-                        <input type="radio" name="theoryOrActual" value="2" ng-model="data.theory">
-                        未验证
-                    </label>
+                <label class="col-sm-3 control-label">交限标志</label>
+                <div class="col-sm-9">
+                    <div id="rdSubRestrictflagdiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rdSubRestrictflagbtn0" ng-click="checkrdSubRestrictflag(0,rdSubRestrictData)" ng-model="rdSubRestrictData.flag">未验证</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdSubRestrictflagbtn1" ng-click="checkrdSubRestrictflag(1,rdSubRestrictData)" ng-model="rdSubRestrictData.flag">实际</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdSubRestrictflagbtn2" ng-click="checkrdSubRestrictflag(2,rdSubRestrictData)" ng-model="rdSubRestrictData.flag">理论</button>
                     </div>
+                    <!--<div class="radio">-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag">-->
+                            <!--未验证-->
+                        <!--</label>-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag">-->
+                            <!--实际-->
+                        <!--</label> <label>-->
+                        <!--<input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag">-->
+                        <!--理论-->
+                    <!--</label>-->
+                    <!--</div>-->
                 </div>
-                <div class="col-sm-12">
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="crossingOrLine" value="0" ng-model="data.crossing">
-                            路口
-                        </label>
-                        <label>
-                            <input type="radio" name="crossingOrLine" value="1" ng-model="data.crossing">
-                            线线
-                        </label>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">关系类型</label>
+                <div class="col-sm-9">
+
+                    <div id="rdrelationshipTypediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rdrelationshipTypebtn1" ng-click="checkrdrelationshipType(1,rdSubRestrictData)" ng-model="rdSubRestrictData.relationshipType">路口</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdrelationshipTypebtn2" ng-click="checkrdrelationshipType(2,rdSubRestrictData)" ng-model="rdSubRestrictData.relationshipType">线线</button>
                     </div>
+                    <!--<div class="radio">-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="crossingOrLine" value=1 ng-model="rdSubRestrictData.relationshipType">-->
+                            <!--路口-->
+                        <!--</label>-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="crossingOrLine" value=2 ng-model="rdSubRestrictData.relationshipType">-->
+                            <!--线线-->
+                        <!--</label>-->
+                    <!--</div>-->
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -119,103 +163,32 @@
                 <label class="col-sm-3 control-label">限制类型</label>
 
                 <div class="col-sm-9">
-                    <div class="radio">
-                        <label>
-                            <input type="radio" name="researchOrLimited" value="0"
-                                   ng-model="data.researched">
-                            未调查
-                        </label>
-                        <label>
-                            <input type="radio" name="researchOrLimited" value="1" ng-model="data.researched">
-                            禁止驶入
-                        </label><label>
-                        <input type="radio" name="researchOrLimited" value="2"
-                               ng-model="data.researched">
-                        时间段禁止
-                    </label>
+                    <div id="rdtypediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
+                        <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="rdtypebtn0" ng-click="checkrdtype(0,rdSubRestrictData)" ng-model="rdSubRestrictData.type">未调查</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdtypebtn1" ng-click="checkrdtype(1,rdSubRestrictData)" ng-model="rdSubRestrictData.type">禁止驶入</button>
+                        <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="rdtypebtn2" ng-click="checkrdtype(2,rdSubRestrictData)" ng-model="rdSubRestrictData.type">时间段禁止</button>
                     </div>
+                    <!--<div class="radio">-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="researchOrLimited" value=0-->
+                                   <!--ng-model="rdSubRestrictData.type">-->
+                            <!--未调查-->
+                        <!--</label>-->
+                        <!--<label>-->
+                            <!--<input type="radio" name="researchOrLimited" value=1 ng-model="rdSubRestrictData.type">-->
+                            <!--禁止驶入-->
+                        <!--</label><label>-->
+                        <!--<input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type">-->
+                        <!--时间段禁止-->
+                    <!--</label>-->
+                    <!--</div>-->
                 </div>
             </div>
             <div class="form-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">
-                        时间段
-                        <span style="float: right;">添加</span>
-                    </div>
-                    <div class="panel-body">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">限时</label>
-
-                                <div class="input-group m-b col-sm-10">
-                                    <input type="text" class="form-control" ng-model="data.time1">
-                                    <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button"> <span
-                                           class="glyphicon glyphicon-minus-sign"
-                                           style="color: rgb(255, 0, 0);font-size: 20px"></span></button>
-                                        </span>
-
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">限时</label>
-
-                                <div class="input-group m-b col-sm-10">
-                                    <input type="text" class="form-control" ng-model="data.time2">
-                                    <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button"> <span
-                                           class="glyphicon glyphicon-minus-sign"
-                                           style="color: rgb(255, 0, 0);font-size: 20px"></span></button>
-                                        </span>
-
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">车辆类型</label>
-
-                                <div class="col-sm-10">
-                                    <select class="form-control" ng-model="data.selected">
-                                        <option value="0">客车(小汽车)</option>
-                                        <option value="1">配送卡车</option>
-                                        <option value="2">运输卡车</option>
-                                        <option value="3">步行车</option>
-                                        <option value="4">自行车</option>
-                                        <option value="5">摩托车</option>
-                                        <option value="6">机动脚踏两用车</option>
-                                        <option value="7">急救车</option>
-                                        <option value="8">出租车</option>
-                                        <option value="9">公交车</option>
-                                        <option value="10">工程车</option>
-                                        <option value="11">本地车辆</option>
-                                        <option value="12">自用车辆</option>
-                                        <option value="13">多人乘坐车辆</option>
-                                        <option value="14">军车</option>
-                                        <option value="15">有拖车的车</option>
-                                        <option value="16">私营公共汽车</option>
-                                        <option value="17">农用车</option>
-                                        <option value="18">载有易爆品的车辆</option>
-                                        <option value="19">载有水污染品的车辆</option>
-                                        <option value="20">载有其他污染品的车辆</option>
-                                        <option value="21">电车</option>
-                                        <option value="22">轻轨</option>
-                                        <option value="23">校车</option>
-                                        <option value="24">四轮驱动车</option>
-                                        <option value="25">装有防雪链的车</option>
-                                        <option value="26">邮政车</option>
-                                        <option value="27">槽罐车</option>
-                                        <option value="28">残疾人车</option>
-                                        <option value="29">预留</option>
-                                        <option value="30">预留</option>
-                                        <option value="31">标志位,禁止/允许(0/1)</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <div ng-include="dateURL"></div>
             </div>
+            
+            
         </form>
     </div>
     <!-- 模态框（Modal） -->
@@ -232,14 +205,17 @@
                         增加交限
                     </h4>
                 </div>
-                <div class="modal-body">
-                    <div><img src="../../css/limit/5.png" ng-click="selectTip('5')"></div>
+                <div class="modal-body"  style="height:70px">
+                    <div class="col-sm-1" ng-repeat="addItem in addLimitedData" >
+                        <img ng-src="./css/limitM/{{addItem.id}}.png" ng-click="selectTip(addItem)">
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">关闭
                     </button>
-                    <button type="button" class="btn btn-primary"  ng-click="addTips()">
+                    <button type="button" class="btn btn-primary" ng-click="addTips()">
                         增加
                     </button>
                 </div>
@@ -249,32 +225,3 @@
         <!-- /.modal -->
     </div>
 </div>
-
-<script>
-    var normalApp = angular.module("normalApp", []);
-    normalApp.controller("normalController", function ($scope) {
-        $scope.data = test;
-        $scope.showTips = function (id) {
-            alert(id);
-        };
-        $scope.selectTip = function (id) {
-            $scope.tipsId = id;
-        };
-        $scope.addTips = function () {
-            if($scope.tipsId===null||$scope.tipsId===undefined) {
-                alert("请先选择tips");
-                return;
-            }
-            var tipsObj = $scope.data.info;
-            for (var i = 0, len = tipsObj.length; i < len; i++) {
-                if (tipsObj[i].flag === $scope.tipsId) {
-                    alert("重复");
-                    return;
-                }
-            }
-            $scope.data.info.push({flag: $scope.tipsId});
-
-        }
-    });
-
-</script>

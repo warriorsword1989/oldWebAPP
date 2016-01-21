@@ -17,9 +17,14 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        this.shapEditor = this.options.shapEditor;
-        this._map = this.options.shapEditor.map;
+        this.shapeEditor = this.options.shapeEditor;
+        this._map = this.options.shapeEditor.map;
+        this.container = this._map._container;
         this._mapDraggable = this._map.dragging.enabled();
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
     /***
@@ -27,6 +32,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('mousemove', this.onMouseMove, this);
     },
 
     /***
@@ -34,6 +40,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
      */
     removeHooks: function(){
         this._map.off('mousedown', this.onMouseDown, this);
+        this._map.off('mousemove', this.onMouseMove, this);
     },
 
     disable: function () {
@@ -49,24 +56,43 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
         this.resetVertex(layerPoint);
-        this.shapEditor.shapeEditorResultFeedback.setupFeedback()
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
     },
 
-    onMouseMove: function(){},
+    onMouseMove: function(event){
+        //this.container
+        //this.container.style.cursor = 'crosshair';
+        this.snapHandler.setTargetIndex(0);
+        var that = this;
+        if(this.snapHandler.snaped == true){
+            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
+        }else{
+            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
 
+    },
+    //两点之间的距离
+    distance:function(pointA, pointB) {
+        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+        return Math.sqrt(len);
+    },
     drawFeedBack: function(){},
 
     resetVertex:function(layerPoint){
 
         var index = 0
-        var segments = this.shapEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
+        var segments = this.shapeEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
         for(var i = 0,len = segments.length; i< len; i++){
             var distance =  L.LineUtil.pointToSegmentDistance(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2)))
             if(distance < 5){
-                latlng =map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2))));
+                latlng =this._map.layerPointToLatLng(L.LineUtil.closestPointOnSegment(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2))));
                 index = i;
-                this.shapEditor.shapeEditorResult.getFinalGeometry().points.splice(index*2,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
-                this.shapEditor.shapeEditorResult.setFinalGeometry(this.shapEditor.shapeEditorResult.getFinalGeometry());
+                this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(index+1,0,fastmap.mapApi.point(latlng.lng, latlng.lat))
+
+                this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
             }
         }
 

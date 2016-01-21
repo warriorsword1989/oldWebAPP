@@ -1,0 +1,327 @@
+<style type="text/css">
+  .datetip > .form-group > .btn-group > label{
+        transition: all 0.5s;
+    }
+    .arrow {
+        position: absolute;
+        top: -20px;
+        transform: rotate(180deg);
+        -ms-transform:rotate(180deg);     /* IE 9 */
+        -moz-transform:rotate(180deg);    /* Firefox */
+        -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
+        -o-transform:rotate(180deg);  /* Opera */
+        margin: 10px 0 0 0px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid rgba(0, 0, 0, 0);
+        border-right: 10px solid transparent;
+        border-top: 10px solid #fff;
+    }
+    .datetip{
+        width:370px;
+        display: none;
+        padding: 10px;
+        margin-top: 10px;
+        box-shadow: 1px 1px 10px 0 #777777;
+        background-color: white;
+        border-radius: 3px;
+        position: absolute;
+        z-index: 1070;
+        text-decoration: none;
+        text-shadow: none;
+        text-transform: none;
+        letter-spacing: normal;
+        word-break: normal;
+        word-spacing: normal;
+        word-wrap: normal;
+        white-space: normal;
+        -webkit-transition: margin .15s ease-in-out;
+        -moz-transition: margin .15s ease-in-out;
+    }
+    .date-select{
+        cursor: pointer;
+    }
+    .date-select[readonly]{
+        background-color: #FFFFFF;
+    }
+    .date-option{
+        top: 7px;
+        padding-left: 10px;
+        cursor: pointer;
+    }
+    .line{
+        border-top: 1px solid #ddd;
+        margin-left: -10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: -10px;
+    }
+    .time-slide-well{
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 3px;
+    }
+    .date-well{
+        /*width: 350px;*/
+    }
+    .remove-date-list{
+        color:#FF0000;
+        cursor: pointer;
+        font-size: 19px;
+    }
+    .btn-option{
+        margin-top:50px;
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+    .select-time{
+        background-color: #FFFFFF !important;
+        border-radius: 0
+    }
+    .time-name{
+        margin-top: 7px;
+    }
+    .time-select{
+        margin-top: 10px
+    }
+    .input-group-btn > .icon-btn{
+        height: 34px;
+    }
+    .full-width{
+        width: 100%;
+    }
+    .time-select > .input-group > .seleted-span-addon{
+        background-color: #FFFFFF;
+        border: 0;
+        padding: 0;
+    }
+    .seleted-addon{
+        width: 80px;
+        margin-right: -1px;
+        height: 34px;
+        border: 1px solid #ccc;
+    }
+    .select-date{
+        background-color: #FFFFFF !important;
+        width: 100px !important;
+        margin-right: -1px;
+    }
+    .date-picker{
+        padding: 6px 8px;
+        background-color: #FFFFFF;
+        cursor: pointer;
+    }
+    .date-picker:hover{
+        background-color: #e6e6e6;
+        border-color: #adadad;
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    }
+    .date-msg,.date-suc-msg{
+        margin-top: 10px;
+        margin-bottom: 0px;
+        padding: 3px 20px;
+        border-radius: 0;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+    .close-msg{
+        margin-right: 10px
+    }
+    .empty-time{
+        position: absolute;
+        right: 75px;
+        z-index: 999;
+        margin-top: -27px;
+        cursor: pointer;
+    }
+</style>
+<div class="panel panel-default date-well" ng-controller="DateCtrl">
+  <div class="panel-heading">
+    <h3 class="panel-title pull-left">时间段</h3>
+    <a href="javascript:;" class="pull-right" ng-click="dateSelect($event)">添加</a>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body">
+    <div class="date-list"></div>
+    <div class="date-list" ng-repeat="item in dateList">
+        <div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
+        </div>
+        <div class="col-xs-2 col-md-2 col-lg-1">
+            <span class="glyphicon glyphicon-minus-sign remove-date-list pull-right" ng-click="removeList($event)"></span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="line"></div>
+    </div>
+  </div>
+    <div class="datetip">
+        <div class="pull-left">时间段设置</div>
+        <div class="pull-right">
+            <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="clearfix"></div>
+        <div class="line"></div>
+        <label class="radio-inline">
+          <input type="radio" name="timeType" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="timeType" time-type="continue-time" ng-click="timeType($event)"> 持续时间
+        </label>
+      <!-- begin 固定时间 -->
+      <div class="form-group fix-time time-slide-well">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default week-group" ng-click="weekGroup($event)" check-code='{{week.code}}' check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values">
+           {{week.value}}
+          </label>
+        </div>
+        <div class="time-select">
+            <span class="col-xs-4 col-md-3 col-lg-3 time-name">开始时间 </span >
+            <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+              <input type="text" class="form-control select-time" ng-click="selectTime($event)" ng-model="begin_time" placeholder="开始时间" readonly>
+              <span class="input-group-btn">
+                <button class="btn btn-default icon-btn" type="button">
+                    <i class="glyphicon glyphicon-time"></i>
+                </button>
+              </span>
+            </div>
+            <!-- <span class="empty-time" date-model-name="begin_time">×</span> -->
+        </div>
+        <div class="time-select">
+            <span class="col-xs-4 col-md-3 col-lg-3 time-name">结束时间 </span >
+            <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+              <input type="text" class="form-control select-time" ng-click="selectTime($event)" ng-model="end_time" placeholder="结束时间" readonly>
+              <span class="input-group-btn">
+                <button class="btn btn-default icon-btn" type="button">
+                    <i class="glyphicon glyphicon-time"></i>
+                </button>
+              </span>
+            </div>
+            <!-- <span class="empty-time" date-model-name="end_time">×</span> -->
+        </div>
+      </div>
+      <!-- end 固定时间 -->
+      <!-- begin 持续时间 -->
+      <div class="form-group continue-time time-slide-well" style="display:none">
+        <div class="btn-group full-width" data-toggle="buttons">
+          <label class="btn btn-default" ng-repeat="value in dwm.values" ng-class="{btn: true,'btn-default': true, active: value.code == dwm.selection.code}" style="width:33%">
+            <div ng-click='dwmType($event,value)'>
+                <input type="radio" name="week" ng-model="dwm.selection" ng-value="value" autocomplete="off" ng-click="dwmType($event,value)" dwm-type="dwm.selection" checked> {{value.value}}
+            </div>
+          </label>
+        </div>
+        <!-- 日 -->
+        <div class="day-well">
+            <div class="time-select">
+                <span class="col-xs-4 col-md-3 col-lg-3 time-name">开始时间 </span >
+                <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+                  <span class="input-group-addon seleted-span-addon">
+                    <input type="text" class="form-control select-date" ng-click="selectDate($event)" ng-model="dBeginDate" value="{{dBeginDate}}" placeholder="开始日期" readonly>
+                  </span>
+                  <span class="input-group-addon date-picker" ng-click="datePicker($event)" picker-name="dBeginDate" title="请选择日期">
+                    <!-- <i class="glyphicon glyphicon-calendar"></i> -->
+                    选择
+                  </span>
+                  <input type="text" class="form-control select-time" ng-click="selectTime($event)" ng-model="d_begin_time" placeholder="开始" readonly>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default icon-btn" type="button">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                  </span>
+                </div>
+            </div>
+            <div class="time-select">
+                <span class="col-xs-4 col-md-3 col-lg-3 time-name">结束时间 </span >
+                <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+                  <span class="input-group-addon seleted-span-addon">
+                    <input type="text" class="form-control select-date" ng-click="selectDate($event)" ng-model="dEndDate" value="{{dEndDate}}" placeholder="结束日期" readonly>
+                  </span>
+                  <span class="input-group-addon date-picker" ng-click="datePicker($event)" picker-name="dEndDate" title="请选择日期">
+                    <!-- <i class="glyphicon glyphicon-calendar"></i> -->
+                    选择
+                  </span>
+                  <input type="text" class="form-control select-time" ng-click="selectTime($event)" ng-model="d_end_time" placeholder="结束" readonly>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default icon-btn" type="button">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                  </span>
+                </div>
+            </div>
+          </div>
+        <!-- 周 -->
+        <div class="week-well" style="display:none">
+            <div class="time-select">
+                <span class="col-xs-4 col-md-3 col-lg-3 time-name">开始时间 </span >
+                <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+                  <span class="input-group-addon seleted-span-addon">
+                    <select class="seleted-addon" ng-click="seletedAddon($event)" ng-model="wks.wBeginSelection" ng-options="week.name for week in wks.values">
+                    <!-- <option value="">--选择--</option> -->
+                    </select>
+                  </span>
+                  <input type="text" class="form-control select-time" ng-click="selectTime($event)" ng-model="w_begin_time" placeholder="开始时间" readonly>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default icon-btn" type="button">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                  </span>
+                </div>
+            </div>
+            <div class="time-select">
+                <span class="col-xs-4 col-md-3 col-lg-3 time-name">结束时间 </span >
+                <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+                  <span class="input-group-addon seleted-span-addon">
+                    <select class="seleted-addon" ng-click="seletedAddon($event)" ng-model="wks.wEndSelection" ng-options="week.name for week in wks.values">
+                    <!-- <option value="">--选择--</option> -->
+                    </select>
+                  </span>
+                  <input type="text" class="form-control select-time" ng-click="selectTime($event)" ng-model="w_end_time" placeholder="结束时间" readonly>
+                  <span class="input-group-btn">
+                    <button class="btn btn-default icon-btn" type="button">
+                        <i class="glyphicon glyphicon-time"></i>
+                    </button>
+                  </span>
+                </div>
+            </div>
+          </div>
+        <!-- 月 -->
+        <div class="month-well" style="display:none">
+            <div class="time-select">
+                <span class="col-xs-4 col-md-3 col-lg-3 time-name">开始月份 </span >
+                <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+                  <select class="form-control full-width" ng-model="mons.begin" ng-options="date.label for date in mons.values">
+                  </select>
+                </div>
+            </div>
+            <div class="time-select">
+                <span class="col-xs-4 col-md-3 col-lg-3 time-name">结束月份 </span >
+                <div class="input-group col-xs-7 col-md-8 col-lg-9" style="left: -8px;">
+                  <select class="form-control full-width" ng-model="mons.end" ng-options="date.label for date in mons.values">
+                  </select>
+                </div>
+            </div>
+          </div>
+        </div>
+      <!-- end 持续时间 -->
+        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+            <label class="checkbox-inline">
+              <input type="checkbox" ng-model="vagueTime" value="z"> 模糊时间
+            </label>
+        </div>
+        <div class="btn-option">
+            <button class="btn btn-default" type="button" ng-click="dateSelect($event)">取消</button>
+            <button class="btn btn-primary date-save" ng-click="dateSave($event)" type="button">
+                <i class="glyphicon glyphicon-floppy-disk"></i> 保存
+            </button>
+        </div>
+        <div class="alert alert-danger alert-dismissible fade in date-msg" role="alert" style="display:none">
+          <p class="error-msg"></p>
+        </div>
+        <div class="alert alert-success alert-dismissible fade in date-suc-msg" role="alert" style="display:none">
+          <p class="success-msg"></p>
+        </div>
+      <!-- <div class="arrow"></div> -->
+    </div>
+</div>

@@ -13,11 +13,17 @@ fastmap.uikit.ShapeEditorFactory = L.Class.extend({
         L.setOptions(this, options);
     },
 
-    CreateShapeToolsObject: function (shapEditor) {
+    CreateShapeToolsObject: function (shapeEditor) {
         var toolsObject = {
-            'pathcopy': new fastmap.uikit.PathCopy(),
-            'pathcut': new fastmap.uikit.PathCut(),
-            'pathVertextInsert': new fastmap.uikit.PathVertexInsert({shapEditor:shapEditor})
+            'drawPath': new fastmap.uikit.DrawPath({shapeEditor:shapeEditor}),
+            'pathcopy': new fastmap.uikit.PathCopy({shapeEditor:shapeEditor}),
+            'pathcut': new fastmap.uikit.PathCut({shapeEditor:shapeEditor}),
+            'pathVertexInsert': new fastmap.uikit.PathVertexInsert({shapeEditor:shapeEditor}),
+            'pathVertexMove': new fastmap.uikit.PathVertexMove({shapeEditor:shapeEditor}),
+            'pathVertexReMove': new fastmap.uikit.PathVertexRemove({shapeEditor:shapeEditor}),
+            'pathVertexAdd': new fastmap.uikit.PathVertexAdd({shapeEditor:shapeEditor}),
+            'pathBreak': new fastmap.uikit.PathBreak({shapeEditor:shapeEditor}),
+            'transformDirect':new fastmap.uikit.TransformDirection({shapeEditor:shapeEditor})
         };
         return toolsObject;
     }

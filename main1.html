@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-3.3.5/css/bootstrap.css"/>
+    <link rel="stylesheet" href="js/lib/ui-layout/ui-layout.css">
+    <link rel="stylesheet" href="js/lib/ng-table/1.0.0/ng-table.css">
+    <link rel="stylesheet" href="js/lib/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/timepicki/css/timepicki.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <style>
+
+        .ui-layout-container {
+            display: inline-block;
+
+        }
+        /*高速分歧map上图片显示*/
+        #picMapShow{
+            width: 120px;
+            height: 98px;
+            border-right: 1px solid #e5e5e5;
+            border-top: 1px solid #e5e5e5;
+            top: 40px;
+            position: absolute;
+            right: 0px;
+            background-color: #fff;
+            z-index: 999;
+            border-bottom-left-radius: 4px;
+            box-shadow: -4px 5px 8px 0px;
+            display: none;
+        }
+        #picMapImg{
+            width: 100%;
+            height: 100%;
+            border-bottom-left-radius: 4px;
+            text-align: center;
+        }
+        #picMapDesc{
+            background-color: #fff;
+            top: 5px;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            /*border-left: 1px solid #C0C0C0;
+            border-right: 1px solid #c0c0c0;*/
+        }
+        .show-animation{
+            transition:all 0.5s;
+        }
+    </style>
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
+</head>
+
+<body ng-controller="generalController" style="min-width: 1024px">
+<div style="height: 50px">
+    <nav class="navbar navbar-default navbar-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand logo" href="javascript:void(0);"></a>
+                <span class="navbar-brand platform">FastMap |</span>
+                <span class="navbar-brand system">道路录入系统</span>
+            </div>
+            <div class="collapse navbar-collapse" id="nav-button">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a style="padding-right: 0px;margin-right: -10px">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span id="currentUser" style="padding-right: 7px"></span>|
+                        </a>
+                    </li>
+                    <li>
+                        <a id="login-out" href="login.html">
+                            <i class="glyphicon glyphicon-log-out"></i>退出
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+    <div id="parentId" ui-layout="{flow:'column',dividerSize:'6'}"  style="top: 50px">
+        <div ui-layout-container size="15%"  max-size="190px" min-size="190px" >
+            <div >
+                <div class="leftDiv" style="width: 38px;background: #F8F8F8;">
+                    <div class="fragDiv" id="referenceLayers"  style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;">
+                        <img src="css/img/referenceLayers.png " >
+                            <span title="参考图层" class="glyphicon " style=" padding-left: 13px;"
+                                  ng-click="changeLayers('referenceLayers')">参考图层</span>
+                    </div>
+                    <div class="fragDiv" id="resultLayers" style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;" >
+                        <img src="css/img/resultLayers.png " >
+                        <span title="现场成果" class="glyphicon " style=" padding-left: 13px;"
+                                  ng-click="changeLayers('resultLayers')">现场成果</span>
+                    </div>
+                </div>
+                <div class="rightDiv" style="padding-left:35px; ">
+                    <div ng-include="layersURL"></div>
+                </div>
+            </div>
+
+        </div>
+        <div ui-layout-container>
+
+            <div ui-layout="{flow:'row',dividerSize:'6'}">
+
+                <div ui-layout-container size="70%">
+                    <div id="map" style="width: 100%;height: 100%;position: absolute;">
+                        <div id="toolsDiv" style="height: 40px;position: relative;z-index:4;background-color: #F8F8F8">
+                            <div class="btn-toolbar">
+                                <div ng-include="selectShapeURL" style="float: left"></div>
+                                <div style="float: left"><span class="divider-vertical"></span></div>
+                                <div ng-include="addShapeURL" style="float: left;"></div>
+                                <!--<div style="float: left">-->
+                                <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
+                                <!--</div>-->
+                                <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
+                            </div>
+
+                        </div>
+                        <div id="popoverTips" style="position:relative;display:none;z-index:2;width:400px">
+                                <div ng-include="dataTipsURL" style="width: 400px"></div>
+                        </div>
+                        <div id="picMapShow">
+                            <img id="picMapImg" alt="无此箭头图">
+                            <div id="picMapDesc"></div>
+                        </div>
+                    </div>
+                </div>
+                <div ui-layout-container style="overflow: hidden">
+                    <ul id="inspectAndWrongTab" class="nav nav-tabs">
+                        <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
+                            输出结果</a>
+                        </li>
+                        <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">错误检查</a>
+                        </li>
+                        <div style="float: right;">
+                            <button id="immediatelyCheck" class="btn btn-default" >立即检查</button>
+                            <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default" >清空</button>
+                        </div>
+                    </ul>
+                    <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
+                        <div class="tab-pane fade in active" id="inspectDiv">
+                            <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height: 150px"></div>
+                        </div>
+                        <div class="tab-pane fade in active" id="wrongDiv">
+                            <div ng-include="errorCheckTab"></div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden;overflow-x:hidden" max-size="350px" min-size="350px">
+            <div ng-include="objectEditURL" style="margin-bottom: 30px; overflow-y: auto; height: 98%; "></div>
+            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; ">
+                <div  style=" margin: 0 auto;padding-top: 5px;padding-bottom:5px;border-top: 1px solid #ccc;text-align:center;">
+                    <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;"  ng-click="save()">保存</button>
+                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="delete()">删除</button>
+                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div></div>
+<!--<div ng-show="showLoading" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>-->
+<div id='tooltip' class="tooltipclass"></div>
+<div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    图片
+                </h4>
+            </div>
+            <div class="modal-body" style="overflow:scroll;height: 550px;">
+                <img id="dataTipsOriginImg" src="">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal -->
+</div>
+<script type="text/javascript" data-main="js/main" src="js/lib/require/require.js"></script>
+
+</body>
+</html>

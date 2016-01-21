@@ -30,12 +30,16 @@ fastmap.uikit.SelectController=(function() {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.selectedFeatures = null;
+                this.updateTipsCtrl = "";
+                this.updateKindTips = "";
+                this.on("selectByAttribute", this.OnSelectByAttribute, this);
             },
             /**
              * 根据属性获取元素
              * @method selectByAttribute
              */
-            selectByAttribute:function() {
+            OnSelectByAttribute:function(event) {
+                this.rowKey = event.feather;
                 var features=[];
                 this.onSelected(features);
             },
@@ -46,8 +50,8 @@ fastmap.uikit.SelectController=(function() {
              */
             selectByGeometry:function(geometry) {
                 this.geometry = geometry;
-                var features=[];
-                if(geometry ==="circle"){
+                var features={geometry:geometry};
+                if(geometry==="circle"){
                 }
 
                 this.onSelected(features);

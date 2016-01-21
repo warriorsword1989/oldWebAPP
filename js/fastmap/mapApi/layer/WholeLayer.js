@@ -10,7 +10,7 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
      */
     initialize: function (options) {
         this.options = options || {};
-        fastmap.mapApi.Layer.prototype.initialize.call(this, options);
+        fastmap.mapApi.Layer.prototype.initialize.call(this,options);
     },
 
     /***
@@ -53,8 +53,36 @@ fastmap.mapApi.WholeLayer = fastmap.mapApi.Layer.extend({
         this.canv.style.height = this.canv.height + "px";
         container.appendChild(this.canv);
         this._div = container;
-        this.map.getPanes().overlayPane.appendChild(this._div);
+        this.map.getPanes().tilePane.appendChild(this._div);
+
+        this._div.style.zIndex = this.options.zIndex;
     },
+    setZIndex:function(zIndex){
+        this._div.style.zIndex = zIndex;
+
+        return this;
+    },
+    bringToFront: function () {
+
+        this._div.style.zIndex = 100;
+
+        return this;
+    },
+
+    bringToBack: function () {
+
+        this._div.style.zIndex = 0;
+
+        return this;
+    },
+
+    _setAutoZIndex: function (pane, compare) {
+
+
+
+        this.options.zIndex = this._div.style.zIndex = 100;
+    },
+
 
     /***
      * 绘制图层内容

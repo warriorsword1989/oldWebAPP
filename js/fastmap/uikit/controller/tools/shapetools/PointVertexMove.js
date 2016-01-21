@@ -30,7 +30,12 @@ fastmap.uikit.PointVertexMove = L.Handler.extend({
      */
     removeHooks: function () {
     },
-
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
     onMouseDown: function () {
     },
@@ -39,6 +44,10 @@ fastmap.uikit.PointVertexMove = L.Handler.extend({
     },
 
     drawFeedBack: function () {
+    },
+    //两点之间的距离
+    distance:function(pointA, pointB) {
+        var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+        return Math.sqrt(len);
     }
-
 })

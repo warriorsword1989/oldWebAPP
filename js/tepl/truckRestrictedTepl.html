@@ -1,0 +1,168 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
+<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
+<style>
+    div{
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+    label {
+        font-weight: normal;
+    }
+    #truckDiv {
+        border: 1px solid #FBFBFB;
+        width: 30%;
+        height: 100%;
+    }
+
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+
+    .b-b {
+        border-bottom: 1px solid #dee5e7;
+    }
+
+    .line-lg {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .pull-in {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+</style>
+<div ng-controller="truckController" id="truckDiv">
+        <h2 style="color: #3399FF;">卡车限制信息<span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus"></span></h2>
+    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 0px"></div>
+       <form class="form-horizontal" method="get">
+           <div class="form-group">
+               <label class="col-sm-3 control-label">限制方向</label>
+               <div class="col-sm-9">
+                   <div class="radio">
+                       <label>
+                           <input type="radio" name="truckProving" value="proved" ng-model="formData.proved">
+                           已验证
+                       </label>
+                       <label>
+                           <input type="radio" name="truckProving" value="proving" ng-model="formData.proving">
+                           未验证
+                       </label>
+                   </div>
+               </div>
+
+           </div>
+       </form>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal" method="get">
+                    <div class="form-group" style="margin: 0px">
+                        <span class="glyphicon glyphicon-minus-sign" style="float: right;color: rgb(192,192,192);font-size:20px;padding: 0 0 10px;"></span>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in" style="margin-top: 0px"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">限制方向</label>
+
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="">
+                                <option value="0">未调查</option>
+                                <option value="1">双方向</option>
+                                <option value="2">顺方向</option>
+                                <option value="3">逆方向</option>
+                                <option value="9">不应用</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">时间段</label>
+                         <div class="col-sm-9">
+                             <div class="row">
+                                 <div class="col-sm-7">
+                                     <input type="text" class="form-control">
+                                 </div>
+                                 <div class="col-sm-3">
+                                     <button type="submit" class="btn btn-default">有效控件</button>
+                                 </div>
+                             </div>
+                         </div>
+
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">拖挂车限制</label>
+
+                        <div class="col-sm-9">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="trailerLimited" value="limited" ng-model="formData.limited">
+                                    限制
+                                </label>
+                                <label>
+                                    <input type="radio" name="trailerLimited" value="limit" ng-model="formData.limit">
+                                    不限制
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">车辆限重</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">限制承重</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">限制轴数</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">本外埠车辆限制</label>
+
+                        <div class="col-sm-9">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="inOrOutside" value="outsideLimited"
+                                           ng-model="formData.outsideLimited">
+                                    限外埠
+                                </label>
+                                <label>
+                                    <input type="radio" name="inOrOutside" value="insideLimited"
+                                           ng-model="formData.insideLimited">
+                                    限本埠
+                                </label>
+                                <label>
+                                    <input type="radio" name="inOrOutside" value="unapply" ng-model="formData.unapply">
+                                    不应用
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+</div>
+
+

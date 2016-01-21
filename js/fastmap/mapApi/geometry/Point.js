@@ -51,8 +51,6 @@ fastmap.mapApi.Point = fastmap.mapApi.Geometry.extend({
      */
     clone: function () {
         var obj = new fastmap.mapApi.Point(this.x, this.y);
-        // catch any randomly tagged-on properties
-        fastmap.Utils.applyDefaults(obj, this);
 
         return obj;
     },

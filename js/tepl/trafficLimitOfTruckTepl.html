@@ -1,10 +1,12 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
 <link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
+<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
+<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
+<script src="../lib/angularjs/1.4.4/angular.js"></script>
+<script src="data.js"></script>
 <style>
     div {
-        font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 14px;
         -webkit-font-smoothing: antialiased;
         line-height: 1.42857143;
         color: #58666e;
@@ -111,10 +113,10 @@
     }
 
 </style>
-<div class="panel panel-default" id="truckLimitDiv">
+<div ng-app="truckApp" ng-controller="truckController" class="panel panel-default" id="truckLimitDiv">
     <div class="panel-heading font-bold" style=" text-align: center;">
         卡车交限
-        <span>(pid)</span>
+        <span>({{data.pid}})</span>
     </div>
     <div class="panel-body">
         <form class="form-horizontal" method="get">
@@ -122,19 +124,23 @@
                 <label class="col-sm-2 control-label">入</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control rounded" placeholder="link编号">
+                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.inLinkPid">
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
-                <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus"></span>
+                <div class="col-sm-2" ng-repeat="item in data.info">
+                    <img src="../../css/limit/{{item.flag}}.png" ng-click="showTips('item.flag')">
+                </div>
+                    <span style="float:right;font-size: 20px" class="glyphicon glyphicon-plus" data-toggle="modal"
+                          data-target="#myModal"></span>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">出</label>
 
                 <div class="col-sm-10">
-                    <input type="text" class="form-control rounded" placeholder="link编号">
+                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.outLinkPid">
                 </div>
             </div>
             <div class="line line-dashed b-b line-lg pull-in"></div>
@@ -142,11 +148,11 @@
                 <div class="col-sm-12">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="crossingOrLine" value="crossing" ng-model="formData.crossing">
+                            <input type="radio" name="crossingOrLine" value="1" ng-model="data.relationShip">
                             路口
                         </label>
                         <label>
-                            <input type="radio" name="crossingOrLine" value="line" ng-model="formData.line">
+                            <input type="radio" name="crossingOrLine" value="2" ng-model="data.relationShip">
                             线线
                         </label>
                     </div>
@@ -159,16 +165,17 @@
                 <div class="col-sm-9">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="researchOrLimited" value="researched"
-                                   ng-model="formData.researched">
+                            <input type="radio" name="researchOrLimited" value="0"
+                                   ng-model="data.type">
                             未调查
                         </label>
                         <label>
-                            <input type="radio" name="researchOrLimited" value="limited" ng-model="formData.limited">
+                            <input type="radio" name="researchOrLimited" value="1"
+                                   ng-model="data.type">
                             禁止驶入
                         </label><label>
-                        <input type="radio" name="researchOrLimited" value="timedLimited"
-                               ng-model="formData.timedLimited">
+                        <input type="radio" name="researchOrLimited" value="2"
+                               ng-model="data.type">
                         时间段禁止
                     </label>
                     </div>
@@ -179,15 +186,15 @@
                 <div class="col-sm-12">
                     <div class="radio">
                         <label>
-                            <input type="radio" name="crossingOrLine" value="crossing" ng-model="formData.crossing">
+                            <input type="radio" name="resOrOut" value="0" ng-model="data.resOut">
                             限本埠
                         </label>
                         <label>
-                            <input type="radio" name="crossingOrLine" value="line" ng-model="formData.line">
+                            <input type="radio" name="resOrOut" value="1" ng-model="data.resOut">
                             限外埠
                         </label>
                         <label>
-                            <input type="radio" name="crossingOrLine" value="line" ng-model="formData.line">
+                            <input type="radio" name="resOrOut" value="2" ng-model="data.resOut">
                             不应用
                         </label>
                     </div>
@@ -200,37 +207,41 @@
                 <div class="panel-body">
                     <form class="form-horizontal" method="get">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">拖挂车</label>
+                            <label class="col-sm-3 control-label">拖挂车</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-9">
                                 <label class="i-switch i-switch-md bg-info m-t-xs m-r">
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" ng-model="data.resTrailer"
+                                           ng-click="checkTrailer(data.resTrailer)">
                                     <i></i>
                                 </label>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">限重</label>
+                            <label class="col-sm-3 control-label">限重</label>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control rounded" placeholder="0">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control rounded" placeholder="0"
+                                       ng-model="data.resWeigh">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">轴重</label>
+                            <label class="col-sm-3 control-label">轴重</label>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control rounded" placeholder="0">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control rounded" placeholder="0"
+                                       ng-model="data.resAxleLoad">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">轴数</label>
+                            <label class="col-sm-3 control-label">轴数</label>
 
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control rounded" placeholder="0">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control rounded" placeholder="0"
+                                       ng-model="data.resAxleCount">
                             </div>
                         </div>
                     </form>
@@ -239,38 +250,106 @@
             <div class="panel panel-default">
                 <div class="panel-heading font-bold">
                     时间段
-                    <span style="float: right;">添加</span>
+                  <span class="glyphicon glyphicon-plus"
+                        style="float: right;color: darkgray;font-size: 20px"
+                        ng-click="addTruckTime()"></span>
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="get">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">限时</label>
+                        <div ng-repeat="item in data.time">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">限时</label>
 
-                            <div class="input-group m-b col-sm-10">
-                                <input type="text" class="form-control">
-                                    <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button"> <span
-                                           class="glyphicon glyphicon-minus-sign"
-                                           style="color: rgb(255, 0, 0);font-size: 20px"></span></button>
-                                        </span>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"></div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">限时</label>
+                                <div class="input-group m-b col-sm-10">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <input class="form-control" type="text" ng-model="item.startTime">
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" type="text" ng-model="item.endTime">
+                                        </div>
+                                        <div class="col-sm-2">
+                                                      <span
+                                                              class="glyphicon glyphicon-remove-sign"
+                                                              style="color:darkgray;font-size: 20px"
+                                                              ng-click="minusTruckTime($index)"></span>
+                                        </div>
+                                    </div>
 
-                            <div class="input-group m-b col-sm-10">
-                                <input type="text" class="form-control">
-                                    <span class="input-group-btn">
-                                   <button class="btn btn-default" type="button"> <span
-                                           class="glyphicon glyphicon-minus-sign"
-                                           style="color: rgb(255, 0, 0);font-size: 20px"></span></button>
-                                        </span>
+
+                                </div>
                             </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
                         </div>
                     </form>
                 </div>
             </div>
         </form>
     </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        增加交限
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div><img src="../../css/limit/5.png" ng-click="selectTip('5')"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="addTips()">
+                        增加
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
 </div>
+<script>
+    var truckApp = angular.module("truckApp", []);
+    truckApp.controller("truckController", function ($scope) {
+        $scope.data = truckTest;
+        $scope.checkTrailer=function(flag) {
+            alert(flag);
+        };
+        $scope.showTips = function (id) {
+            alert(id);
+        };
+        $scope.selectTip = function (id) {
+            $scope.tipsId = id;
+        };
+        $scope.addTips = function () {
+            if($scope.tipsId===null||$scope.tipsId===undefined) {
+                alert("请先选择tips");
+                return;
+            }
+            var tipsObj = $scope.data.info;
+            for (var i = 0, len = tipsObj.length; i < len; i++) {
+                if (tipsObj[i].flag === $scope.tipsId) {
+                    alert("重复");
+                    return;
+                }
+            }
+            $scope.data.info.push({flag: $scope.tipsId});
+
+        }
+        $scope.addTruckTime = function () {
+            $scope.data.time.unshift({startTime: "", endTime: ""})
+        };
+        $scope.minusTruckTime=function(id) {
+            $scope.data.time.splice(id, 1);
+        };
+    })
+</script>
