@@ -4,7 +4,7 @@
  */
 fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     options: {
-        debug: false
+        debug: true
     },
 
     tileSize: 256,
@@ -226,7 +226,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         } else {
             p = this._tilePoint(ctx, geom);
         }
-
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.beginPath();
@@ -247,7 +246,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @private
      */
     _drawImg: function (ctx, geom, imgsrc, boolPixelCrs) {
-        if (!imgsrc.src) {
+        if (!imgsrc) {
             return;
         }
         var p = null;
@@ -264,8 +263,43 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
             g.drawImage(image, p.x, p.y);
         };
-
-
+    },
+    _drawImgRoute: function (ctx, geom, imgsrc,arrorSrc, boolPixelCrs,rount) {
+        if (!imgsrc.src) {
+            return;
+        }
+        var p = null;
+        if (boolPixelCrs) {
+            p = {x: geom[0], y: geom[1]}
+        } else {
+            p = this._tilePoint(ctx, imgsrc);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        var image = new Image(),
+            arrorImg=new Image();
+        image.src = imgsrc.src;
+        arrorImg.src = arrorSrc.src;
+        var xpos=parseInt(geom[0]);
+        var ypos=parseInt(geom[1]);
+        image.onload = function () {
+            g.save();
+            g.translate(p.x, p.y);
+            g.rotate(rount);//旋转度数
+           // g.translate(-xpos, -ypos);
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            g.drawImage(image, - image.width / 2, -image.height/2);
+            g.restore();
+        };
+        arrorImg.onload= function () {
+            g.save();
+            g.translate(p.x, p.y);
+            g.rotate(rount);//旋转度数
+            //g.translate(-p.x, -p.y);
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            g.drawImage(arrorImg,10, -arrorImg.height/2);
+            g.restore();
+        }
     },
     _drawText: function (ctx, geom, name) {
         var c = ctx.canvas;
@@ -324,94 +358,36 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
     },
-    _drawBridge: function (cav, oriStart, oriEnd, direct) {
+    _drawBridge: function (cav, geom, that) {
         var c = cav.canvas;
         var ctx = c.getContext('2d');
-        var angle = this._rotateAngle(oriStart, oriEnd), endPoint,
-            drawPoint, linkLen = 0, sectionLen = 0;
-        linkLen = this.distance(oriStart, oriEnd);
-        if (angle === 0) {
-            if (oriStart[0] < oriEnd[0]) {
-                drawPoint = oriStart;
-                endPoint = oriEnd;
-            } else {
-                drawPoint = oriEnd;
-                endPoint = oriStart;
-            }
-        } else if (angle === (Math.PI / 2)) {
-            if (oriStart[1] < oriEnd[1]) {
-                drawPoint = oriStart;
-                endPoint = oriEnd;
-            } else {
-                drawPoint = oriEnd;
-                endPoint = oriStart;
-            }
-        } else {
-            if (angle > 0) {
-                if (oriStart[0] < oriEnd[0]) {
-                    drawPoint = oriStart;
-                    endPoint = oriEnd;
-                } else {
-                    drawPoint = oriEnd;
-                    endPoint = oriStart;
-                }
-
-                //if(direct==="1"||direct==="0") {
-                //
-                //}else{
-                //
-                //}
-            } else {
-                if (oriStart[0] > oriEnd[0]) {
-                    drawPoint = oriEnd;
-                    endPoint = oriStart;
-                } else {
-                    drawPoint = oriStart;
-                    endPoint = oriEnd;
-                }
-                //angle = angle + 2 * Math.PI;
-            }
-
-
+        var oriStart, oriEnd;
+        oriStart = geom[0][0];
+        for (var i = 1, len = geom.length; i < len; i++) {
+            oriEnd = geom[i][0];
+            var angle = that._rotateAngle(oriStart, oriEnd),
+                points = [];
+            points = that._pointsFromAngle([oriStart, oriEnd], angle);
+            that._drawObliqueLine(ctx, points, angle);
+            oriStart = geom[i][0];
         }
-        while (sectionLen <= linkLen) {
-
-            this._drawObliqueLine(ctx, drawPoint, angle);
-            var mePoint = this._plotPoint(drawPoint, angle, 20);
-
-            sectionLen += this.distance(mePoint, drawPoint);
-            drawPoint = mePoint;
-        }
-        this._drawObliqueLine(ctx, endPoint, angle);
-    },
-    _plotPoint: function (point, angle, interval) {
-        var meidiant, x, y, rePoint = [], radio;
-        if (angle === 0) {
-            x = point[0] + interval;
-            y = point[1];
-        } else if (angle === (Math.PI / 2)) {
-            x = point[0];
-            y = point[1] + interval;
-        } else {
-            radio = Math.tan(angle);
-            meidiant = Math.sqrt(Math.pow(interval, 2) / ((Math.pow(radio, 2) + 1)));
-            x = meidiant + point[0];
-            y = radio * meidiant + point[1];
-        }
-        rePoint = [x, y];
-        return rePoint;
 
     },
-    _drawObliqueLine: function (ctx, point, angle) {
-
-        ctx.save();
-        ctx.translate(point[0], point[1]);
-        ctx.rotate(angle);
+    _drawObliqueLine: function (ctx, points, angle) {
+        var len = Math.floor(this.distance(points[0], points[1]) / 20);
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#FF0000";
+        ctx.save();
+        ctx.translate(points[0][0], points[0][1]);
+        ctx.rotate(angle);
         ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, -6);
+        for (var i = 0; i < len; i++) {
+            ctx.moveTo(i * 20, 0);
+            ctx.lineTo(i * 20, -6);
+        }
+        //最后一个点
+        ctx.moveTo(points[1][0] - points[0][0], 0);
+        ctx.lineTo(points[1][0] - points[0][0], -6);
         ctx.stroke();
         ctx.restore();
 
@@ -533,6 +509,58 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
     },
+    /**
+     * 画区域内的道路
+     * @param ctx
+     * @param points
+     * @param dashLength
+     * @param that
+     * @private
+     */
+    _drawDashLineOfAngle: function (ctx, points, dashLength, that) {
+        var endPoint,
+            startPoint = points[0][0];
+        for (var i = 1, len = points.length; i < len; i++) {
+            endPoint = points[i][0];
+            var angle = that._rotateAngle(startPoint, endPoint);
+            that._drawDashLine(ctx, [startPoint, endPoint], angle, dashLength, that);
+            startPoint = points[i][0];
+
+        }
+    },
+    /**
+     * 画虚线
+     * @param ctx
+     * @param points
+     * @param angle
+     * @param dashLength
+     * @param self
+     * @private
+     */
+    _drawDashLine: function (ctx, points, angle, dashLength, self) {
+
+        var pointsOfChange = self._pointsFromAngle(points, angle);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "red";
+        var xPos = points[1][0] - points[0][0],
+            yPos = points[1][1] - points[0][1];
+        var dash = Math.floor(Math.sqrt(xPos * xPos + yPos * yPos) / dashLength);
+        ctx.save();
+        ctx.translate(pointsOfChange[0][0], pointsOfChange[0][1]);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        for (var i = 0; i < dash; i++) {
+            if (i % 2) {
+
+                ctx.lineTo(dashLength * i, 0);
+            } else {
+                ctx.moveTo(dashLength * i, 0);
+            }
+
+        }
+        ctx.stroke();
+        ctx.restore();
+    },
     /***
      * 绘制线
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
@@ -545,11 +573,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if (!linestyle) {
             return;
         }
-        var direct = properties.direct;
-        var coords = geom, proj = [], i;
+        var direct = properties.direct,
+            coords = geom, proj = [],
+            arrowlist = [];
         coords = this._clip(ctx, coords);
 
-        for (i = 0; i < coords.length; i++) {
+        for (var i = 0; i < coords.length; i++) {
 
             if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
                 this._drawPoint(ctx, coords[i][0], nodestyle, true);
@@ -566,12 +595,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.strokeStyle = linestyle.color;
         g.lineWidth = linestyle.size;
         g.beginPath();
-        var arrowlist = [];
-        for (i = 0; i < proj.length; i++) {
-            var method = (i === 0 ? 'move' : 'line') + 'To';
-            g[method](proj[i].x, proj[i].y);
-            if (i < proj.length - 1) {
-                var oneArrow = [proj[i], proj[i + 1]];
+        for (var j = 0; j < proj.length; j++) {
+            var method = (j === 0 ? 'move' : 'line') + 'To';
+            g[method](proj[j].x, proj[j].y);
+            if (j < proj.length - 1) {
+                var oneArrow = [proj[j], proj[j + 1]];
                 arrowlist.push(oneArrow);
             }
 
@@ -579,30 +607,26 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.stroke();
         g.restore();
         if (direct == null || typeof(direct) == "undefined" || direct == "") {
-            //alert("lsdkkls");
         } else {
             if (this._map.getZoom() >= this.showNodeLevel) {
                 this._drawArrow(g, direct, arrowlist);
             }
 
         }
+        //道路的名字
         if (properties.name) {
             if (this._map.getZoom() >= this.showNodeLevel) {
                 this._drawText(ctx, geom, properties.name);
             }
 
         }
-        if (properties.kind === '7') {
-            var midPoint = geom[0][0];
-            if (geom.length === 2) {
-                this._drawBridge(ctx, geom[0][0], geom[1][0], direct);
-            } else if (geom.length > 2) {
-                for (var briNum = 1, briLen = geom.length; briNum < briLen; briNum++) {
-                    this._drawBridge(ctx, midPoint, geom[briNum][0], direct);
-                    midPoint = geom[briNum][0];
-                }
-            }
-        }
+        //if (linestyle.rdLinkType !== undefined) {
+        //    linestyle["rdLinkType"](ctx, coords, this);
+        //}
+        ////画桥
+        //if (properties.kind === '2') {
+        //    this._drawDashLineOfAngle(g, coords, 5, this);
+        //}
 
     },
 
@@ -801,9 +825,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-
                                     newstyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-
                                     if (theory > 0) {
                                         newgeom[0] = parseInt(geom[0]) + theory * 16;
                                         newgeom[1] = parseInt(geom[1]);
@@ -811,7 +833,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     } else {
                                         this._drawImg(ctx, geom, newstyle, boolPixelCrs);
                                     }
-
                                 }
                             } else {
                                 var restrictArr = restrictObj.split(",");
@@ -843,9 +864,136 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
 
                         }
+                    }else if(this.options.type === 'Diverge'){
+                        if (feature.properties.restrictioncondition === undefined) {
+                            return;
+                        }
+                        var restrictObj = feature.properties.restrictioncondition;
+                        function loadImg(url, callBack) {
+                            var img = new Image();
+                            img.onload = function () {
+                                callBack(img);
+                            };
+                            img.src = url;
+                        }
+                        if (restrictObj !== undefined) {
+                            $.each(restrictObj,function(i,v){
+                                var poiX = feature.geometry.coordinates[0][0];
+                                var poiY = feature.geometry.coordinates[1][0];
+                                var newstyle  = './css/divergence/' + v.type + '.png';
+                                var route = feature.properties.rotate*(Math.PI/180);
+                                loadImg(newstyle, function (img) {
+                                    var g = ctx.canvas.getContext('2d');
+                                    g.save();
+                                    g.translate(poiX, poiY);
+                                    g.rotate(route);
+                                    g.drawImage(img, i*30, 0);
+                                    g.restore();
+                                    $(img).bind('click',function(){
+                                        console.log(this)
+                                    })
+                                });
+                            });
+                        }
+                    } else if(this.options.type === 'rdSpeedLimitPoint'){//限速图标
+                        if (feature.properties.restrictioncondition === undefined) {
+                            return;
+                        }
+                        var speedFlagstyle=null;
+                        var jttype=null;
+                        var restrictObj = feature.properties.restrictioncondition;
+                        var route = feature.properties.rotate*(Math.PI/180);
+                        var resArray=restrictObj.split("|");
+                        var gaptureFlag=resArray[0];//采集标志（0,现场采集;1,理论判断）
+                        var speedFlag=resArray[1];//限速标志(0,限速开始;1,解除限速)
+                        var speedValue=resArray[2]/10;//限速值
+                        if(gaptureFlag===1){//理论判断，限速开始和结束都为蓝色
+                            if(speedFlag===1){//解除限速
+                                speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue  + '.png'};
+                                jttype={src: './css/speedLimit/normal/llend_gray.png'};
+                            }else{
+                                speedFlagstyle = {src: './css/speedLimit/normal/llstart_' + speedValue + '.png'};
+                                jttype={src: './css/speedLimit/normal/llstart_blue.png'};
+                            }
+
+                        }else{//现场采集，限速开始为红色，结束为黑色
+                            if(speedFlag===1){//解除限速
+                                speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue  + '.png'};
+                                jttype={src: './css/speedLimit/normal/end_black.png'};
+                            }else{
+                                speedFlagstyle = {src: './css/speedLimit/normal/start_' + speedValue + '.png'};
+                                jttype={src: './css/speedLimit/normal/start_red.png'};
+                            }
+                        }
+                        this._drawImgRoute(ctx, geom, speedFlagstyle,jttype, boolPixelCrs,route);
 
 
-                    } else {
+                    } else if(this.options.type === 'rdCrossPoint'){
+
+                    }else if(this.options.type === 'rdlaneconnexityPoint'){
+                        if (feature.properties.restrictioninfo === undefined) {
+                            return;
+                        }
+                        var newstyle = "";
+                        var restrictObj = feature.properties.restrictioninfo;
+                        var route = feature.properties.rotate*(Math.PI/180);
+                        if(isNaN(route)){
+                            route=0;
+                        }
+                            var newgeom = [];
+                        if (restrictObj !== undefined) {
+                            if(restrictObj.length>1){
+                                var restrictArr = restrictObj.split(",");
+                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+                                    if (restrictArr[fact].constructor === Array) {
+                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0]  + '.png'};
+                                    } else {
+                                        if (restrictArr[fact].indexOf("[") > -1) {
+                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
+                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
+                                            newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact]  + '.png'};
+
+                                        }else if (restrictArr[fact].indexOf("<") > -1) {
+                                            restrictArr[fact] = restrictArr[fact].replace("<", "");
+                                            restrictArr[fact] = restrictArr[fact].replace(">", "");
+                                            newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact]  + '.png'};
+
+                                        }  else if(restrictArr[fact]!="9"){
+                                            newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
+                                        }
+                                    }
+                                    if (fact > 0) {
+                                        newgeom[0] = parseInt(geom[0]) + fact * 10;
+                                        newgeom[1] = parseInt(geom[1]);
+                                        this._drawImgRoute(ctx, newgeom, newstyle, boolPixelCrs,route);
+                                    } else {
+                                        this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
+                                    }
+
+                                }
+                            }else{
+                                    if (restrictObj.constructor === Array) {
+                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[0]  + '.png'};
+                                    } else {
+                                        if (restrictObj.indexOf("[") > -1) {
+                                            restrictObj = restrictObj.replace("[", "");
+                                            restrictObj = restrictObj.replace("]", "");
+                                            newstyle = {src: './css/laneinfo/extF/' + restrictObj  + '.png'};
+
+                                        }else if (restrictObj.indexOf("<") > -1) {
+                                            restrictObj = restrictObj.replace("<", "");
+                                            restrictObj = restrictObj.replace(">", "");
+                                            newstyle = {src: './css/laneinfo/arwB/' + restrictObj  + '.png'};
+
+                                        }  else if(restrictObj!="9"){
+                                            newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
+                                        }
+                                    }
+                                    this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
+                            }
+                        }
+
+                    }else{
                         this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
 
@@ -904,9 +1052,40 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                     url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
+
                 }
                 break;
             case "Marker":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+            case "rdSpeedLimitPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
+                break;
+            case "rdCrossPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+            case "rdlaneconnexityPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+
+            case "Diverge":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
@@ -917,8 +1096,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "LineString":
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
                 if (this._map.getZoom() >= this.showNodeLevel) {
-
-
                     url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
                 } else {
@@ -1059,16 +1236,23 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
                     '#000000', '#7364C8', '#000000', '#DCBEBE'
                 ];
+                var RD_LINK_TYPE = [this._drawBridge]
                 var c = feature.properties.color;
+                if (feature.properties.kind === '7') {
+                    var rdLinkType = RD_LINK_TYPE[0];
+                }
+
                 var color = RD_LINK_Colors[parseInt(c)];
                 return {
                     size: 1,
                     color: color,
+                    rdLinkType: rdLinkType,
                     mouseOverColor: 'rgba(255,0,0,1)',
                     clickColor: 'rgba(252,0,0,1)'
                 };
-
+                break;
             case 'Polygon':
+                break;
             case 'MultiPolygon':
                 return {
                     color: 'rgba(43,140,190,0.4)',
@@ -1077,7 +1261,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         size: 1
                     }
                 };
-
+                break;
             default:
                 return null;
         }
@@ -1092,7 +1276,58 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
 
         return Math.sqrt(len);
+    },
+    /**
+     * 根据角度重新获得开始点和结束点
+     * @param points
+     * @param angle
+     * @returns {*[]}
+     * @private
+     */
+    _pointsFromAngle: function (points, angle) {
+        var drawPoint, endPoint;
+        if (angle === 0) {
+            if (points[0][0] < points[1][0]) {
+                drawPoint = points[0];
+                endPoint = points[1];
+            } else {
+                drawPoint = points[1];
+                endPoint = points[0];
+            }
+        } else if (angle === (Math.PI / 2)) {
+            if (points[0][1] < points[1][1]) {
+                drawPoint = points[0];
+                endPoint = points[1];
+            } else {
+                drawPoint = points[1];
+                endPoint = points[0];
+            }
+        } else {
+            if (angle > 0) {
+                if (points[0][0] < points[1][0]) {
+                    drawPoint = points[0];
+                    endPoint = points[1];
+                } else {
+                    drawPoint = points[1];
+                    endPoint = points[0];
+                }
+
+            } else {
+                if (points[0][0] > points[1][0]) {
+                    drawPoint = points[1];
+                    endPoint = points[0];
+                } else {
+                    drawPoint = points[0];
+                    endPoint = points[1];
+                }
+
+            }
+
+
+        }
+        return [drawPoint, endPoint]
     }
+
 });
 
 

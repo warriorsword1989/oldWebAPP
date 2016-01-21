@@ -78,7 +78,7 @@ Application.layersConfig =
         groupid: "dataLayers",
         groupname: "作业参考",
         layers: [{
-            url:'http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考线数据',
@@ -130,7 +130,7 @@ Application.layersConfig =
             }
 
         },{
-            url:'http://192.168.4.130/FosEngineWeb/pdh/obj/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考点数据',
@@ -178,12 +178,208 @@ Application.layersConfig =
                 showNodeLevel:17
             }
 
+        },{
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '参考点数据111',
+                id: 'highSpeedDivergence',
+                maxZoom: 20,
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
+
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'Diverge',
+                zIndex:10,
+                restrictZoom:10,
+                visible: false,
+                requestType:'RDBRANCH',
+                showNodeLevel:17
+            }
+
+        },{
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '限速',
+                id: 'speedlimit',
+                maxZoom: 20,
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
+
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'rdSpeedLimitPoint',
+                zIndex:10,
+                restrictZoom:10,
+                visible: true,
+                requestType:'RDSPEEDLIMIT',
+                showNodeLevel:17
+            }
+
+        },{
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: 'rdcross',
+                id: 'rdcross',
+                maxZoom: 20,
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
+
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'rdCrossPoint',
+                zIndex:10,
+                restrictZoom:10,
+                visible: true,
+                requestType:'RDCROSS',
+                showNodeLevel:17
+            }
+
+        },{
+            url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: 'rdlaneconnexity',
+                id: 'rdlaneconnexity',
+                maxZoom: 20,
+                hitDetection: true,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true ,
+                parse:  function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i,
+                            'restrictioncondition':item.m.a,
+                            'restrictioninfo': item.m.b,
+                            'rotate':item.m.c
+
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator:new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize:256,
+                type: 'rdlaneconnexityPoint',
+                zIndex:10,
+                restrictZoom:10,
+                visible: true,
+                requestType:'RDLANECONNEXITY',
+                showNodeLevel:17
+            }
+
         }]
     },{
         groupid:'worklayer',
         groupname:'编辑图层',
         layers: [{
-            url:'http://192.168.4.130/FosEngineWeb/fcc/tip/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/fcc/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -233,7 +429,7 @@ Application.layersConfig =
             }
 
         },{
-            url:'http://192.168.4.130/FosEngineWeb/fcc/tip/getByTileWithGap?',
+            url:'http://192.168.4.130/FosEngineWeb3/fcc/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',

@@ -22,7 +22,8 @@ requirejs.config({
         'bootspopover':'ctrl/popoverSelect',
         'timepicki':'lib/timepicki/js/timepicki',
         'bootstrapDatepicker':'lib/bootstrap-datepicker/js/bootstrap-datepicker',
-        'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN'
+        'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
+        'sweet-alert':'lib/sweet-alert/js/sweet-alert.min'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -37,7 +38,8 @@ requirejs.config({
         'bootstrapDatepicker':['jquery','bootstrap'],
         'bootstrapDatepickerCN':['bootstrapDatepicker'],
         'timepicki':['jquery','angular'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki']
+        'sweet-alert':['jquery'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert']
     }
 });
 

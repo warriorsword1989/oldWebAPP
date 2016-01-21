@@ -2,12 +2,17 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("mapApp", ['oc.lazyLoad']);
-myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',function ($scope, $ocLazyLoad,$timeout) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
     var outputCtrl = fastmap.uikit.OutPutController({});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    $scope.brigeLinkArrays=$scope.$parent.$parent.brigeLinkArray;
+    $scope.brigeIndex=0;
+
     $scope.isActive = [true, false, false, false, false, false];
     //改变模块的背景
     $scope.changeActive = function (id) {
@@ -22,10 +27,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     $scope.initializeLinkData = function () {
         objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
         $scope.linkData = objectCtrl.data.data;
-        for (var item = 0, len = ($scope.linkData.speedlimits).length; item < len; item++) {
-            $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
-            $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
-        }
         $("#basicModule").css("background-color", "#49C2FC");
         $scope.changeActive(0);
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
@@ -87,6 +88,25 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     }
 
     $scope.changeDirect = function (direc) {
+        map.currentTool = shapeCtrl.getCurrentTool();
+        map.currentTool.disable();
+        var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
+        var marker = {
+            flag:true,
+            point: point,
+            type: "marker",
+            angle:Math.PI/3,
+            orientation:"2"
+        };
+        var editLayer = layerCtrl.getLayerById('edit');
+        layerCtrl.pushLayerFront('edit');
+        var sobj = shapeCtrl.shapeEditorResult;
+        editLayer.drawGeometry =  marker;
+        editLayer.draw( marker, editLayer);
+        sobj.setOriginalGeometry( marker);
+        sobj.setFinalGeometry(marker);
+        shapeCtrl.setEditingType("transformDirect");
+        shapeCtrl.startEditing();
     };
 
     $scope.addSideWalk = function () {
@@ -102,58 +122,65 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         }
     };
     $scope.$parent.$parent.save = function () {
+        if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
+            console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
+            return;
+        }
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         var param = {
-            "command": "updatelink",
+            "command": "UPDATE",
+            "type":"RDLINK",
             "projectId": 11,
             "data": objectCtrl.changedProperty
         };
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+            var info = [];
+            if (data.data) {
+                $.each(data.data.log, function (i, item) {
+                    if (item.pid) {
+                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                    } else {
+                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
-            }else{
-                info.push(data.errmsg+data.errid)
+            } else {
+                info.push(data.errmsg + data.errid)
             }
             outputCtrl.pushOutput(info);
-            if(outputCtrl.updateOutPuts!=="") {
+            if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
             }
         })
+
     };
     $scope.$parent.$parent.delete = function () {
         var objId = parseInt($scope.linkData.pid);
         var param = {
-            "command": "deletelink",
+            "command": "DELETE",
+            "type":"RDLINK",
             "projectId": 11,
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+            var info = [];
+            if (data.data) {
+                $.each(data.data.log, function (i, item) {
+                    if (item.pid) {
+                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                    } else {
+                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
-            }else{
-                info.push(data.errmsg+data.errid)
+            } else {
+                info.push(data.errmsg + data.errid)
             }
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
                 rdLink.redraw();
                 outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
+                if (outputCtrl.updateOutPuts !== "") {
                     outputCtrl.updateOutPuts();
                 }
                 $scope.linkData = null;
@@ -162,11 +189,35 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                 $scope.$parent.$parent.objectEditURL = "";
             } else {
                 outputCtrl.pushOutput(info);
-                if(outputCtrl.updateOutPuts!=="") {
+                if (outputCtrl.updateOutPuts !== "") {
                     outputCtrl.updateOutPuts();
                 }
             }
 
         })
+    }
+
+    $scope.changeLink=function(ind,linkid){
+        $scope.brigeIndex=ind;
+        Application.functions.getRdObjectById(linkid, "RDLINK", function (data) {
+            if (data.errcode === -1) {
+                return;
+            }
+            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+            for (var i = 0, len = linkArr.length; i < len; i++) {
+                var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                points.push(point);
+            }
+            map.panTo({lat: points[0].y, lon: points[0].x});
+            var line = fastmap.mapApi.lineString(points);
+            selectCtrl.onSelected({geometry: line, id: $scope.dataId});
+            objectCtrl.setCurrentObject(data);
+            if (objectCtrl.updateObject !== "") {
+                objectCtrl.updateObject();
+            }
+            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+            });
+        });
     }
 }]);

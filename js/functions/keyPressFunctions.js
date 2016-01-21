@@ -9,12 +9,16 @@ function keyEvent(ocLazyLoad, scope) {
             var layerCtrl = fastmap.uikit.LayerController();
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+            var highCtrl = fastmap.uikit.HighLightController();
             if (event.keyCode == 27) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                if(toolTipsCtrl.getCurrentTooltip()){
+                if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
+                }
+                if (highCtrl.highLightLayersArr.length !== 0) {
+                    highCtrl.removeHighLightLayers();
                 }
                 layerCtrl.getLayerById('edit').drawGeometry = null;
                 layerCtrl.getLayerById('edit').clear();
@@ -51,11 +55,15 @@ function keyEvent(ocLazyLoad, scope) {
                 return boolExit;
             }
 
+            function distance(pointA, pointB) {
+                var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+                return Math.sqrt(len);
+            };
             function resetPage(data) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                if(toolTipsCtrl.getCurrentTooltip()){
+                if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
                 rdLink.redraw();
@@ -75,7 +83,8 @@ function keyEvent(ocLazyLoad, scope) {
                         coordinate.push([link.components[index].x, link.components[index].y]);
                     }
                     var paramOfLink = {
-                        "command": "createlink",
+                        "command": "CREATE",
+                        "type": "RDLINK",
                         "projectId": 11,
                         "data": {
                             "eNodePid": 0,
@@ -87,28 +96,29 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
 
-                        var info=[];
-                        if(data.data){
-                            $.each(data.data.log,function(i,item){
-                                if(item.pid){
-                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                }else{
-                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                 }
                             });
-                        }else{
-                            info.push(data.errmsg+data.errid)
+                        } else {
+                            info.push(data.errmsg + data.errid)
                         }
                         resetPage(info);
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                     });
 
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
-                        "command": "createrestriction",
+                        "command": "CREATE",
+                        "type": "RESTRICTION",
                         "projectId": 11,
                         "data": featCodeCtrl.getFeatCode()
                     };
@@ -120,20 +130,20 @@ function keyEvent(ocLazyLoad, scope) {
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-                        var info=[];
-                        if(data.data){
-                            $.each(data.data.log,function(i,item){
-                                if(item.pid){
-                                    info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                }else{
-                                    info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                 }
                             });
-                        }else{
-                            info.push(data.errmsg+data.errid)
+                        } else {
+                            info.push(data.errmsg + data.errid)
                         }
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                         toolTipsCtrl.onRemoveTooltip();
@@ -158,7 +168,8 @@ function keyEvent(ocLazyLoad, scope) {
 
                     }
                     var param = {
-                        "command": "breakpoint",
+                        "command": "BREAK",
+                        "type": "RDLINK",
                         "projectId": 11,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
@@ -168,21 +179,90 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        var info=[];
-                        $.each(data.data.log,function(i,item){
-                            if(item.pid){
-                                info.push(item.op+item.type+"(pid:"+item.pid+")");
-                            }else{
-                                info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                             }
                         });
                         resetPage();
                         outPutCtrl.pushOutput(info);
-                        if(outPutCtrl.updateOutPuts!=="") {
+                        if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
+
                     })
-                } else if (shapeCtrl.editType === "pathVertexReMove"||shapeCtrl.editType==="pathVertexInsert"||shapeCtrl.editType==="pathVertexMove") {
+                } else if (shapeCtrl.editType === "transformDirect") {
+                    var disFromStart, disFromEnd, node, direct, pointOfArrow,
+                        feature = selectCtrl.selectedFeatures;
+                    console.log(link);
+                    var startPoint = feature.geometry.components[0],
+                        point = feature.point;
+                    if (link) {
+                        pointOfArrow = link.pointForDirect;
+                        pointOfArrow = fastmap.mapApi.point(pointOfArrow.lng, pointOfArrow.lat);
+                        disFromStart = distance(point, startPoint);
+                        disFromEnd = distance(pointOfArrow, startPoint);
+                        if (disFromStart > disFromEnd) {
+                            direct = 2;
+                        } else {
+                            direct = 3;
+                        }
+                    } else {
+                        direct = feature.direct
+                    }
+
+                    var parameter = {
+                        "command": "CREATE",
+                        "type": "RDSPEEDLIMIT",
+                        "projectId": 11,
+                        "data": {
+                            "direct": direct,
+                            "linkPid": parseInt(feature.id),
+                            "longitude": point.x,
+                            "latitude": point.y
+                        }
+                    }
+                    Application.functions.saveLinkGeometry(JSON.stringify(parameter), function (data) {
+                        if (data.errcode === -1) {
+                            outPutCtrl.pushOutput(data.errmsg);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            return;
+                        }
+                        var info = [];
+                        angular.forEach(data.data.log, function (task, index) {
+                            if (task.pid) {
+                                info.push(task.op + task.type + "(pid:" + task.pid + ")");
+                            } else {
+                                info.push(task.op + task.type + "(rowId:" + task.rowId + ")");
+                            }
+                        })
+                        //$.each(data.data.log, function (i, item) {
+                        //    if (item.pid) {
+                        //        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        //    } else {
+                        //        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        //    }
+                        //});
+                        console.log(info);
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        Application.functions.getRdObjectById(data.data.pid, "RDSPEEDLIMIT", function (data) {
+                            objEditCtrl.setCurrentObject(data.data);
+                            ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/speedLimitTepl.html";
+                            });
+                        });
+                    })
+
+                } else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
@@ -191,7 +271,8 @@ function keyEvent(ocLazyLoad, scope) {
                             coordinate.push([link.components[index].x, link.components[index].y]);
                         }
                         var param = {
-                            "command": "updatelink",
+                            "command": "UPDATE",
+                            "type": "RDLINK",
                             "projectId": 11,
                             "data": {
                                 "pid": parseInt(selectCtrl.selectedFeatures.id),
@@ -202,26 +283,108 @@ function keyEvent(ocLazyLoad, scope) {
                         //结束编辑状态
                         shapeCtrl.stopEditing();
                         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                            var info=[];
-                            if(data.data){
-                                $.each(data.data.log,function(i,item){
-                                    if(item.pid){
-                                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                                    }else{
-                                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                            var info = [];
+                            if (data.data) {
+                                $.each(data.data.log, function (i, item) {
+                                    if (item.pid) {
+                                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                    } else {
+                                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                                     }
                                 });
-                            }else{
+                            } else {
                                 info.push(data.errmsg + data.errid);
                             }
                             resetPage();
                             outPutCtrl.pushOutput(info);
-                            if(outPutCtrl.updateOutPuts!=="") {
+                            if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
                             }
 
                         })
                     }
+                } else if (shapeCtrl.editType === "linksOfCross") {
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDCROSS",
+                        "projectId": 11,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        if (data.errcode === -1) {
+                            outPutCtrl.pushOutput(data.errmsg);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            return;
+                        }
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                            }
+                        });
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                            objEditCtrl.setCurrentObject(data.data);
+                            ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/rdCrossTepl.html";
+                            });
+                        });
+                    })
+                } else if (shapeCtrl.editType === "rdBranch") {
+                    var paramOfRdBranch = {
+                        "command": "CREATE",
+                        "type": "RDBRANCH",
+                        "projectId": 11,
+                        "data": featCodeCtrl.getFeatCode()
+                    };
+                    Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
+
+                        var pids = [];
+                        pids.push({id:data.data.pid});
+                        checkCtrl.setCheckResult(data);
+                        //清空上一次的操作
+                        map.currentTool.cleanHeight();
+                        map.currentTool.disable();
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                                }
+                            });
+                        } else {
+                            info.push(data.errmsg + data.errid)
+                        }
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        toolTipsCtrl.onRemoveTooltip();
+
+
+                        objEditCtrl.setCurrentObject(pids);
+                        if (objEditCtrl.updateObject !== "") {
+                            objEditCtrl.updateObject();
+                        }
+                        ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
+                            scope.objectEditURL = "js/tepl/rdBranchTep.html";
+                        })
+                    })
+
+
                 }
             }
         });
