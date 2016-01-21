@@ -930,6 +930,50 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                     } else if(this.options.type === 'rdCrossPoint'){
 
+                    }else if(this.options.type === 'rdlaneconnexityPoint'){
+                        if (feature.properties.restrictioninfo === undefined) {
+                            return;
+                        }
+                        var newstyle = "";
+                        var restrictObj = feature.properties.restrictioninfo;
+                        var route = feature.properties.rotate*(Math.PI/180);
+                        if(isNaN(route)){
+                            route=0;
+                        }
+                            var newgeom = [];
+                        if (restrictObj !== undefined) {
+                                var restrictArr = restrictObj.split(",");
+                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+
+                                    if (restrictArr[fact].constructor === Array) {
+                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0]  + '.png'};
+                                    } else {
+                                        if (restrictArr[fact].indexOf("[") > -1) {
+                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
+                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
+                                            newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact]  + '.png'};
+
+                                        }else if (restrictArr[fact].indexOf("<") > -1) {
+                                            restrictArr[fact] = restrictArr[fact].replace("<", "");
+                                            restrictArr[fact] = restrictArr[fact].replace(">", "");
+                                            newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact]  + '.png'};
+
+                                        }  else if(restrictArr[fact]!=9){
+                                            newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
+                                        }
+                                    }
+                                    if (fact > 0) {
+                                        newgeom[0] = parseInt(geom[0]) + fact * 13;
+                                        newgeom[1] = parseInt(geom[1]);
+                                        this._drawImgRoute(ctx, newgeom, newstyle, boolPixelCrs,route);
+                                    } else {
+                                        this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
+                                    }
+
+                                }
+
+                        }
+
                     }else{
                         this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
@@ -1008,6 +1052,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case "rdCrossPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+            case "rdlaneconnexityPoint":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
