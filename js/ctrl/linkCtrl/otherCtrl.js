@@ -122,7 +122,7 @@ otherApp.controller("otherController",function($scope){
         {"id":0,"label":"未调查"},
         {"id":1,"label":"收费"},
         {"id":2,"label":"免费"},
-        {"id":3,"lable":"收费道路的免费区间"}
+        {"id":3,"label":"收费道路的免费区间"}
     ];
     $scope.speedTypeOption=[
         {"id":0,"label":"普通"},
