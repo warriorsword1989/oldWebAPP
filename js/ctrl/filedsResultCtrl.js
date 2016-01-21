@@ -425,7 +425,22 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
                     }else if(pItemId==="2001"){//测线
-                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneMeasuringLine.html";
+                        Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
+                           $ocLazyLoad.load("ctrl/sceneMeasuringLineCtrl").then(function () {
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneMeasuringLine.html";
+                                objCtrl.setCurrentObject(data);
+                                if (d.errcode === -1) {
+                                   swal("查询失败", d.errmsg, "error");
+                                   return;
+                               }else{
+                                    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                        objCtrl.setCurrentObject(d);
+                                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                                    });
+                               }
+                            });
+                        });
                     }
                 })
             };
