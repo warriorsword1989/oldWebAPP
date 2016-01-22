@@ -181,8 +181,16 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             highLightLayer.pushHighLightLayers(highLightLinks);
         })
     };
+    $scope.removeImgActive = function(){
+        $.each($('.trafficPic'),function(i,v){
+            $(v).find('img').removeClass('active');
+        });
+    }
     //选择弹出框中的交限
-    $scope.selectTip = function (item) {
+    $scope.selectTip = function (item,e) {
+        /*选中高亮*/
+        $scope.removeImgActive();
+        $(e.target).addClass('active');
         $scope.tipsId = item.id;
         var obj = {};
         obj.restricInfo = item.id;
@@ -203,7 +211,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     };
     //添加交限
     $scope.addTips = function () {
-
         if ($scope.modifyItem !== undefined) {
             var arr = $scope.rdRestrictData.details
             for (var i = 0, len = arr.length; i < len; i++) {
@@ -218,7 +225,10 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                 alert("请先选择tips");
                 return;
             }
-            $scope.rdRestrictData.details.unshift($scope.newLimited);
+            if($scope.newLimited != '')
+                $scope.rdRestrictData.details.unshift($scope.newLimited);
+            $scope.removeImgActive();
+            $scope.newLimited = '';
         }
     }
     //增加时间段
@@ -233,7 +243,8 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
-            var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
+            var tmpStr = (!$scope.rdRestrictData.time)?'':$scope.rdRestrictData.time;
+            // var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
             $scope.fmdateTimer(tmpStr);
         });
     })
