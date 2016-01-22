@@ -369,7 +369,7 @@ Application.layersConfig =
                 type: 'rdlaneconnexityPoint',
                 zIndex:10,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:'RDLANECONNEXITY',
                 showNodeLevel:17
             }
