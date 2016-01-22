@@ -321,6 +321,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     if (objCtrl.updateObject !== "") {
                         objCtrl.updateObject();
                     }
+                    restrictLayer.redraw();
                     swal("操作成功", "种别转换操作成功！", "success");
                 } else {
                     swal("操作失败", data.errmsg, "error");
@@ -344,6 +345,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             });
                         } else {
                             info.push(data.errmsg + data.errid);
+                            rdLink.redraw()
+                            restrictLayer.redraw();
+                            speedlimtPoint.redraw();
+                            workPoint.redraw();
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -354,7 +359,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
             })
         } else {
-            alert("数据已经转换");
+            swal("操作失败", '数据已经转换', "error");
         }
     }
     $scope.upBridgeStatus=function() {
@@ -376,8 +381,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                         }
                     });
+                    if(data.errcode != 0){
+                        swal("操作失败", data.errmsg, "error");
+                    }
                 } else {
                     info.push(data.errmsg + data.errid);
+                    rdLink.redraw()
+                    restrictLayer.redraw();
+                    speedlimtPoint.redraw();
+                    workPoint.redraw();
+                    swal("操作成功", "改变状态操作成功！", "success");
                 }
                 outputcontroller.pushOutput(info);
                 if (outputcontroller.updateOutPuts !== "") {
