@@ -138,8 +138,15 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
     }
 
+    $scope.removeTipsActive = function(){
+        $.each($('.show-tips'),function(i,v){
+            $(v).removeClass('active');
+        });
+    }
     //点击限制方向时,显示其有的属性信息
-    $scope.showTips = function (item) {
+    $scope.showTips = function (item,e) {
+        $scope.removeTipsActive();
+        $(e.target).addClass('active');
         $scope.rdSubRestrictData = item;
         //删除以前高亮的进入线和退出线
         if(highLightLayer.highLightLayersArr.length!==0) {
@@ -209,6 +216,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         $("#myModal").modal("show");
         $scope.modifyItem = item;
     };
+    var picArr = [];
     //添加交限
     $scope.addTips = function () {
         if ($scope.modifyItem !== undefined) {
@@ -225,10 +233,16 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                 alert("请先选择tips");
                 return;
             }
-            if($scope.newLimited != '')
+            $.each($scope.rdRestrictData.details,function(i,v){
+                picArr.push(v.restricInfo);
+            });
+            if($.inArray($scope.newLimited.restricInfo, picArr) == -1 && $scope.newLimited!='')
                 $scope.rdRestrictData.details.unshift($scope.newLimited);
             $scope.removeImgActive();
             $scope.newLimited = '';
+            $timeout(function(){
+                $(".show-tips:first").trigger('click');
+            })
         }
     }
     //增加时间段
@@ -407,7 +421,34 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             })
         }
     }
+    //取消操作
+    $scope.$parent.$parent.cancel = function () {
+        Application.functions.getRdObjectById($scope.rdRestrictData.pid, "RDRESTRICTION", function (data) {
+            $scope.rdRestrictData = data.data;
+            $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
+            if(highLightLayer.highLightLayersArr.length!==0) {
+                highLightLayer.removeHighLightLayers();
+            }
+            //高亮进入线和退出线
+            linksObj["inLink"] = $scope.rdRestrictData["inLinkPid"].toString();
+            for(var i= 0,len=($scope.rdRestrictData.details).length;i<len;i++) {
+                linksObj["outLink" + i] = $scope.rdRestrictData.details[i].outLinkPid.toString();
+            }
+            var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
+            highLightLinks.drawOfLinksForInit();
+            highLightLayer.pushHighLightLayers(highLightLinks);
 
+            //初始化交限中的第一个禁止方向的信息
+            $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
+            $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+            $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+            $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
+            $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
+            $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
+            $scope.$apply();
+        });
+
+    }
     $scope.checkrdSubRestrictflag=function(flag,item){
         $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdSubRestrictflagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
