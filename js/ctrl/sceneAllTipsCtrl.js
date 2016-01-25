@@ -224,13 +224,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             break;*/
                     }
                 }
-                if($scope.dataTipsData.dp_attr){
+                if($scope.dataTipsData){
                     /*种别*/
-                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.dp_attr.kind);
+                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.kind);
                     /*来源*/
-                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.dp_attr.src);
+                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
                     /*车道数*/
-                    $scope.carNumber = $scope.dataTipsData.dp_attr.in;
+                    $scope.carNumber = $scope.dataTipsData.ln;
                 }
                 break;
 

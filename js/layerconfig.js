@@ -185,7 +185,7 @@ Application.layersConfig =
             url:'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: '参考点数据111',
+                layername: '高速分歧',
                 id: 'highSpeedDivergence',
                 maxZoom: 20,
                 hitDetection: true,
@@ -483,7 +483,89 @@ Application.layersConfig =
                 showNodeLevel:17
             }
 
-        }]
+        },{
+    url:Application.url+'/fcc/tip/getByTileWithGap?',
+        clazz: fastmap.mapApi.tileJSON,
+        options: {
+        layername: '测线',
+            id: 'gpsLine',
+            maxZoom: 20,
+            hitDetection: true,
+            debug: false,
+            // this value should be equal to 'radius' of your points
+            buffer: 8,
+            boolPixelCrs: true ,
+        //    parse:  function (data) {
+        //    var geojson = {};
+        //    geojson['features'] = [];
+        //    $.each(data, function (index, item) {
+        //        if(item.t ==2001){
+        //            var obj = {};
+        //            obj['type'] = "Feature";
+        //            obj['geometry'] = {};
+        //            obj['geometry']['type'] = 'Point';
+        //            obj['geometry']['coordinates'] = [];
+        //            if(item.g ===undefined){
+        //                return;
+        //            }
+        //            for (var i = 0, len = item.g.length; i < len; i = i+1) {
+        //
+        //                obj['geometry']['coordinates'].push([item.g[i]]);
+        //            }
+        //            obj['properties'] = {
+        //                'id': item.i,
+        //                'type': item.t,
+        //                'srctype':item.m.a
+        //            }
+        //            geojson['features'].push(obj);
+        //        }
+        //
+        //    });
+        //    return geojson;
+        //},
+     parse:  function (data) {
+    var geojson = {};
+    geojson['features'] = [];
+    $.each(data, function (index, item) {
+            if(item.t ==2001){
+                var obj = {};
+                obj['type'] = "Feature";
+                obj['geometry'] = {};
+                obj['geometry']['type'] = 'LineString';
+                obj['geometry']['coordinates'] = [];
+                for (var i = 0, len = item.g.length; i < len; i = i+1) {
+                    obj['geometry']['coordinates'].push([item.g[i]]);
+                }
+                obj['properties'] = {
+                    'id': item.i,
+                    'color': 13,
+                    'name':item.m.b,
+                    'kind':item.m.c,
+                    'direct':item.m.d,
+                    'snode':item.m.e,
+                    'enode':item.m.f
+                }
+                geojson['features'].push(obj);
+            }
+
+    });
+    return geojson;
+},
+        boundsArr: [],
+            unloadInvisibleTiles: true,
+            reuseTiles: false,
+            mecator:new fastmap.mapApi.MecatorTranform(),
+            updateWhenIdle: true,
+            tileSize:256,
+            type: 'gpsLine',
+            zIndex:12,
+            restrictZoom:10,
+            visible: true,
+            requestType:7,
+            showNodeLevel:17
+    }
+
+}]
     },{
         groupid:'editlayer',
         groupname:'编辑图层',
