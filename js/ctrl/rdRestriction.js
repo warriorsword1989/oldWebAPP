@@ -8,6 +8,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
+    var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
 
@@ -307,7 +308,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
-            var outputcontroller = fastmap.uikit.OutPutController({});
             var info=[];
             if(data.data){
                 $.each(data.data.log,function(i,item){
@@ -320,9 +320,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             }else{
                 info.push(data.errmsg+data.errid)
             }
-            outputcontroller.pushOutput(data.data);
-            if(outputcontroller.updateOutPuts!==info) {
-                outputcontroller.updateOutPuts();
+            outPutCtrl.pushOutput(data.data);
+            if(outPutCtrl.updateOutPuts!=="") {
+                outPutCtrl.updateOutPuts();
             }
         });
         if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
@@ -333,7 +333,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                var outputcontroller = fastmap.uikit.OutPutController({});
+
                 var info=[];
                 if(data.data){
                     $.each(data.data.log,function(i,item){
@@ -346,9 +346,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                 }else{
                     info.push(data.errmsg+data.errid)
                 }
-                outputcontroller.pushOutput(info);
-                if(outputcontroller.updateOutPuts!=="") {
-                    outputcontroller.updateOutPuts();
+                outPutCtrl.pushOutput(info);
+                if(outPutCtrl.updateOutPuts!=="") {
+                    outPutCtrl.updateOutPuts();
                 }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })
@@ -368,7 +368,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var outputcontroller = new fastmap.uikit.OutPutController({});
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
             var info=[];
@@ -383,9 +382,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             }else{
                 info.push(data.errmsg+data.errid)
             }
-            outputcontroller.pushOutput(info);
-            if(outputcontroller.updateOutPuts!=="") {
-                outputcontroller.updateOutPuts();
+            outPutCtrl.pushOutput(info);
+            if(outPutCtrl.updateOutPuts!=="") {
+                outPutCtrl.updateOutPuts();
             }
             console.log("交限 " + pid + " has been removed");
         })
@@ -397,7 +396,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                var outputcontroller = fastmap.uikit.OutPutController({});
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
                 var info=[];
@@ -412,9 +410,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                 }else{
                     info.push(data.errmsg+data.errid)
                 }
-                outputcontroller.pushOutput(info);
-                if(outputcontroller.updateOutPuts!=="") {
-                    outputcontroller.updateOutPuts();
+                outPutCtrl.pushOutput(info);
+                if(outPutCtrl.updateOutPuts!=="") {
+                    outPutCtrl.updateOutPuts();
                 }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                 $scope.$parent.$parent.objectEditURL = "";
