@@ -34,6 +34,7 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.updateObject = "";
                 this.rdrestrictionObject="";
                 this.tipsUpdateObject="";
+                this.updateRdCross = "";
                 this.on("FeatureSelected", this.setCurrentObject, this);
                 this.on("switchedData", this.setCurrentObject, this);
             },
