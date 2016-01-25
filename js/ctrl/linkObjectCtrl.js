@@ -27,10 +27,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     $scope.initializeLinkData = function () {
         objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
         $scope.linkData = objectCtrl.data.data;
-        for (var item = 0, len = ($scope.linkData.speedlimits).length; item < len; item++) {
-            $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
-            $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
-        }
         $("#basicModule").css("background-color", "#49C2FC");
         $scope.changeActive(0);
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
@@ -138,7 +134,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             "projectId": 11,
             "data": objectCtrl.changedProperty
         };
-
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -149,14 +144,19 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                         info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
+                if(data.errcode==0){
+                    swal("操作成功",'保存成功！', "success");
+                }
             } else {
-                info.push(data.errmsg + data.errid)
+                info.push(data.errmsg + data.errid);
+                swal("操作失败", d.errmsg, "error");
             }
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
             }
         })
+
     };
     $scope.$parent.$parent.delete = function () {
         var objId = parseInt($scope.linkData.pid);

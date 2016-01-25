@@ -43,7 +43,18 @@ Application.functions.getRdObjectById=function(id,type,func) {
         func(data)
     });
 };
-
+/**
+ * 根据detailId获得详细属性
+ * @param id
+ * @param type
+ * @param func
+ */
+Application.functions.getRdObjectByDetailId=function(id,type,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+id+'}',
+        function(data) {
+            func(data)
+        });
+};
 /***
  * 编辑相关
  * @param param
@@ -121,3 +132,9 @@ Application.functions.getNamePronunciation=function(param,func) {
         });
 };
 
+Application.functions.getByCondition=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByCondition?parameter='+param,
+        function (data) {
+            func(data)
+        });
+};

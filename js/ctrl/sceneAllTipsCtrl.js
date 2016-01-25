@@ -19,19 +19,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         highLightLayer.removeHighLightLayers();
     }
     $scope.outIdS = [];
-    selectCtrl.updateTipsCtrl = function () {
-        initializeDataTips();
-    }
-    if (selectCtrl.rowKey) {
-        //dataTips的初始化数据
-        initializeDataTips();
 
-    } else {
-        $scope.rdSubTipsData = [];
-    }
 
     //初始化DataTips相关数据
-    function initializeDataTips() {
+  $scope.initializeDataTips=function() {
         $scope.photoTipsData = [];
         $scope.photos = [];
         $scope.dataTipsData = selectCtrl.rowKey;
@@ -91,6 +82,40 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
                 break;
             case "1201":
+                $scope.returnKindType = function (code) {
+                    switch (code) {
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return "高速道路";
+                        case 2:
+                            return "城市高速";
+                        case 3:
+                            return "国道";
+                        case 4:
+                            return "省道";
+                        case 5:
+                            return "预留";
+                        case 6:
+                            return "县道";
+                        case 7:
+                            return "乡镇村道路";
+                        case 8:
+                            return "其他道路";
+                        case 9:
+                            return "非引导道路";
+                        case 10:
+                            return "步行道路";
+                        case 11:
+                            return "人渡";
+                        case 13:
+                            return "轮渡";
+                        case 15:
+                            return "10级路（障碍物）";
+                    }
+                };
+                $scope.kindType = $scope.returnKindType($scope.dataTipsData.kind);
+
                 break;
             case "1203"://道路方向
                 if ($scope.dataTipsData.dr == 1) {
@@ -130,6 +155,83 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1901":
                 break;
             case "2001":
+                /*种别*/
+                $scope.returnLineType = function(code){
+                    switch(code){
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return "高速道路";
+                        case 2:
+                            return "城市高速";
+                        case 3:
+                            return "国道";
+                        case 4:
+                            return "省道";
+                        case 5:
+                            return "预留";
+                        case 6:
+                            return "县道";
+                        case 7:
+                            return "乡镇村道路";
+                        case 8:
+                            return "其他道路";
+                        case 9:
+                            return "非引导道路";
+                        case 10:
+                            return "步行道路";
+                        case 11:
+                            return "人渡";
+                        case 13:
+                            return "轮渡";
+                        case 15:
+                            return "10级路（障碍物）";
+                    }
+                }
+                /*测线来源*/
+                $scope.returnLineSrc = function(code){
+                    switch(code){
+                        case 0:
+                            return 'GPS测线';
+                        case 1:
+                            return '惯导测线';
+                        case 2:
+                            return '自绘测线';
+                        case 3:
+                            return '影像矢量测线';
+                        case 4:
+                            return '情报';
+                    }
+                }
+                //显示状态
+                if ($scope.dataTipsData) {
+                    switch ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage) {
+                        case 1:
+                            $scope.showContent = "未作业";
+                            $scope.labelInfo = true;
+                            $scope.labelSuc = false;
+                            break;
+                        case 3:
+                            $scope.showContent = "已作业";
+                            $scope.labelInfo = false;
+                            $scope.labelSuc = true;
+                            break;
+                        /*case 4:
+                            $scope.showContent = "GDB增量";
+                            break;
+                        case 0:
+                            $scope.showContent = "初始化";
+                            break;*/
+                    }
+                }
+                if($scope.dataTipsData.dp_attr){
+                    /*种别*/
+                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.dp_attr.kind);
+                    /*来源*/
+                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.dp_attr.src);
+                    /*车道数*/
+                    $scope.carNumber = $scope.dataTipsData.dp_attr.in;
+                }
                 break;
 
         }
@@ -183,7 +285,83 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }, 100);
         }
     };
+    if (selectCtrl.rowKey) {
+        //dataTips的初始化数据
+        $scope.initializeDataTips();
 
+    } else {
+        $scope.rdSubTipsData = [];
+    }
+    selectCtrl.updateTipsCtrl = function () {
+        $scope.initializeDataTips();
+        $scope.$apply();
+    }
+    /*转换*/
+    $scope.transBridge = function() {
+        var stageLen = $scope.dataTipsData.t_trackInfo.length;
+        var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
+        $scope.$parent.$parent.showLoading = true;  //showLoading
+        var kindObj = {
+            "objStatus": "UPDATE",
+            "pid": parseInt($scope.dataTipsData.f.id),
+            "kind": $scope.dataTipsData.kind
+        };
+        var param = {
+            "type": "RDLINK",
+            "command": "UPDATE",
+            "projectId": 11,
+            "data": kindObj
+        };
+        if (stage === 1) {
+            Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                $scope.$parent.$parent.showLoading = false;  //showLoading
+                $scope.$parent.$parent.$apply();
+                if (data.errcode == 0) {
+                    objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                    if (objCtrl.updateObject !== "") {
+                        objCtrl.updateObject();
+                    }
+                    restrictLayer.redraw();
+                    swal("操作成功", "种别转换操作成功！", "success");
+                } else {
+                    swal("操作失败", data.errmsg, "error");
+                }
+                if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+                    var stageParam = {
+                        "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                        "stage": 3,
+                        "handler": 0
+
+                    }
+                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                                }
+                            });
+                        } else {
+                            info.push(data.errmsg + data.errid);
+                            rdLink.redraw()
+                            restrictLayer.redraw();
+                            speedlimtPoint.redraw();
+                            workPoint.redraw();
+                        }
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                    })
+                }
+            })
+        } else {
+            swal("操作失败", '数据已经转换', "error");
+        }
+    }
     $scope.upBridgeStatus=function() {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
@@ -203,8 +381,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                         }
                     });
+                    if(data.errcode != 0){
+                        swal("操作失败", data.errmsg, "error");
+                    }
                 } else {
                     info.push(data.errmsg + data.errid);
+                    rdLink.redraw()
+                    restrictLayer.redraw();
+                    speedlimtPoint.redraw();
+                    workPoint.redraw();
+                    swal("操作成功", "改变状态操作成功！", "success");
                 }
                 outputcontroller.pushOutput(info);
                 if (outputcontroller.updateOutPuts !== "") {

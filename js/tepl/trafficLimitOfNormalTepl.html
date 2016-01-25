@@ -66,7 +66,28 @@
     .popover-content{
         overflow-y:auto;height:200px;
     }
-    
+    .trafficPic{
+        float: left;
+        transition: all 0.5s;
+        border-radius: 50%;
+        text-align: center;
+        cursor: pointer;
+        margin: 13px;
+    }
+    .trafficPic > img{
+        transition: all 0.5s;
+        border-radius: 50%;
+    }
+    .trafficPic > .active{
+        box-shadow: 0px 0px 7px 4px #9d9d9d;
+    }
+    .show-tips{
+        transition: all 0.5s;
+        border-radius: 50%;
+    }
+    .show-tips.active{
+        box-shadow: 0px 0px 7px 4px #9d9d9d;
+    }
 </style>
 
 <div  ng-controller="normalController" class="panel panel-default" id="traffiLimitedDiv">
@@ -88,10 +109,10 @@
             <div class="form-group">
                 <div class="col-sm-3" ng-repeat="item in rdRestrictData.details">
                     <div ng-if="item.flag===1">
-                        <img ng-src="./css/limit/{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                        <img ng-src="./css/limit/{{item.restricInfo}}.png" class="show-tips" ng-class="{'active':$index==0}" ng-click="showTips(item,$event)" ng-dblclick="test(item)">
                     </div>
                     <div ng-if="item.flag===2||item.flag===0">
-                        <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" ng-click="showTips(item)" ng-dblclick="test(item)">
+                        <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" ng-class="{'active':$index==0}" class="show-tips" ng-click="showTips(item,$event)" ng-dblclick="test(item)">
                     </div>
 
                 </div>
@@ -195,7 +216,7 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content" style="width: 80%;margin-left: auto;margin-right: auto;">
                 <div class="modal-header">
                     <button type="button" class="close"
                             data-dismiss="modal" aria-hidden="true">
@@ -205,12 +226,12 @@
                         增加交限
                     </h4>
                 </div>
-                <div class="modal-body"  style="height:70px">
-                    <div class="col-sm-1" ng-repeat="addItem in addLimitedData" >
-                        <img ng-src="./css/limitM/{{addItem.id}}.png" ng-click="selectTip(addItem)">
+                <div class="modal-body">
+                    <div class="trafficPic col-md-1" ng-repeat="addItem in addLimitedData">
+                        <img ng-src="./css/limitM/{{addItem.id}}.png" ng-click="selectTip(addItem,$event)">
                     </div>
-
                 </div>
+                <div class="clearfix"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">关闭
