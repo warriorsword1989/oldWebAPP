@@ -134,7 +134,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             "projectId": 11,
             "data": objectCtrl.changedProperty
         };
-
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -145,8 +144,12 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                         info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
+                if(data.errcode==0){
+                    swal("操作成功",'保存成功！', "success");
+                }
             } else {
-                info.push(data.errmsg + data.errid)
+                info.push(data.errmsg + data.errid);
+                swal("操作失败", d.errmsg, "error");
             }
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {

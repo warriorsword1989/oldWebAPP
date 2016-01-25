@@ -13,6 +13,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
+    var speedlimtPoint=layerCtrl.getLayerById("speedlimit");
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -143,7 +144,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 $scope.brigeArrayLink=$scope.dataTipsData.f_array;
                 console.log($scope.brigeArrayLink)
                 break;
-            case "1604":
+            case "1604"://区域内道路
+                $scope.fData = $scope.dataTipsData.f_array;
                 break;
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
@@ -153,6 +155,83 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1901":
                 break;
             case "2001":
+                /*种别*/
+                $scope.returnLineType = function(code){
+                    switch(code){
+                        case 0:
+                            return '作业中';
+                        case 1:
+                            return "高速道路";
+                        case 2:
+                            return "城市高速";
+                        case 3:
+                            return "国道";
+                        case 4:
+                            return "省道";
+                        case 5:
+                            return "预留";
+                        case 6:
+                            return "县道";
+                        case 7:
+                            return "乡镇村道路";
+                        case 8:
+                            return "其他道路";
+                        case 9:
+                            return "非引导道路";
+                        case 10:
+                            return "步行道路";
+                        case 11:
+                            return "人渡";
+                        case 13:
+                            return "轮渡";
+                        case 15:
+                            return "10级路（障碍物）";
+                    }
+                }
+                /*测线来源*/
+                $scope.returnLineSrc = function(code){
+                    switch(code){
+                        case 0:
+                            return 'GPS测线';
+                        case 1:
+                            return '惯导测线';
+                        case 2:
+                            return '自绘测线';
+                        case 3:
+                            return '影像矢量测线';
+                        case 4:
+                            return '情报';
+                    }
+                }
+                //显示状态
+                if ($scope.dataTipsData) {
+                    switch ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage) {
+                        case 1:
+                            $scope.showContent = "未作业";
+                            $scope.labelInfo = true;
+                            $scope.labelSuc = false;
+                            break;
+                        case 3:
+                            $scope.showContent = "已作业";
+                            $scope.labelInfo = false;
+                            $scope.labelSuc = true;
+                            break;
+                        /*case 4:
+                            $scope.showContent = "GDB增量";
+                            break;
+                        case 0:
+                            $scope.showContent = "初始化";
+                            break;*/
+                    }
+                }
+                if($scope.dataTipsData.dp_attr){
+                    /*种别*/
+                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.dp_attr.kind);
+                    /*来源*/
+                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.dp_attr.src);
+                    /*车道数*/
+                    $scope.carNumber = $scope.dataTipsData.dp_attr.in;
+                }
                 break;
 
         }
@@ -242,6 +321,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     if (objCtrl.updateObject !== "") {
                         objCtrl.updateObject();
                     }
+                    restrictLayer.redraw();
                     swal("操作成功", "种别转换操作成功！", "success");
                 } else {
                     swal("操作失败", data.errmsg, "error");
@@ -265,6 +345,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             });
                         } else {
                             info.push(data.errmsg + data.errid);
+                            rdLink.redraw()
+                            restrictLayer.redraw();
+                            speedlimtPoint.redraw();
+                            workPoint.redraw();
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -275,7 +359,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
             })
         } else {
-            alert("数据已经转换");
+            swal("操作失败", '数据已经转换', "error");
         }
     }
     $scope.upBridgeStatus=function() {
@@ -297,8 +381,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                         }
                     });
+                    if(data.errcode != 0){
+                        swal("操作失败", data.errmsg, "error");
+                    }
                 } else {
                     info.push(data.errmsg + data.errid);
+                    rdLink.redraw()
+                    restrictLayer.redraw();
+                    speedlimtPoint.redraw();
+                    workPoint.redraw();
+                    swal("操作成功", "改变状态操作成功！", "success");
                 }
                 outputcontroller.pushOutput(info);
                 if (outputcontroller.updateOutPuts !== "") {

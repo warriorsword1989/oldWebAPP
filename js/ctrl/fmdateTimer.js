@@ -124,17 +124,19 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     var newArr = $scope.newStr($scope.dateString);
     /*外部传递str*/
     $scope.$on('set-code', function(event,data) {
-        $scope.dateList = [];
-        $scope.dateString = '';
-        $scope.dateString = data;
-        /*如果服务返回的字符串只有一段时间，则加上[]然后进行解析*/
-        if(($scope.dateString).indexOf('(') == 1){
-            $scope.dateString = '['+$scope.dateString+']';
+        if(!data){
+            $scope.dateList = [];
+            $scope.dateString = '';
+            $scope.dateString = data;
+            /*如果服务返回的字符串只有一段时间，则加上[]然后进行解析*/
+            if(($scope.dateString).indexOf('(') == 1){
+                $scope.dateString = '['+$scope.dateString+']';
+            }
+            newArr = $scope.newStr($scope.dateString);
+            $scope.listInit();
+            $scope.translate($scope.arrEmpty(newArr));
+            $scope.dateString = data;
         }
-        newArr = $scope.newStr($scope.dateString);
-        $scope.listInit();
-        $scope.translate($scope.arrEmpty(newArr));
-        $scope.dateString = data;
     });
     /*初始化字符串*/
     $scope.listInit();  
