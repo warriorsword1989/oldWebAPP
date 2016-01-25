@@ -1,8 +1,10 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var limitedApp = angular.module("lazymodule", []);
-limitedApp.controller("limitedController",function($scope) {
+/*var limitedApp = angular.module("lazymodule", []);
+limitedApp.controller("limitedController",function($scope) {*/
+var limitedApp = angular.module("mapApp", ['oc.lazyLoad']);
+limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad) {
     $scope.linkLimitData = $scope.linkData;
     $scope.truckFlagarray=[];
     $scope.truckFlagarray.push($scope.linkLimitData.truckFlag);
@@ -154,6 +156,29 @@ limitedApp.controller("limitedController",function($scope) {
         {"id": 9, "label": "不应用"}
     ];
 
+    $timeout(function(){
+        $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+            $scope.dateURL = 'js/tepl/fmdateTimer.html';
+        console.log($scope.linkLimitData.limitTrucks)
+            /*查询数据库取出时间字符串*/
+            var tmpStr = (!$scope.linkLimitData.limitTrucks[0].timeDomain)?'':$scope.linkLimitData.limitTrucks[0].timeDomain;
+            // var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
+            $scope.fmdateTimer(tmpStr);
+        });
+    })
+    /*时间控件*/
+    $scope.fmdateTimer = function(str){
+        $scope.$on('get-date', function(event,data) {
+            $scope.codeOutput = data;
+            $scope.linkLimitData.limitTrucks[0].timeDomain = data;
+        });
+        $timeout(function(){
+            $scope.$broadcast('set-code',str);
+            $scope.codeOutput = str;
+            $scope.linkLimitData.limitTrucks[0].timeDomain = str;
+            $scope.$apply();
+        },100);
+    }
     $scope.addLimit=function() {
         if(!$("#popularLimitedDiv").hasClass("in")) {
             $("#popularLimitedDiv").addClass("in");

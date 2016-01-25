@@ -82,7 +82,7 @@
                 </h4>
             </div>
             <div id="popularLimitedDiv" class="panel-collapse collapse in">
-                <div class="panel-body" style="min-height: 200px;height:300px;overflow-y: auto;">
+                <div class="panel-body">
                     <form class="form-horizontal" method="get">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">供用信息</label>
@@ -199,6 +199,9 @@
                                     </div>
 
                                 </div>
+                                <div class="form-group">
+                                    <div ng-include="dateURL"></div>
+                                </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
                                 <!--<div class="form-group">-->
                                     <!--<label class="col-sm-3 control-label">车辆类型</label>-->
@@ -257,7 +260,7 @@
 
             </div>
             <div id="trafficLimitedDiv" class="panel-collapse collapse in">
-                <div class="panel-body" style="min-height: 100px;height:300px;overflow-y: auto;">
+                <div class="panel-body">
                     <div class="list-group"  ng-repeat="tItem in linkLimitData.limitTrucks">
                         <div class="list-group-item">
                             <form class="form-horizontal" method="get">
@@ -307,6 +310,9 @@
                                         </div>
                                     </div>
 
+                                </div>
+                                <div class="form-group">
+                                    <div ng-include="dateURL"></div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
                                 <div class="form-group">

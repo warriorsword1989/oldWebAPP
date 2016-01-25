@@ -17,11 +17,13 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
     $scope.diverId = divergenceIds[0].id;
+
+
     $timeout(function(){
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        Application.functions.getRdObjectById($scope.diverId, "RDBRANCH", function (data) {
+        Application.functions.getRdObjectByDetailId($scope.diverId, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
             $scope.$apply();
         });
@@ -29,11 +31,8 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     $scope.setOriginalDataFunc();
     $scope.getObjectById = function(){
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        // Application.functions.getRdObjectById(13920, "RDBRANCH", function (data) {
-        // Application.functions.getRdObjectById(40378080, "RDBRANCH", function (data) {
-        // Application.functions.getRdObjectById(3893, "RDBRANCH", function (data) {      //箭头图
-        // Application.functions.getRdObjectById(3893, "1400", function (data) {      //箭头图
-        Application.functions.getRdObjectById($scope.diverId, "RDBRANCH", function (data) {
+         //箭头图
+        Application.functions.getRdObjectByDetailId($scope.diverId, "RDBRANCH", function (data) {
             // oldData = data.data;
             // objectEditCtrl.setOriginalData(data.data);
             if(data.errcode == 0){
@@ -393,7 +392,9 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 /*模式图*/
                 /*箭头图代码*/
                 $scope.arrowCode = dObj.details[0].arrowCode;
-                $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
+                if($scope.arrowCode) {
+                    $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
+                }
                 $("#picMapImg").attr('src',$scope.arrowMapShow);
                 $("#picMapDesc").text($scope.arrowCode);
                 /*分歧号码*/
