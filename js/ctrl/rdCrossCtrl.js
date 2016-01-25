@@ -3,9 +3,12 @@
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("rdCrossController", function ($scope) {
+    var layerCtrl = fastmap.uikit.LayerController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
+    var highLightLayer = fastmap.uikit.HighLightController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.langCodeOptions = [
         {"id": "CHI", "label": "简体中文"},
         {"id": "CHT", "label": "繁体中文"},
@@ -40,18 +43,36 @@ selectApp.controller("rdCrossController", function ($scope) {
         {"id": "SCR", "label": "克罗地亚语"},
     ];
 
-    objCtrl.setOriginalData($.extend(true, {}, objCtrl.data));
-    $scope.rdCrossData = objCtrl.data;
-    $("#signalbtn" + $scope.rdCrossData.signal).removeClass("btn btn-default").addClass("btn btn-primary");
-    $("#typebtn" + $scope.rdCrossData.type).removeClass("btn btn-default").addClass("btn btn-primary");
-    $("#electRoeyebtn" + $scope.rdCrossData.electroeye).removeClass("btn btn-default").addClass("btn btn-primary");
-    setTimeout(function () {
-        for (var i in $scope.rdCrossData.names) {
-            $("#srcFlag" + $scope.rdCrossData.names[i].srcFlag + "_" + i).removeClass("btn btn-default").addClass("btn btn-primary");
+    var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+        map: map,
+        highLightFeature: "linksOfCross",
+        initFlag: true
+    });
+    highLightLayer.pushHighLightLayers(highLightLink);
+    $scope.initializeRdCrossData = function () {
+
+        objCtrl.setOriginalData($.extend(true, {}, objCtrl.data));
+        $scope.rdCrossData = objCtrl.data;
+        var links = $scope.rdCrossData.links,linkArr=[];
+        for(var i= 0,len=links.length;i<len;i++) {
+            linkArr.push(links[i]["linkPid"]);
         }
-    }, 10)
-
-
+        highLightLink.drawLinksOfCrossForInit( linkArr, []);
+        $("#signalbtn" + $scope.rdCrossData.signal).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#typebtn" + $scope.rdCrossData.type).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#electRoeyebtn" + $scope.rdCrossData.electroeye).removeClass("btn btn-default").addClass("btn btn-primary");
+        setTimeout(function () {
+            for (var i in $scope.rdCrossData.names) {
+                $("#srcFlag" + $scope.rdCrossData.names[i].srcFlag + "_" + i).removeClass("btn btn-default").addClass("btn btn-primary");
+            }
+        }, 10)
+    }
+    if (objCtrl.data) {
+        $scope.initializeRdCrossData();
+    }
+    objCtrl.updateRdCross=function() {
+        $scope.initializeRdCrossData();
+    };
     $scope.checksignal = function (flag) {
         $("#signaldiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#signalbtn" + flag).removeClass("btn btn-default").addClass("btn btn-primary");
@@ -102,9 +123,9 @@ selectApp.controller("rdCrossController", function ($scope) {
             $("#namesDiv").addClass("in");
         }
         var names = $scope.rdCrossData.names, maxNum = -1;
-        if(names.length===0) {
+        if (names.length === 0) {
             maxNum = 0;
-        }else{
+        } else {
             for (var i = 0, len = names.length; i < len; i++) {
                 if (names[i]["nameGroupid"] > maxNum) {
                     maxNum = names[i]["nameGroupid"];

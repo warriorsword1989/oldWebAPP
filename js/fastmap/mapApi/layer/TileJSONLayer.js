@@ -236,12 +236,31 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         g.restore();
     },
 
-
+    _drawRdCross: function (ctx, geom, imgsrc, boolPixelCrs) {
+        if (!imgsrc) {
+            return;
+        }
+        var p = null;
+        if (boolPixelCrs) {
+            p = {x: geom[0], y: geom[1]}
+        } else {
+            p = this._tilePoint(ctx, imgsrc);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        this._loadImg(imgsrc.src, function (img) {
+            g.save();
+            g.translate(p.x, p.y);
+            //g.drawImage(img, p.x, p.y);
+            g.drawImage(img, -img.width / 2, -img.height / 2);
+            g.restore();
+        })
+    },
     /***
      * 绘制图片
      * @param ctx
      * @param geom
-     * @param src
+     * @param imgsrc
      * @param boolPixelCrs
      * @private
      */
@@ -264,7 +283,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             g.drawImage(image, p.x, p.y);
         };
     },
-    _drawImgRoute: function (ctx, geom, imgsrc,arrorSrc, boolPixelCrs,rount) {
+    _drawImgRoute: function (ctx, geom, imgsrc, arrorSrc, boolPixelCrs, rount) {
         if (!imgsrc.src) {
             return;
         }
@@ -277,27 +296,27 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var c = ctx.canvas;
         var g = c.getContext('2d');
         var image = new Image(),
-            arrorImg=new Image();
+            arrorImg = new Image();
         image.src = imgsrc.src;
         arrorImg.src = arrorSrc.src;
-        var xpos=parseInt(geom[0]);
-        var ypos=parseInt(geom[1]);
+        var xpos = parseInt(geom[0]);
+        var ypos = parseInt(geom[1]);
         image.onload = function () {
             g.save();
             g.translate(p.x, p.y);
-            g.rotate(rount);//旋转度数
-           // g.translate(-xpos, -ypos);
+            //g.rotate(rount);//旋转度数
+            // g.translate(-xpos, -ypos);
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            g.drawImage(image, - image.width / 2, -image.height/2);
+            g.drawImage(image, -image.width / 2, -image.height / 2);
             g.restore();
         };
-        arrorImg.onload= function () {
+        arrorImg.onload = function () {
             g.save();
             g.translate(p.x, p.y);
             g.rotate(rount);//旋转度数
             //g.translate(-p.x, -p.y);
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            g.drawImage(arrorImg,10, -arrorImg.height/2);
+            g.drawImage(arrorImg, 10, -arrorImg.height / 2);
             g.restore();
         }
     },
@@ -788,7 +807,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
         return x;
     },
-
+    _loadImg: function (url, callBack) {
+        var img = new Image();
+        img.onload = function () {
+            callBack(img);
+        };
+        img.src = url;
+    },
     /***
      * 绘制要素
      * @param {Object}data绘制的数据
@@ -864,136 +889,138 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
 
                         }
-                    }else if(this.options.type === 'Diverge'){
+                    } else if (this.options.type === 'Diverge') {
                         if (feature.properties.restrictioncondition === undefined) {
                             return;
                         }
                         var restrictObj = feature.properties.restrictioncondition;
-                        function loadImg(url, callBack) {
-                            var img = new Image();
-                            img.onload = function () {
-                                callBack(img);
-                            };
-                            img.src = url;
-                        }
+
                         if (restrictObj !== undefined) {
-                            $.each(restrictObj,function(i,v){
+                            $.each(restrictObj, function (i, v) {
                                 var poiX = feature.geometry.coordinates[0][0];
                                 var poiY = feature.geometry.coordinates[1][0];
-                                var newstyle  = './css/divergence/' + v.type + '.png';
-                                var route = feature.properties.rotate*(Math.PI/180);
-                                loadImg(newstyle, function (img) {
+                                var newstyle = './css/divergence/' + v.type + '.png';
+                                var route = feature.properties.rotate * (Math.PI / 180);
+                                this._loadImg(newstyle, function (img) {
                                     var g = ctx.canvas.getContext('2d');
                                     g.save();
                                     g.translate(poiX, poiY);
                                     g.rotate(route);
-                                    g.drawImage(img, i*30, 0);
+                                    g.drawImage(img, i * 30, 0);
                                     g.restore();
-                                    $(img).bind('click',function(){
+                                    $(img).bind('click', function () {
                                         console.log(this)
                                     })
                                 });
                             });
                         }
-                    } else if(this.options.type === 'rdSpeedLimitPoint'){//限速图标
+                    } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标
                         if (feature.properties.restrictioncondition === undefined) {
                             return;
                         }
-                        var speedFlagstyle=null;
-                        var jttype=null;
+                        var speedFlagstyle = null;
+                        var jttype = null;
                         var restrictObj = feature.properties.restrictioncondition;
-                        var route = feature.properties.rotate*(Math.PI/180);
-                        var resArray=restrictObj.split("|");
-                        var gaptureFlag=resArray[0];//采集标志（0,现场采集;1,理论判断）
-                        var speedFlag=resArray[1];//限速标志(0,限速开始;1,解除限速)
-                        var speedValue=resArray[2]/10;//限速值
-                        if(gaptureFlag===1){//理论判断，限速开始和结束都为蓝色
-                            if(speedFlag===1){//解除限速
-                                speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue  + '.png'};
-                                jttype={src: './css/speedLimit/normal/llend_gray.png'};
-                            }else{
+                        var route = (feature.properties.rotate - 90) * (Math.PI / 180);
+                        var resArray = restrictObj.split("|");
+                        var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
+                        var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
+                        var speedValue = resArray[2] / 10;//限速值
+                        if (gaptureFlag === 1) {//理论判断，限速开始和结束都为蓝色
+                            if (speedFlag === 1) {//解除限速
+                                speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue + '.png'};
+                                jttype = {src: './css/speedLimit/normal/llend_gray.png'};
+                            } else {
                                 speedFlagstyle = {src: './css/speedLimit/normal/llstart_' + speedValue + '.png'};
-                                jttype={src: './css/speedLimit/normal/llstart_blue.png'};
+                                jttype = {src: './css/speedLimit/normal/llstart_blue.png'};
                             }
 
-                        }else{//现场采集，限速开始为红色，结束为黑色
-                            if(speedFlag===1){//解除限速
-                                speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue  + '.png'};
-                                jttype={src: './css/speedLimit/normal/end_black.png'};
-                            }else{
+                        } else {//现场采集，限速开始为红色，结束为黑色
+                            if (speedFlag === 1) {//解除限速
+                                speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue + '.png'};
+                                jttype = {src: './css/speedLimit/normal/end_black.png'};
+                            } else {
                                 speedFlagstyle = {src: './css/speedLimit/normal/start_' + speedValue + '.png'};
-                                jttype={src: './css/speedLimit/normal/start_red.png'};
+                                jttype = {src: './css/speedLimit/normal/start_red.png'};
                             }
                         }
-                        this._drawImgRoute(ctx, geom, speedFlagstyle,jttype, boolPixelCrs,route);
+                        this._drawImgRoute(ctx, geom, speedFlagstyle, jttype, boolPixelCrs, route);
 
 
-                    } else if(this.options.type === 'rdCrossPoint'){
-
-                    }else if(this.options.type === 'rdlaneconnexityPoint'){
+                    } else if (this.options.type === 'rdCrossPoint') {
+                        var masterImg = {src: './css/rdcross/11.png'},
+                            followImg = {src: './css/rdcross/111.png'};
+                        for (var rd = 0, rdLen = geom.length; rd < rdLen; rd++) {
+                            if (rd === 0) {
+                                this._drawRdCross(ctx, geom[rd][0], masterImg, boolPixelCrs);
+                            } else {
+                                this._drawRdCross(ctx, geom[rd][0], followImg, boolPixelCrs);
+                            }
+                        }
+                    } else if (this.options.type === 'rdlaneconnexityPoint') {
                         if (feature.properties.restrictioninfo === undefined) {
                             return;
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
-                        var route = feature.properties.rotate*(Math.PI/180);
-                        if(isNaN(route)){
-                            route=0;
+                        var route = feature.properties.rotate * (Math.PI / 180);
+                        if (isNaN(route)) {
+                            route = 0;
                         }
-                            var newgeom = [];
+                        var newgeom = [];
                         if (restrictObj !== undefined) {
-                            if(restrictObj.length>1){
+                            if (restrictObj.length > 1) {
                                 var restrictArr = restrictObj.split(",");
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
                                     if (restrictArr[fact].constructor === Array) {
-                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0]  + '.png'};
+                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0] + '.png'};
                                     } else {
                                         if (restrictArr[fact].indexOf("[") > -1) {
                                             restrictArr[fact] = restrictArr[fact].replace("[", "");
                                             restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact]  + '.png'};
+                                            newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact] + '.png'};
 
-                                        }else if (restrictArr[fact].indexOf("<") > -1) {
+                                        } else if (restrictArr[fact].indexOf("<") > -1) {
                                             restrictArr[fact] = restrictArr[fact].replace("<", "");
                                             restrictArr[fact] = restrictArr[fact].replace(">", "");
-                                            newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact]  + '.png'};
+                                            newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact] + '.png'};
 
-                                        }  else if(restrictArr[fact]!="9"){
+                                        } else if (restrictArr[fact] != "9") {
                                             newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
                                         }
                                     }
                                     if (fact > 0) {
                                         newgeom[0] = parseInt(geom[0]) + fact * 10;
                                         newgeom[1] = parseInt(geom[1]);
-                                        this._drawImgRoute(ctx, newgeom, newstyle, boolPixelCrs,route);
+                                        this._drawImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
                                     } else {
-                                        this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
+                                        this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
                                     }
 
                                 }
-                            }else{
-                                    if (restrictObj.constructor === Array) {
-                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[0]  + '.png'};
-                                    } else {
-                                        if (restrictObj.indexOf("[") > -1) {
-                                            restrictObj = restrictObj.replace("[", "");
-                                            restrictObj = restrictObj.replace("]", "");
-                                            newstyle = {src: './css/laneinfo/extF/' + restrictObj  + '.png'};
+                            } else {
+                                if (restrictObj.constructor === Array) {
+                                    newstyle = {src: './css/laneinfo/arwF/' + restrictArr[0] + '.png'};
+                                } else {
+                                    if (restrictObj.indexOf("[") > -1) {
+                                        restrictObj = restrictObj.replace("[", "");
+                                        restrictObj = restrictObj.replace("]", "");
+                                        newstyle = {src: './css/laneinfo/extF/' + restrictObj + '.png'};
 
-                                        }else if (restrictObj.indexOf("<") > -1) {
-                                            restrictObj = restrictObj.replace("<", "");
-                                            restrictObj = restrictObj.replace(">", "");
-                                            newstyle = {src: './css/laneinfo/arwB/' + restrictObj  + '.png'};
+                                    } else if (restrictObj.indexOf("<") > -1) {
+                                        restrictObj = restrictObj.replace("<", "");
+                                        restrictObj = restrictObj.replace(">", "");
+                                        newstyle = {src: './css/laneinfo/arwB/' + restrictObj + '.png'};
 
-                                        }  else if(restrictObj!="9"){
-                                            newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
-                                        }
+                                    } else if (restrictObj != "9") {
+                                        newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
                                     }
-                                    this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
+                                }
+                                this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
                             }
                         }
 
-                    }else{
+                    } else {
                         this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
 

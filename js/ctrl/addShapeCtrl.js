@@ -9,6 +9,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+        var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
@@ -28,6 +29,33 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
             }
             return angle;
+        };
+        $scope.arrToReduce = function (arrA, arrB) {
+            var arr = [], obj = {};
+            for (var i = 0, len = arrB.length; i < len; i++) {
+                obj[arrB[i]] = true;
+            }
+
+            for (var j = 0, lenJ = arrA.length; j < lenJ; j++) {
+                if (!obj[arrA[j]]) {
+                    arr.push(arrA[j]);
+                }
+
+
+            }
+
+            return arr;
+        };
+        $scope.containsNode = function (arr, node) {
+            var obj = {}, flag = false;
+            for (var i = 0, len = arr.length; i < len; i++) {
+                obj[arr[i]] = true;
+                if (obj[node]) {
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
         };
         $scope.addShape = function (type, num) {
             if (tooltipsCtrl.getCurrentTooltip()) {
@@ -156,6 +184,45 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
+
+            }  else if (type === "rdcross") {
+                var linksArr = [], nodesArr = [];
+                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
+                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                    map: map,
+                    highLightFeature: "linksOfCross",
+                    initFlag: true
+                });
+                highLightLayer.pushHighLightLayers(highLightLink);
+                map.on("dataOfBoxEvent", function (event) {
+                    var data = event.data, options = {};
+                    if (linksArr.length === 0) {
+                        linksArr = data["crossLinks"];
+                        nodesArr = data["crossNodes"];
+                    } else {
+                        highLightLink.drawLinksOfCrossForInit([], []);
+                        if (data['nodes'].length === 1) {
+                            if ($scope.containsNode(nodesArr, data["nodes"][0])) {
+                                linksArr = $scope.arrToReduce(linksArr, data["links"]);
+                                nodesArr = $scope.arrToReduce(nodesArr, data["nodes"]);
+                            } else {
+                                linksArr = linksArr.concat(data["links"]);
+                                nodesArr = nodesArr.concat(data["nodes"]);
+                            }
+
+                        } else {
+                            linksArr.length = 0;
+                            nodesArr.length = 0;
+                            linksArr = data["crossLinks"];
+                            nodesArr = data["crossNodes"];
+                        }
+                    }
+
+                    highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
+                    options = {"nodePids": nodesArr, "linkPids": linksArr};
+                    selectCtrl.onSelected(options);
+                });
+
 
             }
         }
