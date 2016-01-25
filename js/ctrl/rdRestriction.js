@@ -286,7 +286,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
         var re31sult=""
         for(var j=0;j<31;j++){
-            if(inArray(getEdnArray(), j)){
+            if(inArray(getEndArray(), j)){
                 re31sult+="1";
             }else{
                 re31sult+="0";
