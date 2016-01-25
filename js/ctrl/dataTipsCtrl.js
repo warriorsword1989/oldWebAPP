@@ -3,7 +3,6 @@
  */
 var dataTipsApp = angular.module("lazymodule", []);
 dataTipsApp.controller("sceneTipsController", function ($scope) {
-
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var checkCtrl = fastmap.uikit.CheckResultController();

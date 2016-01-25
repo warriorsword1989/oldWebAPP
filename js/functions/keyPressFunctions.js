@@ -84,7 +84,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     var paramOfLink = {
                         "command": "CREATE",
-                        "type":"RDLINK",
+                        "type": "RDLINK",
                         "projectId": 11,
                         "data": {
                             "eNodePid": 0,
@@ -118,7 +118,7 @@ function keyEvent(ocLazyLoad, scope) {
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
                         "command": "CREATE",
-                        "type":"RESTRICTION",
+                        "type": "RESTRICTION",
                         "projectId": 11,
                         "data": featCodeCtrl.getFeatCode()
                     };
@@ -169,7 +169,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     var param = {
                         "command": "BREAK",
-                        "type":"RDLINK",
+                        "type": "RDLINK",
                         "projectId": 11,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
@@ -195,12 +195,12 @@ function keyEvent(ocLazyLoad, scope) {
 
                     })
                 } else if (shapeCtrl.editType === "transformDirect") {
-                    var disFromStart, disFromEnd, node, direct,pointOfArrow,
-                    feature = selectCtrl.selectedFeatures;
+                    var disFromStart, disFromEnd, node, direct, pointOfArrow,
+                        feature = selectCtrl.selectedFeatures;
                     console.log(link);
                     var startPoint = feature.geometry.components[0],
                         point = feature.point;
-                    if(link) {
+                    if (link) {
                         pointOfArrow = link.pointForDirect;
                         pointOfArrow = fastmap.mapApi.point(pointOfArrow.lng, pointOfArrow.lat);
                         disFromStart = distance(point, startPoint);
@@ -210,8 +210,8 @@ function keyEvent(ocLazyLoad, scope) {
                         } else {
                             direct = 3;
                         }
-                    }else{
-                       direct=feature.direct
+                    } else {
+                        direct = feature.direct
                     }
 
                     var parameter = {
@@ -225,42 +225,42 @@ function keyEvent(ocLazyLoad, scope) {
                             "latitude": point.y
                         }
                     }
-                  Application.functions.saveLinkGeometry(JSON.stringify(parameter),function(data) {
-                      if(data.errcode===-1) {
-                          outPutCtrl.pushOutput(data.errmsg);
-                          if (outPutCtrl.updateOutPuts !== "") {
-                              outPutCtrl.updateOutPuts();
-                          }
-                          return;
-                      }
-                      var info = [];
-                      angular.forEach(data.data.log, function (task, index) {
-                          if (task.pid) {
-                              info.push(task.op + task.type + "(pid:" + task.pid + ")");
-                          } else {
-                              info.push(task.op + task.type + "(rowId:" + task.rowId + ")");
-                          }
-                      })
-                      //$.each(data.data.log, function (i, item) {
-                      //    if (item.pid) {
-                      //        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                      //    } else {
-                      //        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                      //    }
-                      //});
-                      console.log(info);
-                      resetPage();
-                      outPutCtrl.pushOutput(info);
-                      if (outPutCtrl.updateOutPuts !== "") {
-                          outPutCtrl.updateOutPuts();
-                      }
-                      Application.functions.getRdObjectById(data.data.pid, "RDSPEEDLIMIT", function (data) {
-                          objEditCtrl.setCurrentObject(data.data);
-                          ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                              scope.objectEditURL = "js/tepl/speedLimitTepl.html";
-                          });
-                      });
-                  })
+                    Application.functions.saveLinkGeometry(JSON.stringify(parameter), function (data) {
+                        if (data.errcode === -1) {
+                            outPutCtrl.pushOutput(data.errmsg);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            return;
+                        }
+                        var info = [];
+                        angular.forEach(data.data.log, function (task, index) {
+                            if (task.pid) {
+                                info.push(task.op + task.type + "(pid:" + task.pid + ")");
+                            } else {
+                                info.push(task.op + task.type + "(rowId:" + task.rowId + ")");
+                            }
+                        })
+                        //$.each(data.data.log, function (i, item) {
+                        //    if (item.pid) {
+                        //        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        //    } else {
+                        //        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        //    }
+                        //});
+                        console.log(info);
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        Application.functions.getRdObjectById(data.data.pid, "RDSPEEDLIMIT", function (data) {
+                            objEditCtrl.setCurrentObject(data.data);
+                            ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/speedLimitTepl.html";
+                            });
+                        });
+                    })
 
                 } else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
                     if (coordinate.length !== 0) {
@@ -272,7 +272,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         var param = {
                             "command": "UPDATE",
-                            "type":"RDLINK",
+                            "type": "RDLINK",
                             "projectId": 11,
                             "data": {
                                 "pid": parseInt(selectCtrl.selectedFeatures.id),
@@ -372,6 +372,50 @@ function keyEvent(ocLazyLoad, scope) {
                         }
 
                     })
+                } else if (shapeCtrl.editType === "rdBranch") {
+                    var paramOfRdBranch = {
+                        "command": "CREATE",
+                        "type": "RDBRANCH",
+                        "projectId": 11,
+                        "data": featCodeCtrl.getFeatCode()
+                    };
+                    Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
+
+                        var pids = [];
+                        pids.push({id:data.data.pid});
+                        checkCtrl.setCheckResult(data);
+                        //清空上一次的操作
+                        map.currentTool.cleanHeight();
+                        map.currentTool.disable();
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                                }
+                            });
+                        } else {
+                            info.push(data.errmsg + data.errid)
+                        }
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        toolTipsCtrl.onRemoveTooltip();
+
+
+                        objEditCtrl.setCurrentObject(pids);
+                        if (objEditCtrl.updateObject !== "") {
+                            objEditCtrl.updateObject();
+                        }
+                        ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
+                            scope.objectEditURL = "js/tepl/rdBranchTep.html";
+                        })
+                    })
+
+
                 }
                 else if (shapeCtrl.editType === "linksOfCross") {
 

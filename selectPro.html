@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fastmap道路编辑平台-选择项目</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="content-script-type" content="text/javascript">
+        <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+        <link href="../styles/supersized.css" rel="stylesheet" type="text/css">
+        <link href="../libs/tips/tips.css" rel="stylesheet" type="text/css" />
+        <script src="../libs/jquery/jquery.min.js"></script>
+        <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            min-width: 800px;
+            /*min-height: 768px;*/
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
+        }
+
+        body {
+            background: none repeat scroll 0 0;
+        }
+
+        div {
+            position: relative;
+            /*text-align: center;*/
+        }
+
+        .navbar {
+            border-radius: 0px;
+        }
+
+        .navbar-brand {
+            padding: 10px 15px;
+        }
+
+        .navbar-inverse {
+            background-color: #3097d1;
+        }
+
+        .login-panel {
+            padding: 10px 40px;
+            background-color: rgba(0, 0, 0, .25);
+            border: 1px solid transparent;
+            width: 418px;
+        }
+
+        .login-panel h1 {
+            font-size: 30px;
+            color: #fff;
+            margin: 0px;
+            padding: 30px 0px;
+        }
+
+        .login-form input, .login-form button {
+            height: 46px;
+            font-size: 16px;
+        }
+
+        .login-footer {
+            margin-top: 8%;
+            position: absolute;
+            width: 100%;
+            bottom: 4%;
+        }
+
+        .login-footer-content {
+            margin: 0px auto;
+            border-top: 1px solid #e7e7e7;
+            text-align: center;
+        }
+
+        .login-footer-content p, .login-footer-content a {
+            padding: 6px 0px;
+            margin: 0px;
+            color: #2e6da4;
+            font-size: 12px;
+        }
+        .label-info{
+            border-radius: 0
+        }
+        .img_box{
+            background:#080808;
+            width:100%;
+            height:100%;
+            padding:0;
+            margin:0;
+            border-radius: 4px;
+            border: 1px solid #999;
+            position:relative;
+            box-sizing:border-box;
+            cursor:pointer;
+            -webkit-transition:all .4s ease-in-out;
+            -moz-transition:all .4s ease-in-out;
+            -o-transition:all .4s ease-in-out;
+            -ms-transition:all .4s ease-in-out;
+            transition:all .4s ease-in-out;
+            overflow:hidden
+        }
+        .img_box .img_box_img{
+            position:relative;
+            display:block;
+            width:100%;
+            padding:0;
+            margin:0;
+            opacity:1;
+            -webkit-transition:all .4s ease-in-out;
+            -moz-transition:all .4s ease-in-out;
+            -o-transition:all .4s ease-in-out;
+            -ms-transition:all .4s ease-in-out;
+            transition:all .4s ease-in-out;
+            overflow:hidden
+        }
+        .img_box:hover .img_box_img{
+            opacity:.7;
+            -webkit-transform:scale(1.3);
+            -moz-transform:scale(1.3);
+            -o-transform:scale(1.3);
+            -ms-transform:scale(1.3);
+            transform:scale(1.3)
+        }
+        .img_box .img_box_caption{
+            color:#fff;
+            -moz-backface-visibility:hidden;
+            -webkit-backface-visibility:hidden;
+            backface-visibility:hidden;
+            -webkit-transition:all .4s ease-in-out;
+            -moz-transition:all .4s ease-in-out;
+            -o-transition:all .4s ease-in-out;
+            -ms-transition:all .4s ease-in-out;
+            transition:all .4s ease-in-out;
+            overflow:hidden
+        }
+        .img_box .img_box_caption,.img_box .img_box_caption > a{
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            padding:0;
+            margin:0;
+            -webkit-transition:all .4s ease-in-out;
+            -moz-transition:all .4s ease-in-out;
+            -o-transition:all .4s ease-in-out;
+            -ms-transition:all .4s ease-in-out;
+            transition:all .4s ease-in-out;
+            overflow:hidden
+        }
+        .img_box .img_box_caption_h{
+            font-size:1.3em;
+            font-weight:700;
+            text-align:center;
+            width:80%;
+            position:absolute;
+            top:20%;
+            left:10%;
+            -webkit-transition:all .5s ease-in-out;
+            -moz-transition:all .5s ease-in-out;
+            -o-transition:all .5s ease-in-out;
+            -ms-transition:all .5s ease-in-out;
+            transition:all .5s ease-in-out;
+            overflow:hidden;
+            opacity:0
+            }
+        .img_box:hover .img_box_caption_h{
+            color:#fff;
+            opacity:1
+        }
+        .img_box .img_box_caption_p{
+            font-size:1em;
+            text-align:center;
+            width:80%;
+            position:absolute;
+            top:45%;
+            left:10%;
+            -webkit-transition:all .6s ease-in-out;
+            -moz-transition:all .6s ease-in-out;
+            -o-transition:all .6s ease-in-out;
+            -ms-transition:all .6s ease-in-out;
+            transition:all .6s ease-in-out;
+            overflow:hidden;
+            opacity:0
+        }
+        .img_box:hover .img_box_caption_p{
+            color:#fff;
+            opacity:1
+        }
+        .img_box_title{
+            width: 100%;
+            text-align: center;
+        }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="http://www.navinfo.com/index.aspx">
+                    <img alt="Brand" src="css/img/navi_logo.png">
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#">退出</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid" style="padding:30px">
+            <div class="row">
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1234</span> 个</p>
+                            <a class="img_box_caption_a" href="main1.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量1301个</p>
+                            <a class="img_box_caption_a" href="main1.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量1301个</p>
+                            <a class="img_box_caption_a" href="main1.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="badge">1242</span> 个</p>
+                            <a class="img_box_caption_a" href="main1.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+            </div>
+        </div>
+        <div class="login-footer">
+            <div class="login-footer-content">
+                <p>
+                <a href="http://www.navinfo.com/index.aspx">四维图新网站</a> |
+                <a href="https://sso.navinfo.com/login.do?service=http%3A%2F%2Foa.navinfo.com%2Fmain.do">四维协同办公系统</a> |
+                <a href="https://mail.navinfo.com/owa/auth/logon.aspx?url=https://mail.navinfo.com/owa/&reason=0">四维邮件系统</a> |
+                <a href="http://pan.navinfo.com/index.php">企业云网盘</a>
+                </p>
+                <p>Copyright©2009北京四维图新科技股份有限公司</p>
+            </div>
+        </div>
+        <script src="js/lib/js/bootstrap.min.js"></script>
+        <script src="../libs/tips/tips.js"></script>
+        <script src="../scripts/Application.js"></script>
+        <script src="../scripts/common.js"></script>
+        <script src="../scripts/controllers/loginCtrl.js"></script>
+        <script src="../scripts/services/service-login.js"></script>
+        <script src="../scripts/animates/login.js"></script>
+    </body>
+</html>

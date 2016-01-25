@@ -2,13 +2,17 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("mapApp", ['oc.lazyLoad']);
-myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',function ($scope, $ocLazyLoad,$timeout) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
     var outputCtrl = fastmap.uikit.OutPutController({});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    $scope.brigeLinkArrays=$scope.$parent.$parent.brigeLinkArray;
+    $scope.brigeIndex=0;
+
     $scope.isActive = [true, false, false, false, false, false];
     //改变模块的背景
     $scope.changeActive = function (id) {
@@ -23,10 +27,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
     $scope.initializeLinkData = function () {
         objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
         $scope.linkData = objectCtrl.data.data;
-        for (var item = 0, len = ($scope.linkData.speedlimits).length; item < len; item++) {
-            $scope.linkData.speedlimits[item]["fromSpeedLimit"] = $scope.linkData.speedlimits[item]["fromSpeedLimit"] / 10;
-            $scope.linkData.speedlimits[item]["toSpeedLimit"] = $scope.linkData.speedlimits[item]["toSpeedLimit"] / 10;
-        }
         $("#basicModule").css("background-color", "#49C2FC");
         $scope.changeActive(0);
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
@@ -129,11 +129,11 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         var param = {
-            "command": "updatelink",
+            "command": "UPDATE",
+            "type":"RDLINK",
             "projectId": 11,
             "data": objectCtrl.changedProperty
         };
-
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -144,19 +144,25 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
                         info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                     }
                 });
+                if(data.errcode==0){
+                    swal("操作成功",'保存成功！', "success");
+                }
             } else {
-                info.push(data.errmsg + data.errid)
+                info.push(data.errmsg + data.errid);
+                swal("操作失败", d.errmsg, "error");
             }
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
             }
         })
+
     };
     $scope.$parent.$parent.delete = function () {
         var objId = parseInt($scope.linkData.pid);
         var param = {
-            "command": "deletelink",
+            "command": "DELETE",
+            "type":"RDLINK",
             "projectId": 11,
             "objId": objId
         }
@@ -192,5 +198,29 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad', function ($scop
             }
 
         })
+    }
+
+    $scope.changeLink=function(ind,linkid){
+        $scope.brigeIndex=ind;
+        Application.functions.getRdObjectById(linkid, "RDLINK", function (data) {
+            if (data.errcode === -1) {
+                return;
+            }
+            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+            for (var i = 0, len = linkArr.length; i < len; i++) {
+                var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                points.push(point);
+            }
+            map.panTo({lat: points[0].y, lon: points[0].x});
+            var line = fastmap.mapApi.lineString(points);
+            selectCtrl.onSelected({geometry: line, id: $scope.dataId});
+            objectCtrl.setCurrentObject(data);
+            if (objectCtrl.updateObject !== "") {
+                objectCtrl.updateObject();
+            }
+            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+            });
+        });
     }
 }]);
