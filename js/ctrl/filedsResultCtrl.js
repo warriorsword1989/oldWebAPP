@@ -4,6 +4,7 @@
 var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
 filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad',
         function ($rootScope, $scope, $ocLazyLoad) {
+            var objCtrl = fastmap.uikit.ObjectEditController();
            // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
@@ -222,26 +223,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
                         //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 19)
-                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                            objCtrl.setCurrentObject(data.data);
-                            //$scope.dataId=data.f.id;
-                            //Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (data) {
-                            //    var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
-                            //    for (var i = 0, len = linkArr.length; i < len; i++) {
-                            //        var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                            //        points.push(point);
-                            //    }
-                            //    map.panTo({lat: points[0].y, lon: points[0].x});
-                            //    var line = fastmap.mapApi.lineString(points);
-                            //    selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-                            //    if (objCtrl.updateObject !== "") {
-                            //        objCtrl.updateObject();
-                            //    }
-                            //});
-                            $scope.showTipsOrProperty(data,"RDSPEEDLIMIT","ctrl/speedLimitCtrl","js/tepl/speedLimitTepl.html");
-
-                        });
+                        objCtrl.setCurrentObject(data.data);
+                        var speedLimitId = data.id;
+                        $scope.showTipsOrProperty(data,"RDSPEEDLIMIT",objCtrl,speedLimitId,"ctrl/speedLimitCtrl","js/tepl/speedLimitTepl.html");
                     }else if(pItemId==="1201"){//道路种别
                         Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
                            $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
@@ -474,11 +458,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 // console.log($scope.items);
             };
 
-            $scope.showTipsOrProperty=function(data,type,objCtrl,propertyCtrl,propertyTepl){
+            $scope.showTipsOrProperty=function(data,type,objCtrl,propertyId,propertyCtrl,propertyTepl){
                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                     if(data.t_lifecycle===2) {
-                        Application.functions.getRdObjectById(data.id, type, function (data) {
+                        Application.functions.getRdObjectById(propertyId, type, function (data) {
                             objCtrl.setCurrentObject(data.data);
                             if (objCtrl.tipsUpdateObject !== "") {
                                 objCtrl.tipsUpdateObject();
@@ -491,9 +475,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else{
                         var stageLen = data.t_trackInfo.length;
                         var stage = data.t_trackInfo[stageLen - 1];
-                        if(stage===1) {
+                        if(stage.stage===1) {
                             if(data.t_lifecycle ===1) {
-                                Application.functions.getRdObjectById(data.id, type, function (data) {
+                                Application.functions.getRdObjectById(propertyId, type, function (data) {
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.tipsUpdateObject !== "") {
                                         objCtrl.tipsUpdateObject();
@@ -505,9 +489,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 });
                             }
 
-                        }else if(stage===3) {
+                        }else if(stage.stage===3) {
                             if(data.t_lifecycle===3) {
-                                Application.functions.getRdObjectById(data.id, type, function (data) {
+                                Application.functions.getRdObjectById(propertyId, type, function (data) {
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.tipsUpdateObject !== "") {
                                         objCtrl.tipsUpdateObject();
