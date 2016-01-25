@@ -25,21 +25,20 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
     initEvent: function () {
         var that = this;
-        this.shapeEditor =  fastmap.uikit.ShapeEditorController();
-        this.shapeEditor.on('snaped',function(event){
+        this.shapeEditor = fastmap.uikit.ShapeEditorController();
+        this.shapeEditor.on('snaped', function (event) {
             that.snaped = event.snaped;
         })
-        this.shapeEditor.on('startshapeeditresultfeedback',delegateDraw );
-        function delegateDraw(event){
-            if(that.shapeEditor.shapeEditorResult == null){
-
+        this.shapeEditor.on('startshapeeditresultfeedback', delegateDraw);
+        function delegateDraw(event) {
+            if (that.shapeEditor.shapeEditorResult == null) {
                 return;
             }
             that.drawGeometry = that.shapeEditor.shapeEditorResult.getFinalGeometry();
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
             if(that.snaped == true){
-                var crosspoint = (that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
+                var crosspoint = ( event.index&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
                 if(crosspoint!=undefined){
                     crosspoint = fastmap.mapApi.point(crosspoint.x,crosspoint.y);
                     crosspoint.type = 'Cross';
@@ -50,7 +49,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         }
 
-        this.shapeEditor.on('stopshapeeditresultfeedback',function(){
+        this.shapeEditor.on('stopshapeeditresultfeedback', function () {
             this.map._container.style.cursor = '';
 
             var coordinate1 = [];
@@ -107,36 +106,36 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
                 break;
             case 'Point':
-                drawPoint(currentGeo.components, {color: 'red', radius: 3}, false);
+                drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
             case'Polygon':
                 drawPolygon();
                 break;
             case 'Cross':
-                drawCross(currentGeo, {color: 'blue', width: 1},false);
+                drawCross(currentGeo, {color: 'blue', width: 1}, false);
                 break;
             case 'marker':
-                drawMarker(currentGeo.point,currentGeo.orientation,false);
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false);
                 break;
             case 'MultiPolyline':
                 drawMultiPolyline(currentGeo.coordinates,{color: 'red', width: 2});
                 break;
         }
 
-        function drawCross(geom, style, boolPixelCrs){
+        function drawCross(geom, style, boolPixelCrs) {
             if (!geom) {
                 return;
             }
             var p = null;
-            if(boolPixelCrs){
-                p = {x:geom.x, y:geom.y}
-            }else{
-                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
 
-            var verLineArr = [{x:p.x, y:p.y + 20},{x:p.x, y:p.y - 20}];
+            var verLineArr = [{x: p.x, y: p.y + 20}, {x: p.x, y: p.y - 20}];
             drawLineString(verLineArr, {color: 'blue', size: 1}, true);
-            var horLineArr = [{x:p.x -20, y:p.y},{x:p.x + 20, y:p.y}];
+            var horLineArr = [{x: p.x - 20, y: p.y}, {x: p.x + 20, y: p.y}];
             drawLineString(horLineArr, {color: 'blue', size: 1}, true);
         }
 
@@ -148,7 +147,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
-                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
 
             var g = self._ctx;
@@ -170,9 +169,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
             for (var i = 0; i < geom.length; i++) {
                 if (boolPixelCrs) {
-                    proj.push({x:geom[i].x,y:geom[i].y});
+                    proj.push({x: geom[i].x, y: geom[i].y});
                 } else {
-
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
                     //if (i == index) {
 
@@ -257,8 +255,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 }
             }
         }
-        function drawMarker(geom,type,boolPixelCrs) {
-            var url,p = null;
+
+        function drawMarker(geom, type, angle, boolPixelCrs) {
+            var url, p = null,angleOfTran=angle;
             if (!geom) {
                 return;
             }
@@ -266,21 +265,39 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
-                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+                p =this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+            if(type==="1") {
+                angleOfTran = angleOfTran + Math.PI;
             }
             url = "./css/img/" + type + ".png";
             var g = self._ctx;
-            p = {x: 300, y: 300};
-          loadImg(url,function(img){
-              g.drawImage(img, p.x, p.y);
-          })
+            console.log(p);
+            loadImg(url, function (img) {
+                g.save();
+                g.translate(p.x, p.y);
+                g.rotate(angleOfTran);
+                g.drawImage(img, 0, 0);
+                g.restore();
+                currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
+
+            })
         }
-        function loadImg(url,callBack){
+
+        function loadImg(url, callBack) {
             var img = new Image();
-            img.onload=function() {
+            img.onload = function () {
                 callBack(img);
             };
             img.src = url;
+        }
+        function directOfPoint(point,length,width,angle) {
+            point.x = point.x + length;
+            point.y = point.y + width / 2;
+            point.x = point.x + Math.tan(angle);
+            point.y = point.y + Math.tan(angle);
+            point=this.map.containerPointToLatLng(point);
+            return point;
         }
     },
 

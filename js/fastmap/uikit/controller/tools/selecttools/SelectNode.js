@@ -26,7 +26,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
-
+        this.selectCtrl = fastmap.uikit.SelectController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
@@ -91,6 +91,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                             this.currentEditLayer.fire("getId", {
                                 id: data[item].properties.snode
                             })
+                            //this.selectCtrl.selectedFeatures =data[item].properties.snode;
                         } else {
                             this.currentEditLayer.fire("getId", {
                                 id: data[item].properties.enode

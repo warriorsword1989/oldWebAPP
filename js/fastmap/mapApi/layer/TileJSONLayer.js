@@ -833,8 +833,37 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
 
                         }
-
-
+                    }else if(this.options.type === 'Diverge'){
+                        if (feature.properties.restrictioncondition === undefined) {
+                            return;
+                        }
+                        var restrictObj = feature.properties.restrictioncondition;
+                        function loadImg(url, callBack) {
+                            var img = new Image();
+                            img.onload = function () {
+                                callBack(img);
+                            };
+                            img.src = url;
+                        }
+                        if (restrictObj !== undefined) {
+                            $.each(restrictObj,function(i,v){
+                                var poiX = feature.geometry.coordinates[0][0];
+                                var poiY = feature.geometry.coordinates[1][0];
+                                var newstyle  = './css/divergence/' + v.type + '.png';
+                                var route = feature.properties.rotate*(Math.PI/180);
+                                loadImg(newstyle, function (img) {
+                                    var g = ctx.canvas.getContext('2d');
+                                    g.save();
+                                    g.translate(poiX, poiY);
+                                    g.rotate(route);
+                                    g.drawImage(img, i*30, 0);
+                                    g.restore();
+                                    $(img).bind('click',function(){
+                                        console.log(this)
+                                    })
+                                });
+                            });
+                        }
                     } else {
                         this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
@@ -900,7 +929,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":25,"type":["' + this.requestType + '"]}'
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+            case "Diverge":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
 
                 }
                 break;

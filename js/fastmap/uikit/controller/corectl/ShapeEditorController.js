@@ -28,9 +28,10 @@ fastmap.uikit.ShapeEditorController=(function() {
                 this.currentEditinGeometry = {};
                 this.currentTool = {"disable":function(){return -1;}};
 
-                this.shapeEditorToolsObj = fastmap.uikit.shapeeditorfactory();
+
                 this.shapeEditorResultFeedback = new fastmap.uikit.ShapeEditResultFeedback({shapeEditor:this});
                 this.shapeEditorResult = this.options.shapeEditorResult || new fastmap.uikit.ShapeEditorResult();
+
             },
 
 
@@ -121,91 +122,93 @@ fastmap.uikit.ShapeEditorController=(function() {
              */
             _tools: function (type) {
                 this.currentTool = null;
-                var toolsObj = this.shapeEditorToolsObj.CreateShapeToolsObject(this);
-                switch (type) {
-                    case 'transformDirect':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case 'drawPath':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case 'pathcopy':
-                        this.currentTool = this.shapeEditorToolsObj['pathcopy'];
-                        break;
-                    case 'pathBreak':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case  'pathVertexReMove':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case  'pathVertexAdd':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case 'pathNodeMove':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case  'reShape':
-                        this.currentTool = function (line) {
-                            line.reShape();
-                        }
-                        break;
-                    case  'pathVertexInsert':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case 'pathVertexMove':
-                        this.currentTool = toolsObj[type];
-                        this.currentTool.enable();
-                        break;
-                    case 'extendLine':
-                        this.currentTool = function (line, point) {
-                            line.extendLine(point);
-                        }
-                        break;
-                    case 'breakLine':
-                        this.currentTool = function (line, point) {
-                            this.callback = line.breakLine(point);
-                        }
-                        break;
-                    case 'copyGeometry':
-                        this.currentTool = function (geometry) {
-                            this.geometry.copy();
-                        }
-                        break;
-                    case 'mergeLine':
-                        this.currentTool = function (line, line) {
-                            line.merge(line);
-                        }
-                        break;
-                    case 'moveLine':
-                        this.currentTool = function (line, distance) {
-                            line.move(distance);
-                        }
-                        break;
-                    case 'cutline':
-                        this.currentTool = function (line) {
-                            line.cut();
-                        }
-                        break;
-                    case 'movePoint':
-                        this.currentTool = function (point, distance) {
-                            point.move(distance);
-                        }
-                        break;
-                    case 'movePolygon':
-                        this.currentTool = function (polygon, distance) {
-                            polygon.move(distance);
-                        }
-
-
-                        return this.currentTool;
-                }
+                var toolsObj  = fastmap.uikit.shapeeditorfactory({shapeEditor:this}).toolObjs;
+                this.currentTool = toolsObj[type];
+                this.currentTool.enable();
+                //switch (type) {
+                //    case 'transformDirect':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case 'drawPath':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case 'pathcopy':
+                //        this.currentTool = this.shapeEditorToolsObj['pathcopy'];
+                //        break;
+                //    case 'pathBreak':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case  'pathVertexReMove':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case  'pathVertexAdd':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case 'pathNodeMove':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case  'reShape':
+                //        this.currentTool = function (line) {
+                //            line.reShape();
+                //        }
+                //        break;
+                //    case  'pathVertexInsert':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case 'pathVertexMove':
+                //        this.currentTool = toolsObj[type];
+                //        this.currentTool.enable();
+                //        break;
+                //    case 'extendLine':
+                //        this.currentTool = function (line, point) {
+                //            line.extendLine(point);
+                //        }
+                //        break;
+                //    case 'breakLine':
+                //        this.currentTool = function (line, point) {
+                //            this.callback = line.breakLine(point);
+                //        }
+                //        break;
+                //    case 'copyGeometry':
+                //        this.currentTool = function (geometry) {
+                //            this.geometry.copy();
+                //        }
+                //        break;
+                //    case 'mergeLine':
+                //        this.currentTool = function (line, line) {
+                //            line.merge(line);
+                //        }
+                //        break;
+                //    case 'moveLine':
+                //        this.currentTool = function (line, distance) {
+                //            line.move(distance);
+                //        }
+                //        break;
+                //    case 'cutline':
+                //        this.currentTool = function (line) {
+                //            line.cut();
+                //        }
+                //        break;
+                //    case 'movePoint':
+                //        this.currentTool = function (point, distance) {
+                //            point.move(distance);
+                //        }
+                //        break;
+                //    case 'movePolygon':
+                //        this.currentTool = function (polygon, distance) {
+                //            polygon.move(distance);
+                //        }
+                //
+                //
+                //        return this.currentTool;
+                //}
 
             }
         });

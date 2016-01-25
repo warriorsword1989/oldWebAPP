@@ -14,21 +14,32 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var restrict = layerCtrl.getLayerById('referencePoint');
     var workPoint = layerCtrl.getLayerById('workPoint');
     $scope.toolTipText = "";
-    $scope.arrToReduce=function(arrA,arrB) {
-        var arr = [],obj={};
-        for(var i= 0,len=arrB.length;i<len;i++){
+    $scope.arrToReduce = function (arrA, arrB) {
+        var arr = [], obj = {};
+        for (var i = 0, len = arrB.length; i < len; i++) {
             obj[arrB[i]] = true;
         }
 
-            for (var j= 0,lenJ=arrA.length;j<lenJ;j++) {
-                   if(!obj[arrA[j]]) {
-                       arr.push(arrA[j]);
-                   }
-
-
+        for (var j = 0, lenJ = arrA.length; j < lenJ; j++) {
+            if (!obj[arrA[j]]) {
+                arr.push(arrA[j]);
             }
 
+
+        }
+
         return arr;
+    };
+    $scope.containsNode = function (arr, node) {
+        var obj = {}, flag = false;
+        for (var i = 0, len = arr.length; i < len; i++) {
+            obj[arr[i]] = true;
+            if (obj[node]) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
     };
     $scope.selectShape = function (type, num) {
         if (highLightLayer.highLightLayersArr.length !== 0) {
@@ -67,7 +78,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         points.push(point);
                     }
                     var line = fastmap.mapApi.lineString(points);
-                    selectCtrl.onSelected({geometry: line, id: $scope.data.id});
+                    selectCtrl.onSelected({
+                        geometry: line,
+                        id: $scope.data.id,
+                        direct: data.data.direct,
+                        snode: data.data.sNodePid,
+                        enode: data.data.eNodePid,
+                        point:$scope.data.point
+                    });
                     objCtrl.setCurrentObject(data);
                     if (objCtrl.updateObject !== "") {
                         objCtrl.updateObject();
@@ -96,7 +114,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             rdLink.on("getId", function (data) {
                 $scope.data = data;
-                Application.functions.getLinksbyNodeId(JSON.stringify({projectId:11,nodePid:data.id}), function (data) {
+                Application.functions.getLinksbyNodeId(JSON.stringify({projectId:11,type:'RDLINK',data:{nodePid:data.id}}), function (data) {
                     if (data.errcode === -1) {
                         return;
                     }
@@ -265,8 +283,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             )
         }
         if (type === "rdCross") {
-            var linksArr = [];
-            shapeCtrl.toolsSeparateOfEditor("linksOfCross",{map: map,layer:rdLink, type: "rectangle"})
+            var linksArr = [], nodesArr = [];
+            shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
             var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                 map: map,
                 highLightFeature: "linksOfCross",
@@ -274,21 +292,31 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             });
             highLightLayer.pushHighLightLayers(highLightLink);
             map.on("dataOfBoxEvent", function (event) {
-                var data = event.data,options={};
-                if(linksArr.length===0) {
+                var data = event.data, options = {};
+                if (linksArr.length === 0) {
                     linksArr = data["crossLinks"];
-                }else{
-                    highLightLink.drawLinksOfCrossForInit([]);
-                    if(data['nodes'].length===1) {
-                        linksArr = $scope.arrToReduce(linksArr, data["links"]);
-                    }else{
+                    nodesArr = data["crossNodes"];
+                } else {
+                    highLightLink.drawLinksOfCrossForInit([], []);
+                    if (data['nodes'].length === 1) {
+                        if ($scope.containsNode(nodesArr, data["nodes"][0])) {
+                            linksArr = $scope.arrToReduce(linksArr, data["links"]);
+                            nodesArr = $scope.arrToReduce(nodesArr, data["nodes"]);
+                        } else {
+                            linksArr = linksArr.concat(data["links"]);
+                            nodesArr = nodesArr.concat(data["nodes"]);
+                        }
+
+                    } else {
                         linksArr.length = 0;
+                        nodesArr.length = 0;
                         linksArr = data["crossLinks"];
+                        nodesArr = data["crossNodes"];
                     }
                 }
 
-                highLightLink.drawLinksOfCrossForInit(linksArr);
-                options = {"nodePids": data["crossNodes"], "linkPids": linksArr};
+                highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
+                options = {"nodePids": nodesArr, "linkPids": linksArr};
                 selectCtrl.onSelected(options);
             });
 
@@ -297,6 +325,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
             };
+
         }
     };
 }])

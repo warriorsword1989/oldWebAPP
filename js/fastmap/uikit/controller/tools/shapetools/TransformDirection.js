@@ -17,15 +17,20 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
+        this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry().flag;
+        this.angle = this.shapeEditor.angle;
+        this.sign = 0;
     },
 
     /***
      * 添加事件处理
      */
     addHooks: function () {
+        console.log("dddddd");
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('mouseup', this.onMouseUp, this);
+        //this._map.on('mouseup', this.onMouseUp, this);
     },
+
     disable: function () {
         if (!this._enabled) { return; }
         this._map.dragging.enable();
@@ -36,8 +41,8 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
      * 移除事件
      */
     removeHooks: function () {
-        this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('mouseup', this.onMouseUp, this);
+        this._map.off('mousedown', this.onMouseDown, this);
+        //this._map.off('mouseup', this.onMouseUp, this);
     },
 
 
@@ -50,29 +55,45 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         var geos = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         var point = this._map.latLngToLayerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
+        console.log(this.flag);
         var len = this.distance(layerPoint, point);
-        if(len<1000) {
+        if(len<10000) {
             switch (orientation) {
                 case "0":
-                    this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
+                    if(this.sign===0) {
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向左
+                    }else if(this.sign===1) {
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";//向右
+                        this.sign = 0;
+                    }
                     break;
                 case "1":
-                    this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
+                    if(this.flag) {
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "0";
+                    }else{
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
+                    }
+
                     break;
                 case "2":
-                    this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "0";
+                    if(this.flag) {
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "0";
+                        this.sign = 1;
+                    }else{
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
+
+                    }
                     break;
 
 
             }
         }
-        //this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
     },
     onMouseUp: function(event){
         this.targetIndex = null;
-        this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
+
         fastmap.uikit.ShapeEditorController().stopEditing();
-        console.log("cut");
     },
 
     drawFeedBack: function () {
