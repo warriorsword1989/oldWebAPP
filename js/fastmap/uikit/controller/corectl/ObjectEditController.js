@@ -166,16 +166,17 @@ fastmap.uikit.ObjectEditController = (function () {
                             var objArr = [],indexOfData={},key="linkPid";
                             for (var j= 0,lenJ=data[item].length;j<lenJ;j++) {
                                 var obj = {};
-                                if(data[item][j]["pid"]) {
-                                    key = "pid";
-                                    obj = {flag: true, index: i};
+                                if(data[item][j]["rowId"]) {
+                                    key = "rowId";
+                                    obj = {flag: true, index: j};
                                     indexOfData[data[item][j]["pid"]] = obj;
-                                }else if(data["rowkey"]) {
-                                    obj = {flag: true, index: i};
-                                    indexOfData[data["rowkey"]] = obj;
+                                }else if(data["pid"]) {
+                                    key = "pid";
+                                    obj = {flag: true, index: j};
+                                    indexOfData[data[item][j]["pid"]] = obj;
                                 }else if(data[item][j]["linkPid"]) {
-                                    obj = {flag: true, index: i};
-                                    indexOfData[data["linkPid"]] = obj;
+                                    obj = {flag: true, index: j};
+                                    indexOfData[data[item][j]["linkPid"]] = obj;
                                 }
                             }
                             for(var k= 0,lenK=oriData[item].length;k<lenK;k++) {
