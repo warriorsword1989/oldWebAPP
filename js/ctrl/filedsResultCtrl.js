@@ -451,6 +451,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         });
                     }else if(pItemId==="2001"){//测线
                         objCtrl.setCurrentObject(data);
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
                         $scope.showTipsOrProperty(data,"RDLINK",objCtrl,"ctrl/linkObjectCtrl","js/tepl/currentObjectTepl.html");
                         //Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
                         //   $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
@@ -510,7 +511,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                         }else if(stage.stage===3) {
                             if(data.t_lifecycle===3) {
-                                Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                                Application.functions.getRdObjectById(data.id, type, function (data) {
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.tipsUpdateObject !== "") {
                                         objCtrl.tipsUpdateObject();

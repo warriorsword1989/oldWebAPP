@@ -286,6 +286,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                         console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
+                            case "2001"://测线
                             case "1201"://种别
                                 type = "RDLINK";
                                 propertyCtrl = "ctrl/linkObjectCtrl";
