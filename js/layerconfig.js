@@ -468,24 +468,24 @@ Application.layersConfig =
                                 }
                                 geojson['features'].push(obj);
                             }else{
-                                //var obj = {};
-                                //obj['type'] = "Feature";
-                                //obj['geometry'] = {};
-                                //obj['geometry']['type'] = 'Point';
-                                //obj['geometry']['coordinates'] = [];
-                                //if(item.g ===undefined){
-                                //    return;
-                                //}
-                                //for (var i = 0, len = item.g.length; i < len; i = i+1) {
-                                //
-                                //    obj['geometry']['coordinates'].push([item.g[i]]);
-                                //}
-                                //obj['properties'] = {
-                                //    'id': item.i,
-                                //    'type': item.t,
-                                //    'srctype':item.m.a
-                                //}
-                                //geojson['features'].push(obj);
+                                var obj = {};
+                                obj['type'] = "Feature";
+                                obj['geometry'] = {};
+                                obj['geometry']['type'] = 'Point';
+                                obj['geometry']['coordinates'] = [];
+                                if(item.g ===undefined){
+                                    return;
+                                }
+                                for (var i = 0, len = item.g.length; i < len; i = i+1) {
+
+                                    obj['geometry']['coordinates'].push([item.g[i]]);
+                                }
+                                obj['properties'] = {
+                                    'id': item.i,
+                                    'type': item.t,
+                                    'srctype':item.m.a
+                                }
+                                geojson['features'].push(obj);
                             }
 
                     });
