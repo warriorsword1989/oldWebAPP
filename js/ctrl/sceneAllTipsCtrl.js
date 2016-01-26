@@ -140,7 +140,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1407":
                 break;
-            case "1510"://桥
+            case "1501"://桥
                 $scope.brigeArrayLink=$scope.dataTipsData.f_array;
                 console.log($scope.brigeArrayLink)
                 break;
