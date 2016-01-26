@@ -197,13 +197,13 @@ function keyEvent(ocLazyLoad, scope) {
                 } else if (shapeCtrl.editType === "transformDirect") {
                     var disFromStart, disFromEnd, node, direct, pointOfArrow,
                         feature = selectCtrl.selectedFeatures;
-                    console.log(link);
                     var startPoint = feature.geometry.components[0],
                         point = feature.point;
                     if (link) {
                         pointOfArrow = link.pointForDirect;
-                        pointOfArrow = fastmap.mapApi.point(pointOfArrow.lng, pointOfArrow.lat);
-                        disFromStart = distance(point, startPoint);
+                        var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
+                        startPoint = map.latLngToContainerPoint([startPoint.y,startPoint.x]);
+                        disFromStart = distance(pointOfContainer, startPoint);
                         disFromEnd = distance(pointOfArrow, startPoint);
                         if (disFromStart > disFromEnd) {
                             direct = 2;
