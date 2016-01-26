@@ -296,7 +296,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             point.y = point.y + width / 2;
             point.x = point.x + Math.tan(angle);
             point.y = point.y + Math.tan(angle);
-            point=this.map.containerPointToLatLng(point);
+            //point=this.map.containerPointToLatLng(point);
             return point;
         }
     },

@@ -135,45 +135,57 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     var pro = e.property;
                     var geo = e.geometry;
                     Application.functions.getRdObjectById(pro.id, "RDLINK", function (data) {
+                        if(data.errcode==0){
+                            selectCtrl.onSelected({
+                                geometry: data.data.geometry.coordinates,
+                                id:data.data.pid,
+                                direct: pro.direct,
+                                point: shapeCtrl.shapeEditorResult.getFinalGeometry()
+                            });
 
-                        var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
-                        if (pro.direct == 1) {
-                            tooltipsCtrl.setEditEventType('speedLimit');
-                            var point =  shapeCtrl.shapeEditorResult.getFinalGeometry();
-                            var link = linkArr;
-                            for (var i = 0, len = link.length; i < len; i++) {
-                                pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y,point.x]), map.latLngToContainerPoint([link[i][1],link[i][0]]));
-                                if (pointsOfDis < minLen) {
-                                    minLen = pointsOfDis;
-                                    pointForAngle = link[i];
+                            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                            if (pro.direct == 1) {
+                                tooltipsCtrl.setEditEventType('speedLimit');
+                                var point =  shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                var link = linkArr;
+                                for (var i = 0, len = link.length; i < len; i++) {
+                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y,point.x]), map.latLngToContainerPoint([link[i][1],link[i][0]]));
+                                    if (pointsOfDis < minLen) {
+                                        minLen = pointsOfDis;
+                                        pointForAngle = link[i];
+                                    }
                                 }
+                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y,point.x]),map.latLngToContainerPoint([pointForAngle[1],pointForAngle[0]]) );
+                                console.log(angle);
+                                console.log("angle  " + angle)
+                                var marker = {
+                                    flag: false,
+                                    point: point,
+                                    type: "marker",
+                                    angle: angle,
+                                    orientation: "2",
+                                    pointForDirect: point
+                                };
+                                var editLayer = layerCtrl.getLayerById('edit');
+                                layerCtrl.pushLayerFront('edit');
+                                var sobj = shapeCtrl.shapeEditorResult;
+                                editLayer.drawGeometry = marker;
+                                editLayer.draw(marker, editLayer);
+                                sobj.setOriginalGeometry(marker);
+                                sobj.setFinalGeometry(marker);
+                                shapeCtrl.setEditingType("transformDirect");
+                                shapeCtrl.startEditing();
+                                tooltipsCtrl.setCurrentTooltip("选择方向!");
+                            } else {
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                tooltipsCtrl.setEditEventType('speedLimit');
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
+                                shapeCtrl.setEditingType("transformDirect");
                             }
-                            angle = $scope.includeAngle(map.latLngToContainerPoint([point.y,point.x]),map.latLngToContainerPoint([pointForAngle[1],pointForAngle[0]]) );
-                            console.log(angle);
-                            console.log("angle  " + angle)
-                            var marker = {
-                                flag: false,
-                                point: point,
-                                type: "marker",
-                                angle: angle,
-                                orientation: "2",
-                                pointForDirect: point
-                            };
-                            var editLayer = layerCtrl.getLayerById('edit');
-                            layerCtrl.pushLayerFront('edit');
-                            var sobj = shapeCtrl.shapeEditorResult;
-                            editLayer.drawGeometry = marker;
-                            editLayer.draw(marker, editLayer);
-                            sobj.setOriginalGeometry(marker);
-                            sobj.setFinalGeometry(marker);
-                            shapeCtrl.setEditingType("transformDirect");
-                            shapeCtrl.startEditing();
-                            tooltipsCtrl.setCurrentTooltip("选择方向!");
-                        } else {
-                            tooltipsCtrl.setEditEventType('speedLimit');
-                            tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
-                            shapeCtrl.setEditingType("transformDirect");
+                        }else{
+                           alert('error')
                         }
+
 
                     })
 
