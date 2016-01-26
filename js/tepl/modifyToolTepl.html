@@ -41,11 +41,13 @@
     }
 </style>
 <div ng-controller="modifyToolController" class="btn-group btn-group-sm">
-    <button type="button" class="btn insertDot_{{modifyShapeClaArr[7]}}" id="insertDot" ng-click="modifyShape('pathVertexInsert',7)" title="插入形状点"></button>
-    <button type="button" class="btn deleteDot_{{modifyShapeClaArr[8]}}" id="deleteDot" ng-click="modifyShape('pathVertexReMove',8)" title="删除形状点"></button>
-    <button type="button" class="btn moveDot_{{modifyShapeClaArr[9]}}" id="moveDot" ng-click="modifyShape('pathVertexMove',9)" title="移动形状点"></button>
+    <button type="button" class="btn insertDot_{{modifyShapeClaArr[7]}}" id="insertDot" ng-click="modifyShape('pathVertexInsert',7,$event)" title="插入形状点"></button>
+    <button type="button" class="btn deleteDot_{{modifyShapeClaArr[8]}}" id="deleteDot" ng-click="modifyShape('pathVertexReMove',8,$event)" title="删除形状点"></button>
+    <button type="button" class="btn moveDot_{{modifyShapeClaArr[9]}}" id="moveDot" ng-click="modifyShape('pathVertexMove',9,$event)" title="移动形状点"></button>
     <!--<button type="button" class="btn btn-default"  disabled>复制link</button>-->
     <!--<button type="button" class="btn btn-default" disabled>平移link</button>-->
     <!--<button type="button" class="btn btn-default" id="extendDot" disabled ng-click="modifyShape('pathVertexInsert')">延长link</button>-->
-    <button type="button" class="btn pathBreak_{{modifyShapeClaArr[10]}}" id="pathBreak" ng-click="modifyShape('pathBreak',10)" title="打断link"></button>
+    <button type="button" class="btn pathBreak_{{modifyShapeClaArr[10]}}" id="pathBreak" ng-click="modifyShape('pathBreak',10,$event)" title="打断link"></button>
+
+    <button type="button" class="btn nodeMove_{{modifyShapeClaArr[11]}}" id="nodemove" ng-click="modifyShape('pathNodeMove',11,$event)" title="移动node"></button>
 </div>

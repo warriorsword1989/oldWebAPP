@@ -213,15 +213,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         return;
                     }
                     $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
-                    //if ($scope.$parent.$parent.updateDataTips !== "") {
-                    //    $scope.$parent.$parent.updateDataTips(data);
-                    //}
+
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     $("#picMapShow").css("display", "none");
-                    // console.log(data);
                     if(pItemId==="1101") {//限速
-                        //$scope.$parent.$parent.speedLimitDatas = $scope.speedLimitDate[ind];
-                        //$scope.$parent.$parent.speedLimitGeometryDatas = $scope.speedLimitDate[ind];
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 19)
                         objCtrl.setCurrentObject(data.data);
                         var speedLimitId = data.id;
@@ -238,7 +233,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                                         objCtrl.setCurrentObject(d);
-                                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
                                     });
                                }
                             });
@@ -446,22 +440,25 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     }else if(pItemId==="2001"){//测线
-                        Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
-                           $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
-                                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                // objCtrl.setCurrentObject(data);
-                                if (d.errcode === -1) {
-                                   swal("查询失败", d.errmsg, "error");
-                                   return;
-                               }else{
-                                    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                        objCtrl.setCurrentObject(d);
-                                    });
-                               }
-                            });
-                        });
+                        objCtrl.setCurrentObject(data);
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
+                        $scope.showTipsOrProperty(data,"RDLINK",objCtrl,"ctrl/linkObjectCtrl","js/tepl/currentObjectTepl.html");
+                        //Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
+                        //   $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
+                        //        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
+                        //        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        //        // objCtrl.setCurrentObject(data);
+                        //        if (d.errcode === -1) {
+                        //           swal("查询失败", d.errmsg, "error");
+                        //           return;
+                        //       }else{
+                        //            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                        //                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                        //                objCtrl.setCurrentObject(d);
+                        //            });
+                        //       }
+                        //    });
+                        //});
                     }
                 })
             };
