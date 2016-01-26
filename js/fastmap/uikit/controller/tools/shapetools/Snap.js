@@ -66,9 +66,7 @@ fastmap.uikit.Snap = L.Handler.extend({
         if( this.targetindex == null){
             return;
         }
-        //var latlng = this._map.containerPointToLatLng(event.containerPoint);
         var latlng = event.latlng;
-        //this.targetPoint = this._map.layerPointToContainerPoint(event.layerPoint);
         var pixels = this.transform.lonlat2Pixel(latlng.lng, latlng.lat,this._map.getZoom());
         //根据鼠标点计算所在的瓦片坐标
         var tiles = this.transform.lonlat2Tile(latlng.lng, latlng.lat, this._map.getZoom());
@@ -81,6 +79,7 @@ fastmap.uikit.Snap = L.Handler.extend({
             if(closest){
                 this.snaped = true;
                 this.properties = closest.properties;
+                this.coordinates = closest.layer;
                 this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0]+tiles[0]*256,closest.latlng[1]+tiles[1]*256,this._map.getZoom());
             }else{
                 this.snaped = false;

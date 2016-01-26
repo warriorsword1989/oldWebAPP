@@ -82,7 +82,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     mons.begin = mons.values[0];
     /*持续时间--结束月份*/
     mons.end = mons.values[0];
-
+    
     /*时间段list*/
     $scope.dateList = [];
     /*——————————解析————————*/
@@ -124,9 +124,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     var newArr = $scope.newStr($scope.dateString);
     /*外部传递str*/
     $scope.$on('set-code', function(event,data) {
-        if(!data){
+        if(data){
             $scope.dateList = [];
-            $scope.dateString = '';
             $scope.dateString = data;
             /*如果服务返回的字符串只有一段时间，则加上[]然后进行解析*/
             if(($scope.dateString).indexOf('(') == 1){
@@ -1106,7 +1105,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         if($scope.dateValid()){
             $scope.dateCode = dateTime.code();
             $scope.dateDescribe = dateTime.describe();
-            var _dateList = [];
+            /*var _dateList = [];
             _dateList.push('<div class="date-list">');
             _dateList.push('<div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="');
             _dateList.push(dateTime.code());
@@ -1120,22 +1119,31 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             _dateList.push('<div class="line"></div>');
             _dateList.push('</div>');
             var newElem = $compile(_dateList.join(''))($scope);
-            // dateWell.find('panel-body').append(newElem);
-            dateListWell.find(".date-list:last").after(newElem);
+            dateListWell.find(".date-list:last").after(newElem);*/
+            $scope.dateList.push({
+                code:dateTime.code(),
+                describe:dateTime.describe()
+            });
             if(dateWell.find("input[time-type='fix-time']").is(':checked')){
                 $scope.alertSucMsg(dateTime.describe);
             }else{
                 dateWell.fadeOut();
             }
             $scope.dateInit();
-            var strAll = $scope.newStr($scope.dateString);
-            var dateAllStr = [];
-            $.each(dateListWell.find('.date-code-list'),function(m,n){
-                dateAllStr.push($(n).attr('date-code'));
+            var allStr = '';
+            $.each($scope.dateList,function(i,v){
+                if(i != $scope.dateList.length-1)
+                    allStr += v.code + '+';
+                else
+                    allStr += v.code;
             });
-            $scope.dateString = '['+dateAllStr.join('+')+']';
+            $scope.dateString = '['+allStr+']';
             $scope.$emit('get-date',$scope.dateString);
         }
+    }
+    /*清空*/
+    $scope.dateEmpty = function(e){
+        $scope.dateList.length = 0;
     }
 }]);
 /*获取指针位置*/

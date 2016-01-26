@@ -142,7 +142,10 @@
 <div class="panel panel-default date-well" ng-controller="DateCtrl">
   <div class="panel-heading">
     <h3 class="panel-title pull-left">时间段</h3>
-    <a href="javascript:;" class="pull-right" ng-click="dateSelect($event)">添加</a>
+    <div class="pull-right">
+        <a href="javascript:;" class="data-empty" ng-click="dateEmpty($event)">清空</a>
+        <a href="javascript:;" ng-click="dateSelect($event)">添加</a>
+    </div>
     <div class="clearfix"></div>
   </div>
   <div class="panel-body">

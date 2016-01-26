@@ -321,7 +321,7 @@ Application.layersConfig =
                 updateWhenIdle: true,
                 tileSize:256,
                 type: 'rdCrossPoint',
-                zIndex:10,
+                zIndex:13,
                 restrictZoom:10,
                 visible: true,
                 requestType:'RDCROSS',

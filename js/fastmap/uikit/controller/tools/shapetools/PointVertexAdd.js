@@ -59,7 +59,6 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
             this._map.dragging.disable();
         }
         this.resetVertex(this.targetPoint);
-        this.shapeEditor.fire('snaped',{'snaped':false});
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
@@ -81,6 +80,7 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
 
     resetVertex:function(latlng){
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(latlng.lng, latlng.lat));
+        this.shapeEditor.fire('resetcomplete',{'property':this.snapHandler.properties,'geometry':this.snapHandler.coordinates});
     }
 
 
