@@ -12,35 +12,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrict = layerCtrl.getLayerById('referencePoint');
+    var rdCross=layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     $scope.toolTipText = "";
-    $scope.arrToReduce = function (arrA, arrB) {
-        var arr = [], obj = {};
-        for (var i = 0, len = arrB.length; i < len; i++) {
-            obj[arrB[i]] = true;
-        }
 
-        for (var j = 0, lenJ = arrA.length; j < lenJ; j++) {
-            if (!obj[arrA[j]]) {
-                arr.push(arrA[j]);
-            }
-
-
-        }
-
-        return arr;
-    };
-    $scope.containsNode = function (arr, node) {
-        var obj = {}, flag = false;
-        for (var i = 0, len = arr.length; i < len; i++) {
-            obj[arr[i]] = true;
-            if (obj[node]) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
-    };
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyCtrl, propertyTepl) {
         $scope.$parent.$parent.objectEditURL = "";
         $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
@@ -68,7 +43,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             }
                             $ocLazyLoad.load(propertyCtrl).then(function () {
                                 $scope.$parent.$parent.objectEditURL = propertyTepl;
-
                             });
                         });
                     } else {
@@ -192,7 +166,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         objCtrl.rdrestrictionObject();
                     }
                     tooltipsCtrl.onRemoveTooltip();
-                    $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
+                    $ocLazyLoad.load('ctrl/rdRestriction').then(function () {
                         if ($scope.tips === 0) {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
                         } else if ($scope.type === 1) {
@@ -205,7 +179,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
             })
         }
-        if (type == "tips") {
+        if (type === "tips") {
             $scope.toolTipText = '请选择tips！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -271,45 +245,35 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 }
             )
         }
-        if (type === "rdCross") {
-            var linksArr = [], nodesArr = [];
-            shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
-            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "linksOfCross",
-                initFlag: true
-            });
-            highLightLayer.pushHighLightLayers(highLightLink);
-            map.on("dataOfBoxEvent", function (event) {
-                var data = event.data, options = {};
-                if (linksArr.length === 0) {
-                    linksArr = data["crossLinks"];
-                    nodesArr = data["crossNodes"];
-                } else {
-                    highLightLink.drawLinksOfCrossForInit([], []);
-                    if (data['nodes'].length === 1) {
-                        if ($scope.containsNode(nodesArr, data["nodes"][0])) {
-                            linksArr = $scope.arrToReduce(linksArr, data["links"]);
-                            nodesArr = $scope.arrToReduce(nodesArr, data["nodes"]);
-                        } else {
-                            linksArr = linksArr.concat(data["links"]);
-                            nodesArr = nodesArr.concat(data["nodes"]);
-                        }
-
-                    } else {
-                        linksArr.length = 0;
-                        nodesArr.length = 0;
-                        linksArr = data["crossLinks"];
-                        nodesArr = data["crossNodes"];
+        if(type==="rdCross") {
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            $scope.$parent.$parent.changeBtnClass(num);
+            layerCtrl.pushLayerFront('rdcross');
+            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdCross});
+            map.currentTool.enable();
+            rdCross.options.selectType = 'relation';
+            rdCross.options.editable = true;
+            $scope.$parent.$parent.objectEditURL = "";
+            $scope.toolTipText = '请选择路口！';
+            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+            rdCross.on("getNodeId", function (data) {
+                $scope.data = data;
+                $scope.tips = data.tips;
+                Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
+                    $scope.$parent.$parent.objectEditURL = "";
+                    objCtrl.setCurrentObject(data.data);
+                    if(objCtrl.updateRdCross!=="") {
+                        objCtrl.updateRdCross();
                     }
-                }
+                    tooltipsCtrl.onRemoveTooltip();
+                    $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+                    });
 
-                highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
-                options = {"nodePids": nodesArr, "linkPids": linksArr};
-                selectCtrl.onSelected(options);
-            });
+                })
 
 
+            })
         }
     };
 }])

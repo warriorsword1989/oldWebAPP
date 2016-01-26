@@ -318,7 +318,7 @@ Application.layersConfig =
                 updateWhenIdle: true,
                 tileSize:256,
                 type: 'rdCrossPoint',
-                zIndex:10,
+                zIndex:13,
                 restrictZoom:10,
                 visible: true,
                 requestType:'RDCROSS',
@@ -369,7 +369,7 @@ Application.layersConfig =
                 type: 'rdlaneconnexityPoint',
                 zIndex:10,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:'RDLANECONNEXITY',
                 showNodeLevel:17
             }
