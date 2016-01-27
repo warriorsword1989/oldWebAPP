@@ -109,10 +109,10 @@
             <div class="form-group">
                 <div class="col-sm-3" ng-repeat="item in rdRestrictData.details">
                     <div ng-if="item.flag===1">
-                        <img ng-src="./css/limit/{{item.restricInfo}}.png" class="show-tips" ng-class="{'active':$index==0}" ng-click="showTips(item,$event)" ng-dblclick="test(item)">
+                        <img ng-src="./css/limit/{{item.restricInfo}}.png" class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}" ng-click="showTips(item,$event)" ng-dblclick="test(item)">
                     </div>
                     <div ng-if="item.flag===2||item.flag===0">
-                        <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" ng-class="{'active':$index==0}" class="show-tips" ng-click="showTips(item,$event)" ng-dblclick="test(item)">
+                        <img ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips" ng-click="showTips(item,$event)" ng-dblclick="test(item)">
                     </div>
 
                 </div>
