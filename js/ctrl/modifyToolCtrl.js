@@ -12,8 +12,8 @@ modifyApp.controller("modifyToolController", function ($scope) {
     map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
-    $scope.modifyShape = function (type, num) {
-
+    $scope.modifyShape = function (type, num,event) {
+        event.stopPropagation();
         if (shapeCtrl.getCurrentTool()['options']) {
             shapeCtrl.stopEditing();
         }
@@ -60,6 +60,14 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                 }
+            }else if(type==="pathNodeMove") {
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('pathNodeMove');
+                    tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                }
+                //else{
+                //    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
+                //}
             }
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
