@@ -1,9 +1,7 @@
 /**
- * Created by zhongxiaoming on 2016/1/12.
- * Class SelectNode
+ * Created by liwanchong on 2015/11/4.
  */
-
-fastmap.uikit.SelectNode = L.Handler.extend({
+fastmap.uikit.SelectRestriction = L.Handler.extend({
     /**
      * 事件管理器
      * @property includes
@@ -17,20 +15,15 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        this.shapeEditor = this.options.shapeEditor;
+        //this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
         //this.container = this._map._container;
         //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
-        this.id = this.currentEditLayer.options.id;
         this.tiles = this.currentEditLayer.tiles;
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
-        this.selectCtrl = fastmap.uikit.SelectController();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
-        this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
     },
 
     /***
@@ -38,7 +31,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('mousemove',this.onMouseMove,this);
     },
 
     /***
@@ -46,7 +38,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        this._map.off('mousemove', this.onMouseMove, this);
     },
 
     //disable: function () {
@@ -55,74 +46,96 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     //    this._enabled = false;
     //    this.removeHooks();
     //},
-    onMouseMove:function(event){
-        this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
-            this.shapeEditor.fire('snaped',{'snaped':true});
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
-        }else{
-            this.shapeEditor.fire('snaped',{'snaped':false});
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        }
-    },
 
     onMouseDown: function (event) {
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
-        this.newredraw = $.extend({}, this.tiles);
-        if (this.id === "rdcross") {
-            this.getRdCrossId(tileCoordinate, event);
-        } else {
-            this.drawGeomCanvasHighlight(tileCoordinate, event);
-        }
+        this.newredraw= $.extend({},this.tiles);
+        this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
-    getRdCrossId: function (tilePoint, event) {
+
+    drawGeomCanvasHighlight: function (tilePoint, event) {
+
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]].data === undefined) {
+        if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data===undefined) {
             return;
         }
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
         var id = null;
         for (var item in data) {
-            var geom = data[item].geometry.coordinates;
-            var newGeom = [];
-            for (var theory = 0, theoryLen = geom.length; theory < theoryLen; theory++) {
-                newGeom[0] = (parseInt(geom[theory][0][0]));
-                newGeom[1] = (parseInt(geom[theory][0][1]));
-                if (this._TouchesPoint(newGeom, x, y, 20)) {
-                    id = data[item].properties.id;
-                    this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
-                    break;
+            var restrictObj = data[item].properties.restrictioninfo;
+            var geom=data[item].geometry.coordinates;
+            var newGeom=[];
+            if (restrictObj !== undefined) {
+                if (restrictObj.constructor === Array) {
+                    for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+                        if (theory > 0) {
+                            newGeom[0] = (parseInt(geom[0]) + theory * 16);
+                            newGeom[1] = (parseInt(geom[1]));
+                            if(this._TouchesPoint(newGeom, x, y, 20)){
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }else{
+                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }
+
+                    }
+                }else{
+                    var restrictArr = restrictObj.split(",");
+                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+                        if (fact > 0) {
+                            newGeom[0] = (parseInt(geom[0]) + fact * 16);
+                            newGeom[1] = (parseInt(geom[1]));
+                            if(this._TouchesPoint(newGeom, x, y, 20)){
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }else{
+                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                id = data[item].properties.id;
+                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+
+                                if (this.redrawTiles.length != 0) {
+                                    this._cleanHeight();
+                                }
+
+                                this._drawHeight(id);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
+
         }
 
 
-    },
-    drawGeomCanvasHighlight: function (tilePoint, event) {
-        var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
-        var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
-
-        for (var item in data) {
-            var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
-            if (touchids.length) {
-                var id = data[item].properties.id;
-
-                if (touchids[0] == 0) {
-                    this.currentEditLayer.fire("getId", {
-                        id: data[item].properties.snode
-                    })
-                    this.selectCtrl.selectedFeatures =data[item].properties.snode
-                } else {
-
-                }
-
-
-            }
-        }
     },
 
     /***
@@ -168,18 +181,18 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                     if (feature.properties.restrictioninfo === undefined) {
                         return;
                     }
-                    var newStyle = "", newGeom = [];
+                    var newStyle="", newGeom=[];
                     var restrictObj = feature.properties.restrictioninfo;
                     var geom = feature.geometry.coordinates;
                     if (restrictObj !== undefined) {
                         if (restrictObj.constructor === Array) {
                             for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                newStyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+                                newStyle= {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
                                 if (theory > 0) {
-                                    newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                                    newGeom[1] = (parseInt(geom[1]));
+                                    newGeom[0]=(parseInt(geom[0]) + theory*16);
+                                    newGeom[1]=(parseInt(geom[1]));
                                     this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                } else {
+                                }else{
                                     this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
                                 }
                             }
@@ -188,23 +201,23 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                             for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                 if (restrictArr[fact].constructor === Array) {
-                                    newStyle = {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+                                    newStyle= {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
 
                                 } else {
-                                    if (restrictArr[fact].indexOf("[") > -1) {
-                                        restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                        restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                        newStyle = {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                    } else {
-                                        newStyle = {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
+                                    if(restrictArr[fact].indexOf("[")>-1){
+                                        restrictArr[fact]=restrictArr[fact].replace("[","");
+                                        restrictArr[fact]=restrictArr[fact].replace("]","");
+                                        newStyle= {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+                                    }else{
+                                        newStyle= {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
                                     }
 
                                 }
-                                if (fact > 0) {
-                                    newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                                    newGeom[1] = (parseInt(geom[1]));
+                                if(fact>0){
+                                    newGeom[0]=(parseInt(geom[0]) + fact*16);
+                                    newGeom[1]=(parseInt(geom[1]));
                                     this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                } else {
+                                }else{
                                     this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
                                 }
                             }
@@ -242,17 +255,17 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                         if (feature.properties.restrictioninfo === undefined) {
                             return;
                         }
-                        var newStyle = "", newGeom = [];
+                        var newStyle="", newGeom=[];
                         var restrictObj = feature.properties.restrictioninfo;
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyle = {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+                                    newStyle= {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
                                     if (theory > 0) {
-                                        newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                                        newGeom[1] = (parseInt(geom[1]));
+                                        newGeom[0]=(parseInt(geom[0]) + theory*16);
+                                        newGeom[1]=(parseInt(geom[1]));
                                         this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    } else {
+                                    }else{
                                         this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
                                     }
 
@@ -262,21 +275,21 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                     if (restrictArr[fact].constructor === Array) {
-                                        newStyle = {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+                                        newStyle= {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
                                     } else {
-                                        if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyle = {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                        } else {
-                                            newStyle = {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
+                                        if(restrictArr[fact].indexOf("[")>-1){
+                                            restrictArr[fact]=restrictArr[fact].replace("[","");
+                                            restrictArr[fact]=restrictArr[fact].replace("]","");
+                                            newStyle= {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+                                        }else{
+                                            newStyle= {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
                                         }
                                     }
-                                    if (fact > 0) {
-                                        newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                                        newGeom[1] = (parseInt(geom[1]));
+                                    if(fact>0){
+                                        newGeom[0]=(parseInt(geom[0]) + fact*16);
+                                        newGeom[1]=(parseInt(geom[1]));
                                         this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    } else {
+                                    }else{
                                         this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
                                     }
 
@@ -292,29 +305,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         }
 
 
-    },
-    /***
-     * 点击node点
-     * @param d
-     * @param x
-     * @param y
-     * @param r
-     * @returns {number}
-     * @private
-     */
-    _TouchesNodePoint: function (d, x, y, r) {
-        var touched = false;
-        for (var i = 0, len = d.length; i < len; i++) {
-            if (i == 0 || i == len - 1) {
-                var dx = x - d[i][0][0];
-                var dy = y - d[i][0][1];
-                if ((dx * dx + dy * dy) <= r * r) {
-                    return [i];
-                }
-            }
-        }
-
-        return [];
-
     }
+
 });

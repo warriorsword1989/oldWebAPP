@@ -119,6 +119,29 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
         $scope.toolsFlag = !$scope.toolsFlag;
     }
+    $scope.zoom = [];
+    for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
+        $scope.zoom.push(i);
+    }
+    $scope.removeZoomClass = function(){
+        $.each($(".zoom-btn"),function(m,n){
+            $(n).prop('disabled',false).removeClass('btn-primary');
+        })
+    }
+    $scope.changeZoom = function(i,e){
+        $scope.removeZoomClass();
+        map.setZoom(i);
+        $('#nowZoom').text(i);
+        $(e.target).prop('disabled',true).addClass('btn-primary');
+    }
+    $('#nowZoom').text(map.getZoom());
+    /*当比例尺改变时*/
+    map.on('zoomend',function(){
+        $('#nowZoom').text(map.getZoom());
+        $scope.removeZoomClass();
+        $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
+    })
+    $scope.disZoom = map.getZoom();
 }]);
 function appInit(){
 
@@ -143,8 +166,6 @@ function appInit(){
     for(var layer in layerCtrl.getVisibleLayers()){
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
-
-
 
 }
 
