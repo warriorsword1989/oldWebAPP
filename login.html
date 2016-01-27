@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="content-script-type" content="text/javascript">
         <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+        <!-- <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" /> -->
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
         <style type="text/css">
@@ -43,15 +43,19 @@
         }
 
         .login-panel {
-            padding: 10px 40px;
-            background-color: rgba(0, 0, 0, .25);
-            border: 1px solid transparent;
-            width: 418px;
+            padding: 10px 70px;
+            border: 0;
+            height:300px;    
+            position:absolute;    
+            left:50%;    
+            top:50%;    
+            margin-left:-250px;    
+            margin-top:-150px;
         }
 
         .login-panel h1 {
             font-size: 30px;
-            color: #fff;
+            color: #000;
             margin: 0px;
             padding: 30px 0px;
         }
@@ -80,56 +84,55 @@
             color: #2e6da4;
             font-size: 12px;
         }
+        .login-img{
+            background-image:url("css/login/2.jpg");
+            background-size:cover;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+        .login-well{
+            padding:0;
+            margin:0;
+            box-sizing:border-box;
+            height:100%
+        }
+        .login-input{
+            height: 100%;
+        }
+        .input-group-addon{
+            background-color: #fff
+        }
+        #login_btn{
+            transition:all 0.5s;
+            width: 50%;
+        }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="http://www.navinfo.com/index.aspx">
-                    <img alt="Brand" src="css/img/navi_logo.png">
-                    </a>
-                </div>
-            </div>
-        </nav>
-        <div class="container-fluid" style="top:10%;">
-            <div class="row">
-                <div class="col-md-4" style="z-index:999">
-                    <div class="panel panel-default login-panel">
-                        <div class="panel-body">
-                            <h1>Fastmap道路编辑平台</h1>
-                            <form method="post" id="loginForm" name="loginForm" class="login-form" role="form">
-                                <div class="input-group form-group">
-                                    <span class="input-group-addon">
-                                        <i class="glyphicon glyphicon-user"></i>
-                                    </span>
-                                    <input type="text" name="username" class="form-control" placeholder="用户名" autocomplete="off" required autofocus/>
-                                </div>
-                                <div class="input-group form-group">
-                                    <span class="input-group-addon">
-                                        <i class="glyphicon glyphicon-lock"></i>
-                                    </span>
-                                    <input type="password" name="password" class="form-control" placeholder="密 码" required/>
-                                </div>
-                                <div class="form-group">
-                                    <button id="login_btn" class="btn btn-primary btn-block" type="submit" data-loading-text="登录中...">登 录</button>
-                                </div>
-                            </form>
+        <div class="login-well">
+            <div class="col-md-5 col-lg-5 login-input">
+                <div class="login-panel">
+                    <h1>Fastmap道路编辑平台</h1>
+                    <form method="post" id="loginForm" name="loginForm" class="login-form" role="form">
+                        <div class="input-group form-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </span>
+                            <input type="text" name="username" class="form-control" placeholder="用户名" autocomplete="off" required autofocus/>
                         </div>
-                    </div>
+                        <div class="input-group form-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input type="password" name="password" class="form-control" placeholder="密 码" required/>
+                        </div>
+                        <div class="form-group">
+                            <button id="login_btn" class="btn btn-primary btn-block" type="submit" data-loading-text="登录中...">登 录</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-        <div class="login-footer">
-            <div class="login-footer-content">
-                <p>
-                <a href="http://www.navinfo.com/index.aspx">四维图新网站</a> |
-                <a href="https://sso.navinfo.com/login.do?service=http%3A%2F%2Foa.navinfo.com%2Fmain.do">四维协同办公系统</a> |
-                <a href="https://mail.navinfo.com/owa/auth/logon.aspx?url=https://mail.navinfo.com/owa/&reason=0">四维邮件系统</a> |
-                <a href="http://pan.navinfo.com/index.php">企业云网盘</a>
-                </p>
-                <p>Copyright©2009北京四维图新科技股份有限公司</p>
-            </div>
+            <div class="login-img col-md-7 col-lg-7"></div>
         </div>
         <script src="js/lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="js/lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>

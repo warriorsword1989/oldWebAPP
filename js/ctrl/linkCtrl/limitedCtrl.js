@@ -19,7 +19,9 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         }
 
     }
-
+    if($scope.linkLimitData.limits.length!=0 && $scope.linkLimitData.limitTrucks.length!=0){
+        $("#popularLimitedDiv").removeClass("in");
+    }
 
     setTimeout(function(){
         for(var sitem in $scope.linkLimitData.limits){
@@ -159,25 +161,42 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
-        console.log($scope.linkLimitData.limitTrucks)
+            if($scope.linkLimitData.limitTrucks.length == 0)
+                $scope.linkLimitData.limitTrucks.push({timeDomain:''});
             /*查询数据库取出时间字符串*/
-            var tmpStr = (!$scope.linkLimitData.limitTrucks[0].timeDomain)?'':$scope.linkLimitData.limitTrucks[0].timeDomain;
+            $.each($scope.linkLimitData.limits,function(i,v){
+                $scope.fmdateTimer(v.timeDomain);
+            })
+            $.each($scope.linkLimitData.limitTrucks,function(i,v){
+                $timeout(function(){
+                    $scope.$broadcast('set-code',v.timeDomain);
+                    $scope.codeOutput = v.timeDomain;
+                    $scope.$apply();
+                },100);
+            })
+            // var tmpStr = (!$scope.linkLimitData.limitTrucks[0].timeDomain)?'':$scope.linkLimitData.limitTrucks[0].timeDomain;
             // var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
-            $scope.fmdateTimer(tmpStr);
+            // $scope.fmdateTimer(tmpStr);
         });
     })
     /*时间控件*/
     $scope.fmdateTimer = function(str){
         $scope.$on('get-date', function(event,data) {
             $scope.codeOutput = data;
-            $scope.linkLimitData.limitTrucks[0].timeDomain = data;
         });
         $timeout(function(){
             $scope.$broadcast('set-code',str);
             $scope.codeOutput = str;
-            $scope.linkLimitData.limitTrucks[0].timeDomain = str;
             $scope.$apply();
         },100);
+    }
+    /*显示编辑时间段*/
+    $scope.showDomain = function(id,str){
+        $.each($(".domain-well"),function(i,v){
+            $(v).collapse('hide');
+        });
+        $('#'+id).collapse('show');
+        $scope.fmdateTimer(str);
     }
     $scope.addLimit=function() {
         if(!$("#popularLimitedDiv").hasClass("in")) {
@@ -198,7 +217,24 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
             $scope.showvehicle($scope.linkLimitData.limits[$scope.linkLimitData.limits.length - 1].vehicle, $scope.linkLimitData.limits.length - 1);
         });
     };
+    $scope.slideShow = function(target){
+        $("#popularLimitedDiv").collapse('hide');
+        $("#trafficLimitedDiv").collapse('hide');
+        $(target).collapse('show');
+        if(target == '#popularLimitedDiv'){
+            $.each($scope.linkLimitData.limits,function(i,v){
+                if(v.timeDomain)
+                    $scope.fmdateTimer(v.timeDomain);
+                else
+                    $scope.fmdateTimer('[]');
+            })
+        }else{
+            $.each($scope.linkLimitData.limitTrucks,function(i,v){
+                $scope.fmdateTimer(v.timeDomain);
+            })
+        }
 
+    }
     $scope.minusLimit=function(id) {
         $scope.linkLimitData.limits.splice(id, 1);
         setTimeout(function() {
