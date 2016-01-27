@@ -138,35 +138,6 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $scope.dateString = data;
         }
     });
-    $scope.$on('set-code-list0', function(event,data) {
-        if(data){
-            $scope.dateList = [];
-            $scope.dateString = data;
-            /*如果服务返回的字符串只有一段时间，则加上[]然后进行解析*/
-            if(($scope.dateString).indexOf('(') == 1){
-                $scope.dateString = '['+$scope.dateString+']';
-            }
-            newArr = $scope.newStr($scope.dateString);
-            $scope.listInit();
-            $scope.translate($scope.arrEmpty(newArr));
-            $scope.dateString = data;
-        }
-    });
-    $scope.$on('set-code-list1', function(event,data) {
-        console.log(data)
-        if(data){
-            $scope.dateList = [];
-            $scope.dateString = data;
-            /*如果服务返回的字符串只有一段时间，则加上[]然后进行解析*/
-            if(($scope.dateString).indexOf('(') == 1){
-                $scope.dateString = '['+$scope.dateString+']';
-            }
-            newArr = $scope.newStr($scope.dateString);
-            $scope.listInit();
-            $scope.translate($scope.arrEmpty(newArr));
-            $scope.dateString = data;
-        }
-    });
     /*初始化字符串*/
     $scope.listInit();  
     /*根据星期 转换成中文*/
