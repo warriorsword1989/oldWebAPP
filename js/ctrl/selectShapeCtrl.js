@@ -193,6 +193,17 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
                     });
 
+
+                    Application.functions.getRdObjectById($scope.data.id, "RDNODE", function (data) {
+                        objCtrl.setCurrentObject(data);
+                        if (objCtrl.updateObject !== "") {
+                            objCtrl.updateObject();
+                        }
+                        $ocLazyLoad.load('ctrl/rdNodeFromCtrl').then(function () {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdNodeFromTepl.html";
+                        })
+                    });
+
                     //objCtrl.setCurrentObject(data);
                     //if (objCtrl.updateObject !== "") {
                     //    objCtrl.updateObject();

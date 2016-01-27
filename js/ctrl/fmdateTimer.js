@@ -85,6 +85,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     
     /*时间段list*/
     $scope.dateList = [];
+    $scope.dateListAll = [];
     /*——————————解析————————*/
     /*根据总的时间字符串拆分成多个字符串数组*/
     $scope.newStr = function(str){
@@ -412,6 +413,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     $scope.translate($scope.arrEmpty(newArr));
     /*删除时间段*/
     $scope.removeList = function(e){
+        var dateTimeWell = $(e.target).parents('.date-well').parent();
         var itemCode = $(e.target).parents('.date-list').find('.date-code-list').attr('date-code');
         $(e.target).parents('.date-list').remove();
         $scope.listInit();
@@ -420,6 +422,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         $scope.dateString = ($scope.dateString).replace(/\[\+\[/, "[[");
         $scope.dateString = ($scope.dateString).replace(/\]\+\]/, "]]");
         $scope.$emit('get-date',$scope.dateString);
+        if(dateTimeWell.hasClass('muti-date'))
+            dateTimeWell.attr('date-str',$scope.dateString);
     }
     /*点击选择日期*/
     $scope.dateSelect = function(e){
@@ -559,7 +563,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         }
     }
     /*错误提示*/
-    $scope.alertMsg = function(msg){
+    $scope.alertMsg = function(dateWell,msg){
         dateWell.find(".error-msg").text(msg);
         dateWell.find('.date-msg').show();
         var timer = $timeout(function(){
@@ -567,7 +571,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         },2000);
     }
     /*成功提示*/
-    $scope.alertSucMsg = function(msg){
+    $scope.alertSucMsg = function(dateWell,msg){
         dateWell.find(".success-msg").text(msg);
         dateWell.find('.date-suc-msg').show();
         var timer = $timeout(function(){
@@ -575,22 +579,22 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         },2000);
     }
     /*验证输入是否合法*/
-    $scope.dateValid = function(){
+    $scope.dateValid = function(dateWell){
         if(dateWell.find("input[time-type='fix-time']").is(':checked')){
             if($scope.wks.checks.length == 0 && !$scope['begin_time'] && !$scope['end_time']){
-                $scope.alertMsg('请至少选择一个条件！');
+                $scope.alertMsg(dateWell,'请至少选择一个条件！');
                 return false;
             };
             if(!$scope['begin_time'] && $scope['end_time']){
-                $scope.alertMsg('请选择开始时间！');
+                $scope.alertMsg(dateWell,'请选择开始时间！');
                 return false;
             };
             if($scope['begin_time'] && !$scope['end_time']){
-                $scope.alertMsg('请选择结束时间！');
+                $scope.alertMsg(dateWell,'请选择结束时间！');
                 return false;
             };
             if($scope['begin_time'] >= $scope['end_time'] && $scope['begin_time'] && $scope['end_time']){
-                $scope.alertMsg('结束时间必须大于开始时间！');
+                $scope.alertMsg(dateWell,'结束时间必须大于开始时间！');
                 return false;
             };
             return true
@@ -599,80 +603,80 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             switch(dwm.selection.code){
                 case 'd':
                     if(!$scope.dBeginDate){
-                        $scope.alertMsg('请选择开始日期！');
+                        $scope.alertMsg(dateWell,'请选择开始日期！');
                         break;
                     };
                     if(!$scope.dEndDate){
-                        $scope.alertMsg('请选择结束日期！');
+                        $scope.alertMsg(dateWell,'请选择结束日期！');
                         break;
                     };
                     if(!$scope['d_begin_time'] && $scope['d_end_time']){
-                        $scope.alertMsg('请选择开始时间！');
+                        $scope.alertMsg(dateWell,'请选择开始时间！');
                         break;
                     };
                     if($scope['d_begin_time'] && !$scope['d_end_time']){
-                        $scope.alertMsg('请选择结束时间！');
+                        $scope.alertMsg(dateWell,'请选择结束时间！');
                         break;
                     };
                     if($scope['dBeginDate'] == $scope['dEndDate'] && !$scope['d_begin_time'] && !$scope['d_end_time']){
-                        $scope.alertMsg('开始时间不能等于结束时间！');
+                        $scope.alertMsg(dateWell,'开始时间不能等于结束时间！');
                         break;
                     };
                     if($scope['dBeginDate'] == $scope['dEndDate'] && $scope['d_begin_time']>$scope['d_end_time']){
-                        $scope.alertMsg('结束时间必须大于开始时间！');
+                        $scope.alertMsg(dateWell,'结束时间必须大于开始时间！');
                         break;
                     };
                     return true;
                 case 'w':
                     if(!$scope.wks.wBeginSelection && $scope.wks.wEndSelection){
-                        $scope.alertMsg('请选择开始时间的星期！');
+                        $scope.alertMsg(dateWell,'请选择开始时间的星期！');
                         break;
                     };
                     if(!$scope['w_begin_time'] && $scope['w_end_time']){
-                        $scope.alertMsg('请选择开始时间！');
+                        $scope.alertMsg(dateWell,'请选择开始时间！');
                         break;
                     };
                     if(!$scope.wks.wEndSelection && $scope.wks.wBeginSelection){
-                        $scope.alertMsg('请选择结束时间的星期！');
+                        $scope.alertMsg(dateWell,'请选择结束时间的星期！');
                         break;
                     };
                     if(!$scope['w_end_time'] && $scope['w_begin_time']){
-                        $scope.alertMsg('请选择结束时间！');
+                        $scope.alertMsg(dateWell,'请选择结束时间！');
                         break;
                     };
                     if(($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope['w_begin_time'] == $scope['w_end_time'])){
-                        $scope.alertMsg('开始时间不能等于结束时间！');
+                        $scope.alertMsg(dateWell,'开始时间不能等于结束时间！');
                         break;
                     };
                     if(($scope.wks.wBeginSelection == $scope.wks.wEndSelection) && ($scope['w_begin_time'] > $scope['w_end_time'])){
-                        $scope.alertMsg('开始时间不能大于结束时间！');
+                        $scope.alertMsg(dateWell,'开始时间不能大于结束时间！');
                         break;
                     };
                     return true;
                 case 'm':
                     if(!$scope.mons.begin.code){
-                        $scope.alertMsg('请选择开始月份！');
+                        $scope.alertMsg(dateWell,'请选择开始月份！');
                         break;
                     };
                     if(!$scope.mons.end.code){
-                        $scope.alertMsg('请选择结束月份！');
+                        $scope.alertMsg(dateWell,'请选择结束月份！');
                         break;
                     };
                     if($scope.mons.end.code == $scope.mons.begin.code){
-                        $scope.alertMsg('开始月份不能等于结束月份！');
+                        $scope.alertMsg(dateWell,'开始月份不能等于结束月份！');
                         break;
                     };
                     return true;
                 default:
-                    $scope.alertMsg('请正确输入！');
+                    $scope.alertMsg(dateWell,'请正确输入！');
                     break;
             }
         }
     };
     /*保存时间段*/
-    var dateWell = $('.datetip');
-    var dateListWell = $('.date-well');
     $scope.dateSave = function(e){
+        var dateWell = $(e.target).parents('.datetip');
+        var dateListWell = $(e.target).parents('.date-well');
         /*初始化时间段tip*/
         $scope.dateInit = function(){
             /*固定时间*/
@@ -944,7 +948,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                                 }
                             }
                         default:
-                            alertMsg('出现错误！');
+                            alertMsg(dateWell,'出现错误！');
                             return 'error';
                     }
                 }
@@ -1102,7 +1106,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                 }
             }
         };
-        if($scope.dateValid()){
+        if($scope.dateValid(dateWell)){
             $scope.dateCode = dateTime.code();
             $scope.dateDescribe = dateTime.describe();
             /*var _dateList = [];
@@ -1125,7 +1129,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                 describe:dateTime.describe()
             });
             if(dateWell.find("input[time-type='fix-time']").is(':checked')){
-                $scope.alertSucMsg(dateTime.describe);
+                $scope.alertSucMsg(dateWell,dateTime.describe);
             }else{
                 dateWell.fadeOut();
             }
@@ -1139,11 +1143,15 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             });
             $scope.dateString = '['+allStr+']';
             $scope.$emit('get-date',$scope.dateString);
+            if(dateListWell.parent().hasClass('muti-date'))
+                dateListWell.parent().attr('date-str',$scope.dateString);
         }
     }
     /*清空*/
     $scope.dateEmpty = function(e){
         $scope.dateList.length = 0;
+        if($(e.target).parents('.date-well').parent().hasClass('muti-date'))
+            $(e.target).parents('.date-well').parent().attr('date-str','');
     }
 }]);
 /*获取指针位置*/

@@ -64,7 +64,10 @@
     .popover-content{
         overflow-y:auto;height:200px;
     }
-
+    .show-domain-ico{
+        background-color: #fff;
+        cursor: pointer;
+    }
 </style>
 <div id="realTimeDiv" ng-controller="limitedController">
     <div class="panel-group" id="popularLimited" style="margin: 0px;">
@@ -74,9 +77,9 @@
                     普通限制信息 共(<span ng-if="linkLimitData!=undefined">{{linkLimitData.limits.length}}</span>) 个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#popularLimitedDiv">
-                        <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                        <span class="glyphicon glyphicon-chevron-down" ng-click="slideShow('#popularLimitedDiv')" style="float: left"></span>
                     </a>
-                    <span class="glyphicon glyphicon-plus"
+                    <span ng-if="linkLimitData.limits.length==0" class="glyphicon glyphicon-plus"
                           style="float: right;color: darkgray;"
                           ng-click="addLimit()"></span>
                 </h4>
@@ -189,18 +192,15 @@
                                     <label class="col-sm-3 control-label">时间段</label>
                                     <div class="col-sm-9">
                                         <div class="row">
-                                            <div class="col-sm-7" style="padding-left: 15px">
-                                                <input type="text" class="form-control"  ng-model="item.timeDomain">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-default">时间控件</button>
+                                            <div class="col-sm-10" style="padding-left: 15px">
+                                                <input type="text" class="form-control"  ng-model="item.timeDomain" readonly>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="form-group">
-                                    <div ng-include="dateURL"></div>
+                                    <div ng-include="dateURL" class="muti-date" date-str='{{item.timeDomain}}'></div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
                                 <!--<div class="form-group">-->
@@ -250,7 +250,7 @@
                     卡车限制信息 共（<span ng-if="linkLimitData!=undefined">{{linkLimitData.limitTrucks.length}}</span>）个
                     <a data-toggle="collapse" data-parent="#accordion"
                        href="#trafficLimitedDiv">
-                        <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                        <span class="glyphicon glyphicon-chevron-down" ng-click="slideShow('#trafficLimitedDiv')" style="float: left"></span>
                     </a>
 
                     <span class="glyphicon glyphicon-plus"
@@ -301,18 +301,18 @@
                                     <label class="col-sm-3 control-label">时间段</label>
                                     <div class="col-sm-9">
                                         <div class="row">
-                                            <div class="col-sm-7" style="padding-left: 15px">
-                                                <input type="text" class="form-control" ng-model="tItem.timeDomain">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <button type="submit" class="btn btn-default">有效控件</button>
+                                            <div class="col-sm-11 input-group" style="padding-left: 15px">
+                                                <input type="text" class="form-control" ng-model="tItem.timeDomain" readonly>
+                                                <span class="input-group-addon show-domain-ico" aria-controls="time_domain{{$index}}" aria-expanded="false" href="#time_domain{{$index}}" data-toggle="collapse" title="查看编辑时间段" ng-click="showDomain(time_domain$index,tItem.timeDomain)">
+                                                    <i class="glyphicon glyphicon-menu-down"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="form-group">
-                                    <div ng-include="dateURL"></div>
+                                <div class="form-group collapse domain-well" id="time_domain{{$index}}" aria-expanded="false">
+                                    <div ng-include="dateURL" class="muti-date" date-str='{{tItem.timeDomain}}'></div>
                                 </div>
                                 <div class="line line-dashed b-b line-lg pull-in"></div>
                                 <div class="form-group">
