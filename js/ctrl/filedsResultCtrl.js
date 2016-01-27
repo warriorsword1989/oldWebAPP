@@ -48,7 +48,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     break;
                                 case "1501"://1501
                                     objArr.name = "桥";
-                                    objArr.id = "1510";
+                                    objArr.id = "1501";
                                     objArr.total = obj[item];
                                     break;
                                 case "1604":
@@ -130,7 +130,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         break;
                                     case "1501"://1510
                                         objArr.name = "桥";
-                                        objArr.id = "1510";
+                                        objArr.id = "1501";
                                         objArr.total = obj[item];
                                         break;
                                     case "1604":

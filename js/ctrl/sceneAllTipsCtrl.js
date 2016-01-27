@@ -20,7 +20,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     }
     $scope.outIdS = [];
 
-
     //初始化DataTips相关数据
   $scope.initializeDataTips=function() {
         $scope.photoTipsData = [];
