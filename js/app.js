@@ -106,6 +106,16 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             output.updateOutPuts();
         }
     };
+
+    $scope.showStop=function(){
+        //禁止滚动
+        //map.scrollWheelZoom=false;
+        this.scrollWheelZoom=false;
+    }
+    $scope.showStart=function(){
+        //可以滚动
+        this.scrollWheelZoom=true;
+    }
     $scope.showOrHide = function () {
         var modifyToolsDiv = $("#modifyToolsDiv");
         if ($scope.toolsFlag) {
@@ -142,6 +152,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
     })
     $scope.disZoom = map.getZoom();
+
+
 }]);
 function appInit(){
 
@@ -241,6 +253,8 @@ function dragF1(id,pId) {
             $dragDiv.unbind("mousemove.drag");
         }
     });
+
+
 }
 
 
