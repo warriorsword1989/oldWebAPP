@@ -14,7 +14,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
     var speedlimtPoint=layerCtrl.getLayerById("speedlimit");
-    console.log($scope);
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -22,7 +21,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.outIdS = [];
 
 $scope.testA=function(event) {
-    event.preventDefault();
+    map.scrollWheelZoom = false;
+    //event.preventDefault();
 };
     $scope.testB=function(event) {
     };
@@ -32,13 +32,13 @@ $scope.testA=function(event) {
         $scope.photos = [];
         $scope.dataTipsData = selectCtrl.rowKey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
-        var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-            map: map,
-            highLightFeature: "dataTips",
-            dataTips: $scope.dataTipsData.rowkey
-        });
-        highLightDataTips.drawTipsForInit();
-        highLightLayer.pushHighLightLayers(highLightDataTips);
+        //var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+        //    map: map,
+        //    highLightFeature: "dataTips",
+        //    dataTips: $scope.dataTipsData.rowkey
+        //});
+        //highLightDataTips.drawTipsForInit();
+        //highLightLayer.pushHighLightLayers(highLightDataTips);
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
