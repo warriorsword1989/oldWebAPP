@@ -427,7 +427,7 @@ Application.layersConfig =
                 type: 'LineString',
                 zIndex:7,
                 restrictZoom:10,
-                visible: true,
+                visible: false,
                 requestType:12,
                 showNodeLevel:17
             }

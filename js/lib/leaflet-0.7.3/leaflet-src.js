@@ -3140,6 +3140,7 @@ L.TileLayer.Canvas = L.TileLayer.extend({
 
 	_createTile: function () {
 		var tile = L.DomUtil.create('canvas', 'leaflet-tile');
+
 		tile.width = tile.height = this.options.tileSize;
 		tile.onselectstart = tile.onmousemove = L.Util.falseFn;
 		return tile;
@@ -3148,6 +3149,7 @@ L.TileLayer.Canvas = L.TileLayer.extend({
 	_loadTile: function (tile, tilePoint) {
 		tile._layer = this;
 		tile._tilePoint = tilePoint;
+        tile.id=tilePoint.x+"_"+tilePoint.y;
 
 		this._redrawTile(tile);
 

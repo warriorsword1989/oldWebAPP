@@ -1,11 +1,3 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
-
-
 <style>
     div {
         -webkit-font-smoothing: antialiased;
@@ -55,7 +47,7 @@
         text-align: center;
     }
 </style>
-<div id="rdNodediv" ng-app="rdNodeFromApp" ng-controller="rdNodeFromController" class="panel panel-default" id="traffiLimitedDiv">
+<div id="rdNodediv"  ng-controller="rdNodeFromController" class="panel panel-default" >
     <div class="panel-heading font-bold" style=" text-align: center;height: 7%">
         道路点
         <span class="label label-info">{{rdNodeData.pid}}</span>
@@ -91,7 +83,7 @@
                 <label class="col-sm-3 control-label">精度级别</label>
 
                 <div class="col-sm-9">
-                    <select class="form-control" ng-model="rdNodeData.digitalLeve"
+                    <select class="form-control" ng-model="rdNodeData.digitalLevel"
                             ng-options="value.id as value.label for value in digitalLeveOptions" >
                     </select>
                 </div>
@@ -185,4 +177,3 @@
         </form>
     </div>
 </div>
-<script src="../ctrl/rdNodeFromCtrl.js"></script>

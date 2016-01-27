@@ -2,9 +2,13 @@
  * Created by liuzhaoxia on 2015/12/10.
  */
 //var otherApp=angular.module("lazymodule", []);
-var otherApp=angular.module("rdNodeFromApp", []);
+var otherApp=angular.module("lazymodule", []);
 otherApp.controller("rdNodeFromController",function($scope){
-
+    var objectEditCtrl = fastmap.uikit.ObjectEditController();
+    var outPutCtrl = fastmap.uikit.OutPutController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    $scope.rdNodeData=objectEditCtrl.data.data;
+    objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
     $scope.newFromOfWRoadDate=[];
     $scope.kindOptions=[
         {"id":0,"label":"平面交叉点"},
@@ -78,5 +82,69 @@ otherApp.controller("rdNodeFromController",function($scope){
     $scope.deleteroadtype=function(){
         $scope.newFromOfWRoadDate.splice(type, 1);
         $scope.roadlinkData.forms.splice(type, 1);
+    }
+
+    $scope.$parent.$parent.save = function () {
+        objectEditCtrl.setCurrentObject($scope.rdNodeData);
+        objectEditCtrl.save();
+        var param = {
+            "command": "UPDATE",
+            "type":"RDNODE",
+            "projectId": 11,
+            "data": objectEditCtrl.changedProperty
+        }
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referenceLine");
+            restrict.redraw();
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid)
+            }
+            outPutCtrl.pushOutput(info);
+            if(outPutCtrl.updateOutPuts!=="") {
+                outPutCtrl.updateOutPuts();
+            }
+        });
+    }
+
+    $scope.$parent.$parent.delete=function(){
+        var pid = parseInt($scope.rdNodeData.pid);
+        var param =
+        {
+            "command":"DELETE",
+            "type":"RDNODE",
+            "projectId":11,
+            "objId":pid
+        };
+        //结束编辑状态
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referenceLine");
+            restrict.redraw();
+            var info=[];
+            if(data.data){
+                $.each(data.data.log,function(i,item){
+                    if(item.pid){
+                        info.push(item.op+item.type+"(pid:"+item.pid+")");
+                    }else{
+                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
+                    }
+                });
+            }else{
+                info.push(data.errmsg+data.errid);
+                swal("删除失败", data.errmsg, "error");
+            }
+            outPutCtrl.pushOutput(info);
+            if(outPutCtrl.updateOutPuts!=="") {
+                outPutCtrl.updateOutPuts();
+            }
+        })
     }
 })
