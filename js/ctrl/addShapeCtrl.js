@@ -224,6 +224,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
 
 
+            }else if(type==="laneConnexity") {
+                $ocLazyLoad.load("ctrl/addLaneConnexityCtrl").then(function () {
+                    $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
+
+                });
             }
         }
 

@@ -222,7 +222,7 @@ Application.layersConfig =
                 type: 'Diverge',
                 zIndex:10,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:'RDBRANCH',
                 showNodeLevel:17
             }

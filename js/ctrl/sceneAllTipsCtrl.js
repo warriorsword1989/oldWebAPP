@@ -14,13 +14,18 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
     var speedlimtPoint=layerCtrl.getLayerById("speedlimit");
+    console.log($scope);
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
     $scope.outIdS = [];
 
-
+$scope.testA=function(event) {
+    event.preventDefault();
+};
+    $scope.testB=function(event) {
+    };
     //初始化DataTips相关数据
   $scope.initializeDataTips=function() {
         $scope.photoTipsData = [];
@@ -301,66 +306,85 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        var kindObj = {
-            "objStatus": "UPDATE",
-            "pid": parseInt($scope.dataTipsData.f.id),
-            "kind": $scope.dataTipsData.kind
-        };
-        var param = {
-            "type": "RDLINK",
-            "command": "UPDATE",
-            "projectId": 11,
-            "data": kindObj
-        };
-        if (stage === 1) {
-            Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                $scope.$parent.$parent.showLoading = false;  //showLoading
-                $scope.$parent.$parent.$apply();
-                if (data.errcode == 0) {
-                    objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
-                    if (objCtrl.updateObject !== "") {
-                        objCtrl.updateObject();
-                    }
-                    restrictLayer.redraw();
-                    swal("操作成功", "种别转换操作成功！", "success");
-                } else {
-                    swal("操作失败", data.errmsg, "error");
+        if($scope.dataTipsData.t_lifecycle==="2001") {
+            var paramOfLink = {
+                "command": "CREATE",
+                "type": "RDLINK",
+                "projectId": 11,
+                "data": {
+                    "eNodePid": 0,
+                    "sNodePid": 0,
+                    "geometry": {"type": "LineString", "coordinates": coordinate}
                 }
-                if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
-                    var stageParam = {
-                        "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
-                        "stage": 3,
-                        "handler": 0
-
-                    }
-                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info = [];
-                        if (data.data) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                } else {
-                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                }
-                            });
+            }
+            Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
+                var info = [];
+                if (data.data) {
+                    $scope.upBridgeStatus();
+                    Application.functions.getRdObjectById(data.pid, "RDLINK", function (data) {
+                        if (data.errcode === -1) {
+                            return;
+                        }
+                        objCtrl.setCurrentObject(data);
+                        if (objCtrl.updateObject !== "") {
+                            objCtrl.updateObject();
+                        }
+                        $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                        })
+                    });
+                    $.each(data.data.log, function (i, item) {
+                        if (item.pid) {
+                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
                         } else {
-                            info.push(data.errmsg + data.errid);
-                            rdLink.redraw()
-                            restrictLayer.redraw();
-                            speedlimtPoint.redraw();
-                            workPoint.redraw();
+                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                         }
-                        outPutCtrl.pushOutput(info);
-                        if (outPutCtrl.updateOutPuts !== "") {
-                            outPutCtrl.updateOutPuts();
-                        }
-                        $scope.$parent.$parent.rowkeyOfDataTips = undefined;
-                    })
+                    });
+                } else {
+                    info.push(data.errmsg + data.errid)
                 }
-            })
-        } else {
-            swal("操作失败", '数据已经转换', "error");
+                outPutCtrl.pushOutput(info);
+                if (outPutCtrl.updateOutPuts !== "") {
+                    outPutCtrl.updateOutPuts();
+                }
+
+
+            });
+        }else if($scope.dataTipsData.t_lifecycle==="1201") {
+            var kindObj = {
+                "objStatus": "UPDATE",
+                "pid": parseInt($scope.dataTipsData.f.id),
+                "kind": $scope.dataTipsData.kind
+            };
+            var param = {
+                "type": "RDLINK",
+                "command": "UPDATE",
+                "projectId": 11,
+                "data": kindObj
+            };
+            if (stage === 1) {
+                Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                    $scope.$parent.$parent.showLoading = false;  //showLoading
+                    $scope.$parent.$parent.$apply();
+                    if (data.errcode == 0) {
+                        objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                        $scope.upBridgeStatus();
+                        if (objCtrl.updateObject !== "") {
+                            objCtrl.updateObject();
+                        }
+                        restrictLayer.redraw();
+                        swal("操作成功", "种别转换操作成功！", "success");
+                    } else {
+                        swal("操作失败", data.errmsg, "error");
+                    }
+
+                })
+            } else {
+                swal("操作失败", '数据已经转换', "error");
+            }
         }
+
+
     }
     $scope.upBridgeStatus=function() {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
