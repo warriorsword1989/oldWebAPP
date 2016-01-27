@@ -158,3 +158,9 @@ Application.functions.getByCondition=function(param,func) {
         });
 };
 
+Application.functions.getNamesbyName = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/meta/rdname/search?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
