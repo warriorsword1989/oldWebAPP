@@ -323,6 +323,31 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             g.restore();
         }
     },
+    _drawlaneImgRoute: function (ctx, geom, imgsrc, boolPixelCrs, rount) {
+        if (!imgsrc.src) {
+            return;
+        }
+        var p = null;
+        if (boolPixelCrs) {
+            p = {x: geom[0], y: geom[1]}
+        } else {
+            p = this._tilePoint(ctx, imgsrc);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        var image = new Image(),
+            arrorImg = new Image();
+        image.src = imgsrc.src;
+        image.onload = function () {
+            g.save();
+            g.translate(p.x, p.y);
+            g.rotate(rount);//旋转度数
+            // g.translate(-xpos, -ypos);
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            g.drawImage(image, -image.width / 2, -image.height / 2);
+            g.restore();
+        };
+    },
     _drawText: function (ctx, geom, name) {
         var c = ctx.canvas;
         var g = c.getContext('2d');
@@ -995,11 +1020,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     if (fact > 0) {
                                         newgeom[0] = parseInt(geom[0]) + fact * 10;
                                         newgeom[1] = parseInt(geom[1]);
-                                        this._drawImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
+                                        this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
                                     } else {
-                                        this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
+                                        this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
                                     }
-
                                 }
                             } else {
                                 if (restrictObj.constructor === Array) {
@@ -1019,7 +1043,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
                                     }
                                 }
-                                this._drawImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
+                                this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
                             }
                         }
 
@@ -1084,12 +1108,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
 
 
+
                 }
                 break;
             case "Marker":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-
                     url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
                 }
                 break;
@@ -1101,13 +1125,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                 }
                 break;
-            case "rdCrossPoint":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-
-                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
-                }
-                break;
             case "rdlaneconnexityPoint":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
@@ -1115,6 +1132,14 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
                 }
                 break;
+            case "rdCrossPoint":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                }
+                break;
+
 
             case "Diverge":
                 if (this._map.getZoom() >= this.showNodeLevel) {
@@ -1127,12 +1152,20 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "LineString":
                 var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
                 if (this._map.getZoom() >= this.showNodeLevel) {
-                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":25,"type":["' + this.requestType + '"]}'
 
                 } else {
                     url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
                 }
 
+                break;
+            case "gpsLine":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
+
+                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":5,"type":["' + this.requestType + '"]}'
+
+                }
                 break;
             case "fusionroad":
                 var me = new Mercator();
@@ -1293,6 +1326,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
                 };
                 break;
+            case 'gpsLine':
+                return{
+                    size: 1,
+                    color: '#000000'
+                }
             default:
                 return null;
         }

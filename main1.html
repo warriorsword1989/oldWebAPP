@@ -52,6 +52,26 @@
         .show-animation{
             transition:all 0.5s;
         }
+        /*比例尺*/
+        #zoomBtn{
+            bottom: 0;
+            position: absolute;
+            z-index: 1000;
+            right: 0;
+        }
+        .now-zoom{
+            position: absolute;
+            left: 50px;
+            bottom: 0;
+            color: #333;
+            font-weight: 600;
+            font-size: 13px;
+            text-shadow: 1px 1px 3px #999999;
+            z-index: 999;
+        }
+        #nowZoom{
+            margin-top: -3px
+        }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -129,6 +149,12 @@
                         <div id="picMapShow">
                             <img id="picMapImg" alt="无此箭头图">
                             <div id="picMapDesc"></div>
+                        </div>
+                        <div class="now-zoom">当前比例尺:
+                            <span id="nowZoom" class="badge">17</span>
+                        </div>
+                        <div id="zoomBtn" class="btn-group">
+                            <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button>
                         </div>
                     </div>
                 </div>

@@ -89,7 +89,7 @@
         text-align: center;
     }
 </style>
-<div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv">
+<div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" ng-mouseenter="testA($event)" ng-mouseleave="testB($event)">
     <div class="title" >
         <div class="col-sm-12"   style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 1px;">
             <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">

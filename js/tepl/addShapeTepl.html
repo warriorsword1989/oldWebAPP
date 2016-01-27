@@ -31,7 +31,7 @@
     }
 </style>
 <div ng-controller="addShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn addNode_{{addShapeClaArr[4]}}" id="addNode" ng-click="testHello(4)" disabled title="新增点+"></button>
+    <button type="button" class="btn addNode_{{addShapeClaArr[4]}}" id="addNode" ng-click="addShape('node',4)"  title="新增点+"></button>
     <button type="button" class="btn addLink_{{addShapeClaArr[5]}}" id="addLink" ng-click="addShape('link',5)" title="新增线"></button>
     <button type="button" class="btn addRelation_{{addShapeClaArr[6]}} dropdown-toggle" id="addRelation"
             data-toggle="dropdown">

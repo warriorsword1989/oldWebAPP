@@ -145,7 +145,7 @@ $scope.testA=function(event) {
                 break;
             case "1407":
                 break;
-            case "1510"://桥
+            case "1501"://桥
                 $scope.brigeArrayLink=$scope.dataTipsData.f_array;
                 console.log($scope.brigeArrayLink)
                 break;
@@ -229,13 +229,13 @@ $scope.testA=function(event) {
                             break;*/
                     }
                 }
-                if($scope.dataTipsData.dp_attr){
+                if($scope.dataTipsData){
                     /*种别*/
-                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.dp_attr.kind);
+                    $scope.lineType = $scope.returnLineType($scope.dataTipsData.kind);
                     /*来源*/
-                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.dp_attr.src);
+                    $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
                     /*车道数*/
-                    $scope.carNumber = $scope.dataTipsData.dp_attr.in;
+                    $scope.carNumber = $scope.dataTipsData.ln;
                 }
                 break;
 
@@ -306,7 +306,7 @@ $scope.testA=function(event) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        if($scope.dataTipsData.t_lifecycle==="2001") {
+        if($scope.dataTipsData.s_sourceType==="2001") {
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -314,25 +314,15 @@ $scope.testA=function(event) {
                 "data": {
                     "eNodePid": 0,
                     "sNodePid": 0,
-                    "geometry": {"type": "LineString", "coordinates": coordinate}
+                    "geometry": {"type": "LineString", "coordinates": $scope.dataTipsData.g_location.coordinates}
+
                 }
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = [];
                 if (data.data) {
-                    $scope.upBridgeStatus();
-                    Application.functions.getRdObjectById(data.pid, "RDLINK", function (data) {
-                        if (data.errcode === -1) {
-                            return;
-                        }
-                        objCtrl.setCurrentObject(data);
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
-                        }
-                        $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                        })
-                    });
+                    $scope.upBridgeStatus(data.data.pid);
+
                     $.each(data.data.log, function (i, item) {
                         if (item.pid) {
                             info.push(item.op + item.type + "(pid:" + item.pid + ")");
@@ -350,7 +340,7 @@ $scope.testA=function(event) {
 
 
             });
-        }else if($scope.dataTipsData.t_lifecycle==="1201") {
+        }else if($scope.dataTipsData.s_sourceType==="1201") {
             var kindObj = {
                 "objStatus": "UPDATE",
                 "pid": parseInt($scope.dataTipsData.f.id),
@@ -386,39 +376,43 @@ $scope.testA=function(event) {
 
 
     }
-    $scope.upBridgeStatus=function() {
+    $scope.upBridgeStatus=function(pid) {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
-                "handler": 0
-
+                "handler": 0,
+                "pid":pid
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                var outputcontroller = fastmap.uikit.OutPutController({});
+
                 var info = [];
-                if (data.data) {
-                    $.each(data.data.log, function (i, item) {
-                        if (item.pid) {
-                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                        } else {
-                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                if (data.errcode===0) {
+
+                    Application.functions.getRdObjectById(pid, "RDLINK", function (data) {
+                        if (data.errcode === -1) {
+                            return;
                         }
+                        objCtrl.setCurrentObject(data);
+                        if (objCtrl.updateObject !== "") {
+                            objCtrl.updateObject();
+                        }
+                        $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                        })
+                        rdLink.redraw()
+                        restrictLayer.redraw();
+                        speedlimtPoint.redraw();
+                        workPoint.redraw();
                     });
-                    if(data.errcode != 0){
-                        swal("操作失败", data.errmsg, "error");
-                    }
                 } else {
                     info.push(data.errmsg + data.errid);
-                    rdLink.redraw()
-                    restrictLayer.redraw();
-                    speedlimtPoint.redraw();
-                    workPoint.redraw();
+
                     swal("操作成功", "改变状态操作成功！", "success");
                 }
-                outputcontroller.pushOutput(info);
-                if (outputcontroller.updateOutPuts !== "") {
-                    outputcontroller.updateOutPuts();
+                outPutCtrl.pushOutput(info);
+                if (outPutCtrl.updateOutPuts !== "") {
+                    outPutCtrl.updateOutPuts();
                 }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
             })

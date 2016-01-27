@@ -357,14 +357,12 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     //删除交限
     $scope.$parent.$parent.delete = function () {
         var pid = parseInt($scope.rdRestrictData.pid);
-        var param = {
-            "command": "UPDATE",
-            "type":"RESTRICTION",
-            "projectId": 11,
-            "data": {
-                "pid": pid,
-                "objStatus": "DELETE"
-            }
+        var param = 
+        {
+            "command":"DELETE",
+            "type":"RDRESTRICTION",
+            "projectId":11,
+            "objId":pid
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
@@ -380,7 +378,8 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                     }
                 });
             }else{
-                info.push(data.errmsg+data.errid)
+                info.push(data.errmsg+data.errid);
+                swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
             if(outPutCtrl.updateOutPuts!=="") {

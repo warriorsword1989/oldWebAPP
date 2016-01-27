@@ -110,50 +110,129 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setChangeInnerHtml("双击地图结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "speedLimit") {
+
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.disable();
-
-                if (selectCtrl.selectedFeatures) {
-                    if (selectCtrl.selectedFeatures.direct === 1) {
-                        tooltipsCtrl.setEditEventType('speedLimit');
-                        var point = selectCtrl.selectedFeatures.point;
-                        var link = selectCtrl.selectedFeatures.geometry.components;
-                        for (var i = 0, len = link.length; i < len; i++) {
-                            pointsOfDis = $scope.distance(point, link[i]);
-                            if (pointsOfDis < minLen) {
-                                minLen = pointsOfDis;
-                                pointForAngle = link[i];
-                            }
-                        }
-                        angle = $scope.includeAngle(point, pointForAngle);
-                        console.log(angle);
-                        console.log("angle  " + angle)
-                        var marker = {
-                            flag: false,
-                            point: point,
-                            type: "marker",
-                            angle: angle,
-                            orientation: "2",
-                            pointForDirect: point
-                        };
-                        var editLayer = layerCtrl.getLayerById('edit');
-                        layerCtrl.pushLayerFront('edit');
-                        var sobj = shapeCtrl.shapeEditorResult;
-                        editLayer.drawGeometry = marker;
-                        editLayer.draw(marker, editLayer);
-                        sobj.setOriginalGeometry(marker);
-                        sobj.setFinalGeometry(marker);
-                        shapeCtrl.setEditingType("transformDirect");
-                        shapeCtrl.startEditing();
-                        tooltipsCtrl.setCurrentTooltip("选择方向!");
-                    } else {
-                        tooltipsCtrl.setEditEventType('speedLimit');
-                        tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
-                        shapeCtrl.setEditingType("transformDirect");
-                    }
-
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
                 }
+                $scope.$parent.$parent.changeBtnClass(num);
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType('pointVertexAdd');
+                shapeCtrl.startEditing();
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setCurrentTooltip('开始增加交限！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击增加交限!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+
+                shapeCtrl.on('resetcomplete',function(e){
+                    var pro = e.property;
+                    var geo = e.geometry;
+                    Application.functions.getRdObjectById(pro.id, "RDLINK", function (data) {
+                        if(data.errcode==0){
+                            selectCtrl.onSelected({
+                                geometry: data.data.geometry.coordinates,
+                                id:data.data.pid,
+                                direct: pro.direct,
+                                point: shapeCtrl.shapeEditorResult.getFinalGeometry()
+                            });
+
+                            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                            if (pro.direct == 1) {
+                                tooltipsCtrl.setEditEventType('speedLimit');
+                                var point =  shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                var link = linkArr;
+                                for (var i = 0, len = link.length; i < len; i++) {
+                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y,point.x]), map.latLngToContainerPoint([link[i][1],link[i][0]]));
+                                    if (pointsOfDis < minLen) {
+                                        minLen = pointsOfDis;
+                                        pointForAngle = link[i];
+                                    }
+                                }
+                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y,point.x]),map.latLngToContainerPoint([pointForAngle[1],pointForAngle[0]]) );
+                                console.log(angle);
+                                console.log("angle  " + angle)
+                                var marker = {
+                                    flag: false,
+                                    point: point,
+                                    type: "marker",
+                                    angle: angle,
+                                    orientation: "2",
+                                    pointForDirect: point
+                                };
+                                var editLayer = layerCtrl.getLayerById('edit');
+                                layerCtrl.pushLayerFront('edit');
+                                var sobj = shapeCtrl.shapeEditorResult;
+                                editLayer.drawGeometry = marker;
+                                editLayer.draw(marker, editLayer);
+                                sobj.setOriginalGeometry(marker);
+                                sobj.setFinalGeometry(marker);
+                                shapeCtrl.setEditingType("transformDirect");
+                                shapeCtrl.startEditing();
+                                tooltipsCtrl.setCurrentTooltip("选择方向!");
+                            } else {
+                                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                                tooltipsCtrl.setEditEventType('speedLimit');
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
+                                shapeCtrl.setEditingType("transformDirect");
+                            }
+                        }else{
+                           alert('error')
+                        }
+
+
+                    })
+
+
+
+                });
+                //
+                //if (selectCtrl.selectedFeatures) {
+                //    if (selectCtrl.selectedFeatures.direct === 1) {
+                //        tooltipsCtrl.setEditEventType('speedLimit');
+                //        var point = selectCtrl.selectedFeatures.point;
+                //        var link = selectCtrl.selectedFeatures.geometry.components;
+                //        for (var i = 0, len = link.length; i < len; i++) {
+                //            pointsOfDis = $scope.distance(point, link[i]);
+                //            if (pointsOfDis < minLen) {
+                //                minLen = pointsOfDis;
+                //                pointForAngle = link[i];
+                //            }
+                //        }
+                //        angle = $scope.includeAngle(point, pointForAngle);
+                //        console.log(angle);
+                //        console.log("angle  " + angle)
+                //        var marker = {
+                //            flag: false,
+                //            point: point,
+                //            type: "marker",
+                //            angle: angle,
+                //            orientation: "2",
+                //            pointForDirect: point
+                //        };
+                //        var editLayer = layerCtrl.getLayerById('edit');
+                //        layerCtrl.pushLayerFront('edit');
+                //        var sobj = shapeCtrl.shapeEditorResult;
+                //        editLayer.drawGeometry = marker;
+                //        editLayer.draw(marker, editLayer);
+                //        sobj.setOriginalGeometry(marker);
+                //        sobj.setFinalGeometry(marker);
+                //        shapeCtrl.setEditingType("transformDirect");
+                //        shapeCtrl.startEditing();
+                //        tooltipsCtrl.setCurrentTooltip("选择方向!");
+                //    } else {
+                //        tooltipsCtrl.setEditEventType('speedLimit');
+                //        tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
+                //        shapeCtrl.setEditingType("transformDirect");
+                //    }
+                //
+                //}
 
 
             } else if(type==="rdBranch") {
@@ -229,6 +308,28 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
 
                 });
+            }
+            else if (type === "speedLimit") {
+
+            }
+            else if (type === "node") {
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
+                $scope.$parent.$parent.changeBtnClass(num);
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType('pointVertexAdd');
+                shapeCtrl.startEditing();
+                tooltipsCtrl.setEditEventType('pointVertexAdd');
+                tooltipsCtrl.setCurrentTooltip('开始增加节点！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             }
         }
 

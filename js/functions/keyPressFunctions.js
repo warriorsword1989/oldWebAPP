@@ -41,6 +41,7 @@ function keyEvent(ocLazyLoad, scope) {
             var selectCtrl = fastmap.uikit.SelectController();
             var rdLink = layerCtrl.getLayerById('referenceLine');
             var restrict = layerCtrl.getLayerById('referencePoint');
+            var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var editLayer = layerCtrl.getLayerById('edit');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
             var coordinate = [];
@@ -197,12 +198,12 @@ function keyEvent(ocLazyLoad, scope) {
                 } else if (shapeCtrl.editType === "transformDirect") {
                     var disFromStart, disFromEnd, node, direct, pointOfArrow,
                         feature = selectCtrl.selectedFeatures;
-                    var startPoint = feature.geometry.components[0],
+                    var startPoint = feature.geometry[0],
                         point = feature.point;
                     if (link) {
                         pointOfArrow = link.pointForDirect;
                         var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
-                        startPoint = map.latLngToContainerPoint([startPoint.y,startPoint.x]);
+                        startPoint = map.latLngToContainerPoint([startPoint[1],startPoint[0]]);
                         disFromStart = distance(pointOfContainer, startPoint);
                         disFromEnd = distance(pointOfArrow, startPoint);
                         if (disFromStart > disFromEnd) {
@@ -241,14 +242,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 info.push(task.op + task.type + "(rowId:" + task.rowId + ")");
                             }
                         })
-                        //$.each(data.data.log, function (i, item) {
-                        //    if (item.pid) {
-                        //        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                        //    } else {
-                        //        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                        //    }
-                        //});
-                        console.log(info);
+                        speedlimitlayer.redraw();
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -303,17 +297,18 @@ function keyEvent(ocLazyLoad, scope) {
 
                         })
                     }
-                } else if (shapeCtrl.editType === "linksOfCross") {
+                } else if (shapeCtrl.editType === "pathNodeMove") {
                     var options = selectCtrl.selectedFeatures;
                     var param = {
-                        "command": "CREATE",
-                        "type": "RDCROSS",
+                        "command": "MOVE",
+                        "type": "RDNODE",
+                        "objId":options.id,
                         "projectId": 11,
-                        "data": options
+                        "data": {longitude:options.latlng.lng,latitude:options.latlng.lat}
                     }
                     //结束编辑状态
                     shapeCtrl.stopEditing();
-                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                    Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
                         if (data.errcode === -1) {
                             outPutCtrl.pushOutput(data.errmsg);
                             if (outPutCtrl.updateOutPuts !== "") {
@@ -334,12 +329,42 @@ function keyEvent(ocLazyLoad, scope) {
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
-                        Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
-                            objEditCtrl.setCurrentObject(data.data);
-                            ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                scope.objectEditURL = "js/tepl/rdCrossTepl.html";
-                            });
+                        //Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                        //    objEditCtrl.setCurrentObject(data.data);
+                        //    ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                        //        scope.objectEditURL = "js/tepl/rdCrossTepl.html";
+                        //    });
+                        //});
+                    })
+                }
+                else if (shapeCtrl.editType === "pointVertexAdd") {
+
+                    var param = {
+                        "command": "BREAK",
+                        "type":"RDLINK",
+                        "projectId": 11,
+                        "objId": parseInt(selectCtrl.selectedFeatures.id),
+
+                        "data": {"longitude": link.x, "latitude": link.y}
+
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                            }
                         });
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+
                     })
                 } else if (shapeCtrl.editType === "rdBranch") {
                     var paramOfRdBranch = {
@@ -384,6 +409,9 @@ function keyEvent(ocLazyLoad, scope) {
                         })
                     })
 
+
+                }
+                else if (shapeCtrl.editType === "linksOfCross") {
 
                 }
             }
