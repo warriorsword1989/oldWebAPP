@@ -11,7 +11,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
-
+    var limitPicArr = [];
     //删除以前高亮的进入线和退出线
     if(highLightLayer.highLightLayersArr.length!==0) {
         highLightLayer.removeHighLightLayers();
@@ -31,7 +31,12 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
-
+        $.each(objectEditCtrl.data.details,function(i,v){
+            if(v)
+                limitPicArr.push(v.timeDomain);
+            else
+                limitPicArr.push('');
+        })
         //初始化交限中的第一个禁止方向的信息
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
         $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
@@ -146,6 +151,11 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //点击限制方向时,显示其有的属性信息
     $scope.showTips = function (item,e) {
+        limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
+        $timeout(function(){
+            $(".data-empty").trigger('click');
+            $scope.$apply();
+        })
         $scope.removeTipsActive();
         $(e.target).addClass('active');
         $scope.rdSubRestrictData = item;
@@ -153,6 +163,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         if(highLightLayer.highLightLayersArr.length!==0) {
             highLightLayer.removeHighLightLayers();
         }
+        $scope.fmdateTimer(limitPicArr[$(e.target).attr('data-index')]);
         //高亮选择限制防线的进入线和退出线
         var linksOfRestric = {};
         linksOfRestric["inLink"] = linksObj["inLink"];
@@ -237,8 +248,10 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             $.each($scope.rdRestrictData.details,function(i,v){
                 picArr.push(v.restricInfo);
             });
-            if($.inArray($scope.newLimited.restricInfo, picArr) == -1 && $scope.newLimited!='')
+            if($.inArray($scope.newLimited.restricInfo, picArr) == -1 && $scope.newLimited!=''){
                 $scope.rdRestrictData.details.unshift($scope.newLimited);
+                limitPicArr.unshift('');
+            }
             $scope.removeImgActive();
             $scope.newLimited = '';
             $timeout(function(){
@@ -276,8 +289,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //修改属性
     $scope.$parent.$parent.save = function () {
-        // $scope.$broadcast('set-code',$scope.codeOutput);
-    alert($scope.codeOutput)
+        var index = $(".show-tips.active").attr('data-index');
         //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
         var resultStr="";
         if($scope.checkValue){
@@ -295,13 +307,17 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
         resultStr+=re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
         $scope.rdRestrictData.vehicleExpression=bin2dec(resultStr);
-
-
+        $scope.rdRestrictData.details[index].timeDomain = $scope.codeOutput;
         objectEditCtrl.setCurrentObject($scope.rdRestrictData);
         objectEditCtrl.save();
+        if(objectEditCtrl.changedProperty){
+            $.each(objectEditCtrl.changedProperty.details,function(i,v){
+                delete v.linkPid;
+            })
+        }
         var param = {
             "command": "UPDATE",
-            "type":"RESTRICTION",
+            "type":"RDRESTRICTION",
             "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
@@ -420,6 +436,10 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //取消操作
     $scope.$parent.$parent.cancel = function () {
+        $timeout(function(){
+            $(".data-empty").trigger('click');
+            $scope.$apply();
+        })
         Application.functions.getRdObjectById($scope.rdRestrictData.pid, "RDRESTRICTION", function (data) {
             $scope.rdRestrictData = data.data;
             $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
