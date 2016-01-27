@@ -435,33 +435,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
                     }else if(pItemId==="1901"){//道路名
                         //$scope.$parent.$parent.dataTipsURL = "js/tepl/sceneIntersectionTepl.html";
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                        if(data.f_array.length>0){
-                            $scope.$parent.$parent.brigeLinkArray= data.f_array;
-                            Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
-                                if (data.errcode === -1) {
-                                    return;
-                                }
-                                var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
-                                for (var i = 0, len = linkArr.length; i < len; i++) {
-                                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                                    points.push(point);
-                                }
-                                map.panTo({lat: points[0].y, lon: points[0].x});
-                                var line = fastmap.mapApi.lineString(points);
-                                selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-                                objCtrl.setCurrentObject(data);
-                                if (objCtrl.updateObject !== "") {
-                                    objCtrl.updateObject();
-                                }
-                                $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                                });
-                            });
-                        }
+
 
                     }else if(pItemId==="2001"){//测线
                         objCtrl.setCurrentObject(data);
