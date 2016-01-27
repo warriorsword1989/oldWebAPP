@@ -60,6 +60,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
             var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();

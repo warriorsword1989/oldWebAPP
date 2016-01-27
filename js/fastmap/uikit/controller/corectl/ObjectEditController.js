@@ -105,8 +105,8 @@ fastmap.uikit.ObjectEditController = (function () {
                                 }
                             }
                             if (objArr.length !== 0) {
-                               // if(oriData["linkPid"]){
-                                    obj["linkPid"]=oriData["pid"];
+                                // if(oriData["linkPid"]){
+                                obj["linkPid"]=oriData["pid"];
                                 //}
                                 retObj[item] = objArr;
                             }
@@ -150,13 +150,13 @@ fastmap.uikit.ObjectEditController = (function () {
 
                             }
                             for(var j=oriData[item].length-1;j>=0;j--){
-                                    var obj = this.compareJson(oriData[item][j], data[item][j+1], "UPDATE");
-                                    if (obj) {
-                                        if(oriData[item][j]["linkPid"]){
-                                            obj["linkPid"]=oriData[item][j]["linkPid"];
-                                        }
-                                        objArr.push(obj);
+                                var obj = this.compareJson(oriData[item][j], data[item][j+1], "UPDATE");
+                                if (obj) {
+                                    if(oriData[item][j]["linkPid"]){
+                                        obj["linkPid"]=oriData[item][j]["linkPid"];
                                     }
+                                    objArr.push(obj);
+                                }
                             }
 
                             if (objArr.length !== 0) {
@@ -166,21 +166,22 @@ fastmap.uikit.ObjectEditController = (function () {
                             var objArr = [],indexOfData={},key="linkPid";
                             for (var j= 0,lenJ=data[item].length;j<lenJ;j++) {
                                 var obj = {};
-                                if(data[item][j]["pid"]) {
+                                if(data[item][j]["rowId"]) {
+                                    key = "rowId";
+                                    obj = {flag: true, index: j};
+                                    indexOfData[data[item][j]["rowId"]] = obj;
+                                }else if(data["pid"]) {
                                     key = "pid";
-                                    obj = {flag: true, index: i};
+                                    obj = {flag: true, index: j};
                                     indexOfData[data[item][j]["pid"]] = obj;
-                                }else if(data["rowkey"]) {
-                                    obj = {flag: true, index: i};
-                                    indexOfData[data["rowkey"]] = obj;
                                 }else if(data[item][j]["linkPid"]) {
-                                    obj = {flag: true, index: i};
-                                    indexOfData[data["linkPid"]] = obj;
+                                    obj = {flag: true, index: j};
+                                    indexOfData[data[item][j]["linkPid"]] = obj;
                                 }
                             }
                             for(var k= 0,lenK=oriData[item].length;k<lenK;k++) {
-                                if(indexOfData[oriData[item][k][key]]["flag"]) {
-                                       var obj=this.compareJson(oriData[item][k],data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
+                                if(indexOfData[oriData[item][k][key]]) {
+                                    var obj=this.compareJson(oriData[item][k],data[item][indexOfData[oriData[item][k][key]]["index"]], "UPDATE");
                                     objArr.push(obj);
                                 }else{
                                     obj = oriData[item][k];
