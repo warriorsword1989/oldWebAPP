@@ -132,9 +132,29 @@ Application.functions.getNamePronunciation=function(param,func) {
         });
 };
 
+Application.functions.getLinksbyNodeId = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByCondition?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+/***
+ * 保存node移动
+ * @param param
+ * @param func
+ */
+Application.functions.saveNodeMove = function(param, func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/edit?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
 Application.functions.getByCondition=function(param,func) {
     fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByCondition?parameter='+param,
         function (data) {
             func(data)
         });
 };
+

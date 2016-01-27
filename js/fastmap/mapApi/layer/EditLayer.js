@@ -32,16 +32,15 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.shapeEditor.on('startshapeeditresultfeedback', delegateDraw);
         function delegateDraw(event) {
             if (that.shapeEditor.shapeEditorResult == null) {
-
                 return;
             }
             that.drawGeometry = that.shapeEditor.shapeEditorResult.getFinalGeometry();
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
-            if (that.snaped == true) {
-                var crosspoint = that.drawGeometry.components[event.index] ? that.drawGeometry.components[event.index] : event.point;
-                if (crosspoint != undefined) {
-                    crosspoint = fastmap.mapApi.point(crosspoint.x, crosspoint.y);
+            if(that.snaped == true){
+                var crosspoint = ( event.index&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
+                if(crosspoint!=undefined){
+                    crosspoint = fastmap.mapApi.point(crosspoint.x,crosspoint.y);
                     crosspoint.type = 'Cross';
                     that.draw(crosspoint, that);
                 }
@@ -107,7 +106,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawLineString(currentGeo.components, {color: 'red', size: 2}, false, index);
                 break;
             case 'Point':
-                drawPoint(currentGeo.components, {color: 'red', radius: 3}, false);
+                drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
             case'Polygon':
                 drawPolygon();
@@ -117,6 +116,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 break;
             case 'marker':
                 drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false);
+                break;
+            case 'MultiPolyline':
+                drawMultiPolyline(currentGeo.coordinates,{color: 'red', width: 2});
                 break;
         }
 
@@ -128,7 +130,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
-                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
 
             var verLineArr = [{x: p.x, y: p.y + 20}, {x: p.x, y: p.y - 20}];
@@ -145,7 +147,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
-                p = this.map.latLngToLayerPoint([geom.y, geom.x]);
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
 
             var g = self._ctx;
@@ -158,32 +160,40 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
 
-        function drawLineString(geom, style, boolPixelCrs, index) {
+        function drawLineString(geom, style, boolPixelCrs, index,boolnode) {
             if (!geom) {
                 return;
             }
 
             var proj = [], i;
-            //coords = this._clip(ctx, coords);
-            //coords = L.LineUtil.simplify(coords, 1);
 
             for (var i = 0; i < geom.length; i++) {
                 if (boolPixelCrs) {
                     proj.push({x: geom[i].x, y: geom[i].y});
                 } else {
-
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
-                    if (i == index) {
-                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                            color: 'blue',
-                            radius: 4
-                        }, true)
-                    } else {
-                        drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                            color: 'blue',
-                            radius: 4
-                        }, true)
-                    }
+                    //if (i == index) {
+
+                        if(boolnode){
+                            if(i==0 || i==geom.length-1){
+                                drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                                    color: 'blue',
+                                    radius: 4
+                                }, true);
+                            }
+                        }else{
+                            drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                                color: 'blue',
+                                radius: 4
+                            }, true);
+                        }
+
+                    //} else {
+                    //    drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                    //        color: 'blue',
+                    //        radius: 4
+                    //    }, true)
+                    //}
 
                 }
             }
@@ -202,6 +212,14 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             g.stroke();
             g.restore();
         }
+
+
+        function drawMultiPolyline(geom,style){
+            for(var i = 0,len = geom.length;i < len;i++){
+                drawLineString(geom[i], style, false, null, true);
+            }
+        }
+
 
         function drawPolygon(geom, style) {
             if (!style) {
@@ -278,7 +296,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             point.y = point.y + width / 2;
             point.x = point.x + Math.tan(angle);
             point.y = point.y + Math.tan(angle);
-            point=this.map.containerPointToLatLng(point);
+            //point=this.map.containerPointToLatLng(point);
             return point;
         }
     },
