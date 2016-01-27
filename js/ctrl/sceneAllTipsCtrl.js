@@ -33,13 +33,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.photos = [];
         $scope.dataTipsData = selectCtrl.rowKey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
-        //var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-        //    map: map,
-        //    highLightFeature: "dataTips",
-        //    dataTips: $scope.dataTipsData.rowkey
-        //});
-        //highLightDataTips.drawTipsForInit();
-        //highLightLayer.pushHighLightLayers(highLightDataTips);
+        var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+            map: map,
+            highLightFeature: "dataTips",
+            dataTips: $scope.dataTipsData.rowkey
+        });
+        highLightDataTips.drawTipsForInit();
+        highLightLayer.pushHighLightLayers(highLightDataTips);
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {

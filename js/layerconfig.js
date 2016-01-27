@@ -448,7 +448,7 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t == 2001) {
+                        if (item.t === 2001||item.t===1901) {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};
@@ -521,7 +521,7 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t == 2001) {
+                        if (item.t === 2001||item.t===1901) {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};

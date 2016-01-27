@@ -38,7 +38,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * 点击列表中的dataTips在地图上高亮
      */
     drawTipsForInit: function () {
-        console.log(this.tiles);
         for (var index in this.tiles) {
 
             var data = this.tiles[index].data.features;
