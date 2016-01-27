@@ -143,14 +143,72 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
+            layerCtrl.pushLayerFront('edit');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
+            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink,shapeEditor:shapeCtrl});
+            map.currentTool.enable();
+            $scope.$parent.$parent.objectEditURL = "";
+            $scope.toolTipText = '请选择node！';
+            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+            rdLink.on("getId", function (data) {
+                $scope.data = data;
+                Application.functions.getLinksbyNodeId(JSON.stringify({projectId:11,type:'RDLINK',data:{nodePid:data.id}}), function (data) {
+                    if (data.errcode === -1) {
+                        return;
+                    }
+
+                    var lines = []
+
+                    for(var index in data.data){
+                        var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
+                        for (var i = 0, len = linkArr.length; i < len; i++) {
+                            var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                            points.push(point);
+                        }
+                        //var line = fastmap.mapApi.lineString(points);
+                        lines.push(points);
+                    }
+
+                    var multipolyline = fastmap.mapApi.multiPolyline(lines);
+
+                    var editLyer = layerCtrl.getLayerById('edit');
+                    layerCtrl.pushLayerFront('edit');
+                    var sobj = shapeCtrl.shapeEditorResult;
+                    editLyer.drawGeometry = multipolyline;
+                    editLyer.draw(multipolyline, editLyer);
+                    sobj.setOriginalGeometry(multipolyline);
+                    sobj.setFinalGeometry(multipolyline);
+
+                    selectCtrl.onSelected({geometry: multipolyline, id: $scope.data.id});
+
+                    if (shapeCtrl.getCurrentTool()['options']) {
+                        shapeCtrl.stopEditing();
+                    }
+
+                    shapeCtrl.setEditingType('pathNodeMove');
+                    shapeCtrl.startEditing();
+                    shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
+                    shapeCtrl.on("stopshapeeditresultfeedback",function(){
+                        shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
+                    });
+
+                    //objCtrl.setCurrentObject(data);
+                    //if (objCtrl.updateObject !== "") {
+                    //    objCtrl.updateObject();
+                    //}
+                    //$ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                    //    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                    //})
+                })
+
+            })
         }
         if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referencePoint');
-            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: restrict});
+            map.currentTool = new fastmap.uikit.SelectRestriction({map: map, currentEditLayer: restrict});
             map.currentTool.enable();
             restrict.options.selectType = 'relation';
             restrict.options.editable = true;
@@ -203,6 +261,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                         console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
+                            case "2001"://测线
                             case "1201"://种别
                                 type = "RDLINK";
                                 propertyCtrl = "ctrl/linkObjectCtrl";
@@ -273,7 +332,15 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 })
 
 
+
             })
+
         }
+
+        function saveOrEsc (event) {
+            tooltipsCtrl.setStyleTooltip("color:black;");
+            tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+        };
+
     };
 }])

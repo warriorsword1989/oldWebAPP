@@ -30,6 +30,7 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         this._map.on('mousedown', this.onMouseDown, this);
         //this._map.on('mouseup', this.onMouseUp, this);
     },
+
     disable: function () {
         if (!this._enabled) { return; }
         this._map.dragging.enable();
