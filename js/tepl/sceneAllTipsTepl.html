@@ -389,19 +389,12 @@
                         <div class="line line-dashed b-b line-lg pull-in"
                              style="margin-top: 1px;margin-bottom: 1px"></div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">关联道路ID:</label>
-
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
                             <label class="col-sm-4 control-label">名称:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ></span>
+                                <div ng-repeat="item in nArrayData" >
+                                    <span class="label label-default" ng-bind="item"></span>
+                                </div>
                             </div>
                         </div>
                     </form>

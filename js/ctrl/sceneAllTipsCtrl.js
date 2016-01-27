@@ -152,6 +152,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1803":
                 break;
             case "1901":
+                $scope.nArrayData=$scope.dataTipsData.n_array;
                 break;
             case "2001":
                 /*种别*/
