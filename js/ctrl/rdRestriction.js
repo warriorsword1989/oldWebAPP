@@ -336,15 +336,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             }else{
                 info.push(data.errmsg+data.errid)
             }
-<<<<<<< HEAD
-            outputcontroller.pushOutput(data.data);
-            if(outputcontroller.updateOutPuts!=='') {
-                outputcontroller.updateOutPuts();
-=======
             outPutCtrl.pushOutput(data.data);
             if(outPutCtrl.updateOutPuts!=="") {
                 outPutCtrl.updateOutPuts();
->>>>>>> 8ed32b29c5d323b9053cab3aa375d070abf54998
             }
         });
         if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
