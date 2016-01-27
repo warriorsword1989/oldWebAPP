@@ -222,7 +222,7 @@ Application.layersConfig =
                 type: 'Diverge',
                 zIndex:10,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:'RDBRANCH',
                 showNodeLevel:17
             }
@@ -369,7 +369,7 @@ Application.layersConfig =
                 type: 'rdlaneconnexityPoint',
                 zIndex:10,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:'RDLANECONNEXITY',
                 showNodeLevel:17
             }
@@ -423,7 +423,7 @@ Application.layersConfig =
                 type: 'LineString',
                 zIndex:7,
                 restrictZoom:10,
-                visible: false,
+                visible: true,
                 requestType:12,
                 showNodeLevel:17
             }
