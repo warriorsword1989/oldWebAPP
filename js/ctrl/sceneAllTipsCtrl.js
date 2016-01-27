@@ -13,16 +13,22 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
-    var speedlimtPoint=layerCtrl.getLayerById("speedlimit");
+    var speedlimtPoint = layerCtrl.getLayerById("speedlimit");
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
     $scope.outIdS = [];
 
+    $scope.testA = function (event) {
+        map.scrollWheelZoom = false;
+        //event.preventDefault();
+    };
+    $scope.testB = function (event) {
+    };
 
     //初始化DataTips相关数据
-  $scope.initializeDataTips=function() {
+    $scope.initializeDataTips = function () {
         $scope.photoTipsData = [];
         $scope.photos = [];
         $scope.dataTipsData = selectCtrl.rowKey;
@@ -141,7 +147,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1407":
                 break;
             case "1501"://桥
-                $scope.brigeArrayLink=$scope.dataTipsData.f_array;
+                $scope.brigeArrayLink = $scope.dataTipsData.f_array;
                 console.log($scope.brigeArrayLink)
                 break;
             case "1604"://区域内道路
@@ -153,11 +159,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1803":
                 break;
             case "1901":
+                $scope.nArrayData = $scope.dataTipsData.n_array;
                 break;
             case "2001":
                 /*种别*/
-                $scope.returnLineType = function(code){
-                    switch(code){
+                $scope.returnLineType = function (code) {
+                    switch (code) {
                         case 0:
                             return '作业中';
                         case 1:
@@ -189,8 +196,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     }
                 }
                 /*测线来源*/
-                $scope.returnLineSrc = function(code){
-                    switch(code){
+                $scope.returnLineSrc = function (code) {
+                    switch (code) {
                         case 0:
                             return 'GPS测线';
                         case 1:
@@ -205,7 +212,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
                 //显示状态
                 if ($scope.dataTipsData) {
-                    switch ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage) {
+                    switch ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage) {
                         case 1:
                             $scope.showContent = "未作业";
                             $scope.labelInfo = true;
@@ -217,14 +224,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             $scope.labelSuc = true;
                             break;
                         /*case 4:
-                            $scope.showContent = "GDB增量";
-                            break;
-                        case 0:
-                            $scope.showContent = "初始化";
-                            break;*/
+                         $scope.showContent = "GDB增量";
+                         break;
+                         case 0:
+                         $scope.showContent = "初始化";
+                         break;*/
                     }
                 }
-                if($scope.dataTipsData){
+                if ($scope.dataTipsData) {
                     /*种别*/
                     $scope.lineType = $scope.returnLineType($scope.dataTipsData.kind);
                     /*来源*/
@@ -297,11 +304,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$apply();
     }
     /*转换*/
-    $scope.transBridge = function() {
+    $scope.transBridge = function () {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        if($scope.dataTipsData.s_sourceType==="2001") {
+        if ($scope.dataTipsData.s_sourceType === "2001") {
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -310,6 +317,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     "eNodePid": 0,
                     "sNodePid": 0,
                     "geometry": {"type": "LineString", "coordinates": $scope.dataTipsData.g_location.coordinates}
+
                 }
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
@@ -334,7 +342,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
 
             });
-        }else if($scope.dataTipsData.s_sourceType==="1201") {
+        } else if ($scope.dataTipsData.s_sourceType === "1201") {
             var kindObj = {
                 "objStatus": "UPDATE",
                 "pid": parseInt($scope.dataTipsData.f.id),
@@ -370,18 +378,18 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
 
     }
-    $scope.upBridgeStatus=function(pid) {
+    $scope.upBridgeStatus = function (pid) {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
                 "handler": 0,
-                "pid":pid
+                "pid": pid
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
                 var info = [];
-                if (data.errcode===0) {
+                if (data.errcode === 0) {
 
                     Application.functions.getRdObjectById(pid, "RDLINK", function (data) {
                         if (data.errcode === -1) {
@@ -413,7 +421,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         }
     }
 
-    $scope.closeTips=function(){
+    $scope.closeTips = function () {
         $("#popoverTips").css("display", "none");
     }
 });
