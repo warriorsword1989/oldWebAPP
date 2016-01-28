@@ -106,7 +106,6 @@
         background-color: #fff;
         /*box-shadow: 4px 4px 7px 0px #777;*/
         min-width: 100%;
-        min-height: 193px;
     }
     .pic-show-well{
         min-width: 100%;
@@ -141,8 +140,8 @@
                 <div class="pic-show">
                     <div class="pic-show-well">
                         <div class="img-well" ng-repeat="item in showLaneConnexityData" ng-dblclick="minusLaneConnexity(item)">
-                            <img class="show-img" ng-src="./css/laneinfo/{{item.flag}}.png" title="{{item.flag}}">
-                            <div class="img-describe">{{item.flag}}</div>
+                            <img class="show-img" ng-src="./css/laneinfo/arwG/{{item.flag}}.png" title="{{item.flag}}">
+                            <div class="img-describe">{{item.log}}</div>
                         </div>
                     </div>
                     <!--<div class="clearfix"></div>-->
@@ -153,8 +152,8 @@
                 <div class="pic-show">
                     <div class="pic-show-well">
                         <div class="img-well" ng-repeat="item in laneConnexityData" ng-click="addLaneConnexity(item,$event)">
-                            <img class="show-img" ng-src="./css/laneinfo/{{item.flag}}.png" title="{{item.flag}}">
-                            <div class="img-describe">{{item.flag}}</div>
+                            <img class="show-img" ng-src="./css/laneinfo/arwG/{{item.flag}}.png" title="{{item.flag}}">
+                            <div class="img-describe">{{item.log}}</div>
                         </div>
                     </div>
                     <!--<div class="clearfix"></div>-->
