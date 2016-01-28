@@ -164,10 +164,11 @@ basicApp.controller("basicController",function($scope,$timeout) {
         $scope.$apply();
     }
     $scope.picNowNum = 0;
+    //$scope.pagesize=10;
     $scope.getPicsDate = function(){
         var nameParameter = {
             "name": $scope.inNmae,
-            "pageSize": 10,
+            "pageSize": $scope.pagesize,
             "pageNum":$scope.picNowNum
         }
         Application.functions.getNamesbyName(JSON.stringify(nameParameter), function (data) {
@@ -184,6 +185,7 @@ basicApp.controller("basicController",function($scope,$timeout) {
 
     $scope.selectNameInd=0;
     $scope.searchGroupidByNames=function(ind){
+        $scope.pagesize=$("#pagesize").val();
         $scope.selectNameInd=ind;
         $scope.inNmae=$scope.linkData.names[ind].name;
         $timeout(function(){

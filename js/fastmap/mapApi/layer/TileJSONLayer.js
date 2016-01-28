@@ -991,7 +991,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
-                        var route = feature.properties.rotate * (Math.PI / 180);
+                        var route = (feature.properties.rotate-90) * (Math.PI / 180);
                         if (isNaN(route)) {
                             route = 0;
                         }
