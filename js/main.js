@@ -23,7 +23,8 @@ requirejs.config({
         'timepicki':'lib/timepicki/js/timepicki',
         'bootstrapDatepicker':'lib/bootstrap-datepicker/js/bootstrap-datepicker',
         'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
-        'sweet-alert':'lib/sweet-alert/js/sweet-alert.min'
+        'sweet-alert':'lib/sweet-alert/js/sweet-alert.min',
+        'poi-msg':'lib/poi-msg/poiMsg',
     },
     shim: {
         'bootstrap':['jquery'],
@@ -39,7 +40,8 @@ requirejs.config({
         'bootstrapDatepickerCN':['bootstrapDatepicker'],
         'timepicki':['jquery','angular'],
         'sweet-alert':['jquery'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert']
+        'poi-msg':['jquery'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg']
     }
 });
 
