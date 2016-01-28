@@ -189,8 +189,10 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             }
         }else if(time.indexOf('M') > -1 && time.indexOf('d') > -1 && time.indexOf('y') == -1){      //(Mxdx)
             return time.split('M')[1].split('d')[0]+'月'+time.split('M')[1].split('d')[1]+'日';
-        }else{      //只有年月日
+        }else if(time.indexOf('M') > -1 && time.indexOf('d') > -1 && time.indexOf('y') > -1){      //只有年月日
             return time.split('y')[1].split('M')[0]+'年'+time.split('y')[1].split('M')[1].split('d')[0]+'月'+time.split('y')[1].split('M')[1].split('d')[1]+'日';
+        }else{
+            return time+'月';
         }
         
     }

@@ -25,8 +25,13 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         }
     }
     $scope.initializeLinkData = function () {
-        objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
-        $scope.linkData = objectCtrl.data.data;
+        if(objectCtrl.data.data){
+            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
+            $scope.linkData = objectCtrl.data.data;
+        }else if(objectCtrl.data){
+            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data));
+            $scope.linkData = objectCtrl.data;
+        }
         $("#basicModule").css("background-color", "#49C2FC");
         $scope.changeActive(0);
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
@@ -49,7 +54,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     objectCtrl.updateObject = function () {
         $scope.initializeLinkData();
     };
-
     //获取某个模块的信息
     $scope.changeModule = function (url) {
         if (url === "basicModule") {
@@ -149,14 +153,21 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                 });
             });
         }
-    console.log($scope.linkData)
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
-    console.log(objectCtrl.changedProperty)
-        if(objectCtrl.changedProperty.limitTrucks.length > 1){
-            $.each(objectCtrl.changedProperty.limitTrucks,function(i,v){
-                delete v.pid;
-            });
+        if(objectCtrl.changedProperty.limits){
+            if(objectCtrl.changedProperty.limits.length > 0){
+                $.each(objectCtrl.changedProperty.limits,function(i,v){
+                    delete v.pid;
+                });
+            }
+        }
+        if(objectCtrl.changedProperty.limitTrucks){
+            if(objectCtrl.changedProperty.limitTrucks.length > 0){
+                $.each(objectCtrl.changedProperty.limitTrucks,function(i,v){
+                    delete v.pid;
+                });
+            }
         }
         var param = {
             "command": "UPDATE",

@@ -444,7 +444,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }else if(pItemId==="2001"){//测线
                         objCtrl.setCurrentObject(data);
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
-                        $scope.showTipsOrProperty(data,"RDLINK",objCtrl,"ctrl/linkObjectCtrl","js/tepl/currentObjectTepl.html");
+                        $scope.showTipsOrProperty(data,"RDLINK",objCtrl,data.id,"ctrl/linkObjectCtrl","js/tepl/currentObjectTepl.html");
                         //Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
                         //   $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
                         //        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
