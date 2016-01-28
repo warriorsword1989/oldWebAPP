@@ -140,7 +140,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 geometry: data.data.geometry.coordinates,
                                 id:data.data.pid,
                                 direct: pro.direct,
-                                point: shapeCtrl.shapeEditorResult.getFinalGeometry()
+                                point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
 
                             var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];

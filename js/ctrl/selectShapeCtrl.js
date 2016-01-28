@@ -12,7 +12,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrict = layerCtrl.getLayerById('referencePoint');
-    var rdCross=layerCtrl.getLayerById("rdcross")
+    var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     $scope.toolTipText = "";
 
@@ -139,28 +139,34 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
         }
 
-        if (type === "node") {
+        else if (type === "node") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('edit');
             rdLink.options.selectType = 'node';
             rdLink.options.editable = true;
-            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdLink,shapeEditor:shapeCtrl});
+            map.currentTool = new fastmap.uikit.SelectNode({
+                map: map,
+                currentEditLayer: rdLink,
+                shapeEditor: shapeCtrl
+            });
             map.currentTool.enable();
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择node！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             rdLink.on("getId", function (data) {
                 $scope.data = data;
-                Application.functions.getLinksbyNodeId(JSON.stringify({projectId:11,type:'RDLINK',data:{nodePid:data.id}}), function (data) {
+                Application.functions.getLinksbyNodeId(JSON.stringify({
+                    projectId: 11,
+                    type: 'RDLINK',
+                    data: {nodePid: data.id}
+                }), function (data) {
                     if (data.errcode === -1) {
                         return;
                     }
-
                     var lines = []
-
-                    for(var index in data.data){
+                    for (var index in data.data) {
                         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
                         for (var i = 0, len = linkArr.length; i < len; i++) {
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -188,9 +194,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                     shapeCtrl.setEditingType('pathNodeMove');
                     shapeCtrl.startEditing();
-                    shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
-                    shapeCtrl.on("stopshapeeditresultfeedback",function(){
-                        shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
+                    shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);
+                    shapeCtrl.on("stopshapeeditresultfeedback", function () {
+                        shapeCtrl.off("startshapeeditresultfeedback", saveOrEsc);
                     });
 
 
@@ -204,18 +210,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         })
                     });
 
-                    //objCtrl.setCurrentObject(data);
-                    //if (objCtrl.updateObject !== "") {
-                    //    objCtrl.updateObject();
-                    //}
-                    //$ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                    //    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                    //})
-                })
 
-            })
+                })
+            });
         }
-        if (type === "relation") {
+        else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('referencePoint');
@@ -248,7 +247,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
             })
         }
-        if (type === "tips") {
+        else if (type === "tips") {
             $scope.toolTipText = '请选择tips！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -284,10 +283,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                     if (data.f.id) {
                                         var obj = {"nodePid": parseInt(data.f.id)};
-                                        var param={
-                                            "projectId":11,
-                                            "type":"RDCROSS",
-                                            "data":obj
+                                        var param = {
+                                            "projectId": 11,
+                                            "type": "RDCROSS",
+                                            "data": obj
                                         }
                                         Application.functions.getByCondition(JSON.stringify(param), function (data) {
                                             objCtrl.setCurrentObject(data.data[0]);
@@ -315,7 +314,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 }
             )
         }
-        if(type==="rdCross") {
+        else if (type === "rdCross") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
             layerCtrl.pushLayerFront('rdcross');
@@ -332,7 +331,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
                     $scope.$parent.$parent.objectEditURL = "";
                     objCtrl.setCurrentObject(data.data);
-                    if(objCtrl.updateRdCross!=="") {
+                    if (objCtrl.updateRdCross !== "") {
                         objCtrl.updateRdCross();
                     }
                     tooltipsCtrl.onRemoveTooltip();
@@ -343,12 +342,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 })
 
 
-
             })
 
         }
 
-        function saveOrEsc (event) {
+        function saveOrEsc(event) {
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
         };
