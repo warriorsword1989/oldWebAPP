@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var basicApp = angular.module("lazymodule", []);
-basicApp.controller("basicController",function($scope) {
+basicApp.controller("basicController",function($scope,$timeout) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     $("#multiDigitizedbtn"+$scope.linkData.multiDigitized).removeClass("btn btn-default").addClass("btn btn-primary");    //for(var sitem in $scope.roadlinkData.speedlimits){
@@ -144,5 +144,77 @@ basicApp.controller("basicController",function($scope) {
         $("#codediv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#codebtn"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
         item.code=flag;
+    }
+
+    /*点击翻页*/
+    $scope.goPaging = function(){
+        if($scope.picNowNum == 0){
+            if($scope.picTotal == 0 || $scope.picTotal == 1){
+                $(".pic-next").prop('disabled','disabled');
+            }else{
+                $(".pic-next").prop('disabled',false);
+            }
+            $(".pic-pre").prop('disabled','disabled');
+        }else{
+            if($scope.picTotal - $scope.picNowNum == 0){
+                $(".pic-next").prop('disabled','disabled');
+            }
+            $(".pic-pre").prop('disabled',false);
+        }
+        $scope.$apply();
+    }
+    $scope.picNowNum = 0;
+    $scope.getPicsDate = function(){
+        var nameParameter = {
+            "name": $scope.inNmae,
+            "pageSize": 10,
+            "pageNum":$scope.picNowNum
+        }
+        Application.functions.getNamesbyName(JSON.stringify(nameParameter), function (data) {
+            if(data.errcode == 0){
+                $(".pic-loading").hide();
+                $("#namesDiv").css("display", "block");
+                $scope.pictures = data.data.data;
+                $scope.picTotal = Math.ceil(data.data.total/10);
+                $scope.goPaging();
+                $scope.$apply();
+            }
+        });
+    }
+
+    $scope.selectNameInd=0;
+    $scope.searchGroupidByNames=function(ind){
+        $scope.selectNameInd=ind;
+        $scope.inNmae=$scope.linkData.names[ind].name;
+        $timeout(function(){
+            $scope.picNowNum = 0;
+            $scope.getPicsDate();
+            if($.trim( $scope.inNmae) == ''){
+                $('.pic-show').hide();
+            }else{
+                $('.pic-show').show();
+            }
+            $scope.$apply();
+        },100);
+    }
+
+    $scope.selectNmaesId=function(nameid,name){
+        $scope.linkData.names[$scope.selectNameInd].nameGroupid=nameid;
+        $scope.linkData.names[$scope.selectNameInd].name=name;
+    }
+
+    /*箭头图代码点击下一页*/
+    $scope.picNext = function(){
+        $scope.picNowNum += 1;
+        $scope.getPicsDate();
+    }
+    /*箭头图代码点击上一页*/
+    $scope.picPre = function(){
+            $scope.picNowNum -= 1;
+            $scope.getPicsDate();
+    }
+    /*点击关闭隐藏选择图片界面*/
+    $scope.hidePicSelect = function(e){
+        $(e.target).parents('.pic-show').hide();
     }
 })
