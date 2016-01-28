@@ -170,11 +170,12 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
                 $scope.fmdateTimer(v.timeDomain);
             })
             $.each($scope.linkLimitData.limitTrucks,function(i,v){
-                $timeout(function(){
+                $scope.fmdateTimer(v.timeDomain);
+                /*$timeout(function(){
                     $scope.$broadcast('set-code',v.timeDomain);
                     $scope.codeOutput = v.timeDomain;
                     $scope.$apply();
-                },100);
+                },100);*/
             })
             // var tmpStr = (!$scope.linkLimitData.limitTrucks[0].timeDomain)?'':$scope.linkLimitData.limitTrucks[0].timeDomain;
         });
