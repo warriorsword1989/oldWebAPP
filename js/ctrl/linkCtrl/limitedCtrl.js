@@ -157,12 +157,14 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         {"id": 3, "label": "雾天"},
         {"id": 9, "label": "不应用"}
     ];
-
+ 
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
             if($scope.linkLimitData.limitTrucks.length == 0)
                 $scope.linkLimitData.limitTrucks.push({timeDomain:''});
+            if($scope.linkLimitData.limits.length == 0)
+                $scope.linkLimitData.limits.push({timeDomain:''});
             /*查询数据库取出时间字符串*/
             $.each($scope.linkLimitData.limits,function(i,v){
                 $scope.fmdateTimer(v.timeDomain);
@@ -175,8 +177,6 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
                 },100);
             })
             // var tmpStr = (!$scope.linkLimitData.limitTrucks[0].timeDomain)?'':$scope.linkLimitData.limitTrucks[0].timeDomain;
-            // var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
-            // $scope.fmdateTimer(tmpStr);
         });
     })
     /*时间控件*/
@@ -230,7 +230,10 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
             })
         }else{
             $.each($scope.linkLimitData.limitTrucks,function(i,v){
-                $scope.fmdateTimer(v.timeDomain);
+                if(v.timeDomain)
+                    $scope.fmdateTimer(v.timeDomain);
+                else
+                    $scope.fmdateTimer('[]');
             })
         }
 
