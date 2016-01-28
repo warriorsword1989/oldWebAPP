@@ -469,7 +469,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             ctx.save();
         } else if ((angle < PI && angle > 2 * (PI / 5))) {
             for (var i = start; i < end; i++) {
-                ctx.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 10);
+                ctx.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 13);
                 ctx.save();
             }
         } else {
