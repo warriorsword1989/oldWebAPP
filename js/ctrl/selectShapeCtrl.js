@@ -104,13 +104,17 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
+            //清除link层的所有监听事件
+            rdLink.clearAllEventListeners()
             rdLink.on("getId", function (data) {
                 $scope.data = data;
                 console.log("data" + data);
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
+
                     if (data.errcode === -1) {
                         return;
                     }
+
                     var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
                     for (var i = 0, len = linkArr.length; i < len; i++) {
                         var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -151,6 +155,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择node！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+            //清除link层的所有监听事件
+            rdLink.clearAllEventListeners()
             rdLink.on("getId", function (data) {
                 $scope.data = data;
                 Application.functions.getLinksbyNodeId(JSON.stringify({projectId:11,type:'RDLINK',data:{nodePid:data.id}}), function (data) {
