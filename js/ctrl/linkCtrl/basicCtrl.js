@@ -203,6 +203,7 @@ basicApp.controller("basicController",function($scope,$timeout) {
     $scope.selectNmaesId=function(nameid,name){
         $scope.linkData.names[$scope.selectNameInd].nameGroupid=nameid;
         $scope.linkData.names[$scope.selectNameInd].name=name;
+        $('.pic-show').hide();
     }
 
     /*箭头图代码点击下一页*/
