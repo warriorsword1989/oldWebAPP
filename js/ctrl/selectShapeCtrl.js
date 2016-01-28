@@ -223,7 +223,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             restrict.options.selectType = 'relation';
             restrict.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            $scope.toolTipText = '请选择交线！';
+            $scope.toolTipText = '请选择交限！'; 
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             restrict.on("getNodeId", function (data) {
                 $scope.data = data;
