@@ -235,6 +235,8 @@ function keyEvent(ocLazyLoad, scope) {
                             return;
                         }
                         var info = [];
+                        selectCtrl.selectedFeatures = null;
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         angular.forEach(data.data.log, function (task, index) {
                             if (task.pid) {
                                 info.push(task.op + task.type + "(pid:" + task.pid + ")");
@@ -412,7 +414,43 @@ function keyEvent(ocLazyLoad, scope) {
 
                 }
                 else if (shapeCtrl.editType === "linksOfCross") {
-
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDCROSS",
+                        "projectId": 11,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        if (data.errcode === -1) {
+                            outPutCtrl.pushOutput(data.errmsg);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            return;
+                        }
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                            }
+                        });
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                            objEditCtrl.setCurrentObject(data.data);
+                            ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/rdCrossTepl.html";
+                            });
+                        });
+                    })
                 }
             }
         });
