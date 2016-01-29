@@ -1,3 +1,17 @@
+
+<style>
+
+
+    .num-well{
+        margin-left:5px;
+    }
+    .pic-show-btn{
+        margin-right: 5px;
+    }
+    .pic-show-btn{
+        margin-right: 5px;
+    }
+</style>
 <div ng-controller="errorCheckController" style="height:150px;overflow-y: auto">
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
@@ -33,12 +47,23 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="itemsByPage"
-                     st-displayed-pages="7"></div>
-            </td>
+            <!--<td colspan="5" class="text-center">-->
+                <!--<div st-pagination="" st-items-by-page="itemsByPage"-->
+                     <!--st-displayed-pages="5"></div>-->
+            <!--</td>-->
+            <!--<td class="num-well" colspan="4">-->
+                <!--第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |-->
+                <!--共 <span class="pic-total" ng-bind="checkTotal">1</span> 页-->
+            <!--</td>-->
+            <!--<td class="pic-show-btn pull-right" colspan="5">-->
+                <!--<div class="pull-right btn-group">-->
+                    <!--<button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>-->
+                    <!--<button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>-->
+                <!--</div>-->
+            <!--</td>-->
         </tr>
         </tfoot>
     </table>
+
 
 </div>
