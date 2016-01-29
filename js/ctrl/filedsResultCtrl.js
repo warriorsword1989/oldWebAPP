@@ -2,8 +2,8 @@
  * Created by liwanchong on 2015/9/25.
  */
 var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
-filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad',
-        function ($rootScope, $scope, $ocLazyLoad) {
+filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad','$timeout',
+        function ($rootScope, $scope, $ocLazyLoad,$timeout) {
             var objCtrl = fastmap.uikit.ObjectEditController();
            // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
@@ -227,7 +227,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 if (d.errcode === -1) {
-                                   swal("查询失败", d.errmsg, "error");
+                                   // swal("查询失败", d.errmsg, "error");
+                                   $timeout(function(){
+                                        $('body').poiMsg(d.errmsg,e);
+                                        $scope.$apply();
+                                    })
                                    return;
                                }else{
                                     $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
