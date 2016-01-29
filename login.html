@@ -7,14 +7,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="content-script-type" content="text/javascript">
         <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <!-- <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" /> -->
+        <link rel="icon" href="Ifavicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
         <style type="text/css">
         html, body {
             width: 100%;
             height: 100%;
-            min-width: 800px;
+            min-width: 1024px;
             /*min-height: 768px;*/
             margin: 0;
             padding: 0;
@@ -30,29 +31,6 @@
             /*text-align: center;*/
         }
 
-        .navbar {
-            border-radius: 0px;
-        }
-
-        .navbar-brand {
-            padding: 10px 15px;
-        }
-
-        .navbar-inverse {
-            background-color: #3097d1;
-        }
-
-        .login-panel {
-            padding: 10px 70px;
-            border: 0;
-            height:300px;    
-            position:absolute;    
-            left:50%;    
-            top:50%;    
-            margin-left:-250px;    
-            margin-top:-150px;
-        }
-
         .login-panel h1 {
             font-size: 30px;
             color: #000;
@@ -61,21 +39,8 @@
         }
 
         .login-form input, .login-form button {
-            height: 46px;
+            height: 45px;
             font-size: 16px;
-        }
-
-        .login-footer {
-            margin-top: 8%;
-            position: absolute;
-            width: 100%;
-            bottom: 4%;
-        }
-
-        .login-footer-content {
-            margin: 0px auto;
-            border-top: 1px solid #e7e7e7;
-            text-align: center;
         }
 
         .login-footer-content p, .login-footer-content a {
@@ -89,15 +54,7 @@
             background-size:cover;
             background-repeat: no-repeat;
             height: 100%;
-        }
-        .login-well{
-            padding:0;
-            margin:0;
-            box-sizing:border-box;
-            height:100%
-        }
-        .login-input{
-            height: 100%;
+            min-height: 500px;
         }
         .input-group-addon{
             background-color: #fff
@@ -106,33 +63,51 @@
             transition:all 0.5s;
             width: 50%;
         }
-        </style>
+        .hasclear{
+            padding-right: 30px;
+        }
+        .clearer{
+            font-size: 20px;
+            cursor: pointer;
+            line-height: 45px;
+            pointer-events: all;
+    }
+    </style>
     </head>
     <body>
-        <div class="login-well">
-            <div class="col-md-5 col-lg-5 login-input">
-                <div class="login-panel">
-                    <h1>Fastmap道路编辑平台</h1>
-                    <form method="post" id="loginForm" name="loginForm" class="login-form" role="form">
-                        <div class="input-group form-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-user"></i>
-                            </span>
-                            <input type="text" name="username" class="form-control" placeholder="用户名" autocomplete="off" required autofocus/>
-                        </div>
-                        <div class="input-group form-group">
-                            <span class="input-group-addon">
-                                <i class="glyphicon glyphicon-lock"></i>
-                            </span>
-                            <input type="password" name="password" class="form-control" placeholder="密 码" required/>
-                        </div>
-                        <div class="form-group">
-                            <button id="login_btn" class="btn btn-primary btn-block" type="submit" data-loading-text="登录中...">登 录</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="login-img col-md-7 col-lg-7"></div>
+        <div class="container" style="width: 100%;height:100%">
+              <div class="row" style="height: 100%">
+                  <div class="col-md-6 col-lg-6"  style="height: 100%">
+                      <div class="row" style="height: 100%">
+                          <div class="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2" style="height: 100%">
+                              <div id="formContainer" style="">
+                                  <h1 style="color:#777;font-size: 30px;">Fastmap道路编辑平台</h1>
+                                  <form method="post" id="loginForm" name="loginForm" class="login-form" role="form">
+                                      <div class="input-group form-group">
+                                     <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                     </span>
+                                          <input type="text" name="username" class="form-control hasclear" placeholder="用户名" autocomplete="off" required autofocus/>
+                                          <span class="clearer glyphicon glyphicon-remove-circle form-control-feedback" style="color: #777"></span>
+                                      </div>
+                                      <div class="input-group form-group">
+                                     <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-lock"></i>
+                                     </span>
+                                          <input type="password" name="password" class="form-control hasclear"  placeholder="密 码" required/>
+                                          <span class="clearer glyphicon glyphicon-remove-circle form-control-feedback"  style="color: #777"></span>
+                                      </div>
+                                      <div class="form-group">
+                                          <button id="login_btn" class="btn btn-primary btn-block" type="submit" data-loading-text="登录中...">登 录</button>
+                                      </div>
+                                  </form>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="login-img col-md-6 col-lg-6"></div>
+              </div>
         </div>
         <script src="js/lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
         <script src="js/lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>
