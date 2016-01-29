@@ -182,3 +182,11 @@ Application.functions.getCheckCount = function(param,func){
             func(data)
         });
 }
+
+//获取检查状态
+Application.functions.updateCheckType = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/check/update?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}

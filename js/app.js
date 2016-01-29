@@ -108,33 +108,37 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }else if(tab==="getCheck"){
             $("#checkErrorLi").show();
             if( $scope.itemsByPage==1){
-                var params = {
-                    "projectId":11,
-                    "meshes":$scope.meshesId
-                };
-                Application.functions.getCheckCount(JSON.stringify(params),function(data){
-                    if(data.errcode == 0) {
-                        $scope.checkTotalPage = Math.ceil(data.data/5);
-                        $scope.checkTotal=data.data;
-                    }
-                });
-                var params = {
-                    "projectId":11,
-                    "pageNum":$scope.itemsByPage,
-                    "pageSize":5,
-                    "meshes":$scope.meshesId
-                };
-                Application.functions.getCheckDatas(JSON.stringify(params),function(data){
-                    if(data.errcode == 0) {
-                        $scope.rowCollection = data.data;
-                        //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
-                        $scope.goPaging();
-                        $scope.$apply();
-                    }
-                });
+                $scope.getCheckDateAndCount();
             }
         }
     };
+    $scope.getCheckDateAndCount=function(){
+        var params = {
+            "projectId":11,
+            "meshes":$scope.meshesId
+        };
+        Application.functions.getCheckCount(JSON.stringify(params),function(data){
+            if(data.errcode == 0) {
+                $scope.checkTotalPage = Math.ceil(data.data/5);
+                $scope.checkTotal=data.data;
+            }
+        });
+        var params = {
+            "projectId":11,
+            "pageNum":$scope.itemsByPage,
+            "pageSize":5,
+            "meshes":$scope.meshesId
+        };
+        Application.functions.getCheckDatas(JSON.stringify(params),function(data){
+            if(data.errcode == 0) {
+                $scope.rowCollection = data.data;
+                //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
+                $scope.goPaging();
+                $scope.$apply();
+            }
+        });
+    }
+
 
     $scope.getCheckDate=function(){
         var param = {

@@ -16,6 +16,7 @@
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
         <tr>
+            <th st-sort="idd">编号</th>
             <th st-sort="ruleId">检查规则号</th>
             <th st-sort="situation">类型</th>
             <th st-sort="rank">错误等级</th>
@@ -29,6 +30,7 @@
         </thead>
         <tbody style="height: 100px">
         <tr ng-repeat="row in rowCollection">
+            <td>{{row.id}}</td>
             <td>{{row.ruleId}}</td>
             <td>{{row.situation}}</td>
             <td>{{row.rank}}</td>
@@ -37,11 +39,12 @@
             <td>{{row.geometry}}</td>
             <td>{{row.createDate}}</td>
             <td>{{row.worker}}</td>
-            <td>   <select class="form-control" style="padding: 0px">
-                <option value="0">未修改</option>
-                <option value="1">例外</option>
-                <option value="1">确认不修改</option>
-                <option value="1">确认已修改</option>
+            <td>
+                <select class="form-control" style="padding: 0px" ng-model-options="initType" ng-change="changeType(initType,row.id)">
+                <option value=0>未修改</option>
+                <option value=1>例外</option>
+                <option value=2>确认不修改</option>
+                <option value=3>确认已修改</option>
             </select></td>
         </tr>
         </tbody>
