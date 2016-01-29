@@ -159,8 +159,25 @@ Application.functions.getByCondition=function(param,func) {
         });
 };
 
+//根据输入的道路名模糊查询所有道路民
 Application.functions.getNamesbyName = function(param,func){
     fastmap.dataApi.ajaxConstruct(Application.url+'/meta/rdname/search?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查结果
+Application.functions.getCheckDatas = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/check/get?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查结果总数
+Application.functions.getCheckCount = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/check/count?parameter=' + param,
         function (data) {
             func(data)
         });
