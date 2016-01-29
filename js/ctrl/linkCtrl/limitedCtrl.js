@@ -107,10 +107,10 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         {"id": 25, "label": "装有防雪链的车"},
         {"id": 26, "label": "邮政车"},
         {"id": 27, "label": "槽罐车"},
-        {"id": 28, "label": "残疾人车"},
-        {"id": 29, "label": "预留"},
-        {"id": 30, "label": "预留"},
-        {"id": 31, "label": "标志位,禁止/允许(0/1)"}
+        {"id": 28, "label": "残疾人车"}
+        //{"id": 29, "label": "预留"},
+        //{"id": 30, "label": "预留"},
+        //{"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
 
 
