@@ -4,14 +4,21 @@
 var errorCheckModule = angular.module('lazymodule', ['smart-table']);
 errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
     var checkOutCtrl = fastmap.uikit.CheckResultController();
-    $scope.itemsByPage = 4;
+    $scope.itemsByPage = 1;
+    $scope.initType=0;
 
-    $scope.rowCollection = [];
-    if(checkOutCtrl.errorCheckData) {
-        $scope.rowCollection= checkOutCtrl.errorCheckData.data.check;
+    $scope.changeType=function(selectInd,rowid){
+        var params = {
+            "projectId":11,
+            "id":rowid,
+            "type":selectInd
+        };
+        Application.functions.updateCheckType(JSON.stringify(params),function(data){
+            if(data.errcode == 0) {
+                $scope.$apply();
+                $scope.getCheckDateAndCount();
+            }
+        });
     }
-   checkOutCtrl.updateCheck=function(){
-       $scope.rowCollection=checkOutCtrl.errorCheckData.data.check;
-   }
 
 });
