@@ -79,6 +79,10 @@ function  initOrig(origArray,vehicleOptions,ul){
 
 }
 
+function initdiv(ul){
+    applicUL=ul;
+}
+
 
 //十进制转二进制
 function dec2bin(dec){

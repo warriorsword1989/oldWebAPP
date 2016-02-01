@@ -6,6 +6,12 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
     var checkOutCtrl = fastmap.uikit.CheckResultController();
     $scope.itemsByPage = 1;
     $scope.initType=0;
+    $scope.initTypeOptions = [
+        {"id": 0, "label": " 未修改"},
+        {"id": 1, "label": " 例外"},
+        {"id": 2, "label": " 确认不修改"},
+        {"id": 3, "label": " 确认已修改"}
+    ];
 
     $scope.changeType=function(selectInd,rowid){
         var params = {
