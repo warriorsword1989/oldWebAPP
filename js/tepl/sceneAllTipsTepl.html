@@ -130,7 +130,7 @@
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;">
                             <label class="col-sm-4 control-label">限速时速:</label>
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" >{{dataTipsData.value/10}}</span>
+                                <span class="label label-default" >{{dataTipsData.value}} km/h</span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -455,11 +455,11 @@
                         <div class="form-group" style="height:10%; width:100%; margin-top: 10px;" ng-if="allTipsType!=1302&&allTipsType!=1301">
 
                             <div class="col-sm-3" >
-                                <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;  " ng-show="allTipsType==2001||allTipsType==1201" ng-click="transBridge()">转换
+                                <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;  " ng-show="allTipsType==2001||allTipsType==1201" ng-click="transBridge($event)">转数据
                                 </button>
                             </div>
                             <div class="col-sm-5" >
-                                <button type="button" class="btn " ng-hide="allTipsType==2001||allTipsType==1201" style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;" ng-hide="allTipsType==1201" ng-click="upBridgeStatus()">改变状态 </button>
+                                <button type="button" class="btn " ng-hide="allTipsType==2001||allTipsType==1201" style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;" ng-hide="allTipsType==1201" ng-click="upBridgeStatus(nArrayData[0],$event)">改状态 </button>
                             </div>
                             <div class="col-sm-3" >
                                 <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;"  ng-click="closeTips()">关闭
