@@ -12,13 +12,12 @@
         margin-right: 5px;
     }
 </style>
-<div ng-controller="errorCheckController" style="height:150px;overflow-y: auto">
+<div ng-controller="errorCheckController" style="min-height:150px;max-heigth:200px;overflow-y: auto;">
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
         <tr>
-            <th st-sort="idd">编号</th>
             <th st-sort="ruleId">检查规则号</th>
-            <th st-sort="situation">类型</th>
+            <th st-sort="rank">类型</th>
             <th st-sort="rank">错误等级</th>
             <th st-sort="targets">错误对象</th>
             <th st-sort="information">错误信息</th>
@@ -30,8 +29,7 @@
         </thead>
         <tbody style="height: 100px">
         <tr ng-repeat="row in rowCollection">
-            <td>{{row.id}}</td>
-            <td>{{row.ruleId}}</td>
+            <td>{{row.ruleid}}</td>
             <td>{{row.situation}}</td>
             <td>{{row.rank}}</td>
             <td>{{row.targets }}</td>
@@ -40,11 +38,8 @@
             <td>{{row.createDate}}</td>
             <td>{{row.worker}}</td>
             <td>
-                <select class="form-control" style="padding: 0px" ng-model-options="initType" ng-change="changeType(initType,row.id)">
-                <option value=0>未修改</option>
-                <option value=1>例外</option>
-                <option value=2>确认不修改</option>
-                <option value=3>确认已修改</option>
+                <select class="form-control" ng-model="initType"
+                        ng-options="value.id as value.label for value in initTypeOptions"  style="padding: 0px"  ng-change="changeType(initType,row.id)">
             </select></td>
         </tr>
         </tbody>

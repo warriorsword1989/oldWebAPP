@@ -75,8 +75,10 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         });
     }
 
-    $scope.showPopover=function(ind){
+    $scope.showPopover=function(ind,vehicle){
+        initdiv('vehicleExpressiondiv'+ind);
         $('#vehicleExpressiondiv'+ind).popover('show');
+
     }
     $scope.vehicleOptions = [
         {"id": 0, "label": "客车(小汽车)"},
