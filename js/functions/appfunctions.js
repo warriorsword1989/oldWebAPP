@@ -61,7 +61,7 @@ Application.functions.getRdObjectByDetailId=function(id,type,func) {
  * @param func
  */
 Application.functions.saveLinkGeometry = function (param, func) {
-    param = escape(param).replace(/\+/g, '%2B').replace(/\"/g,'%22').replace(/\'/g, '%27').replace(/\//g,'%2F');
+    //param = escape(param).replace(/\+/g, '%2B').replace(/\"/g,'%22').replace(/\'/g, '%27').replace(/\//g,'%2F');
     fastmap.dataApi.ajaxConstruct(Application.url + '/pdh/obj/edit?parameter=' + param,
         function (data) {
             func(data)
@@ -159,8 +159,33 @@ Application.functions.getByCondition=function(param,func) {
         });
 };
 
+//根据输入的道路名模糊查询所有道路民
 Application.functions.getNamesbyName = function(param,func){
     fastmap.dataApi.ajaxConstruct(Application.url+'/meta/rdname/search?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查结果
+Application.functions.getCheckDatas = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/check/get?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查结果总数
+Application.functions.getCheckCount = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/check/count?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查状态
+Application.functions.updateCheckType = function(param,func){
+    fastmap.dataApi.ajaxConstruct(Application.url+'/check/update?parameter=' + param,
         function (data) {
             func(data)
         });
