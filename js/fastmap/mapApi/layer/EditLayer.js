@@ -269,8 +269,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             } else {
                 p =this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
-            if(type==="1") {
+            if(type==="2") {
                 angleOfTran = angleOfTran + Math.PI;
+                console.log(angleOfTran);
             }
             url = "./css/img/" + type + ".png";
             var g = self._ctx;

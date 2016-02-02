@@ -204,16 +204,40 @@ function keyEvent(ocLazyLoad, scope) {
                     var startPoint = feature.geometry[0],
                         point = feature.point;
                     if (link) {
-                        pointOfArrow = link.pointForDirect;
-                        var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
-                        startPoint = map.latLngToContainerPoint([startPoint[1],startPoint[0]]);
-                        disFromStart = distance(pointOfContainer, startPoint);
-                        disFromEnd = distance(pointOfArrow, startPoint);
-                        if (disFromStart > disFromEnd) {
-                            direct = 2;
+                        if (link.flag) {
+                            console.log(link.angle);
+                            var directOfLink = {
+                                "objStatus": "UPDATE",
+                                "pid": link.pid,
+                                "direct": parseInt(link.orientation)
+                            };
+                            var paramOfDirect = {
+                                "type": "RDLINK",
+                                "command": "UPDATE",
+                                "projectId": 11,
+                                "data": directOfLink
+                            };
+                            Application.functions.saveLinkGeometry(JSON.stringify(paramOfDirect), function (data) {
+                                objEditCtrl.data.data["direct"] = link.orientation;
+                                if (objEditCtrl.updateObject !== "") {
+                                    objEditCtrl.updateObject();
+                                }
+                            });
+                            resetPage();
+                            return;
                         } else {
-                            direct = 3;
+                            pointOfArrow = link.pointForDirect;
+                            var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
+                            startPoint = map.latLngToContainerPoint([startPoint[1], startPoint[0]]);
+                            disFromStart = distance(pointOfContainer, startPoint);
+                            disFromEnd = distance(pointOfArrow, startPoint);
+                            if (disFromStart > disFromEnd) {
+                                direct = 2;
+                            } else {
+                                direct = 3;
+                            }
                         }
+
                     } else {
                         direct = feature.direct
                     }
@@ -307,9 +331,9 @@ function keyEvent(ocLazyLoad, scope) {
                     var param = {
                         "command": "MOVE",
                         "type": "RDNODE",
-                        "objId":options.id,
+                        "objId": options.id,
                         "projectId": 11,
-                        "data": {longitude:options.latlng.lng,latitude:options.latlng.lat}
+                        "data": {longitude: options.latlng.lng, latitude: options.latlng.lat}
                     }
                     //结束编辑状态
                     shapeCtrl.stopEditing();
@@ -346,7 +370,7 @@ function keyEvent(ocLazyLoad, scope) {
 
                     var param = {
                         "command": "BREAK",
-                        "type":"RDLINK",
+                        "type": "RDLINK",
                         "projectId": 11,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
@@ -381,7 +405,7 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
 
                         var pids = [];
-                        pids.push({id:data.data.pid});
+                        pids.push({id: data.data.pid});
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
