@@ -143,8 +143,8 @@
                             </div>
 
                         </div>
-                        <div id="popoverTips" style="position:relative;display:none;z-index:2;width:400px">
-                                <div ng-include="dataTipsURL" style="width: 400px"></div>
+                        <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()" style="position:relative;display:none;z-index:1000;width:400px">
+                                <div ng-include="dataTipsURL" style="width: 400px;"></div>
                         </div>
                         <div id="picMapShow">
                             <img id="picMapImg" alt="无此箭头图">

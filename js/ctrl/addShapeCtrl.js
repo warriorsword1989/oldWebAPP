@@ -57,7 +57,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             return flag;
         };
-        $scope.addShape = function (type, num) {
+        $scope.addShape = function (type, num,event) {
+            event.stopPropagation();
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -303,6 +304,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
 
 
+            }else if(type==="laneConnexity") {
+                $ocLazyLoad.load("ctrl/addLaneConnexityCtrl").then(function () {
+                    $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
+
+                });
             }
             else if (type === "speedLimit") {
 

@@ -199,6 +199,17 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
                     });
 
+
+                    Application.functions.getRdObjectById($scope.data.id, "RDNODE", function (data) {
+                        objCtrl.setCurrentObject(data);
+                        if (objCtrl.updateObject !== "") {
+                            objCtrl.updateObject();
+                        }
+                        $ocLazyLoad.load('ctrl/rdNodeFromCtrl').then(function () {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdNodeFromTepl.html";
+                        })
+                    });
+
                     //objCtrl.setCurrentObject(data);
                     //if (objCtrl.updateObject !== "") {
                     //    objCtrl.updateObject();
@@ -219,7 +230,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             restrict.options.selectType = 'relation';
             restrict.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            $scope.toolTipText = '请选择交线！';
+            $scope.toolTipText = '请选择交限！'; 
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             restrict.on("getNodeId", function (data) {
                 $scope.data = data;

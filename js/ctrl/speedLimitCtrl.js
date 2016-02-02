@@ -63,10 +63,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
             $scope.codeOutput = data;
+            $scope.speedLimitData.timeDomain = data;
         });
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
+            $scope.speedLimitData.timeDomain = str;
             $scope.$apply();
         }, 100);
     }

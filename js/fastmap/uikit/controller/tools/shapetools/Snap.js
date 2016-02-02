@@ -19,7 +19,7 @@ fastmap.uikit.Snap = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-
+        this.snapIndex = -1;
         this.shapeEditor = this.options.shapeEditor;
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.snapVertex = this.options.snapVertex==true?this.options.snapVertex:false;
@@ -79,6 +79,7 @@ fastmap.uikit.Snap = L.Handler.extend({
             if(closest){
                 this.snaped = true;
                 this.properties = closest.properties;
+                this.snapIndex = closest.index;
                 this.coordinates = closest.layer;
                 this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0]+tiles[0]*256,closest.latlng[1]+tiles[1]*256,this._map.getZoom());
             }else{
@@ -151,6 +152,7 @@ fastmap.uikit.Snap = L.Handler.extend({
             if (closest.distance < tolerance) {
                 result.latlng = closest;
                 result.distance = point.distanceTo(new fastmap.mapApi.Point(closest[0],closest[1]));
+                result.index = closest.index;
                 isSnapVertices = true;
             }
         }
@@ -187,7 +189,7 @@ fastmap.uikit.Snap = L.Handler.extend({
                 if (ll) distance = ll.distance.distance;  // Can return null if layer has no points.
                 if (distance < mindist) {
                     mindist = distance;
-                    result = {layer: layer, latlng: [ll.x,ll.y], distance: distance,properties:data[i].properties};
+                    result = {layer: layer, latlng: [ll.x,ll.y],index:ll.index, distance: distance,properties:data[i].properties};
                 }
             }
 
@@ -217,6 +219,7 @@ fastmap.uikit.Snap = L.Handler.extend({
                             mindist = distance;
                             result = ll;
                             result.distance = distance;
+                            result.index = i;
                         }
                     }
                 }else{
@@ -227,6 +230,7 @@ fastmap.uikit.Snap = L.Handler.extend({
                     if (distance < mindist) {
                         mindist = distance;
                         result = ll;
+                        result.index = i;
                         result.distance = distance;
                     }
                 }

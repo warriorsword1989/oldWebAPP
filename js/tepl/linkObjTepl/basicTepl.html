@@ -5,7 +5,68 @@
         overflow-x:hidden;
 
     }
-
+    /*输入查询图片*/
+    .pic-show{
+        position: absolute;
+        border: 1px solid #ddd;
+        z-index: 999;
+        padding-left: 4px;
+        padding-top: 6px;
+        padding-bottom: 7px;
+        background-color: #fff;
+        display: none;
+        box-shadow: 4px 4px 7px 0px #777;
+        min-width: 100%;
+        min-height: 193px;
+    }
+    .pic-show-well{
+        min-width: 100%;
+        min-height: 246px;
+    }
+    .img-well{
+        float: left;
+        padding: 3px;
+        border: 1px solid #ddd;
+        margin: 4px;
+        cursor: pointer;
+    }
+    .show-img{
+        width: 60px;
+        height: 49px;
+    }
+    .num-well{
+        margin-left:5px;
+    }
+    .pic-show-btn{
+        margin-right: 5px;
+    }
+    .option-hide{
+        position: absolute;
+        right: -10px;
+        background-color: #fff;
+        border-radius: 50%;
+        top: -13px;
+    }
+    .pic-loading{
+        min-height: 283px;
+        position: absolute;
+        top: -1px;
+        left: 1px;
+        transition: all 0.5s;
+        z-index: 9999999;
+        background-color: rgba(0, 0, 0, 0.52);
+        min-width: 100%;
+        cursor: not-allowed;
+        text-align: center;
+        color: #fff;
+        padding-top: 60%;
+    }
+    .img-describe{
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+    }
 </style>
 <div id="basicDiv" ng-controller="basicController" style="height:100%;">
     <div class="panel-group" id="normalProperty" style="margin: 0px;">
@@ -185,10 +246,42 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">道路名称</label>
 
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-7">
                                                         <input type="text" class="form-control" placeholder="0"
                                                                ng-model="item.name">
                                                     </div>
+                                                    <div class="col-sm-2">
+                                                        <button type="button" class="btn-primary" ng-click="searchGroupidByNames($index)">检索
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="display:none;" id="namesDiv">
+                                                        <div class="col-sm-9">
+                                                            <div class="pic-show">
+                                                                <div class="option-hide">
+                                                                    <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
+                                                                        <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="pic-show-well">
+                                                                    <div class="img-well" ng-repeat="nitem in pictures" ng-click="selectNmaesId(nitem.nameId,nitem.name)">
+                                                                        <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp; {{nitem.name}} &nbsp;&nbsp;  {{nitem.province}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="clearfix"></div>
+                                                                <div class="pull-left num-well">
+                                                                    第 <span class="pic-num" ng-bind="picNowNum+1">1</span> 页 |
+                                                                    共 <span class="pic-total" ng-bind="picTotal">1</span> 页
+                                                                </div>
+                                                                <div class="pic-show-btn pull-right">
+                                                                    <div class="pull-right btn-group">
+                                                                        <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
+                                                                        <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pic-loading">loading...</div>
+                                                            </div>
+                                                        </div>
                                                 </div>
                                                 <div class="line line-dashed b-b line-lg pull-in"></div>
                                                 <div class="form-group">

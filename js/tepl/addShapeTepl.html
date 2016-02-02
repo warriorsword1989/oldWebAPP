@@ -31,8 +31,8 @@
     }
 </style>
 <div ng-controller="addShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn addNode_{{addShapeClaArr[4]}}" id="addNode" ng-click="addShape('node',4)"  title="新增点+"></button>
-    <button type="button" class="btn addLink_{{addShapeClaArr[5]}}" id="addLink" ng-click="addShape('link',5)" title="新增线"></button>
+    <button type="button" class="btn addNode_{{addShapeClaArr[4]}}" id="addNode" ng-click="addShape('node',4,$event)"  title="新增点+"></button>
+    <button type="button" class="btn addLink_{{addShapeClaArr[5]}}" id="addLink" ng-click="addShape('link',5,$event)" title="新增线"></button>
     <button type="button" class="btn addRelation_{{addShapeClaArr[6]}} dropdown-toggle" id="addRelation"
             data-toggle="dropdown">
         <span class="caret"></span>
@@ -40,7 +40,7 @@
     <ul class="dropdown-menu" role="menu" style="min-width: 207px;">
      <div  class="btn-group btn-group-sm">
          <button  type="button" class="btn btn-default"  ng-click="addShape('restriction')">交限</button>
-         <button  type="button" class="btn btn-default" >车信</button>
+         <button  type="button" class="btn btn-default" ng-click="addShape('laneConnexity')">车信</button>
          <button  type="button" class="btn btn-default" ng-click="addShape('rdBranch')" >高速分歧</button>
          <button  type="button" class="btn btn-default" ng-click="addShape('speedLimit')" >限速</button>
          <button  type="button" class="btn btn-default" ng-click="addShape('rdcross')" >路口</button>
