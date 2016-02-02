@@ -10,8 +10,18 @@ fastmap.uikit.ShapeEditorResult = L.Class.extend({
         this.originalObject = null;
         this.final=null;
         this.original=null;
+        this.properties = null;
     },
-
+    /***
+     * 当前编辑几何对象属性信息
+     * @param obj
+     */
+    setProperties:function(obj){
+        this.properties = obj;
+    },
+    getProperties:function(){
+        return this.properties;
+    },
     setOriginalObject: function (value) {
         this.originalObject = value;
     },

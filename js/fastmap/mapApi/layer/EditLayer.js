@@ -38,7 +38,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
             if(that.snaped == true){
-                var crosspoint = ( event.index&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
+                var crosspoint = ( event.index!=null&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
                 if(crosspoint!=undefined){
                     crosspoint = fastmap.mapApi.point(crosspoint.x,crosspoint.y);
                     crosspoint.type = 'Cross';
@@ -171,7 +171,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 if (boolPixelCrs) {
                     proj.push({x: geom[i].x, y: geom[i].y});
                 } else {
+                    console.log('----绘制'+geom[i].y+'-----------'+ geom[i].x);
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
+
                     //if (i == index) {
 
                         if(boolnode){
@@ -267,8 +269,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             } else {
                 p =this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
-            if(type==="1") {
+            if(type==="2") {
                 angleOfTran = angleOfTran + Math.PI;
+                console.log(angleOfTran);
             }
             url = "./css/img/" + type + ".png";
             var g = self._ctx;
@@ -305,6 +308,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * 清空图层
      */
     clear: function () {
+        //this.shapeEditor.shapeEditorResult.setFinalGeometry(null);
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
 

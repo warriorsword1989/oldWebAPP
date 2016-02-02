@@ -104,7 +104,48 @@
         width: 40px;
         height: 24px;
     }
-
+    /*输入查询图片*/
+    .pic-show{
+        /*position: absolute;*/
+        border: 1px solid #ddd;
+        z-index: 999;
+        padding-left: 4px;
+        padding-top: 6px;
+        padding-bottom: 7px;
+        background-color: #fff;
+        /*box-shadow: 4px 4px 7px 0px #777;*/
+        min-width: 100%;
+    }
+    .pic-show-well-normal{
+          min-width: 100%;
+          min-height: 60px;
+      } .pic-show-well-transit{
+            min-width: 100%;
+            min-height: 60px;
+        }
+    .img-well{
+        float: left;
+        padding: 3px;
+        /*border: 1px solid #ddd;*/
+        margin: 4px;
+        cursor: pointer;
+    }
+    .show-img{
+        width: 60px;
+        height: 49px;
+    }  .show-img-normal{
+           width: 40px;
+           height: 30px;
+       }  .show-img-transit{
+              width: 40px;
+              height: 30px;
+          }
+    .img-describe{
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+    }
     .selected {
         background-color: lightgreen;
         text-align: center;
@@ -123,7 +164,7 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">车信ID</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control rounded" placeholder="车信ID" ng-model="data.inLinkPid">
+                        <input type="text" class="form-control rounded" placeholder="车信ID" ng-model="lanesData.inLinkPid">
                     </div>
 
                 </div>
@@ -131,33 +172,33 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <form class="form-horizontal" method="get">
-                            <!--<div class="form-group">-->
-                                <!--<label class="col-sm-3 control-label">进入线</label>-->
-
-                                <!--<div class="col-sm-8">-->
-                                    <!--<input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.inLinkPid">-->
-                                <!--</div>-->
-                            <!--</div>-->
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">车道总数</label>
-                                <label class="col-sm-8 control-label">({{data.laneNum}}条)</label>
+                                <label class="col-sm-8 control-label">({{lanesData.laneNum}}条)</label>
 
                             </div>
                             <div class="line line-dashed b-b line-lg pull-in"></div>
                             <div class="form-group">
-                                <div class="col-sm-3" >
-                                    <li style="list-style:none;width: 30px;height: 30px; display: inline;" ng-repeat="item in ptOriginArray"> <img  ng-src="./css/laneinfo/{{item.id}}.png" ></li>
+                                <div class="pic-show">
+                                    <div class="pic-show-well-normal">
+                                        <div class="img-well" ng-repeat="item in showNormalData track by $index"  ng-click="showLanesInfo(item,$index)">
+                                            <img class="show-img-normal" ng-src="./css/laneinfo/arwG/{{item}}.png" title="{{item}}">
+                                        </div>
+                                    </div>
                                 </div>
                                     <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" data-toggle="modal"
                                           data-target="#myModal">普通</span>
                             </div>
+                            <div class="line line-dashed b-b line-lg pull-in"></div>
                             <div class="form-group">
-                                <div class="col-sm-3">
-                                    <li style="list-style:none;width: 30px;height: 30px; display: inline;" ng-repeat="gjitem in gjOriginArray">
-                                        <span ng-if="gjitem.id!=0"><img  ng-src="./css/laneinfo/{{gjitem.id}}.png" ></span>
-                                    </li>
+                                <div class="pic-show">
+                                    <div class="pic-show-well-transit">
+                                        <div class="img-well" ng-repeat="item in showTransitData track by $index" ng-dblclick="minusTransitData(item)">
+                                            <img class="show-img-transit" ng-src="./css/laneinfo/arwG/{{item}}.png" title="{{item}}">
+                                        </div>
+                                    </div>
                                 </div>
-                                    <span style="float:right;font-size: 14px" >公交</span>
+                                <span style="float:right;font-size: 14px" >公交</span>
                             </div>
                             <div class="line line-dashed b-b line-lg pull-in"></div>
                             <div class="form-group">
@@ -165,18 +206,18 @@
                                 <div class="col-sm-8">
                                     <label class="col-sm-2 control-label">左</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.leftExtend">
+                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="lanesData.leftExtend">
                                     </div>
                                     <label class="col-sm-2 control-label">右</label>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="data.rightExtend">
+                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="lanesData.rightExtend">
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-            <div ng-repeat="item in data.topos" class="panel panel-default">
+            <div ng-repeat="item in outLanesArr" class="panel panel-default">
                 <div  class="panel-body">
                     <form class="form-horizontal" method="get">
                         <div class="form-group">
