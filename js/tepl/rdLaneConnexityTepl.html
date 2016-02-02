@@ -105,8 +105,16 @@
         height: 24px;
     }
 
-    .selected {background-color: lightgreen;}
-
+    .selected {
+        background-color: lightgreen;
+        text-align: center;
+    }
+    .sing-flag{
+        padding: 8px;
+        transition: all 0.5s;
+        cursor: pointer;
+        border-radius: 3px;
+    }
 </style>
 <div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv">
     <div class="panel panel-default">
@@ -230,7 +238,7 @@
                     </h4>
                 </div>
                 <div class="modal-body" style="overflow:scroll;height: 50%;">
-                    <div class="col-sm-1" style="list-style: none;"  ng-repeat="addItem in addRdLancdData" ng-click="changeColor(addItem,$index)"   ng-class='{selected: $index==selectedRow}'>
+                    <div class="col-sm-1 sing-flag" style="list-style: none;"  ng-repeat="addItem in addRdLancdData" ng-click="changeColor(addItem,$index)"   ng-class='{selected: $index==selectedRow}'>
                           <li ng-class='{selected:addItem.class}' style="width: 30px;height: 30px;"> <img  ng-src="./css/laneinfo/{{addItem.id}}.png" ></li>
                     </div>
                 </div>
