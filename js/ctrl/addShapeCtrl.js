@@ -108,7 +108,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setEditEventType('drawPath');
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("双击地图结束画线!");
+                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "speedLimit") {
 
