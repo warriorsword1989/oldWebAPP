@@ -9,6 +9,7 @@ selectApp.controller("rdCrossController", function ($scope) {
     var outPutCtrl = fastmap.uikit.OutPutController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdcross = layerCtrl.getLayerById('rdcross');
     $scope.langCodeOptions = [
         {"id": "CHI", "label": "简体中文"},
         {"id": "CHT", "label": "繁体中文"},
@@ -218,6 +219,8 @@ selectApp.controller("rdCrossController", function ($scope) {
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = [];
+            if(data.errcode == 0)
+                rdcross.redraw();
             if (data.data) {
                 $scope.rdCrossData = null;
                 $scope.$parent.$parent.objectEditURL = "";
@@ -236,8 +239,6 @@ selectApp.controller("rdCrossController", function ($scope) {
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
-
-
         })
     }
 });

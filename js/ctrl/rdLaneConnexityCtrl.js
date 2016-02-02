@@ -210,7 +210,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
         }
         for (var i = 0, len = $scope.lanesData["topos"].length; i < len; i++) {
             var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-            if (arrOfDecimal[index] === "1") {
+            if (arrOfDecimal.length=== (index+1)) {
                 $scope.outLanesArr.push($scope.lanesData["topos"][i]);
             }
 
