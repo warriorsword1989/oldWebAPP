@@ -20,7 +20,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (highCtrl.highLightLayersArr.length !== 0) {
                     highCtrl.removeHighLightLayers();
                 }
-                layerCtrl.getLayerById('edit').drawGeometry = null;
+                layerCtrl.getLayerById('edit').shapeEditor.shapeEditorResult.setFinalGeometry(null);
                 layerCtrl.getLayerById('edit').clear();
                 shapeCtrl.stopEditing();
                 layerCtrl.getLayerById('edit').bringToBack();
@@ -44,6 +44,8 @@ function keyEvent(ocLazyLoad, scope) {
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var editLayer = layerCtrl.getLayerById('edit');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
+
+            var properties =  shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
             //是否包含点
             function _contains(point, components) {
@@ -80,7 +82,7 @@ function keyEvent(ocLazyLoad, scope) {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
-                    for (var index in link.components) {
+                    for (var index=0,len = link.components.length;index < len; index ++) {
                         coordinate.push([link.components[index].x, link.components[index].y]);
                     }
                     var paramOfLink = {
@@ -88,9 +90,10 @@ function keyEvent(ocLazyLoad, scope) {
                         "type": "RDLINK",
                         "projectId": 11,
                         "data": {
-                            "eNodePid": 0,
-                            "sNodePid": 0,
-                            "geometry": {"type": "LineString", "coordinates": coordinate}
+                            "eNodePid": properties.enodePid?properties.enodePid:0,
+                            "sNodePid": properties.snodePid?properties.snodePid:0,
+                            "geometry": {"type": "LineString", "coordinates": coordinate},
+                            'catchLinks':properties.catches
                         }
                     }
                     //结束编辑状态
