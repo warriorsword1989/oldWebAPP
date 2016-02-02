@@ -16,7 +16,10 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     $scope.laneConnexity = {};
-    $scope.excitLineArr = []
+    $scope.clickFlag = true;
+    $scope.excitLineArr = [];
+    $scope.showTransitData = [];
+    $scope.showAdditionalData = [];
     $scope.laneConnexityData = [
         {flag: 0, log: "调斜右"},
         {flag: 1, log: "斜左斜右"},
@@ -51,29 +54,74 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         {flag: "z", log: "右斜右"}
     ];
     $scope.isExitObj = {};
-    $scope.showLaneConnexityData = [];
-    $scope.addLaneConnexity = function (item, event) {
-        if (!$scope.isExitObj[item.flag]) {
-            $scope.isExitObj[item.flag] = true;
-            $scope.showLaneConnexityData.push(item);
-        } else {
-            alert("已添加");
-        }
+    $scope.showNormalData = [];
+
+    //增加普通车道方向(单击)
+    $scope.addNormalData = function (item, event) {
+            if (!$scope.isExitObj[item.flag]) {
+                var obj = {"flag":"test" , "log": ""};
+                $scope.isExitObj[item.flag] = true;
+                if( $scope.showAdditionalData.length===0) {
+                    $scope.showNormalData.push(item);
+                    $scope.showTransitData.push(obj);
+                }else{
+                    var len = $scope.showNormalData.length;
+                    $scope.showNormalData.splice(len - 1, 0, item);
+                    $scope.showTransitData.splice(len - 1, 0, obj);
+                }
+
+            }
+
 
     };
-    $scope.minusLaneConnexity = function (item) {
-        if ($scope.showLaneConnexityData.length > 0) {
-            for (var i = 0, len = $scope.showLaneConnexityData.length; i < len; i++) {
-                if (item.flag === $scope.showLaneConnexityData[i]["flag"]) {
-                    $scope.showLaneConnexityData.splice(i, 1);
-                    $scope.laneInfoArr.
-                        $scope.isExitObj[item.flag] = undefined;
-                    break;
-                }
+    //增加公交车道方向(单击)
+    $scope.addTransitData=function(item,index) {
+
+        var obj = {};
+        angular.extend(obj, item);
+        obj.flag = obj.flag.toString()+obj.flag.toString();
+        $scope.showTransitData[index]=obj;
+
+    };
+    //增加附加车道(双击)
+    $scope.additionalData=function(item) {
+        if(event.button===2) {
+            //event.cancelBubble = true;
+            event.preventDefault();
+            var transitObj = {"flag":"test" , "log": ""};
+            if($scope.showAdditionalData.length===0) {
+                var obj = {};
+                angular.extend(obj, item);
+                obj["flag"] = [obj["flag"].toString()];
+                $scope.showNormalData.push(obj);
+                $scope.showTransitData.push(transitObj);
+                $scope.showAdditionalData.push(obj);
             }
         }
 
+
+
     };
+    //删除普通车道或附加车道方向有公交车道的时候 一并删除
+    $scope.minusNormalData = function (item,index,event) {
+        if(event.button===2) {
+            if (event.stopPropagation) {
+                event.stopPropagation();
+            } else {
+                event.cancelBubble = true;
+            }
+
+            if ($scope.showNormalData.length > 0) {
+                $scope.showNormalData.splice(index, 1);
+                $scope.showTransitData.splice(index, 1);
+                $scope.isExitObj[item.flag] = undefined;
+
+            }
+        }
+
+
+    };
+
     shapeCtrl.setEditingType("rdlaneConnexity")
     map.currentTool.disable();//禁止当前的参考线图层的事件捕获
     if (typeof map.currentTool.cleanHeight === "function") {
@@ -101,8 +149,35 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     });
     $scope.$parent.$parent.save = function () {
         if ($scope.isExitObj) {
-            var laneInfo = Object.keys($scope.isExitObj);
-            $scope.laneConnexity["laneInfo"] = laneInfo.join(",");
+            var laneArr = [],laneStr="",len;
+            if($scope.showAdditionalData.length!==0){
+                len = $scope.showNormalData.length - 1;
+            }else{
+                len = $scope.showNormalData.length;
+            }
+            for(var i= 0;i<len;i++) {
+                if($scope.showTransitData[i]["flag"]!=="test") {
+                    //获取含有公交车道的方向
+                    var str = $scope.showTransitData[i]["flag"].toString();
+                    str = str.substr(0, 1);
+                     laneStr = $scope.showNormalData[i]["flag"].toString() +"<"+str+">";
+                    laneArr.push(laneStr);
+                }else{
+                    if(i===(len-1)) {
+                        if($scope.showAdditionalData.length!==0) {
+                            laneStr = $scope.showNormalData[i]["flag"].toString() + "[" + $scope.showAdditionalData[0].flag.toString()+ "]";
+                            laneArr.push(laneStr);
+                        }else{
+                            laneArr.push($scope.showNormalData[i]["flag"].toString());
+                        }
+
+                    }else{
+                        laneArr.push($scope.showNormalData[i]["flag"].toString());
+                    }
+                }
+            }
+            //var laneInfo = Object.keys($scope.isExitObj);
+            $scope.laneConnexity["laneInfo"] = laneArr.join(",");
             var param = {
                 "command": "CREATE",
                 "type": "RDLANECONNEXITY",

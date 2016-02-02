@@ -61,16 +61,24 @@
         }
         .now-zoom{
             position: absolute;
-            left: 50px;
+            left: 5px;
             bottom: 0;
             color: #333;
             font-weight: 600;
             font-size: 13px;
             text-shadow: 1px 1px 3px #999999;
-            z-index: 999;
+            z-index: 1;
         }
         #nowZoom{
             margin-top: -3px
+        }
+
+        .num-well{
+            margin-left:5px;
+            float:left;
+        }
+        .pull-right{
+            float:right;
         }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
@@ -143,7 +151,7 @@
                             </div>
 
                         </div>
-                        <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()" style="position:relative;display:none;z-index:1000;width:400px">
+                        <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()" style="position:relative;display:none;z-index:2;width:400px">
                                 <div ng-include="dataTipsURL" style="width: 400px;"></div>
                         </div>
                         <div id="picMapShow">
@@ -163,10 +171,24 @@
                         <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
                             输出结果</a>
                         </li>
-                        <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">错误检查</a>
+                        <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">检查结果</a>
+                        </li>
+                        <li id="checkErrorLi" style="width:70%;padding-top: 5px;display: none;">
+                            <div class="num-well">
+                                共<span class="pic-num" ng-bind="checkTotal">1</span> 项错误
+                            </div>
+                            <div class="pull-right">
+                                第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
+                                共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
+                                <div class="pull-right btn-group">
+                                    <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
+                                    <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                </div>
+                            </div>
+
                         </li>
                         <div style="float: right;">
-                            <button id="immediatelyCheck" class="btn btn-default" >立即检查</button>
+                            <button id="immediatelyCheck" class="btn btn-default" ng-click="showTab('getCheck')">刷新检查</button>
                             <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default" >清空</button>
                         </div>
                     </ul>

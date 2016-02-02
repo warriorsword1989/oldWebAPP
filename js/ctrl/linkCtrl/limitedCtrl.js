@@ -75,8 +75,10 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         });
     }
 
-    $scope.showPopover=function(ind){
+    $scope.showPopover=function(ind,vehicle){
+        initdiv('vehicleExpressiondiv'+ind);
         $('#vehicleExpressiondiv'+ind).popover('show');
+
     }
     $scope.vehicleOptions = [
         {"id": 0, "label": "客车(小汽车)"},
@@ -108,9 +110,9 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         {"id": 26, "label": "邮政车"},
         {"id": 27, "label": "槽罐车"},
         {"id": 28, "label": "残疾人车"},
-        {"id": 29, "label": "预留"},
+        /*{"id": 29, "label": "预留"},
         {"id": 30, "label": "预留"},
-        {"id": 31, "label": "标志位,禁止/允许(0/1)"}
+        {"id": 31, "label": "标志位,禁止/允许(0/1)"}*/
     ];
 
 

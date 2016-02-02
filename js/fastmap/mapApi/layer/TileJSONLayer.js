@@ -469,7 +469,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             ctx.save();
         } else if ((angle < PI && angle > 2 * (PI / 5))) {
             for (var i = start; i < end; i++) {
-                ctx.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 10);
+                ctx.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 13);
                 ctx.save();
             }
         } else {
@@ -991,7 +991,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
-                        var route = feature.properties.rotate * (Math.PI / 180);
+                        var route = (feature.properties.rotate-90) * (Math.PI / 180);
                         if (isNaN(route)) {
                             route = 0;
                         }
