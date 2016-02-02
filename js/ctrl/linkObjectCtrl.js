@@ -90,17 +90,32 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         $("#currentObjectDiv").find(":button").css("background-color", "#fff");
         $("#currentObjectDiv").find("#" + url).css("background-color", "#49C2FC");
     }
+    $scope.angleOfLink=function(pointA,pointB) {
+        var PI = Math.PI,angle;
+       if(pointA.x-pointB.x===0) {
+           angle = PI / 2;
+       }else{
+           angle = Math.atan((pointA.y - pointB.y) / (pointA.y - pointB.y));
+       }
+        return angle;
 
-    $scope.changeDirect = function (direc) {
+    };
+    $scope.changeDirect = function (direct) {
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
+        var containerPoint;
         var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
+        var pointVertex= {x:$scope.linkData.geometry.coordinates[1][0], y:$scope.linkData.geometry.coordinates[1][1]};
+        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        var angle = $scope.angleOfLink(containerPoint, pointVertex);
         var marker = {
             flag:true,
+            pid:$scope.linkData.pid,
             point: point,
             type: "marker",
-            angle:Math.PI/3,
-            orientation:"2"
+            angle:angle,
+            orientation:direct.toString()
         };
         var editLayer = layerCtrl.getLayerById('edit');
         layerCtrl.pushLayerFront('edit');
