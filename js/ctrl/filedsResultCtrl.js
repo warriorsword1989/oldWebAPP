@@ -267,15 +267,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     }else if(pItemId==="1301"){//车信
-                        Application.functions.getRdObjectById(data.id, "RDLANECONNEXITY", function (data) {
-                            objCtrl.setCurrentObject(data.data);
-                            $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
-                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                });
-                            });
-                        });
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                        objCtrl.setCurrentObject(data.data);
+                        var connexityId = data.id;
+                        $scope.showTipsOrProperty(data,"RDLANECONNEXITY",objCtrl,connexityId,"ctrl/rdLaneConnexityCtrl","js/tepl/rdLaneConnexityTepl.html");
                     }else if(pItemId==="1302") {//交限
                         if (data.t_lifecycle === 1) {
                             var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
@@ -429,7 +424,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
                     }else if(pItemId==="1901"){//道路名
                         //$scope.$parent.$parent.dataTipsURL = "js/tepl/sceneIntersectionTepl.html";
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
+
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });

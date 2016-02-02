@@ -73,7 +73,7 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
 
             for(var k= 0,length = points.coordinates[j].length; k<length; k++){
                 //if(j != 0 && j !=len-1){
-                var disAB = this.distance(this._map.latLngToContainerPoint([points.coordinates[j][k].y,points.coordinates[j][k].x]), layerPoint);
+                var disAB = this.distance(this._map.latLngToLayerPoint([points.coordinates[j][k].y,points.coordinates[j][k].x]), layerPoint);
 
                 if (disAB > 0 && disAB < 5) {
 

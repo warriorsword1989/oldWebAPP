@@ -435,7 +435,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             // $(".arrow").css('right',(15) + 'px');
             $(".datetip").css('top','10%');
             // $(e.target).parents(".date-well").find('.bg-hide-div').css('background-color')
-            console.log(document.documentElement.scrollTop,getMousePos(e).y,250)
+            // console.log(document.documentElement.scrollTop,getMousePos(e).y,250)
             $datetip.fadeIn();
         }else{
             $datetip.fadeOut();

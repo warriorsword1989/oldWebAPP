@@ -304,11 +304,18 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$apply();
     }
     /*转换*/
-    $scope.transBridge = function () {
+    $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        if ($scope.dataTipsData.s_sourceType === "2001") {
+        if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
+            if($scope.dataTipsData.t_lifecycle == 3){
+                $timeout(function(){
+                    $('body').poiMsg('状态为已作业，不可转换！',e);
+                    $scope.$apply();
+                });
+                return;
+            }
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -323,7 +330,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = [];
                 if (data.data) {
-                    $scope.upBridgeStatus(data.data.pid);
+                    $scope.upBridgeStatus(data.data.pid,e);
 
                     $.each(data.data.log, function (i, item) {
                         if (item.pid) {
@@ -378,13 +385,22 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
 
     }
-    $scope.upBridgeStatus = function (pid) {
+    $scope.upBridgeStatus = function (pid,e) {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
                 "handler": 0,
                 "pid": pid
+            }
+            if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
+                if($scope.dataTipsData.t_lifecycle == 3){
+                    $timeout(function(){
+                        $('body').poiMsg('状态为已作业，不允许改变状态！',e);
+                        $scope.$apply();
+                    });
+                    return;
+                }
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
