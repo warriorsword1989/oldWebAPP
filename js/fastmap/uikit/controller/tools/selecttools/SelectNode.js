@@ -38,7 +38,10 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('mousemove',this.onMouseMove,this);
+        if (this.id !== "rdcross") {
+            this._map.on('mousemove',this.onMouseMove,this);
+        }
+
     },
 
     /***
