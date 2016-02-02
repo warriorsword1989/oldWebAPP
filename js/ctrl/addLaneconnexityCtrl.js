@@ -189,6 +189,19 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                     checkCtrl.setCheckResult(data);
                     return;
                 }
+                var info = [];
+                if (data.data) {
+                    $.each(data.data.log, function (i, item) {
+                        if (item.pid) {
+                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        } else {
+                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        }
+                    });
+                } else {
+                    info.push(data.errmsg + data.errid);
+                }
+                outPutCtrl.pushOutput(info);
                 var pid = data.data.log[0].pid;
                 checkCtrl.setCheckResult(data);
                 //清空上一次的操作
@@ -196,11 +209,6 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 map.currentTool.cleanHeight();
                 map.currentTool.disable();
                 rdlaneconnexity.redraw();
-
-                outPutCtrl.pushOutput(data.data.log[0]);
-                if (outPutCtrl.updateOutPuts !== "") {
-                    outPutCtrl.updateOutPuts();
-                }
                 Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
                     objCtrl.setCurrentObject(data.data);
                     $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {

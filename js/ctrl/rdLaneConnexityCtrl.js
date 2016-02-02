@@ -6,6 +6,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
 
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var outPutCtrl=fastmap.uikit.OutPutController();
     $scope.showNormalData = [];
     $scope.showTransitData = [];
     $scope.outLanesArr = [];
@@ -69,8 +70,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
         }
         for (var i = 0, len = $scope.lanesData["topos"].length; i < len; i++) {
             var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-            if (arrOfDecimal[lanesLen - 1] === "1") {
-                $scope.outLanesArr.push($scope.lanesData[i]);
+            if (arrOfDecimal[0] === "1") {
+                $scope.outLanesArr.push($scope.lanesData["topos"][i]);
             }
 
         }
@@ -203,5 +204,17 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
         {"id": 5, "label": "5 左斜前"},
         {"id": 6, "label": "6 右斜前"}
     ];
+    $scope.showLanesInfo=function(item,index) {
+        if( $scope.outLanesArr.length!==0) {
+            $scope.outLanesArr.length = 0;
+        }
+        for (var i = 0, len = $scope.lanesData["topos"].length; i < len; i++) {
+            var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
+            if (arrOfDecimal[index] === "1") {
+                $scope.outLanesArr.push($scope.lanesData["topos"][i]);
+            }
+
+        }
+    };
 });
 
