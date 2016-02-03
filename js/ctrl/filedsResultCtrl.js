@@ -172,9 +172,20 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage) {
+
                 for(var k  in $scope.items) {
-                    if($('#'+ $scope.items[k].id).hasClass('in')) {
-                        $('#'+ $scope.items[k].id).removeClass('in')
+                    if(stage===0){
+                        if($('#'+ $scope.items[k].id).hasClass('in')) {
+                            $('#'+ $scope.items[k].id).removeClass('in')
+                        }
+                    }else if (stage === 1) {
+                        if($('#'+ $scope.items[k].id+'show').hasClass('in')) {
+                            $('#'+ $scope.items[k].id+'show').removeClass('in')
+                        }
+                    }else if (stage === 3) {
+                        if($('#'+ $scope.items[k].id+'unshow').hasClass('in')) {
+                            $('#'+ $scope.items[k].id+'unshow').removeClass('in')
+                        }
                     }
                 }
                     //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
@@ -188,7 +199,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $scope.pendSubItems = data.data;
                             });
                         } else if (stage === 3) {
-                            $scope.solvedSubItems = data.data;
+                            $scope.$apply(function () {
+                                $scope.solvedSubItems = data.data;
+                            });
                         }
 
                     })
