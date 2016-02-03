@@ -61,7 +61,8 @@
         }
         .now-zoom{
             position: absolute;
-            left: 5px;
+            /*left: 125px;*/
+            right: 10px;
             bottom: 0;
             color: #Fff;
             font-weight: 600;
@@ -162,9 +163,18 @@
                         <div class="now-zoom">当前比例尺:
                             <span id="nowZoom" class="badge">17</span>
                         </div>
-                        <div id="zoomBtn" class="btn-group">
-                            <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button>
-                        </div>
+                        <!-- <div id="zoomBtn" class="btn-group"> -->
+                            <!-- <div>
+                                <div id="rangeModel" style="float: left;width: 157px;">
+                                    <div id="rangeBegin" style="margin-top: 2px;float: left;">1</div>
+                                    <input id="rangeSlider" type="range" min="1" max="20" step="1" value="5" style="background-color: rgba(3, 169, 244, 0.68);transition: all 0.5s;">
+                                    <div id="rangeEnd" style="float: right;margin-top: 2px;">20</div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div id="rangeValue" style="float: left;text-align: center;width: 157px;">16</div>
+                            </div> -->
+                            <!-- <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button> -->
+                        <!-- </div> -->
                     </div>
                 </div>
                 <div ui-layout-container style="overflow: hidden;">
