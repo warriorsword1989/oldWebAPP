@@ -6,7 +6,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
         function ($rootScope, $scope, $ocLazyLoad,$timeout) {
             var objCtrl = fastmap.uikit.ObjectEditController();
            // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
-            Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
+            Application.functions.getTipsStatics([59567101,59567102,59567103,59567104,59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                    // data.data.rows.push({"1901":10});
@@ -89,7 +89,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //切换处理 待处理 已处理 页面
             $scope.changeList = function (stage) {
                // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], stage, function (data) {
-                Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], stage, function (data) {
+                Application.functions.getTipsStatics([59567101,59567102,59567103,59567104,59567201,60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
                         transArr = data.data.rows;
@@ -172,13 +172,24 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage) {
+
                 for(var k  in $scope.items) {
-                    if($('#'+ $scope.items[k].id).hasClass('in')) {
-                        $('#'+ $scope.items[k].id).removeClass('in')
+                    if(stage===0){
+                        if($('#'+ $scope.items[k].id).hasClass('in')) {
+                            $('#'+ $scope.items[k].id).removeClass('in')
+                        }
+                    }else if (stage === 1) {
+                        if($('#'+ $scope.items[k].id+'show').hasClass('in')) {
+                            $('#'+ $scope.items[k].id+'show').removeClass('in')
+                        }
+                    }else if (stage === 3) {
+                        if($('#'+ $scope.items[k].id+'unshow').hasClass('in')) {
+                            $('#'+ $scope.items[k].id+'unshow').removeClass('in')
+                        }
                     }
                 }
                     //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
-                    Application.functions.getTipsListItems([59567201,60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
+                    Application.functions.getTipsListItems([59567101,59567102,59567103,59567104,59567201,60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
                         if (stage === 0) {
                             $scope.$apply(function () {
                                 $scope.allSubItems = data.data;
@@ -188,7 +199,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $scope.pendSubItems = data.data;
                             });
                         } else if (stage === 3) {
-                            $scope.solvedSubItems = data.data;
+                            $scope.$apply(function () {
+                                $scope.solvedSubItems = data.data;
+                            });
                         }
 
                     })

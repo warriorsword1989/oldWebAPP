@@ -26,7 +26,6 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        console.log("dddddd");
         this._map.on('mousedown', this.onMouseDown, this);
         //this._map.on('mouseup', this.onMouseUp, this);
     },
@@ -55,7 +54,6 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         var geos = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
-        console.log(this.flag);
         var len = this.distance(layerPoint, point);
         if(len<10000) {
             switch (orientation) {
