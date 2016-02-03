@@ -159,8 +159,8 @@ Application.layersConfig =
                         obj['properties'] = {
                             'id': item.i,
                             'restrictioncondition': item.m.a,
-                            'restrictioninfo': item.m.b,
-                            'rotate': item.m.c
+                            "restrictioninfo": item.m.b,
+                            'restrictionrotate': item.m.c
 
                         }
                         geojson['features'].push(obj);
@@ -207,9 +207,9 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'restrictioncondition': item.m.a,
-                            'restrictioninfo': item.m.b,
-                            'rotate': item.m.c
+                            "SpeedDivergencecondition": item.m.a,
+                            "SpeedDivergenceinfo": item.m.b,
+                            'SpeedDivergencerotate': item.m.c
 
                         }
                         geojson['features'].push(obj);
@@ -256,9 +256,9 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'restrictioncondition': item.m.a,
-                            'restrictioninfo': item.m.b,
-                            'rotate': item.m.c
+                            "speedlimitcondition": item.m.a,
+                            "speedlimitinfo": item.m.b,
+                            'speedlimitrotate': item.m.c
 
                         }
                         geojson['features'].push(obj);
@@ -305,9 +305,9 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'restrictioncondition': item.m.a,
-                            'restrictioninfo': item.m.b,
-                            'rotate': item.m.c
+                            'rdcrosscondition': item.m.a,
+                            "rdcrossinfo": item.m.b,
+                            'rdcrossrotate': item.m.c
 
                         }
                         geojson['features'].push(obj);
@@ -354,9 +354,9 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'restrictioncondition': item.m.a,
-                            'restrictioninfo': item.m.b,
-                            'rotate': item.m.c
+                            'laneconnexitycondition': item.m.a,
+                            'laneconnexityinfo': item.m.b,
+                            'laneconnexityrotate': item.m.c
 
                         }
                         geojson['features'].push(obj);

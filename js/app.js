@@ -87,11 +87,13 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.checkTotalPage=0;
     $scope.checkTotal=0;
     $scope.meshesId=[605603,0605603];
+    $scope.rowCollection=[];
     $scope.showTab = function (tab) {
         if (tab === "outPut") {
             $("#errorClear").show();
             $("#immediatelyCheck").hide();
             $("#checkErrorLi").hide();
+            $scope.rowCollection=[];
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
@@ -108,6 +110,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }else if(tab==="getCheck"){
             $("#checkErrorLi").show();
             if( $scope.itemsByPage==1){
+                $scope.rowCollection=[];
                 $scope.getCheckDateAndCount();
             }
         }
@@ -246,8 +249,15 @@ function appInit(){
 
     map = L.map('map',{ 
         attributionControl: false,
-        zoomControl:false
+        zoomControl:false,
     }).setView([40.012834, 116.476293], 17);
+    /*增加比例尺*/
+    var scale = L.control.scale({
+        metric:true,
+        imperial:true,
+        position:'bottomleft',
+        updateWhenIdle:true,
+    }).addTo(map);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();

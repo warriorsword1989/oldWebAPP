@@ -11,8 +11,11 @@
     .pic-show-btn{
         margin-right: 5px;
     }
+    .errorClass{
+        height:95%;overflow-y: auto;
+    }
 </style>
-<div ng-controller="errorCheckController" style="min-height:150px;max-heigth:200px;overflow-y: auto;">
+<div ng-controller="errorCheckController" class="errorClass">
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
         <tr>
@@ -31,7 +34,13 @@
         <tr ng-repeat="row in rowCollection">
             <td>{{row.ruleid}}</td>
             <td>{{row.situation}}</td>
-            <td>{{row.rank}}</td>
+            <td>
+                <span ng-if="row.rank==0">无</span>
+                <span ng-if="row.rank==1">Fatal</span>
+                <span ng-if="row.rank==2">Critical</span>
+                <span ng-if="row.rank==3">Error</span>
+                <span ng-if="row.rank==4">warning</span>
+            </td>
             <td>{{row.targets }}</td>
             <td>{{row.information}}</td>
             <td>{{row.geometry}}</td>
