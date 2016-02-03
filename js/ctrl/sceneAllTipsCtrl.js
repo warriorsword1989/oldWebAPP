@@ -48,9 +48,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     break;
                 case 2:
                     $scope.showContent = "外业修改";
+                    $scope.labelInfo = false;
+                    $scope.labelSuc = true;
                     break;
                 case 3:
                     $scope.showContent = "外业新增";
+                    $scope.labelInfo = true;
+                    $scope.labelSuc = false;
                     break;
                 case 0:
                     $scope.showContent = "默认值";
@@ -210,27 +214,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             return '情报';
                     }
                 }
-                //显示状态
-                if ($scope.dataTipsData) {
-                    switch ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage) {
-                        case 1:
-                            $scope.showContent = "未作业";
-                            $scope.labelInfo = true;
-                            $scope.labelSuc = false;
-                            break;
-                        case 3:
-                            $scope.showContent = "已作业";
-                            $scope.labelInfo = false;
-                            $scope.labelSuc = true;
-                            break;
-                        /*case 4:
-                         $scope.showContent = "GDB增量";
-                         break;
-                         case 0:
-                         $scope.showContent = "初始化";
-                         break;*/
-                    }
-                }
                 if ($scope.dataTipsData) {
                     /*种别*/
                     $scope.lineType = $scope.returnLineType($scope.dataTipsData.kind);
@@ -311,7 +294,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
             if($scope.dataTipsData.t_lifecycle == 3){
                 $timeout(function(){
-                    $('body').poiMsg('状态为已作业，不可转换！',e);
+                    $('body').poiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
                     $scope.$apply();
                 });
                 return;
@@ -396,7 +379,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
                 if($scope.dataTipsData.t_lifecycle == 3){
                     $timeout(function(){
-                        $('body').poiMsg('状态为已作业，不允许改变状态！',e);
+                        $('body').poiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
                         $scope.$apply();
                     });
                     return;
