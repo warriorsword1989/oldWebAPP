@@ -4,6 +4,15 @@
 
 var otherApp=angular.module("lazymodule", []);
 otherApp.controller("otherController",function($scope){
+    var objectCtrl = fastmap.uikit.ObjectEditController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var highLightLayer = fastmap.uikit.HighLightController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
+    var editLayer = {}, rdLink = layerCtrl.getLayerById("edit");
+    var outputCtrl = fastmap.uikit.OutPutController({});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.roadlinkData=$scope.linkData;
     $scope.speedOfPopLength = 0;
     $scope.speedOfConLength = 0;
@@ -185,7 +194,7 @@ otherApp.controller("otherController",function($scope){
             toSpeedLimit: 0
         });
 
-    }
+    };
     $scope.minusSpeedlimit = function (id) {
         $scope.roadlinkData.speedlimits.splice(id, 1);
         if ($scope.roadlinkData.speedlimits.length === 0) {
@@ -226,7 +235,48 @@ otherApp.controller("otherController",function($scope){
     $scope.showPopover=function(){
         $('#fromOfWRoaddiv').popover('show');
     }
-
+    $scope.speedAndDirect=function(data) {
+         if(data.orientation==="2") {
+             var fromSpeed = document.getElementById("fromSpeed");
+             fromSpeed.focus();
+         }else if(data.orientation==="3") {
+             var toSpeed = document.getElementById("toSpeed");
+             toSpeed.focus()
+         }
+    };
+   $scope.changeSpeedAndDirect=function(direct) {
+       map.currentTool = shapeCtrl.getCurrentTool();
+       map.currentTool.disable();
+       var containerPoint;
+       var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
+       var pointVertex= {x:$scope.linkData.geometry.coordinates[1][0], y:$scope.linkData.geometry.coordinates[1][1]};
+       containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+       pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+       var angle = $scope.angleOfLink(containerPoint, pointVertex);
+       var marker = {
+           flag:true,
+           pid:$scope.linkData.pid,
+           point: point,
+           type: "marker",
+           angle:angle,
+           orientation:direct.toString()
+       };
+       var editLayer = layerCtrl.getLayerById('edit');
+       layerCtrl.pushLayerFront('edit');
+       var sobj = shapeCtrl.shapeEditorResult;
+       editLayer.drawGeometry =  marker;
+       editLayer.draw( marker, editLayer);
+       sobj.setOriginalGeometry( marker);
+       sobj.setFinalGeometry(marker);
+       shapeCtrl.setEditingType("transformDirect");
+       shapeCtrl.startEditing();
+       editLayer.on("DIRECTEVENT",function(event){
+           $scope.speedAndDirect(event.geometry);
+       })
+       //$scope.$watch("speedAndDirect",function(newValue,oldValue, scope) {
+       //    console.log(newValue)
+       //})
+   };
    // $scope.savefromOfWay=function(){
        // $scope.roadlinkData.forms=getEdnArray();
     //}

@@ -8,8 +8,11 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     var highLightLayer = fastmap.uikit.HighLightController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
+    var editLayer = layerCtrl.getLayerById('edit');
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = new fastmap.uikit.SelectController();
+    var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+    $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeLinkArrays=$scope.$parent.$parent.brigeLinkArray;
     $scope.brigeIndex=0;
 
@@ -197,6 +200,20 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
+                rdLink.redraw();
+                if($scope.speedAndDirect!==null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }
                 $.each(data.data.log, function (i, item) {
                     if (item.pid) {
                         info.push(item.op + item.type + "(pid:" + item.pid + ")");

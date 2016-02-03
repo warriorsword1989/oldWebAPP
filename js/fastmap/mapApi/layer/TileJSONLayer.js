@@ -918,17 +918,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                         }
                     } else if (this.options.type === 'Diverge') {
-                        if (feature.properties.restrictioncondition === undefined) {
+                        if (feature.properties.SpeedDivergencecondition === undefined) {
                             return;
                         }
-                        var restrictObj = feature.properties.restrictioncondition;
+                        var restrictObj = feature.properties.SpeedDivergencecondition;
 
                         if (restrictObj !== undefined) {
                             $.each(restrictObj, function (i, v) {
                                 var poiX = feature.geometry.coordinates[0][0];
                                 var poiY = feature.geometry.coordinates[1][0];
                                 var newstyle = './css/divergence/' + v.type + '.png';
-                                var route = feature.properties.rotate * (Math.PI / 180);
+                                var route = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
                                 this._loadImg(newstyle, function (img) {
                                     var g = ctx.canvas.getContext('2d');
                                     g.save();
@@ -943,13 +943,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             });
                         }
                     } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标
-                        if (feature.properties.restrictioncondition === undefined) {
+                        if (feature.properties.speedlimitcondition === undefined) {
                             return;
                         }
                         var speedFlagstyle = null;
                         var jttype = null;
-                        var restrictObj = feature.properties.restrictioncondition;
-                        var route = (feature.properties.rotate - 90) * (Math.PI / 180);
+                        var restrictObj = feature.properties.speedlimitcondition;
+                        var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
                         var resArray = restrictObj.split("|");
                         var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
                         var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
@@ -986,12 +986,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
                         }
                     } else if (this.options.type === 'rdlaneconnexityPoint') {
-                        if (feature.properties.restrictioninfo === undefined) {
+                        if (feature.properties.laneconnexityinfo === undefined) {
                             return;
                         }
                         var newstyle = "";
-                        var restrictObj = feature.properties.restrictioninfo;
-                        var route = (feature.properties.rotate-90) * (Math.PI / 180);
+                        var restrictObj = feature.properties.laneconnexityinfo;
+                        var route = (feature.properties.rdlaneconnexityrotate-90) * (Math.PI / 180);
                         if (isNaN(route)) {
                             route = 0;
                         }
@@ -1285,7 +1285,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
                 break;
             case 'Marker':
-                var restrictObj = feature.properties.restrictioninfo;
+                var restrictObj = feature.properties.SpeedDivergenceinfo;
                 var geom = feature.geometry.coordinates;
                 if (restrictObj !== undefined) {
                     if (restrictObj.constructor === Array) {
