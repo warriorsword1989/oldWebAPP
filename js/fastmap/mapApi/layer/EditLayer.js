@@ -115,7 +115,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawCross(currentGeo, {color: 'blue', width: 1}, false);
                 break;
             case 'marker':
-                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false);
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false,self);
                 break;
             case 'MultiPolyline':
                 drawMultiPolyline(currentGeo.coordinates,{color: 'red', width: 2});
@@ -258,8 +258,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
         }
 
-        function drawMarker(geom, type, angle, boolPixelCrs) {
-            var url, p = null,angleOfTran=angle;
+        function drawMarker(geom, type, angle, boolPixelCrs,self) {
+            var url, p = null,angleOfTran=angle,that=this;
             if (!geom) {
                 return;
             }
@@ -271,11 +271,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
             if(type==="2") {
                 angleOfTran = angleOfTran + Math.PI;
-                console.log(angleOfTran);
             }
             url = "./css/img/" + type + ".png";
             var g = self._ctx;
-            console.log(p);
             loadImg(url, function (img) {
                 g.save();
                 g.translate(p.x, p.y);
@@ -283,8 +281,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 g.drawImage(img, 0, 0);
                 g.restore();
                 currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
-
+                self.fire("DIRECTEVENT",{"geometry":currentGeo})
             })
+
         }
 
         function loadImg(url, callBack) {
