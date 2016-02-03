@@ -62,10 +62,8 @@ fastmap.uikit.LayerController = (function () {
 
                 this.pushLayerNormal();
                 var layer = this.getLayerById(id);
-                console.log("push front is preparing");
                 if(layer!=null){
                     layer.options.zIndex=this.maxZIndex;
-                    console.log("push front is running");
                     layer.setZIndex(this.maxZIndex);
                 }
                 //this.OnSwitchLayer({layerArr: this.layers});

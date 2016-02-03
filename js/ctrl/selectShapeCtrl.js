@@ -106,7 +106,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.options.editable = true;
             rdLink.on("getId", function (data) {
                 $scope.data = data;
-                console.log("data" + data);
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
                     if (data.errcode === -1) {
                         return;
