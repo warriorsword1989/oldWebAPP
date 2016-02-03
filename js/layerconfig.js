@@ -137,7 +137,7 @@ Application.layersConfig =
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考点数据',
-                id: 'referencePoint',
+                id: 'restriction',
                 maxZoom: 20,
                 hitDetection: true,
                 debug: false,

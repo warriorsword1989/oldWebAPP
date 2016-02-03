@@ -1,7 +1,9 @@
 /**
- * Created by liwanchong on 2015/11/4.
+ * Created by zhongxiaoming on 2016/2/3.
+ * Class SelectRdlane
  */
-fastmap.uikit.SelectRestriction = L.Class.extend({
+
+fastmap.uikit.SelectRdlane = L.Class.extend({
 
     /***
      *
@@ -10,13 +12,9 @@ fastmap.uikit.SelectRestriction = L.Class.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        //this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
-        //this.container = this._map._container;
-        //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
         this.tiles = this.options.tiles;
-        //this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
     },
@@ -25,10 +23,6 @@ fastmap.uikit.SelectRestriction = L.Class.extend({
     drawGeomCanvasHighlight: function (event,data) {
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        //if(this.tiles[tilePoint[0] + ":" + tilePoint[1]].data===undefined) {
-        //    return;
-        //}
-        //var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
         var id = null;
         for (var item in data) {

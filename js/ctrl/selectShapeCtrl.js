@@ -11,7 +11,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrict = layerCtrl.getLayerById('referencePoint');
+    var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     $scope.toolTipText = "";
@@ -223,13 +223,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
-            layerCtrl.pushLayerFront('referencePoint');
-            map.currentTool = new fastmap.uikit.SelectRestriction({map: map, currentEditLayer: restrict});
+            layerCtrl.pushLayerFront('restriction');
+            map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
             restrict.options.selectType = 'relation';
             restrict.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            $scope.toolTipText = '请选择交限！'; 
+            $scope.toolTipText = '请选择关系！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             restrict.on("getNodeId", function (data) {
                 $scope.data = data;
