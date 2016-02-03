@@ -299,15 +299,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
-<<<<<<< HEAD
             if($scope.dataTipsData.t_lifecycle == 3){
                 $timeout(function(){
                     $('body').poiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
-=======
-            if ($scope.dataTipsData.t_lifecycle == 3) {
-                $timeout(function () {
-                    $('body').poiMsg('状态为已作业，不可转换！', e);
->>>>>>> da9560c37cdc4143c82dda37c4a432c8ea7657b3
                     $scope.$apply();
                 });
                 return;
