@@ -88,6 +88,59 @@
     .form-horizontal .control-label {
         text-align: center;
     }
+
+    /*输入查询图片*/
+    .pic-show-tips {
+        /*position: absolute;*/
+        border: 1px solid #ddd;
+        z-index: 999;
+        padding-left: 4px;
+        padding-top: 6px;
+        padding-bottom: 7px;
+        background-color: #fff;
+        /*box-shadow: 4px 4px 7px 0px #777;*/
+        min-width: 100%;
+    }
+
+    .pic-show-well-normal-tips {
+        min-width: 100%;
+        min-height: 40px;
+    }
+
+    .pic-show-well-transit-tips {
+        min-width: 100%;
+        min-height: 40px;
+    }
+
+    .img-well-tips {
+        float: left;
+        padding: 3px;
+        /*border: 1px solid #ddd;*/
+        margin: 4px;
+        cursor: pointer;
+    }
+
+    .show-img {
+        width: 60px;
+        height: 49px;
+    }
+
+    .show-img-normal-tips {
+        width: 20px;
+        height: 15px;
+    }
+
+    .show-img-transit-tips {
+        width: 20px;
+        height: 15px;
+    }
+
+    .img-describe-tips {
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+    }
 </style>
 <div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" ng-mouseenter="testA($event)"
      ng-mouseleave="testB($event)">
@@ -223,24 +276,30 @@
                 <div class="panel-body" ng-if="allTipsType==1301">
                     <form class="form-horizontal" method="get">
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;">
-                            <div class="col-sm-6" style="padding-top: 5px" ng-repeat="gItem in dataTipsData.info">
-                                <div ng-if="gItem.arwG!==null">
-                                    <img ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png"
-                                         ng-click="showTips(gItem.arwG)">
-                                </div>
-                            </div>
-                            <label class="col-sm-4 control-label">普通</label>
-                        </div>
-                        <div class="form-group" style="height: 15%;margin-bottom: 3px;"
-                            >
-                            <div class="col-sm-6" style="padding-top: 5px"  ng-repeat="bItem in dataTipsData.info">
-                                <div ng-if="bItem.arwB!==null">
-                                    <img ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png"
-                                         ng-click="showTips(gItem.arwG)">
-                                </div>
+                            <div class="pic-show-tips">
+                                <div class="pic-show-well-normal-tips">
+                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
+                                        <div ng-if="gItem.arwG!==null">
+                                            <img class="show-img-normal-tips"
+                                                 ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png">
+                                        </div>
 
+                                    </div>
+                                </div>
                             </div>
-                            <label class="col-sm-4 control-label">公交</label>
+                        </div>
+                        <div class="form-group" style="height: 15%;margin-bottom: 3px;">
+                            <div class="pic-show-tips">
+                                <div class="pic-show-well-transit-tips">
+                                    <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
+                                        <div ng-if="bItem.arwB!==null">
+                                            <img class="show-img-transit-tips"
+                                                 ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="line line-dashed b-b line-lg pull-in"
