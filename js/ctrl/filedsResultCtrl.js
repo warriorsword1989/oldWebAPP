@@ -424,7 +424,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
                     }else if(pItemId==="1901"){//道路名
                         //$scope.$parent.$parent.dataTipsURL = "js/tepl/sceneIntersectionTepl.html";
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
+
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });

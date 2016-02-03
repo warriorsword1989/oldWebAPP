@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-selectApp.controller("rdCrossController", function ($scope) {
+selectApp.controller("rdCrossController", function ($scope,$timeout) {
     var layerCtrl = fastmap.uikit.LayerController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -51,7 +51,6 @@ selectApp.controller("rdCrossController", function ($scope) {
     });
     highLightLayer.pushHighLightLayers(highLightLink);
     $scope.initializeRdCrossData = function () {
-
         objCtrl.setOriginalData($.extend(true, {}, objCtrl.data));
         $scope.rdCrossData = objCtrl.data;
         var links = $scope.rdCrossData.links,linkArr=[];
@@ -62,12 +61,13 @@ selectApp.controller("rdCrossController", function ($scope) {
         $("#signalbtn" + $scope.rdCrossData.signal).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#typebtn" + $scope.rdCrossData.type).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#electRoeyebtn" + $scope.rdCrossData.electroeye).removeClass("btn btn-default").addClass("btn btn-primary");
-        setTimeout(function () {
+        $timeout(function () {
             for (var i in $scope.rdCrossData.names) {
                 $("#srcFlag" + $scope.rdCrossData.names[i].srcFlag + "_" + i).removeClass("btn btn-default").addClass("btn btn-primary");
             }
-        }, 10)
-    }
+            $scope.$apply();
+        });
+    };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();
     }

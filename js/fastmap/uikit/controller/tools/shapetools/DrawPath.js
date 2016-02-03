@@ -23,14 +23,15 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;
-
+        this.catches = [];
         this.insertPoint = null;
         this.clickcount=1;
         this.targetGeoIndex=0;
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:true});
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+
     },
 
     /***
@@ -40,7 +41,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this._map.on('mousedown', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
         //this._map.on('mouseup', this.onMouseUp, this);
-        this._map.on('dblclick', this.onDbClick, this);
+        //this._map.on('dblclick',this.onDbClick, this);
     },
 
     /***
@@ -50,35 +51,79 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
         //this._map.off('mouseup', this.onMouseUp, this);
-        this._map.off('dblclick', this.onDbClick, this);
+        //._map.off('dblclick', this.onDbClick, this);
     },
 
 
     onMouseDown: function (event) {
-        if(this.clickcount==1){
-            var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
-            if(this.snapHandler.snaped == true){
-                mousePoint = this.targetPoint;
-            }
-            this.clickcount++;
-            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        }else{
-            var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
-            if(this.snapHandler.snaped == true){
-                mousePoint = this.targetPoint;
-            }
-            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-            //this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-        }
 
+        var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
+        var lastPoint = this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-2];
+        if(lastPoint!=null&&lastPoint.x != 0){
+            var lpoint  = this._map.latLngToLayerPoint(L.latLng(lastPoint.y,lastPoint.x));
+            var dis = lpoint.distanceTo(event.layerPoint);
+            if(dis < 5){
+                this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1,1);
+
+                this.clickcount=1;
+                this.shapeEditor.stopEditing();
+                fastmap.uikit.ShapeEditorController().stopEditing();
+                return;
+            }
+        }
+        if(this.snapHandler.snaped == true){
+            mousePoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+        }
+        if(this.clickcount==1){
+
+
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
+
+        }else{
+
+            this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
+
+        }
+        this.clickcount++;
+        if(this.snapHandler.snaped == true){
+            mousePoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            if(this.snapHandler.snapIndex == 0){
+                this.catches.push({nodePid:parseInt(this.snapHandler.properties.snode),lon:mousePoint.lng,lat:mousePoint.lat});
+                if(this.clickcount==2){
+                    this.snodePid =parseInt(this.snapHandler.properties.snode);
+                }else{
+                    this.enodePid =parseInt(this.snapHandler.properties.snode);
+                }
+            }else{
+                if(this.clickcount==2){
+                    this.snodePid =parseInt(this.snapHandler.properties.enode);
+                }else{
+                    this.enodePid =parseInt(this.snapHandler.properties.enode);
+                }
+                this.catches.push({nodePid:parseInt(this.snapHandler.properties.enode),lon:mousePoint.lng,lat:mousePoint.lat})
+            }
+
+            if(this.snapHandler.snapIndex == -1){
+                this.catches.push({linkPid:parseInt(this.snapHandler.properties.pid),lon:mousePoint.lng,lat:mousePoint.lat})
+            }
+
+        }else{
+
+            //this.catches.push({linkPid:this.snapHandler.properties.pid,lon:mousePoint.lng,lat:mousePoint.lat})
+        }
+        console.log(mousePoint.lng + '--md------'+mousePoint.lat);
+        this.shapeEditor.shapeEditorResult.setProperties({snodePid:this.snodePid,catches:this.catches,enodePid:this.enodePid});
+        for(var key in this.shapeEditor.shapeEditorResult.getFinalGeometry().components){
+            console.log(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[key].x+"==="+this.shapeEditor.shapeEditorResult.getFinalGeometry().components[key].y);
+        }
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
     onMouseMove: function (event) {
         this.container.style.cursor = 'crosshair';
         var layerPoint = event.layerPoint;
-        this.targetPoint = this._map.layerPointToLatLng(layerPoint);
-        this.insertPoint =  fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat);
+        var targetPoint = this._map.layerPointToLatLng(layerPoint);
+        this.insertPoint =  fastmap.mapApi.point(targetPoint.lng, targetPoint.lat);
         if(this.clickcount>1){
             var points= this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
             if(points.length==1){
@@ -93,6 +138,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         if(this.snapHandler.snaped == true){
             this.shapeEditor.fire('snaped',{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            console.log(this.targetPoint.lng + '--------'+this.targetPoint.lat);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
         }else{
             this.shapeEditor.fire('snaped',{'snaped':false});
@@ -107,10 +153,8 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this.removeHooks();
     },
     onDbClick: function (event) {
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-2,2);
-        this.clickcount=1;
-        this.shapeEditor.stopEditing();
-        fastmap.uikit.ShapeEditorController().stopEditing();
+
+
     },
     /***
      * 重新设置节点
