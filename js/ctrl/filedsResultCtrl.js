@@ -6,7 +6,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
         function ($rootScope, $scope, $ocLazyLoad,$timeout) {
             var objCtrl = fastmap.uikit.ObjectEditController();
            // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
-            Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
+            Application.functions.getTipsStatics([59567101,59567102,59567103,59567104,59567201,60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                    // data.data.rows.push({"1901":10});
@@ -89,7 +89,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //切换处理 待处理 已处理 页面
             $scope.changeList = function (stage) {
                // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], stage, function (data) {
-                Application.functions.getTipsStatics([59567201,60560301, 60560302, 60560303, 60560304], stage, function (data) {
+                Application.functions.getTipsStatics([59567101,59567102,59567103,59567104,59567201,60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
                         transArr = data.data.rows;
@@ -178,7 +178,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                 }
                     //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
-                    Application.functions.getTipsListItems([59567201,60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
+                    Application.functions.getTipsListItems([59567101,59567102,59567103,59567104,59567201,60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
                         if (stage === 0) {
                             $scope.$apply(function () {
                                 $scope.allSubItems = data.data;

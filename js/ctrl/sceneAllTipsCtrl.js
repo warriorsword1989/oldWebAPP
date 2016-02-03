@@ -302,6 +302,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     selectCtrl.updateTipsCtrl = function () {
         $scope.initializeDataTips();
         $scope.$apply();
+    };
+    $scope.openOrigin = function (id) {
+        if(id <= selectCtrl.rowKey.f_array.length-1){
+            $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
+            $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            $("#dataTipsOriginModal").modal('show');
+        }
     }
     /*转换*/
     $scope.transBridge = function (e) {
@@ -309,9 +316,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
-            if($scope.dataTipsData.t_lifecycle == 3){
-                $timeout(function(){
-                    $('body').poiMsg('状态为已作业，不可转换！',e);
+            if ($scope.dataTipsData.t_lifecycle == 3) {
+                $timeout(function () {
+                    $('body').poiMsg('状态为已作业，不可转换！', e);
                     $scope.$apply();
                 });
                 return;
@@ -330,7 +337,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = [];
                 if (data.data) {
-                    $scope.upBridgeStatus(data.data.pid,e);
+                    $scope.upBridgeStatus(data.data.pid, e);
 
                     $.each(data.data.log, function (i, item) {
                         if (item.pid) {
@@ -384,7 +391,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         }
 
 
-    }
+    };
     $scope.upBridgeStatus = function (pid,e) {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
