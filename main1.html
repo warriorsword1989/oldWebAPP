@@ -80,6 +80,7 @@
         .pull-right{
             float:right;
         }
+
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -166,7 +167,7 @@
                         </div>
                     </div>
                 </div>
-                <div ui-layout-container style="overflow: hidden">
+                <div ui-layout-container style="overflow: hidden;">
                     <ul id="inspectAndWrongTab" class="nav nav-tabs">
                         <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
                             输出结果</a>
@@ -196,8 +197,8 @@
                         <div class="tab-pane fade in active" id="inspectDiv">
                             <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height: 150px"></div>
                         </div>
-                        <div class="tab-pane fade in active" id="wrongDiv">
-                            <div ng-include="errorCheckTab"></div>
+                        <div class="tab-pane fade in active" id="wrongDiv" style="height:100%;">
+                            <div ng-include="errorCheckTab" style="height:100%;"></div>
                         </div>
                     </div> 
                 </div>

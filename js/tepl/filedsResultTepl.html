@@ -78,7 +78,7 @@
                             <div class="panel-heading" style="background-color: #F6F8F8">
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion"
-                                       href="#{{pendItem.id}}show" ng-click="showContent(pendItem,[1],'1')">
+                                       href="#{{pendItem.id}}show" ng-click="showContent(pendItem,[1],1)">
                                         <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                     </a>
                                 </h4>
@@ -98,7 +98,7 @@
                                     <table class="table">
                                         <tr ng-repeat="pendSubItem in pendSubItems">
                                             <div ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '">
-                                                <td ng-click="showTab(pendSubItem,$event)">交限Tips{{$index+1}}</td>
+                                                <td ng-click="showTab(pendSubItem,$event,pItem.id)">交限Tips{{$index+1}}</td>
                                             </div>
 
                                         </tr>
@@ -121,7 +121,7 @@
                         <div class="panel-heading" style="background-color: #F6F8F8">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion"
-                                   href="#{{solveItem.id}}unshow" ng-click="showContent(solveItem,[3],'3')">
+                                   href="#{{solveItem.id}}unshow" ng-click="showContent(solveItem,[3],3)">
                                     <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
                                 </a>
                             </h4>
@@ -141,7 +141,7 @@
                                 <table class="table">
                                     <tr ng-repeat="solvedItem in solvedSubItems">
                                         <div  ng-if="solvedItem.i!=''||solvedItem.i!=null||solvedItem.i!=' '">
-                                            <td ng-click="showTab(solvedItem,$event)">交限Tips{{$index+1}}</td>
+                                            <td ng-click="showTab(solvedItem,$event,pItem.id)">交限Tips{{$index+1}}</td>
                                         </div>
 
                                     </tr>
