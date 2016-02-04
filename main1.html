@@ -61,7 +61,8 @@
         }
         .now-zoom{
             position: absolute;
-            left: 5px;
+            /*left: 125px;*/
+            right: 10px;
             bottom: 0;
             color: #Fff;
             font-weight: 600;
@@ -80,6 +81,7 @@
         .pull-right{
             float:right;
         }
+
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -116,15 +118,15 @@
         <div ui-layout-container size="15%"  max-size="190px" min-size="190px" >
             <div >
                 <div class="leftDiv" style="width: 38px;background: #F8F8F8;">
-                    <div class="fragDiv" id="referenceLayers"  style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;">
+                    <div class="fragDiv" id="referenceLayers"  style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;" ng-click="changeLayers('referenceLayers')">
                         <img src="css/img/referenceLayers.png " >
                             <span title="参考图层" class="glyphicon " style=" padding-left: 13px;"
-                                  ng-click="changeLayers('referenceLayers')">参考图层</span>
+                                  >参考图层</span>
                     </div>
-                    <div class="fragDiv" id="resultLayers" style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;" >
+                    <div class="fragDiv" id="resultLayers" style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;" ng-click="changeLayers('resultLayers')">
                         <img src="css/img/resultLayers.png " >
                         <span title="现场成果" class="glyphicon " style=" padding-left: 13px;"
-                                  ng-click="changeLayers('resultLayers')">现场成果</span>
+                                  >现场成果</span>
                     </div>
                 </div>
                 <div class="rightDiv" style="padding-left:35px; ">
@@ -161,12 +163,21 @@
                         <div class="now-zoom">当前比例尺:
                             <span id="nowZoom" class="badge">17</span>
                         </div>
-                        <div id="zoomBtn" class="btn-group">
-                            <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button>
-                        </div>
+                        <!-- <div id="zoomBtn" class="btn-group"> -->
+                            <!-- <div>
+                                <div id="rangeModel" style="float: left;width: 157px;">
+                                    <div id="rangeBegin" style="margin-top: 2px;float: left;">1</div>
+                                    <input id="rangeSlider" type="range" min="1" max="20" step="1" value="5" style="background-color: rgba(3, 169, 244, 0.68);transition: all 0.5s;">
+                                    <div id="rangeEnd" style="float: right;margin-top: 2px;">20</div>
+                                </div>
+                                <div style="clear:both"></div>
+                                <div id="rangeValue" style="float: left;text-align: center;width: 157px;">16</div>
+                            </div> -->
+                            <!-- <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button> -->
+                        <!-- </div> -->
                     </div>
                 </div>
-                <div ui-layout-container style="overflow: hidden">
+                <div ui-layout-container style="overflow: hidden;">
                     <ul id="inspectAndWrongTab" class="nav nav-tabs">
                         <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
                             输出结果</a>
@@ -196,8 +207,8 @@
                         <div class="tab-pane fade in active" id="inspectDiv">
                             <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height: 150px"></div>
                         </div>
-                        <div class="tab-pane fade in active" id="wrongDiv">
-                            <div ng-include="errorCheckTab"></div>
+                        <div class="tab-pane fade in active" id="wrongDiv" style="height:100%;">
+                            <div ng-include="errorCheckTab" style="height:100%;"></div>
                         </div>
                     </div> 
                 </div>

@@ -17,7 +17,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         for (var item in obj) {
                             switch (item) {
                                 case "1101":
-                                    objArr.name = "限速";
+                                    objArr.name = "点限速";
                                     objArr.id = "1101";
                                     objArr.total = obj[item];
                                     break;
@@ -99,7 +99,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             for (var item in obj) {
                                 switch (item) {
                                     case "1101":
-                                        objArr.name = "限速";
+                                        objArr.name = "点限速";
                                         objArr.id = "1101";
                                         objArr.total = obj[item];
                                         break;
@@ -172,9 +172,20 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage) {
+
                 for(var k  in $scope.items) {
-                    if($('#'+ $scope.items[k].id).hasClass('in')) {
-                        $('#'+ $scope.items[k].id).removeClass('in')
+                    if(stage===0){
+                        if($('#'+ $scope.items[k].id).hasClass('in')) {
+                            $('#'+ $scope.items[k].id).removeClass('in')
+                        }
+                    }else if (stage === 1) {
+                        if($('#'+ $scope.items[k].id+'show').hasClass('in')) {
+                            $('#'+ $scope.items[k].id+'show').removeClass('in')
+                        }
+                    }else if (stage === 3) {
+                        if($('#'+ $scope.items[k].id+'unshow').hasClass('in')) {
+                            $('#'+ $scope.items[k].id+'unshow').removeClass('in')
+                        }
                     }
                 }
                     //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
@@ -188,7 +199,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $scope.pendSubItems = data.data;
                             });
                         } else if (stage === 3) {
-                            $scope.solvedSubItems = data.data;
+                            $scope.$apply(function () {
+                                $scope.solvedSubItems = data.data;
+                            });
                         }
 
                     })
@@ -247,16 +260,17 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         });
                         if(data.f.type==1){
                             $scope.dataId=data.f.id;
-                            Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (data) {
-                                var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                            Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (d) {
+                                var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
                                 for (var i = 0, len = linkArr.length; i < len; i++) {
                                     var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                                     points.push(point);
                                 }
-                                map.panTo({lat: points[0].y, lon: points[0].x});
+                                // map.panTo({lat: points[0].y, lon: points[0].x});
+                                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                                 var line = fastmap.mapApi.lineString(points);
                                 selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-                                objCtrl.setCurrentObject(data);
+                                objCtrl.setCurrentObject(d);
                                 if (objCtrl.updateObject !== "") {
                                     objCtrl.updateObject();
                                 }
@@ -409,11 +423,19 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                      "data":obj
                                 }
                                 Application.functions.getByCondition(JSON.stringify(param), function (data) {
-                                    objCtrl.setCurrentObject(data.data[0]);
-                                    $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+                                    if (data.errcode === -1) {
+                                       $timeout(function(){
+                                            $('body').poiMsg('errid:'+data.errid+' ,errmsg:'+data.errmsg,e);
+                                            $scope.$apply();
+                                        })
+                                       return;
+                                   }else{
+                                        objCtrl.setCurrentObject(data.data[0]);
+                                        $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
 
-                                    });
+                                        });
+                                   }
                                 });
                             }
 
@@ -424,7 +446,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
                     }else if(pItemId==="1901"){//道路名
                         //$scope.$parent.$parent.dataTipsURL = "js/tepl/sceneIntersectionTepl.html";
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19);
 
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
