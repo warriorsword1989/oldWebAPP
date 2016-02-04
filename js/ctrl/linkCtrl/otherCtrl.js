@@ -184,7 +184,7 @@ otherApp.controller("otherController",function($scope){
             fromLimitSrc: 1,
             fromSpeedLimit: 0,
             linkPid: 0,
-            rowid: "",
+            rowid:$scope.speedOfConLength,
             speedClass: 5,
             speedClassWork: 0,
             speedDependent: 0,
