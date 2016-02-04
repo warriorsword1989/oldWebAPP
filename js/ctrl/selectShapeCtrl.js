@@ -307,6 +307,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 $scope.showTipsOrProperty(data,"RDLANECONNEXITY",objCtrl,connexityId,"ctrl/rdLaneConnexityCtrl","js/tepl/rdLaneConnexityTepl.html");
                                 break;
                             case "1407":
+                                $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
+                                    $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
+                                    });
+                                });
+                                objCtrl.setCurrentObject(data.brID);
                                 break;
                             case "1501"://1501
                                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
