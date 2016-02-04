@@ -222,7 +222,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
-            layerCtrl.pushLayerFront('restriction');
+            //layerCtrl.pushLayerFront('restriction');
             map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
             restrict.options.selectType = 'relation';

@@ -26,75 +26,27 @@ fastmap.uikit.SelectRdlane = L.Class.extend({
 
         var id = null;
         for (var item in data) {
-            var restrictObj = data[item].properties.restrictioninfo;
+            var laneObj = data[item].properties.laneconnexityinfo;
             var geom=data[item].geometry.coordinates;
             var newGeom=[];
-            if (restrictObj !== undefined) {
-                if (restrictObj.constructor === Array) {
-                    for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                        if (theory > 0) {
-                            newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                            newGeom[1] = (parseInt(geom[1]));
-                            if(this._TouchesPoint(newGeom, x, y, 20)){
-                                id = data[item].properties.id;
-                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+            if (laneObj !== undefined) {
+                var laneArr = laneObj.split(",");
+                for (var fact = 0, factLen = laneArr.length; fact < factLen; fact++) {
+                        newGeom[0] = (parseInt(geom[0]) + fact * 16);
+                        newGeom[1] = (parseInt(geom[1]));
+                        if(this._TouchesPoint(newGeom, x, y, 20)){
+                            id = data[item].properties.id;
+                            this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                                if (this.redrawTiles.length != 0) {
-                                    this._cleanHeight();
-                                }
-
-                                this._drawHeight(id);
-                                break;
+                            if (this.redrawTiles.length != 0) {
+                                this._cleanHeight();
                             }
-                        }else{
-                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                                id = data[item].properties.id;
-                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
 
-                                if (this.redrawTiles.length != 0) {
-                                    this._cleanHeight();
-                                }
-
-                                this._drawHeight(id);
-                                break;
-                            }
+                            this._drawHeight(id);
+                            break;
                         }
-
-                    }
-                }else{
-                    var restrictArr = restrictObj.split(",");
-                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-                        if (fact > 0) {
-                            newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                            newGeom[1] = (parseInt(geom[1]));
-                            if(this._TouchesPoint(newGeom, x, y, 20)){
-                                id = data[item].properties.id;
-                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
-
-                                if (this.redrawTiles.length != 0) {
-                                    this._cleanHeight();
-                                }
-
-                                this._drawHeight(id);
-                                break;
-                            }
-                        }else{
-                            if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                                id = data[item].properties.id;
-                                this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
-
-                                if (this.redrawTiles.length != 0) {
-                                    this._cleanHeight();
-                                }
-
-                                this._drawHeight(id);
-                                break;
-                            }
-                        }
-                    }
                 }
             }
-
         }
 
 
@@ -140,51 +92,31 @@ fastmap.uikit.SelectRdlane = L.Class.extend({
             if (data.hasOwnProperty("features")) {
                 for (var i = 0; i < data.features.length; i++) {
                     var feature = data.features[i];
-                    if (feature.properties.restrictioninfo === undefined) {
+                    if (feature.properties.laneconnexityinfo === undefined) {
                         break;
                     }
                     var newStyle="", newGeom=[];
-                    var restrictObj = feature.properties.restrictioninfo;
+                    var laneObj = feature.properties.laneconnexityinfo;
                     var geom = feature.geometry.coordinates;
-                    if (restrictObj !== undefined) {
-                        if (restrictObj.constructor === Array) {
-                            for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                newStyle= {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                if (theory > 0) {
-                                    newGeom[0]=(parseInt(geom[0]) + theory*16);
-                                    newGeom[1]=(parseInt(geom[1]));
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                }else{
-                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+                    if (laneObj !== undefined) {
+
+                        var laneArr = laneObj.split(",");
+                        for (var fact = 0, factLen = laneArr.length; fact < factLen; fact++) {
+
+                                if(laneArr[fact].indexOf("[")>-1){
+                                    laneArr[fact]=laneArr[fact].replace("[","");
+                                    laneArr[fact]=laneArr[fact].replace("]","");
+                                    newStyle= {src: './css/laneinfo/normal/' + laneArr[fact] + laneArr[fact] + '.png'};
+                                }else if(laneArr[fact].indexOf("[")>-1){
+                                    laneArr[fact]=laneArr[fact].replace("<","");
+                                    laneArr[fact]=laneArr[fact].replace(">","");
                                 }
-                            }
-                        } else {
-                            var restrictArr = restrictObj.split(",");
-                            for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                if (restrictArr[fact].constructor === Array) {
-                                    newStyle= {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-
-                                } else {
-                                    if(restrictArr[fact].indexOf("[")>-1){
-                                        restrictArr[fact]=restrictArr[fact].replace("[","");
-                                        restrictArr[fact]=restrictArr[fact].replace("]","");
-                                        newStyle= {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                    }else{
-                                        newStyle= {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-                                    }
-
+                                else{
+                                    newStyle= {src: './css/laneinfo/normal/' + laneArr[fact] + '.png'};
                                 }
-                                if(fact>0){
-                                    newGeom[0]=(parseInt(geom[0]) + fact*16);
-                                    newGeom[1]=(parseInt(geom[1]));
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                }else{
-                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                }
-                            }
-                        }
+                                this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
 
+                       }
                     }
 
                 }
@@ -214,52 +146,28 @@ fastmap.uikit.SelectRdlane = L.Class.extend({
                         //, zoom: this._map.getZoom()
                     }
                     if (type == "Point") {
-                        if (feature.properties.restrictioninfo === undefined) {
+                        if (feature.properties.laneconnexityinfo === undefined) {
                             break;
                         }
                         var newStyle="", newGeom=[];
-                        var restrictObj = feature.properties.restrictioninfo;
-                        if (restrictObj !== undefined) {
-                            if (restrictObj.constructor === Array) {
-                                for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyle= {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    if (theory > 0) {
-                                        newGeom[0]=(parseInt(geom[0]) + theory*16);
-                                        newGeom[1]=(parseInt(geom[1]));
-                                        this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    }else{
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                    }
+                        var laneObj = feature.properties.laneconnexityinfo;
+                        if (laneObj !== undefined) {
 
+                            var laneObjArr = laneObj.split(",");
+                            for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
+                                if(laneObjArr[fact].indexOf("[")>-1){
+                                    laneObjArr[fact]=laneObjArr[fact].replace("[","");
+                                    laneObjArr[fact]=laneObjArr[fact].replace("]","");
+                                }else if(laneObjArr[fact].indexOf("[")>-1){
+                                    laneObjArr[fact]=laneObjArr[fact].replace("<","");
+                                    laneObjArr[fact]=laneObjArr[fact].replace(">","");
                                 }
-                            } else {
-                                var restrictArr = restrictObj.split(",");
-                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                    if (restrictArr[fact].constructor === Array) {
-                                        newStyle= {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                    } else {
-                                        if(restrictArr[fact].indexOf("[")>-1){
-                                            restrictArr[fact]=restrictArr[fact].replace("[","");
-                                            restrictArr[fact]=restrictArr[fact].replace("]","");
-                                            newStyle= {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                        }else{
-                                            newStyle= {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-                                        }
-                                    }
-                                    if(fact>0){
-                                        newGeom[0]=(parseInt(geom[0]) + fact*16);
-                                        newGeom[1]=(parseInt(geom[1]));
-                                        this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    }else{
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                    }
-
-                                }
+                                console.log('-----------------------')
+                                    newStyle= {src: './css/limit/laneinfo/' + laneObjArr[fact] + '.png'};
+                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
                             }
 
                         }
-
 
                     }
                 }

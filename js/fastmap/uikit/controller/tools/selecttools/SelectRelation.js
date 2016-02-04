@@ -46,6 +46,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this._map.off('mousedown', this.onMouseDown, this);
     },
     onMouseDown: function (event) {
+        this.tiles = [];
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
 
@@ -56,6 +57,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
         for(var layer in this.currentEditLayers){
+           
             this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
 
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data == undefined){
@@ -66,81 +68,17 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
             var id = null;
             switch (this.currentEditLayers[layer].requestType) {
-                case'RDRESTRICTION':
 
+                case'RDRESTRICTION':
+                    this.layerController.pushLayerFront(this.currentEditLayers[layer].options.id);
                     var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:this.currentEditLayers[layer],tiles:this.tiles});
-                    //sfrs.cleanHeight();
+
                     frs.drawGeomCanvasHighlight(event, data);
-                    //for (var item in data) {
-                    //    var restrictObj = data[item].properties.restrictioninfo;
-                    //    var geom=data[item].geometry.coordinates;
-                    //    var newGeom=[];
-                    //    if (restrictObj !== undefined) {
-                    //        if (restrictObj.constructor === Array) {
-                    //            for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                    //                if (theory > 0) {
-                    //                    newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                    //                    newGeom[1] = (parseInt(geom[1]));
-                    //                    if(this._TouchesPoint(newGeom, x, y, 20)){
-                    //                        id = data[item].properties.id;
-                    //                        this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
-                    //
-                    //                        if (this.redrawTiles.length != 0) {
-                    //                            this._cleanHeight();
-                    //                        }
-                    //
-                    //                        this._drawHeight(id);
-                    //                        break;
-                    //                    }
-                    //                }else{
-                    //                    if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                    //                        id = data[item].properties.id;
-                    //                        this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
-                    //
-                    //                        if (this.redrawTiles.length != 0) {
-                    //                            this._cleanHeight();
-                    //                        }
-                    //
-                    //                        this._drawHeight(id);
-                    //                        break;
-                    //                    }
-                    //                }
-                    //
-                    //            }
-                    //        }else{
-                    //            var restrictArr = restrictObj.split(",");
-                    //            for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-                    //                if (fact > 0) {
-                    //                    newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                    //                    newGeom[1] = (parseInt(geom[1]));
-                    //                    if(this._TouchesPoint(newGeom, x, y, 20)){
-                    //                        id = data[item].properties.id;
-                    //                        this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
-                    //
-                    //                        if (this.redrawTiles.length != 0) {
-                    //                            this._cleanHeight();
-                    //                        }
-                    //
-                    //                        this._drawHeight(id);
-                    //                        break;
-                    //                    }
-                    //                }else{
-                    //                    if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                    //                        id = data[item].properties.id;
-                    //                        this.currentEditLayers[layer].fire("getNodeId", {id: id, tips: 0})
-                    //                        this.currentEditLayer =this.currentEditLayers[layer];
-                    //                        if (this.redrawTiles.length != 0) {
-                    //                            this._cleanHeight();
-                    //                        }
-                    //
-                    //                        this._drawHeight(id);
-                    //                        break;
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
+                    break;
+                case "RDLANECONNEXITY":
+                    var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.currentEditLayers[layer],tiles:this.tiles});
+
+                    frs.drawGeomCanvasHighlight(event, data);
                     break;
             }
 
