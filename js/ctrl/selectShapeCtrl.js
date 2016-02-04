@@ -276,12 +276,60 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
                         console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
+
                             case "2001"://测线
+                            case "1101"://点限速
+                                var speedLimitId = data.id;
+                                $scope.showTipsOrProperty(data,"RDSPEEDLIMIT",objCtrl,speedLimitId,"ctrl/speedLimitCtrl","js/tepl/speedLimitTepl.html");
+                                break;
+                            case "1203":
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                                    if(data.f.type==1) {
+                                        $scope.dataId = data.f.id;
+                                        Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (d) {
+                                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                            });
+                                        });
+                                    }
+                                });
+
+                                break;
                             case "1201"://种别
                                 type = "RDLINK";
                                 propertyCtrl = "ctrl/linkObjectCtrl";
                                 propertyTepl = "js/tepl/currentObjectTepl.html";
                                 $scope.showTipsOrProperty(data, type, objCtrl, propertyCtrl, propertyTepl);
+                                break;
+                            case "1301"://车信
+                                var connexityId = data.id;
+                                $scope.showTipsOrProperty(data,"RDLANECONNEXITY",objCtrl,connexityId,"ctrl/rdLaneConnexityCtrl","js/tepl/rdLaneConnexityTepl.html");
+                                break;
+                            case "1407":
+                                $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
+                                    $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
+                                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
+                                    });
+                                });
+                                objCtrl.setCurrentObject(data.brID);
+                                break;
+                            case "1501"://1501
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                                    if(data.f_array.length!=0){
+                                        $scope.$parent.$parent.brigeLinkArray= data.f_array;
+                                        Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (d) {
+                                            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                            });
+                                        });
+                                    }
+
+                                });
+                                break;
+                            case "1604":
                                 break;
                             case  "1704"://交叉路口
                                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
@@ -302,6 +350,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                         });
                                     }
 
+                                });
+                                break;
+                            case "1803":
+                                break;
+                            case "1901":
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 });
                                 break;
 

@@ -148,10 +148,10 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         }
     };
     $scope.$parent.$parent.save = function () {
-        if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
-            console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
-            return;
-        }
+        //if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
+        //    console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
+        //    return;
+        //}
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -201,7 +201,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             var info = [];
             if (data.data) {
                 rdLink.redraw();
-                if($scope.speedAndDirect!==null) {
+                if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
                     }

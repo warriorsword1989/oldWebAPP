@@ -42,7 +42,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-       // $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
+        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
         $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     };
