@@ -6,6 +6,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout) {
     var layerCtrl = fastmap.uikit.LayerController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var originObjCtrl = objCtrl;
     var outPutCtrl = fastmap.uikit.OutPutController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -74,6 +75,12 @@ selectApp.controller("rdCrossController", function ($scope,$timeout) {
     objCtrl.updateRdCross=function() {
         $scope.initializeRdCrossData();
     };
+    $scope.refreshData = function(){
+        Application.functions.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS", function (data) {
+            objCtrl.data = data.data;
+            $scope.initializeRdCrossData();
+        })
+    }
     $scope.checksignal = function (flag) {
         $("#signaldiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#signalbtn" + flag).removeClass("btn btn-default").addClass("btn btn-primary");
@@ -206,6 +213,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout) {
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
+            $scope.refreshData();
         })
 
     };
