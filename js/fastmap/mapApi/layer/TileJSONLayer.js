@@ -283,6 +283,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             g.save();
             g.translate(p.x, p.y);
             g.drawImage(image, -image.width / 2, -image.height);
+            //g.drawImage(image, p.x, p.y);
             g.restore();
         };
     },
@@ -795,11 +796,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     var el;
                     if (x.xdomain || x.status == 200) {
                         //el = x.dest;
+
                         if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                             if (window.JSON) {
                                 if (window.JSON.parse(x.responseText).data != null) {
                                     d = window.JSON.parse(x.responseText);
-                                    d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
+                                    //d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
+                                    //d= d.data;
+                                    d = Object.prototype.toString.call(d.data[self.requestType]) === '[object Array]' ? d.data[self.requestType] : d.data;
+
                                 }
 
                             } else {
@@ -809,7 +814,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 return;
                             }
                             self.tiles[key].setData(parse(d));
-                            func(d);
+
+                                func(d);
                         }
                     }
                 }
@@ -829,9 +835,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 };
                 x.onload = x.onreadystatechange
             }
-            x.open("GET", url);
-            x._url = url;
-            x.send()
+                x.open("GET", url);
+                x._url = url;
+                x.send()
+
+
         }
         return x;
     },
@@ -1018,7 +1026,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         }
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 30;
+                                        newgeom[0] = parseInt(geom[0]) + fact * 10;
                                         newgeom[1] = parseInt(geom[1]);
                                         this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
                                     } else {
@@ -1118,10 +1126,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "Point":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-
-                    url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
-
-
+                    url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":15,"type":["' + this.requestType + '"]}'
                 }
                 break;
             case "Marker":

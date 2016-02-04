@@ -315,7 +315,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 })
                             }
                         } else {
-                            if (data.id === 0) {
+                            if (data.id === undefined) {
                                 $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
                                     $scope.$parent.$parent.objectEditURL = "";
