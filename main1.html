@@ -61,13 +61,12 @@
         }
         .now-zoom{
             position: absolute;
-            /*left: 125px;*/
-            right: 10px;
+            left: 5px;
             bottom: 0;
-            color: #Fff;
-            font-weight: 600;
-            font-size: 13px;
-            text-shadow: 0px 0px 4px #080808;
+            color: #1B1B1B;
+            font-weight: 100;
+            font-size: 9px;
+            text-shadow: 0px 0px 4px #eeeeee;
             z-index: 1;
         }
         #nowZoom{
@@ -81,7 +80,14 @@
         .pull-right{
             float:right;
         }
-
+        .leaflet-control-scale-line{
+            border-bottom: 3px solid;
+            border-left: 1px solid;
+            border-right: 1px solid;
+        }
+        .leaflet-bottom{
+            bottom: 12px;
+        }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
