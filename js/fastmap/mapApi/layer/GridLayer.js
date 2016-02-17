@@ -1,8 +1,11 @@
 /**
+ * Created by wangtun on 2016/2/2.
+ */
+/**
  * Created by zhongxiaoming on 2015/9/2.
  * Class 1:25000图幅图层
  */
-fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
+fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
     /***
      * 初始化可选参数
      * @param {Object}options
@@ -10,9 +13,11 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     initialize: function (url, options) {
         this.url = url;
         this.options = options || {};
-        fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
+        fastmap.mapApi.MeshLayer.prototype.initialize(this, options);
         this.minShowZoom = this.options.minShowZoom || 9;
         this.maxShowZoom = this.options.maxShowZoom || 18;
+        this.divideX=this.options.divideX||0;
+        this.divideY=this.options.divideY||0;
     },
     /***
      * 图层添加到地图时调用
@@ -21,6 +26,40 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     onAdd: function (map) {
         this.map = map;
         this._initContainer(this.options);
+        var that=this;
+        var center=null;
+        this.canv.onclick=function(e){
+            var event=e;
+            event.stopPropagation();
+            event.preventDefault();
+            var showFlag=false;
+            for(var i=0;i<that.gridArr.length;i++){
+                var latlngbounds = that.gridArr[i].getBounds();
+                var bound = L.bounds(that.map.latLngToContainerPoint(latlngbounds.getNorthWest()), that.map.latLngToContainerPoint(latlngbounds.getSouthEast()));
+                if(e.x<=bound.max.x&& e.x>=bound.min.x&& e.y<=bound.max.y&& e.y>=bound.min.y){
+                    var center=latlngbounds.getCenter();
+                    if(that.options.gridInfo[that.gridArr[i].options.gridId]){
+                        if(that.options.gridInfo[that.gridArr[i].options.gridId].couldBorrow){
+                            that.map.openPopup('<a href="javascript:void(0)" class="btn btn-warning">借数据</a>',center);
+                        }
+                        else if(that.options.gridInfo[that.gridArr[i].options.gridId].couldReturn){
+                            that.map.openPopup('<a href="javascript:void(0)" class="btn btn-warning">还数据</a>',center);
+                        }
+                        else if(that.options.gridInfo[that.gridArr[i].options.gridId].userId){
+                            that.map.openPopup('<div style="width:200px;text-align: center"><img src="css/img/pie.jpg" style="width:100px;height:100px"/></div>',center);
+                        }
+                        showFlag=true;
+                    }
+                }
+            }
+            if(!showFlag){
+                that.map.closePopup()
+            }
+        };
+
+        this.canv.ondblclick=function(){
+            window.location.href="edit.html";
+        }
         map.on("moveend", this._redraw, this);
         this._redraw();
     },
@@ -58,7 +97,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
             var latlngbounds = this.gridArr[i].getBounds();
             var bound = L.bounds(this.map.latLngToContainerPoint(latlngbounds.getNorthWest()), this.map.latLngToContainerPoint(latlngbounds.getSouthEast()));
             var size = bound.getSize();
-            this.drawRect(this._ctx, this.gridArr[i].options.meshid, {
+            this.drawRect(this._ctx, this.gridArr[i], {
                 x: bound.min.x,
                 y: bound.min.y,
                 width: size.x,
@@ -73,11 +112,26 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param meshId 图幅id
      * @param options 可选参数
      */
-    drawRect: function (context, meshId, options) {
-        context.strokeStyle = '#B3ADE9'//边框颜色
+    drawRect: function (context, grid, options) {
+        context.globalAlpha = 0.3;
         context.linewidth = 1;  //边框宽
-        context.strokeRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
-        context.stroke()
+        context.strokeStyle = 'red'//边框颜色
+        context.strokeRect(options.x, options.y, options.width, options.height);
+        if(this.options.gridInfo[grid.options.gridId]){
+            if(this.options.gridInfo[grid.options.gridId].userId&&!this.options.gridInfo[grid.options.gridId].couldReturn){
+                context.fillStyle = '#B0FEFB';
+                context.fillRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
+            }
+            if(this.options.gridInfo[grid.options.gridId].couldBorrow){
+                context.fillStyle = '#8B84A3';
+                context.fillRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
+            }
+
+            if(this.options.gridInfo[grid.options.gridId].userId&&this.options.gridInfo[grid.options.gridId].couldReturn){
+                context.fillStyle = '#19B076';
+                context.fillRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
+            }
+        }
     },
 
     /***
@@ -119,13 +173,39 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
             });
             var bound = this.Calculate25TMeshBorder(meshId);
 
-            var b = L.latLngBounds([bound.minLat, bound.minLon], [bound.maxLat, bound.maxLon]);
-            var polygon = L.rectangle(b, {meshid: meshId});
-            grid.push(polygon);
-            origin += 0.083333333333333;
+            this.createSubGrid(grid,bound,meshId,function(){
+                origin += 0.083333333333333;
+            });
         }
 
         return grid
+    },
+
+    createSubGrid:function(grid,bound,meshId,callback){
+        var differenceY=bound.maxLat-bound.minLat;
+        if(this.divideY>0){
+            differenceY=(bound.maxLat-bound.minLat)/this.divideY;
+        }
+
+        var differenceX=bound.maxLon-bound.minLon;
+        if(this.divideX>0){
+            differenceX=(bound.maxLon-bound.minLon)/this.divideX;
+        }
+
+
+        for(var i= 0;i<this.divideX;i++){
+            var boundXmin=bound.minLon+differenceX*i;
+            var boundXmax=bound.minLon+differenceX*(i+1);
+            for(var j=0;j<this.divideY;j++){
+                var boundYmin=bound.minLat+differenceY*j;
+                var boundYmax=bound.minLat+differenceY*(j+1)
+
+                var b = L.latLngBounds([boundYmin, boundXmin], [boundYmax, boundXmax]);
+                var polygon = L.rectangle(b, {meshId: meshId,gridId:meshId+"_"+i+""+j});
+                grid.push(polygon);
+            }
+        }
+        callback();
     },
 
     /***
@@ -384,6 +464,6 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     }
 
 });
-fastmap.mapApi.meshLayer=function(url, options) {
-    return new fastmap.mapApi.MeshLayer(url, options);
+fastmap.mapApi.gridLayer=function(url, options) {
+    return new fastmap.mapApi.GridLayer(url, options);
 };

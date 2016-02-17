@@ -7,7 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="content-script-type" content="text/javascript">
         <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
         <style type="text/css">
         html, body {
             width: 100%;
@@ -61,16 +60,16 @@
         }
 
         .login-footer {
-            margin-top: 8%;
             position: absolute;
             width: 100%;
-            bottom: 4%;
+            bottom:0px;
         }
 
         .login-footer-content {
             margin: 0px auto;
             border-top: 1px solid #e7e7e7;
             text-align: center;
+            padding: 5px 0px;
         }
 
         .login-footer-content p, .login-footer-content a {
@@ -240,9 +239,9 @@
             -o-transition: all .3s;
         }
         li.normalStatus > div{
-            display:none;
+            display: none;
             width: 100px;
-            height:150px
+            height:0px
         }
         li.normalStatus:hover > div{
             display:block;
@@ -260,6 +259,29 @@
             opacity: .95;
             -webkit-transition: height .1s;
         }
+
+        li.normalStatus ul{
+            list-style: none;
+            padding: 5px;
+        }
+
+        li.normalStatus ul>li{
+            list-style: none;
+        }
+        li.normalStatus ul>li>a{
+            background: #fefefe;
+            color: #000;
+            display: block;
+            height: 25px;
+            line-height: 20px;
+            margin: 0;
+            padding: 3px 10px;
+        }
+        li.normalStatus ul>li>a:hover{
+            background: #00a2ca;
+            color: #fff;
+            text-decoration: none;
+        }
         </style>
     </head>
     <body>
@@ -274,11 +296,16 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="normalStatus">
                             <a href="#" title="登陆人员" class="" style="color:#fff">admin <span class="lnk-message">5</span><i id="arrow"></i></a>
-                            <div class="" style="">
-                                <div style="border-bottom: 1px solid #e5e5e5">
+                            <div class="userInfo">
+                                <div style="border-bottom: 1px solid #e5e5e5;padding:10px;">
                                     <img src="css/img/header.png" style="width: 32px;height: 32px">
                                 </div>
-                                <div style="border-bottom: 1px solid #e5e5e5"></div>
+                                <div style="border-bottom: 1px solid #e5e5e5;padding:10px; ">
+                                    <ul>
+                                        <li><a href="#">个人资料</a></li>
+                                        <li><a href="#">消息中心<span style="color:red">（5）</span></a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </li>
                         <li>
@@ -297,7 +324,7 @@
                         <div class="img_box_caption">
                             <h3 class="img_box_caption_h">北京测试项目库</h3>
                             <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1234</span> 个</p>
-                            <a class="img_box_caption_a" href="main1.html"></a>
+                            <a class="img_box_caption_a" href="project.html"></a>
                         </div>
                     </div>
                     <div class="img_box_title">北京测试项目库</div>
@@ -307,8 +334,8 @@
                         <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
                         <div class="img_box_caption">
                             <h3 class="img_box_caption_h">北京测试项目库</h3>
-                            <p class="img_box_caption_p">待作业Tips总量1301个</p>
-                            <a class="img_box_caption_a" href="main1.html"></a>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1301</span> 个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
                         </div>
                     </div>
                     <div class="img_box_title">北京测试项目库</div>
@@ -318,8 +345,8 @@
                         <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
                         <div class="img_box_caption">
                             <h3 class="img_box_caption_h">北京测试项目库</h3>
-                            <p class="img_box_caption_p">待作业Tips总量1301个</p>
-                            <a class="img_box_caption_a" href="main1.html"></a>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1301</span>个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
                         </div>
                     </div>
                     <div class="img_box_title">北京测试项目库</div>
@@ -329,8 +356,8 @@
                         <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
                         <div class="img_box_caption">
                             <h3 class="img_box_caption_h">北京测试项目库</h3>
-                            <p class="img_box_caption_p">待作业Tips总量 <span class="badge">1242</span> 个</p>
-                            <a class="img_box_caption_a" href="main1.html"></a>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1242</span> 个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
                         </div>
                     </div>
                     <div class="img_box_title">北京测试项目库</div>
@@ -339,12 +366,6 @@
         </div>
         <div class="login-footer">
             <div class="login-footer-content">
-                <p>
-                <a href="http://www.navinfo.com/index.aspx">四维图新网站</a> |
-                <a href="https://sso.navinfo.com/login.do?service=http%3A%2F%2Foa.navinfo.com%2Fmain.do">四维协同办公系统</a> |
-                <a href="https://mail.navinfo.com/owa/auth/logon.aspx?url=https://mail.navinfo.com/owa/&reason=0">四维邮件系统</a> |
-                <a href="http://pan.navinfo.com/index.php">企业云网盘</a>
-                </p>
                 <p>Copyright©2009北京四维图新科技股份有限公司</p>
             </div>
         </div>
