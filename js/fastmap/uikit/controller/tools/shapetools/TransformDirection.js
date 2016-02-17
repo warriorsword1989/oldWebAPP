@@ -26,7 +26,6 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
      * 添加事件处理
      */
     addHooks: function () {
-        console.log("dddddd");
         this._map.on('mousedown', this.onMouseDown, this);
         //this._map.on('mouseup', this.onMouseUp, this);
     },
@@ -53,34 +52,33 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         var layerPoint = event.layerPoint;
         //.components
         var geos = this.shapeEditor.shapeEditorResult.getFinalGeometry();
-        var point = this._map.latLngToLayerPoint([geos.point.y, geos.point.x]);
+        var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
-        console.log(this.flag);
         var len = this.distance(layerPoint, point);
         if(len<10000) {
             switch (orientation) {
-                case "0":
+                case "1":
                     if(this.sign===0) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向左
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";//向左
                     }else if(this.sign===1) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";//向右
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向右
                         this.sign = 0;
                     }
                     break;
-                case "1":
+                case "2":
                     if(this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "0";
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
                     }else{
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";
                     }
 
                     break;
-                case "2":
+                case "3":
                     if(this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "0";
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
                         this.sign = 1;
                     }else{
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
+                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
 
                     }
                     break;

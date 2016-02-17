@@ -47,6 +47,14 @@
     .form-horizontal .control-label{
         text-align: center;
     }
+    .btnclass{
+        background-color:#49C2FC;
+        border-radius: 5px;
+    }
+    .btnDefultclass{
+        background-color:#fff;
+        border-color: #ccc;
+    }
 </style>
 <div id="currentObjectDiv" ng-controller="linkObjectCtroller">
     <div style="height:7%">
@@ -69,17 +77,17 @@
             <div class="form-group">
                 <div class="col-sm-12 ">
                     <div class="btn-group" style="width:100%;" >
-                        <button type="button" style="width: 33%;border-radius: 5px;" id="basicModule" ng-click="changeModule('basicModule')" class="btn btn-default">基础属性</button>
-                        <button type="button" style="width: 33%;border-radius: 5px;" id="limitedModule" ng-click="changeModule('limitedModule')" class="btn btn-default">限制信息</button>
-                        <button type="button" style="width: 34%;border-radius: 5px;" id="paginationModule"  ng-click="changeModule('paginationModule')" class="btn btn-default">行人导航</button>
+                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[0],'btnDefultclass':notAcitive[0]}"  ng-click="changeModule('basicModule',0)" class="btn">基础属性</button>
+                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[1],'btnDefultclass':notAcitive[1]}" ng-click="changeModule('limitedModule',1)" class="btn">限制信息</button>
+                        <button type="button" style="width: 34%;border-radius: 5px;" ng-class="{'btnclass':isActive[2],'btnDefultclass':notAcitive[2]}"  ng-click="changeModule('paginationModule',2)" class="btn">行人导航</button>
                     </div>
                 </div>
 
                 <div class="col-sm-12" >
                     <div class="btn-group" style="width: 100%;">
-                        <button type="button" style="width: 33%;border-radius: 5px;" id="realtimeModule" ng-click="changeModule('realtimeModule')" class="btn btn-default">实时交通</button>
-                        <button type="button" style="width: 33%;border-radius: 5px;" id="zoneModule" ng-click="changeModule('zoneModule')" class="btn btn-default">区域属性</button>
-                        <button type="button" style="width: 34%;border-radius: 5px;" id="otherModule"  class="btn btn-default" ng-click="changeModule('otherModule')">其他属性</button>
+                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[3],'btnDefultclass':notAcitive[3]}" ng-click="changeModule('realtimeModule',3)" class="btn">实时交通</button>
+                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[4],'btnDefultclass':notAcitive[4]}" ng-click="changeModule('zoneModule',4)" class="btn">区域属性</button>
+                        <button type="button" style="width: 34%;border-radius: 5px;" ng-class="{'btnclass':isActive[5],'btnDefultclass':notAcitive[5]}" class="btn" ng-click="changeModule('otherModule',5)">其他属性</button>
                     </div>
                 </div>
             </div>

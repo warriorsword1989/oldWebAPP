@@ -8,26 +8,37 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     var highLightLayer = fastmap.uikit.HighLightController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
+    var editLayer = layerCtrl.getLayerById('edit');
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = new fastmap.uikit.SelectController();
+    var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+    $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeLinkArrays=$scope.$parent.$parent.brigeLinkArray;
     $scope.brigeIndex=0;
 
     $scope.isActive = [true, false, false, false, false, false];
+    $scope.notAcitive=[false,true,true,true,true,true];
     //改变模块的背景
     $scope.changeActive = function (id) {
         for (var num = 0, len = $scope.isActive.length; num < len; num++) {
             if (num === id) {
                 $scope.isActive[num] = true;
+                $scope.notAcitive[num]=false;
             } else {
                 $scope.isActive[num] = false;
+                $scope.notAcitive[num]=true;
             }
         }
     }
     $scope.initializeLinkData = function () {
-        objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
-        $scope.linkData = objectCtrl.data.data;
-        $("#basicModule").css("background-color", "#49C2FC");
+        if(objectCtrl.data.data){
+            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
+            $scope.linkData = objectCtrl.data.data;
+        }else if(objectCtrl.data){
+            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data));
+            $scope.linkData = objectCtrl.data;
+        }
+       // $("#basicModule").css("background-color", "#49C2FC");
         $scope.changeActive(0);
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
             $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
@@ -49,54 +60,69 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     objectCtrl.updateObject = function () {
         $scope.initializeLinkData();
     };
-
     //获取某个模块的信息
-    $scope.changeModule = function (url) {
+    $scope.changeModule = function (url,ind) {
+        $scope.changeActive(ind);
         if (url === "basicModule") {
-            $scope.changeActive(0);
+            //$scope.changeActive(0);
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
             });
         } else if (url === "paginationModule") {
-            $scope.changeActive(2);
+           // $scope.changeActive(2);
             $ocLazyLoad.load('ctrl/linkCtrl/pedestrianNaviCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
-            $scope.changeActive(3);
+            //$scope.changeActive(3);
             $ocLazyLoad.load('ctrl/linkCtrl/realtimeTrafficCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/realtimeTrafficTepl.html";
             });
         } else if (url === "zoneModule") {
-            $scope.changeActive(4);
+           // $scope.changeActive(4);
             $ocLazyLoad.load('ctrl/linkCtrl/zonePeopertyCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/zonePeopertyTepl.html";
             });
         } else if (url === "limitedModule") {
-            $scope.changeActive(1);
+           // $scope.changeActive(1);
             $ocLazyLoad.load('ctrl/linkCtrl/limitedCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/limitedTepl.html";
             });
         } else if (url == "otherModule") {
-            $scope.changeActive(5);
+            //$scope.changeActive(5);
             $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
             });
         }
-        $("#currentObjectDiv").find(":button").css("background-color", "#fff");
-        $("#currentObjectDiv").find("#" + url).css("background-color", "#49C2FC");
+        //$("#currentObjectDiv").find(":button").css("background-color", "#fff");
+        //$(".btn btn-primary").css("background-color", "#49C2FC");
     }
+    $scope.angleOfLink=function(pointA,pointB) {
+        var PI = Math.PI,angle;
+       if(pointA.x-pointB.x===0) {
+           angle = PI / 2;
+       }else{
+           angle = Math.atan((pointA.y - pointB.y) / (pointA.y - pointB.y));
+       }
+        return angle;
 
-    $scope.changeDirect = function (direc) {
+    };
+    $scope.changeDirect = function (direct) {
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
+        var containerPoint;
         var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
+        var pointVertex= {x:$scope.linkData.geometry.coordinates[1][0], y:$scope.linkData.geometry.coordinates[1][1]};
+        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        var angle = $scope.angleOfLink(containerPoint, pointVertex);
         var marker = {
             flag:true,
+            pid:$scope.linkData.pid,
             point: point,
             type: "marker",
-            angle:Math.PI/3,
-            orientation:"2"
+            angle:angle,
+            orientation:direct.toString()
         };
         var editLayer = layerCtrl.getLayerById('edit');
         layerCtrl.pushLayerFront('edit');
@@ -122,10 +148,10 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         }
     };
     $scope.$parent.$parent.save = function () {
-        if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
-            console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
-            return;
-        }
+        //if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
+        //    console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
+        //    return;
+        //}
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -149,14 +175,21 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                 });
             });
         }
-    console.log($scope.linkData)
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
-    console.log(objectCtrl.changedProperty)
-        if(objectCtrl.changedProperty.limitTrucks.length > 1){
-            $.each(objectCtrl.changedProperty.limitTrucks,function(i,v){
-                delete v.pid;
-            });
+        if(objectCtrl.changedProperty.limits){
+            if(objectCtrl.changedProperty.limits.length > 0){
+                $.each(objectCtrl.changedProperty.limits,function(i,v){
+                    delete v.pid;
+                });
+            }
+        }
+        if(objectCtrl.changedProperty.limitTrucks){
+            if(objectCtrl.changedProperty.limitTrucks.length > 0){
+                $.each(objectCtrl.changedProperty.limitTrucks,function(i,v){
+                    delete v.pid;
+                });
+            }
         }
         var param = {
             "command": "UPDATE",
@@ -167,6 +200,20 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
+                rdLink.redraw();
+                if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }
                 $.each(data.data.log, function (i, item) {
                     if (item.pid) {
                         info.push(item.op + item.type + "(pid:" + item.pid + ")");

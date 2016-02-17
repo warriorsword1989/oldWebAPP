@@ -57,7 +57,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             return flag;
         };
-        $scope.addShape = function (type, num) {
+        $scope.addShape = function (type, num,event) {
+            event.stopPropagation();
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -107,7 +108,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setEditEventType('drawPath');
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("双击地图结束画线!");
+                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "speedLimit") {
 
@@ -140,7 +141,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 geometry: data.data.geometry.coordinates,
                                 id:data.data.pid,
                                 direct: pro.direct,
-                                point: shapeCtrl.shapeEditorResult.getFinalGeometry()
+                                point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
 
                             var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
@@ -304,7 +305,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             }else if(type==="laneConnexity") {
-                $ocLazyLoad.load("ctrl/addLaneConnexityCtrl").then(function () {
+                $ocLazyLoad.load("ctrl/addLaneconnexityCtrl").then(function () {
                     $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
 
                 });

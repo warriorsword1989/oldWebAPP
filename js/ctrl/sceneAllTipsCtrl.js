@@ -48,9 +48,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     break;
                 case 2:
                     $scope.showContent = "外业修改";
+                    $scope.labelInfo = false;
+                    $scope.labelSuc = true;
                     break;
                 case 3:
                     $scope.showContent = "外业新增";
+                    $scope.labelInfo = true;
+                    $scope.labelSuc = false;
                     break;
                 case 0:
                     $scope.showContent = "默认值";
@@ -210,27 +214,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             return '情报';
                     }
                 }
-                //显示状态
-                if ($scope.dataTipsData) {
-                    switch ($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length - 1].stage) {
-                        case 1:
-                            $scope.showContent = "未作业";
-                            $scope.labelInfo = true;
-                            $scope.labelSuc = false;
-                            break;
-                        case 3:
-                            $scope.showContent = "已作业";
-                            $scope.labelInfo = false;
-                            $scope.labelSuc = true;
-                            break;
-                        /*case 4:
-                         $scope.showContent = "GDB增量";
-                         break;
-                         case 0:
-                         $scope.showContent = "初始化";
-                         break;*/
-                    }
-                }
                 if ($scope.dataTipsData) {
                     /*种别*/
                     $scope.lineType = $scope.returnLineType($scope.dataTipsData.kind);
@@ -302,13 +285,27 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     selectCtrl.updateTipsCtrl = function () {
         $scope.initializeDataTips();
         $scope.$apply();
+    };
+    $scope.openOrigin = function (id) {
+        if(id <= selectCtrl.rowKey.f_array.length-1){
+            $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
+            $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            $("#dataTipsOriginModal").modal('show');
+        }
     }
     /*转换*/
-    $scope.transBridge = function () {
+    $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
-        if ($scope.dataTipsData.s_sourceType === "2001") {
+        if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
+            if($scope.dataTipsData.t_lifecycle == 3){
+                $timeout(function(){
+                    $('body').poiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
+                    $scope.$apply();
+                });
+                return;
+            }
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -323,7 +320,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = [];
                 if (data.data) {
-                    $scope.upBridgeStatus(data.data.pid);
+                    $scope.upBridgeStatus(data.data.pid, e);
 
                     $.each(data.data.log, function (i, item) {
                         if (item.pid) {
@@ -377,14 +374,23 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         }
 
 
-    }
-    $scope.upBridgeStatus = function (pid) {
+    };
+    $scope.upBridgeStatus = function (pid,e) {
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
                 "handler": 0,
                 "pid": pid
+            }
+            if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
+                if($scope.dataTipsData.t_lifecycle == 3){
+                    $timeout(function(){
+                        $('body').poiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                        $scope.$apply();
+                    });
+                    return;
+                }
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 

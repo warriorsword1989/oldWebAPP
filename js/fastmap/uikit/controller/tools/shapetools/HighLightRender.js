@@ -19,7 +19,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.linksObj = this.options.linksObj;//高亮进入线和退出线的id
         this.dataTipsId = this.options.dataTips;//高亮dataTips的id
         this.linksArr = this.options.linksArr;//高亮的路口的线
-        this.nodesArr=this.options.nodesArr;//高亮路口的点
+        this.nodesArr = this.options.nodesArr;//高亮路口的点
         this.linkPid = this.options.linkPid;//高亮link的id
         this.restrictId = this.options.restrictId;//高亮交限的id
         this.initFlag = this.options.initFlag || false;//当地图变化时,才能激发this.draw()函数
@@ -62,6 +62,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         style = {src: './css/tips/selected/processed.png'};
                     }
                     this.layer._drawImg(ctx, geom, style, true);
+
                 }
             }
         }
@@ -80,7 +81,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             var feature = data[key];
             var type = feature.geometry.type;
             var geom = feature.geometry.coordinates;
-            if (data[key].properties.id == this.id) {
+            if (this.dataTipsId && data[key].properties.id == this.dataTipsId) {
 
                 var ctx = {
                     canvas: tile.options.context,
@@ -93,11 +94,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 } else {//已处理
                     style = {src: './css/tips/selected/processed.png'};
                 }
+                this.layer._drawImg(ctx, geom, style, true);
             }
-
-            this.layer._drawImg(ctx, geom, style, true);
-
-
         }
 
     },
@@ -275,14 +273,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param linksArr
      * @param nodesArr
      */
-    drawLinksOfCrossForInit: function (linksArr,nodesArr) {
+    drawLinksOfCrossForInit: function (linksArr, nodesArr) {
         this.linksArr = linksArr,
-        this.nodesArr=nodesArr;
-        var linkObj = {},nodeObj={},nodeStyle;
+            this.nodesArr = nodesArr;
+        var linkObj = {}, nodeObj = {}, nodeStyle;
         for (var k = 0, lenK = this.linksArr.length; k < lenK; k++) {
             linkObj[this.linksArr[k]] = true;
         }
-        for (var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
+        for (var j = 0, lenJ = nodesArr.length; j < lenJ; j++) {
             nodeObj[this.nodesArr[j]] = true;
         }
         for (var index in this.tiles) {
@@ -306,12 +304,13 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
                     var geom = feature.geometry.coordinates;
                     if (linkObj[feature.properties.id]) {
-                        if(nodeObj[feature.properties.enode]||nodeObj[feature.properties.snode]) {
-                            nodeStyle={
+                        if (nodeObj[feature.properties.enode] || nodeObj[feature.properties.snode]) {
+                            nodeStyle = {
                                 color: '#FFFF00',
-                                radius: 4}
-                        }else{
-                            nodeStyle={
+                                radius: 4
+                            }
+                        } else {
+                            nodeStyle = {
                                 color: 'rgba(105,105,105,1)',
                                 radius: 3
                             }
@@ -340,11 +339,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param zoom
      */
     drawLinksOfCross: function (tile, zoom) {
-        var linkObj = {},nodeObj={},nodeStyle;
+        var linkObj = {}, nodeObj = {}, nodeStyle;
         for (var k = 0, lenK = this.linksArr.length; k < lenK; k++) {
             linkObj[this.linksArr[k]] = true;
         }
-        for (var j= 0,lenJ=this.nodesArr.length;j<lenJ;j++) {
+        for (var j = 0, lenJ = this.nodesArr.length; j < lenJ; j++) {
             nodeObj[this.nodesArr[j]] = true;
         }
         var data = tile.data;
@@ -366,12 +365,13 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
                 var geom = feature.geometry.coordinates;
                 if (linkObj[feature.properties.id]) {
-                    if(nodeObj[feature.properties.enode]||nodeObj[feature.properties.snode]) {
-                        nodeStyle={
+                    if (nodeObj[feature.properties.enode] || nodeObj[feature.properties.snode]) {
+                        nodeStyle = {
                             color: '#FFFF00',
-                            radius: 4}
-                    }else{
-                        nodeStyle={
+                            radius: 4
+                        }
+                    } else {
+                        nodeStyle = {
                             color: 'rgba(105,105,105,1)',
                             radius: 3
                         }
@@ -465,9 +465,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         if (this.highLightFeature === "links") {
             this.drawOfLinks(tile, zoom);
         } else if (this.highLightFeature === "dataTips") {
-            if (this.dataTipsId) {
-                this.id = this.dataTipsId;
-            }
             this.drawTips(tile, zoom);
         }
         else if (this.highLightFeature === "link") {

@@ -20,7 +20,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (highCtrl.highLightLayersArr.length !== 0) {
                     highCtrl.removeHighLightLayers();
                 }
-                layerCtrl.getLayerById('edit').drawGeometry = null;
+                layerCtrl.getLayerById('edit').shapeEditor.shapeEditorResult.setFinalGeometry(null);
                 layerCtrl.getLayerById('edit').clear();
                 shapeCtrl.stopEditing();
                 layerCtrl.getLayerById('edit').bringToBack();
@@ -44,6 +44,8 @@ function keyEvent(ocLazyLoad, scope) {
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var editLayer = layerCtrl.getLayerById('edit');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
+
+            var properties =  shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
             //是否包含点
             function _contains(point, components) {
@@ -80,7 +82,7 @@ function keyEvent(ocLazyLoad, scope) {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
-                    for (var index in link.components) {
+                    for (var index=0,len = link.components.length;index < len; index ++) {
                         coordinate.push([link.components[index].x, link.components[index].y]);
                     }
                     var paramOfLink = {
@@ -88,9 +90,10 @@ function keyEvent(ocLazyLoad, scope) {
                         "type": "RDLINK",
                         "projectId": 11,
                         "data": {
-                            "eNodePid": 0,
-                            "sNodePid": 0,
-                            "geometry": {"type": "LineString", "coordinates": coordinate}
+                            "eNodePid": properties.enodePid?properties.enodePid:0,
+                            "sNodePid": properties.snodePid?properties.snodePid:0,
+                            "geometry": {"type": "LineString", "coordinates": coordinate},
+                            'catchLinks':properties.catches
                         }
                     }
                     //结束编辑状态
@@ -201,16 +204,40 @@ function keyEvent(ocLazyLoad, scope) {
                     var startPoint = feature.geometry[0],
                         point = feature.point;
                     if (link) {
-                        pointOfArrow = link.pointForDirect;
-                        var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
-                        startPoint = map.latLngToContainerPoint([startPoint[1],startPoint[0]]);
-                        disFromStart = distance(pointOfContainer, startPoint);
-                        disFromEnd = distance(pointOfArrow, startPoint);
-                        if (disFromStart > disFromEnd) {
-                            direct = 2;
+                        if (link.flag) {
+                            console.log(link.angle);
+                            var directOfLink = {
+                                "objStatus": "UPDATE",
+                                "pid": link.pid,
+                                "direct": parseInt(link.orientation)
+                            };
+                            var paramOfDirect = {
+                                "type": "RDLINK",
+                                "command": "UPDATE",
+                                "projectId": 11,
+                                "data": directOfLink
+                            };
+                            Application.functions.saveLinkGeometry(JSON.stringify(paramOfDirect), function (data) {
+                                objEditCtrl.data.data["direct"] = link.orientation;
+                                if (objEditCtrl.updateObject !== "") {
+                                    objEditCtrl.updateObject();
+                                }
+                            });
+                            resetPage();
+                            return;
                         } else {
-                            direct = 3;
+                            pointOfArrow = link.pointForDirect;
+                            var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
+                            startPoint = map.latLngToContainerPoint([startPoint[1], startPoint[0]]);
+                            disFromStart = distance(pointOfContainer, startPoint);
+                            disFromEnd = distance(pointOfArrow, startPoint);
+                            if (disFromStart > disFromEnd) {
+                                direct = 2;
+                            } else {
+                                direct = 3;
+                            }
                         }
+
                     } else {
                         direct = feature.direct
                     }
@@ -235,6 +262,8 @@ function keyEvent(ocLazyLoad, scope) {
                             return;
                         }
                         var info = [];
+                        selectCtrl.selectedFeatures = null;
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         angular.forEach(data.data.log, function (task, index) {
                             if (task.pid) {
                                 info.push(task.op + task.type + "(pid:" + task.pid + ")");
@@ -302,9 +331,9 @@ function keyEvent(ocLazyLoad, scope) {
                     var param = {
                         "command": "MOVE",
                         "type": "RDNODE",
-                        "objId":options.id,
+                        "objId": options.id,
                         "projectId": 11,
-                        "data": {longitude:options.latlng.lng,latitude:options.latlng.lat}
+                        "data": {longitude: options.latlng.lng, latitude: options.latlng.lat}
                     }
                     //结束编辑状态
                     shapeCtrl.stopEditing();
@@ -341,7 +370,7 @@ function keyEvent(ocLazyLoad, scope) {
 
                     var param = {
                         "command": "BREAK",
-                        "type":"RDLINK",
+                        "type": "RDLINK",
                         "projectId": 11,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
@@ -376,7 +405,7 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
 
                         var pids = [];
-                        pids.push({id:data.data.pid});
+                        pids.push({id: data.data.pid});
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
@@ -412,7 +441,43 @@ function keyEvent(ocLazyLoad, scope) {
 
                 }
                 else if (shapeCtrl.editType === "linksOfCross") {
-
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDCROSS",
+                        "projectId": 11,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        if (data.errcode === -1) {
+                            outPutCtrl.pushOutput(data.errmsg);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            return;
+                        }
+                        var info = [];
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                            } else {
+                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                            }
+                        });
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                            objEditCtrl.setCurrentObject(data.data);
+                            ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/rdCrossTepl.html";
+                            });
+                        });
+                    })
                 }
             }
         });

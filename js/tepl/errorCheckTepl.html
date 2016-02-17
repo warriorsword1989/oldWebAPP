@@ -1,9 +1,26 @@
-<div ng-controller="errorCheckController" style="height:150px;overflow-y: auto">
+
+<style>
+
+
+    .num-well{
+        margin-left:5px;
+    }
+    .pic-show-btn{
+        margin-right: 5px;
+    }
+    .pic-show-btn{
+        margin-right: 5px;
+    }
+    .errorClass{
+        height:95%;overflow-y: auto;
+    }
+</style>
+<div ng-controller="errorCheckController" class="errorClass">
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
         <tr>
             <th st-sort="ruleId">检查规则号</th>
-            <th st-sort="situation">类型</th>
+            <th st-sort="rank">类型</th>
             <th st-sort="rank">错误等级</th>
             <th st-sort="targets">错误对象</th>
             <th st-sort="information">错误信息</th>
@@ -15,30 +32,45 @@
         </thead>
         <tbody style="height: 100px">
         <tr ng-repeat="row in rowCollection">
-            <td>{{row.ruleId}}</td>
+            <td>{{row.ruleid}}</td>
             <td>{{row.situation}}</td>
-            <td>{{row.rank}}</td>
+            <td>
+                <span ng-if="row.rank==0">无</span>
+                <span ng-if="row.rank==1">Fatal</span>
+                <span ng-if="row.rank==2">Critical</span>
+                <span ng-if="row.rank==3">Error</span>
+                <span ng-if="row.rank==4">warning</span>
+            </td>
             <td>{{row.targets }}</td>
             <td>{{row.information}}</td>
             <td>{{row.geometry}}</td>
             <td>{{row.createDate}}</td>
             <td>{{row.worker}}</td>
-            <td>   <select class="form-control" style="padding: 0px">
-                <option value="0">未修改</option>
-                <option value="1">例外</option>
-                <option value="1">确认不修改</option>
-                <option value="1">确认已修改</option>
+            <td>
+                <select class="form-control" ng-model="initType"
+                        ng-options="value.id as value.label for value in initTypeOptions"  style="padding: 0px"  ng-change="changeType(initType,row.id)">
             </select></td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="5" class="text-center">
-                <div st-pagination="" st-items-by-page="itemsByPage"
-                     st-displayed-pages="7"></div>
-            </td>
+            <!--<td colspan="5" class="text-center">-->
+                <!--<div st-pagination="" st-items-by-page="itemsByPage"-->
+                     <!--st-displayed-pages="5"></div>-->
+            <!--</td>-->
+            <!--<td class="num-well" colspan="4">-->
+                <!--第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |-->
+                <!--共 <span class="pic-total" ng-bind="checkTotal">1</span> 页-->
+            <!--</td>-->
+            <!--<td class="pic-show-btn pull-right" colspan="5">-->
+                <!--<div class="pull-right btn-group">-->
+                    <!--<button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>-->
+                    <!--<button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>-->
+                <!--</div>-->
+            <!--</td>-->
         </tr>
         </tfoot>
     </table>
+
 
 </div>

@@ -8,6 +8,8 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var selectCtrl = new fastmap.uikit.SelectController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
+    var layerCtrl = fastmap.uikit.LayerController();
+    var speedLimit = layerCtrl.getLayerById('speedlimit');
     $scope.speedLimitData = objectEditCtrl.data;
     $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
@@ -63,10 +65,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
             $scope.codeOutput = data;
+            $scope.speedLimitData.timeDomain = data;
         });
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
+            $scope.speedLimitData.timeDomain = str;
             $scope.$apply();
         }, 100);
     }
@@ -106,6 +110,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
+                speedLimit.redraw();
                 $.each(data.data.log, function (i, item) {
                     if (item.pid) {
                         info.push(item.op + item.type + "(pid:" + item.pid + ")");
@@ -138,6 +143,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                 }
                 return;
             }
+            speedLimit.redraw();
             $scope.speedLimitData = null;
             $scope.speedLimitGeometryData = null;
             $scope.$parent.$parent.objectEditURL = "";

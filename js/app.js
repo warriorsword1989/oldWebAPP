@@ -81,10 +81,19 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 
 
     };
+
+    var output = fastmap.uikit.OutPutController();
+    $scope.itemsByPage = 1;
+    $scope.checkTotalPage=0;
+    $scope.checkTotal=0;
+    $scope.meshesId=[605603,0605603];
+    $scope.rowCollection=[];
     $scope.showTab = function (tab) {
         if (tab === "outPut") {
             $("#errorClear").show();
             $("#immediatelyCheck").hide();
+            $("#checkErrorLi").hide();
+            $scope.rowCollection=[];
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
@@ -92,13 +101,94 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         } else if (tab === "errorCheck") {
             $("#errorClear").hide();
             $("#immediatelyCheck").show();
+            $("#checkErrorLi").hide();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
             );
-        }
 
+        }else if(tab==="getCheck"){
+            $("#checkErrorLi").show();
+            if( $scope.itemsByPage==1){
+                $scope.rowCollection=[];
+                $scope.getCheckDateAndCount();
+            }
+        }
     };
+    $scope.getCheckDateAndCount=function(){
+        var params = {
+            "projectId":11,
+            "meshes":$scope.meshesId
+        };
+        Application.functions.getCheckCount(JSON.stringify(params),function(data){
+            if(data.errcode == 0) {
+                $scope.checkTotalPage = Math.ceil(data.data/5);
+                $scope.checkTotal=data.data;
+            }
+        });
+        var params = {
+            "projectId":11,
+            "pageNum":$scope.itemsByPage,
+            "pageSize":5,
+            "meshes":$scope.meshesId
+        };
+        Application.functions.getCheckDatas(JSON.stringify(params),function(data){
+            if(data.errcode == 0) {
+                $scope.rowCollection = data.data;
+                //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
+                $scope.goPaging();
+                $scope.$apply();
+            }
+        });
+    }
+
+
+    $scope.getCheckDate=function(){
+        var param = {
+            "projectId":11,
+            "pageNum":$scope.itemsByPage,
+            "pageSize":5,
+            "meshes":$scope.meshesId
+        };
+        Application.functions.getCheckDatas(JSON.stringify(param),function(data){
+            if(data.errcode == 0) {
+                $scope.rowCollection = data.data;
+                $scope.goPaging();
+                $scope.$apply();
+            }
+        });
+    }
+
+    /*箭头图代码点击下一页*/
+    $scope.picNext = function(){
+        $scope.itemsByPage += 1;
+        $scope.getCheckDate();
+    }
+    /*箭头图代码点击上一页*/
+    $scope.picPre = function(){
+        $scope.itemsByPage -= 1;
+        $scope.getCheckDate();
+    }
+
+    /*点击翻页*/
+    $scope.goPaging = function(){
+        if($scope.itemsByPage == 1){
+            if($scope.checkTotalPage == 0 || $scope.checkTotalPage == 1){
+                $(".pic-next").prop('disabled','disabled');
+            }else{
+                $(".pic-next").prop('disabled',false);
+            }
+            $(".pic-pre").prop('disabled','disabled');
+        }else{
+            if($scope.checkTotalPage - $scope.itemsByPage == 0){
+                $(".pic-next").prop('disabled','disabled');
+            }
+            $(".pic-pre").prop('disabled',false);
+        }
+        $scope.$apply();
+    }
+
+
     $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();
         output.clear();
@@ -157,7 +247,17 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 }]);
 function appInit(){
 
-    map = L.map('map',{ attributionControl: false}).setView([40.012834, 116.476293], 17);
+    map = L.map('map',{ 
+        attributionControl: false,
+        zoomControl:false,
+    }).setView([40.012834, 116.476293], 17);
+    /*增加比例尺*/
+    var scale = L.control.scale({
+        metric:true,
+        imperial:true,
+        position:'bottomleft',
+        updateWhenIdle:true,
+    }).addTo(map);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();
@@ -178,7 +278,6 @@ function appInit(){
     for(var layer in layerCtrl.getVisibleLayers()){
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
-
 }
 
 var map = null;

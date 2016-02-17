@@ -38,7 +38,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
             if(that.snaped == true){
-                var crosspoint = ( event.index&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
+                var crosspoint = ( event.index!=null&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
                 if(crosspoint!=undefined){
                     crosspoint = fastmap.mapApi.point(crosspoint.x,crosspoint.y);
                     crosspoint.type = 'Cross';
@@ -115,7 +115,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawCross(currentGeo, {color: 'blue', width: 1}, false);
                 break;
             case 'marker':
-                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false);
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false,self);
                 break;
             case 'MultiPolyline':
                 drawMultiPolyline(currentGeo.coordinates,{color: 'red', width: 2});
@@ -171,7 +171,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 if (boolPixelCrs) {
                     proj.push({x: geom[i].x, y: geom[i].y});
                 } else {
+                    console.log('----绘制'+geom[i].y+'-----------'+ geom[i].x);
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
+
                     //if (i == index) {
 
                         if(boolnode){
@@ -256,8 +258,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
         }
 
-        function drawMarker(geom, type, angle, boolPixelCrs) {
-            var url, p = null,angleOfTran=angle;
+        function drawMarker(geom, type, angle, boolPixelCrs,self) {
+            var url, p = null,angleOfTran=angle,that=this;
             if (!geom) {
                 return;
             }
@@ -267,12 +269,11 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             } else {
                 p =this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
-            if(type==="1") {
+            if(type==="2") {
                 angleOfTran = angleOfTran + Math.PI;
             }
             url = "./css/img/" + type + ".png";
             var g = self._ctx;
-            console.log(p);
             loadImg(url, function (img) {
                 g.save();
                 g.translate(p.x, p.y);
@@ -280,8 +281,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 g.drawImage(img, 0, 0);
                 g.restore();
                 currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
-
+                self.fire("DIRECTEVENT",{"geometry":currentGeo})
             })
+
         }
 
         function loadImg(url, callBack) {
@@ -305,6 +307,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * 清空图层
      */
     clear: function () {
+        //this.shapeEditor.shapeEditorResult.setFinalGeometry(null);
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
 
