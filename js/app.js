@@ -254,7 +254,7 @@ function appInit(){
     /*增加比例尺*/
     var scale = L.control.scale({
         metric:true,
-        imperial:true,
+        imperial:false,
         position:'bottomleft',
         updateWhenIdle:true,
     }).addTo(map);
