@@ -932,21 +932,19 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var restrictObj = feature.properties.SpeedDivergencecondition;
 
                         if (restrictObj !== undefined) {
+                            var that=this;
                             $.each(restrictObj, function (i, v) {
                                 var poiX = feature.geometry.coordinates[0][0];
                                 var poiY = feature.geometry.coordinates[1][0];
                                 var newstyle = './css/divergence/' + v.type + '.png';
                                 var route = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                this._loadImg(newstyle, function (img) {
+                                that._loadImg(newstyle, function (img) {
                                     var g = ctx.canvas.getContext('2d');
                                     g.save();
                                     g.translate(poiX, poiY);
                                     g.rotate(route);
                                     g.drawImage(img, i * 30, 0);
                                     g.restore();
-                                    $(img).bind('click', function () {
-                                        console.log(this)
-                                    })
                                 });
                             });
                         }

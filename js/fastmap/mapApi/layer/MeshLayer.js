@@ -74,9 +74,11 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
      * @param options 可选参数
      */
     drawRect: function (context, meshId, options) {
+        context.strokeStyle = '#B3ADE9'//边框颜色
         context.font = "30px Verdana";
         context.fillText(meshId, options.x, options.y);
         context.strokeStyle = 'red'//边框颜色
+
         context.linewidth = 1;  //边框宽
         context.strokeRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
         context.stroke()
