@@ -7,6 +7,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="content-script-type" content="text/javascript">
         <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<<<<<<< HEAD
+=======
+        <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
         <style type="text/css">
         html, body {
             width: 100%;
@@ -17,15 +22,15 @@
             padding: 0;
             font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
         }
-
-        body {
-            background: none repeat scroll 0 0;
+        .navbar-brand{
+            margin-top: -10px;
         }
-
-        div {
-            position: relative;
-            /*text-align: center;*/
+        .navbar-header span.platform {
+            width: 150px;
+            margin-top: -2px;
+            font-size: 24px;
         }
+<<<<<<< HEAD
 
         .navbar {
             border-radius: 0px;
@@ -77,6 +82,11 @@
             margin: 0px;
             color: #2e6da4;
             font-size: 12px;
+=======
+        .navbar-header span.system {
+            width: 200px;
+            margin-top: -2px;
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
         }
         .label-info{
             border-radius: 0
@@ -170,9 +180,11 @@
         }
         .img_box .img_box_caption_p{
             font-size:1em;
+            margin-top: 5px;
             text-align:center;
             width:80%;
             position:absolute;
+            line-height: 2;
             top:45%;
             left:10%;
             -webkit-transition:all .6s ease-in-out;
@@ -185,7 +197,7 @@
         }
         .img_box:hover .img_box_caption_p{
             color:#fff;
-            opacity:1
+            opacity:1;
         }
         .img_box_title{
             width: 100%;
@@ -288,6 +300,7 @@
         <nav class="navbar navbar-default" style="border: none">
             <div class="container-fluid" style="background-color:#0097c6; ">
                 <div class="navbar-header">
+<<<<<<< HEAD
                     <a class="navbar-brand" style="color: white;font-weight:600;line-height: 30px" href="http://www.navinfo.com/index.aspx">
                       <strong>FastMap 道路编辑系统</strong>
                     </a>
@@ -312,11 +325,19 @@
                             <a href="login.html" title="退出" class="glyphicon glyphicon-log-out" style="color:#fff;top: -1px;"></a>
                         </li>
                     </ul>
+=======
+                    <a class="navbar-brand" href="http://www.navinfo.com/index.aspx">
+                        <img alt="Brand" src="css/img/navi_logo.png">
+                    </a>
+                    <span class="navbar-brand platform">FastMap |</span>
+                    <span class="navbar-brand system">道路录入系统</span>
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
                 </div>
 
             </div>
         </nav>
         <div class="container-fluid" style="padding:30px">
+<<<<<<< HEAD
             <div class="row">
                 <div class="box col-md-3 col-lg-3">
                     <div class="img_box">
@@ -369,5 +390,14 @@
                 <p>Copyright©2009北京四维图新科技股份有限公司</p>
             </div>
         </div>
+=======
+            <div class="row project-list"></div>
+        </div>
+        <script src="js/lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/lib/sweet-alert/js/sweet-alert.min.js"></script>
+        <script src="js/Application.js"></script>
+        <script src="js/functions/appfunctions.js"></script>
+        <script src="js/selectPro.js"></script>
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
     </body>
 </html>

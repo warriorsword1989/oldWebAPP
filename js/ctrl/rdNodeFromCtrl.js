@@ -9,6 +9,8 @@ otherApp.controller("rdNodeFromController",function($scope){
     var layerCtrl = fastmap.uikit.LayerController();
     $scope.rdNodeData=objectEditCtrl.data.data;
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
+    $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
+    $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
     $scope.newFromOfWRoadDate=[];
     $scope.kindOptions=[
         {"id":0,"label":"平面交叉点"},
