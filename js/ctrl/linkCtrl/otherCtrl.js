@@ -235,16 +235,21 @@ otherApp.controller("otherController",function($scope){
     $scope.showPopover=function(){
         $('#fromOfWRoaddiv').popover('show');
     }
-    $scope.speedAndDirect=function(data) {
-         if(data.orientation==="2") {
-             var fromSpeed = document.getElementById("fromSpeed");
-             fromSpeed.focus();
-         }else if(data.orientation==="3") {
-             var toSpeed = document.getElementById("toSpeed");
-             toSpeed.focus()
-         }
+    $scope.speedAndDirect=function(data,index) {
+        if(index===100000) {
+            if(data.orientation==="2") {
+                var fromSpeed = document.getElementById("fromSpeed");
+                fromSpeed.focus();
+            }else if(data.orientation==="3") {
+                var toSpeed = document.getElementById("toSpeed");
+                toSpeed.focus()
+            }
+        }else{
+
+        }
+
     };
-   $scope.changeSpeedAndDirect=function(direct) {
+   $scope.changeSpeedAndDirect=function(direct,index) {
        map.currentTool = shapeCtrl.getCurrentTool();
        map.currentTool.disable();
        var containerPoint;
@@ -271,7 +276,7 @@ otherApp.controller("otherController",function($scope){
        shapeCtrl.setEditingType("transformDirect");
        shapeCtrl.startEditing();
        editLayer.on("DIRECTEVENT",function(event){
-           $scope.speedAndDirect(event.geometry);
+           $scope.speedAndDirect(event.geometry,index);
        })
        //$scope.$watch("speedAndDirect",function(newValue,oldValue, scope) {
        //    console.log(newValue)
