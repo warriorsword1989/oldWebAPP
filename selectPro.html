@@ -7,8 +7,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta http-equiv="content-script-type" content="text/javascript">
         <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<<<<<<< HEAD
+=======
         <link href="js/lib/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
         <style type="text/css">
         html, body {
             width: 100%;
@@ -27,9 +30,63 @@
             margin-top: -2px;
             font-size: 24px;
         }
+<<<<<<< HEAD
+
+        .navbar {
+            border-radius: 0px;
+            background-color: #1c588f;
+        }
+
+        .navbar-brand {
+            padding: 10px 15px;
+        }
+
+        .navbar-inverse {
+            background-color: #1c588f;
+        }
+
+        .login-panel {
+            padding: 10px 40px;
+            background-color: rgba(0, 0, 0, .25);
+            border: 1px solid transparent;
+            width: 418px;
+        }
+
+        .login-panel h1 {
+            font-size: 30px;
+            color: #fff;
+            margin: 0px;
+            padding: 30px 0px;
+        }
+
+        .login-form input, .login-form button {
+            height: 46px;
+            font-size: 16px;
+        }
+
+        .login-footer {
+            position: absolute;
+            width: 100%;
+            bottom:0px;
+        }
+
+        .login-footer-content {
+            margin: 0px auto;
+            border-top: 1px solid #e7e7e7;
+            text-align: center;
+            padding: 5px 0px;
+        }
+
+        .login-footer-content p, .login-footer-content a {
+            padding: 6px 0px;
+            margin: 0px;
+            color: #2e6da4;
+            font-size: 12px;
+=======
         .navbar-header span.system {
             width: 200px;
             margin-top: -2px;
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
         }
         .label-info{
             border-radius: 0
@@ -146,21 +203,194 @@
             width: 100%;
             text-align: center;
         }
+
+         .lnk-message{
+             float: none;
+             display: inline;
+             background: #f90;
+             border-radius: 5px;
+             padding: 0 6px;
+             margin: 0;
+             color: #fff!important;
+             cursor: default!important;
+             position: relative;
+             line-height: 16px;
+             display: inline-block;
+             color: #fff;
+         }
+         li.normalStatus >a i{
+            position: relative;
+            top: -3px;
+            border: solid 1px transparent;
+            border-width: 4px 4px 0;
+            _border-color: #000;
+            _filter: chroma(color=black);
+            border-top-color: #fff;
+            display: inline-block;
+            margin-right: 6px;
+            margin-left: 3px;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+        }
+        li.normalStatus:hover > a i{
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            border: solid 1px transparent;
+            border-width: 4px 4px 0;
+            _border-color: #fff;
+            _filter: chroma(color=white);
+            border-top-color: #000;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+        }
+        li.normalStatus > div{
+            display: none;
+            width: 100px;
+            height:0px
+        }
+        li.normalStatus:hover > div{
+            display:block;
+            width: 300px;
+            height:150px;
+            position: absolute;
+            top:50px;
+            right: 0px;
+            z-index: 50;
+            background: #fefefe;
+            border-radius: 0 0 2px 2px;
+            -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.1);
+            box-shadow: 0 3px 3px rgba(0,0,0,.1);
+            filter: alpha(Opacity=95);
+            opacity: .95;
+            -webkit-transition: height .1s;
+        }
+
+        li.normalStatus ul{
+            list-style: none;
+            padding: 5px;
+        }
+
+        li.normalStatus ul>li{
+            list-style: none;
+        }
+        li.normalStatus ul>li>a{
+            background: #fefefe;
+            color: #000;
+            display: block;
+            height: 25px;
+            line-height: 20px;
+            margin: 0;
+            padding: 3px 10px;
+        }
+        li.normalStatus ul>li>a:hover{
+            background: #00a2ca;
+            color: #fff;
+            text-decoration: none;
+        }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
+        <nav class="navbar navbar-default" style="border: none">
+            <div class="container-fluid" style="background-color:#0097c6; ">
                 <div class="navbar-header">
+<<<<<<< HEAD
+                    <a class="navbar-brand" style="color: white;font-weight:600;line-height: 30px" href="http://www.navinfo.com/index.aspx">
+                      <strong>FastMap 道路编辑系统</strong>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="normalStatus">
+                            <a href="#" title="登陆人员" class="" style="color:#fff">admin <span class="lnk-message">5</span><i id="arrow"></i></a>
+                            <div class="userInfo">
+                                <div style="border-bottom: 1px solid #e5e5e5;padding:10px;">
+                                    <img src="css/img/header.png" style="width: 32px;height: 32px">
+                                </div>
+                                <div style="border-bottom: 1px solid #e5e5e5;padding:10px; ">
+                                    <ul>
+                                        <li><a href="#">个人资料</a></li>
+                                        <li><a href="#">消息中心<span style="color:red">（5）</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="login.html" title="退出" class="glyphicon glyphicon-log-out" style="color:#fff;top: -1px;"></a>
+                        </li>
+                    </ul>
+=======
                     <a class="navbar-brand" href="http://www.navinfo.com/index.aspx">
                         <img alt="Brand" src="css/img/navi_logo.png">
                     </a>
                     <span class="navbar-brand platform">FastMap |</span>
                     <span class="navbar-brand system">道路录入系统</span>
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
                 </div>
+
             </div>
         </nav>
         <div class="container-fluid" style="padding:30px">
+<<<<<<< HEAD
+            <div class="row">
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1234</span> 个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1301</span> 个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1301</span>个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+                <div class="box col-md-3 col-lg-3">
+                    <div class="img_box">
+                        <img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="Image 01">
+                        <div class="img_box_caption">
+                            <h3 class="img_box_caption_h">北京测试项目库</h3>
+                            <p class="img_box_caption_p">待作业Tips总量 <span class="label label-info">1242</span> 个</p>
+                            <a class="img_box_caption_a" href="project.html"></a>
+                        </div>
+                    </div>
+                    <div class="img_box_title">北京测试项目库</div>
+                </div>
+            </div>
+        </div>
+        <div class="login-footer">
+            <div class="login-footer-content">
+                <p>Copyright©2009北京四维图新科技股份有限公司</p>
+            </div>
+        </div>
+=======
             <div class="row project-list"></div>
         </div>
         <script src="js/lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
@@ -168,5 +398,6 @@
         <script src="js/Application.js"></script>
         <script src="js/functions/appfunctions.js"></script>
         <script src="js/selectPro.js"></script>
+>>>>>>> 467abfe67322de0d6e4db85a0b716ccb928c3868
     </body>
 </html>
