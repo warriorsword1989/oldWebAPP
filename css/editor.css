@@ -1,0 +1,201 @@
+html,body{
+    font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', '黑体', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+#fm-topContainer{
+    background-color: #0097c6;
+}
+
+#fm-topContainer div.fm-navi-brand{
+    float: left;
+    width: 300px;
+    min-height: 50px;
+}
+
+#fm-topContainer div.fm-navi-brand>a{
+    color: white;
+    line-height: 30px;
+    font-weight:600;
+    padding: 10px 15px;
+    font-size: 18px;
+    height: 50px;
+    text-decoration: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+
+#fm-topContainer div.fm-navi-left{
+    float: left;
+    width: auto;
+    padding-top: 16px;
+    margin-top: 8px;
+}
+
+#fm-topContainer div.fm-navi-left #fm-navi-tabControl{
+    padding: 0;
+    display: block;
+    width: auto;
+    list-style-type: none;
+}
+
+#fm-topContainer div.fm-navi-left #fm-navi-tabControl>li{
+    float: left;
+    list-style-type: none;
+    padding: 0px 10px;
+}
+
+#fm-topContainer div.fm-navi-left #fm-navi-tabControl>li>a{
+    text-decoration: none;
+    display: block;
+    color: #FFF;
+    font-weight: 400;
+    padding: 3px 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#fm-topContainer div.fm-navi-left #fm-navi-tabControl>li>a:hover{
+    color: #000;
+    background-color: #FFF;
+}
+#fm-topContainer div.fm-navi-left #fm-navi-tabControl>li>a.selected{
+    color: #000;
+    background-color: #FFF;
+}
+
+
+#fm-topContainer ul.fm-navi-right{
+    list-style-type: none;
+    margin: 0;
+    float: right;
+}
+
+#fm-topContainer ul.fm-navi-right>li{
+    float:left;
+    list-style-type: none;
+    position: relative;
+    display: block;
+}
+
+#fm-topContainer ul.fm-navi-right>li>a{
+    position: relative;
+    display: block;
+    line-height: 20px;
+    text-decoration: none;
+    padding: 15px 15px;
+}
+
+
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal >a i{
+    position: relative;
+    top: -3px;
+    border: solid 1px transparent;
+    border-width: 4px 4px 0;
+    _border-color: #000;
+    _filter: chroma(color=black);
+    border-top-color: #fff;
+    display: inline-block;
+    margin-right: 6px;
+    margin-left: 3px;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal:hover > a i{
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    border: solid 1px transparent;
+    border-width: 4px 4px 0;
+    _border-color: #fff;
+    _filter: chroma(color=white);
+    border-top-color: #000;
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -ms-transition: all .3s;
+    -o-transition: all .3s;
+}
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal > div{
+    display: none;
+    width: 100px;
+    height:0px
+}
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal:hover > div{
+    display:block;
+    width: 300px;
+    height:150px;
+    position: fixed;
+    top:50px;
+    right: 0px;
+    z-index: 1200;
+    background: #fefefe;
+    border-radius: 0 0 2px 2px;
+    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.1);
+    box-shadow: 0 3px 3px rgba(0,0,0,.1);
+    filter: alpha(Opacity=95);
+    opacity: .95;
+    -webkit-transition: height .1s;
+}
+
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal ul{
+    list-style: none;
+    padding: 5px;
+}
+
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal ul>li{
+    list-style: none;
+}
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal ul>li>a{
+    background: #fefefe;
+    color: #000;
+    display: block;
+    height: 25px;
+    line-height: 20px;
+    margin: 0;
+    padding: 3px 10px;
+}
+#fm-topContainer ul.fm-navi-right>li.fm-message-normal ul>li>a:hover{
+    background: #00a2ca;
+    color: #fff;
+    text-decoration: none;
+}
+
+#fm-topContainer ul.fm-navi-right>li>a>span.lnk-message{
+    float: none;
+    display: inline;
+    background: #f90;
+    border-radius: 5px;
+    padding: 0 6px;
+    margin: 0;
+    color: #fff!important;
+    cursor: default!important;
+    position: relative;
+    line-height: 16px;
+    display: inline-block;
+    color: #fff;
+}
+
+
+
+.fm-panel{
+    background-color: #404040;
+    border: none;
+    opacity: .8;
+    overflow-y:hidden;
+}
+
+.ui-splitbar{
+    background: #404040 !important;
+    opacity: .9;
+}
+
+.ui-splitbar > a{
+
+}
