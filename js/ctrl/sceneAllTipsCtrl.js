@@ -298,10 +298,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $("#dataTipsOriginModal").modal('show');
             $(".modal-backdrop").css('width','74%');
         }
-            $("#dataTipsOriginModal").width($("#mainContent").width()).css('left',$("#mainContent").css('left'));
-            $("#dataTipsOriginImg").attr("src",'https://mmbiz.qlogo.cn/mmbiz/QeczmobIiad4K7Q28eHfLxIqbJdTb8YMzBJdjvT6noSu5NPOzPK0mrAK7CFO0ibiaC05UG5Z9Ke59m4lO3j33gFYA/0?wx_fmt=jpeg');
-            $("#dataTipsOriginModal").modal('show');
-            $(".modal-backdrop").css('width','74%');
     }
     /*转换*/
     $scope.transBridge = function (e) {
