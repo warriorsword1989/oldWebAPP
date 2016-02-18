@@ -1,3 +1,21 @@
-<div ng-controller="outPutController" style="height:100%;width: 100%;verflow-y: auto">
-   <textarea ng-model="outputtext"style="width: 100%;height: 100%"></textarea>
+<div ng-controller="outPutController" style="height:95%;width: 100%;overflow-y: auto">
+   <!--<textarea ng-model="outputtext"style="width: 100%;height: 100%"></textarea>-->
+    <table st-table="rowCollection" class="table table-striped" >
+        <thead >
+        <tr>
+            <th st-sort="rank">操作</th>
+            <th st-sort="rank">类型</th>
+            <th st-sort="ruleId">编号</th>
+
+        </tr>
+        </thead>
+        <tbody style="height: 100px">
+        <tr ng-repeat="row in outValue">
+            <td>{{row.op}}</td>
+            <td>{{row.type }}</td>
+            <!--<td ng-if="row.op=='删除'"><a>{{row.pid}}</a></td>-->
+            <td><a ng-click="showByMap(row.type,row.pid)">{{row.pid}}</a></td>
+        </tr>
+        </tbody>
+    </table>
 </div>

@@ -294,7 +294,7 @@
                                     <label class="col-sm-3 control-label">限制方向</label>
 
                                     <div class="col-sm-9">
-                                        <select class="form-control" ng-model="tItem.limitDir" ng-options="value.id as value.label for value in limitDirOptions">
+                                        <select class="form-control" ng-model="tItem.limitDir" ng-options="value.id as value.label for value in limitDirOptions" ng-change="changeDirect(tItem.limitDir)">
                                             <option>--</option>
                                         </select>
                                    </div>
