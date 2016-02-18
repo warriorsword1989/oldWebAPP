@@ -199,3 +199,50 @@ html,body{
 .ui-splitbar > a{
 
 }
+
+
+/*********************fm-error***************************/
+
+.fm-error-num-well{
+    margin-left:5px;
+    float:left;
+    width:30%;
+    color:#FFF;
+}
+.fm-error-pull-right{
+    float:right;
+    color:#FFF;
+}
+
+#fm-out-error-inspectAndWrongTab{
+    padding:4px 0px;
+    display: block;
+    width: auto;
+    list-style-type: none;
+}
+
+#fm-out-error-inspectAndWrongTab>li{
+    float: left;
+    list-style-type: none;
+    padding: 0px 10px;
+    cursor: pointer;
+}
+
+#fm-out-error-inspectAndWrongTab>li>a{
+    text-decoration: none;
+    display: block;
+    color: #FFF;
+    font-weight: 400;
+    padding: 3px 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#fm-out-error-inspectAndWrongTab>li>a:hover{
+    color: #000;
+    background-color: #FFF;
+}
+#fm-out-error-inspectAndWrongTab>li>a.selected{
+    color: #000;
+    background-color: #FFF;
+}

@@ -13,21 +13,24 @@
     }
     .errorClass{
         height:95%;overflow-y: auto;
+        color: #FFF;
+        float: left;width:100%;
     }
 </style>
+
 <div ng-controller="errorCheckController" class="errorClass">
     <table st-table="rowCollection" class="table table-striped" >
-        <thead >
-        <tr>
-            <th st-sort="ruleId">检查规则号</th>
-            <th st-sort="rank">类型</th>
-            <th st-sort="rank">错误等级</th>
-            <th st-sort="targets">错误对象</th>
-            <th st-sort="information">错误信息</th>
-            <th st-sort="geometry">错误定位</th>
-            <th st-sort="createDate">检查时间</th>
-            <th st-sort="worker">作业员</th>
-            <th st-sort="balance5">检查结果管理</th>
+        <thead style="height:10px;">
+        <tr style="height:10px;">
+            <th style="height:10px;" st-sort="ruleId">检查规则号</th>
+            <th style="height:10px;" st-sort="rank">类型</th>
+            <th style="height:10px;" st-sort="rank">错误等级</th>
+            <th style="height:10px;" st-sort="targets">错误对象</th>
+            <th style="height:10px;" st-sort="information">错误信息</th>
+            <th style="height:10px;" st-sort="geometry">错误定位</th>
+            <th style="height:10px;" st-sort="createDate">检查时间</th>
+            <th style="height:10px;" st-sort="worker">作业员</th>
+            <th style="height:10px;" st-sort="balance5">检查结果管理</th>
         </tr>
         </thead>
         <tbody style="height: 100px">

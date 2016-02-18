@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="x">
+<html >
 <head lang="en">
     <meta charset="UTF-8">
     <title>FastMap道路编辑系统</title>
@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-datepicker/css/datepicker3.css">
     <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
     <link rel="stylesheet" href="css/editor.css">
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
 </head>
 <body ng-controller="RoadEditController" >
    <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
@@ -53,61 +55,93 @@
        </div>
        <div ui-layout-container>
             <div ui-layout="{flow:'column',dividerSize:'2',disableToggle:true}">
-                <div class="fm-panel" ui-layout-container size="250px" min-size="250px">
-
+                <div class="fm-panel" ui-layout-container size="250px" min-size="250px" id="test">
+                    <div ng-include="layersURL"></div>
                 </div>
                 <div ui-layout-container>
                     <div ui-layout="{flow:'row',dividerSize:'2'}">
                         <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
-                        <div class="fm-panel" ui-layout-container size="150px"></div>
+                        <div class="fm-panel" ui-layout-container size="250px">
+                            <ul id="fm-out-error-inspectAndWrongTab">
+                                <li ><a id="liout" ng-click="showTab('outPut')">
+                                    输出结果</a>
+                                </li>
+                                <li ><a id="lierror" class="selected" ng-click="showTab('errorCheck')">检查结果</a>
+                                </li>
+                                <li id="fm-error-checkErrorLi" style="width:60%;padding-top: 5px;display: none;">
+                                    <div class="fm-error-num-well">
+                                        共<span class="pic-num" ng-bind="checkTotal">1</span> 项错误
+                                    </div>
+                                    <div class="fm-error-pull-right">
+                                        第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
+                                        共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
+                                        <div class="fm-error pull-right btn-group">
+                                            <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
+                                            <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                        </div>
+                                    </div>
+
+                                </li>
+                                <div style="float: right;">
+                                    <button id="immediatelyCheck" class="btn btn-default btn-xs" ng-click="showTab('getCheck')">刷新检查</button>
+                                    <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default btn-xs" >清空</button>
+                                </div>
+                            </ul>
+                            <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
+                                <div  id="fm-outPut-inspectDiv" style="height:100%;display: none;">
+                                    <div ng-include="outputTab"  style="height:100%;"></div>
+                                </div>
+                                <div  id="fm-error-wrongDiv" style="height:100%;">
+                                    <div ng-include="errorCheckTab"  style="height:100%;"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="fm-panel" ui-layout-container  size="250px" min-size="250px" style=""></div>
             </div>
        </div>
    </div>
+   <script type="text/javascript" data-main="js/mainOfEditor" src="js/lib/require/require.js"></script>
 </body>
-<script src="js/lib/angularjs/1.4.4/angular.js"></script>
-<script src="js/lib/ui-layout/ui-layout.js"></script>
-<script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
-<script>
-    var app = angular.module('x', ['ui.layout']);
-    app.controller('RoadEditController', function($scope, $timeout) {
-        $scope.config = {
-            flow: 'column'
-        };
+<!--<script>-->
+    <!--var app = angular.module('x', ['ui.layout']);-->
+    <!--app.controller('RoadEditController', function($scope, $timeout) {-->
+        <!--$scope.config = {-->
+            <!--flow: 'column'-->
+        <!--};-->
 
-        $scope.layout = {
-            one: false,
-            four: false
-        };
+        <!--$scope.layout = {-->
+            <!--one: false,-->
+            <!--four: false-->
+        <!--};-->
 
-        $scope.toggle = function(which) {
-            $scope.layout[which] = !$scope.layout[which];
-        };
+        <!--$scope.toggle = function(which) {-->
+            <!--$scope.layout[which] = !$scope.layout[which];-->
+        <!--};-->
 
-        $scope.close = function(which) {
-            $scope.layout[which] = true;
-        };
+        <!--$scope.close = function(which) {-->
+            <!--$scope.layout[which] = true;-->
+        <!--};-->
 
-        $scope.open = function(which) {
-            $scope.layout[which] = false;
-        }
+        <!--$scope.open = function(which) {-->
+            <!--$scope.layout[which] = false;-->
+        <!--}-->
 
-        $scope.$on('ui.layout.loaded', function(){
-            $timeout(function(){
-                $scope.layout.one = true;
-            });
-        })
-    });
-    var map=null;
-    initMap();
+        <!--$scope.$on('ui.layout.loaded', function(){-->
+            <!--$timeout(function(){-->
+                <!--$scope.layout.one = true;-->
+            <!--});-->
+        <!--})-->
+    <!--});-->
+    <!--var map=null;-->
+    <!--initMap();-->
 
-    function initMap(){
-        map = L.map('map',{ attributionControl: false,zoomControl:false}).setView([40.012834, 116.476293], 17);
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-    }
-</script>
+    <!--function initMap(){-->
+        <!--map = L.map('map',{ attributionControl: false,zoomControl:false}).setView([40.012834, 116.476293], 17);-->
+        <!--L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {-->
+            <!--attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'-->
+        <!--}).addTo(map);-->
+    <!--}-->
+<!--</script>-->
 </html>
