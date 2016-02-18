@@ -137,6 +137,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1301"://车信
                 $scope.oarrayData = $scope.dataTipsData.o_array;
+                for(var testK= 0,testLen=$scope.dataTipsData.info.length;testK<testLen;testK++) {
+                    var obj = $scope.dataTipsData["info"][testK]["arwB"];
+
+                        console.log(obj.toString(16));
+                }
                 for (var i in $scope.oarrayData) {
                     //.d_array[$index].out[$index].id
                     for (var j in $scope.oarrayData[i].d_array) {
