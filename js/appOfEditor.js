@@ -31,10 +31,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
-
-    $("#test").mCustomScrollbar({
-        axis:"y"
-    });
     //登录时
     keyEvent($ocLazyLoad,$scope);
     $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
