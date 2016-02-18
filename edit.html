@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Fastmap道路编辑平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="content-script-type" content="text/javascript">
+    <link href="js/lib/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+    <link rel="stylesheet" href="js/lib/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" href="js/lib/icheck-1.x/skins/all.css">
+    <link rel="stylesheet" href="js/lib/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            min-width: 800px;
+            /*min-height: 768px;*/
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
+        }
+
+        body {
+            background: none repeat scroll 0 0;
+        }
+
+        .navbar {
+            border-radius: 0px;
+            background-color: #1c588f;
+        }
+
+        .navbar-brand {
+            padding: 10px 15px;
+        }
+
+        .lnk-message{
+            float: none;
+            display: inline;
+            background: #f90;
+            border-radius: 5px;
+            padding: 0 6px;
+            margin: 0;
+            color: #fff!important;
+            cursor: default!important;
+            position: relative;
+            line-height: 16px;
+            display: inline-block;
+            color: #fff;
+        }
+        li.normalStatus >a i{
+            position: relative;
+            top: -3px;
+            border: solid 1px transparent;
+            border-width: 4px 4px 0;
+            _border-color: #000;
+            _filter: chroma(color=black);
+            border-top-color: #fff;
+            display: inline-block;
+            margin-right: 6px;
+            margin-left: 3px;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+        }
+        li.normalStatus:hover > a i{
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            border: solid 1px transparent;
+            border-width: 4px 4px 0;
+            _border-color: #fff;
+            _filter: chroma(color=white);
+            border-top-color: #000;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+        }
+        li.normalStatus > div{
+            display: none;
+            width: 100px;
+            height:0px
+        }
+        li.normalStatus:hover > div{
+            display:block;
+            width: 300px;
+            height:150px;
+            position: absolute;
+            top:50px;
+            right: 0px;
+            z-index: 0;
+            background: #fefefe;
+            border-radius: 0 0 2px 2px;
+            -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.1);
+            box-shadow: 0 3px 3px rgba(0,0,0,.1);
+            filter: alpha(Opacity=95);
+            opacity: .95;
+            -webkit-transition: height .1s;
+        }
+
+        li.normalStatus ul{
+            list-style: none;
+            padding: 5px;
+        }
+
+        li.normalStatus ul>li{
+            list-style: none;
+        }
+        li.normalStatus ul>li>a{
+            background: #fefefe;
+            color: #000;
+            display: block;
+            height: 25px;
+            line-height: 20px;
+            margin: 0;
+            padding: 3px 10px;
+        }
+        li.normalStatus ul>li>a:hover{
+            background: #00a2ca;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .login-footer {
+            position: absolute;
+            width: 100%;
+            bottom:0px;
+        }
+
+        .login-footer-content {
+            margin: 0px auto;
+            border-top: 1px solid #e7e7e7;
+            text-align: center;
+            padding: 5px 0px;
+        }
+
+        .login-footer-content p, .login-footer-content a {
+            padding: 6px 0px;
+            margin: 0px;
+            color: #2e6da4;
+            font-size: 12px;
+        }
+
+        div.navbar-left>ul{
+            list-style-type: none;
+            padding-left: 0px;
+        }
+        div.navbar-left>ul>li {
+            list-style-type:none;
+            float: left;
+            padding: 0px 10px;
+        }
+
+        div.navbar-left>ul>li a{
+            text-decoration: none;
+            display: block;
+            color: #FFF;
+            font-weight: 400;
+            padding: 3px 15px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        div.navbar-left>ul>li a:hover{
+            color: #000;
+            background-color: #FFF;
+        }
+
+        div.navbar-left>ul>li a.selected{
+            color: #000;
+            background-color: #FFF;
+        }
+
+        #panelContainer div.Fm-panel{
+            height: 100%;
+            background-color: #404040;
+            padding:70px 5px 10px 5px;
+            border: none;
+            width: 20%;
+            z-index: 2;
+            overflow-y:hidden;
+        }
+
+        #panelContainer div.Fm-sub-panel{
+            height: 100%;
+            background-color: #404040;
+            padding:60px 5px 10px 250px;
+            border: none;
+            width: 40%;
+            min-width: 500px;
+            opacity: .8;
+            z-index: 1;
+            overflow-y: auto;
+        }
+
+        #panelContainer div.Fm-sub-panel.normal{
+            display: none;
+        }
+
+        #panelContainer div.Fm-sub-panel.selected{
+            display: block;
+        }
+
+        #panelContainer>#sceneSubPanel{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            color:#FFF;
+        }
+
+        #panelContainer>#tipsPanel{
+            display: none;
+            min-width: 250px;
+            opacity: .95;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+
+        #panelContainer>#tipsPanel.active{
+            display: block;
+        }
+        #panelContainer>#attributePanel{
+            display: none;
+            min-width: 250px;
+            width: 20%;
+            opacity: .95;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            opacity: .8;
+        }
+
+        #panelContainer>#attributePanel.selected{
+            display: block;
+        }
+
+        #panelContainer>#scenePanel{
+            opacity: .95;
+            min-width: 250px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            display: none;
+            padding-top: 70px;
+        }
+
+        #panelContainer>#scenePanel.active{
+            display: block;
+        }
+
+        #panelContainer>#layerPanel{
+            opacity: .95;
+            min-width: 250px;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            display: none;
+            padding-top: 70px;
+        }
+
+        #panelContainer>#tipsDataContainer{
+            min-width: 250px;
+            padding-top: 100px;
+            opacity: .95;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index:1;
+        }
+
+        #panelContainer>#tipsDataContainer div.panel-heading{
+            padding: 5px 15px;
+        }
+
+        #panelContainer>#layerPanel.active{
+            display: block;
+        }
+
+        #scenePanel ul{
+            list-style-type: none;
+        }
+
+        #scenePanel ul>li{
+            list-style-type: none;
+            margin-top: 15px;
+        }
+
+
+        #scenePanel ul>li:not(:first-child){
+            padding-left: 20px;
+        }
+
+        #scenePanel ul>li>label{
+            color:#7a828b;;
+        }
+
+        #scenePanel ul>li>input{
+            display: none;
+        }
+
+        #scenePanel ul>li.edit>label{
+            display: none;
+        }
+
+        #scenePanel ul>li.edit>input{
+            display: block;
+        }
+
+
+        #scenePanel ul>li.selected>label{
+            color:#16C497;
+        }
+
+
+        #scenePanel ul>li>label>i{
+            display: none;
+            cursor: pointer;
+        }
+
+        #scenePanel ul>li>label:hover{
+            cursor: pointer;
+            color:#16C497;
+        }
+
+        #scenePanel ul>li>label:hover>i{
+            display: inline-block;;
+        }
+
+        #layerPanel ul{
+            list-style-type: none;
+        }
+
+        #layerPanel ul>li{
+            list-style-type: none;
+            margin-top: 10px;;
+        }
+
+        #layerPanel ul>li>label{
+            color:#7a828b;
+        }
+
+        #layerPanel ul>li>label:hover{
+            color:#16C497;
+            cursor: pointer;
+        }
+
+        #panelContainer>#tipsSubPanel{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index:0;
+        }
+
+        #panelContainer>#tipsSubPanel #imgContainer>img{
+            width: 32px;
+            height: 32px;
+        }
+
+        #sceneSubPanel>#closeSubPanel{
+            position: absolute;
+            top:50%;
+            right: 0px;
+            width:10px;
+            height: 20px;
+            background-color: #FFF;
+            cursor: pointer;
+        }
+
+        #sceneSubPanel ul{
+            list-style-type: none;
+        }
+        #sceneSubPanel ul>li{
+            list-style-type: none;
+        }
+
+        #sceneSubPanel ul>li>label{
+            color:#7a828b;
+        }
+        #sceneSubPanel ul>li>label:hover{
+            color:#16C497;
+            cursor: pointer;
+        }
+
+         #tipsDataContainer #dataList{
+             list-style-type: none;
+             padding-left: 10px;
+         }
+
+        #tipsDataContainer #dataList>li{
+            list-style-type: none;
+            margin-bottom: 10px;
+        }
+
+        #tipsDataContainer #dataList>li>ul{
+            display: none;
+        }
+
+        #tipsDataContainer #dataList>li.selected>ul{
+            display: block;
+        }
+
+        #tipsDataContainer #dataList>li>div>img{
+            margin-right: 10px;
+        }
+        #tipsDataContainer #dataList>li>div>label{
+            color:#FFF;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #tipsDataContainer #dataList>li>div>i{
+            color:#FFF;
+        }
+
+        #tipsDataContainer #dataList>li>ul{
+            list-style-type: none;
+        }
+        #tipsDataContainer #dataList>li>ul>li{
+            color:#FFF;
+            list-style-type: none;
+        }
+
+        #tipsDataContainer #dataList>li>ul>li:hover{
+            color:#FAA645;
+        }
+        #tipsDataContainer #dataList>li>ul>li.selected{
+            color:#FAA645;
+        }
+
+        #tipsDataContainer #dataList>li>ul>li>label{
+            cursor: pointer;
+        }
+
+        #roadName ul>li>input[type="text"]{
+            border:1px solid #e5e5e5;
+            border-style: ridge;
+            background-color: #404040;
+        }
+
+        #roadName div.fieldValue{
+            float: right;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default" style="border: none;z-index:5">
+        <div class="container-fluid" style="background-color:#0097c6; ">
+            <div class="navbar-header" style="min-width: 300px;">
+                <a class="navbar-brand" style="color: white;font-weight:600;line-height: 30px" href="http://www.navinfo.com/index.aspx">
+                    <strong>FastMap 道路编辑系统</strong>
+                </a>
+            </div>
+            <div class="navbar-form navbar-left" style="padding-top: 16px;margin-bottom: 0px;border: none">
+                <ul id="tabControl">
+                    <li><a class="selected" href="#tipsPanel">成果</a></li>
+                    <li><a href="#scenePanel">场景</a></li>
+                    <li><a href="#layerPanel">图层</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="normalStatus">
+                        <a href="#" title="登陆人员" class="" style="color:#fff">admin <span class="lnk-message">5</span><i id="arrow"></i></a>
+                        <div class="userInfo">
+                            <div style="border-bottom: 1px solid #e5e5e5;padding:10px;">
+                                <img src="css/img/header.png" style="width: 32px;height: 32px">
+                            </div>
+                            <div style="border-bottom: 1px solid #e5e5e5;padding:10px; ">
+                                <ul>
+                                    <li><a href="#">个人资料</a></li>
+                                    <li><a href="#">消息中心<span style="color:red">（5）</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="selectPro.html" title="返回" class="glyphicon glyphicon-share" style="color:#fff;top: -1px;"></a>
+                    </li>
+                    <li>
+                        <a href="login.html" title="退出" class="glyphicon glyphicon-log-out" style="color:#fff;top: -1px;"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="width: 100%;height: 100%;;margin-top: -70px;padding-top: 50px">
+        <div class="row" style="height: 100%">
+            <div id="gridMap" class="col-md-12" style="height: 100%"></div>
+        </div>
+        <div id="panelContainer">
+            <div id="tipsDataContainer" class="Fm-panel">
+                <div id="tipsPanel" class="" style="margin-top: -30px;margin-bottom: 5px;">
+                    <div class="btn-group btn-group-justified" style="z-index: 3" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary btn-xs">全部</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary btn-xs">待处理</button>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary btn-xs">已处理</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tipsDataPanel" style="height: 100%;width: 100%;overflow-y: auto">
+                    <div style="width:100%;">
+                        <ul id="dataList">
+                            <li>
+                                <div><img src="css/img/rectangle.png" style="width: 16px;height: 16px" /><label>交限</label><i class="glyphicon glyphicon-triangle-right"></i></div>
+                                <ul>
+                                    <li>
+                                        <label>交限A</label>
+                                    </li>
+                                    <li>
+                                        <label>交限B</label>
+                                    </li>
+                                    <li>
+                                        <label>交限C</label>
+                                    </li>
+                                    <li>
+                                        <label>交限D</label>
+                                    </li>
+                                    <li>
+                                        <label>交限E</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><img src="css/img/rectangle.png" style="width: 16px;height: 16px" /><label>种别</label><i class="glyphicon glyphicon-triangle-right"></i></div>
+                                <ul>
+                                    <li>
+                                        <label>种别A</label>
+                                    </li>
+                                    <li>
+                                        <label>种别B</label>
+                                    </li>
+                                    <li>
+                                        <label>种别C</label>
+                                    </li>
+                                    <li>
+                                        <label>种别D</label>
+                                    </li>
+                                    <li>
+                                        <label>种别E</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><img src="css/img/rectangle.png" style="width: 16px;height: 16px" /><label>车信</label><i class="glyphicon glyphicon-triangle-right"></i></div>
+                                <ul>
+                                    <li>
+                                        <label>车信A</label>
+                                    </li>
+                                    <li>
+                                        <label>车信B</label>
+                                    </li>
+                                    <li>
+                                        <label>车信C</label>
+                                    </li>
+                                    <li>
+                                        <label>车信D</label>
+                                    </li>
+                                    <li>
+                                        <label>车信E</label>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <div><img src="css/img/rectangle.png" style="width: 16px;height: 16px" /><label>方向</label><i class="glyphicon glyphicon-triangle-right"></i></div>
+                                <ul>
+                                    <li>
+                                        <label>方向A</label>
+                                    </li>
+                                    <li>
+                                        <label>方向B</label>
+                                    </li>
+                                    <li>
+                                        <label>方向C</label>
+                                    </li>
+                                    <li>
+                                        <label>方向D</label>
+                                    </li>
+                                    <li>
+                                        <label>方向E</label>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="attributePanel"  class="Fm-panel selected" >
+                <h5 style="color:#FFF;">道路Link<label style="margin-left: 10px">Pid:234671</label></h5>
+                <hr style="margin-top: 5px;margin-bottom: 5px" />
+
+                <div>
+                    <img style="width: 32px;height: 32px;border: 1px solid #e5e5e5" src="css/img/scene.png" /><img style="width: 32px;height: 32px;border: 1px solid #e5e5e5" src="css/img/scene.png" />
+                </div>
+
+
+
+                <div id="roadName" style="background-color:#202020; opacity:0.95;color:#FFF;margin-top: 5px;border: 1px solid;border-radius: 3px;padding: 5px 3px">
+                    <label style="color:#FFF;margin-top: 5px">道路名称</label>
+                    <div>
+                        <ul style="list-style-type: none;padding-left: 10px">
+                            <li><label>名称组号:</label> <input style="" type="text" value="34356" /></li>
+                            <li><label>道路名称:</label> <input type="text" /></li>
+                            <li><label>名称序号:</label> <input type="text" /></li>
+                            <li><label>名称分类:</label> <input type="radio"> 官方<input type="radio"> 别名<input type="radio"> 曾用</li>
+                            <li><label>名称类型:</label> <input type="text" value="普通" /></li>
+                            <li><label>名称来源:</label> <input type="text" value="现场拍照" /></li>
+                            <li><label>路线属性:</label> <input type="radio">是<input type="radio">否</li>
+                            <li><label>主从编码:</label> <input type="radio">作品<input type="radio">主</li>
+                            <li><label>录入时间:</label> <input type="text" value="2015-04-25" /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="scenePanel"  class="Fm-panel">
+                <ul>
+                    <li>
+                        <a class="glyphicon glyphicon-tasks" style="font-size:20px;color: #16C497;padding-right: 20px;top: 5px" ></a><label  style="font-size:20px;color:#7a828b;">作业场景设置 <i class="glyphicon glyphicon-plus"></i></label>
+                    </li>
+                    <li>
+                        <label style="">限速场景 <i class="glyphicon glyphicon-minus"></i></label>
+                        <input type="text" value="限速场景" />
+                    </li>
+                    <li>
+                        <label style="">路口场景 <i class="glyphicon glyphicon-minus"></i></label>
+                        <input type="text" value="路口场景" />
+                    </li>
+                </ul>
+            </div>
+
+            <div id="layerPanel"  class="Fm-panel">
+                <ul>
+                    <li>
+                        <a class="glyphicon glyphicon-tasks" style="font-size:20px;color: #16C497;padding-right: 20px;top: 5px" ></a><label  style="font-size:20px;color:#7a828b;">参考图层设置</label>
+                    </li>
+                    <li>
+                        <input tabindex="1" name="imgTile" type="radio" checked id="tencentTile">
+                        <label for="tencentTile"  style="">腾讯地图</label>
+                    </li>
+                    <li>
+                        <input tabindex="1"  name="imgTile" type="radio" id="resoucesTile">
+                        <label for="resoucesTile"  style="">资三影响</label>
+                    </li>
+                    <li>
+                        <input tabindex="1" type="checkbox" id="meshLayer">
+                        <label for="meshLayer" style="">图幅编号</label>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="sceneSubPanel" class="Fm-sub-panel normal">
+                <ul>
+                    <li><label style="color:#16C497;font-size: 20px">道路信息</label>
+                        <ul>
+                            <li>
+                                <input id="lukou" type="checkbox">
+                                <label for="lukou"  style="">路口</label>
+                            </li>
+                            <li>
+                                <input id="jiaoxian" type="checkbox">
+                                <label for="jiaoxian"  style="">交限</label>
+                            </li>
+                            <li>
+                                <input id="chexin" type="checkbox">
+                                <label for="chexin"  style="">车信</label>
+                            </li>
+                            <li>
+                                <input id="divergence" type="checkbox">
+                                <label for="divergence"  style="">分歧</label>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><label style="color:#16C497;font-size: 20px">背景信息</label>
+                       <ul>
+                           <li>
+                               <input id="ADLink" type="checkbox">
+                               <label for="ADLink"  style="">ADLink</label>
+                           </li>
+                           <li>
+                               <input id="ADFace"  type="checkbox">
+                               <label for="ADFace"  style="">ADFace</label>
+                           </li>
+                       </ul>
+
+                    </li>
+                </ul>
+                <div id="closeSubPanel" style="color:#FAA645;"></div>
+            </div>
+
+            <div id="tipsSubPanel" class="Fm-sub-panel normal">
+                <div style="padding-left: 40px">
+                    <h5 style="color:#FFF">Tips-交限 <label style="float: right">外业删除</label></h5>
+                    <hr style="margin-top: 5px;margin-bottom: 5px" />
+                    <div id="imgContainer">
+                        <img src="css/limit/1.png" /><img src="css/limit/2.png" />
+                    </div>
+                    <div style="border: 1px solid #e5e5e5;margin-top: 10px;color:#FFF;">
+                        <label style="margin-left: 10px;margin-top: 5px">进入线:</label><label style="margin-top: 5px">linkA</label>
+                        <hr style="margin-top: 10px;margin-bottom: 10px" />
+                        <label style="margin-left: 10px">退出线:</label>   linkB
+                    </div>
+
+                    <div  style="border: 1px solid #e5e5e5;margin-top: 10px;color:#FFF">
+                        <label style="margin-left: 10px;">时段:</label><label style="margin-top: 5px">6:00-21:00</label>
+                    </div>
+                    <div  style="border: 1px solid #e5e5e5;margin-top: 10px;color:#FFF;height: 100px">
+                        <label  style="margin-left: 10px;margin-top: 5px">备注：</label>
+                    </div>
+                </div>
+
+                <div style="padding-left: 40px;text-align: center;padding-top: 20px">
+                     <a style="margin-right: 15px" class="btn btn-default btn-xs">转数据</a><a style="margin-right: 15px" class="btn btn-default btn-xs">改状态</a><a onclick="closeSubPanel()" style="margin-right: 15px" class="btn btn-default btn-xs">关 闭</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+    <script src="js/lib/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/lib/sweet-alert/js/sweet-alert.min.js"></script>
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/lib/malihu-scrollbar/jquery.mCustomScrollbar.js"></script>
+    <script src="js/lib/icheck-1.x/icheck.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
+    <script>
+        var map=null;
+        $(function(){
+            $("#tabControl a").click(function(){
+                $("#tabControl a").removeClass("selected");
+                $(this).addClass("selected");
+
+                var id=$(this).attr("href");
+
+                $("#panelContainer>div").removeClass("active");
+                $("div.Fm-sub-panel").removeClass("selected").addClass("normal");
+                switch (id){
+                    case "#tipsPanel":
+                        $("#tipsPanel").addClass("active");
+                        break;
+                    case "#scenePanel":
+                        $("#scenePanel").addClass("active");
+                        break;
+                    case "#layerPanel":
+                        $("#layerPanel").addClass("active");
+                        break;
+                    default :
+                        break;
+                }
+            })
+            initMap()
+
+            $("#layerPanel input").iCheck({
+                checkboxClass: 'icheckbox_polaris',
+                radioClass: 'iradio_polaris',
+                increaseArea: '20%'
+            });
+
+            $("#sceneSubPanel input").iCheck({
+                checkboxClass: 'icheckbox_polaris',
+                increaseArea: '20%'
+            });
+
+            $("#scenePanel").on("click","li:not(:first-child)",function(){
+                if(!$(this).hasClass("edit")){
+                    if($("#scenePanel ul>li.edit>input").length>0){
+                        var sceneName=$("#scenePanel ul>li.edit>input").val();
+                        if(sceneName==""){
+                            swal({
+                                title: "场景名称不能为空!",
+                                text: "",
+                                type: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "确定",
+                                closeOnConfirm: false }, function(){
+                                   $("#scenePanel ul>li.edit>input").focus()
+                            });
+                        }
+                        else{
+                            $("#scenePanel ul>li.edit>label").html($("#scenePanel ul>li.edit>input").val());
+                            $("#scenePanel ul>li.edit").removeClass("edit");
+                            $(this).addClass("selected");
+                            $("div.Fm-sub-panel.normal").removeClass("selected");
+                            $("#sceneSubPanel").addClass("selected");
+                        }
+                    }
+                    else{
+                        if($(this).hasClass("selected")){
+                            $(this).removeClass("selected").addClass("edit")
+                        }
+                        else{
+                            $("#scenePanel ul>li:not(:first-child)").removeClass("selected")
+                            $(this).addClass("selected")
+                            $("div.Fm-sub-panel.normal").removeClass("selected");
+                            $("#sceneSubPanel").addClass("selected");
+                        }
+                    }
+                }
+            })
+
+            $("#scenePanel").on("keyup",'ul>li.edit>input',function(e){
+                  if(e.keyCode==13){
+                      $("#scenePanel ul>li.edit>label").html($("#scenePanel ul>li.edit>input").val());
+                      $(this).parent().removeClass("edit").addClass("selected");
+                  }
+            })
+
+            $("i.glyphicon-plus").click(function(){
+                $("#scenePanel>ul").append('<li class="edit"><label style="">新建场景 <i class="glyphicon glyphicon-minus"></i></label><input type="text" value="新建场景" /></li>')
+            })
+
+            $("i.glyphicon-minus").click(function(){
+                var that=$(this)
+                swal({
+                    title: "确定要删除该场景?",
+                    text: "删除该场景后，您将无法恢复!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    closeOnConfirm: false }, function(){
+
+                    that.parent().remove()
+                    swal("删除成功!", "该场景已经删除成功", "success");
+                });
+            });
+
+            $("#closeSubPanel").click(function(){
+                $("div.Fm-sub-panel").removeClass("selected").addClass("normal");
+                $("#scenePanel ul>li:not(:first-child)").removeClass("selected")
+            })
+
+            $("#tipsDataPanel").mCustomScrollbar({
+                axis:"y"
+            });
+
+            $("#tipsDataContainer #dataList>li").click(function(e){
+                if($(this).hasClass("selected")){
+                    $(this).removeClass("selected");
+                    $(this).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                }
+                else{
+                    $(this).addClass("selected")
+                    $(this).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                }
+            })
+
+            $("#tipsDataContainer #dataList>li>ul>li").click(function(e){
+                e.stopPropagation()
+                $("#tipsDataContainer #dataList>li>ul>li").removeClass("selected")
+                $(this).addClass("selected");
+                $("#tipsSubPanel").removeClass("normal").addClass("selected");
+            })
+        });
+
+        function initMap(){
+            map = L.map('gridMap',{ attributionControl: false,zoomControl:false}).setView([40.012834, 116.476293], 17);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+        }
+
+
+        function closeSubPanel(){
+            $("#tipsSubPanel").addClass("normal").removeClass("selected");
+            $("#tipsDataContainer #dataList>li>ul>li").removeClass("selected")
+        }
+    </script>
+</body>
+</html>
