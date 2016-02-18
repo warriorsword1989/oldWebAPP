@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app="x">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>FastMap道路编辑系统</title>
+
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-3.3.5/css/bootstrap.css"/>
+    <link rel="stylesheet" href="js/lib/ui-layout/ui-layout.css">
+    <link rel="stylesheet" href="js/lib/ng-table/1.0.0/ng-table.css">
+    <link rel="stylesheet" href="js/lib/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/timepicki/css/timepicki.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body ng-controller="RoadEditController" >
+   <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+       <div id="fm-topContainer" ui-layout-container size="50px" >
+             <div class="fm-navi-brand">
+                 <a href="#">
+                     <strong>FastMap 道路编辑系统</strong>
+                 </a>
+             </div>
+             <div class="fm-navi-left">
+                 <ul id="fm-navi-tabControl">
+                     <li><a class="selected" href="#tipsPanel">成果</a></li>
+                     <li><a href="#scenePanel">场景</a></li>
+                     <li><a href="#layerPanel">图层</a></li>
+                 </ul>
+             </div>
+             <ul class="fm-navi-right" style="width:auto">
+                     <li class="fm-message-normal">
+                         <a href="#" title="登陆人员" class="" style="color:#fff">admin <span class="lnk-message">5</span><i id="arrow"></i></a>
+                         <div class="userInfo">
+                             <div style="border-bottom: 1px solid #e5e5e5;padding:10px;">
+                                 <img src="css/img/header.png" style="width: 32px;height: 32px">
+                             </div>
+                             <div style="border-bottom: 1px solid #e5e5e5;padding:10px; ">
+                                 <ul>
+                                     <li><a href="#">个人资料</a></li>
+                                     <li><a href="#">消息中心<span style="color:red">（5）</span></a></li>
+                                 </ul>
+                             </div>
+                         </div>
+                     </li>
+                     <li>
+                         <a href="selectPro.html" title="返回" class="glyphicon glyphicon-share" style="color:#fff;top: -1px;"></a>
+                     </li>
+                     <li>
+                         <a href="login.html" title="退出" class="glyphicon glyphicon-log-out" style="color:#fff;top: -1px;"></a>
+                     </li>
+             </ul>
+       </div>
+       <div ui-layout-container>
+            <div ui-layout="{flow:'column',dividerSize:'2',disableToggle:true}">
+                <div class="fm-panel" ui-layout-container size="250px" min-size="250px">
+
+                </div>
+                <div ui-layout-container>
+                    <div ui-layout="{flow:'row',dividerSize:'2'}">
+                        <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
+                        <div class="fm-panel" ui-layout-container size="150px"></div>
+                    </div>
+                </div>
+                <div class="fm-panel" ui-layout-container  size="250px" min-size="250px" style=""></div>
+            </div>
+       </div>
+   </div>
+</body>
+<script src="js/lib/angularjs/1.4.4/angular.js"></script>
+<script src="js/lib/ui-layout/ui-layout.js"></script>
+<script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+<script>
+    var app = angular.module('x', ['ui.layout']);
+    app.controller('RoadEditController', function($scope, $timeout) {
+        $scope.config = {
+            flow: 'column'
+        };
+
+        $scope.layout = {
+            one: false,
+            four: false
+        };
+
+        $scope.toggle = function(which) {
+            $scope.layout[which] = !$scope.layout[which];
+        };
+
+        $scope.close = function(which) {
+            $scope.layout[which] = true;
+        };
+
+        $scope.open = function(which) {
+            $scope.layout[which] = false;
+        }
+
+        $scope.$on('ui.layout.loaded', function(){
+            $timeout(function(){
+                $scope.layout.one = true;
+            });
+        })
+    });
+    var map=null;
+    initMap();
+
+    function initMap(){
+        map = L.map('map',{ attributionControl: false,zoomControl:false}).setView([40.012834, 116.476293], 17);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
+</script>
+</html>
