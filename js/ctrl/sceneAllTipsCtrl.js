@@ -307,7 +307,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
             if($scope.dataTipsData.t_lifecycle == 3){
                 $timeout(function(){
-                    $('body').poiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
                     $scope.$apply();
                 });
                 return;
@@ -392,7 +392,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
                 if($scope.dataTipsData.t_lifecycle == 3){
                     $timeout(function(){
-                        $('body').poiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                        $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
                         $scope.$apply();
                     });
                     return;
