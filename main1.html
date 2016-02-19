@@ -88,6 +88,10 @@
         .leaflet-bottom{
             bottom: 12px;
         }
+        /* 比例尺 */
+        .leaflet-bottom{
+            z-index: 1
+        }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -210,8 +214,8 @@
                         </div>
                     </ul>
                     <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
-                        <div class="tab-pane fade in active" id="inspectDiv">
-                            <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height: 150px"></div>
+                        <div class="tab-pane fade in active" id="inspectDiv" style="height:100%;">
+                            <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height:100%;"></div>
                         </div>
                         <div class="tab-pane fade in active" id="wrongDiv" style="height:100%;">
                             <div ng-include="errorCheckTab" style="height:100%;"></div>

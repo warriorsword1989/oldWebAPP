@@ -306,6 +306,56 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 var connexityId = data.id;
                                 $scope.showTipsOrProperty(data,"RDLANECONNEXITY",objCtrl,connexityId,"ctrl/rdLaneConnexityCtrl","js/tepl/rdLaneConnexityTepl.html");
                                 break;
+                            case "1302"://交限
+                                if (data.t_lifecycle === 1) {
+                                    var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
+                                    for (var trackNum = 0, trackLen = tracInfoArr.length; trackNum < trackLen; trackNum++) {
+                                        if (tracInfoArr[trackNum].stage === 3) {
+                                            trackInfoFlag = true;
+                                            break;
+                                        }
+                                    }
+                                    if (trackInfoFlag) {
+                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                            $scope.$parent.$parent.objectEditURL = "";
+                                        });
+                                    } else {
+                                        Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
+                                            objCtrl.setCurrentObject(data.data);
+                                            if (objCtrl.updateObject !== "") {
+                                                objCtrl.updateObject();
+                                            }
+                                            $ocLazyLoad.load("ctrl/rdRestriction").then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                                });
+                                            });
+                                        })
+                                    }
+                                } else {
+                                    if (data.id === undefined) {
+                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                            $scope.$parent.$parent.objectEditURL = "";
+                                        });
+                                    } else {
+                                        Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
+                                            objCtrl.setCurrentObject(data.data);
+                                            if (objCtrl.updateObject !== "") {
+                                                objCtrl.updateObject();
+                                            }
+                                            $ocLazyLoad.load("ctrl/rdRestriction").then(function () {
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                                });
+                                            });
+                                        })
+                                    }
+                                }
+                                break;
                             case "1407":
                                 $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";

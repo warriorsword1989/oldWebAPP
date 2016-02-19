@@ -91,31 +91,47 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.checkTotal=0;
     $scope.meshesId=[605603,0605603];
     $scope.rowCollection=[];
-    $scope.showTab = function (tab) {
+    $scope.showTab = function (tab,ind) {
         if (tab === "outPut") {
+            $("#liout").addClass("selected");
+            $("#lierror").removeClass("selected");
             $("#errorClear").show();
             $("#immediatelyCheck").hide();
-            $("#checkErrorLi").hide();
+            $("#fm-error-checkErrorLi").hide();
+            $("#fm-outPut-inspectDiv").show();
+            $("#fm-error-wrongDiv").hide();
             $scope.rowCollection=[];
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
         } else if (tab === "errorCheck") {
+            $("#lierror").addClass("selected");
+            $("#liout").removeClass("selected");
             $("#errorClear").hide();
             $("#immediatelyCheck").show();
-            $("#checkErrorLi").hide();
+            $("#fm-outPut-inspectDiv").hide();
+            $("#fm-error-checkErrorLi").hide();
+            $("#fm-error-wrongDiv").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
             );
 
         }else if(tab==="getCheck"){
-            $("#checkErrorLi").show();
+            $("#fm-error-checkErrorLi").show();
             if( $scope.itemsByPage==1){
                 $scope.rowCollection=[];
                 $scope.getCheckDateAndCount();
             }
+            $("#fm-error-wrongDiv").show();
+            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
+                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+                }
+            );
+
+
+
         }
     };
     $scope.getCheckDateAndCount=function(){
@@ -355,6 +371,8 @@ function dragF1(id,pId) {
             $dragDiv.unbind("mousemove.drag");
         }
     });
+
+
 
 
 }
