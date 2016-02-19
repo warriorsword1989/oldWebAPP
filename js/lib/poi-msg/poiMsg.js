@@ -3,7 +3,7 @@
 		var defaults = {
 			state:'danger',
 			content:msg,
-            event,e
+            event:e
 		}
         var settings = $.extend(defaults,msgClass);
         if(msgClass)
