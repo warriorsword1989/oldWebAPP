@@ -295,7 +295,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         if(id <= selectCtrl.rowKey.f_array.length-1){
             $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
             $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            $("#dataTipsOriginModal").modal('show');
+            $("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');
+            $("#dataTipsOriginModal").modal({
+                backdrop:false,
+                show:true
+            });
             $(".modal-backdrop").css('width','74%');
         }
     }
