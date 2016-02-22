@@ -104,8 +104,9 @@
         width: 40px;
         height: 24px;
     }
+
     /*输入查询图片*/
-    .pic-show{
+    .pic-show {
         /*position: absolute;*/
         border: 1px solid #ddd;
         z-index: 999;
@@ -116,41 +117,53 @@
         /*box-shadow: 4px 4px 7px 0px #777;*/
         min-width: 100%;
     }
-    .pic-show-well-normal{
-          min-width: 100%;
-          min-height: 60px;
-      } .pic-show-well-transit{
-            min-width: 100%;
-            min-height: 60px;
-        }
-    .img-well{
+
+    .pic-show-well-normal {
+        min-width: 100%;
+        min-height: 60px;
+    }
+
+    .pic-show-well-transit {
+        min-width: 100%;
+        min-height: 60px;
+    }
+
+    .img-well {
         float: left;
         padding: 3px;
         /*border: 1px solid #ddd;*/
         margin: 4px;
         cursor: pointer;
     }
-    .show-img{
+
+    .show-img {
         width: 60px;
         height: 49px;
-    }  .show-img-normal{
-           width: 40px;
-           height: 30px;
-       }  .show-img-transit{
-              width: 40px;
-              height: 30px;
-          }
-    .img-describe{
+    }
+
+    .show-img-normal {
+        width: 40px;
+        height: 30px;
+    }
+
+    .show-img-transit {
+        width: 40px;
+        height: 30px;
+    }
+
+    .img-describe {
         background-color: #777;
         color: #fff;
         font-size: 11px;
         text-align: center;
     }
+
     .selected {
         background-color: lightgreen;
         text-align: center;
     }
-    .sing-flag{
+
+    .sing-flag {
         padding: 8px;
         transition: all 0.5s;
         cursor: pointer;
@@ -163,99 +176,130 @@
             <form class="form-horizontal" method="get">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">车信ID</label>
+
                     <div class="col-sm-8">
-                        <input type="text" class="form-control rounded" placeholder="车信ID" ng-model="lanesData.inLinkPid">
+                        <input type="text" class="form-control rounded" placeholder="车信ID"
+                               ng-model="lanesData.inLinkPid">
                     </div>
 
                 </div>
             </form>
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form class="form-horizontal" method="get">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">车道总数</label>
-                                <label class="col-sm-8 control-label">({{lanesData.laneNum}}条)</label>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal" method="get">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">车道总数</label>
+                            <label class="col-sm-8 control-label">({{lanesData.laneNum}}条)</label>
 
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <div class="pic-show">
-                                    <div class="pic-show-well-normal">
-                                        <div class="img-well" ng-repeat="item in showNormalData track by $index"  ng-click="showLanesInfo(item,$index)">
-                                            <img class="show-img-normal" ng-src="./css/laneinfo/arwG/{{item}}.png" title="{{item}}">
-                                        </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <div class="pic-show">
+                                <div class="pic-show-well-normal">
+                                    <div class="img-well" ng-repeat="item in showNormalData track by $index"
+                                         ng-click="showLanesInfo(item,$index)">
+                                        <img class="show-img-normal" ng-src="./css/laneinfo/arwG/{{item}}.png"
+                                             title="{{item}}">
                                     </div>
                                 </div>
-                                    <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" data-toggle="modal"
+                            </div>
+                                    <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus"
+                                          data-toggle="modal"
                                           data-target="#myModal">普通</span>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <div class="pic-show">
-                                    <div class="pic-show-well-transit">
-                                        <div class="img-well" ng-repeat="item in showTransitData track by $index" ng-dblclick="minusTransitData(item)">
-                                            <img class="show-img-transit" ng-src="./css/laneinfo/arwG/{{item}}.png" title="{{item}}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <span style="float:right;font-size: 14px" >公交</span>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">附加车道</label>
-                                <div class="col-sm-8">
-                                    <label class="col-sm-2 control-label">左</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="lanesData.leftExtend">
-                                    </div>
-                                    <label class="col-sm-2 control-label">右</label>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control rounded" placeholder="link编号" ng-model="lanesData.rightExtend">
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <div class="pic-show">
+                                <div class="pic-show-well-transit">
+                                    <div class="img-well" ng-repeat="item in showTransitData track by $index"
+                                         ng-dblclick="minusTransitData(item)">
+                                        <img class="show-img-transit" ng-src="./css/laneinfo/arwG/{{item}}.png"
+                                             title="{{item}}">
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                            <span style="float:right;font-size: 14px">公交</span>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">附加车道</label>
+
+                            <div class="col-sm-8">
+                                <label class="col-sm-2 control-label">左</label>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control rounded" placeholder="link编号"
+                                           ng-model="lanesData.leftExtend" ng-change="addLeftAdditionalLane($event)">
+                                </div>
+                                <label class="col-sm-2 control-label">右</label>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control rounded" placeholder="link编号"
+                                           ng-model="lanesData.rightExtend">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+            </div>
             <div ng-repeat="item in outLanesArr" class="panel panel-default">
-                <div  class="panel-body">
+                <div class="panel-body">
                     <form class="form-horizontal" method="get">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">退出lindID</label>
 
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="退出lindID" ng-model="item.outLinkPid">
+                                <input type="text" class="form-control rounded" placeholder="退出lindID"
+                                       ng-model="item.outLinkPid">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">通达方向</label>
+
                             <div class="col-sm-8">
-                                    <select ng-options="value.id as value.label for value in reachDirOptions" ng-model="item.reachDir"></select>
+                                <select ng-options="value.id as value.label for value in reachDirOptions"
+                                        ng-model="item.reachDir"></select>
                             </div>
                         </div>
 
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">进入车道序号</label>
+                            <label class="col-sm-3 control-label">进入车道</label>
+
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="进入车道序号" ng-model="item.connexityPid">
+                                <input type="text" class="form-control rounded" placeholder="进入车道"
+                                       ng-model="item.connexityPid">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">公交车道信息</label>
+                            <label class="col-sm-3 control-label">公交车道</label>
+
                             <div class="col-sm-8">
-                                <input type="text" class="form-control rounded" placeholder="公交车道信息" ng-model="item.busLaneInfo">
+                                <input type="text" class="form-control rounded" placeholder="公交车道"
+                                       ng-model="item.busLaneInfo">
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"></div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">关系类型</label>
+
                             <div class="col-sm-8">
-                                <div id="relationshipTypediv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
-                                    <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="relationshipType0_{{$index}}" ng-click="checkrelationshipType(0,item,$index)" ng-model="item.relationshipType">路口车信</button>
-                                    <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="relationshipType1_{{$index}}" ng-click="checkrelationshipType(1,item,$index)" ng-model="item.relationshipType">线线车信</button>
+                                <div id="relationshipTypediv{{$index}}" class="btn-group"
+                                     style="border-radius: 10px;border: 1px solid #2aabd2;">
+                                    <button class="btn btn-default"
+                                            style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;"
+                                            id="relationshipType0_{{$index}}"
+                                            ng-click="checkrelationshipType(0,item,$index)"
+                                            ng-model="item.relationshipType">路口车信
+                                    </button>
+                                    <button class="btn btn-default"
+                                            style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;"
+                                            id="relationshipType1_{{$index}}"
+                                            ng-click="checkrelationshipType(1,item,$index)"
+                                            ng-model="item.relationshipType">线线车信
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -279,15 +323,17 @@
                     </h4>
                 </div>
                 <div class="modal-body" style="overflow:scroll;height: 50%;">
-                    <div class="col-sm-1 sing-flag" style="list-style: none;"  ng-repeat="addItem in addRdLancdData" ng-click="changeColor(addItem,$index)"   ng-class='{selected: $index==selectedRow}'>
-                          <li ng-class='{selected:addItem.class}' style="width: 30px;height: 30px;"> <img  ng-src="./css/laneinfo/{{addItem.id}}.png" ></li>
+                    <div class="col-sm-1 sing-flag" style="list-style: none;" ng-repeat="addItem in addRdLancdData"
+                         ng-click="changeColor(addItem,$index)" ng-class='{selected: $index==selectedRow}'>
+                        <li ng-class='{selected:addItem.class}' style="width: 30px;height: 30px;"><img
+                                ng-src="./css/laneinfo/arwB/{{addItem.id}}.png"></li>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">关闭
                     </button>
-                    <button type="button" class="btn btn-primary" ng-click="addTips()">
+                    <button type="button" class="btn btn-primary" ng-click="addLaneConnexity()">
                         增加
                     </button>
                 </div>
