@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="css/editor.css">
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
+    <link rel="stylesheet" href="js/lib/malihu-scrollbar/jquery.mCustomScrollbar.min.css">
 </head>
 <body ng-controller="RoadEditController" >
    <div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
@@ -87,12 +88,12 @@
                                     <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default btn-xs" >清空</button>
                                 </div>
                             </ul>
-                            <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
+                            <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%;margin-top: 10px;">
                                 <div  id="fm-outPut-inspectDiv" style="height:100%;display: none;">
                                     <div ng-include="outputTab"  style="height:100%;"></div>
                                 </div>
-                                <div  id="fm-error-wrongDiv" style="height:100%;">
-                                    <div ng-include="errorCheckTab"  style="height:100%;"></div>
+                                <div  id="fm-error-wrongDiv" style="height:100%;widht:100%;margin-top: 25px;">
+                                    <div ng-include="errorCheckTab"  style="height:100%;widht:100%;"></div>
                                 </div>
                             </div>
                         </div>
