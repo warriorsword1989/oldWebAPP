@@ -198,8 +198,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             "data": objectCtrl.changedProperty
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
+            var info = null;
+            if (data.errcode==0) {
                 rdLink.redraw();
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
@@ -216,16 +216,30 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                 }
                 $.each(data.data.log, function (i, item) {
                     if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        //info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        info={"op":item.op,
+                              "type":item.type,
+                               "pid":  item.pid
+                        }
                     } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        info={"op":item.op,
+                            "type":item.type,
+                            "pid":item.rowId
+                        }
                     }
                 });
                 if(data.errcode==0){
                     swal("操作成功",'保存成功！', "success");
+
                 }
             } else {
-                info.push(data.errmsg + data.errid);
+               // info.push(data.errmsg + data.errid);
+                info={
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                };
                 swal("操作失败", data.errmsg, "error");
             }
             outputCtrl.pushOutput(info);
@@ -244,17 +258,29 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
+            var info = null;
+            if (data.errcode==0) {
                 $.each(data.data.log, function (i, item) {
                     if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        //info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                        info={"op":item.op,
+                            "type":item.type,
+                            "pid": item.pid
+                        }
                     } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                        info={"op":item.op,
+                            "type":item.type,
+                            "pid":item.rowId
+                        }
                     }
                 });
             } else {
-                info.push(data.errmsg + data.errid)
+                info={
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                };
             }
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {

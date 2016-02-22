@@ -141,7 +141,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         });
     }
-
+    /*防止用户点击“取消”按钮是js报错*/
+    $scope.cancel = function(){}
 
     $scope.getCheckDate=function(){
         var param = {
