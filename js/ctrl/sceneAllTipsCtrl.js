@@ -305,13 +305,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
-            if($scope.dataTipsData.t_lifecycle == 3){
-                $timeout(function(){
-                    $.showPoiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
-                    $scope.$apply();
-                });
-                return;
-            }
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -389,7 +382,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "handler": 0,
                 "pid": pid
             }
-            if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
+            /*if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
                 if($scope.dataTipsData.t_lifecycle == 3){
                     $timeout(function(){
                         $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
@@ -397,7 +390,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     });
                     return;
                 }
-            }
+            }*/
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
                 var info = [];
