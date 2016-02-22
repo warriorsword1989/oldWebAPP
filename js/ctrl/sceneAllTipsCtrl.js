@@ -298,10 +298,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $("#dataTipsOriginModal").modal('show');
             $(".modal-backdrop").css('width','74%');
         }
-            $("#dataTipsOriginModal").width($("#mainContent").width()).css('left',$("#mainContent").css('left'));
-            $("#dataTipsOriginImg").attr("src",'https://mmbiz.qlogo.cn/mmbiz/QeczmobIiad4K7Q28eHfLxIqbJdTb8YMzBJdjvT6noSu5NPOzPK0mrAK7CFO0ibiaC05UG5Z9Ke59m4lO3j33gFYA/0?wx_fmt=jpeg');
-            $("#dataTipsOriginModal").modal('show');
-            $(".modal-backdrop").css('width','74%');
     }
     /*转换*/
     $scope.transBridge = function (e) {
@@ -311,7 +307,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
             if($scope.dataTipsData.t_lifecycle == 3){
                 $timeout(function(){
-                    $('body').poiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
                     $scope.$apply();
                 });
                 return;
@@ -396,7 +392,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
                 if($scope.dataTipsData.t_lifecycle == 3){
                     $timeout(function(){
-                        $('body').poiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                        $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
                         $scope.$apply();
                     });
                     return;

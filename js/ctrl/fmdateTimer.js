@@ -258,7 +258,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                             weeks_arr[0] = v;
                         }
                     });
-                }else if(weeks_arr[1].indexOf(')]*[(') > -1){
+                }else if(weeks_arr.length > 1 && weeks_arr[1].indexOf(')]*[(') > -1){
                     $.each(weeks_arr[1].split(')]*[('),function(i,v){
                         if(v.indexOf('t') > -1 && v.indexOf("(") > -1){
                             v = v.slice(0,v.indexOf(")")).concat(v.slice(v.indexOf("(")+1,v.length));
@@ -270,7 +270,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         }
                     });
                 }else{
-                    if(weeks_arr[0].indexOf('t') > -1 && weeks_arr[1].indexOf('t') == -1){
+                    if(weeks_arr.length > 1 && weeks_arr[0].indexOf('t') > -1 && weeks_arr[1].indexOf('t') == -1){
                         weeks_arr.reverse();
                     }
                 }
