@@ -39,6 +39,16 @@
         width: 32px;
         height: 32px;
     }
+    .nodeMove_true{
+        background: url('css/button/nodeMove_selected.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
+    .nodeMove_false{
+        background: url('css/button/nodeMove.png') no-repeat;
+        width: 32px;
+        height: 32px;
+    }
 </style>
 <div ng-controller="modifyToolController" class="btn-group btn-group-sm">
     <button type="button" class="btn insertDot_{{modifyShapeClaArr[8]}}" id="insertDot" ng-click="modifyShape('pathVertexInsert',8,$event)" title="插入形状点"></button>
