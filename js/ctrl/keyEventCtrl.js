@@ -53,7 +53,32 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                     shapectl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                         rdLink.redraw();
-                        outPutCtrl.pushOutput(data.data);
+                        if (data.errcode==0) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    //info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                    info = {
+                                        "op": item.op,
+                                        "type": item.type,
+                                        "pid": item.pid
+                                    }
+                                } else {
+                                    //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                                    info = {
+                                        "op": item.op,
+                                        "type": item.type,
+                                        "pid": item.rowId
+                                    }
+                                }
+                            });
+                        }else{
+                            info={
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            };
+                        }
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }
