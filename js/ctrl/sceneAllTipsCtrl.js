@@ -418,7 +418,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         speedlimtPoint.redraw();
                         workPoint.redraw();
                     });
-
+                    
                         var sinfo={
                             "op":"修改道路link成功",
                             "type":"",
