@@ -383,8 +383,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
-                "handler": 0,
-                "pid": pid
+                "handler": 0
             }
             /*if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
                 if($scope.dataTipsData.t_lifecycle == 3){
@@ -399,7 +398,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 var info = [];
                 if (data.errcode === 0) {
-
+                    rdLink.redraw()
+                    restrictLayer.redraw();
+                    speedlimtPoint.redraw();
+                    workPoint.redraw();
                     Application.functions.getRdObjectById(pid, "RDLINK", function (data) {
                         if (data.errcode === -1) {
                             return;
@@ -411,15 +413,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         })
-                        rdLink.redraw()
-                        restrictLayer.redraw();
-                        speedlimtPoint.redraw();
-                        workPoint.redraw();
                     });
                 } else {
                     info.push(data.errmsg + data.errid);
 
-                    swal("操作成功", "改变状态操作成功！", "success");
+                    swal("操作失败",data.errmsg, "error");
                 }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
