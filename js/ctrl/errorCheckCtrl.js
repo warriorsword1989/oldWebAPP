@@ -41,6 +41,10 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
     var workPoint = layerCtrl.getLayerById("workPoint");
     var highLightLayer = fastmap.uikit.HighLightController();
     $scope.showOnMap=function(targets){
+
+        if (highLightLayer.highLightLayersArr.length !== 0) {
+            highLightLayer.removeHighLightLayers();
+        }
         var value=targets.replace("[","");
         var value1=value.replace("]","");
 
@@ -53,7 +57,17 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
                 if (d.errcode === -1) {
                     return;
                 }
-                map.setView([d.data.geometry.coordinates[0][1], d.data.geometry.coordinates[0][0]], 19)
+                //map.setView([d.data.geometry.coordinates[0][1], d.data.geometry.coordinates[0][0]], 19)
+                var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point =L.latLng(linkArr[i][1],linkArr[i][0]);
+                    points.push(point);
+                }
+                var line =new L.polyline(points);
+                var bounds = line.getBounds();
+                map.fitBounds(bounds,{"maxZoom":20});
+                //map.fitBounds([[points[0].lng,points[0].lat],[points[1].lng,points[1].lat]],{"maxZoom":20})
+
                 //随着地图的变化 高亮的线不变
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
