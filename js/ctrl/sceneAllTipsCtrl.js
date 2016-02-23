@@ -406,7 +406,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         speedlimtPoint.redraw();
                     if(workPoint)
                         workPoint.redraw();
-                    Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
+                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
                         if (d.errcode === -1) {
                             return;
                         }
@@ -417,7 +417,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         })
-                    });
+                    });*/
                 } else {
                     info.push(data.errmsg + data.errid);
 
