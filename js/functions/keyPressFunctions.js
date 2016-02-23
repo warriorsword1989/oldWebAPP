@@ -131,9 +131,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
-                        if (data.errcode!=0) {
-                            return;
-                        }
+
                         var pid = data.data.log[0].pid;
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
@@ -142,6 +140,12 @@ function keyEvent(ocLazyLoad, scope) {
                         restrict.redraw();
                         var info=null;
                         if (data.errcode==0) {
+                            var sinfo={
+                                "op":"创建交限成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -189,6 +193,12 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         var info=null;
                         if (data.errcode==0) {
+                            var sinfo={
+                                "op":"打断link成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -278,6 +288,12 @@ function keyEvent(ocLazyLoad, scope) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
 
                         if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改交限成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -323,6 +339,12 @@ function keyEvent(ocLazyLoad, scope) {
                         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                             var info =null;
                             if (data.errcode==0) {
+                                var sinfo={
+                                    "op":"修改道路link成功",
+                                    "type":"",
+                                    "pid": ""
+                                };
+                                data.data.log.unshift(sinfo);
                                 info=data.data.log;
                             }else{
                                 info=[{
@@ -366,6 +388,12 @@ function keyEvent(ocLazyLoad, scope) {
                             return;
                         }
                         if (data.errcode==0) {
+                            var sinfo={
+                                "op":"移动link成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -401,14 +429,22 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        var info = [];
-                        $.each(data.data.log, function (i, item) {
-                            if (item.pid) {
-                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                            } else {
-                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                            }
-                        });
+                        var info=null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"插入点成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -433,6 +469,12 @@ function keyEvent(ocLazyLoad, scope) {
                         map.currentTool.disable();
                         var info = null;
                         if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改RDBRANCH成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -470,7 +512,7 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        var info=null;
+
                         if (data.errcode === -1) {
                                 info=[{
                                     "op":data.errcode,
@@ -484,7 +526,14 @@ function keyEvent(ocLazyLoad, scope) {
                             }
                             return;
                         }
+                        var info = null;
                         if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改RDCROSS成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{

@@ -121,6 +121,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info=null;
             if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDSPEEDLIMIT成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
