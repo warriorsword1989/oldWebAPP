@@ -98,17 +98,21 @@ otherApp.controller("rdNodeFromController",function($scope){
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDNODE成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
             }else{
-                info.push(data.errmsg+data.errid)
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             outPutCtrl.pushOutput(info);
             if(outPutCtrl.updateOutPuts!=="") {
@@ -131,16 +135,21 @@ otherApp.controller("rdNodeFromController",function($scope){
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
             var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"删除RDNODE成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
             }else{
-                info.push(data.errmsg+data.errid);
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
                 swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);

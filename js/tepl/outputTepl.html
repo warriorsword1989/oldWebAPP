@@ -1,4 +1,4 @@
-<div ng-controller="outPutController" style="height:95%;width: 100%;overflow-y: auto;color: #FFF; ">
+<div ng-controller="outPutController" style="height:95%;width: 100%;overflow-y: auto; ">
    <!--<textarea ng-model="outputtext"style="width: 100%;height: 100%"></textarea>-->
     <table st-table="rowCollection" class="table table-striped" >
         <thead >
@@ -10,11 +10,20 @@
         </tr>
         </thead>
         <tbody style="height: 100px">
-        <tr ng-repeat="row in outValue">
-            <td>{{row.op}}</td>
-            <td>{{row.type }}</td>
+        <tr ng-repeat="row in outValue track by $index">
+            <td ng-if="row.type==''"  style="background-color: #49C2FC;">{{row.op}}</td>
+            <td ng-if="row.type!=''">{{row.op}}</td>
+            <td ng-if="row.type==''"  style="background-color: #49C2FC;">{{row.type }}</td>
+            <td ng-if="row.type!=''">{{row.type }}</td>
             <!--<td ng-if="row.op=='删除'"><a>{{row.pid}}</a></td>-->
-            <td>{{row.pid}}</td>
+            <td ng-if="row.type==''"  style="background-color: #49C2FC;">
+                <span ng-if="row.pid==null" >{{row.pid}}</span>
+                <span ng-if="row.rowId==null">{{row.rowId}}</span>
+            </td>
+            <td ng-if="row.type!=''"  >
+                <span ng-if="row.pid!=null">{{row.pid}}</span>
+                <span ng-if="row.rowId!=null">{{row.rowId}}</span>
+            </td>
         </tr>
         </tbody>
     </table>

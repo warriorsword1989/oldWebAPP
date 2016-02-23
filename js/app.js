@@ -121,6 +121,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             $("#errorClear").show();
             $("#immediatelyCheck").hide();
             $("#checkErrorLi").hide();
+            $("#inspectDiv").show();
+            $("#wrongDiv").hide();
             $scope.rowCollection=[];
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
@@ -130,6 +132,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             $("#errorClear").hide();
             $("#immediatelyCheck").show();
             $("#checkErrorLi").hide();
+            $("#inspectDiv").hide();
+            $("#wrongDiv").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }

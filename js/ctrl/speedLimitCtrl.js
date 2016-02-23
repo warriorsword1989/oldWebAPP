@@ -119,18 +119,21 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         };
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
-                speedLimit.redraw();
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                    } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                    }
-                });
-            } else {
-                info.push(data.errmsg + data.errid)
+            var info=null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDSPEEDLIMIT成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
@@ -148,27 +151,21 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             if(data.errcode===-1) {
-                outputCtrl.pushOutput(data.errmsg);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
                 return;
             }
             speedLimit.redraw();
             $scope.speedLimitData = null;
             $scope.speedLimitGeometryData = null;
             $scope.$parent.$parent.objectEditURL = "";
-            var info = [];
-            if (data.data) {
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                    } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                    }
-                });
-            } else {
-                info.push(data.errmsg + data.errid)
+            var info=null;
+            if (data.errcode==0) {
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
 
