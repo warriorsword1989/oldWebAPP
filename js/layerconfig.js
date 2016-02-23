@@ -498,7 +498,7 @@ Application.layersConfig =
                 zIndex: 9,
                 restrictZoom: 10,
                 visible: true,
-                requestType: 7,
+                requestType: "",
                 showNodeLevel: 17
             }
 
@@ -552,7 +552,7 @@ Application.layersConfig =
                 zIndex: 12,
                 restrictZoom: 10,
                 visible: true,
-                requestType: 7,
+                requestType: "",
                 showNodeLevel: 17
             }
 

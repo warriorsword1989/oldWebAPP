@@ -1011,18 +1011,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0] + '.png'};
                                     } else {
                                         if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact] + '.png'};
+                                            newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact].substr(restrictArr[fact].length-2, 1) + '.png'};
 
                                         } else if (restrictArr[fact].indexOf("<") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("<", "");
-                                            restrictArr[fact] = restrictArr[fact].replace(">", "");
-                                            newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact] + '.png'};
+                                            newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact].substr(restrictArr[fact].length-2, 1) + '.png'};
 
                                         } else if (restrictArr[fact] != "9") {
                                             newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
                                         }
+                                    }
+                                    if(newstyle.src==='./css/laneinfo/extF/[.png') {
+                                        console.log("test");
                                     }
                                     if (fact > 0) {
                                         newgeom[0] = parseInt(geom[0]) + fact * 10;
@@ -1037,14 +1036,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     newstyle = {src: './css/laneinfo/arwF/' + restrictArr[0] + '.png'};
                                 } else {
                                     if (restrictObj.indexOf("[") > -1) {
-                                        restrictObj = restrictObj.replace("[", "");
-                                        restrictObj = restrictObj.replace("]", "");
-                                        newstyle = {src: './css/laneinfo/extF/' + restrictObj + '.png'};
+                                        newstyle = {src: './css/laneinfo/extF/' + restrictObj.substr(restrictObj.length-2, 1) + '.png'};
 
                                     } else if (restrictObj.indexOf("<") > -1) {
-                                        restrictObj = restrictObj.replace("<", "");
-                                        restrictObj = restrictObj.replace(">", "");
-                                        newstyle = {src: './css/laneinfo/arwB/' + restrictObj + '.png'};
+                                        newstyle = {src: './css/laneinfo/arwB/' + restrictObj.substr(restrictObj.length-2,1) + '.png'};
 
                                     } else if (restrictObj != "9") {
                                         newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
@@ -1125,7 +1120,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "Point":
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-                    url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":15,"type":["' + this.requestType + '"]}'
+                    if(this.requestType==="") {
+                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}'
+                    }else{
+                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' +this.requestType+']}'
+                    }
                 }
                 break;
             case "Marker":
@@ -1172,7 +1171,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
 
                 } else {
-                    url = Application.url + '/pdh/tile?parameter=' + '{z:' + map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                    url = Application.url + '/pdh/tile?parameter=' + '{"projectId":11,"z":' + this.map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
                 }
 
                 break;
@@ -1180,8 +1179,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
 
-                    url = this.url + 'parameter={"projectId":11,"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
-
+                    if(this.requestType==="") {
+                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}'
+                    }else{
+                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' +this.requestType+']}'                    }
                 }
                 break;
             case "fusionroad":

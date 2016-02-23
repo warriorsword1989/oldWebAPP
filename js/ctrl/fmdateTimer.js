@@ -183,8 +183,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                 var tDate = time.split('h')[0];
                 return tDate.split('y')[1].split('M')[0]+'年'+tDate.split('y')[1].split('M')[1].split('d')[0]+'月'+tDate.split('y')[1].split('M')[1].split('d')[1]+'日的'+cTime[0]+':'+cTime[1];
             }else{
-                var hTemp = (cTime[0]=='0')?'00':cTime[0];
-                var mTemp = (cTime[1]=='0')?'00':cTime[1];
+                var hTemp = (cTime[0]=='0'||!cTime[0])?'00':cTime[0];
+                var mTemp = (cTime[1]=='0'||!cTime[1])?'00':cTime[1];
                 return hTemp+':'+mTemp;
             }
         }else if(time.indexOf('M') > -1 && time.indexOf('d') > -1 && time.indexOf('y') == -1){      //(Mxdx)
@@ -222,6 +222,58 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                 var mutiDate = [];      //多维数组
                 var dateMonth = [];     //月份
                 var tempDays = [];      //[[(xxxx)(xxxx)]*[(t2){d4}]]
+                /*存在[[(h7m30)(h12)]*(t4t5t6)]+[[(h14)(h20)]*(t4t5t6)]类似情况*/
+                if(weeks_arr[0].indexOf(')]*(') > -1){
+                    $.each(weeks_arr[0].split(')]*('),function(i,v){
+                        if(v.indexOf('t') > -1 && v.indexOf("(") > -1){
+                            v = v.slice(0,v.indexOf(")")).concat(v.slice(v.indexOf("(")+1,v.length));
+                        }
+                        if(v.indexOf('t') > -1){
+                            weeks_arr[1] = v;
+                        }else{
+                            weeks_arr[0] = v;
+                        }
+                    });
+                }else if(weeks_arr[0].indexOf(')*[(') > -1){
+                    $.each(weeks_arr[0].split(')*[('),function(i,v){
+                        if(v.indexOf('t') > -1 && v.indexOf("(") > -1){
+                            v = v.slice(0,v.indexOf(")")).concat(v.slice(v.indexOf("(")+1,v.length));
+                        }
+                        if(v.indexOf('t') > -1){
+                            weeks_arr[1] = v;
+                        }else{
+                            weeks_arr[0] = v;
+                        }
+                    });
+                }
+                /*存在[[(t2)(t6)]*[[(h7m0)(h9m0)]+[(h17m0)(h20m0)]]]类似情况*/
+                if(weeks_arr[0].indexOf(')]*[(') > -1){
+                    $.each(weeks_arr[0].split(')]*[('),function(i,v){
+                        if(v.indexOf('t') > -1 && v.indexOf("(") > -1){
+                            v = v.slice(0,v.indexOf(")")).concat(v.slice(v.indexOf("(")+1,v.length));
+                        }
+                        if(v.indexOf('t') > -1){
+                            weeks_arr[1] = v;
+                        }else{
+                            weeks_arr[0] = v;
+                        }
+                    });
+                }else if(weeks_arr.length > 1 && weeks_arr[1].indexOf(')]*[(') > -1){
+                    $.each(weeks_arr[1].split(')]*[('),function(i,v){
+                        if(v.indexOf('t') > -1 && v.indexOf("(") > -1){
+                            v = v.slice(0,v.indexOf(")")).concat(v.slice(v.indexOf("(")+1,v.length));
+                        }
+                        if(v.indexOf('t') > -1){
+                            weeks_arr[1] = v;
+                        }else{
+                            weeks_arr[0] = v;
+                        }
+                    });
+                }else{
+                    if(weeks_arr.length > 1 && weeks_arr[0].indexOf('t') > -1 && weeks_arr[1].indexOf('t') == -1){
+                        weeks_arr.reverse();
+                    }
+                }
                 if(weeks_arr.length > 1 && weeks_arr[0].indexOf(')(h') > -1){
                     weeksStr = $scope.arrEmpty(weeks_arr[1].split('t'));    //星期数组去空
                     dateTme = weeks_arr[0];
@@ -737,9 +789,9 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         var $endHour = $endTime[0];
                         var $endMinute = $endTime[1];
                         if($scope.vagueTime){
-                            return '[[(h'+$beginHour+'m'+$beginMinute+')(h'+$endHour+'m'+$endMinute+')*('+_result+')]*z]'
+                            return '[[[(h'+$beginHour+'m'+$beginMinute+')(h'+$endHour+'m'+$endMinute+')]*('+_result+')]*z]'
                         }else{
-                            return '[(h'+$beginHour+'m'+$beginMinute+')(h'+$endHour+'m'+$endMinute+')*('+_result+')]';
+                            return '[[(h'+$beginHour+'m'+$beginMinute+')(h'+$endHour+'m'+$endMinute+')]*('+_result+')]';
                         }
                     }else if($scope.wks.checks.length == 0){  //第三种可能：固定时间 只选择时间段
                         var $beginTime = $scope['begin_time'].split(":");

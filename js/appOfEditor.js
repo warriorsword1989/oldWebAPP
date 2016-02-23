@@ -1,7 +1,9 @@
-﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
-app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad,$timeout) {
-
-
+/**
+ * Created by liwanchong on 2016/2/18.
+ */
+var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
+app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+    appInit()
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
@@ -15,7 +17,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
             if(claFlag===id) {
@@ -26,40 +28,19 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
     };
 
+    //$("#inwTabContent").mCustomScrollbar({
+    //    axis:"y"
+    //});
+
+
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
     //登录时
-    $scope.zoom = [];
-
     keyEvent($ocLazyLoad,$scope);
     $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-        appInit();
-        for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
-            $scope.zoom.push(i);
-        }
-        $scope.removeZoomClass = function(){
-            $.each($(".zoom-btn"),function(m,n){
-                $(n).prop('disabled',false).removeClass('btn-primary');
-            })
-        }
-        $scope.changeZoom = function(i,e){
-            $scope.removeZoomClass();
-            map.setZoom(i);
-            $('#nowZoom').text(i);
-            $(e.target).prop('disabled',true).addClass('btn-primary');
-        }
-        $('#nowZoom').text(map.getZoom());
-        /*当比例尺改变时*/
-        map.on('zoomend',function(){
-            $('#nowZoom').text(map.getZoom());
-            $scope.removeZoomClass();
-            $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
-        })
-        $scope.disZoom = map.getZoom();
         $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
         $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-
                 $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
                         $scope.modifyToolURL = 'js/tepl/modifyToolTepl.html';
@@ -78,7 +59,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         );
     });
-
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -116,31 +96,47 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.checkTotal=0;
     $scope.meshesId=[605603,0605603];
     $scope.rowCollection=[];
-    $scope.showTab = function (tab) {
+    $scope.showTab = function (tab,ind) {
         if (tab === "outPut") {
+            $("#liout").addClass("selected");
+            $("#lierror").removeClass("selected");
             $("#errorClear").show();
             $("#immediatelyCheck").hide();
-            $("#checkErrorLi").hide();
+            $("#fm-error-checkErrorLi").hide();
+            $("#fm-outPut-inspectDiv").show();
+            $("#fm-error-wrongDiv").hide();
             $scope.rowCollection=[];
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
         } else if (tab === "errorCheck") {
+            $("#lierror").addClass("selected");
+            $("#liout").removeClass("selected");
             $("#errorClear").hide();
             $("#immediatelyCheck").show();
-            $("#checkErrorLi").hide();
+            $("#fm-outPut-inspectDiv").hide();
+            $("#fm-error-checkErrorLi").hide();
+            $("#fm-error-wrongDiv").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
             );
 
         }else if(tab==="getCheck"){
-            $("#checkErrorLi").show();
+            $("#fm-error-checkErrorLi").show();
             if( $scope.itemsByPage==1){
                 $scope.rowCollection=[];
                 $scope.getCheckDateAndCount();
             }
+            $("#fm-error-wrongDiv").show();
+            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
+                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+                }
+            );
+
+
+
         }
     };
     $scope.getCheckDateAndCount=function(){
@@ -169,8 +165,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         });
     }
-    /*防止用户点击“取消”按钮是js报错*/
-    $scope.cancel = function(){}
+
 
     $scope.getCheckDate=function(){
         var param = {
@@ -248,8 +243,29 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         }
         $scope.toolsFlag = !$scope.toolsFlag;
     }
-
-
+    $scope.zoom = [];
+    for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
+        $scope.zoom.push(i);
+    }
+    $scope.removeZoomClass = function(){
+        $.each($(".zoom-btn"),function(m,n){
+            $(n).prop('disabled',false).removeClass('btn-primary');
+        })
+    }
+    $scope.changeZoom = function(i,e){
+        $scope.removeZoomClass();
+        map.setZoom(i);
+        $('#nowZoom').text(i);
+        $(e.target).prop('disabled',true).addClass('btn-primary');
+    }
+    $('#nowZoom').text(map.getZoom());
+    /*当比例尺改变时*/
+    map.on('zoomend',function(){
+        $('#nowZoom').text(map.getZoom());
+        $scope.removeZoomClass();
+        $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
+    })
+    $scope.disZoom = map.getZoom();
 
 
 }]);
@@ -360,6 +376,8 @@ function dragF1(id,pId) {
             $dragDiv.unbind("mousemove.drag");
         }
     });
+
+
 
 
 }

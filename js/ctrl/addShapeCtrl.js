@@ -57,8 +57,29 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             return flag;
         };
+        /*初始化功能按钮*/
+        $scope.initCurrentTool = function(){
+            $("#node").removeClass('node_true').addClass('node_false');
+            $("#link").removeClass('link_true').addClass('link_false');
+            $("#relation").removeClass('relation_true').addClass('relation_false');
+            $("#tips").removeClass('tips_true').addClass('tips_false');
+            $("#cross").removeClass('cross_true').addClass('cross_false');
+            $("#addNode").removeClass('addNode_true').addClass('addNode_false');
+            $("#addLink").removeClass('addLink_true').addClass('addLink_false');
+            $("#addRelation").removeClass('addRelation_true').addClass('addRelation_false');
+            $("#insertDot").removeClass('insertDot_true').addClass('insertDot_false');
+            $("#deleteDot").removeClass('deleteDot_true').addClass('deleteDot_false');
+            $("#moveDot").removeClass('moveDot_true').addClass('moveDot_false');
+            $("#pathBreak").removeClass('pathBreak_true').addClass('pathBreak_false');
+        }
         $scope.addShape = function (type, num,event) {
+<<<<<<< HEAD
             //event.stopPropagation();
+=======
+            if(event)
+                event.stopPropagation();
+            $scope.initCurrentTool();
+>>>>>>> fm/master
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -110,7 +131,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === "speedLimit") {
+            }else if (type === "speedLimit") {
 
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
