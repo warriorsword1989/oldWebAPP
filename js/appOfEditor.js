@@ -28,6 +28,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }
     };
 
+    //$("#inwTabContent").mCustomScrollbar({
+    //    axis:"y"
+    //});
+
+
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });
