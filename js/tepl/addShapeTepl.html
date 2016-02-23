@@ -1,50 +1,57 @@
 <style>
-    .addNode_false{
+    .addNode_false {
         background: url('css/button/dot_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
-    .addNode_true{
+
+    .addNode_true {
         background: url('css/button/dot_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
-    .addLink_false{
+
+    .addLink_false {
         background: url('css/button/line_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
-    .addLink_true{
+
+    .addLink_true {
         background: url('css/button/line_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
-    .addRelation_false{
+
+    .addRelation_false {
         background: url('css/button/relation_add.png') no-repeat;
         width: 32px;
         height: 32px;
     }
-    .addRelation_true{
+
+    .addRelation_true {
         background: url('css/button/relation_add_selected.png') no-repeat;
         width: 32px;
         height: 32px;
     }
 </style>
 <div ng-controller="addShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn addNode_{{addShapeClaArr[5]}}" id="addNode" ng-click="addShape('node',5,$event)"  title="新增点+"></button>
-    <button type="button" class="btn addLink_{{addShapeClaArr[6]}}" id="addLink" ng-click="addShape('link',6,$event)" title="新增线"></button>
+    <button type="button" class="btn addNode_{{addShapeClaArr[5]}}" id="addNode" ng-click="addShape('node',5,$event)"
+            title="新增点+"></button>
+    <button type="button" class="btn addLink_{{addShapeClaArr[6]}}" id="addLink" ng-click="addShape('link',6,$event)"
+            title="新增线"></button>
     <button type="button" class="btn addRelation_{{addShapeClaArr[7]}} dropdown-toggle" id="addRelation"
             data-toggle="dropdown">
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu" style="min-width: 252px;">
-     <div  class="btn-group btn-group-sm">
-         <button  type="button" class="btn btn-default"  ng-click="addShape('restriction',7,$event)">交限</button>
-         <button  type="button" class="btn btn-default" ng-click="addShape('laneConnexity',7,$event)">车信</button>
-         <button  type="button" class="btn btn-default" ng-click="addShape('rdBranch',7,$event)" >高速分歧</button>
-         <button  type="button" class="btn btn-default" ng-click="addShape('speedLimit',7,$event)" >限速</button>
-         <button  type="button" class="btn btn-default" ng-click="addShape('rdcross',7,$event)" >路口</button>
-     </div>
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default" ng-click="addShape('restriction',7,$event)">交限</button>
+            <button type="button" class="btn btn-default" ng-click="addShape('laneConnexity',7,$event)">车信</button>
+            <button type="button" class="btn btn-default" ng-click="addShape('rdBranch',7,$event)">高速分歧</button>
+            <button type="button" class="btn btn-default" ng-click="addShape('speedLimit',7,$event)">限速</button>
+            <button type="button" class="btn btn-default" ng-click="addShape('rdcross',7,$event)">路口</button>
+        </div>
 
 
     </ul>
