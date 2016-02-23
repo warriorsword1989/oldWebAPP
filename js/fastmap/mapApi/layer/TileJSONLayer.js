@@ -801,10 +801,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             if (window.JSON) {
                                 if (window.JSON.parse(x.responseText).data != null) {
                                     d = window.JSON.parse(x.responseText);
-                                    //d = d.data[self.requestType] ? d.data[self.requestType] : d.data;
-                                    //d= d.data;
                                     d = Object.prototype.toString.call(d.data[self.requestType]) === '[object Array]' ? d.data[self.requestType] : d.data;
-
                                 }
 
                             } else {
@@ -938,14 +935,18 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 var poiY = feature.geometry.coordinates[1][0];
                                 var newstyle = './css/divergence/' + v.type + '.png';
                                 var route = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                that._loadImg(newstyle, function (img) {
-                                    var g = ctx.canvas.getContext('2d');
-                                    g.save();
-                                    g.translate(poiX, poiY);
-                                    g.rotate(route);
-                                    g.drawImage(img, i * 30, 0);
-                                    g.restore();
-                                });
+                                if(v.type == 0){
+                                    that._loadImg(newstyle, function (img) {
+                                        var g = ctx.canvas.getContext('2d');
+                                        g.save();
+                                        g.translate(poiX, poiY);
+                                        g.rotate(route);
+                                        g.drawImage(img, i * 30, 0);
+                                        g.restore();
+                                    });
+                                }
+
+
                             });
                         }
                     } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标

@@ -11,7 +11,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrict = layerCtrl.getLayerById('referencePoint');
+    var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     $scope.toolTipText = "";
@@ -222,30 +222,71 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
-            layerCtrl.pushLayerFront('referencePoint');
-            map.currentTool = new fastmap.uikit.SelectRestriction({map: map, currentEditLayer: restrict});
+            //layerCtrl.pushLayerFront('restriction');
+            map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
-            restrict.options.selectType = 'relation';
-            restrict.options.editable = true;
+            //restrict.options.selectType = 'relation';
+            //restrict.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
-            $scope.toolTipText = '请选择交限！'; 
+            $scope.toolTipText = '请选择关系！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
-            restrict.on("getNodeId", function (data) {
+            map.on("getNodeId", function (data) {
                 $scope.data = data;
                 $scope.tips = data.tips;
-                Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
+                Application.functions.getRdObjectById(data.id,data.detailid, data.optype, function (data) {
                     objCtrl.setCurrentObject(data.data);
-                    if (objCtrl.rdrestrictionObject !== "") {
-                        objCtrl.rdrestrictionObject();
-                    }
                     tooltipsCtrl.onRemoveTooltip();
-                    $ocLazyLoad.load('ctrl/rdRestriction').then(function () {
-                        if ($scope.tips === 0) {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                        } else if ($scope.type === 1) {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
-                        }
-                    })
+
+                    switch($scope.data.optype){
+
+                        case 'RDRESTRICTION':
+
+                            if (objCtrl.rdrestrictionObject !== "") {
+                                objCtrl.rdrestrictionObject();
+                            }
+                            $ocLazyLoad.load('ctrl/rdRestriction').then(function () {
+                                if ($scope.tips === 0) {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                } else if ($scope.type === 1) {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
+                                }
+                            })
+                            break;
+                        case 'RDLANECONNEXITY':
+                            if (objCtrl.rdLaneObject !== "") {
+                                objCtrl.rdLaneObject();
+                            }
+                            $ocLazyLoad.load('ctrl/rdLaneConnexityCtrl').then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
+                            })
+                            break;
+
+                        case 'RDSPEEDLIMIT':
+                            if (objCtrl.rdSpeedLimitObject !== "") {
+                                objCtrl.rdSpeedLimitObject();
+                            }
+                            $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/speedLimitTepl.html";
+                            })
+                            break;
+                        case 'RDCROSS':
+                            if (objCtrl.updateRdCross !== "") {
+                                objCtrl.updateRdCross();
+                            }
+                            $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+                            })
+                            break;
+                        case 'RDBRANCH':
+                            //if (objCtrl.updateRdCross !== "") {
+                            //    objCtrl.updateRdCross();
+                            //}
+                            $ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
+                            })
+                            break;
+                    }
+
 
                 })
 
