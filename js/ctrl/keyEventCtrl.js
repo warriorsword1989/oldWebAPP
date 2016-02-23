@@ -53,30 +53,21 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                     shapectl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                         rdLink.redraw();
+                        var info = null;
                         if (data.errcode==0) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    //info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                    info = {
-                                        "op": item.op,
-                                        "type": item.type,
-                                        "pid": item.pid
-                                    }
-                                } else {
-                                    //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                    info = {
-                                        "op": item.op,
-                                        "type": item.type,
-                                        "pid": item.rowId
-                                    }
-                                }
-                            });
+                            var sinfo={
+                                "op":"修改道路link成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
                         }else{
-                            info={
+                            info=[{
                                 "op":data.errcode,
                                 "type":data.errmsg,
                                 "pid": data.errid
-                            };
+                            }];
                         }
                         outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
@@ -102,8 +93,23 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-
-                        outPutCtrl.pushOutput(data.data.log[0]);
+                        var info = null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改交限成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }

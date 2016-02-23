@@ -100,17 +100,21 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
 
-                        var info = [];
-                        if (data.data) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                } else {
-                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                }
-                            });
-                        } else {
-                            info.push(data.errmsg + data.errid)
+                        var info=null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"创建道路link成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
                         }
                         resetPage(info);
                         outPutCtrl.pushOutput(info);
@@ -127,24 +131,24 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
-
+                        if (data.errcode!=0) {
+                            return;
+                        }
                         var pid = data.data.log[0].pid;
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-                        var info = [];
-                        if (data.data) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                } else {
-                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                }
-                            });
-                        } else {
-                            info.push(data.errmsg + data.errid)
+                        var info=null;
+                        if (data.errcode==0) {
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -183,14 +187,16 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        var info = [];
-                        $.each(data.data.log, function (i, item) {
-                            if (item.pid) {
-                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                            } else {
-                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                            }
-                        });
+                        var info=null;
+                        if (data.errcode==0) {
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -254,23 +260,32 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(parameter), function (data) {
+                        var info=null;
                         if (data.errcode === -1) {
-                            outPutCtrl.pushOutput(data.errmsg);
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                            outPutCtrl.pushOutput(info);
                             if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
                             }
                             return;
                         }
-                        var info = [];
+
                         selectCtrl.selectedFeatures = null;
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                        angular.forEach(data.data.log, function (task, index) {
-                            if (task.pid) {
-                                info.push(task.op + task.type + "(pid:" + task.pid + ")");
-                            } else {
-                                info.push(task.op + task.type + "(rowId:" + task.rowId + ")");
-                            }
-                        })
+
+                        if (data.errcode==0) {
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
                         speedlimitlayer.redraw();
                         resetPage();
                         outPutCtrl.pushOutput(info);
@@ -306,17 +321,15 @@ function keyEvent(ocLazyLoad, scope) {
                         //结束编辑状态
                         shapeCtrl.stopEditing();
                         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                            var info = [];
-                            if (data.data) {
-                                $.each(data.data.log, function (i, item) {
-                                    if (item.pid) {
-                                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                    } else {
-                                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                    }
-                                });
-                            } else {
-                                info.push(data.errmsg + data.errid);
+                            var info =null;
+                            if (data.errcode==0) {
+                                info=data.data.log;
+                            }else{
+                                info=[{
+                                    "op":data.errcode,
+                                    "type":data.errmsg,
+                                    "pid": data.errid
+                                }];
                             }
                             resetPage();
                             outPutCtrl.pushOutput(info);
@@ -338,21 +351,29 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
+                        var info=null;
                         if (data.errcode === -1) {
-                            outPutCtrl.pushOutput(data.errmsg);
+                                info=[{
+                                    "op":data.errcode,
+                                    "type":data.errmsg,
+                                    "pid": data.errid
+                                }];
+
+                            outPutCtrl.pushOutput(info);
                             if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
                             }
                             return;
                         }
-                        var info = [];
-                        $.each(data.data.log, function (i, item) {
-                            if (item.pid) {
-                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                            } else {
-                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                            }
-                        });
+                        if (data.errcode==0) {
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -410,17 +431,15 @@ function keyEvent(ocLazyLoad, scope) {
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
-                        var info = [];
-                        if (data.data) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                } else {
-                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                }
-                            });
-                        } else {
-                            info.push(data.errmsg + data.errid)
+                        var info = null;
+                        if (data.errcode==0) {
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -451,21 +470,29 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        var info=null;
                         if (data.errcode === -1) {
+                                info=[{
+                                    "op":data.errcode,
+                                    "type":data.errmsg,
+                                    "pid": data.errid
+                                }];
+
                             outPutCtrl.pushOutput(data.errmsg);
                             if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
                             }
                             return;
                         }
-                        var info = [];
-                        $.each(data.data.log, function (i, item) {
-                            if (item.pid) {
-                                info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                            } else {
-                                info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                            }
-                        });
+                        if (data.errcode==0) {
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {

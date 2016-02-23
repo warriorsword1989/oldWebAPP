@@ -321,20 +321,23 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-                var info = [];
-                if (data.data) {
-                    $scope.upBridgeStatus(data.data.pid, e);
-
-                    $.each(data.data.log, function (i, item) {
-                        if (item.pid) {
-                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                        } else {
-                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                var info = null;
+                    if (data.errcode==0) {
+                        $scope.upBridgeStatus(data.data.pid, e);
+                        var sinfo={
+                            "op":"修改道路link成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
                         }
-                    });
-                } else {
-                    info.push(data.errmsg + data.errid)
-                }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
@@ -401,7 +404,26 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         if (d.errcode === -1) {
                             return;
                         }
+<<<<<<< HEAD
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改RDLINK成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
+                        objCtrl.setCurrentObject(info);
+=======
                         objCtrl.setCurrentObject(d);
+>>>>>>> ce3b0cbdc79b0fa717098f920292c7749c203791
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();
                         }
@@ -409,10 +431,18 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         })
                     });
-                } else {
-                    info.push(data.errmsg + data.errid);
 
+<<<<<<< HEAD
+                    swal("操作成功", "改变状态操作成功！", "success");
+                } else {
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
+=======
                     swal("操作失败",data.errmsg, "error");
+>>>>>>> ce3b0cbdc79b0fa717098f920292c7749c203791
                 }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {

@@ -214,33 +214,27 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        //info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                        info={"op":item.op,
-                              "type":item.type,
-                               "pid":  item.pid
-                        }
-                    } else {
-                        //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                        info={"op":item.op,
-                            "type":item.type,
-                            "pid":item.rowId
-                        }
-                    }
-                });
                 if(data.errcode==0){
                     swal("操作成功",'保存成功！', "success");
 
                 }
             } else {
-               // info.push(data.errmsg + data.errid);
-                info={
+                swal("操作失败", data.errmsg, "error");
+            }
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改道路link成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
                     "op":data.errcode,
                     "type":data.errmsg,
                     "pid": data.errid
-                };
-                swal("操作失败", data.errmsg, "error");
+                }];
             }
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
@@ -260,28 +254,21 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        //info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                        info={"op":item.op,
-                            "type":item.type,
-                            "pid": item.pid
-                        }
-                    } else {
-                        //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                        info={"op":item.op,
-                            "type":item.type,
-                            "pid":item.rowId
-                        }
-                    }
-                });
-            } else {
-                info={
-                    "op":data.errcode,
-                    "type":data.errmsg,
-                    "pid": data.errid
+                var sinfo={
+                    "op":"删除道路link成功",
+                    "type":"",
+                    "pid": ""
                 };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
+                         "op":data.errcode,
+                          "type":data.errmsg,
+                          "pid": data.errid
+                    }];
             }
+
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
                 rdLink.redraw();
