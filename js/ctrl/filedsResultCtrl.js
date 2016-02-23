@@ -246,7 +246,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 if (d.errcode === -1) {
                                     // swal("查询失败", d.errmsg, "error");
                                     $timeout(function () {
-                                        $('body').poiMsg(d.errmsg, e);
+                                        $.showPoiMsg(d.errmsg, e);
                                         $scope.$apply();
                                     })
                                     return;
@@ -429,7 +429,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 Application.functions.getByCondition(JSON.stringify(param), function (data) {
                                     if (data.errcode === -1) {
                                         $timeout(function () {
-                                            $('body').poiMsg('errid:' + data.errid + ' ,errmsg:' + data.errmsg, e);
+                                            $.showPoiMsg('errid:' + data.errid + ' ,errmsg:' + data.errmsg, e);
                                             $scope.$apply();
                                         })
                                         return;
