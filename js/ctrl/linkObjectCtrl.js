@@ -175,6 +175,13 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                 });
             });
         }
+        /*如果道路名新增*/
+        if($scope.linkData.names){
+            $.each($scope.linkData.names,function(i,v){
+                if(v.pid)
+                    delete v.pid;
+            });
+        }
         objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         if(objectCtrl.changedProperty.limits){
