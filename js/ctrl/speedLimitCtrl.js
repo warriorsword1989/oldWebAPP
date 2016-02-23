@@ -10,7 +10,18 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById('speedlimit');
-    $scope.speedLimitData = objectEditCtrl.data;
+
+    $scope.initializeData = function () {
+        $scope.speedLimitData = objectEditCtrl.data;
+    }
+    if(objectEditCtrl.data){
+        $scope.initializeData();
+    }
+    //调用的方法
+    objectEditCtrl.rdSpeedLimitObject=function(){
+
+        $scope.initializeData();
+    }
     $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     $scope.speedTypeOptions = [

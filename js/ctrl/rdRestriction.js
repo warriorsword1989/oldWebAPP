@@ -25,7 +25,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
         //高亮进入线和退出线
         linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
-        for(var i= 0,len=(objectEditCtrl.data.details).length;i<len;i++) {
+        for(var i= 0,len=objectEditCtrl.data.details.length;i<len;i++) {
             linksObj["outLink" + i] = objectEditCtrl.data.details[i].outLinkPid.toString();
         }
         var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})

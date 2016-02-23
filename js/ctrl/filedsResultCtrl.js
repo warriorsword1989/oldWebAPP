@@ -5,16 +5,11 @@ var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
 filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout',
         function ($rootScope, $scope, $ocLazyLoad, $timeout) {
             var objCtrl = fastmap.uikit.ObjectEditController();
-            var layerCtrl = fastmap.uikit.LayerController();
-            $scope.workPoint = layerCtrl.getLayerById("workPoint");
-            $scope.gpsLine = layerCtrl.getLayerById("gpsLine");
-            $scope.showOrHideId= "";
-            $scope.showOrHideIdOfPending = "";
-            $scope.tipsObj = {};
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
+                    // data.data.rows.push({"1901":10});
                     transArr = data.data.rows;
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
@@ -24,86 +19,62 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 case "1101":
                                     objArr.name = "点限速";
                                     objArr.id = "1101";
-                                    objArr.flag = true;
-                                    $scope.tipsObj["1101"]=true;
                                     objArr.total = obj[item];
                                     break;
                                 case "1201":
                                     objArr.name = "道路种别";
                                     objArr.id = "1201";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1201"]=true;
                                     break;
                                 case "1203":
                                     objArr.name = "道路方向";
                                     objArr.id = "1203";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1203"]=true;
                                     break;
                                 case "1301":
                                     objArr.name = "车信";
                                     objArr.id = "1301";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1301"]=true;
                                     break;
                                 case "1302":
                                     objArr.name = "交限";
                                     objArr.id = "1302";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1302"]=true;
                                     break;
                                 case "1407":
                                     objArr.name = "高速分歧";
                                     objArr.id = "1407";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1407"]=true;
                                     break;
                                 case "1501"://1501
                                     objArr.name = "桥";
                                     objArr.id = "1501";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1501"]=true;
                                     break;
                                 case "1604":
                                     objArr.name = "区域内道路";
                                     objArr.id = "1604";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1604"]=true;
                                     break;
                                 case "1704":
                                     objArr.name = "交叉路口名称";
                                     objArr.id = "1704";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1704"]=true;
                                     break;
                                 case "1803":
                                     objArr.name = "挂接";
                                     objArr.id = "1803";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1803"]=true;
                                     break;
                                 case "1901":
                                     objArr.name = "道路名";
                                     objArr.id = "1901";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["1901"]=true;
                                     break;
                                 case "2001":
                                     objArr.name = "测线";
                                     objArr.id = "2001";
-                                    objArr.flag = true;
                                     objArr.total = obj[item];
-                                    $scope.tipsObj["2001"]=true;
                                     break;
                             }
                             arr.push(objArr);
@@ -114,15 +85,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 })
             });
             var selectCtrl = new fastmap.uikit.SelectController();
+            var objCtrl = new fastmap.uikit.ObjectEditController();
             //切换处理 待处理 已处理 页面
             $scope.changeList = function (stage) {
-                $scope.showOrHideId = "";
-                if($scope.workPoint.requestType!=="") {
-                    $scope.workPoint.requestType = "";
-                    $scope.gpsLine.requestType = "";
-                    $scope.workPoint.redraw();
-                    $scope.gpsLine.redraw();
-                }
+                // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], stage, function (data) {
                 Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
@@ -135,88 +101,65 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     case "1101":
                                         objArr.name = "点限速";
                                         objArr.id = "1101";
-                                        objArr.flag = true;
-                                        $scope.tipsObj["1101"]=true;
                                         objArr.total = obj[item];
                                         break;
                                     case "1201":
                                         objArr.name = "道路种别";
                                         objArr.id = "1201";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1201"]=true;
                                         break;
                                     case "1203":
                                         objArr.name = "道路方向";
                                         objArr.id = "1203";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1203"]=true;
                                         break;
                                     case "1301":
                                         objArr.name = "车信";
                                         objArr.id = "1301";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1301"]=true;
                                         break;
                                     case "1302":
                                         objArr.name = "交限";
                                         objArr.id = "1302";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1302"]=true;
                                         break;
                                     case "1407":
                                         objArr.name = "高速分歧";
                                         objArr.id = "1407";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1407"]=true;
                                         break;
-                                    case "1501"://1501
+                                    case "1501"://1510
                                         objArr.name = "桥";
                                         objArr.id = "1501";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1501"]=true;
                                         break;
                                     case "1604":
                                         objArr.name = "区域内道路";
                                         objArr.id = "1604";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1604"]=true;
                                         break;
                                     case "1704":
                                         objArr.name = "交叉路口名称";
                                         objArr.id = "1704";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1704"]=true;
                                         break;
                                     case "1803":
                                         objArr.name = "挂接";
                                         objArr.id = "1803";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1803"]=true;
                                         break;
                                     case "1901":
                                         objArr.name = "道路名";
                                         objArr.id = "1901";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["1901"]=true;
                                         break;
                                     case "2001":
                                         objArr.name = "测线";
                                         objArr.id = "2001";
-                                        objArr.flag = true;
                                         objArr.total = obj[item];
-                                        $scope.tipsObj["2001"]=true;
                                         break;
                                 }
+
                                 arr.push(objArr);
                             }
                         }
@@ -228,68 +171,35 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
 
             //点击下拉框的时  显示内容
-            $scope.showContent = function (item, arr, stage, event) {
-                event.stopPropagation();
-                if($scope.showOrHideId!=="") {
-                    if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
-                        $("#" +  $scope.showOrHideId).removeClass("selected");
-                        $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
-                    }
-                    else {
-                        $("#" +  $scope.showOrHideId).addClass("selected")
-                        $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
-                    }
-                   if($scope.showOrHideId===item.id) {
-                       $scope.showOrHideId = "";
-                       return;
-                   }
-                }
-                if($scope.showOrHideIdOfPending!=="") {
-                    if ($("#" +  $scope.showOrHideIdOfPending).hasClass("selected")) {
-                        $("#" +  $scope.showOrHideIdOfPending).removeClass("selected");
-                        $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
-                    }
-                    else {
-                        $("#" +  $scope.showOrHideIdOfPending).addClass("selected")
-                        $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
-                    }
-                    if($scope.showOrHideIdOfPending===(item.id+"Pending")) {
-                        $scope.showOrHideIdOfPending= "";
-                        return;
-                    }
-                }
+            $scope.showContent = function (item, arr, stage) {
 
+                for (var k  in $scope.items) {
+                    if (stage === 0) {
+                        if ($('#' + $scope.items[k].id).hasClass('in')) {
+                            $('#' + $scope.items[k].id).removeClass('in');
+                        }
+                    } else if (stage === 1) {
+                        if ($('#' + $scope.items[k].id + 'show').hasClass('in')) {
+                            $('#' + $scope.items[k].id + 'show').removeClass('in')
+                        }
+                    } else if (stage === 3) {
+                        if ($('#' + $scope.items[k].id + 'unshow').hasClass('in')) {
+                            $('#' + $scope.items[k].id + 'unshow').removeClass('in')
+                        }
+                    }
+                }
                 //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
                 Application.functions.getTipsListItems([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
                     if (stage === 0) {
                         $scope.$apply(function () {
-                            $scope.showOrHideId = item.id;
-                            if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
-                                $("#" +  $scope.showOrHideId).removeClass("selected");
-                                $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
-                            }
-                            else {
-                                $("#" +  $scope.showOrHideId).addClass("selected")
-                                $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
-                            }
                             $scope.allSubItems = data.data;
                         });
                     } else if (stage === 1) {
                         $scope.$apply(function () {
-                            $scope.showOrHideIdOfPending = (item.id+"Pending");
-                            if ($("#" +  $scope.showOrHideIdOfPending).hasClass("selected")) {
-                                $("#" +  $scope.showOrHideIdOfPending).removeClass("selected");
-                                $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
-                            }
-                            else {
-                                $("#" +  $scope.showOrHideIdOfPending).addClass("selected")
-                                $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
-                            }
                             $scope.pendSubItems = data.data;
                         });
                     } else if (stage === 3) {
                         $scope.$apply(function () {
-                            $scope.showOrHideId = item.id;
                             $scope.solvedSubItems = data.data;
                         });
                     }
@@ -298,17 +208,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             };
             //点击列表需要的方法
             $scope.showTab = function (item, e, pItemId) {
-                $("#dataList>li>ul>li").click(function (e) {
-                    e.stopPropagation()
-                    $("#dataList>li>ul>li").removeClass("selected")
-                    $(this).addClass("selected");
-                    $("#tipsSubPanel").removeClass("normal").addClass("selected");
-                })
                 /*高亮显示当前选中的item*/
-                //$.each($(".item-detail").find('td'), function (i, v) {
-                //    $(v).removeClass('item-active');
-                //})
-                //$(e.target).addClass('item-active');
+                $.each($(".item-detail").find('td'), function (i, v) {
+                    $(v).removeClass('item-active');
+                })
+                $(e.target).addClass('item-active');
                 if ($scope.$parent.$parent.dataTipsURL) {
                     $scope.$parent.$parent.dataTipsURL = "";
                 }
@@ -326,6 +230,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     $("#picMapShow").css("display", "none");
                     if (pItemId === "1101") {//限速
+                        //L.marker([data.g_location.coordinates[1], data.g_location.coordinates[0]]).addTo(map)
+                        //    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                        //    .openPopup();
+                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17)
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         objCtrl.setCurrentObject(data.data);
                         var speedLimitId = data.id;
@@ -335,11 +243,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
                                 map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                console.log(d.errcode)
                                 if (d.errcode === -1) {
-                                   // swal("查询失败", d.errmsg, "error");
-                                   $timeout(function(){
-                                        $.showPoiMsg(d.errmsg,e);
+                                    // swal("查询失败", d.errmsg, "error");
+                                    $timeout(function () {
+                                        $('body').poiMsg(d.errmsg, e);
                                         $scope.$apply();
                                     })
                                     return;
@@ -521,8 +428,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 }
                                 Application.functions.getByCondition(JSON.stringify(param), function (data) {
                                     if (data.errcode === -1) {
-                                       $timeout(function(){
-                                            $.showPoiMsg('errid:'+data.errid+' ,errmsg:'+data.errmsg,e);
+                                        $timeout(function () {
+                                            $('body').poiMsg('errid:' + data.errid + ' ,errmsg:' + data.errmsg, e);
                                             $scope.$apply();
                                         })
                                         return;
@@ -559,20 +466,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 })
             };
             //checkbox中的处理方法
-            $scope.showLayers = function (item,event) {
-                event.stopPropagation();
-                item.flag = !item.flag;
-                if(!item.flag) {
-                    delete $scope.tipsObj[item.id] ;
-                }else{
-                    $scope.tipsObj[item.id] = true;
-                }
-                var tips = Object.keys($scope.tipsObj);
-                $scope.workPoint.requestType = tips;
-                $scope.gpsLine.requestType = tips;
-                $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
-
+            $scope.showLayers = function (item) {
+                item.choose = !item.choose;
+                // console.log($scope.items);
             };
 
             $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTepl) {
