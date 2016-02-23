@@ -391,6 +391,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             }
         }
     },
+
     /**
      * 高亮交限
      * @param tile
