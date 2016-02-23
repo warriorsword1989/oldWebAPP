@@ -161,6 +161,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     };
     //根据dataTips新增交限
     $scope.increaseDataTips = function () {
+        var info="";
         Application.functions.getRdObjectById($scope.dataTipsData.in.id, "RDLINK", function (data) {
             var restrictObj = {};
             restrictObj["inLinkPid"] = parseInt($scope.dataTipsData.in.id);
@@ -205,7 +206,12 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             };
             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                 if (data.errcode === -1) {
-                    outPutCtrl.pushOutput(data.errmsg);
+                   info={
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    };
+                    outPutCtrl.pushOutput(info);
                     if(outPutCtrl.updateOutPuts!=="") {
                         outPutCtrl.updateOutPuts();
                     }
@@ -215,10 +221,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
                 checkCtrl.setCheckResult(data);
                 restrictLayer.redraw();//交限图层刷新
                 workPoint.redraw();//dataTip图层刷新
-                outPutCtrl.pushOutput(data.data.log[0]);
-                if(outPutCtrl.updateOutPuts!=="") {
-                    outPutCtrl.updateOutPuts();
-                }
                 //修改状态
                 var stageParam = {
                     "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
@@ -227,7 +229,32 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
 
                 }
                 Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                    outPutCtrl.pushOutput(data.data + "\n");
+                    if (data.errcode==0) {
+                        $.each(data.data.log, function (i, item) {
+                            if (item.pid) {
+                                //info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                info = {
+                                    "op": item.op,
+                                    "type": item.type,
+                                    "pid": item.pid
+                                }
+                            } else {
+                                //info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                                info = {
+                                    "op": item.op,
+                                    "type": item.type,
+                                    "pid": item.rowId
+                                }
+                            }
+                        });
+                    }else{
+                        info={
+                            "op":data.errcode,
+                            "type":data.errmsg,
+                            "pid": data.errid
+                        };
+                    }
+                    outPutCtrl.pushOutput(info);
                     if(outPutCtrl.updateOutPuts!=="") {
                         outPutCtrl.updateOutPuts();
                     }
