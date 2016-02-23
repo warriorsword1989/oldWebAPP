@@ -385,28 +385,23 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "stage": 3,
                 "handler": 0
             }
-            /*if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
-                if($scope.dataTipsData.t_lifecycle == 3){
-                    $timeout(function(){
-                        $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
-                        $scope.$apply();
-                    });
-                    return;
-                }
-            }*/
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
                 var info = [];
                 if (data.errcode === 0) {
-                    rdLink.redraw()
-                    restrictLayer.redraw();
-                    speedlimtPoint.redraw();
-                    workPoint.redraw();
-                    Application.functions.getRdObjectById(pid, "RDLINK", function (data) {
-                        if (data.errcode === -1) {
+                    if (rdLink)
+                        rdLink.redraw()
+                    if (restrictLayer)
+                        restrictLayer.redraw();
+                    if(speedlimtPoint)
+                        speedlimtPoint.redraw();
+                    if(workPoint)
+                        workPoint.redraw();
+                    Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
+                        if (d.errcode === -1) {
                             return;
                         }
-                        objCtrl.setCurrentObject(data);
+                        objCtrl.setCurrentObject(d);
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();
                         }

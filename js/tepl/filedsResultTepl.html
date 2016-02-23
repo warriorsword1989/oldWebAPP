@@ -7,114 +7,14 @@
         padding: 0 !important
     }
 
+    .item-active {
+        background-color: #49C2FC;
+        color: #fff;
+        transition: all 0.2s;
+    }
+
     .item-detail > .table {
         margin-bottom: 0
-    }
-
-    #myTabContent #dataList {
-        list-style-type: none;
-        padding-left: 10px;
-    }
-
-    #myTabContent #dataList > li {
-        list-style-type: none;
-        margin-bottom: 10px;
-    }
-
-    #myTabContent #dataList > li > ul {
-        display: none;
-    }
-
-    #myTabContent #dataList > li.selected > ul {
-        display: block;
-    }
-
-    #myTabContent #dataList > li > div > img {
-        margin-right: 10px;
-    }
-
-    #myTabContent #dataList > li > div > label {
-        color: #FFF;
-        cursor: pointer;
-        margin-right: 10px;
-    }
-
-    #myTabContent #dataList > li > div > i {
-        color: #FFF;
-    }
-
-    #myTabContent #dataList > li > ul {
-        list-style-type: none;
-    }
-
-    #myTabContent #dataList > li > ul > li {
-        color: #FFF;
-        list-style-type: none;
-    }
-
-    #myTabContent #dataList > li > ul > li:hover {
-        color: #FAA645;
-    }
-
-    #myTabContent #dataList > li > ul > li.selected {
-        color: #FAA645;
-    }
-
-    #myTabContent #dataList > li > ul > li > label {
-        cursor: pointer;
-    }
-    /********************待处理的样式****************************************/
-    #myTabContent #dataListOfPending {
-        list-style-type: none;
-        padding-left: 10px;
-    }
-
-    #myTabContent #dataListOfPending > li {
-        list-style-type: none;
-        margin-bottom: 10px;
-    }
-
-    #myTabContent #dataListOfPending > li > ul {
-        display: none;
-    }
-
-    #myTabContent #dataListOfPending > li.selected > ul {
-        display: block;
-    }
-
-    #myTabContent #dataListOfPending > li > div > img {
-        margin-right: 10px;
-    }
-
-    #myTabContent #dataListOfPending > li > div > label {
-        color: #FFF;
-        cursor: pointer;
-        margin-right: 10px;
-    }
-
-    #myTabContent #dataListOfPending > li > div > i {
-        color: #FFF;
-    }
-
-    #myTabContent #dataListOfPending > li > ul {
-        list-style-type: none;
-    }
-
-    #myTabContent #dataListOfPending > li > ul > li {
-        color: #FFF;
-        list-style-type: none;
-    }
-
-    #myTabContent #dataListOfPending > li > ul > li:hover {
-        color: #FAA645;
-    }
-
-    #myTabContent #dataListOfPending > li > ul > li.selected {
-        color: #FAA645;
-    }
-
-    #myTabContent #dataListOfPending > li > ul > li > label {
-        cursor: pointer;
     }
 </style>
 <div ng-controller="fieldsResultController" class="nav-tabs-alt">
@@ -132,24 +32,34 @@
             <div>
                 <span>共{{items.total}}个</span>
             </div>
-            <div style="width:100%;">
-                <ul id="dataList">
-                    <li ng-repeat="pItem in items" id="{{pItem.id}}">
-                        <div ng-click="showContent(pItem,[1,3],0,$event)"><i
-                                class="glyphicon glyphicon-triangle-right" style="float:left"></i>
-                            <input style="float:left;" type="checkbox"
-                                   ng-checked="pItem.flag"
-                                   ng-click="showLayers(pItem,$event)"/>
-                            <label>{{pItem.name}}({{pItem.total}})</label>
+            <div ng-repeat="pItem in items">
+                <div class="panel-group" style="margin-bottom: 0px;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="background-color: #F6F8F8">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   href="#{{pItem.id}}" ng-click="showContent(pItem,[1,3],0)">
+                                    <span class="glyphicon glyphicon-chevron-down" style="float: right"></span>
+                                </a>
+                            </h4>
+                            <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
+                            <div>
+                                <span style="font-size: 15px">{{pItem.name}}({{pItem.total}})</span>
+                            </div>
                         </div>
-                        <ul ng-repeat="aItem in allSubItems">
-                            <li ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '"
-                                ng-click="showTab(aItem,$event,pItem.id)">
-                                <label>{{pItem.name}}Tips{{$index+1}}</label>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                        <div id="{{pItem.id}}" class="panel-collapse collapse">
+                            <div class="panel-body item-detail">
+                                <table class="table">
+                                    <tr ng-repeat="aItem in allSubItems" style="cursor: pointer;">
+                                            <td ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '" ng-click="showTab(aItem,$event,pItem.id)"
+                                                title="{{pItem.name}}Tips{{$index+1}}">{{pItem.name}}Tips{{$index+1}}
+                                            </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="pendingTaskers">
@@ -157,56 +67,39 @@
                 <span>共{{items.total}}个</span>
                 <!--<span style="float:right">显示</span>-->
             </div>
-            <div  style="width:100%;">
-                <ul id="dataListOfPending">
-                    <li ng-repeat="pendItem in items " id="{{pendItem.id}}Pending">
-                        <div ng-click="showContent(pendItem,[1],1,$event)"><i
-                                class="glyphicon glyphicon-triangle-right" style="float:left"></i>
-                            <input style="float:left;" type="checkbox"
-                                   ng-checked="pendItem.flag"
-                                   ng-click="showLayers(pendItem,$event)"/>
-                            <label>{{pendItem.name}}({{pendItem.total}})</label>
+            <div ng-repeat="pendItem in items ">
+                <div ng-if="!pendItem.show">
+                    <div class="panel-group" style="margin-bottom: 0px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="background-color: #F6F8F8">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="#{{pendItem.id}}show" ng-click="showContent(pendItem,[1],1)">
+                                        <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+                                    </a>
+                                </h4>
+
+                                <div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>
+                                <div>
+                                    <span style="font-size: 15px">{{pendItem.name}}</span>
+                                </div>
+                            </div>
+                            <div id="{{pendItem.id}}show" class="panel-collapse collapse">
+                                <div class="panel-body item-detail">
+                                    <table class="table">
+                                        <tr ng-repeat="pendSubItem in pendSubItems">
+                                            <div ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '">
+                                                <td ng-click="showTab(pendSubItem,$event,pItem.id)">交限Tips{{$index+1}}
+                                                </td>
+                                            </div>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <ul ng-repeat="pendSubItem in pendSubItems">
-                            <li ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '"
-                                ng-click="showTab(pendSubItem,$event,pendSubItem.id)">
-                                <label>{{pendSubItem.name}}Tips{{$index+1}}</label>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <!--<div ng-if="!pendItem.show">-->
-                    <!--<div class="panel-group" style="margin-bottom: 0px;">-->
-                        <!--<div class="panel panel-default">-->
-                            <!--<div class="panel-heading" style="background-color: #F6F8F8">-->
-                                <!--<h4 class="panel-title">-->
-                                    <!--<a data-toggle="collapse" data-parent="#accordion"-->
-                                       <!--href="#{{pendItem.id}}show" ng-click="showContent(pendItem,[1],1)">-->
-                                        <!--<span class="glyphicon glyphicon-chevron-down" style="float: left"></span>-->
-                                    <!--</a>-->
-                                <!--</h4>-->
-
-                                <!--<div style="background-color: #710909;margin:5px;width: 10px;height: 10px;float: left;"></div>-->
-                                <!--<div>-->
-                                    <!--<span style="font-size: 15px">{{pendItem.name}}</span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div id="{{pendItem.id}}show" class="panel-collapse collapse">-->
-                                <!--<div class="panel-body item-detail">-->
-                                    <!--<table class="table">-->
-                                        <!--<tr ng-repeat="pendSubItem in pendSubItems">-->
-                                            <!--<div ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '">-->
-                                                <!--<td ng-click="showTab(pendSubItem,$event,pItem.id)">交限Tips{{$index+1}}-->
-                                                <!--</td>-->
-                                            <!--</div>-->
-
-                                        <!--</tr>-->
-                                    <!--</table>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="solvedTaskers">
