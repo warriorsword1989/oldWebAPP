@@ -14,7 +14,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
             if(claFlag===id) {
