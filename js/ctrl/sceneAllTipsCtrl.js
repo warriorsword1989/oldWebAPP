@@ -321,23 +321,22 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-                var info = null;
-                    if (data.errcode==0) {
-                        $scope.upBridgeStatus(data.data.pid, e);
-                        var sinfo={
-                            "op":"修改道路link成功",
-                            "type":"",
-                            "pid": ""
-                        };
-                        data.data.log.unshift(sinfo);
-                            info=data.data.log;
-                        }else{
-                            info=[{
-                                "op":data.errcode,
-                                "type":data.errmsg,
-                                "pid": data.errid
-                            }];
-                        }
+                var info =null;
+                if (data.errcode==0) {
+                    var sinfo={
+                        "op":"修改道路link成功",
+                        "type":"",
+                        "pid": ""
+                    };
+                    data.data.log.unshift(sinfo);
+                    info=data.data.log;
+                }else{
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
+                }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
@@ -386,72 +385,55 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
-                "handler": 0
+                "handler": 0,
+                "pid": pid
             }
-            if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
-                if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
+            /*if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
+                if($scope.dataTipsData.t_lifecycle == 3){
                     $timeout(function(){
                         $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
                         $scope.$apply();
                     });
                     return;
                 }
-            }
+            }*/
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
-                var info = [];
+                var info = null;
                 if (data.errcode === 0) {
-                    if (rdLink)
-                        rdLink.redraw();
-                    if (restrictLayer)
-                        restrictLayer.redraw();
-                    if(speedlimtPoint)
-                        speedlimtPoint.redraw();
-                    if(workPoint)
-                        workPoint.redraw();
-                    Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
-                        if (d.errcode === -1) {
+
+                    Application.functions.getRdObjectById(pid, "RDLINK", function (data) {
+                        if (data.errcode === -1) {
                             return;
                         }
-<<<<<<< HEAD
-                        if (data.errcode==0) {
-                            var sinfo={
-                                "op":"修改RDLINK成功",
-                                "type":"",
-                                "pid": ""
-                            };
-                            data.data.log.unshift(sinfo);
-                            info=data.data.log;
-                        }else{
-                            info=[{
-                                "op":data.errcode,
-                                "type":data.errmsg,
-                                "pid": data.errid
-                            }];
-                        }
-                        objCtrl.setCurrentObject(info);
-=======
-                        objCtrl.setCurrentObject(d);
->>>>>>> ce3b0cbdc79b0fa717098f920292c7749c203791
+                        objCtrl.setCurrentObject(data);
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();
                         }
                         $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         })
+                        rdLink.redraw()
+                        restrictLayer.redraw();
+                        speedlimtPoint.redraw();
+                        workPoint.redraw();
                     });
-
-<<<<<<< HEAD
-                    swal("操作成功", "改变状态操作成功！", "success");
+                    
+                        var sinfo={
+                            "op":"修改道路link成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.unshift(sinfo);
+                        info=data.data.log;
                 } else {
                     info=[{
                         "op":data.errcode,
                         "type":data.errmsg,
                         "pid": data.errid
                     }];
-=======
-                    swal("操作失败",data.errmsg, "error");
->>>>>>> ce3b0cbdc79b0fa717098f920292c7749c203791
+
+                    swal("操作成功", "改变状态操作成功！", "success");
                 }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
