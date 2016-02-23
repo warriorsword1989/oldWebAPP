@@ -322,7 +322,7 @@
                                                       style="float: left"></span>
                                             </a>
                                              <span class="glyphicon glyphicon-plus" style="float: right;color:darkgray;"
-                                                   ng-click="changeSpeedAndDirect(roadlinkData.direct)"></span>
+                                                   ng-click="changeSpeedAndDirect(roadlinkData.direct,100000)"></span>
                                         </h4>
                                     </div>
                                     <div id="ptOrRightDiv" class="panel-collapse collapse in">
@@ -507,7 +507,7 @@
 
                                                                 <div class="col-sm-8">
                                                                     <input type="text" class="form-control"
-                                                                           placeholder="0530" id="{{item.rowid}}fromSpeedLimit"
+                                                                           placeholder="0530" id="{{item.rowid}}toSpeedLimit"
                                                                            ng-model="item.toSpeedLimit">
                                                                 </div>
                                                             </div>

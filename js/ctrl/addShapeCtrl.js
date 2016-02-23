@@ -58,7 +58,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             return flag;
         };
         $scope.addShape = function (type, num,event) {
-            event.stopPropagation();
+            //event.stopPropagation();
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }

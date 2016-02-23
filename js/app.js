@@ -14,7 +14,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
             if(claFlag===id) {
@@ -249,14 +249,14 @@ function appInit(){
 
     map = L.map('map',{ 
         attributionControl: false,
-        zoomControl:false,
+        zoomControl:false
     }).setView([40.012834, 116.476293], 17);
     /*增加比例尺*/
     var scale = L.control.scale({
         metric:true,
         imperial:true,
         position:'bottomleft',
-        updateWhenIdle:true,
+        updateWhenIdle:true
     }).addTo(map);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});

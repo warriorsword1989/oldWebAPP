@@ -257,7 +257,6 @@ Application.layersConfig =
                         obj['properties'] = {
                             'id': item.i,
                             "speedlimitcondition": item.m.a,
-                            "speedlimitinfo": item.m.b,
                             'speedlimitrotate': item.m.c
 
                         }
@@ -306,8 +305,6 @@ Application.layersConfig =
                         obj['properties'] = {
                             'id': item.i,
                             'rdcrosscondition': item.m.a,
-                            "rdcrossinfo": item.m.b,
-                            'rdcrossrotate': item.m.c
 
                         }
                         geojson['features'].push(obj);
