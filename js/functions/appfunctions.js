@@ -41,12 +41,12 @@ Application.functions.getRdObjectById=function(id,type,func,detailid) {
     if(detailid){
         fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+detailid+'}',
             function(data) {
-                func(data)
+                func(data);
             });
     }else{
         fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","pid":'+id+'}',
             function(data) {
-                func(data)
+                func(data);
             });
     }
 

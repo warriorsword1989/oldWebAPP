@@ -73,13 +73,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             $("#pathBreak").removeClass('pathBreak_true').addClass('pathBreak_false');
         }
         $scope.addShape = function (type, num,event) {
-<<<<<<< HEAD
-            //event.stopPropagation();
-=======
+
             if(event)
                 event.stopPropagation();
             $scope.initCurrentTool();
->>>>>>> fm/master
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
