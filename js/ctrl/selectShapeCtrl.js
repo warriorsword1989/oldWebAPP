@@ -233,7 +233,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             map.on("getNodeId", function (data) {
                 $scope.data = data;
                 $scope.tips = data.tips;
-                Application.functions.getRdObjectById(data.id,data.detailid, data.optype, function (data) {
+                Application.functions.getRdObjectById(data.id, data.optype, function (data) {
                     objCtrl.setCurrentObject(data.data);
                     tooltipsCtrl.onRemoveTooltip();
 
@@ -461,7 +461,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
 
-                    })
+                    },data.detailid)
                 }
             )
         }
