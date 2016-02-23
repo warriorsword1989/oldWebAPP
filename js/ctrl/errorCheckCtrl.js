@@ -65,7 +65,7 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
                 }
                 var line =new L.polyline(points);
                 var bounds = line.getBounds();
-                map.fitBounds(bounds,{"maxZoom":20});
+                map.fitBounds(bounds,{"maxZoom":19});
                 //map.fitBounds([[points[0].lng,points[0].lat],[points[1].lng,points[1].lat]],{"maxZoom":20})
 
                 //随着地图的变化 高亮的线不变

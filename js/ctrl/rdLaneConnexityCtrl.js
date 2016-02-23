@@ -7,6 +7,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl=fastmap.uikit.OutPutController();
+    var highLightLayer = fastmap.uikit.HighLightController();
+    var objectEditCtrl = fastmap.uikit.ObjectEditController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var linksObj = {};//存放需要高亮的进入线和退出线的id
     $scope.showNormalData = [];
     $scope.showTransitData = [];
     $scope.outLanesArr = [];
@@ -52,10 +57,30 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
         arr = data.toString(2).split("");
         return arr;
     };
+    //删除以前高亮的进入线和退出线
+    if(highLightLayer.highLightLayersArr.length!==0) {
+        highLightLayer.removeHighLightLayers();
+    }
     $scope.initializeData = function () {
         var reg = new RegExp("/\<|\>|\&/g");
         $scope.lanesData = objCtrl.data;
         $scope.lanesArr = $scope.lanesData["laneInfo"].split(",");
+
+        //删除以前高亮的进入线和退出线
+        if(highLightLayer.highLightLayersArr.length!==0) {
+            highLightLayer.removeHighLightLayers();
+        }
+        //高亮进入线和退出线
+        linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
+        for(var i= 0,len=(objectEditCtrl.data.topos).length;i<len;i++) {
+            linksObj["outLink" + i] = objectEditCtrl.data.topos[i].outLinkPid.toString();
+        }
+        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
+        highLightLinks.drawOfLinksForInit();
+        highLightLayer.pushHighLightLayers(highLightLinks);
+
+
+
         var lanesLen = $scope.lanesArr.length;
         for(var j= 0,lenJ=$scope.lanesArr.length;j<lenJ;j++) {
             if(j===0||j===lenJ-1) {
@@ -77,6 +102,14 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
 
         }
     };
+
+    //调用的方法
+    objectEditCtrl.rdLaneObject=function(){
+        $scope.showNormalData = [];
+        $scope.showTransitData = [];
+        $scope.outLanesArr = [];
+        $scope.initializeData();
+    }
     if (objCtrl.data) {
         $scope.initializeData();
     }
