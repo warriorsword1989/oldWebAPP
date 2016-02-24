@@ -294,13 +294,31 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.openOrigin = function (id) {
         if(id <= selectCtrl.rowKey.f_array.length-1){
             $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
-            $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            $("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');
+            var originImg = $("#dataTipsOriginImg");
+            originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            /*$("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');
             $("#dataTipsOriginModal").modal({
                 backdrop:false,
                 show:true
             });
-            $(".modal-backdrop").css('width','74%');
+            $(".modal-backdrop").remove();*/
+            dataTipsOriginImg.onload = function(){
+                originImg.hide();
+                originImg.smartZoom('destroy'); 
+                if($(".zoomableContainer").length == 0){
+                    $("#dataTipsOriginModal").width(parseInt($("#mainContent").width())-244);
+                    originImg.smartZoom({'containerClass':'zoomableContainer'});
+                    $('#zoomInButton,#zoomOutButton').bind("click", function(e){
+                        var scaleToAdd = 0.8;
+                        if(e.target.id == 'zoomOutButton')
+                            scaleToAdd = -scaleToAdd;
+                        originImg.smartZoom('zoom', scaleToAdd);
+                    });
+                }
+                $("#dataTipsOriginModal").css('visibility', 'inherit');
+                originImg.show();
+            }
+            
         }
     }
     /*转换*/
@@ -320,6 +338,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 }
             }
+            workPoint.redraw();
+            if($scope.dataTipsData.t_lifecycle == 3){
+                $timeout(function(){
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
+            }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = [];
                 if (data.data) {
@@ -332,8 +358,17 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                         }
                     });
+                    if(data.errcode == 0){
+                        if(workPoint)
+                        workPoint.redraw();
+                        swal("操作成功", "测线转换操作成功！", "success");
+                        $scope.showContent = "外业新增";
+                        $scope.dataTipsData.t_lifecycle = 3;
+                        $scope.$apply();
+                    }
                 } else {
                     info.push(data.errmsg + data.errid)
+                    swal("操作失败", data.errmsg, "error");
                 }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
@@ -398,14 +433,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 var info = [];
                 if (data.errcode === 0) {
-                    if (rdLink)
-                        rdLink.redraw();
-                    if (restrictLayer)
-                        restrictLayer.redraw();
-                    if(speedlimtPoint)
-                        speedlimtPoint.redraw();
                     if(workPoint)
                         workPoint.redraw();
+                    $scope.showContent = "外业新增";
+                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
                     /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
                         if (d.errcode === -1) {
                             return;
@@ -436,3 +467,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $("#popoverTips").css("display", "none");
     }
 });
+$("#tipsImgClose").click(function(){
+    $("#dataTipsOriginModal").css('visibility','hidden');
+    $("#dataTipsOriginImg").hide();
+})

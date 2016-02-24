@@ -25,6 +25,7 @@ requirejs.config({
         'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
         'sweet-alert':'lib/sweet-alert/js/sweet-alert.min',
         'poi-msg':'lib/poi-msg/poiMsg',
+        'e-smart-zoom':'lib/e-smart-zoom/js/e-smart-zoom-jquery.min',
     },
     shim: {
         'bootstrap':['jquery'],
@@ -41,7 +42,8 @@ requirejs.config({
         'timepicki':['jquery','angular'],
         'sweet-alert':['jquery'],
         'poi-msg':['jquery'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg']
+        'e-smart-zoom':['jquery'],
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom']
     }
 });
 

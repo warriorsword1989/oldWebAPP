@@ -102,6 +102,46 @@
         .leaflet-bottom {
             z-index: 1
         }
+        #imgContainer {
+             width: 540px;
+            height: 300px; 
+        }
+        #positionButtonDiv {
+            background: rgb(58, 56, 63);
+            background: rgba(58, 56, 63, 0.8);
+            border: solid 1px #100000;
+            color: #FFFFFF;
+            padding: 8px;
+            text-align: left;
+            position: absolute;
+            right:35px;
+            top:94px;
+        }
+        #positionButtonDiv .positionButtonSpan img {
+            float: right;
+            border: 0;
+        }
+        .positionMapClass area {
+            cursor: pointer;
+        }
+        .zoomButton {
+            border: 0;
+            cursor: pointer;
+        }
+        .zoomableContainer {
+            background-image: url("js/lib/e-smart-zoom/img/transparent.png");
+        }
+        #dataTipsOriginModal{
+            top: 90px;
+            left: 440px;
+            background-color: #fff;
+            position: absolute;
+            z-index: 99999;
+            width: 570px;
+            border: 1px solid #9d9d9d;
+            box-shadow: 4px 4px 8px 4px #999999;
+            border-radius: 4px;
+        }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
@@ -269,7 +309,31 @@
 <div></div>
 <!--<div ng-show="showLoading" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>-->
 <div id='tooltip' class="tooltipclass"></div>
-<div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
+<div id="dataTipsOriginModal" style="visibility:hidden">
+    <div class="modal-header">
+        <button id="tipsImgClose" type="button" class="close"
+                data-dismiss="modal" aria-hidden="true" title="关闭">
+            &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+            图片
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div id="imgContainer"> 
+            <img id="dataTipsOriginImg" src="css/login/2.jpg"/> 
+        </div>
+    </div>
+    <div id="positionButtonDiv">
+        <p>
+            <span> 
+                <img id="zoomInButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomIn.png" title="放大" alt="放大" /> 
+                <img id="zoomOutButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomOut.png" title="缩小" alt="缩小" /> 
+            </span> 
+        </p>
+    </div>
+</div>
+<!--<div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" style="top: 56px;left: 225px;width: 570px;">
@@ -283,14 +347,22 @@
                 </h4>
             </div>
             <div class="modal-body" style="text-align: center">
-                <img id="dataTipsOriginImg" src="" style="max-height: 300px;">
-            </div>
+                <img id="dataTipsOriginImg" src="css/login/2.jpg"/> -->
+                <!-- <div id="imgContainer"> 
+                    <img id="dataTipsOriginImg" src="css/login/2.jpg"/> 
+                </div>
+                <div id="positionButtonDiv">
+                    <p>
+                        <span> 
+                            <img id="zoomInButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomIn.png" title="zoom in" alt="zoom in" /> 
+                            <img id="zoomOutButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomOut.png" title="zoom out" alt="zoom out" /> 
+                        </span> 
+                    </p>
+                </div> -->
+           <!-- </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal -->
-</div>
+</div>-->
 <script type="text/javascript" data-main="js/main" src="js/lib/require/require.js"></script>
-
 </body>
 </html>
