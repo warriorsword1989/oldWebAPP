@@ -18,7 +18,7 @@ Application.functions.getTipsStatics = function(meshidArray, stage,func){
     )
 }
 Application.functions.getTipsListItems=function(meshidArray,stage,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+'}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":11}',
         function(data){
             func(data)
         }
