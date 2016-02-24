@@ -1,7 +1,7 @@
 ﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad,$timeout) {
 
-
+$('#dataTipsOriginImg').smartZoom({'containerClass':'zoomableContainer'}); 
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
@@ -78,7 +78,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         );
     });
-
+ 
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -258,7 +258,6 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 
 }]);
 function appInit(){
-
     map = L.map('map',{
         attributionControl: false,
         zoomControl:false
