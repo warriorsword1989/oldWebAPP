@@ -253,11 +253,7 @@
                             <label class="col-sm-4 control-label">时间:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
-                                <div>
-                                    <span class="label label-default"></span>
-
-                                    <div ng-include="dateReadyURL"></div>
-                                </div>
+                                <span class="label label-default" ng-bind="dataTipsData.time"></span>
                             </div>
                         </div>
                         <div class="line line-dashed b-b line-lg pull-in"
@@ -333,7 +329,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="panel-body" ng-if="allTipsType==1501">
+                <div class="panel-body" ng-if="allTipsType==1510">
                     <form class="form-horizontal" method="get">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;">
                             <label class="col-sm-4 control-label">状态:</label>

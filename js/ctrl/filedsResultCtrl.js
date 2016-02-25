@@ -11,6 +11,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     var arr = [], transArr = [];
                     // data.data.rows.push({"1901":10});
                     transArr = data.data.rows;
+                        console.log(data)
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
@@ -46,9 +47,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     objArr.id = "1407";
                                     objArr.total = obj[item];
                                     break;
-                                case "1501"://1501
+                                case "1510"://1510
                                     objArr.name = "桥";
-                                    objArr.id = "1501";
+                                    objArr.id = "1510";
                                     objArr.total = obj[item];
                                     break;
                                 case "1604":
@@ -128,9 +129,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         objArr.id = "1407";
                                         objArr.total = obj[item];
                                         break;
-                                    case "1501"://1510
+                                    case "1510"://1510
                                         objArr.name = "桥";
-                                        objArr.id = "1501";
+                                        objArr.id = "1510";
                                         objArr.total = obj[item];
                                         break;
                                     case "1604":
@@ -356,7 +357,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                          objCtrl.setCurrentObject(d.data);
                          });
                          });*/
-                    } else if (pItemId === "1501") {//桥1510
+                    } else if (pItemId === "1510") {//桥1510
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });

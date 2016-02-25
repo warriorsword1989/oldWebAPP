@@ -67,11 +67,36 @@ otherApp.controller("rdNodeFromController",function($scope){
     {"id":32,"label":"无人看守铁道道口"},
     {"id":41,"label":"KDZone与道路交点"}
     ];
+    for(var p in $scope.rdNodeData.forms){
+        for(var s in $scope.fromOfWayOption){
+            if($scope.rdNodeData.forms[p].formOfWay==$scope.fromOfWayOption[s].id){
+                $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
+            }
+        }
+    }
+    $scope.otherFromOfWay=[];
+    //初始化数据
+    initOrig($scope.newFromOfWRoadDate,$scope.fromOfWayOption,"fromOfWRoaddiv");
+    //点击内容显示框时，关闭下拉，保存数据
+    $("#fromOfWRoaddiv").click(function(){
+        $("#fromOfWRoaddiv").popover('hide');
+        $scope.endFromOfWayArray=getEndArray();
+        for(var p in $scope.endFromOfWayArray){
+            $scope.otherFromOfWay.push({
+                formOfWay: $scope.endFromOfWayArray[p].id,
+                linkPid:$scope.rdNodeData.pid
+            })
+        }
+        $scope.rdNodeData.forms=$scope.otherFromOfWay;
+    });
+    $scope.showPopover=function(){
+        $('#fromOfWRoaddiv').popover('show');
+    }
 
     $scope.saveroadtype=function(){
         $scope.rdNodeData.forms.unshift({
             formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            linkPid:$scope.roadlinkData.pid
+            linkPid:$scope.rdNodeData.pid
         })
 
         $scope.newFromOfWRoadDate.unshift({
@@ -94,6 +119,21 @@ otherApp.controller("rdNodeFromController",function($scope){
             "type":"RDNODE",
             "projectId": 11,
             "data": objectEditCtrl.changedProperty
+        }
+        if(!objectEditCtrl.changedProperty){
+            swal("操作失败", '沒有做任何操作', "error");
+            reutrn;
+        }
+        if(objectEditCtrl.changedProperty.forms.length > 0){
+            $.each(objectEditCtrl.changedProperty.forms,function(i,v){
+                if(v.linkPid || v.pid){
+                    delete v.linkPid;
+                    delete v.pid;
+                }
+            });
+            objectEditCtrl.changedProperty.forms.filter(function(v){
+                return v;
+            });
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
