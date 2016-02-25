@@ -72,7 +72,7 @@ fastmap.uikit.SelectRdlane = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-                this._map.fire("getNodeId")
+                //this._map.fire("getNodeId")
             }
             ,
 

@@ -123,7 +123,7 @@ function init(options) {
         },
         cleanHeight: function () {
             this._cleanHeight();
-            this.currentEditLayer.fire("getNodeId")
+            //this.currentEditLayer.fire("getNodeId")
         }
         ,
 
