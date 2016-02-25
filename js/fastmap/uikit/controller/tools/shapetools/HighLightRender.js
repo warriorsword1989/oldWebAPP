@@ -223,6 +223,50 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         }
     },
     /**
+     * 初始化高亮link
+     */
+    drawOfLinkForInit: function () {
+        for (var index in this.tiles) {
+            var data = this.tiles[index].data;
+            var ctx = {
+                canvas: this.tiles[index].options.context,
+                tile: this.tiles[index].options.context._tilePoint,
+                zoom: this._map.zoom
+            }
+            if (data.hasOwnProperty("features")) {
+                for (var i = 0; i < data.features.length; i++) {
+                    var feature = data.features[i];
+
+                    var color = null;
+                    if (feature.hasOwnProperty('properties')) {
+                        color = feature.properties.c;
+                    }
+
+                    var style = this.layer.styleFor(feature, color);
+
+                    var geom = feature.geometry.coordinates;
+                    if (this.linkPid !== undefined && feature.properties.id === this.linkPid) {
+                        this.layer._drawLineString(ctx, geom, true, {
+                            size: 2,
+                            color: '#F63428'
+                        }, {
+                            color: '#F63428',
+                            radius: 3
+                        }, feature.properties);
+                    } else {
+                        this.layer._drawLineString(ctx, geom, true, style, {
+                            color: '#696969',
+                            radius: 3
+                        }, feature.properties);
+                    }
+
+
+                }
+            }
+        }
+
+    },
+    /**
      * 高亮link
      * @param tile
      * @param zoom

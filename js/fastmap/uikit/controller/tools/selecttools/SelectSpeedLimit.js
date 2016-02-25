@@ -68,7 +68,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-                this._map.fire("getNodeId")
+                //this._map.fire("getNodeId")
             }
             ,
 

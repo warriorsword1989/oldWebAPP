@@ -52,8 +52,7 @@
                                 <table class="table">
                                     <tr ng-repeat="aItem in allSubItems" style="cursor: pointer;">
                                             <td ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '" ng-click="showTab(aItem,$event,pItem.id)"
-                                                title="{{pItem.name}}Tips{{$index+1}}">{{pItem.name}}Tips{{$index+1}}
-                                            </td>
+                                                title="{{aItem.m.e}}">{{aItem.m.e}}
                                     </tr>
                                 </table>
                             </div>
