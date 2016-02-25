@@ -51,6 +51,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             linkPid: $scope.linkData.pid.toString()
         });
         highLightLayer.pushHighLightLayers(highLightLink);
+        highLightLink.drawOfLinkForInit();
     };
     //初始化controller调用
     if (objectCtrl.data) {

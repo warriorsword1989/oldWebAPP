@@ -100,9 +100,8 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        this.currentEditLayer.fire("getNodeId")
-    }
-    ,
+        //this.currentEditLayer.fire("getNodeId")
+    },
 
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
