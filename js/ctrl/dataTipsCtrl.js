@@ -54,7 +54,8 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         }
         //获取数据中的图片数组
         $scope.photoTipsData = selectCtrl.rowKey.f_array;
-
+        /*时段*/
+        $scope.timeDomain = $scope.dataTipsData.o_array[0].time;
 
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
@@ -108,6 +109,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     //查看相关的退出线
     $scope.showOutLink = function (item) {
         $scope.rdSubTipsData = item;
+        $scope.timeDomain = item.time;
     };
     //$scope.$parent.$parent.updateDataTips = function (data) {
     //    //$scope.photos.length = 0;
