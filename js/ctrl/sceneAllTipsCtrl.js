@@ -155,7 +155,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1407":
                 break;
-            case "1501"://桥
+            case "1510"://桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
                 console.log($scope.brigeArrayLink)
                 break;
@@ -258,26 +258,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 var newimgs = "./css/img/noimg.png";
                 $scope.photos.push(newimgs);
             }
-        }
-        $timeout(function () {
-            $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
-                $scope.dateReadyURL = 'js/tepl/fmdateTimerReadonly.html';
-                /*查询数据库取出时间字符串*/
-                var tmpStr = $scope.dataTipsData.time;
-                $scope.fmdateTimer(tmpStr);
-            });
-        })
-        /*时间控件*/
-        $scope.fmdateTimer = function (str) {
-            /*获取新数据*/
-            $scope.$on('get-date', function (event, data) {
-                $scope.codeOutputRead = data;
-            });
-            $timeout(function () {
-                $scope.$broadcast('set-code', str);
-                $scope.codeOutputRead = str;
-                $scope.$apply();
-            }, 100);
         }
     };
     if (selectCtrl.rowKey) {
