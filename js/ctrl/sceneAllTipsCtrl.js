@@ -338,10 +338,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 }
             }
-            workPoint.redraw();
-            if($scope.dataTipsData.t_lifecycle == 3){
+            if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
-                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $.showPoiMsg('状态已为 【回prj_gdb库】 ，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
+            }else if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage != 3 && $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage != 1){
+                $timeout(function(){
+                    $.showPoiMsg('只有外业采集数据可进行转换',e);
                     $scope.$apply();
                 });
                 return;
@@ -362,8 +367,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         if(workPoint)
                         workPoint.redraw();
                         swal("操作成功", "测线转换操作成功！", "success");
-                        $scope.showContent = "外业新增";
-                        $scope.dataTipsData.t_lifecycle = 3;
+                        $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
                         $scope.$apply();
                     }
                 } else {
