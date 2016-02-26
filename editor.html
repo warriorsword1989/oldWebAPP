@@ -65,27 +65,43 @@
                 <div ui-layout="{flow:'row',dividerSize:'2'}">
                     <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
                 </div>
-                <div  ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]">
-                   <div  ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]">
-                       <a ng-click="changeWidthOfPanel()" href="#" style="position: absolute;top: 50%;margin-top: -5px;cursor: pointer;">
-                           <span class="glyphicon glyphicon-play"  >  </span>
-                       </a>
+                <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]">
+                    <div ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]">
+                        <a ng-click="changeWidthOfPanel()" href="#"
+                           style="position: absolute;top: 50%;margin-top: -5px;cursor: pointer;">
+                            <span class="glyphicon glyphicon-play">  </span>
+                        </a>
 
-                   </div>
-                    <div ng-include="objectEditURL"  ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]">
                     </div>
+                    <div ng-include="objectEditURL"
+                         ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]">
+                    </div>
+                    <div style="width: 100%;margin-bottom:0;position:absolute;bottom: 0px;border-color: #e7e7e7; ">
+                        <div class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
+
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default btn-xs"><a href="#" data-toggle="tab" ng-click="save()" style="font-size: 10px;color:#000">保存</a></button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default btn-xs"><a href="#" data-toggle="tab" ng-click="delete()" style="font-size: 10px;color:#000">删除</a></button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default btn-xs"><a href="#" data-toggle="tab" ng-click="cancel()" style="font-size: 10px;color:#000">取消</a></button>
+                            </div>
+                        </div>
                 </div>
                 <div ng-class="{'fm-out-error':outErrorArr[0],'fm-out-error-sx':outErrorArr[1],'fm-out-error-xl':outErrorArr[2],'fm-out-error-xl-sx':outErrorArr[3]}">
                     <div style=" background-color: #404040;border: none;opacity: .8;overflow-y:hidden;">
                         <div style="height: 10px;text-align: center">
-                            <a ng-click="changeOutOrErrorStyle()"><span class="glyphicon glyphicon-chevron-down" ></span></a>
+                            <a ng-click="changeOutOrErrorStyle()"><span class="glyphicon glyphicon-chevron-down"></span></a>
                         </div>
                         <div ng-class="{true:'fm-out-error-url',false:'fm-out-error-url-sx'}[outErrorUrlFlag]">
                             <ul id="fm-out-error-inspectAndWrongTab">
                                 <li style="font-size: 10px"><a id="liout" ng-click="showTab('outPut')">
                                     输出结果</a>
                                 </li>
-                                <li style="font-size: 10px"><a id="lierror" class="selected" ng-click="showTab('errorCheck')">检查结果</a>
+                                <li style="font-size: 10px"><a id="lierror" class="selected"
+                                                               ng-click="showTab('errorCheck')">检查结果</a>
                                 </li>
                                 <li id="fm-error-checkErrorLi" style="width:60%;padding-top: 5px;display: none;">
                                     <div class="fm-error-num-well">
@@ -95,9 +111,11 @@
                                         第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
                                         共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
                                         <div class="fm-error pull-right btn-group">
-                                            <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<
+                                            <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled>
+                                                <<
                                             </button>
-                                            <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                                            <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>>
+                                            </button>
                                         </div>
                                     </div>
 
