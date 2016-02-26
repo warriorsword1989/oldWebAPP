@@ -406,7 +406,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 });
                                 objCtrl.setCurrentObject(data.brID);
                                 break;
-                            case "1501"://1501
+                            case "1510"://1510
                                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                     if(data.f_array.length!=0){

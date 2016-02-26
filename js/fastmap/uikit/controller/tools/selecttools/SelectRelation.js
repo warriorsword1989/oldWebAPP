@@ -229,9 +229,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-
-    }
-    ,
+    },
 
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮

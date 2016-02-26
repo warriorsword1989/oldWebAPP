@@ -67,11 +67,36 @@ otherApp.controller("rdNodeFromController",function($scope){
     {"id":32,"label":"无人看守铁道道口"},
     {"id":41,"label":"KDZone与道路交点"}
     ];
+    for(var p in $scope.rdNodeData.forms){
+        for(var s in $scope.fromOfWayOption){
+            if($scope.rdNodeData.forms[p].formOfWay==$scope.fromOfWayOption[s].id){
+                $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
+            }
+        }
+    }
+    $scope.otherFromOfWay=[];
+    //初始化数据
+    initOrig($scope.newFromOfWRoadDate,$scope.fromOfWayOption,"fromOfWRoaddiv");
+    //点击内容显示框时，关闭下拉，保存数据
+    $("#fromOfWRoaddiv").click(function(){
+        $("#fromOfWRoaddiv").popover('hide');
+        $scope.endFromOfWayArray=getEndArray();
+        for(var p in $scope.endFromOfWayArray){
+            $scope.otherFromOfWay.push({
+                formOfWay: $scope.endFromOfWayArray[p].id,
+                linkPid:$scope.rdNodeData.pid
+            })
+        }
+        $scope.rdNodeData.forms=$scope.otherFromOfWay;
+    });
+    $scope.showPopover=function(){
+        $('#fromOfWRoaddiv').popover('show');
+    }
 
     $scope.saveroadtype=function(){
         $scope.rdNodeData.forms.unshift({
             formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            linkPid:$scope.roadlinkData.pid
+            linkPid:$scope.rdNodeData.pid
         })
 
         $scope.newFromOfWRoadDate.unshift({
@@ -95,20 +120,39 @@ otherApp.controller("rdNodeFromController",function($scope){
             "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
+        if(!objectEditCtrl.changedProperty){
+            swal("操作失败", '沒有做任何操作', "error");
+            reutrn;
+        }
+        if(objectEditCtrl.changedProperty.forms.length > 0){
+            $.each(objectEditCtrl.changedProperty.forms,function(i,v){
+                if(v.linkPid || v.pid){
+                    delete v.linkPid;
+                    delete v.pid;
+                }
+            });
+            objectEditCtrl.changedProperty.forms.filter(function(v){
+                return v;
+            });
+        }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDNODE成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
             }else{
-                info.push(data.errmsg+data.errid)
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             outPutCtrl.pushOutput(info);
             if(outPutCtrl.updateOutPuts!=="") {
@@ -131,16 +175,21 @@ otherApp.controller("rdNodeFromController",function($scope){
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
             var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"删除RDNODE成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
             }else{
-                info.push(data.errmsg+data.errid);
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
                 swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
