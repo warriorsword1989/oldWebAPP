@@ -230,7 +230,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     $("#picMapShow").css("display", "none");
                     if(pItemId==="1101") {//限速
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        console.log(data.g_location.coordinates[1]+"_"+data.g_location.coordinates[0])
+                        var center=map.getCenter();
+                        console.log(center["lat"],center["lng"]);
                         objCtrl.setCurrentObject(data.data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data,"RDSPEEDLIMIT",objCtrl,speedLimitId,"ctrl/speedLimitCtrl","js/tepl/speedLimitTepl.html");

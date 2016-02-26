@@ -642,6 +642,8 @@
                         <input type="text" value="路口场景" />
                     </li>
                 </ul>
+                <button onclick="setCenter(40.5,116.7)">测试1</button>
+                <button onclick="setCenter(40.5,115)">测试1</button>
             </div>
 
             <div id="layerPanel"  class="Fm-panel">
@@ -869,16 +871,25 @@
         });
 
         function initMap(){
-            map = L.map('gridMap',{ attributionControl: false,zoomControl:false}).setView([40.012834, 116.476293], 17);
+            map = L.map('gridMap',{ attributionControl: false,zoomControl:false});
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
+            map.setView([40.012834, 116.476293], 17)
         }
 
 
         function closeSubPanel(){
             $("#tipsSubPanel").addClass("normal").removeClass("selected");
             $("#tipsDataContainer #dataList>li>ul>li").removeClass("selected")
+        }
+
+
+        function setCenter(lat,lng){
+            L.marker([lat, lng]).addTo(map)
+                    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                    .openPopup();
+            map.setView([lat,lng], 17)
         }
     </script>
 </body>
