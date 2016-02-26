@@ -11,6 +11,7 @@ requirejs.config({
         'angular': 'lib/angularjs/1.4.4/angular',
         'leaflet':'lib/leaflet-0.7.3/leaflet-src',
         'select2':'lib/select2/4.0.0/js/select2',
+        'iCheckBox':'lib/icheck-1.x/icheck',
         'fastmap':"fastmap/fastmapapi",
         'lodash':'lib/lodash/lodash',
         'test': 'appOfEditor',
@@ -24,7 +25,7 @@ requirejs.config({
         'bootstrapDatepicker':'lib/bootstrap-datepicker/js/bootstrap-datepicker',
         'bootstrapDatepickerCN':'lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN',
         'sweet-alert':'lib/sweet-alert/js/sweet-alert.min',
-        'poi-msg':'lib/poi-msg/poiMsg',
+        'poi-msg':'lib/poi-msg/poiMsg'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -39,9 +40,10 @@ requirejs.config({
         'bootstrapDatepicker':['jquery','bootstrap'],
         'bootstrapDatepickerCN':['bootstrapDatepicker'],
         'timepicki':['jquery','angular'],
+        'iCheckBox':['jquery'],
         'sweet-alert':['jquery'],
         'poi-msg':['jquery'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg']
+        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','iCheckBox','sweet-alert','poi-msg']
     }
 });
 

@@ -137,11 +137,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1301"://车信
                 $scope.oarrayData = $scope.dataTipsData.o_array;
-                for(var testK= 0,testLen=$scope.dataTipsData.info.length;testK<testLen;testK++) {
-                    var obj = $scope.dataTipsData["info"][testK]["arwB"];
-
-                        console.log(obj.toString(16));
-                }
                 for (var i in $scope.oarrayData) {
                     //.d_array[$index].out[$index].id
                     for (var j in $scope.oarrayData[i].d_array) {
@@ -155,9 +150,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1407":
                 break;
-            case "1501"://桥
+            case "1510"://桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
-                console.log($scope.brigeArrayLink)
+                // console.log($scope.brigeArrayLink)
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
@@ -259,26 +254,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 $scope.photos.push(newimgs);
             }
         }
-        $timeout(function () {
-            $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
-                $scope.dateReadyURL = 'js/tepl/fmdateTimerReadonly.html';
-                /*查询数据库取出时间字符串*/
-                var tmpStr = $scope.dataTipsData.time;
-                $scope.fmdateTimer(tmpStr);
-            });
-        })
-        /*时间控件*/
-        $scope.fmdateTimer = function (str) {
-            /*获取新数据*/
-            $scope.$on('get-date', function (event, data) {
-                $scope.codeOutputRead = data;
-            });
-            $timeout(function () {
-                $scope.$broadcast('set-code', str);
-                $scope.codeOutputRead = str;
-                $scope.$apply();
-            }, 100);
-        }
     };
     if (selectCtrl.rowKey) {
         //dataTips的初始化数据
@@ -294,9 +269,31 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.openOrigin = function (id) {
         if(id <= selectCtrl.rowKey.f_array.length-1){
             $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
-            $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            $("#dataTipsOriginModal").modal('show');
-            $(".modal-backdrop").css('width','74%');
+            var originImg = $("#dataTipsOriginImg");
+            originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
+            /*$("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');
+            $("#dataTipsOriginModal").modal({
+                backdrop:false,
+                show:true
+            });
+            $(".modal-backdrop").remove();*/
+            dataTipsOriginImg.onload = function(){
+                originImg.hide();
+                originImg.smartZoom('destroy'); 
+                if($(".zoomableContainer").length == 0){
+                    $("#dataTipsOriginModal").width(parseInt($("#mainContent").width())-244);
+                    originImg.smartZoom({'containerClass':'zoomableContainer'});
+                    $('#zoomInButton,#zoomOutButton').bind("click", function(e){
+                        var scaleToAdd = 0.8;
+                        if(e.target.id == 'zoomOutButton')
+                            scaleToAdd = -scaleToAdd;
+                        originImg.smartZoom('zoom', scaleToAdd);
+                    });
+                }
+                $("#dataTipsOriginModal").css('visibility', 'inherit');
+                originImg.show();
+            }
+            
         }
     }
     /*转换*/
@@ -305,13 +302,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
-            if($scope.dataTipsData.t_lifecycle == 3){
-                $timeout(function(){
-                    $.showPoiMsg('状态为 '+$scope.showContent+'，不可转换！',e);
-                    $scope.$apply();
-                });
-                return;
-            }
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -322,6 +312,19 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     "geometry": {"type": "LineString", "coordinates": $scope.dataTipsData.g_location.coordinates}
 
                 }
+            }
+            if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
+                $timeout(function(){
+                    $.showPoiMsg('状态已为 【回prj_gdb库】 ，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
+            }else if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage != 3 && $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage != 1){
+                $timeout(function(){
+                    $.showPoiMsg('只有外业采集数据可进行转换',e);
+                    $scope.$apply();
+                });
+                return;
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = [];
@@ -335,8 +338,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
                         }
                     });
+                    if(data.errcode == 0){
+                        if(workPoint)
+                        workPoint.redraw();
+                        swal("操作成功", "测线转换操作成功！", "success");
+                        $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
+                        $scope.$apply();
+                    }
                 } else {
                     info.push(data.errmsg + data.errid)
+                    swal("操作失败", data.errmsg, "error");
                 }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
@@ -386,11 +397,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
-                "handler": 0,
-                "pid": pid
+                "handler": 0
             }
             if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
-                if($scope.dataTipsData.t_lifecycle == 3){
+                if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                     $timeout(function(){
                         $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
                         $scope.$apply();
@@ -402,27 +412,26 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 var info = [];
                 if (data.errcode === 0) {
-
-                    Application.functions.getRdObjectById(pid, "RDLINK", function (data) {
-                        if (data.errcode === -1) {
+                    if(workPoint)
+                        workPoint.redraw();
+                    $scope.showContent = "外业新增";
+                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
+                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
+                        if (d.errcode === -1) {
                             return;
                         }
-                        objCtrl.setCurrentObject(data);
+                        objCtrl.setCurrentObject(d);
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();
                         }
                         $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         })
-                        rdLink.redraw()
-                        restrictLayer.redraw();
-                        speedlimtPoint.redraw();
-                        workPoint.redraw();
-                    });
+                    });*/
                 } else {
                     info.push(data.errmsg + data.errid);
 
-                    swal("操作成功", "改变状态操作成功！", "success");
+                    swal("操作失败",data.errmsg, "error");
                 }
                 outPutCtrl.pushOutput(info);
                 if (outPutCtrl.updateOutPuts !== "") {
@@ -437,3 +446,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $("#popoverTips").css("display", "none");
     }
 });
+$("#tipsImgClose").click(function(){
+    $("#dataTipsOriginModal").css('visibility','hidden');
+    $("#dataTipsOriginImg").hide();
+})

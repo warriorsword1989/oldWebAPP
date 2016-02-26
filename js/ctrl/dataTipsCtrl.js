@@ -54,7 +54,8 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         }
         //获取数据中的图片数组
         $scope.photoTipsData = selectCtrl.rowKey.f_array;
-
+        /*时段*/
+        $scope.timeDomain = $scope.dataTipsData.o_array[0].time;
 
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
@@ -108,6 +109,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     //查看相关的退出线
     $scope.showOutLink = function (item) {
         $scope.rdSubTipsData = item;
+        $scope.timeDomain = item.time;
     };
     //$scope.$parent.$parent.updateDataTips = function (data) {
     //    //$scope.photos.length = 0;
@@ -161,6 +163,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
     };
     //根据dataTips新增交限
     $scope.increaseDataTips = function () {
+        var info=null;
         Application.functions.getRdObjectById($scope.dataTipsData.in.id, "RDLINK", function (data) {
             var restrictObj = {};
             restrictObj["inLinkPid"] = parseInt($scope.dataTipsData.in.id);
@@ -205,7 +208,12 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
             };
             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                 if (data.errcode === -1) {
-                    outPutCtrl.pushOutput(data.errmsg);
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
+                    outPutCtrl.pushOutput(info);
                     if(outPutCtrl.updateOutPuts!=="") {
                         outPutCtrl.updateOutPuts();
                     }
@@ -215,10 +223,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
                 checkCtrl.setCheckResult(data);
                 restrictLayer.redraw();//交限图层刷新
                 workPoint.redraw();//dataTip图层刷新
-                outPutCtrl.pushOutput(data.data.log[0]);
-                if(outPutCtrl.updateOutPuts!=="") {
-                    outPutCtrl.updateOutPuts();
-                }
                 //修改状态
                 var stageParam = {
                     "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
@@ -227,7 +231,22 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
 
                 }
                 Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                    outPutCtrl.pushOutput(data.data + "\n");
+                    if (data.errcode==0) {
+                        var sinfo={
+                            "op":"修改交限成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.unshift(sinfo);
+                        info=data.data.log;
+                    }else{
+                        info=[{
+                            "op":data.errcode,
+                            "type":data.errmsg,
+                            "pid": data.errid
+                        }];
+                    }
+                    outPutCtrl.pushOutput(info);
                     if(outPutCtrl.updateOutPuts!=="") {
                         outPutCtrl.updateOutPuts();
                     }

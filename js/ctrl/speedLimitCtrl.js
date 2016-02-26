@@ -10,14 +10,25 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById('speedlimit');
-    $scope.speedLimitData = objectEditCtrl.data;
+
+    $scope.initializeData = function () {
+        $scope.speedLimitData = objectEditCtrl.data;
+    }
+    if(objectEditCtrl.data){
+        $scope.initializeData();
+    }
+    //调用的方法
+    objectEditCtrl.rdSpeedLimitObject=function(){
+
+        $scope.initializeData();
+    }
     $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     $scope.speedTypeOptions = [
-        {"id": 0, "label": "0  普通(General)"},
-        {"id": 1, "label": "1 指示牌(Advisory)"},
-        {"id": 3, "label": "3 特定条件(Dependent)"},
-        {"id": 4, "label": "4 车道限速"}
+        {"id": 0, "label": "普通"},
+        {"id": 1, "label": "指示牌"},
+        {"id": 3, "label": "特定条件"},
+        {"id": 4, "label": "车道限速"}
     ];
     $scope.speedDirectTypeOptions = [
         {"id": 0, "label": "0  未调查"},
@@ -30,9 +41,9 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         {"id": 2, "label": "2 雪天(Snow)"},
         {"id": 3, "label": "3 雾天(Fog)"},
         {"id": 6, "label": "6 学校(School)"},
-        {"id": 10, "label": "10 时间限制(Time-Dependent)"},
-        {"id": 11, "label": "11 车道限制(Lane-Dependent)"},
-        {"id": 12, "label": "12 季节时段(Approximate Seasonal Time)"},
+        {"id": 10, "label": "10 时间限制"},
+        {"id": 11, "label": "11 车道限制"},
+        {"id": 12, "label": "12 季节时段"},
         {"id": 13, "label": "13 医院"},
         {"id": 14, "label": "14 购物"},
         {"id": 15, "label": "15 居民区"},
@@ -74,29 +85,6 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             $scope.$apply();
         }, 100);
     }
-    var flag = $scope.speedLimitData.speedFlag;//限速标志
-    $("#speedFlag" + flag).removeClass("btn btn-default").addClass("btn btn-primary");
-    var gaptureFlag = $scope.speedLimitData.captureFlag;//采集标志
-    $("#gaptureFlag" + gaptureFlag).removeClass("btn btn-default").addClass("btn btn-primary");
-    var tollgateFlag = $scope.speedLimitData.tollgateFlag;//收费站前限速
-    $("#tollgateFlag" + tollgateFlag).removeClass("btn btn-default").addClass("btn btn-primary");
-    $scope.checkspeedFlag = function (flag) {
-        $("#speedFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#speedFlag" + flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $scope.speedLimitData.speedFlag = flag;
-    }
-
-    $scope.checkgaptureFlag = function (flag) {
-        $("#gaptureFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#gaptureFlag" + flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $scope.speedLimitData.gaptureFlag = flag;
-    }
-
-    $scope.checktollgateFlag = function (flag) {
-        $("#tollgateFlagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#tollgateFlag" + flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $scope.speedLimitData.gaptureFlag = flag;
-    }
     $scope.$parent.$parent.save = function () {
         objectEditCtrl.setCurrentObject($scope.speedLimitData);
         objectEditCtrl.save();
@@ -108,18 +96,21 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         };
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            var info = [];
-            if (data.data) {
-                speedLimit.redraw();
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                    } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                    }
-                });
-            } else {
-                info.push(data.errmsg + data.errid)
+            var info=null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDSPEEDLIMIT成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
@@ -137,27 +128,21 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             if(data.errcode===-1) {
-                outputCtrl.pushOutput(data.errmsg);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
                 return;
             }
             speedLimit.redraw();
             $scope.speedLimitData = null;
             $scope.speedLimitGeometryData = null;
             $scope.$parent.$parent.objectEditURL = "";
-            var info = [];
-            if (data.data) {
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                    } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                    }
-                });
-            } else {
-                info.push(data.errmsg + data.errid)
+            var info=null;
+            if (data.errcode==0) {
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
 

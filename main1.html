@@ -19,8 +19,9 @@
             display: inline-block;
 
         }
+
         /*高速分歧map上图片显示*/
-        #picMapShow{
+        #picMapShow {
             width: 120px;
             height: 98px;
             border-right: 1px solid #e5e5e5;
@@ -34,13 +35,15 @@
             box-shadow: -4px 5px 8px 0px;
             display: none;
         }
-        #picMapImg{
+
+        #picMapImg {
             width: 100%;
             height: 100%;
             border-bottom-left-radius: 4px;
             text-align: center;
         }
-        #picMapDesc{
+
+        #picMapDesc {
             background-color: #fff;
             top: 5px;
             position: absolute;
@@ -49,17 +52,20 @@
             /*border-left: 1px solid #C0C0C0;
             border-right: 1px solid #c0c0c0;*/
         }
-        .show-animation{
-            transition:all 0.5s;
+
+        .show-animation {
+            transition: all 0.5s;
         }
+
         /*比例尺*/
-        #zoomBtn{
+        #zoomBtn {
             bottom: 0;
             position: absolute;
             z-index: 1000;
             right: 0;
         }
-        .now-zoom{
+
+        .now-zoom {
             position: absolute;
             left: 5px;
             bottom: 0;
@@ -68,28 +74,73 @@
             font-size: 9px;
             z-index: 1;
         }
-        #nowZoom{
+
+        #nowZoom {
             margin-top: -3px
         }
 
-        .num-well{
-            margin-left:5px;
-            float:left;
+        .num-well {
+            margin-left: 5px;
+            float: left;
         }
-        .pull-right{
-            float:right;
+
+        .pull-right {
+            float: right;
         }
-        .leaflet-control-scale-line{
+
+        .leaflet-control-scale-line {
             border-bottom: 3px solid;
             border-left: 1px solid;
             border-right: 1px solid;
         }
-        .leaflet-bottom{
+
+        .leaflet-bottom {
             bottom: 12px;
         }
+
         /* 比例尺 */
-        .leaflet-bottom{
+        .leaflet-bottom {
             z-index: 1
+        }
+        #imgContainer {
+             width: 540px;
+            height: 300px; 
+        }
+        #positionButtonDiv {
+            background: rgb(58, 56, 63);
+            background: rgba(58, 56, 63, 0.8);
+            border: solid 1px #100000;
+            color: #FFFFFF;
+            padding: 8px;
+            text-align: left;
+            position: absolute;
+            right:35px;
+            top:94px;
+        }
+        #positionButtonDiv .positionButtonSpan img {
+            float: right;
+            border: 0;
+        }
+        .positionMapClass area {
+            cursor: pointer;
+        }
+        .zoomButton {
+            border: 0;
+            cursor: pointer;
+        }
+        .zoomableContainer {
+            background-image: url("js/lib/e-smart-zoom/img/transparent.png");
+        }
+        #dataTipsOriginModal{
+            top: 90px;
+            left: 440px;
+            background-color: #fff;
+            position: absolute;
+            z-index: 99999;
+            width: 570px;
+            border: 1px solid #9d9d9d;
+            box-shadow: 4px 4px 8px 4px #999999;
+            border-radius: 4px;
         }
     </style>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
@@ -123,124 +174,170 @@
         </div>
     </nav>
 </div>
-    <div id="parentId" ui-layout="{flow:'column',dividerSize:'6'}"  style="top: 50px">
-        <div ui-layout-container size="15%"  max-size="190px" min-size="190px" >
-            <div >
-                <div class="leftDiv" style="width: 38px;background: #F8F8F8;">
-                    <div class="fragDiv" id="referenceLayers"  style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;" ng-click="changeLayers('referenceLayers')">
-                        <img src="css/img/referenceLayers.png " >
+<div id="parentId" ui-layout="{flow:'column',dividerSize:'6'}" style="top: 50px">
+    <div ui-layout-container size="15%" max-size="190px" min-size="190px">
+        <div>
+            <div class="leftDiv" style="width: 38px;background: #F8F8F8;">
+                <div class="fragDiv" id="referenceLayers"
+                     style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;"
+                     ng-click="changeLayers('referenceLayers')">
+                    <img src="css/img/referenceLayers.png ">
                             <span title="参考图层" class="glyphicon " style=" padding-left: 13px;"
-                                  >参考图层</span>
-                    </div>
-                    <div class="fragDiv" id="resultLayers" style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;" ng-click="changeLayers('resultLayers')">
-                        <img src="css/img/resultLayers.png " >
-                        <span title="现场成果" class="glyphicon " style=" padding-left: 13px;"
-                                  >现场成果</span>
-                    </div>
+                                    >参考图层</span>
                 </div>
-                <div class="rightDiv" style="padding-left:35px; ">
-                    <div ng-include="layersURL"></div>
+                <div class="fragDiv" id="resultLayers"
+                     style="cursor:pointer;width: 38px; height: 110px; padding-left: 0px; font-size: 10px;word-wrap: break-word;letter-spacing: 10px;background: #49C2FC;"
+                     ng-click="changeLayers('resultLayers')">
+                    <img src="css/img/resultLayers.png ">
+                        <span title="现场成果" class="glyphicon " style=" padding-left: 13px;"
+                                >现场成果</span>
                 </div>
             </div>
-
+            <div class="rightDiv" style="padding-left:35px; ">
+                <div ng-include="layersURL"></div>
+            </div>
         </div>
-        <div ui-layout-container id="mainContent">
+    </div>
+    <div ui-layout-container id="mainContent">
+        <div ui-layout="{flow:'row',dividerSize:'6'}">
+            <div ui-layout-container size="70%">
+                <div id="map" style="width: 100%;height: 100%;position: absolute;">
+                    <div id="toolsDiv" style="height: 40px;position: relative;z-index:4;background-color: #F8F8F8">
+                        <div class="btn-toolbar">
+                            <div ng-include="selectShapeURL" style="float: left"></div>
+                            <div style="float: left"><span class="divider-vertical"></span></div>
+                            <div ng-include="addShapeURL" style="float: left;"></div>
+                            <!--<div style="float: left">-->
+                            <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
+                            <!--</div>-->
+                            <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
+                        </div>
 
-            <div ui-layout="{flow:'row',dividerSize:'6'}">
-
-                <div ui-layout-container size="70%">
-                    <div id="map" style="width: 100%;height: 100%;position: absolute;">
-                        <div id="toolsDiv" style="height: 40px;position: relative;z-index:4;background-color: #F8F8F8">
-                            <div class="btn-toolbar">
-                                <div ng-include="selectShapeURL" style="float: left"></div>
-                                <div style="float: left"><span class="divider-vertical"></span></div>
-                                <div ng-include="addShapeURL" style="float: left;"></div>
-                                <!--<div style="float: left">-->
-                                <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
-                                <!--</div>-->
-                                <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
-                            </div>
-
-                        </div>
-                        <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()" style="position:relative;display:none;z-index:2;width:400px">
-                                <div ng-include="dataTipsURL" style="width: 400px;"></div>
-                        </div>
-                        <div id="picMapShow">
-                            <img id="picMapImg" alt="无此箭头图">
-                            <div id="picMapDesc"></div>
-                        </div>
-                        <div class="now-zoom">当前比例尺:
-                            <span id="nowZoom" class="badge">17</span>
-                        </div>
-                        <!-- <div id="zoomBtn" class="btn-group"> -->
-                            <!-- <div>
-                                <div id="rangeModel" style="float: left;width: 157px;">
-                                    <div id="rangeBegin" style="margin-top: 2px;float: left;">1</div>
-                                    <input id="rangeSlider" type="range" min="1" max="20" step="1" value="5" style="background-color: rgba(3, 169, 244, 0.68);transition: all 0.5s;">
-                                    <div id="rangeEnd" style="float: right;margin-top: 2px;">20</div>
-                                </div>
-                                <div style="clear:both"></div>
-                                <div id="rangeValue" style="float: left;text-align: center;width: 157px;">16</div>
-                            </div> -->
-                            <!-- <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button> -->
-                        <!-- </div> -->
                     </div>
-                </div>
-                <div ui-layout-container style="overflow: hidden;">
-                    <ul id="inspectAndWrongTab" class="nav nav-tabs">
-                        <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
-                            输出结果</a>
-                        </li>
-                        <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">检查结果</a>
-                        </li>
-                        <li id="checkErrorLi" style="width:70%;padding-top: 5px;display: none;">
-                            <div class="num-well">
-                                共<span class="pic-num" ng-bind="checkTotal">1</span> 项错误
-                            </div>
-                            <div class="pull-right">
-                                第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
-                                共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
-                                <div class="pull-right btn-group">
-                                    <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
-                                    <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
-                                </div>
-                            </div>
+                    <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()"
+                         style="position:relative;display:none;z-index:2;width:400px">
+                        <div ng-include="dataTipsURL" style="width: 400px;"></div>
+                    </div>
+                    <div id="picMapShow">
+                        <img id="picMapImg" alt="无此箭头图">
 
-                        </li>
-                        <div style="float: right;">
-                            <button id="immediatelyCheck" class="btn btn-default" ng-click="showTab('getCheck')">刷新检查</button>
-                            <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default" >清空</button>
+                        <div id="picMapDesc"></div>
+                    </div>
+                    <div class="now-zoom">当前比例尺:
+                        <span id="nowZoom" class="badge">17</span>
+                    </div>
+                    <!-- <div id="zoomBtn" class="btn-group"> -->
+                    <!-- <div>
+                        <div id="rangeModel" style="float: left;width: 157px;">
+                            <div id="rangeBegin" style="margin-top: 2px;float: left;">1</div>
+                            <input id="rangeSlider" type="range" min="1" max="20" step="1" value="5" style="background-color: rgba(3, 169, 244, 0.68);transition: all 0.5s;">
+                            <div id="rangeEnd" style="float: right;margin-top: 2px;">20</div>
                         </div>
+<<<<<<< HEAD
                     </ul>
                     <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
-                        <div class="tab-pane fade in active" id="inspectDiv" style="height:100%;">
+                        <div class="tab-pane fade in active" id="inspectDiv" style="height:100%;display: none;">
                             <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height:100%;"></div>
-                        </div>
-                        <div class="tab-pane fade in active" id="wrongDiv" style="height:100%;">
-                            <div ng-include="errorCheckTab" style="height:100%;"></div>
-                        </div>
-                    </div> 
+=======
+                        <div style="clear:both"></div>
+                        <div id="rangeValue" style="float: left;text-align: center;width: 157px;">16</div>
+                    </div> -->
+                    <!-- <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button> -->
+                    <!-- </div> -->
                 </div>
             </div>
-        </div>
-        <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden;overflow-x:hidden" max-size="350px" min-size="350px">
-            <div ng-include="objectEditURL" style="margin-bottom: 30px; overflow-y: auto; height: 98%; "></div>
-            <div style="width: 100%;margin:auto;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; ">
-                <div  style=" margin: 0 auto;padding-top: 5px;padding-bottom:5px;border-top: 1px solid #ccc;text-align:center;">
-                    <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;"  ng-click="save()">保存</button>
-                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="delete()">删除</button>
-                    <button type="button" class="btn " style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;" ng-click="cancel()">取消</button>
+            <div ui-layout-container style="overflow: hidden;">
+                <ul id="inspectAndWrongTab" class="nav nav-tabs">
+                    <li><a href="#inspectDiv" data-toggle="tab" ng-click="showTab('outPut')">
+                        输出结果</a>
+                    </li>
+                    <li class="active"><a href="#wrongDiv" data-toggle="tab" ng-click="showTab('errorCheck')">检查结果</a>
+                    </li>
+                    <li id="checkErrorLi" style="width:70%;padding-top: 5px;display: none;">
+                        <div class="num-well">
+                            共<span class="pic-num" ng-bind="checkTotal">1</span> 项错误
+                        </div>
+                        <div class="pull-right">
+                            第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
+                            共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
+                            <div class="pull-right btn-group">
+                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
+                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                            </div>
+                        </div>
+
+                    </li>
+                    <div style="float: right;">
+                        <button id="immediatelyCheck" class="btn btn-default" ng-click="showTab('getCheck')">刷新检查
+                        </button>
+                        <button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default">清空
+                        </button>
+                    </div>
+                </ul>
+                <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
+                    <div class="tab-pane fade in active" id="inspectDiv" style="height:100%;display: none">
+                        <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height:100%;"></div>
+                    </div>
+                    <div class="tab-pane fade in active" id="wrongDiv" style="height:100%;">
+                        <div ng-include="errorCheckTab" style="height:100%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div></div>
+    <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden;overflow-x:hidden;padding-bottom: 30px;" max-size="350px"
+         min-size="350px">
+        <div ng-include="objectEditURL" style="overflow-y: auto; height: 100%;background-color: #404040;opacity: .8;border: none;color: #fff; ">
+        </div>
+        <div style="width: 100%;margin-bottom:0;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; ">
+            <div style=" margin: 0 auto;padding-top: 5px;padding-bottom:5px;border-top: 1px solid #ccc;text-align:center;">
+                <button type="button" class="btn "
+                        style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;"
+                        ng-click="save()">保存
+                </button>
+                <button type="button" class="btn "
+                        style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;"
+                        ng-click="delete()">删除
+                </button>
+                <button type="button" class="btn "
+                        style="background-color: #F6F6F6;border-color: #737475; margin-left: 5px; border-radius: 5px;"
+                        ng-click="cancel()">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div></div>
 <!--<div ng-show="showLoading" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>-->
 <div id='tooltip' class="tooltipclass"></div>
-<div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
+<div id="dataTipsOriginModal" style="visibility:hidden">
+    <div class="modal-header">
+        <button id="tipsImgClose" type="button" class="close"
+                data-dismiss="modal" aria-hidden="true" title="关闭">
+            &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+            图片
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div id="imgContainer"> 
+            <img id="dataTipsOriginImg" src="css/login/2.jpg"/> 
+        </div>
+    </div>
+    <div id="positionButtonDiv">
+        <p>
+            <span> 
+                <img id="zoomInButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomIn.png" title="放大" alt="放大" /> 
+                <img id="zoomOutButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomOut.png" title="缩小" alt="缩小" /> 
+            </span> 
+        </p>
+    </div>
+</div>
+<!--<div class="modal fade" id="dataTipsOriginModal" tabindex="9999" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="top: 56px;left: 225px;width: 570px;">
             <div class="modal-header">
                 <button type="button" class="close"
                         data-dismiss="modal" aria-hidden="true">
@@ -251,14 +348,22 @@
                 </h4>
             </div>
             <div class="modal-body" style="text-align: center">
-                <img id="dataTipsOriginImg" src="" style="max-height: 300px;">
-            </div>
+                <img id="dataTipsOriginImg" src="css/login/2.jpg"/> -->
+                <!-- <div id="imgContainer"> 
+                    <img id="dataTipsOriginImg" src="css/login/2.jpg"/> 
+                </div>
+                <div id="positionButtonDiv">
+                    <p>
+                        <span> 
+                            <img id="zoomInButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomIn.png" title="zoom in" alt="zoom in" /> 
+                            <img id="zoomOutButton" class="zoomButton" src="js/lib/e-smart-zoom/img/zoomOut.png" title="zoom out" alt="zoom out" /> 
+                        </span> 
+                    </p>
+                </div> -->
+           <!-- </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal -->
-</div>
+</div>-->
 <script type="text/javascript" data-main="js/main" src="js/lib/require/require.js"></script>
-
 </body>
 </html>

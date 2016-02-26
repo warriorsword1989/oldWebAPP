@@ -53,7 +53,23 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                     shapectl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                         rdLink.redraw();
-                        outPutCtrl.pushOutput(data.data);
+                        var info = null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改道路link成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }
@@ -77,8 +93,23 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         restrict.redraw();
-
-                        outPutCtrl.pushOutput(data.data.log[0]);
+                        var info = null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改交限成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
+                        outPutCtrl.pushOutput(info);
                         if(outPutCtrl.updateOutPuts!=="") {
                             outPutCtrl.updateOutPuts();
                         }

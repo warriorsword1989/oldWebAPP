@@ -148,7 +148,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        this.currentEditLayer.fire("getNodeId")
+        //this.currentEditLayer.fire("getNodeId")
     }
     ,
 
