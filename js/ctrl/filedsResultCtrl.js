@@ -17,6 +17,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
+                        // console.log(data)
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
