@@ -244,7 +244,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        this.currentEditLayer.fire("getId")
+        //this.currentEditLayer.fire("getId")
     },
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮

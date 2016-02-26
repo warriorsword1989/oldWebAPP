@@ -25,8 +25,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                 var id = null;
                 for (var item in data) {
                     var speedlimitObj = data[item].properties.speedlimitcondition;
-                    var geom = data[item].geometry.coordinates;
-                    var newGeom = [];
+
                     if (speedlimitObj !== undefined) {
 
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
@@ -68,7 +67,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-                this._map.fire("getNodeId")
+                //this._map.fire("getNodeId")
             }
             ,
 

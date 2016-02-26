@@ -136,7 +136,7 @@ Application.layersConfig =
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: '参考点数据',
+                layername: '交限',
                 id: 'restriction',
                 maxZoom: 20,
                 hitDetection: true,
@@ -282,7 +282,7 @@ Application.layersConfig =
             url: 'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: 'rdcross',
+                layername: '路口',
                 id: 'rdcross',
                 maxZoom: 20,
                 hitDetection: true,
@@ -329,7 +329,7 @@ Application.layersConfig =
             url: 'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: 'rdlaneconnexity',
+                layername: '车信',
                 id: 'rdlaneconnexity',
                 maxZoom: 20,
                 hitDetection: true,
@@ -518,7 +518,7 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t === 2001||item.t===1901) {
+                        if (item.t === 2001||item.t===1901||item.t===1510) {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};
@@ -531,7 +531,7 @@ Application.layersConfig =
                                 'id': item.i,
                                 'color': 13,
                                 'name': item.m.b,
-                                'kind': item.m.c,
+                                'kind': item.t,
                                 'direct': item.m.d,
                                 'snode': item.m.e,
                                 'enode': item.m.f

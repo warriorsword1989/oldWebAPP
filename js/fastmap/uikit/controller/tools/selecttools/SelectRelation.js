@@ -29,6 +29,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         for(var item in this.editLayerIds){
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
+        this.popup = L.popup();
 
     },
 
@@ -37,13 +38,23 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('click', this._click,this);
     },
+
 
     /***
      * 移除事件
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        this._map.off('click', this._click,this);
+    },
+
+    _click:function(){
+        if(this.overlays &&this.overlays.length > 1){
+            this._map.openPopup(this.popup);
+        }
+
     }
     ,
     onMouseDown: function (event) {
@@ -55,7 +66,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
-
+        this.overlays=[];
         for(var layer in this.currentEditLayers){
 
             this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
@@ -66,37 +77,135 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
             var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
+
+            var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+
             var id = null;
-            switch (this.currentEditLayers[layer].requestType) {
+            for (var item in data) {
+                if(this.currentEditLayers[layer].requestType =='RDCROSS'){
+
+                    for (var key in data[item].geometry.coordinates) {
+                        if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
+                            this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                        }
+                    }
+                }else{
+                    if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+
+
+                        this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                    }
+                }
+
+
+            }
+            var id = null;
+       }
+        if(this.overlays.length == 1){
+            switch (this.overlays[0].layer.requestType) {
 
                 case'RDRESTRICTION':
-                    var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:this.currentEditLayers[layer],map:this._map});
+                    var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
                     frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, data);
+                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
                     break;
                 case "RDLANECONNEXITY":
-                    var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.currentEditLayers[layer],map:this._map});
+                    var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
                     frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, data);
+                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
                     break;
                 case "RDSPEEDLIMIT":
-                    var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.currentEditLayers[layer],map:this._map});
+                    var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
                     frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, data);
+                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
                     break;
                 case "RDCROSS":
-                    var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.currentEditLayers[layer],map:this._map});
+                    var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
                     frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, data);
+                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
                     break;
                 case "RDBRANCH":
-                    var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.currentEditLayers[layer],map:this._map});
+                    var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
                     frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, data);
+                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
                     break;
             }
+        }else if (this.overlays.length > 1){
+            var html = '<ul style="list-style:none;padding: 0px" id="layerpopup">';
+
+
+
+            this.overlays = this.unique(this.overlays);
+            for(var item in this.overlays){
+                html += '<li><a id="'+this.overlays[item].layer.options.requestType+'">'+this.overlays[item].layer.options.layername+'</a></li>';
+            }
+            html +='</ul>';
+
+            this.popup
+                .setLatLng(event.latlng)
+                .setContent(html);
+            var that = this;
+
+            this._map.on('popupopen',function(){
+                document.getElementById('layerpopup').onclick=function(e){
+                    if(e.target.tagName == 'A'){
+
+                        var layer = '';
+                        var d = '';
+                        for(var key in that.overlays){
+                            if(e.target.id == that.overlays[key].layer.requestType){
+                                layer = that.overlays[key].layer;
+                                d = that.overlays[key].data;
+                            }
+                        }
+                        switch (e.target.id) {
+
+                            case'RDRESTRICTION':
+                                var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
+                                frs.tiles = that.tiles;
+                                frs.drawGeomCanvasHighlight(event, d);
+                                break;
+                            case "RDLANECONNEXITY":
+                                var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
+                                frs.tiles = that.tiles;
+                                frs.drawGeomCanvasHighlight(event, d);
+                                break;
+                            case "RDSPEEDLIMIT":
+                                var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
+                                frs.tiles = that.tiles;
+                                frs.drawGeomCanvasHighlight(event, d);
+                                break;
+                            case "RDCROSS":
+                                var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
+                                frs.tiles = that.tiles;
+                                frs.drawGeomCanvasHighlight(event, d);
+                                break;
+                            case "RDBRANCH":
+                                var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
+                                frs.tiles = that.tiles;
+                                frs.drawGeomCanvasHighlight(event, d);
+                                break;
+                        }
+
+                    }
+
+                }
+            });
 
         }
+    },
+
+
+     unique:function(arr) {
+        var result = [], hash = {};
+        for (var i = 0; i<arr.length; i++) {
+            var elem = arr[i].layer.requestType;
+            if (!hash[elem]) {
+                result.push(arr[i]);
+                hash[elem] = true;
+            }
+        }
+        return result;
 
     },
 
@@ -120,9 +229,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        this.currentEditLayer.fire("getNodeId")
-    }
-    ,
+    },
 
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
      *清除高亮
