@@ -3,7 +3,7 @@
         -webkit-font-smoothing: antialiased;
         line-height: 1.42857143;
         color: #58666e;
-        background-color: transparent;
+
         margin-right: 0px;
     }
 
@@ -13,27 +13,27 @@
 
     .title {
         height: 20%;
-        width: 70%;
-        background-color: #FFFFFF;
+        width: 100%;
         border: 1px solid #eeeeee;
+        border-radius: 4px;
     }
 
     .middle {
         float: left;
         margin: auto;
-        height: 70%;
-        width: 70%;
+        height: 100%;
+        width: 100%;
+        margin-top: 5px;
     }
 
     .left {
-        float: left;
-        clear: right;
-        height: 100%;
+        /*float: left;*/
+        /*clear: right;*/
+        /*height: 100%;*/
         width: 100%;
-        background-color: #eeefff;
-        border: 1px solid #eeeeee;
-        overflow-y: auto;
-        overflow-x: hidden;
+        /*overflow-y: auto;*/
+        /*overflow-x: hidden;*/
+        padding: 10px 0px 10px 0px ;
     }
 
     .right {
@@ -42,14 +42,12 @@
         clear: right;
         height: 70%;
         width: 30%;
-        background-color: #FFFFFF;
+
     }
 
     .both {
-        clear: both;
-        height: 45%;
         width: 100%;
-        background-color: #666999;
+        margin-top: 5px;
     }
 
     .footer {
@@ -57,7 +55,7 @@
         margin: 0 auto;
         width: 100%;
         clear: both;
-        background-color: #eeeeee;
+
     }
 
     #sceneRoadTipsDiv {
@@ -142,136 +140,129 @@
         text-align: center;
     }
 </style>
-<div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" ng-mouseenter="testA($event)"
-     ng-mouseleave="testB($event)">
+<div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" style="width:100%;">
     <div class="title">
-        <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 1px;">
+        <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 9px;">
             <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px"
                  style="border:1px solid #e5e5e5;" ng-click="openOrigin($index)">
         </div>
     </div>
     <div class="middle">
         <div class="left">
-            <div class="panel panel-default" style="margin-bottom: 0px;height:100%;">
-                <div class="panel-body" style=" padding-bottom: 0px;" ng-if="allTipsType==1101">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+            <div class="panel panel-default" style="background-color: #404040;margin-bottom: 0px;" >
+                <div class="panel-body"  ng-if="allTipsType==1101">
+                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 2px">
+                            <div class="col-sm-7" style="padding-top: 2px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">关联道路ID:</label>
 
-                            <div class="col-sm-8" style="padding-top: 2px">
-                                <span class="label label-default">{{dataTipsData.f.id}}</span>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">关联道路ID:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label">{{dataTipsData.f.id}}</span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">限速方向:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default">{{rdDir}}</span>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">限速方向:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label">{{rdDir}}</span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">限速时速:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default">{{dataTipsData.value}} km/h</span>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">限速时速:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label ">{{dataTipsData.value}} km/h</span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">限速标志:</label>
 
-                            <div class="col-sm-8" style="padding-top: 2px">
-                                <span ng-if="dataTipsData.se==0" class="label label-default">限速开始</span>
-                                <span ng-if="dataTipsData.se==1" class="label label-default">解除限速</span>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">限速标志:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span ng-if="dataTipsData.se==0" class="label ">限速开始</span>
+                                <span ng-if="dataTipsData.se==1" class="label ">解除限速</span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">采集标志:</label>
 
-                            <div class="col-sm-8" style="padding-top: 2px">
-                                <span ng-if="dataTipsData.flag==0" class="label label-default">现场采集</span>
-                                <span ng-if="dataTipsData.flag==1" class="label label-default">理论判断</span>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">采集标志:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span ng-if="dataTipsData.flag==0" class="label ">现场采集</span>
+                                <span ng-if="dataTipsData.flag==1" class="label ">理论判断</span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">限速来源:</label>
 
-                            <div class="col-sm-8" style="padding-top: 2px">
-                                <span class="label label-default" ng-bind="limitSrc"></span>
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">限速来源:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px;">
+                                <span class="label " ng-bind="limitSrc"></span>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" style="margin-bottom: 0px;height:100%;" ng-if="allTipsType==1203">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
-                            <label class="col-sm-4 control-label">关联道路ID:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="fData.id"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">关联道路ID:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="fData.id"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
-                            <label class="col-sm-4 control-label">方向:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="drs"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">方向:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="drs"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
-                            <label class="col-sm-4 control-label">时间:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="dataTipsData.time"></span>
-                            </div>
-                        </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;">
-                            <label class="col-sm-4 control-label">车辆限制:</label>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">时间:</label>
 
-                            <div class="col-sm-7" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <div>
-                                    <span class="label label-default"></span>
+                                    <span class="label "></span>
+
+                                    <div ng-include="dateReadyURL"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;padding-top: 0px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">车辆限制:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <div>
+                                    <span class="label "></span>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1301">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 15%;margin-bottom: 3px;">
+                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 15%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
                                     <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
@@ -284,7 +275,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 15%;margin-bottom: 3px;">
+                        <div class="form-group" style="height: 15%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
@@ -298,182 +289,169 @@
                             </div>
                         </div>
 
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">进入:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default">{{dataTipsData.in.id}}</span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">进入:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label ">{{dataTipsData.in.id}}</span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">退出:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">退出:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <div ng-repeat="outitem in outIdS">
-                                    <span class="label label-default">{{outitem.id}}</span>
+                                    <span class="label ">{{outitem.id}}</span>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1510">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 5px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">名称:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="dataTipsData.name"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">名称:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="dataTipsData.name"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">组成Link:</label>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">组成Link:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <div ng-repeat="item in brigeArrayLink">
-                                    <span class="label label-default">{{item.id}}</span>
+                                    <span class="label ">{{item.id}}</span>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1604">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 5px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">关联道路ID:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">关联道路ID:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <div ng-repeat="item in fData">
-                                    <span class="label label-default" ng-bind="item.id"></span>
+                                    <span class="label " ng-bind="item.id"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">挂接号:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">挂接号:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label "></span>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1704">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 5px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">关联道路NodeID:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="fData.f.id"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">关联道路NodeID:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="fData.f.id"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">名称:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="fData.name"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">名称:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="fData.name"></span>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1201">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+                    <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">关联道路ID:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="dataTipsData.f.id"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">关联道路ID:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="dataTipsData.f.id"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">种别:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="kindType"></span>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">种别:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
+                                <span class="label " ng-bind="kindType"></span>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1901">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">状态:</label>
+                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">状态:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                            <div class="col-sm-7" style="padding-top: 5px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
-                            <label class="col-sm-4 control-label">名称:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label">名称:</label>
+
+                            <div class="col-sm-7" style="padding-top: 7px">
                                 <div ng-repeat="item in nArrayData">
-                                    <span class="label label-default" ng-bind="item"></span>
+                                    <span class="label " ng-bind="item"></span>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==2001">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+                    <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label">状态:</label>
 
                             <div class="col-sm-8" style="padding-top: 5px">
@@ -481,31 +459,28 @@
                                       ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label">种别:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="lineType"></span>
+                            <div class="col-sm-8" style="padding-top: 7px">
+                                <span class="label " ng-bind="lineType"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label">车道:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="carNumber"></span>
+                            <div class="col-sm-8" style="padding-top: 7px">
+                                <span class="label " ng-bind="carNumber"></span>
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;">
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label">来源:</label>
 
-                            <div class="col-sm-8" style="padding-top: 5px">
-                                <span class="label label-default" ng-bind="lineSrc"></span>
+                            <div class="col-sm-8" style="padding-top: 7px">
+                                <span class="label " ng-bind="lineSrc"></span>
                             </div>
                         </div>
                     </form>
@@ -513,18 +488,16 @@
             </div>
         </div>
         <div class="both">
-            <div class="panel panel-default" style="height: 100%;">
+            <div class="panel panel-default" style="height: 100%;background-color: #404040;">
                 <div class="panel-body" style="padding-bottom: 0px; ">
-                    <form class="form-horizontal" method="get" style="text-align:left ;">
-                        <div class="form-group" style="height: 60%;margin-bottom: 3px;">
+                    <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
+                        <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
                             <label class="col-sm-3 control-label"> 备注：</label>
 
                             <div class="col-sm-8" ng-bind="remarksContent">
 
                             </div>
                         </div>
-                        <div class="line line-dashed b-b line-lg pull-in"
-                             style="margin-top: 1px;margin-bottom: 1px"></div>
 
                         <div class="form-group" style="height:10%; width:100%; margin-top: 10px;"
                              ng-if="allTipsType!=1302&&allTipsType!=1301">

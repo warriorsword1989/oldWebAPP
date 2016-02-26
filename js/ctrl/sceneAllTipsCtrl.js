@@ -152,7 +152,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1510"://桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
-                console.log($scope.brigeArrayLink)
+                // console.log($scope.brigeArrayLink)
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
