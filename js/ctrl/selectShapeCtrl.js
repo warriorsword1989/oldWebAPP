@@ -288,7 +288,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     }
 
 
-                })
+                },data.detailid)
 
 
             })
@@ -461,7 +461,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
 
-                    },data.detailid)
+                    })
                 }
             )
         }
