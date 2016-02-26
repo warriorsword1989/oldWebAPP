@@ -70,7 +70,7 @@ fastmap.uikit.SelectRdCross = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-                this._map.fire("getNodeId")
+
             }
             ,
 
