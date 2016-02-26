@@ -518,7 +518,7 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t === 2001||item.t===1901) {
+                        if (item.t === 2001||item.t===1901||item.t===1510) {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};
@@ -531,7 +531,7 @@ Application.layersConfig =
                                 'id': item.i,
                                 'color': 13,
                                 'name': item.m.b,
-                                'kind': item.m.c,
+                                'kind': item.t,
                                 'direct': item.m.d,
                                 'snode': item.m.e,
                                 'enode': item.m.f
