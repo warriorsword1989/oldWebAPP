@@ -182,15 +182,56 @@ html,body{
     color: #fff;
 }
 
-
+/**************************************nnade***************************************************/
 
 .fm-panel{
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    right: 0px;
     background-color: #404040;
     border: none;
-    opacity: .8;
+    opacity: .9;
     overflow-y:hidden;
-}
 
+}
+.fm-panel-sm{
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    background-color: #404040;
+    border: none;
+    opacity: .9;
+    overflow-y:hidden;
+
+}
+.fm-panel-object{
+    overflow-y: auto;
+    width:290px;
+    position:absolute;
+    padding-left: 10px;
+}
+.fm-panel-object-jz{
+    overflow-y: auto;
+    position:absolute;
+    width:0px;
+    /*padding-left: 10px;*/
+}
+.fm-panel-arrow{
+    width:10px;
+    height: 100%;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
+.fm-panel-arrow-jy{
+    width:10px;
+    height: 100%;
+    position:absolute;
+    top:0px;
+    left:0px;
+}
 .ui-splitbar{
     background: #404040 !important;
     opacity: .9;
@@ -199,10 +240,37 @@ html,body{
 .ui-splitbar > a{
 
 }
-
-
 /*********************fm-error***************************/
+.fm-out-error{
+    width: 100%;
+    padding-right: 300px;
+    height: 250px;
+    position:absolute;
+    bottom: 0px;
 
+}
+.fm-out-error-sx{
+    width: 100%;
+    padding-right: 300px;
+    height: 10px;
+    position:absolute;
+    bottom: 0px;
+}
+.fm-out-error-xl{
+    width: 100%;
+    padding-right: 10px;
+    height: 250px;
+    position:absolute;
+    bottom: 0px;
+}
+
+.fm-out-error-xl-sx{
+    width: 100%;
+    padding-right: 10px;
+    height: 10px;
+    position:absolute;
+    bottom: 0px;
+}
 .fm-error-num-well{
     margin-left:5px;
     float:left;
@@ -213,7 +281,14 @@ html,body{
     float:right;
     color:#FFF;
 }
-
+.fm-out-error-url{
+    height: 240px;
+    display: block;
+}
+.fm-out-error-url-sx{
+    height: 0px;
+    display: none;
+}
 #fm-out-error-inspectAndWrongTab{
     padding:4px 0px;
     display: block;
@@ -246,3 +321,4 @@ html,body{
     color: #000;
     background-color: #FFF;
 }
+

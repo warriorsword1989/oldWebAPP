@@ -18,7 +18,7 @@ Application.functions.getTipsStatics = function(meshidArray, stage,func){
     )
 }
 Application.functions.getTipsListItems=function(meshidArray,stage,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+'}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":11}',
         function(data){
             func(data)
         }
@@ -37,11 +37,19 @@ Application.functions.getTipsResult=function(rowkey,func) {
  * @param type
  * @param func
  */
-Application.functions.getRdObjectById=function(id,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","pid":'+id+'}',
-    function(data) {
-        func(data)
-    });
+Application.functions.getRdObjectById=function(id,type,func,detailid) {
+    if(detailid){
+        fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+detailid+'}',
+            function(data) {
+                func(data);
+            });
+    }else{
+        fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","pid":'+id+'}',
+            function(data) {
+                func(data);
+            });
+    }
+
 };
 /**
  * 根据detailId获得详细属性

@@ -3,7 +3,6 @@
  */
 var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
-    appInit()
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
@@ -17,6 +16,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
+    $scope.panelFlag = true;
+    $scope.outErrorArr=[true,false,false,false] ;
+    $scope.arrowFlag = true;
+    $scope.objectFlag = true;
+    $scope.outErrorUrlFlag = true;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
@@ -33,9 +37,34 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     });
     //登录时
     keyEvent($ocLazyLoad,$scope);
+    $scope.zoom = [];
     $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
         $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+        appInit();
+        for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
+            $scope.zoom.push(i);
+        }
+        $scope.removeZoomClass = function(){
+            $.each($(".zoom-btn"),function(m,n){
+                $(n).prop('disabled',false).removeClass('btn-primary');
+            })
+        }
+        $scope.changeZoom = function(i,e){
+            $scope.removeZoomClass();
+            map.setZoom(i);
+            $('#nowZoom').text(i);
+            $(e.target).prop('disabled',true).addClass('btn-primary');
+        }
+        $('#nowZoom').text(map.getZoom());
+        /*当比例尺改变时*/
+        map.on('zoomend',function(){
+            $('#nowZoom').text(map.getZoom());
+            $scope.removeZoomClass();
+            $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
+        })
+        $scope.disZoom = map.getZoom();
         $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
+
                 $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
                         $scope.modifyToolURL = 'js/tepl/modifyToolTepl.html';
@@ -54,37 +83,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
             }
         );
     });
-    $scope.changeLayers = function (layers) {
-
-        if (layers === "taskLayers") {
-            $ocLazyLoad.load('ctrl/taskLayersCtrl').then(function () {
-                    $scope.layersURL = 'js/tepl/taskLayersTepl.html';
-                }
-            );
-        } else if (layers === "resultLayers") {
-            $("#referenceLayerDiv").removeClass("active");
-            $("#resultLayerDiv").addClass("active");
-            $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-                    $scope.layersURL = 'js/tepl/filedsResultTepl.html';
-                }
-            );
-            $("#resultLayers").css("background-color","#49C2FC");
-            $("#referenceLayers").css("background-color","#D4D4D4");
-        }
-        else if (layers === "referenceLayers") {
-            $("#resultLayerDiv").removeClass("active");
-            $("#referenceLayerDiv").addClass("active");
-            $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
-                    $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
-                }
-            );
-            $("#referenceLayers").css("background-color","#49C2FC");
-            $("#resultLayers").css("background-color","#D4D4D4");
-        }
-
-
-    };
-
     var output = fastmap.uikit.OutPutController();
     $scope.itemsByPage = 1;
     $scope.checkTotalPage=0;
@@ -160,7 +158,27 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
             }
         });
     }
-
+    $scope.isTipsPanel = 1;
+//改变左侧栏中的显示内容
+    $scope.changeLeftDisplay=function(id) {
+        if(id==="tipsPanel") {
+            $scope.isTipsPanel = 1;
+            $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
+                $scope.layersURL = 'js/tepl/filedsResultTepl.html';
+            });
+        }else if(id==="scenePanel") {
+            $scope.isTipsPanel = 2;
+            $ocLazyLoad.load('ctrl/sceneLayersCtrl').then(function () {
+                $scope.layersURL = 'js/tepl/sceneLayers.html';
+            });
+        }else if(id==="layerPanel") {
+            $scope.isTipsPanel = 3;
+            $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
+                    $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
+                }
+            );
+        }
+    };
 
     $scope.getCheckDate=function(){
         var param = {
@@ -238,30 +256,29 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }
         $scope.toolsFlag = !$scope.toolsFlag;
     }
-    $scope.zoom = [];
-    for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
-        $scope.zoom.push(i);
-    }
-    $scope.removeZoomClass = function(){
-        $.each($(".zoom-btn"),function(m,n){
-            $(n).prop('disabled',false).removeClass('btn-primary');
-        })
-    }
-    $scope.changeZoom = function(i,e){
-        $scope.removeZoomClass();
-        map.setZoom(i);
-        $('#nowZoom').text(i);
-        $(e.target).prop('disabled',true).addClass('btn-primary');
-    }
-    $('#nowZoom').text(map.getZoom());
-    /*当比例尺改变时*/
-    map.on('zoomend',function(){
-        $('#nowZoom').text(map.getZoom());
-        $scope.removeZoomClass();
-        $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
-    })
-    $scope.disZoom = map.getZoom();
+    //改变右侧的宽度
+    $scope.changeWidthOfPanel=function() {
+        $scope.panelFlag = !$scope.panelFlag;
+        $scope.arrowFlag = !$scope.arrowFlag;
+        $scope.objectFlag = !$scope.objectFlag;
+        $scope.outErrorFlag = !$scope.outErrorFlag;
+        if($scope.outErrorArr[0]===true||$scope.outErrorArr[2]===true) {
+            $scope.outErrorArr[0] = !$scope.outErrorArr[0];
+            $scope.outErrorArr[2] = !$scope.outErrorArr[2];
+        }
 
+    };
+    $scope.changeOutOrErrorStyle=function() {
+        if($scope.outErrorArr[0]===true||$scope.outErrorArr[1]===true) {
+            $scope.outErrorArr[0] = !$scope.outErrorArr[0];
+            $scope.outErrorArr[1] = !$scope.outErrorArr[1];
+        }
+        if($scope.outErrorArr[2]===true||$scope.outErrorArr[3]===true) {
+            $scope.outErrorArr[2] = !$scope.outErrorArr[2];
+            $scope.outErrorArr[3] = !$scope.outErrorArr[3];
+        }
+        $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
+    };
 
 }]);
 function appInit(){

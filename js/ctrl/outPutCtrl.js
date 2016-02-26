@@ -10,12 +10,18 @@ outPutModule.controller('outPutController', function ($scope, $timeout) {
    // $scope.outputtext=output.outPuts.join("\n----------------------------------\n");
     output.updateOutPuts=function(){
         var outValue=output.outPuts;
+        var info=[];
+        for(var i=0;i<outValue.length;i++) {
+                $.each(outValue[i], function (a, item) {
+                    info.push(item);
+                });
+        }
         if(outValue.length===0) {
             $scope.outValue = "";
         }else{
             $scope.$apply(function(){
                // $scope.outputtext = outValue.join("\n----------------------------------\n");
-                $scope.outValue=output.outPuts;
+                $scope.outValue=info;
             })
         }
 

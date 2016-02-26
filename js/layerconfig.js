@@ -136,8 +136,8 @@ Application.layersConfig =
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: '参考点数据',
-                id: 'referencePoint',
+                layername: '交限',
+                id: 'restriction',
                 maxZoom: 20,
                 hitDetection: true,
                 debug: false,
@@ -257,7 +257,6 @@ Application.layersConfig =
                         obj['properties'] = {
                             'id': item.i,
                             "speedlimitcondition": item.m.a,
-                            "speedlimitinfo": item.m.b,
                             'speedlimitrotate': item.m.c
 
                         }
@@ -283,7 +282,7 @@ Application.layersConfig =
             url: 'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: 'rdcross',
+                layername: '路口',
                 id: 'rdcross',
                 maxZoom: 20,
                 hitDetection: true,
@@ -306,8 +305,6 @@ Application.layersConfig =
                         obj['properties'] = {
                             'id': item.i,
                             'rdcrosscondition': item.m.a,
-                            "rdcrossinfo": item.m.b,
-                            'rdcrossrotate': item.m.c
 
                         }
                         geojson['features'].push(obj);
@@ -332,7 +329,7 @@ Application.layersConfig =
             url: 'http://192.168.4.130/FosEngineWeb3/pdh/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
-                layername: 'rdlaneconnexity',
+                layername: '车信',
                 id: 'rdlaneconnexity',
                 maxZoom: 20,
                 hitDetection: true,
@@ -501,7 +498,7 @@ Application.layersConfig =
                 zIndex: 9,
                 restrictZoom: 10,
                 visible: true,
-                requestType: 7,
+                requestType: "",
                 showNodeLevel: 17
             }
 
@@ -521,7 +518,7 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t === 2001||item.t===1901) {
+                        if (item.t === 2001||item.t===1901||item.t===1510) {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};
@@ -534,7 +531,7 @@ Application.layersConfig =
                                 'id': item.i,
                                 'color': 13,
                                 'name': item.m.b,
-                                'kind': item.m.c,
+                                'kind': item.t,
                                 'direct': item.m.d,
                                 'snode': item.m.e,
                                 'enode': item.m.f
@@ -555,7 +552,7 @@ Application.layersConfig =
                 zIndex: 12,
                 restrictZoom: 10,
                 visible: true,
-                requestType: 7,
+                requestType: "",
                 showNodeLevel: 17
             }
 

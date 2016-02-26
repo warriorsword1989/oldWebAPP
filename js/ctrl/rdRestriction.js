@@ -25,7 +25,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
         //高亮进入线和退出线
         linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
-        for(var i= 0,len=(objectEditCtrl.data.details).length;i<len;i++) {
+        for(var i= 0,len=objectEditCtrl.data.details.length;i<len;i++) {
             linksObj["outLink" + i] = objectEditCtrl.data.details[i].outLinkPid.toString();
         }
         var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
@@ -324,17 +324,21 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDRESTICTIONR成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
             }else{
-                info.push(data.errmsg+data.errid)
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
             outPutCtrl.pushOutput(data.data);
             if(outPutCtrl.updateOutPuts!=="") {
@@ -350,17 +354,21 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
-                var info=[];
-                if(data.data){
-                    $.each(data.data.log,function(i,item){
-                        if(item.pid){
-                            info.push(item.op+item.type+"(pid:"+item.pid+")");
-                        }else{
-                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                        }
-                    });
+                var info = null;
+                if (data.errcode==0) {
+                    var sinfo={
+                        "op":"修改RDRESTICTIONR状态成功",
+                        "type":"",
+                        "pid": ""
+                    };
+                    data.data.log.unshift(sinfo);
+                    info=data.data.log;
                 }else{
-                    info.push(data.errmsg+data.errid)
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
                 }
                 outPutCtrl.pushOutput(info);
                 if(outPutCtrl.updateOutPuts!=="") {
@@ -384,17 +392,21 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referencePoint");
             restrict.redraw();
-            var info=[];
-            if(data.data){
-                $.each(data.data.log,function(i,item){
-                    if(item.pid){
-                        info.push(item.op+item.type+"(pid:"+item.pid+")");
-                    }else{
-                        info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                    }
-                });
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改RDRESTICTIONR状态成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
             }else{
-                info.push(data.errmsg+data.errid);
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
                 swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
@@ -413,17 +425,21 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
-                var info=[];
-                if(data.data){
-                    $.each(data.data.log,function(i,item){
-                        if(item.pid){
-                            info.push(item.op+item.type+"(pid:"+item.pid+")");
-                        }else{
-                            info.push(item.op+item.type+"(rowId:"+item.rowId+")");
-                        }
-                    });
+                var info = null;
+                if (data.errcode==0) {
+                    var sinfo={
+                        "op":"修改交限状态成功",
+                        "type":"",
+                        "pid": ""
+                    };
+                    data.data.log.unshift(sinfo);
+                    info=data.data.log;
                 }else{
-                    info.push(data.errmsg+data.errid)
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
                 }
                 outPutCtrl.pushOutput(info);
                 if(outPutCtrl.updateOutPuts!=="") {

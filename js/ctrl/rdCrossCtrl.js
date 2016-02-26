@@ -180,17 +180,21 @@ selectApp.controller("rdCrossController", function ($scope,$timeout) {
 
                     }
                     Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                        var info = [];
-                        if (data.data) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                } else {
-                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                }
-                            });
-                        } else {
-                            info.push(data.errmsg + data.errid)
+                        var info = null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改RDCROSS状态成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.unshift(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -199,16 +203,20 @@ selectApp.controller("rdCrossController", function ($scope,$timeout) {
                         $scope.$parent.$parent.rowkeyOfDataTips = undefined;
                     })
                 }
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                    } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                    }
-                });
-            } else {
-                info.push(data.errmsg + data.errid)
-            }
+                var sinfo={
+                    "op":"修改RDCROSS成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                    info=data.data.log;
+                }else{
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
+                }
             outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
@@ -226,21 +234,24 @@ selectApp.controller("rdCrossController", function ($scope,$timeout) {
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var info = [];
-            if(data.errcode == 0)
+            var info = null;
+            if (data.errcode==0) {
                 rdcross.redraw();
-            if (data.data) {
                 $scope.rdCrossData = null;
                 $scope.$parent.$parent.objectEditURL = "";
-                $.each(data.data.log, function (i, item) {
-                    if (item.pid) {
-                        info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                    } else {
-                        info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                    }
-                });
-            } else {
-                info.push(data.errmsg + data.errid)
+                var sinfo={
+                    "op":"删除RDCROSS成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.unshift(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
             }
 
             outPutCtrl.pushOutput(info);

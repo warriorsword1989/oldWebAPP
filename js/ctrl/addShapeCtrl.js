@@ -73,6 +73,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             $("#pathBreak").removeClass('pathBreak_true').addClass('pathBreak_false');
         }
         $scope.addShape = function (type, num,event) {
+
             if(event)
                 event.stopPropagation();
             $scope.initCurrentTool();
