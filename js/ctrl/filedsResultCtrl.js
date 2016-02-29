@@ -487,22 +487,32 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                        data.f_array.push({id: "413226", type: 1});
-                        data.f_array.push({id: "49101507", type: 1});
                         $scope.$parent.$parent.brigeLinkArray = data.f_array;
-                        Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
-                            if (data.errcode === -1) {
+                        if(!data.f_array.length){
+                            $timeout(function(){
+                                $.showPoiMsg('f_array为空',e);
+                                $scope.$apply();
+                            });
+                            return;
+                        }
+                        Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (d) {
+                            if (d.errcode === -1) {
+                                $timeout(function(){
+                                    $.showPoiMsg(d.errmsg,e);
+                                    $scope.$apply();
+                                });
                                 return;
                             }
-                            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                            var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
                             for (var i = 0, len = linkArr.length; i < len; i++) {
                                 var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                                 points.push(point);
                             }
+                            // map.panTo({lat: (data.gSLoc.coordinates[1]+data.gELoc.coordinates[1])/2, lon: (data.gELoc.coordinates[0]+data.gSLoc.coordinates[0])/2});
                             map.panTo({lat: points[0].y, lon: points[0].x});
                             var line = fastmap.mapApi.lineString(points);
-                            selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-                            objCtrl.setCurrentObject(data);
+                            selectCtrl.onSelected({geometry: line, id: data.f_array[0].id});
+                            objCtrl.setCurrentObject(d);
                             if (objCtrl.updateObject !== "") {
                                 objCtrl.updateObject();
                             }
