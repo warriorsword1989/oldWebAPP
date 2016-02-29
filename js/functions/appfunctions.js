@@ -39,12 +39,12 @@ Application.functions.getTipsResult=function(rowkey,func) {
  */
 Application.functions.getRdObjectById=function(id,type,func,detailid) {
     if(detailid){
-        fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+detailid+'}',
+        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+detailid+'}',
             function(data) {
                 func(data);
             });
     }else{
-        fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","pid":'+id+'}',
+        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":11,"type":"'+type+'","pid":'+id+'}',
             function(data) {
                 func(data);
             });
@@ -58,7 +58,7 @@ Application.functions.getRdObjectById=function(id,type,func,detailid) {
  * @param func
  */
 Application.functions.getRdObjectByDetailId=function(id,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+id+'}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+id+'}',
         function(data) {
             func(data)
         });
@@ -69,7 +69,7 @@ Application.functions.getRdObjectByDetailId=function(id,type,func) {
  * @param func
  */
 Application.functions.saveLinkGeometry = function (param, func) {
-    fastmap.dataApi.ajaxConstruct(Application.url + '/pdh/obj/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url + '/editsupport/edit?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -80,7 +80,7 @@ Application.functions.saveLinkGeometry = function (param, func) {
  * @param func
  */
 Application.functions.saveProperty=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url + '/pdh/obj/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url + '/editsupport/edit?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -123,7 +123,7 @@ Application.functions.getArrowImg=function(param) {
  * @param func
  */
 Application.functions.saveBranchInfo=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/edit?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -141,7 +141,7 @@ Application.functions.getNamePronunciation=function(param,func) {
 };
 
 Application.functions.getLinksbyNodeId = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByCondition?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByCondition?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -153,14 +153,14 @@ Application.functions.getLinksbyNodeId = function(param,func){
  * @param func
  */
 Application.functions.saveNodeMove = function(param, func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/edit?parameter=' + param,
         function (data) {
             func(data)
         });
 }
 
 Application.functions.getByCondition=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/pdh/obj/getByCondition?parameter='+param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsuppor/getByCondition?parameter='+param,
         function (data) {
             func(data)
         });
