@@ -2,26 +2,34 @@
     div {
         -webkit-font-smoothing: antialiased;
         line-height: 1.42857143;
-        color: #58666e;
         background-color: transparent;
         margin-right: 0px;
     }
-
+    input[type="text"] {
+        border: 1px solid #e5e5e5;
+        border-style: ridge;
+        background-color: #404040;
+    }
     label {
         font-weight: normal;
     }
 .panel-body{
     padding: 0px 15px;
+    background-color: #404040;
+    color: #fff;
 }
 .panel{
     margin-bottom: 0px;
 }
     #rdBranchDiv {
-        border: 1px solid #FBFBFB;
+        /*border: 1px solid #FBFBFB;*/
         width: 100%;
         height: 100%;
         min-height: 300px;
         /*overflow-y: scroll;*/
+        /* opacity: .8;
+        background-color: #404040; */
+        
     }
 
     .line-dashed {
@@ -174,273 +182,295 @@
         font-size: 11px;
         text-align: center;
     }
+    .glyphicon-chevron-down{
+        color: #fff;
+    }
+    .module-box{
+        border: 1px solid #FFF;
+        padding: 10px;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #202020;
+        /*opacity: 0.8;*/
+    }
+    .d-name{
+        float: left;
+        width: 30%;
+        text-align: right;
+    }
+    .d-value{
+        float: left;
+        width: 69%;
+    }
+    .d-input{
+        border: 1px solid #e5e5e5;
+        border-style: ridge;
+        background-color: rgba(90, 90, 90, 0.98);
+        width: 100%;
+    }
+    .d-group{
+        margin-top:3px;
+        float: left;
+        width: 100%;
+    }
+    .d-title{
+        float: left;
+    }
+    .d-radio-btn>label{
+        height: 20px !important;
+        line-height: 8px !important;
+        border: 1px solid #FFF !important;
+    }
 </style>
 
-<div  ng-controller="rdBranchController" class="panel panel-default" id="rdBranchDiv">
-    <div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;position: absolute;width: 100%;height: 40px;">
+<div  ng-controller="rdBranchController" class="" id="rdBranchDiv">
+    <div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;">
         分歧
-        <div class="btn-group" data-toggle="buttons">
+        <div class="btn-group d-radio-btn" data-toggle="buttons">
           <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-repeat="item in divergenceIds" ng-click="switchDiver(item.id)">
             <input type="radio" class="diverRadio" name="diverType" autocomplete="off" checked>{{item.id}}
           </label>
         </div>
     </div>
-    <div class="panel-body" style="height: 95%;margin-top: 40px;">
-        <form class="form-horizontal" method="get">
-            <div class="form-group info-group">
-                <label class="col-sm-3 control-label">入</label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="diverObj.inLinkPid">
+    <div class="module-box">
+        <div class="d-group">
+            <div class="d-name">入：</div>
+            <div class="d-value">
+                <input type="text" class="d-input rounded" placeholder="入" ng-model="diverObj.inLinkPid">
+            </div> 
+        </div>
+        <div class="d-group">
+            <div class="d-name">出：</div>
+            <div class="d-value">
+                <input type="text" class="d-input rounded" placeholder="出" ng-model="diverObj.outLinkPid">
+            </div> 
+        </div>
+        <div class="d-group info-group">
+            <div class="d-name">关系类型：</div>
+            <div class="d-value">
+                <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                  <label ng-class="{'btn-primary':item.code==relationCode,'btn-default':item.code!=relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
+                    <input type="radio" name="relationType" ng-model="diverObj.relationshipType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                  </label>
                 </div>
+            </div> 
+        </div>
+    </div>
+    <!--begin 经过线-->
+    <div class="module-box">
+        <div class="box-head font-bold">
+            <a data-toggle="collapse" href="#passLine" aria-expanded="true" class="pull-right">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+             经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
+        </div>
+        <div id="passLine" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
+            <div class="d-group">
+                <div class="d-name">经过线序号：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="经过线序号" ng-model="passline.seqNum">
+                </div> 
             </div>
-            <div class="line line-dashed b-b line-lg pull-in"></div>
-            <div class="form-group info-group">
-                <label class="col-sm-3 control-label">出</label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control rounded" placeholder="link编号" ng-model="diverObj.outLinkPid">
-                </div>
+            <div class="d-group">
+                <div class="d-name">Link号码：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="link号码" ng-model="passline.linkPid">
+                </div> 
             </div>
-            <div class="form-group info-group">
-                <label class="col-sm-3 control-label">关系类型</label>
-                <div class="col-sm-9">
-                    <div class="btn-group" data-toggle="buttons" style="z-index:0">
-                      <label ng-class="{'btn-primary':item.code==relationCode,'btn-default':item.code!=relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
-                        <input type="radio" name="relationType" ng-model="diverObj.relationshipType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!--end 经过线-->
+    <!--begin 模式图信息-->
+    <div class="module-box">
+        <div class="box-head font-bold">
+            <div class="d-title">模式图信息</div>
+            <a data-toggle="collapse" href="#detailChart" aria-expanded="true" class="pull-right">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </div>
+        <div id="detailChart" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
+            <div class="d-group">
+                <div class="d-name">分歧类型：</div>
+                <div class="d-value">
+                    <select class="rounded d-input"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">出口编号：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="exitNum">
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">箭头图标志：</div>
+                <div class="d-value">
+                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                      <label ng-class="{'btn-primary':item.code==arrowFlag,'btn-default':item.code!=arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
+                        <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">设施类型：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="设施类型" ng-model="diverObj.outLinkPid">
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">名称种别：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                    </select>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">声音方向：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
+                    </select>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">向导代码：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
+                    </select>
+                </div> 
+            </div>
+            <div class="clearfix"></div>
+            <div class="line line-dashed b-b line-lg"></div>
+            <div class="d-group">
+                <div class="d-name">箭头图代码：</div>
+                <div class="d-value">
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="arrowCode" ng-keydown="showPicSelect()">
+                    <div class="pic-show">
+                        <div class="option-hide">
+                            <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
+                                <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
+                            </button>
+                        </div>
+                        <div class="pic-show-well">
+                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName,picture.fileContent)">
+                                <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
+                                <div class="img-describe">{{picture.fileName}}</div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="pull-left num-well">
+                            第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 | 
+                            共 <span class="pic-total" ng-bind="picTotal">1</span> 页
+                        </div>
+                        <div class="pic-show-btn pull-right">
+                            <div class="pull-right btn-group">
+                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
+                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
+                            </div>
+                        </div>
+                        <div class="pic-loading">loading...</div>
+                    </div>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">底图代码：</div>
+                <div class="d-value">
+                    <div ng-bind="patternCode" style="margin-top: 7px;"></div>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">分歧号码：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="分歧号码" ng-model="branchPid">
+                </div> 
+            </div>
+        </div>
+    </div>
+    <!--end 模式图信息-->
+    <!--begin 名称信息-->
+    <div class="module-box">
+        <div class="box-head font-bold">
+            <a data-toggle="collapse" data-parent="#accordion"
+               href="#loadPropertyDiv" class="pull-right">
+                <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
+            </a>
+            名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
+            <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;color:#000,font-size: 20px;cursor: pointer;" ng-click="nameInfoAdd()"></span>
+        </div>
+
+        <div id="loadPropertyDiv" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
+            <div class="d-group">
+                <div class="d-name">经过线序号：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="经过线序号" ng-model="passline.seqNum">
+                </div> 
+            </div>
+            <div class="info-well" id="nameInfo{{item.nameGroupid}}" ng-repeat="item in diverObj.details[0].names | orderBy: '-nameGroupid'">
+                <!-- <span class="glyphicon glyphicon-remove-sign info-remove" ng-click="minusTime($index)"></span> --> 
+                <div class="info-head-well">
+                    名称组号
+                    <span ng-bind="item.nameGroupid" style="line-height: 2.5;"></span>
+                    <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item)"> × </span>
+                    <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=diverObj.details[0].names.length-1"></span>
+                    <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
+                </div>
+                <div class="line line-dashed b-b line-lg"></div>
+                <div class="d-group">
+                    <div class="d-name">语言代码：</div>
+                    <div class="d-value">
+                        <select class="d-input"  ng-model="item.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
+                    </div> 
+                </div>
+                <div class="d-group">
+                    <div class="d-name">分歧名称：</div>
+                    <div class="d-value">
+                        <input type="text" class="d-input" placeholder="分歧名称"
+                               ng-model="item.name" ng-blur="diverName(item.nameGroupid,item.name)">
+                    </div> 
+                </div>
+                <div class="d-group">
+                    <div class="d-name">名称发音：</div>
+                    <div class="d-value">
+                        <input type="text" class="d-input name-phonetic" placeholder="名称发音"
+                               ng-model="item.phonetic">
+                    </div> 
+                </div>
+                <div class="d-group">
+                    <div class="d-name">名称语音：</div>
+                    <div class="d-value">
+                        <input type="text" class="d-input name-voincefile" placeholder="名称语音"
+                               ng-model="item.voiceFile">
+                    </div> 
+                </div>
+                <div class="d-group">
+                    <div class="d-name">名称分类：</div>
+                    <div class="d-value">
+                        <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                          <label ng-class="{'btn-primary active':n.code==item.nameClass,'btn-default':n.code!=item.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,item.nameGroupid)">
+                            <input type="radio" name="nameClass{{item.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
+                          </label>
+                        </div>
+                    </div> 
+                </div>
+                <div class="d-group">
+                    <div class="d-name">编号类型：</div>
+                    <div class="d-value">
+                        <select class="d-input" ng-model="item.codeType"
+                                ng-options="value.id as value.label for value in codeTypeOptions" >
+                        </select>
+                    </div> 
+                </div>
+                <div class="d-group">
+                    <div class="d-name">名称来源：</div>
+                    <div class="d-value">
+                        <input type="text" class="d-input" placeholder="名称来源" ng-model="item.srcFlag">
+                    </div> 
                 </div>
             </div>
-            <div class="line line-dashed b-b line-lg pull-in"></div>
-            <div class="form-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">
-                        <a data-toggle="collapse" href="#passLine" aria-expanded="true" class="">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                         经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
-                    </div>
-                    <div class="panel-body">
-                        <div id="passLine" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
-                            <div ng-repeat="passline in diverObj.vias">
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">经过线序号</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control rounded" placeholder="经过线序号" ng-model="passline.seqNum">
-                                    </div>
-                                </div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">Link号码</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control rounded" placeholder="link号码" ng-model="passline.linkPid">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">
-                        <a data-toggle="collapse" href="#detailChart" aria-expanded="true" class="">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </a>
-                        模式图信息
-                    </div>
-                    <div class="panel-body">
-                        <div id="detailChart" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">分歧类型</label>
-                                <div class="col-sm-9"> 
-                                    <select class="form-control rounded"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">出口编号</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control rounded" placeholder="出口编号" ng-model="exitNum">
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">箭头图标志</label>
-                                <div class="col-sm-9">
-                                    <div class="btn-group" data-toggle="buttons" style="z-index:0">
-                                      <label ng-class="{'btn-primary':item.code==arrowFlag,'btn-default':item.code!=arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
-                                        <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
-                                      </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">设施类型</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="estabType" ng-options="value.id as value.label for value in estabTypeOptions" >
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">名称种别</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">声音方向</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">向导代码</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" ng-model="guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="line line-dashed b-b line-lg pull-in"></div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">箭头图代码</label>
-                                <div class="col-sm-9"> 
-                                    <input type="text" class="form-control rounded form-pic-input" placeholder="箭头图代码" ng-model="arrowCode" ng-keydown="showPicSelect()">
-                                    <div class="pic-show">
-                                        <div class="option-hide">
-                                            <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
-                                                <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
-                                            </button>
-                                        </div>
-                                        <div class="pic-show-well">
-                                            <div class="img-well" ng-repeat="picture in pictures" ng-click="selectPicCode(picture.fileName,picture.fileContent)">
-                                                <img class="show-img" ng-src="{{picture.fileContent}}" title="{{picture.fileName}}">
-                                                <div class="img-describe">{{picture.fileName}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                        <div class="pull-left num-well">
-                                            第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 | 
-                                            共 <span class="pic-total" ng-bind="picTotal">1</span> 页
-                                        </div>
-                                        <div class="pic-show-btn pull-right">
-                                            <div class="pull-right btn-group">
-                                                <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>
-                                                <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>
-                                            </div>
-                                        </div>
-                                        <div class="pic-loading">loading...</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">底图代码</label>
-                                <div class="col-sm-9"> 
-                                    <div ng-bind="patternCode" style="margin-top: 7px;"></div>
-                                    <!-- <input type="text" class="form-control rounded" placeholder="底图代码" ng-model="patternCode"> -->
-                                </div>
-                            </div>
-                            <div class="form-group info-group">
-                                <label class="col-sm-3 control-label">分歧号码</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control rounded" placeholder="分歧号码" ng-model="branchPid">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading font-bold">
-                        <a data-toggle="collapse" data-parent="#accordion"
-                           href="#loadPropertyDiv">
-                            <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
-                        </a>
-                        名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
-                        <span class="glyphicon glyphicon-plus-sign" style="float: right;color: darkgray;font-size: 20px;cursor: pointer;" ng-click="nameInfoAdd()"></span>
-                    </div>
-                    <div class="panel-body">
-                        <div id="loadPropertyDiv" class="panel-collapse collapse">
-                            <div class="info-well" id="nameInfo{{item.nameGroupid}}" ng-repeat="item in diverObj.details[0].names | orderBy: '-nameGroupid'">
-                                <!-- <span class="glyphicon glyphicon-remove-sign info-remove" ng-click="minusTime($index)"></span> --> 
-                                <div class="info-head-well">
-                                    名称组号
-                                    <span ng-bind="item.nameGroupid" style="line-height: 2.5;"></span>
-                                    <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item)"> × </span>
-                                    <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=diverObj.details[0].names.length-1"></span>
-                                    <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-
-                                    <label class="col-sm-3 control-label">语言代码</label>
-
-                                    <div class="col-sm-9">
-                                        <!-- <input type="text" class="form-control" placeholder="语言代码" ng-model="item.langCode"> -->
-                                        <select class="form-control"  ng-model="item.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
-                                    </div>
-                                </div>
-
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">分歧名称</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="分歧名称"
-                                               ng-model="item.name" ng-blur="diverName(item.nameGroupid,item.name)">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">名称发音</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control name-phonetic" placeholder="名称发音"
-                                               ng-model="item.phonetic">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">名称语音</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control name-voincefile" placeholder="名称语音"
-                                               ng-model="item.voiceFile">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">名称分类</label>
-                                    <div class="col-sm-9">
-                                        <div class="btn-group" data-toggle="buttons" style="z-index:0">
-                                          <label ng-class="{'btn-primary active':n.code==item.nameClass,'btn-default':n.code!=item.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,item.nameGroupid)">
-                                            <input type="radio" name="nameClass{{item.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
-                                          </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">编号类型</label>
-
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="item.codeType"
-                                                ng-options="value.id as value.label for value in codeTypeOptions" >
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group info-group">
-                                    <label class="col-sm-3 control-label">名称来源</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="名称来源" ng-model="item.srcFlag">
-                                    </div>
-                                </div>
-                            </div>
-                        <!--</div>-->
-                          </div>
-                    </div>
-                  </div>
-                </div>
-        </form>
+            <div class="clearfix"></div>
+        </div>
     </div>
+    <!--end 名称信息-->
 </div>

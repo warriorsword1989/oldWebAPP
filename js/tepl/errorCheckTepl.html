@@ -1,24 +1,16 @@
 
 <style>
-
-
-    .num-well{
-        margin-left:5px;
-    }
-    .pic-show-btn{
-        margin-right: 5px;
-    }
-    .pic-show-btn{
-        margin-right: 5px;
-    }
     .errorClass{
-        width:100%; height:95%;overflow-y: auto;
-        float: left; background-color: #FFF;
+        width:100%;
+        height:100%;
+        overflow-y: auto;
+        background-color: #404040;
+        opacity: 0.8
     }
 </style>
 
-<div ng-controller="errorCheckController" style="width:100%; height:100%;background-color: #FFF;overflow-y: auto;">
-    <table st-table="rowCollection" class="table table-striped" style="height:20px;">
+<div ng-controller="errorCheckController" style="width:100%; height:100%;background-color: #404040;  opacity: 0.8;overflow-y: auto;padding-top: 38px">
+    <table st-table="rowCollection" class="table table-striped" style="height:38px;margin-top: -38px;margin-bottom: 0px;">
         <thead>
         <tr>
             <th>检查规则号</th>
@@ -33,29 +25,32 @@
         </tr>
         </thead>
     </table>
-    <table  class="errorClass">
-        <tr ng-repeat="row in rowCollection">
-            <td>{{row.ruleid}}</td>
-            <td>{{row.situation}}</td>
-            <td>
-                <span ng-if="row.rank==0">无</span>
-                <span ng-if="row.rank==1">Fatal</span>
-                <span ng-if="row.rank==2">Critical</span>
-                <span ng-if="row.rank==3">Error</span>
-                <span ng-if="row.rank==4">warning</span>
-            </td>
-            <td><a style="cursor: pointer;" ng-click="showOnMap(row.targets)">{{row.targets }}</a></td>
-            <td>{{row.information}}</td>
-            <td>{{row.geometry}}</td>
-            <td>{{row.createDate}}</td>
-            <td>{{row.worker}}</td>
-            <td>
-                <select class="form-control" ng-model="initType"
-                        ng-options="value.id as value.label for value in initTypeOptions"  style="padding: 0px"  ng-change="changeType(initType,row.id)">
-                </select></td>
-        </tr>
+   <div  class="errorClass">
+       <table style="overflow-y: hidden;margin-bottom: 0px;" >
+           <tr ng-repeat="row in rowCollection">
+               <td>{{row.ruleid}}</td>
+               <td>{{row.situation}}</td>
+               <td>
+                   <span ng-if="row.rank==0">无</span>
+                   <span ng-if="row.rank==1">Fatal</span>
+                   <span ng-if="row.rank==2">Critical</span>
+                   <span ng-if="row.rank==3">Error</span>
+                   <span ng-if="row.rank==4">warning</span>
+               </td>
+               <td><a style="cursor: pointer;" ng-click="showOnMap(row.targets)">{{row.targets }}</a></td>
+               <td>{{row.information}}</td>
+               <td>{{row.geometry}}</td>
+               <td>{{row.createDate}}</td>
+               <td>{{row.worker}}</td>
+               <td>
+                   <select class="form-control" ng-model="initType"
+                           ng-options="value.id as value.label for value in initTypeOptions"  style="padding: 0px"  ng-change="changeType(initType,row.id)">
+                   </select></td>
+           </tr>
 
-    </table>
+       </table>
+   </div>
+
 
 
 </div>
