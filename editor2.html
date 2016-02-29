@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html >
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>FastMap道路编辑系统</title>
+
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-3.3.5/css/bootstrap.css"/>
+    <link rel="stylesheet" href="js/lib/ui-layout/ui-layout.css">
+    <link rel="stylesheet" href="js/lib/ng-table/1.0.0/ng-table.css">
+    <link rel="stylesheet" href="js/lib/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/timepicki/css/timepicki.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+    <link rel="stylesheet" href="css/editor.css">
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
+</head>
+<body ng-controller="RoadEditController" >
+<div ui-layout="{flow:'row',dividerSize:'0'}" ui-layout-loaded>
+    <div id="fm-topContainer" ui-layout-container size="50px" >
+        <div class="fm-navi-brand">
+            <a href="#">
+                <strong>FastMap 道路编辑系统</strong>
+            </a>
+        </div>
+        <div class="fm-navi-left">
+            <ul id="fm-navi-tabControl">
+                <li><a class="selected" href="#tipsPanel">成果</a></li>
+                <li><a href="#scenePanel">场景</a></li>
+                <li><a href="#layerPanel">图层</a></li>
+            </ul>
+        </div>
+        <ul class="fm-navi-right" style="width:auto">
+            <li class="fm-message-normal">
+                <a href="#" title="登陆人员" class="" style="color:#fff">admin <span class="lnk-message">5</span><i id="arrow"></i></a>
+                <div class="userInfo">
+                    <div style="border-bottom: 1px solid #e5e5e5;padding:10px;">
+                        <img src="css/img/header.png" style="width: 32px;height: 32px">
+                    </div>
+                    <div style="border-bottom: 1px solid #e5e5e5;padding:10px; ">
+                        <ul>
+                            <li><a href="#">个人资料</a></li>
+                            <li><a href="#">消息中心<span style="color:red">（5）</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="selectPro.html" title="返回" class="glyphicon glyphicon-share" style="color:#fff;top: -1px;"></a>
+            </li>
+            <li>
+                <a href="login.html" title="退出" class="glyphicon glyphicon-log-out" style="color:#fff;top: -1px;"></a>
+            </li>
+        </ul>
+    </div>
+    <div ui-layout-container>
+        <div ui-layout="{flow:'column',dividerSize:'2',disableToggle:true}">
+            <div class="fm-panel" ui-layout-container size="250px" min-size="250px" id="test">
+                <div ng-include="layersURL"></div>
+            </div>
+            <div ui-layout-container>
+                <div ui-layout="{flow:'row',dividerSize:'2'}">
+                    <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
+                    <!--<div class="fm-panel" ui-layout-container size="250px">-->
+                        <!--<ul id="fm-out-error-inspectAndWrongTab">-->
+                            <!--<li ><a id="liout" ng-click="showTab('outPut')">-->
+                                <!--输出结果</a>-->
+                            <!--</li>-->
+                            <!--<li ><a id="lierror" class="selected" ng-click="showTab('errorCheck')">检查结果</a>-->
+                            <!--</li>-->
+                            <!--<li id="fm-error-checkErrorLi" style="width:60%;padding-top: 5px;display: none;">-->
+                                <!--<div class="fm-error-num-well">-->
+                                    <!--共<span class="pic-num" ng-bind="checkTotal">1</span> 项错误-->
+                                <!--</div>-->
+                                <!--<div class="fm-error-pull-right">-->
+                                    <!--第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |-->
+                                    <!--共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页-->
+                                    <!--<div class="fm-error pull-right btn-group">-->
+                                        <!--<button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled><<</button>-->
+                                        <!--<button class="btn btn-default btn-xs pic-next" ng-click="picNext()">>></button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</li>-->
+                            <!--<div style="float: right;">-->
+                                <!--<button id="immediatelyCheck" class="btn btn-default btn-xs" ng-click="showTab('getCheck')">刷新检查</button>-->
+                                <!--<button id="errorClear" style=" display: none;" ng-click="empty()" class="btn btn-default btn-xs" >清空</button>-->
+                            <!--</div>-->
+                        <!--</ul>-->
+                        <!--<div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">-->
+                            <!--<div  id="fm-outPut-inspectDiv" style="height:100%;display: none;">-->
+                                <!--<div ng-include="outputTab"  style="height:100%;"></div>-->
+                            <!--</div>-->
+                            <!--<div  id="fm-error-wrongDiv" style="height:100%;">-->
+                                <!--<div ng-include="errorCheckTab"  style="height:100%;"></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </div>
+                <div class="fm-panel" style="width: 300px;height: 100%;position: absolute;right: 0px">
+
+                </div>
+                <div style="width: 100%;padding-right: 300px;height: 250px;position:absolute;bottom: 0px">
+                    <div  class="fm-panel" style="width: 100%;height: 100%;border: 1px solid #000000"></div>
+                </div>
+            </div>
+            <!--<div class="fm-panel" ui-layout-container  size="250px" min-size="250px" style=""></div>-->
+        </div>
+    </div>
+</div>
+<script type="text/javascript" data-main="js/mainOfEditor" src="js/lib/require/require.js"></script>
+</body>
+</html>

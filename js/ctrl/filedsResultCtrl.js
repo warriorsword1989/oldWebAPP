@@ -12,6 +12,13 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
+            Application.functions.getRdObjectById("19736","RDSPEEDLIMIT",function(data) {
+                objCtrl.setCurrentObject(data.data);
+                $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/speedLimitTepl.html';
+                    }
+                );
+            })
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
@@ -349,8 +356,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     selectCtrl.fire("selectByAttribute", {feather: data});
                     $("#picMapShow").css("display", "none");
-                    if (pItemId === "1101") {//限速
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
+                    if(pItemId==="1101") {//限速
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        console.log(data.g_location.coordinates[1]+"_"+data.g_location.coordinates[0])
+                        var center=map.getCenter();
+                        console.log(center["lat"],center["lng"]);
                         objCtrl.setCurrentObject(data.data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");

@@ -197,6 +197,35 @@
                 <div ng-include="layersURL"></div>
             </div>
         </div>
+<<<<<<< HEAD
+        <div ui-layout-container id="mainContent">
+
+            <div ui-layout="{flow:'row',dividerSize:'6'}">
+
+                <div ui-layout-container size="70%">
+                    <div id="map" style="width: 100%;height: 100%;">
+                        <div id="toolsDiv" style="height: 40px;position: relative;z-index:4;background-color: #F8F8F8">
+                            <div class="btn-toolbar">
+                                <div ng-include="selectShapeURL" style="float: left"></div>
+                                <div style="float: left"><span class="divider-vertical"></span></div>
+                                <div ng-include="addShapeURL" style="float: left;"></div>
+                                <!--<div style="float: left">-->
+                                <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
+                                <!--</div>-->
+                                <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
+                            </div>
+
+                        </div>
+                        <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()" style="position:relative;display:none;z-index:2;width:400px">
+                                <div ng-include="dataTipsURL" style="width: 400px;"></div>
+                        </div>
+                        <div id="picMapShow">
+                            <img id="picMapImg" alt="无此箭头图">
+                            <div id="picMapDesc"></div>
+                        </div>
+                        <div class="now-zoom">当前比例尺:
+                            <span id="nowZoom" class="badge">17</span>
+=======
     </div>
     <div ui-layout-container id="mainContent">
         <div ui-layout="{flow:'row',dividerSize:'6'}">
@@ -211,6 +240,7 @@
                             <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
                             <!--</div>-->
                             <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
+>>>>>>> 76747c7e90538942ce9044512ad8ac7705e0c583
                         </div>
 
                     </div>
