@@ -231,7 +231,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3display/obj/getByTileWithGap?',
+            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '限速',
