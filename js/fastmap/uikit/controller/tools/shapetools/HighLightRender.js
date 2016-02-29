@@ -317,7 +317,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param linksArr
      * @param nodesArr
      */
-    drawLinksOfCrossForInit: function (linksArr, nodesArr) {
+    drawLinksOfCrossForInit: function (linksArr, nodesArr,nodeArr) {
         this.linksArr = linksArr,
             this.nodesArr = nodesArr;
         var linkObj = {}, nodeObj = {}, nodeStyle;
@@ -364,11 +364,26 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             size: 2,
                             color: '#F63428'
                         }, nodeStyle, feature.properties);
+
+                        if(feature.properties.snode == nodeArr[0]){
+                            this.layer._drawPoint(ctx,geom[0], {
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }, true);
+                        }else if(feature.properties.enode == nodeArr[0]){
+                            this.layer._drawPoint(ctx, geom[geom.length-1], {
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }, true);
+                        }
+
                     } else {
                         this.layer._drawLineString(ctx, geom, true, style, {
                             color: 'rgba(105,105,105,1)',
                             radius: 3
                         }, feature.properties);
+
+
                     }
 
                 }

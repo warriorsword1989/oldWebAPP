@@ -171,7 +171,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 if (boolPixelCrs) {
                     proj.push({x: geom[i].x, y: geom[i].y});
                 } else {
-                    console.log('----绘制'+geom[i].y+'-----------'+ geom[i].x);
+
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
 
                     //if (i == index) {

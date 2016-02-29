@@ -41,6 +41,7 @@ function keyEvent(ocLazyLoad, scope) {
             var selectCtrl = fastmap.uikit.SelectController();
             var rdLink = layerCtrl.getLayerById('referenceLine');
             var restrict = layerCtrl.getLayerById('referencePoint');
+            var rdCross = layerCtrl.getLayerById('rdcross');
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var editLayer = layerCtrl.getLayerById('edit');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
@@ -70,6 +71,7 @@ function keyEvent(ocLazyLoad, scope) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
                 rdLink.redraw();
+                rdCross.redraw();
                 editLayer.drawGeometry = null;
                 editLayer.clear();
                 shapeCtrl.stopEditing();

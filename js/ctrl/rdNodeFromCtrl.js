@@ -7,8 +7,31 @@ otherApp.controller("rdNodeFromController",function($scope){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
-    $scope.rdNodeData=objectEditCtrl.data.data;
-    objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
+    var highLightLayer = fastmap.uikit.HighLightController();
+    rdLink = layerCtrl.getLayerById("referenceLine");
+    $scope.initializeNodeData = function () {
+        $scope.rdNodeData=objectEditCtrl.data.data;
+        objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
+
+        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "linksOfnode",
+            initFlag: true
+        });
+        highLightLayer.pushHighLightLayers(highLightLink);
+
+        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
+
+    }
+    //初始化controller调用
+    if (objectEditCtrl.data) {
+        $scope.initializeNodeData();
+    }
+
+    //不是初始化时,初始化需要显示的数据
+    objectEditCtrl.updateObject = function () {
+        $scope.initializeNodeData();
+    };
     $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
     $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
     $scope.newFromOfWRoadDate=[];

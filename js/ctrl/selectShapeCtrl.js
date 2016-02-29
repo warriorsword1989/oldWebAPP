@@ -170,42 +170,50 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if (data.errcode === -1) {
                         return;
                     }
-                    var lines = []
+                    var lines = [];
+                    var linepids = [];
                     for (var index in data.data) {
                         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
                         for (var i = 0, len = linkArr.length; i < len; i++) {
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                             points.push(point);
                         }
-                        //var line = fastmap.mapApi.lineString(points);
-                        lines.push(points);
+                        lines.push(fastmap.mapApi.lineString(points));
+                        linepids.push(data.data[index].pid);
+                        //lines.push(points);
                     }
 
-                    var multipolyline = fastmap.mapApi.multiPolyline(lines);
+                    //var multipolyline = fastmap.mapApi.multiPolyline(lines);
 
-                    var editLyer = layerCtrl.getLayerById('edit');
-                    layerCtrl.pushLayerFront('edit');
-                    var sobj = shapeCtrl.shapeEditorResult;
-                    editLyer.drawGeometry = multipolyline;
-                    editLyer.draw(multipolyline, editLyer);
-                    sobj.setOriginalGeometry(multipolyline);
-                    sobj.setFinalGeometry(multipolyline);
+                    //var editLyer = layerCtrl.getLayerById('edit');
+                    //layerCtrl.pushLayerFront('edit');
+                    //var sobj = shapeCtrl.shapeEditorResult;
+                    //editLyer.drawGeometry = multipolyline;
+                    //editLyer.draw(multipolyline, editLyer);
+                    //sobj.setOriginalGeometry(multipolyline);
+                    //sobj.setFinalGeometry(multipolyline);
 
-                    selectCtrl.onSelected({geometry: multipolyline, id: $scope.data.id});
+                    selectCtrl.onSelected({geometry: lines, id: $scope.data.id});
 
-                    if (shapeCtrl.getCurrentTool()['options']) {
-                        shapeCtrl.stopEditing();
-                    }
+                    //if (shapeCtrl.getCurrentTool()['options']) {
+                    //    shapeCtrl.stopEditing();
+                    //}
+                    //
+                    //shapeCtrl.setEditingType('pathNodeMove');
+                    //shapeCtrl.startEditing();
+                    //shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);
+                    //shapeCtrl.on("stopshapeeditresultfeedback", function () {
+                    //    shapeCtrl.off("startshapeeditresultfeedback", saveOrEsc);
+                    //});
 
-                    shapeCtrl.setEditingType('pathNodeMove');
-                    shapeCtrl.startEditing();
-                    shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);
-                    shapeCtrl.on("stopshapeeditresultfeedback", function () {
-                        shapeCtrl.off("startshapeeditresultfeedback", saveOrEsc);
-                    });
-
+                    //objCtrl.setCurrentObject(data);
+                    //if (objCtrl.updateObject !== "") {
+                    //    objCtrl.updateObject();
+                    //}
 
                     Application.functions.getRdObjectById($scope.data.id, "RDNODE", function (data) {
+                        data.linepids = linepids;
+                        data.nodeid = $scope.data.id;
                         objCtrl.setCurrentObject(data);
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();

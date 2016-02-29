@@ -304,7 +304,7 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'rdcrosscondition': item.m.a,
+                            'rdcrosscondition': item.m.a
 
                         }
                         geojson['features'].push(obj);
