@@ -233,7 +233,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $scope.photos = [];
         }
 
-        $scope.photoTipsData = selectCtrl.rowKey.f_array;
+        $scope.photoTipsData = selectCtrl.rowKey.feedback.f_array;
 
 
         for (var i in  $scope.photoTipsData) {

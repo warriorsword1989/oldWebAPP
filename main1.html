@@ -193,9 +193,6 @@
                             <div ng-include="selectShapeURL" style="float: left"></div>
                             <div style="float: left"><span class="divider-vertical"></span></div>
                             <div ng-include="addShapeURL" style="float: left;"></div>
-                            <!--<div style="float: left">-->
-                            <!--<a ng-click="showOrHide()"><span class="glyphicon glyphicon-align-left" style="color: rgb(0, 0, 0);"></span></a>-->
-                            <!--</div>-->
                             <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
                         </div>
 
@@ -203,6 +200,9 @@
                     <div id="popoverTips" ng-mouseenter="showStop()" ng-mouseover="showStart()"
                          style="position:relative;display:none;z-index:2;width:400px">
                         <div ng-include="dataTipsURL" style="width: 400px;"></div>
+                    </div>
+                    <div style="width:300px;height: 100%;float: left;z-index: 100;position: relative">
+                        <div ng-include="suspendObjURL" style="width: 100%;height: 100%"></div>
                     </div>
                     <div id="picMapShow">
                         <img id="picMapImg" alt="无此箭头图">
@@ -212,22 +212,6 @@
                     <div class="now-zoom">当前比例尺:
                         <span id="nowZoom" class="badge">17</span>
                     </div>
-                    <!-- <div id="zoomBtn" class="btn-group"> -->
-                    <!-- <div>
-                        <div id="rangeModel" style="float: left;width: 157px;">
-                            <div id="rangeBegin" style="margin-top: 2px;float: left;">1</div>
-                            <input id="rangeSlider" type="range" min="1" max="20" step="1" value="5" style="background-color: rgba(3, 169, 244, 0.68);transition: all 0.5s;">
-                            <div id="rangeEnd" style="float: right;margin-top: 2px;">20</div>
-                        </div>
-                    </ul>
-                    <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
-                        <div class="tab-pane fade in active" id="inspectDiv" style="height:100%;display: none;">
-                            <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height:100%;"></div>
-            <div style="clear:both"></div>
-                        <div id="rangeValue" style="float: left;text-align: center;width: 157px;">16</div>
-                    </div> -->
-                    <!-- <button class="btn btn-default btn-xs zoom-btn" ng-class="{'btn-primary':disZoom == item}" data-zoom-size="{{item}}" ng-repeat="item in zoom" ng-click="changeZoom(item,$event)" title="选择比例尺{{item}}">{{item}}</button> -->
-                    <!-- </div> -->
                 </div>
             </div>
             <div ui-layout-container style="overflow: hidden;">
@@ -259,8 +243,11 @@
                     </div>
                 </ul>
                 <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
+
                     <div class="tab-pane fade in active" id="inspectDiv" style="height:100%;display: none">
                         <div ng-include="outputTab" ui-sref-opt="{reload:true}" style="height:100%;"></div>
+
+
                     </div>
                     <div class="tab-pane fade in active" id="wrongDiv" style="height:100%;">
                         <div ng-include="errorCheckTab" style="height:100%;"></div>
@@ -271,7 +258,9 @@
     </div>
     <div ui-layout-container size="15%" style="height: 100%; overflow-y: hidden;overflow-x:hidden;padding-bottom: 30px;" max-size="350px"
          min-size="350px">
+
         <div ng-include="objectEditURL" style="overflow-y: auto; height: 100%;background-color: #404040;opacity: .8;border: none;color: #fff; ">
+
         </div>
         <div style="width: 100%;margin-bottom:0;position:absolute;bottom: 0px; background-color:#F8F8F8;border-color: #e7e7e7; ">
             <div style=" margin: 0 auto;padding-top: 5px;padding-bottom:5px;border-top: 1px solid #ccc;text-align:center;">
