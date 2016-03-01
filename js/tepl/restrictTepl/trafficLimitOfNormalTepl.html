@@ -1,0 +1,171 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #traffiLimitedDiv {
+        background-color: #000;
+        opacity: 1;
+        width: 100%;
+    }
+
+    #traffiLimitedDiv ul {
+        background-color: #000;
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+    }
+
+    #traffiLimitedDiv ul > li {
+        background-color: #000;
+    }
+
+    #traffiLimitedDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #traffiLimitedDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #traffiLimitedDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #traffiLimitedDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #traffiLimitedDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    .show-tips{
+        text-align: center;
+        cursor: pointer;
+        margin: 10px;
+        transition: all 0.5s;
+        border-radius: 50%;
+    }
+    .show-tips.active{
+        box-shadow: 0px 0px 7px 4px #9d9d9d;
+    }
+</style>
+
+<div  ng-controller="normalController" id="traffiLimitedDiv" oncontextmenu=self.event.returnValue=false>
+    <ul  class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">普通交限</label></div>
+            <div class="inline"><input type="text" readonly ng-model="rdRestrictData.pid"/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">进入</label></div>
+            <div class="inline"><input type="text" ng-model="rdRestrictData.inLinkPid" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">退出</label></div>
+            <div class="inline"><input type="text" ng-click="changeOutLink(rdSubRestrictData)" ng-model="rdSubRestrictData.outLinkPid" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">交限标志</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag">
+                    未验证
+                </label>
+                <label>
+                    <input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag">
+                    理论
+                </label>
+                <label>
+                    <input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag">
+                    实际
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">关系类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="crossingOrLine" value=1 ng-model="rdSubRestrictData.relationshipType">
+                    路口
+                </label>
+                <label>
+                    <input type="radio" name="crossingOrLine" value=2 ng-model="rdSubRestrictData.relationshipType">
+                    线线
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">限制类型</label></div>
+            <div class="radio inline">
+                <label>
+                    <input type="radio" name="researchOrLimited" value=0
+                           ng-model="rdSubRestrictData.type">
+                    未查
+                </label>
+                <label>
+                    <input type="radio" name="researchOrLimited" value=1 ng-model="rdSubRestrictData.type">
+                    禁入
+                </label><label>
+                <input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type" title="时间段禁止">
+               禁止
+            </label>
+            </div>
+        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div class="form-group">-->
+                <!--<div ng-include="dateURL"></div>-->
+            <!--</div>-->
+        <!--</li>-->
+        <li class="list-group-item">
+            <div ng-repeat="item in rdRestrictData.details" class="inline">
+                <img ng-if="item.flag===1" ng-src="./css/limit/{{item.restricInfo}}.png" class="show-tips" data-index="{{$index}}" ng-class="{'active':$index==0}" ng-click="showTips(item,$event)" ng-mousedown="deleteDirect(item,$event)">
+                <img  ng-if="item.flag===2||item.flag===0" ng-src="./css/limit/{{item.restricInfo}}{{item.restricInfo}}.png" data-index="{{$index}}" ng-class="{'active':$index==0}" class="show-tips" ng-click="showTips(item,$event)" ng-mousedown="deleteDirect(item,$event)">
+
+            </div>
+            <div class="inline">
+                <span style="float:right;font-size: 20px;position:absolute;right:0px;top: 20px;" class="glyphicon glyphicon-plus" ng-click="showAddDirectTepl()"></span>
+            </div>
+        </li>
+    </ul>
+
+</div>

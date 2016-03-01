@@ -1,0 +1,133 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #namesOfCrossDiv {
+        background-color: #000;
+        opacity: 1;
+        padding: 10px 5px;
+        width: 100%;
+        z-index: 20;
+    }
+
+    #namesOfCrossDiv ul {
+        background-color: #000;
+        list-style: none;
+        padding:5px;
+        overflow: hidden;
+    }
+
+    #namesOfCrossDiv ul > li {
+        background-color: #000;
+    }
+
+    #namesOfCrossDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #rdCrossDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #namesOfCrossDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #namesOfCrossDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #namesOfCrossDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+</style>
+<div id="namesOfCrossDiv" ng-controller="namesController">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div>
+                <a ng-click="addrdCrossName()" style="cursor: pointer">添加名称</a>
+            </div>
+        </li>
+    </ul>
+    <ul ng-repeat="nameItem in names" class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+
+        <li class="list-group-item">
+            <div><label class="control-label">名称号码</label></div>
+            <div class="inline"><input type="text" ng-model="nameItem.nameId" disabled/>
+                   <span class="glyphicon glyphicon-remove-sign"
+                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
+                         ng-click="minusrdCrossName($index)"></span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称组号</label></div>
+            <div class="inline"><input type="text" ng-model="nameItem.nameGroupid" disabled/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">代码语言</label></div>
+            <div class="inline">
+                <select  ng-model="nameItem.langCode"
+                        ng-options="value.id as value.label for value in langCodeOptions">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">名称内容</label>
+            </div>
+            <div class="inline">
+                <input type="text" ng-model="nameItem.name" ng-blur="diverName(nameItem.nameGroupid,nameItem.name)">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称发音</label></div>
+            <div class="inline"><input type="text" ng-model="nameItem.phonetic"></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称来源</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="originOfName" value=0 ng-model="nameItem.srcFlag">
+                    未定义
+                </label>
+                <label>
+                    <input type="radio" name="originOfName" value=1 ng-model="nameItem.srcFlag">
+                    翻译
+                </label>
+            </div>
+        </li>
+    </ul>
+</div>
