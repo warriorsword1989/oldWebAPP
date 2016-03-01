@@ -47,6 +47,7 @@
     }
 
 
+
     #rdNodediv ul > li > div > select {
         color: #F3F6FA;
         background-color: #000;
@@ -159,11 +160,12 @@
 
         </li>
         <li class="list-group-item">
-            <div ><label class="control-label">Node形态</label></div>
-            <div class="inline" style="text-align: left">
+            <div style="margin-top: 5px;"><label class="control-label">Node形态</label></div>
+
+            <div class="inline" style="text-align: left;">
                 <a  ng-click="showPopover()" style="cursor: pointer;">添加</a>
-                </div>
-            <div id="fromOfWRoaddiv" >
+            </div>
+            <div class="inline" id="fromOfWRoaddiv" >
                 <li ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
                     {{fromitem.label}}
                 </li>
