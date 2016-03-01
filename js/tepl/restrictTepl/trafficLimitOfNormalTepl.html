@@ -13,6 +13,7 @@
         margin-bottom: -1px;
         /*background-color: #000;*/
         border: 1px solid #ddd;
+        border: none;
     }
 
     #traffiLimitedDiv {
@@ -34,8 +35,11 @@
 
     #traffiLimitedDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
+        background-color: #303030;
         border: none;
+        border-radius:4px;
+        width: 100%;
+        padding-left: 5px;
     }
 
     #traffiLimitedDiv ul > li > div > select {
@@ -62,7 +66,7 @@
 
     .inline {
         display: inline-block !important;
-        /*width: 70%;*/
+        width:170px;
         text-align: left;
     }
 
@@ -141,10 +145,12 @@
                     <input type="radio" name="researchOrLimited" value=0
                            ng-model="rdSubRestrictData.type">
                     未查
+
                 </label>
                 <label>
                     <input type="radio" name="researchOrLimited" value=1 ng-model="rdSubRestrictData.type">
                     禁入
+
                 </label><label>
                 <input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type" title="时间段禁止">
                禁止
