@@ -1,0 +1,147 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        /*color: #0f096e;*/
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #rdCrossDiv {
+        background-color: #000;
+        opacity: 1;
+        width: 100%;
+    }
+
+    #rdCrossDiv ul {
+        background-color: #000;
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+    }
+
+    #rdCrossDiv ul > li {
+        background-color: #000;
+    }
+
+    #speedlimitTeplDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #rdCrossDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #rdCrossDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #rdCrossDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #rdCrossDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+</style>
+<div id="rdCrossDiv" ng-controller="rdCrossController">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">道路路口</label></div>
+            <div class="inline"><input type="text" readonly ng-model="rdCrossData.pid"/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">信号灯</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="crossOrMan" value=0 ng-model="rdCrossData.signal">
+                    无
+                </label>
+                <label>
+                    <input type="radio" name="crossOrMan" value=1 ng-model="rdCrossData.signal">
+                    路口
+                </label>
+                <label>
+                    <input type="radio" name="crossOrMan" value=2 ng-model="rdCrossData.signal">
+                    行人
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">路口类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="easyOrHard" value=0 ng-model="rdCrossData.type">
+                    简单
+                </label>
+                <label>
+                    <input type="radio" name="easyOrHard" value=1 ng-model="rdCrossData.type">
+                    复合
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">电子眼</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="electRoeye" value=0 ng-model="rdCrossData.electroeye">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="electRoeye" value=1 ng-model="rdCrossData.electroeye">
+                    有
+                </label>
+                <label>
+                    <input type="radio" name="electRoeye" value=2 ng-model="rdCrossData.electroeye">
+                    无
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">路口名称</label>
+            </div>
+            <div class="inline">
+                <span>(<a ng-click="showNames()" ng-if="rdCrossData!=undefined" style="cursor: pointer">{{rdCrossData.names.length}}</a>)个</span>
+
+            </div>
+        </li>
+    </ul>
+</div>
