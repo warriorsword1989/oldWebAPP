@@ -16,13 +16,20 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-            Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
-                objCtrl.setCurrentObject(data.data);
-                $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/restrictTepl/trafficLimitOfNormalTepl.html';
+            Application.functions.getRdObjectById("100015136","RDNODE",function(data) {
+                objCtrl.setCurrentObject(data);
+                $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/nodeTepl/rdNodeFromTepl.html';
                     }
                 );
             })
+            //Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
+            //    objCtrl.setCurrentObject(data.data);
+            //    $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
+            //            $scope.$parent.$parent.objectEditURL = 'js/tepl/restrictTepl/trafficLimitOfNormalTepl.html';
+            //        }
+            //    );
+            //})
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {

@@ -3,20 +3,10 @@
  */
 //var otherApp=angular.module("lazymodule", []);
 var otherApp=angular.module("lazymodule", []);
-otherApp.controller("rdNodeFromController",function($scope){
+otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
-    $scope.rdNodeData=objectEditCtrl.data.data;
-    objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
-    $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
-    $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
-    $scope.newFromOfWRoadDate=[];
-    $scope.kindOptions=[
-        {"id":0,"label":"平面交叉点"},
-        {"id":1,"label":"Link属性变化点"},
-        {"id":2,"label":"路上点"}
-    ];
 
 
     $scope.srcFlagOptions=[
@@ -44,54 +34,83 @@ otherApp.controller("rdNodeFromController",function($scope){
 
 
     $scope.fromOfWayOption=[
-    {"id":0,"label":"未调查"},
-    {"id":1,"label":"无属性"},
-    {"id":2,"label":"图廓点"},
-    {"id":3,"label":"CRF Info点"},
-    {"id":4,"label":"收费站"},
-    {"id":5,"label":"Hihgway起点"},
-    {"id":6,"label":"Highway终点"},
-    {"id":10,"label":"IC"},
-    {"id":11,"label":"JCT"},
-    {"id":12,"label":"桥"},
-    {"id":13,"label":"隧道"},
-    {"id":14,"label":"车站"},
-    {"id":15,"label":"障碍物"},
-    {"id":16,"label":"门牌号码点"},
-    {"id":20,"label":"幅宽变化点"},
-    {"id":21,"label":"种别变化点"},
-    {"id":22,"label":"车道变化点"},
-    {"id":23,"label":"分隔带变化点"},
-    {"id":30,"label":"铁道道口"},
-    {"id":31,"label":"有人看守铁道道口"},
-    {"id":32,"label":"无人看守铁道道口"},
-    {"id":41,"label":"KDZone与道路交点"}
+        {"id":0,"label":"未调查","isCheck":false},
+        {"id":1,"label":"无属性","isCheck":false},
+        {"id":2,"label":"图廓点","isCheck":false},
+        {"id":3,"label":"CRF Info点","isCheck":false},
+        {"id":4,"label":"收费站","isCheck":false},
+        {"id":5,"label":"Hihgway起点","isCheck":false},
+        {"id":6,"label":"Highway终点","isCheck":false},
+        {"id":10,"label":"IC","isCheck":false},
+        {"id":11,"label":"JCT","isCheck":false},
+        {"id":12,"label":"桥","isCheck":false},
+        {"id":13,"label":"隧道","isCheck":false},
+        {"id":14,"label":"车站","isCheck":false},
+        {"id":15,"label":"障碍物","isCheck":false},
+        {"id":16,"label":"门牌号码点","isCheck":false},
+        {"id":20,"label":"幅宽变化点","isCheck":false},
+        {"id":21,"label":"种别变化点","isCheck":false},
+        {"id":22,"label":"车道变化点","isCheck":false},
+        {"id":23,"label":"分隔带变化点","isCheck":false},
+        {"id":30,"label":"铁道道口","isCheck":false},
+        {"id":31,"label":"有人看守铁道道口","isCheck":false},
+        {"id":32,"label":"无人看守铁道道口","isCheck":false},
+        {"id":41,"label":"KDZone与道路交点","isCheck":false}
     ];
-    for(var p in $scope.rdNodeData.forms){
-        for(var s in $scope.fromOfWayOption){
-            if($scope.rdNodeData.forms[p].formOfWay==$scope.fromOfWayOption[s].id){
-                $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
+
+    $scope.otherFromOfWay=[];
+    $scope.kindOptions=[
+        {"id":0,"label":"平面交叉点"},
+        {"id":1,"label":"Link属性变化点"},
+        {"id":2,"label":"路上点"}
+    ];
+    $scope.initializeNodeData=function() {
+        $scope.rdNodeData=objectEditCtrl.data.data;
+        objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
+        if($scope.rdNodeData.forms.length>0){
+            $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
+            $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
+        }
+        $scope.newFromOfWRoadDate=[];
+        for(var p in $scope.rdNodeData.forms){
+            for(var s in $scope.fromOfWayOption){
+                if($scope.rdNodeData.forms[p].formOfWay==$scope.fromOfWayOption[s].id){
+                    $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
+                }
             }
         }
+    };
+
+    if(objectEditCtrl.data.data) {
+        $scope.initializeNodeData();
     }
-    $scope.otherFromOfWay=[];
-    //初始化数据
-    initOrig($scope.newFromOfWRoadDate,$scope.fromOfWayOption,"fromOfWRoaddiv");
-    //点击内容显示框时，关闭下拉，保存数据
-    $("#fromOfWRoaddiv").click(function(){
-        $("#fromOfWRoaddiv").popover('hide');
-        $scope.endFromOfWayArray=getEndArray();
-        for(var p in $scope.endFromOfWayArray){
-            $scope.otherFromOfWay.push({
-                formOfWay: $scope.endFromOfWayArray[p].id,
-                linkPid:$scope.rdNodeData.pid
-            })
-        }
-        $scope.rdNodeData.forms=$scope.otherFromOfWay;
-    });
+    objectEditCtrl.nodeObjRefresh=function() {
+        $scope.initializeNodeData();
+};
+
+
     $scope.showPopover=function(){
-        $('#fromOfWRoaddiv').popover('show');
+        //$('#fromOfWRoaddiv').popover('show');
+        $ocLazyLoad.load('ctrl/nodeCtrl/addDirectOfNodeCtrl').then(function () {
+            $scope.$parent.$parent.suspendObjURL = "js/tepl/nodeTepl/addDitrectOfNodeTepl.html";
+        })
     }
+
+    $scope.delFrom=function(item){
+        item.isCheck=false;
+        for(var i=0;i<$scope.newFromOfWRoadDate.length;i++){
+            if($scope.newFromOfWRoadDate[i].id==item.id){
+                $scope.newFromOfWRoadDate.splice(i,1);
+            }
+        }
+        for(var p in $scope.rdNodeData.forms){
+            if($scope.rdNodeData.forms[p].formOfWay==item.id){
+                $scope.rdNodeData.forms.splice(p,1);
+            }
+        }
+        objectEditCtrl.selectNodeRefresh();
+    }
+
 
     $scope.saveroadtype=function(){
         $scope.rdNodeData.forms.unshift({
