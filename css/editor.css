@@ -480,3 +480,44 @@ html,body{
 .dark .rounded-toggle {
     background: rgba(0,0,0,.25);
 }
+/* *********tips图片缩放********* */
+#imgContainer {
+     width: 520px;
+    height: 300px; 
+}
+#positionButtonDiv {
+    background: rgb(58, 56, 63);
+    background: rgba(58, 56, 63, 0.8);
+    border: solid 1px #100000;
+    color: #FFFFFF;
+    padding: 8px;
+    text-align: left;
+    position: absolute;
+    right:35px;
+    top:94px;
+}
+#positionButtonDiv .positionButtonSpan img {
+    float: right;
+    border: 0;
+}
+.positionMapClass area {
+    cursor: pointer;
+}
+.zoomButton {
+    border: 0;
+    cursor: pointer;
+}
+.zoomableContainer {
+    background-image: url("../js/lib/e-smart-zoom/img/transparent.png");
+}
+#dataTipsOriginModal{
+    top: 90px;
+    left: 440px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 999999;
+    width: 570px;
+    border: 1px solid #9d9d9d;
+    box-shadow: 4px 4px 8px 4px #333;
+    border-radius: 4px;
+}
