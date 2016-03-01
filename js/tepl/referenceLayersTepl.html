@@ -1,11 +1,28 @@
 <style>
     #layerPanel ul{
         list-style-type: none;
+        padding-left: 10px;
     }
 
     #layerPanel ul>li{
         list-style-type: none;
         margin-top: 10px;;
+    }
+
+    #layerPanel ul>li:not(:first-child){
+        margin-left: 10px;
+    }
+
+    #layerPanel ul>li:not(:first-child) label {
+        color: #FFF;
+    }
+
+    #layerPanel ul>li:not(:first-child) label:hover {
+        color: rgba(255,255,255,0.5);
+    }
+
+    #layerPanel ul>li:not(:first-child) input{
+        cursor: pointer;
     }
 
     #layerPanel ul>li>div>label{
@@ -20,18 +37,17 @@
 <div ng-controller="referenceLayersController" id="layerPanel">
     <ul>
         <li>
-            <a class="glyphicon glyphicon-tasks" style="font-size:20px;color: #16C497;padding-right: 20px;top: 5px"></a><label
-                style="font-size:20px;color:#7a828b;">参考图层设置</label>
+            <label style="font-size:18px;color:#FFF;">参考图层设置</label>
         </li>
         <li ng-repeat="item in items">
             <div ng-if="item.options.singleselect===true">
-                <input tabindex="1" style="float:right;" type="radio"
+                <input tabindex="1" style="float:right;margin-right: 10px" type="radio"
                        ng-checked="item.options.visible"
                        ng-click="showLayers(item,$event)"/>
                 <label>{{item.options.layername}}</label>
             </div>
             <div ng-if="item.options.singleselect!==true">
-                <input tabindex="1" style="float:right;" type="checkbox"
+                <input tabindex="1" style="float:right;margin-right: 10px" type="checkbox"
                        ng-checked="item.options.visible"
                        ng-click="showLayers(item,$event)"/>
                 <label>{{item.options.layername}}</label>
