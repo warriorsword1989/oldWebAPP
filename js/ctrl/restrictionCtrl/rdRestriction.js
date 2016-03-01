@@ -174,13 +174,31 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
 
     //双击
-    $scope.deleteDirect = function (item) {
-      for(var i= 0,len=$scope.rdRestrictData.details.length;i<len;i++) {
-          if(item.pid==="") {
+    $scope.deleteDirect = function (item,event) {
+        if(event.button===2) {
+            var len = $scope.rdRestrictData.details.length;
+            if(len===1) {
+                alert("请点击删除按钮删除该交限");
+                return;
+            }else{
+                for(var i= 0;i<len;i++) {
+                    if(len===1) {
+                        alert("请点击删除按钮删除该交限");
+                        break;
+                    }else{
+                        if(item.pid===$scope.rdRestrictData.details[i]["pid"]) {
+                            $scope.rdRestrictData.details.splice(i, 1);
+                            len--;
 
-          }
+                        }
+                    }
 
-      }
+
+                }
+            }
+
+        }
+
     };
 
 
