@@ -296,7 +296,7 @@ html,body{
     width: 100%;
     height: 100%;
     background-color: #404040;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 .fm-out-error-url-sx{
     height: 0px;
@@ -324,6 +324,15 @@ html,body{
     padding: 3px 15px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+}
+
+#fm-out-error-inspectAndWrongTab>li button{
+    color:#FFF;
+    background-color: rgba(255,255,255,0.3);
+}
+#fm-out-error-inspectAndWrongTab>li button:hover{
+    color:rgba(0,0,0,0.5);
+    background-color: rgba(255,255,255,0.8);
 }
 
 #fm-out-error-inspectAndWrongTab>li>a:hover{
@@ -375,7 +384,6 @@ html,body{
     background-color: #404040;
     padding: 10px;
     border: none;
-
     min-width: 280px;
     opacity: .8;
     z-index: 1;
@@ -390,6 +398,27 @@ html,body{
     display: block;
 }
 
+/*--------------------------------------属性栏-----------------------------------*/
+#fm-attrOption-btnGroup>div:not(:first-child){
+   border-left:1px solid rgba(0,0,0,0.5);
+}
+
+#fm-attrOption-btnGroup>div>button{
+    background-color: rgba(255,255,255,0.3);
+}
+
+#fm-attrOption-btnGroup>div>button:hover{
+    background-color: rgba(255,255,255,0.7);
+}
+
+#fm-attrOption-btnGroup>div>button:hover>a {
+    color:rgba(0,0,0,0.5);
+}
+#fm-attrOption-btnGroup>div>button>a{
+    color:#FFF;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 /* ---------------------滚动条-------------------------------------------------- */
 .scroll-styled::-webkit-scrollbar {
