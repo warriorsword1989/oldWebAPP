@@ -12,10 +12,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
-            Application.functions.getRdObjectById("19736","RDSPEEDLIMIT",function(data) {
+            Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
                 objCtrl.setCurrentObject(data.data);
-                $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/speedLimitTepl.html';
+                $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/restrictTepl/trafficLimitOfNormalTepl.html';
                     }
                 );
             })

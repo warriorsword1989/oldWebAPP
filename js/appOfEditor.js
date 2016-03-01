@@ -9,6 +9,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
+    $scope.suspendObjURL = "";
     $scope.save = "";//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消

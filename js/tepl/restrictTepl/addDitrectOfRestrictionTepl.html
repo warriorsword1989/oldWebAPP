@@ -1,0 +1,17 @@
+<div ng-controller="addDirectOfRestController">
+    <ul>
+        <li>
+            <div><label class="control-label">增加交限</label></div>
+        </li>
+        <li>
+            <div class="trafficPic" ng-repeat="addItem in addLimitedData">
+                <img ng-src="./css/limitM/{{addItem.id}}.png" ng-click="selectTip(addItem,$event)">
+            </div>
+        </li>
+        <li>
+            <div> <button type="button" class="btn btn-primary" ng-click="addTips()">
+                增加
+            </button></div>
+        </li>
+    </ul>
+</div>

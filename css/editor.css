@@ -247,6 +247,18 @@ html,body{
 .ui-splitbar > a{
 
 }
+/*********************弹出窗口**********************************/
+.suspend{
+    width: 300px;
+    height: 100%;
+    position: absolute;
+    right: 295px;
+    background-color: #404040;
+    border: none;
+    /*opacity: .9;*/
+    overflow-y:hidden;
+    z-index: 10;
+}
 /*********************fm-error***************************/
 .fm-out-error{
     width: 100%;
