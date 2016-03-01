@@ -282,7 +282,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 
 }]);
 function appInit(){
-
     map = L.map('map',{
         attributionControl: false,
         zoomControl:false

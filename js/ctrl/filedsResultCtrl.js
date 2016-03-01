@@ -12,6 +12,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
+
+            $("#fm-dataList-btnGroup button").click(function(){
+                $("#fm-dataList-btnGroup button").removeClass("active");
+                $(this).addClass("active");
+            })
+
             Application.functions.getRdObjectById("19736","RDSPEEDLIMIT",function(data) {
                 objCtrl.setCurrentObject(data.data);
                 $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
@@ -242,11 +248,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if($scope.showOrHideId!=="") {
                     if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
                         $("#" +  $scope.showOrHideId).removeClass("selected");
-                        $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
                     else {
                         $("#" +  $scope.showOrHideId).addClass("selected")
-                        $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                     }
                    if($scope.showOrHideId===item.id) {
                        $scope.showOrHideId = "";
@@ -256,11 +262,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if($scope.showOrHideIdOfPending!=="") {
                     if ($("#" +  $scope.showOrHideIdOfPending).hasClass("selected")) {
                         $("#" +  $scope.showOrHideIdOfPending).removeClass("selected");
-                        $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
                     else {
                         $("#" +  $scope.showOrHideIdOfPending).addClass("selected")
-                        $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                     }
                     if($scope.showOrHideIdOfPending===(item.id+"Pending")) {
                         $scope.showOrHideIdOfPending= "";
@@ -270,11 +276,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if($scope.showOrHideIdOfPended!=="") {
                     if ($("#" +  $scope.showOrHideIdOfPended).hasClass("selected")) {
                         $("#" +  $scope.showOrHideIdOfPended).removeClass("selected");
-                        $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
                     else {
                         $("#" +  $scope.showOrHideIdOfPended).addClass("selected")
-                        $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("gglyphicon-folder-open").removeClass("glyphicon-folder-close")
                     }
                     if($scope.showOrHideIdOfPended===(item.id+"Pended")) {
                         $scope.showOrHideIdOfPended= "";
@@ -289,11 +295,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.showOrHideId = item.id;
                             if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
                                 $("#" +  $scope.showOrHideId).removeClass("selected");
-                                $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                             }
                             else {
                                 $("#" +  $scope.showOrHideId).addClass("selected")
-                                $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.allSubItems = data.data;
                         });
@@ -302,11 +308,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.showOrHideIdOfPending = (item.id+"Pending");
                             if ($("#" +  $scope.showOrHideIdOfPending).hasClass("selected")) {
                                 $("#" +  $scope.showOrHideIdOfPending).removeClass("selected");
-                                $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                             }
                             else {
                                 $("#" +  $scope.showOrHideIdOfPending).addClass("selected")
-                                $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.pendSubItems = data.data;
                         });
@@ -315,11 +321,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.showOrHideIdOfPended = (item.id+"Pended");
                             if ($("#" +  $scope.showOrHideIdOfPended).hasClass("selected")) {
                                 $("#" +  $scope.showOrHideIdOfPended).removeClass("selected");
-                                $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                             }
                             else {
                                 $("#" +  $scope.showOrHideIdOfPended).addClass("selected")
-                                $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.solvedSubItems = data.data;
                         });
