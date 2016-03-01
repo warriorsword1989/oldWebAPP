@@ -351,11 +351,10 @@ html,body{
     height: 100%;
     position: absolute;
     right: 0px;
-    background-color: #404040;
+    background-color: #313131;
+    font-size: 12px;
     border: none;
     opacity: .9;
-    /*overflow-y:hidden;*/
-
 }
 
 
@@ -403,3 +402,49 @@ html,body{
     display: block;
 }
 
+
+/* ---------------------滚动条-------------------------------------------------- */
+.scroll-styled::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent;
+}
+.scroll-styled::-webkit-scrollbar:hover {
+    background: transparent;
+}
+.scroll-styled::-webkit-scrollbar-track {
+    background: none;
+}
+.scroll-styled::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.18);
+    border-color: transparent;
+    width: 6px;
+    border-radius: 3px;
+}
+.scroll-styled::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.25);
+}
+.scroll-styled::-webkit-scrollbar-track:hover {
+    background: transparent;
+}
+.dark .scroll-styled::-webkit-scrollbar,
+.dark.scroll-styled::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+}
+.dark .scroll-styled::-webkit-scrollbar-thumb,
+.dark.scroll-styled::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.18);
+    border-color: transparent;
+}
+.dark .scroll-styled::-webkit-scrollbar-thumb:hover,
+.dark.scroll-styled::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,.25);
+}
+.dark .scroll-styled::-webkit-scrollbar:hover,
+.dark.scroll-styled::-webkit-scrollbar:hover {
+    background: transparent;
+}
+.dark .rounded-toggle {
+    background: rgba(0,0,0,.25);
+}

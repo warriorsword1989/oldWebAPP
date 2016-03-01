@@ -10,6 +10,29 @@
     .item-detail > .table {
         margin-bottom: 0
     }
+
+    #fm-dataList-btnGroup>div>button{
+         background: rgba(138,138,203,0.7);
+        color:#FFF;
+    }
+    #fm-dataList-btnGroup>div>button>a{
+        color: #FFF;
+    }
+
+    #fm-dataList-btnGroup>div>button:hover{
+        background: rgba(164,164,229,1);
+    }
+
+    #fm-dataList-btnGroup>div>button.active{
+        background: rgba(164,164,229,1);
+    }
+
+    #fm-dataList-btnGroup>div>button:focus{
+        border: none;
+        box-shadow:none
+    }
+
+
     #myTabContent #dataList {
         list-style-type: none;
         padding-left: 10px;
@@ -29,13 +52,14 @@
     }
 
     #myTabContent #dataList > li > div > img {
-        margin-right: 10px;
     }
 
     #myTabContent #dataList > li > div > label {
         color: #FFF;
         cursor: pointer;
-        margin-right: 10px;
+    }
+    #myTabContent #dataList > li > div > label:hover {
+        color: rgba(255,255,255,0.5);
     }
 
     #myTabContent #dataList > li > div > i {
@@ -53,7 +77,7 @@
     }
 
     #myTabContent #dataList > li > ul > li:hover {
-        color: #FAA645;
+        color: rgba(255,255,255,0.5);
     }
 
     #myTabContent #dataList > li > ul > li.selected {
@@ -83,18 +107,24 @@
     }
 
     #myTabContent #dataListOfPending > li > div > img {
-        margin-right: 10px;
+         vertical-align: top;
     }
 
     #myTabContent #dataListOfPending > li > div > label {
         color: #FFF;
         cursor: pointer;
-        margin-right: 10px;
+        vertical-align: top;
+    }
+
+    #myTabContent #dataListOfPending > li > div > label:hover {
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
     }
 
     #myTabContent #dataListOfPending > li > div > i {
         cursor: pointer;
         color: #FFF;
+        vertical-align: top;
     }
 
     #myTabContent #dataListOfPending > li > ul {
@@ -116,6 +146,7 @@
 
     #myTabContent #dataListOfPending > li > ul > li > label {
         cursor: pointer;
+        margin-bottom: 0px;
     }
     /******************已处理的样式****************************************/
     #myTabContent #dataListOfPended {
@@ -137,18 +168,19 @@
     }
 
     #myTabContent #dataListOfPended > li > div > img {
-        margin-right: 10px;
+        vertical-align: top;
     }
 
     #myTabContent #dataListOfPended > li > div > label {
         color: #FFF;
         cursor: pointer;
-        margin-right: 10px;
+        vertical-align: top;
     }
 
     #myTabContent #dataListOfPended > li > div > i {
         cursor: pointer;
         color: #FFF;
+        vertical-align: top;
     }
 
     #myTabContent #dataListOfPended > li > ul {
@@ -161,7 +193,7 @@
     }
 
     #myTabContent #dataListOfPended > li > ul > li:hover {
-        color: #FAA645;
+        color: rgba(255,255,255,0.5);
     }
 
     #myTabContent #dataListOfPended > li > ul > li.selected {
@@ -172,31 +204,35 @@
         cursor: pointer;
     }
 
+    #myTabContent #dataListOfPended > li > div > label:hover {
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
+    }
+
 </style>
 <div ng-controller="fieldsResultController" >
-    <div class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
-
+    <div id="fm-dataList-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-xs"><a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;color:#000">全部</a></button>
+            <button type="button" class="btn btn-xs"><a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;">全部</a></button>
+        </div>
+        <div class="btn-group" role="group" style="border-left: 1px solid #404040;border-right: 1px solid #404040">
+            <button type="button" class="btn btn-xs"><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px;">待处理</a></button>
         </div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-xs"><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px;color:#000">待处理</a></button>
-        </div>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default btn-xs"><a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])" style="font-size: 10px;color:#000">已处理</a></button>
+            <button type="button" class="btn btn-xs"><a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])" style="font-size: 10px;">已处理</a></button>
         </div>
     </div>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="allTaskers">
-            <div>
+            <div style="padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
                 <span>共{{items.total}}个</span>
             </div>
             <div style="width:100%;">
                 <ul id="dataList">
                     <li ng-repeat="pItem in items" id="{{pItem.id}}">
                         <div ng-click="showContent(pItem,[1,3],0,$event)"><i
-                                class="glyphicon glyphicon-triangle-right" style="float:left"></i>
-                            <input style="float:left;" type="checkbox"
+                                class="glyphicon glyphicon-folder-close"></i>
+                            <input  type="checkbox" style="margin-top: 2px;vertical-align: top"
                                    ng-checked="pItem.flag"
                                    ng-click="showLayers(pItem,$event)"/>
                             <label>{{pItem.name}}({{pItem.total}})</label>
@@ -212,7 +248,7 @@
             </div>
         </div>
         <div class="tab-pane fade" id="pendingTaskers">
-            <div>
+            <div style="padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
                 <span>共{{items.total}}个</span>
                 <!--<span style="float:right">显示</span>-->
             </div>
@@ -220,8 +256,8 @@
                 <ul id="dataListOfPending">
                     <li ng-repeat="pendItem in items " id="{{pendItem.id}}Pending">
                         <div ng-click="showContent(pendItem,[1],1,$event)"><i
-                                class="glyphicon glyphicon-triangle-right" style="float:left"></i>
-                            <input style="float:left;" type="checkbox"
+                                class="glyphicon glyphicon-folder-close" style=""></i>
+                            <input  type="checkbox"  style="margin-top: 2px;vertical-align: top;"
                                    ng-checked="pendItem.flag"
                                    ng-click="showLayers(pendItem,$event)"/>
                             <label>{{pendItem.name}}({{pendItem.total}})</label>
@@ -238,15 +274,15 @@
             </div>
         </div>
         <div class="tab-pane fade" id="solvedTaskers">
-            <div>
+            <div style="padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
                 <span>共{{items.total}}个</span>
             </div>
             <div style="width:100%;">
                 <ul id="dataListOfPended">
                     <li ng-repeat="solveItem in items" id="{{solveItem.id}}Pended">
                         <div ng-click="showContent(solveItem,[3],3,$event)"><i
-                                class="glyphicon glyphicon-triangle-right" style="float:left"></i>
-                            <input style="float:left;" type="checkbox"
+                                class="glyphicon glyphicon-folder-close" style=""></i>
+                            <input  type="checkbox"  style="margin-top: 2px;vertical-align: top"
                                    ng-checked="solveItem.flag"
                                    ng-click="showLayers(solveItem,$event)"/>
                             <label>{{solveItem.name}}({{solveItem.total}})</label>
