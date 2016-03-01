@@ -57,7 +57,7 @@
         </ul>
     </div>
     <div ui-layout-container>
-        <div ui-layout="{flow:'column',dividerSize:'2',disableToggle:true}">
+        <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
             <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" id="test">
                 <div ng-include="layersURL"></div>
             </div>
@@ -65,6 +65,14 @@
             <div ui-layout-container>
                 <div ui-layout="{flow:'row',dividerSize:'2'}">
                     <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
+                    <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:4;background-color: transparent">
+                        <div class="btn-toolbar" style="margin-left: 0px">
+                            <div ng-include="selectShapeURL" style="float: left"></div>
+                            <div style="float: left"><span class="divider-vertical"></span></div>
+                            <div ng-include="addShapeURL" style="float: left;"></div>
+                            <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="suspend"  ng-include="suspendObjURL">
                 </div>
@@ -76,8 +84,8 @@
                         </a>
                     </div>
                     <div style="padding-left: 15px;height: 100%;">
-                        <div ng-include="objectEditURL"
-                             ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]"></div>
+                        <div ng-include="objectEditURL" ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]">
+                        </div>
                         <div style="width: 290px;bottom: 0px;position:absolute;border-color: #e7e7e7;z-index:10 ">
                             <div id="fm-attrOption-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
                                 <div class="btn-group" role="group">
@@ -95,7 +103,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div ng-class="{'fm-out-error':outErrorArr[0],'fm-out-error-sx':outErrorArr[1],'fm-out-error-xl':outErrorArr[2],'fm-out-error-xl-sx':outErrorArr[3]}">
                     <div style="height: 15px;text-align: center;margin-top: -45px;width: 100%;cursor: pointer">
@@ -148,11 +155,12 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-        <div id="popoverTips" class="Fm-sub-panel normal">
-            <div ng-include="dataTipsURL" style="width:100%;"></div>
+        <div id="popoverTips" class="Fm-sub-panel normal" style="background-color: transparent;padding-top: 40px;padding-left: 0px;padding-right: 0px;padding-bottom: 0px;">
+            <div style="background-color:#303030;opacity: 1;width: 100%;height: 100%;padding: 10px;border-radius: 4px">
+                <div ng-include="dataTipsURL" style="width:100%;"></div>
+            </div>
         </div>
     </div>
 </div>
