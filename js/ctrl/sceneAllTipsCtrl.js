@@ -33,7 +33,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.photos = [];
         $scope.dataTipsData = selectCtrl.rowKey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
-        console.log($scope.dataTipsData)
         var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
             map: map,
             highLightFeature: "dataTips",
@@ -41,7 +40,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         });
         highLightDataTips.drawTipsForInit();
         highLightLayer.pushHighLightLayers(highLightDataTips);
-        console.log(workPoint)
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -269,16 +267,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$apply();
     };
     $scope.openOrigin = function (id) {
-        if(selectCtrl.rowKey.f_array && id <= selectCtrl.rowKey.f_array.length-1){
-            $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
+        if(selectCtrl.rowKey.feedback.f_array && id <= selectCtrl.rowKey.feedback.f_array.length-1){
+            $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
             var originImg = $("#dataTipsOriginImg");
             originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            /*$("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');
-            $("#dataTipsOriginModal").modal({
-                backdrop:false,
-                show:true
-            });
-            $(".modal-backdrop").remove();*/
             dataTipsOriginImg.onload = function(){
                 originImg.hide();
                 originImg.smartZoom('destroy'); 
@@ -401,16 +393,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "stage": 3,
                 "handler": 0
             }
-            if ($scope.dataTipsData.s_sourceType === "1901" //道路名
-                || $scope.dataTipsData.s_sourceType === "1704"  //交叉路口
-                || $scope.dataTipsData.s_sourceType === "1510") {  //桥
-                if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
-                    $timeout(function(){
-                        $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
-                        $scope.$apply();
-                    });
-                    return;
-                }
+            if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
+                $timeout(function(){
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
