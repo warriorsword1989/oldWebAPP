@@ -211,7 +211,8 @@ html,body{
     width:290px;
     height: 100%;
     background-color: #404040;
-    opacity: 0.8;
+    opacity: 0.95;
+    font-size: 12px;
     padding-bottom: 30px;
     position:absolute;
 }
@@ -221,7 +222,8 @@ html,body{
     height: 100%;
     padding-bottom: 30px;
     background-color: #404040;
-    opacity: 0.8;
+    opacity: 0.95;
+    font-size: 12px;
     width:0px;
     /*padding-left: 10px;*/
 }
