@@ -7,20 +7,20 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
     $scope.addDirectData = objCtrl.data;
     //初始化交限
     $scope.addLimitedData = [
-        {"id": 1},
-        {"id": 2},
-        {"id": 3},
-        {"id": 4},
-        {"id": 5},
-        {"id": 6},
-        {"id": 7},
-        {"id": 11},
-        {"id": 22},
-        {"id": 33},
-        {"id": 44},
-        {"id": 55},
-        {"id": 66},
-        {"id": 77}
+        {"id": 1,"flag":false},
+        {"id": 2,"flag":false},
+        {"id": 3,"flag":false},
+        {"id": 4,"flag":false},
+        {"id": 5,"flag":false},
+        {"id": 6,"flag":false},
+        {"id": 7,"flag":false},
+        {"id": 11,"flag":true},
+        {"id": 22,"flag":true},
+        {"id": 33,"flag":true},
+        {"id": 44,"flag":true},
+        {"id": 55,"flag":true},
+        {"id": 66,"flag":true},
+        {"id": 77,"flag":true}
 
     ];
     $scope.removeImgActive = function(){

@@ -8,6 +8,22 @@
         margin-top: 10px;;
     }
 
+    #sceneLayerPanel ul>li:not(:first-child){
+        margin-left: 10px;
+    }
+
+    #sceneLayerPanel ul>li:not(:first-child) label {
+        color: #FFF;
+    }
+
+    #sceneLayerPanel ul>li:not(:first-child) label:hover {
+        color: rgba(255,255,255,0.5);
+    }
+
+    #sceneLayerPanel ul>li:not(:first-child) input{
+        cursor: pointer;
+    }
+
     #sceneLayerPanel ul>li>div>label{
         color:#7a828b;
     }
@@ -18,20 +34,19 @@
     }
 </style>
 <div ng-controller="sceneLayersController" id="sceneLayerPanel">
-    <ul>
+    <ul style="padding-left: 10px">
         <li>
-            <a class="glyphicon glyphicon-tasks" style="font-size:20px;color: #16C497;padding-right: 20px;top: 5px"></a><label
-                style="font-size:20px;color:#7a828b;">场景设置</label>
+            <label style="font-size:18px;color:#FFF;">场景设置</label>
         </li>
         <li ng-repeat="item in items">
             <div ng-if="item.options.singleselect===true">
-                <input tabindex="1" style="float:right;" type="radio"
+                <input tabindex="1" style="float:right;margin-right: 10px" type="radio"
                        ng-checked="item.options.visible"
                        ng-click="showLayers(item,$event)"/>
                 <label>{{item.options.layername}}</label>
             </div>
             <div ng-if="item.options.singleselect!==true">
-                <input tabindex="1" style="float:right;" type="checkbox"
+                <input tabindex="1" style="float:right;margin-right: 10px" type="checkbox"
                        ng-checked="item.options.visible"
                        ng-click="showLayers(item,$event)"/>
                 <label>{{item.options.layername}}</label>
