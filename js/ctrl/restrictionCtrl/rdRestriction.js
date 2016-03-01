@@ -39,12 +39,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         })
         //初始化交限中的第一个禁止方向的信息
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
-        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     };
 
 
@@ -54,24 +48,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     } else {
         $scope.initializeData();
     }
-    //初始化交限
-    $scope.addLimitedData = [
-        {"id": 1},
-        {"id": 2},
-        {"id": 3},
-        {"id": 4},
-        {"id": 5},
-        {"id": 6},
-        {"id": 7},
-        {"id": 11},
-        {"id": 22},
-        {"id": 33},
-        {"id": 44},
-        {"id": 55},
-        {"id": 66},
-        {"id": 77}
 
-    ];
     $scope.vehicleOptions = [
         {"id": 0, "label": "客车(小汽车)"},
         {"id": 1, "label": "配送卡车"},
@@ -106,10 +83,12 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
+    $scope.showAddDirectTepl=function() {
+        $ocLazyLoad.load('ctrl/restrictionCtrl/addDirectOfRestrictionCtrl').then(function () {
+            $scope.$parent.$parent.suspendObjURL = "js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html";
+        })
+    };
 
-
-    //车辆类型为10进制数转为二进制数
-    //var towbin=$scope.dec2bin($scope.rdSubRestrictData.vehicleExpression);
     var towbin=dec2bin(6);
     //var towbin=dec2bin("2147483655");
 
@@ -171,15 +150,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
-
-        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdSubRestrictflagbtn"+$scope.rdSubRestrictData.flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
-        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
     };
-
     //修改退出线
     $scope.changeOutLink=function(item) {
         var currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink,linksFlag:false});
@@ -200,65 +171,19 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             highLightLayer.pushHighLightLayers(highLightLinks);
         })
     };
-    $scope.removeImgActive = function(){
-        $.each($('.trafficPic'),function(i,v){
-            $(v).find('img').removeClass('active');
-        });
-    }
-    //选择弹出框中的交限
-    $scope.selectTip = function (item,e) {
-        /*选中高亮*/
-        $scope.removeImgActive();
-        $(e.target).addClass('active');
-        $scope.tipsId = item.id;
-        var obj = {};
-        obj.restricInfo = item.id;
-        obj.outLinkPid = 0; //$scope.rdLink.outPid;
-        obj.pid = 0;//featCodeCtrl.newObj.pid;
-        obj.relationshipType = 1;
-        obj.flag = 1;
-        obj.restricPid = 0// featCodeCtrl.newObj.pid;
-        obj.type = 1;
-        obj.conditons = [];
-        $scope.newLimited = obj;
 
-    };
+
     //双击
-    $scope.test = function (item) {
-        $("#myModal").modal("show");
-        $scope.modifyItem = item;
+    $scope.deleteDirect = function (item) {
+      for(var i= 0,len=$scope.rdRestrictData.details.length;i<len;i++) {
+          if(item.pid==="") {
+
+          }
+
+      }
     };
-    var picArr = [];
-    //添加交限
-    $scope.addTips = function () {
-        if ($scope.modifyItem !== undefined) {
-            var arr = $scope.rdRestrictData.details
-            for (var i = 0, len = arr.length; i < len; i++) {
-                if (arr[i].pid === $scope.modifyItem.pid) {
-                    $scope.rdRestrictData.details[i].restricInfo = $scope.tipsId;
-                    $scope.modifyItem = undefined;
-                    break;
-                }
-            }
-        } else {
-            if ($scope.tipsId === null || $scope.tipsId === undefined) {
-                alert("请先选择tips");
-                return;
-            }
-            $.each($scope.rdRestrictData.details,function(i,v){
-                picArr.push(v.restricInfo);
-            });
-            if($.inArray($scope.newLimited.restricInfo, picArr) == -1 && $scope.newLimited!=''){
-                $scope.rdRestrictData.details.unshift($scope.newLimited);
-                limitPicArr.unshift('');
-            }
-            $scope.removeImgActive();
-            $scope.newLimited = '';
-            $timeout(function(){
-                $(".show-tips:first").trigger('click');
-            })
-        }
-    }
+
+
     //增加时间段
     $scope.addTime = function () {
         $scope.rdRestrictData.time.unshift({startTime: "", endTime: ""});
@@ -473,28 +398,8 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
             //初始化交限中的第一个禁止方向的信息
             $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
-            $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-            $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-            $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-            $("#rdrelationshipTypebtn"+$scope.rdSubRestrictData.relationshipType).removeClass("btn btn-default").addClass("btn btn-primary");
-            $("#rdtypebtn"+$scope.rdSubRestrictData.type).removeClass("btn btn-default").addClass("btn btn-primary");
             $scope.$apply();
         });
 
-    }
-    $scope.checkrdSubRestrictflag=function(flag,item){
-        $("#rdSubRestrictflagdiv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdSubRestrictflagbtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.flag=flag;
-    }
-    $scope.checkrdrelationshipType=function(flag,item){
-        $("#rdrelationshipTypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdrelationshipTypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.relationshipType=flag;
-    }
-    $scope.checkrdtype=function(flag,item){
-        $("#rdtypediv :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rdtypebtn"+flag).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.type=flag;
     }
 });
