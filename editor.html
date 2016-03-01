@@ -84,8 +84,8 @@
                         </a>
                     </div>
                     <div style="padding-left: 15px;height: 100%;">
-                        <div ng-include="objectEditURL"
-                             ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]"></div>
+                        <div ng-include="objectEditURL" ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]">
+                        </div>
                         <div style="width: 290px;bottom: 0px;position:absolute;border-color: #e7e7e7;z-index:10 ">
                             <div id="fm-attrOption-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
                                 <div class="btn-group" role="group">
@@ -103,7 +103,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div ng-class="{'fm-out-error':outErrorArr[0],'fm-out-error-sx':outErrorArr[1],'fm-out-error-xl':outErrorArr[2],'fm-out-error-xl-sx':outErrorArr[3]}">
                     <div style="height: 15px;text-align: center;margin-top: -45px;width: 100%;cursor: pointer">

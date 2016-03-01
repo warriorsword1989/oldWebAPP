@@ -17,11 +17,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.panelFlag = true;
-    $scope.outErrorArr=[true,false,false,false] ;
+    $scope.panelFlag = false;
+    $scope.outErrorArr=[false,false,false,true] ;
     $scope.arrowFlag = true;
     $scope.objectFlag = true;
-    $scope.outErrorUrlFlag = true;
+    $scope.outErrorUrlFlag = false;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
