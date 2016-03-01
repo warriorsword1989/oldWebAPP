@@ -31,6 +31,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         }
     }
     $scope.initializeLinkData = function () {
+        $scope.dataTipsData = selectCtrl.rowKey;
         if(objectCtrl.data.data){
             objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
             $scope.linkData = objectCtrl.data.data;
@@ -52,6 +53,14 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         });
         highLightLayer.pushHighLightLayers(highLightLink);
         highLightLink.drawOfLinkForInit();
+        /*var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+            map: map,
+            highLightFeature: "dataTips",
+            dataTips: $scope.dataTipsData.rowkey
+        });
+        highLightDataTips.drawTipsForInit();
+        highLightLayer.pushHighLightLayers(highLightDataTips);
+        console.log(highLightLayer)*/
     };
     //初始化controller调用
     if (objectCtrl.data) {
