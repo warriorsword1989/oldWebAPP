@@ -267,7 +267,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$apply();
     };
     $scope.openOrigin = function (id) {
-        console.log(selectCtrl.rowKey.feedback.f_array)
         if(selectCtrl.rowKey.feedback.f_array && id <= selectCtrl.rowKey.feedback.f_array.length-1){
             $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
             var originImg = $("#dataTipsOriginImg");
@@ -291,30 +290,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             
         }
     }
-    /*$scope.openOrigin = function (id) {
-        if(id <= selectCtrl.rowKey.feedback.f_array.length-1){
-            $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
-            var originImg = $("#dataTipsOriginImg");
-            originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            dataTipsOriginImg.onload = function(){
-                originImg.hide();
-                originImg.smartZoom('destroy'); 
-                if($(".zoomableContainer").length == 0){
-                    $("#dataTipsOriginModal").width(parseInt($("#mainContent").width())-244);
-                    originImg.smartZoom({'containerClass':'zoomableContainer'});
-                    $('#zoomInButton,#zoomOutButton').bind("click", function(e){
-                        var scaleToAdd = 0.8;
-                        if(e.target.id == 'zoomOutButton')
-                            scaleToAdd = -scaleToAdd;
-                        originImg.smartZoom('zoom', scaleToAdd);
-                    });
-                }
-                $("#dataTipsOriginModal").css('visibility', 'inherit');
-                originImg.show();
-            }
-            
-        }
-    }*/
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
