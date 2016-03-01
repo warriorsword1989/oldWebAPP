@@ -52,6 +52,7 @@ html,body{
     text-decoration: none;
     display: block;
     color: #FFF;
+    cursor: pointer;
     font-weight: 400;
     padding: 3px 15px;
     border-top-left-radius: 5px;

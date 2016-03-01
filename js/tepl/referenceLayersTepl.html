@@ -1,6 +1,7 @@
 <style>
     #layerPanel ul{
         list-style-type: none;
+        padding-left: 10px;
     }
 
     #layerPanel ul>li{
@@ -36,7 +37,7 @@
 <div ng-controller="referenceLayersController" id="layerPanel">
     <ul>
         <li>
-            <label style="font-size:20px;color:#FFF;">参考图层设置</label>
+            <label style="font-size:18px;color:#FFF;">参考图层设置</label>
         </li>
         <li ng-repeat="item in items">
             <div ng-if="item.options.singleselect===true">
