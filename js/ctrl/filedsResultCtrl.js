@@ -12,11 +12,19 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
+            Application.functions.getRdObjectById("19736","RDSPEEDLIMIT",function(data) {
+                objCtrl.setCurrentObject(data.data);
+                $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/speedLimitTepl.html';
+                    }
+                );
+            })
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
+                        // console.log(data)
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
