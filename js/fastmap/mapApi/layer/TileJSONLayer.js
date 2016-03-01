@@ -286,7 +286,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 g.drawImage(image, -image.width / 2, -image.height);
                 //g.drawImage(image, p.x, p.y);
                 g.restore();
-            }else{  //  如果传的坐标不知两组，如桥
+            }else{  //  如果传的坐标不止两组，如桥
                 $.each(geom,function(i,v){
                     if(i == 0 || i == geom.length-1){
                         $.each(v,function(m,n){
