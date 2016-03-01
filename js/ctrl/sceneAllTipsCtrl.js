@@ -231,7 +231,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $scope.photos = [];
         }
 
-        $scope.photoTipsData = selectCtrl.rowKey.f_array;
+        $scope.photoTipsData = selectCtrl.rowKey.feedback.f_array;
 
 
         for (var i in  $scope.photoTipsData) {
@@ -268,7 +268,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
     $scope.openOrigin = function (id) {
         if(id <= selectCtrl.rowKey.f_array.length-1){
-            $scope.openshotoorigin = selectCtrl.rowKey.f_array[id];
+            $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
             var originImg = $("#dataTipsOriginImg");
             originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
             /*$("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');

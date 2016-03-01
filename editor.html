@@ -66,6 +66,8 @@
                 <div ui-layout="{flow:'row',dividerSize:'2'}">
                     <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
                 </div>
+                <div class="suspend"  ng-include="suspendObjURL">
+                </div>
                 <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]">
                     <div ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]">
                         <a ng-click="changeWidthOfPanel()" href="#"
