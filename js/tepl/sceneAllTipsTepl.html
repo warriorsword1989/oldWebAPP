@@ -10,6 +10,15 @@
         font-weight: normal;
     }
 
+    .topTitle{
+        height: 10%;
+        width: 100%;
+        border: 1px solid #eeeeee;
+        border-radius: 4px;
+        color: #FFF;
+        margin-bottom: 3px;
+        font-size: 12px;
+    }
     .title {
         height: 20%;
         width: 100%;
@@ -138,8 +147,40 @@
         font-size: 11px;
         text-align: center;
     }
+    
+    #tipsBtnsDiv>div>button{
+        width:60px;
+        background-color: rgba(255,255,255,0.3);
+    }
+
+    #tipsBtnsDiv>div>button:hover{
+        background-color: rgba(255,255,255,0.7);
+    }
+
+    #tipsBtnsDiv>div>button:hover>a {
+        color:rgba(0,0,0,0.5);
+    }
+    #tipsBtnsDiv>div>button>a{
+        color:#FFF;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 <div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" style="width:100%;">
+    <div class="topTitle">
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1101" style="padding: 7px;">Tips--限速</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1201" style="padding: 7px;">Tips--道路种别</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1203" style="padding: 7px;">Tips--道路方向</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1301" style="padding: 7px;">Tips--车信</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1302" style="padding: 7px;">Tips--交限</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1407" style="padding: 7px;">Tips--高速分歧</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1510" style="padding: 7px;">Tips--桥</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1604" style="padding: 7px;">Tips--区域内道路</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1704" style="padding: 7px;">Tips--交叉路口名称</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1803" style="padding: 7px;">Tips--挂接</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1901" style="padding: 7px;">Tips--道路名</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==2001" style="padding: 7px;">Tips--测线</label>
+    </div>
     <div class="title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 9px;">
             <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px"
@@ -491,33 +532,31 @@
                 <div class="panel-body" style="padding-bottom: 0px; ">
                     <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
-                            <label class="col-sm-3 control-label" style="padding: 4px"> 备注：</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px"> 备注：</label>
 
-                            <div class="col-sm-8" ng-bind="remarksContent" style="padding: 4px">
+                            <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px">
 
                             </div>
                         </div>
 
-                        <div class="form-group" style="height:10%; width:100%; margin-top: 10px;"
+                        <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;"
                              ng-if="allTipsType!=1302&&allTipsType!=1301">
-
                             <div class="col-sm-3">
                                 <button type="button" class="btn btn-xs "
-                                        style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;  "
-                                        ng-show="allTipsType==2001||allTipsType==1201" ng-click="transBridge($event)">
-                                    转数据
+                                        style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px; width:50px; "
+                                        ng-show="allTipsType==2001||allTipsType==1201" >
+                                    <a href="#" data-toggle="tab" ng-click="transBridge($event)" style="font-size: 10px;">转数据</a>
                                 </button>
                             </div>
                             <div class="col-sm-5">
                                 <button type="button" class="btn btn-xs " ng-hide="allTipsType==2001||allTipsType==1201"
-                                        style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;"
-                                        ng-hide="allTipsType==1201" ng-click="upBridgeStatus(nArrayData[0],$event)">改状态
+                                        ng-hide="allTipsType==1201" >
+                                    <a href="#" data-toggle="tab" ng-click="upBridgeStatus(nArrayData[0],$event)" style="font-size: 10px;">改状态</a>
                                 </button>
                             </div>
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-xs "
-                                        style="background-color: #F6F6F6; border-color: #EBEBEB;margin-left: 3px; border-radius: 5px;"
-                                        ng-click="closeTips()">关闭
+                                <button type="button" class="btn btn-xs ">
+                                    <a href="#" data-toggle="tab" ng-click="closeTips()" style="font-size: 10px;">关 闭</a>
                                 </button>
                             </div>
                         </div>
