@@ -81,7 +81,7 @@ fastmap.uikit.HighLightController = (function () {
                             var style = layer.styleFor(feature, color);
 
                             var geom = feature.geometry.coordinates;
-                            if (featureOfHigh === "links" || featureOfHigh === "link" || featureOfHigh === "linksOfCross") {
+                            if (featureOfHigh === "links" || featureOfHigh === "link" || featureOfHigh === "linksOfCross"||featureOfHigh ==='linksOfnode') {
                                 layer._drawLineString(ctx, geom, true, style, {
                                     color: '#696969',
                                     radius: 3

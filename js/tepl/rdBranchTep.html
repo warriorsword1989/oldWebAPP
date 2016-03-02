@@ -6,7 +6,7 @@
         margin-right: 0px;
     }
     input[type="text"] {
-        border: 1px solid #e5e5e5;
+        border: 1px solid #FFFFFF;
         border-style: ridge;
         background-color: #404040;
     }
@@ -205,10 +205,11 @@
         width: 69%;
     }
     .d-input{
-        border: 1px solid #e5e5e5;
+        border: 1px solid #FFFFFF;
         border-style: ridge;
         background-color: rgba(90, 90, 90, 0.98);
         width: 100%;
+        border-radius: 3px;
     }
     .d-group{
         margin-top:3px;
@@ -222,6 +223,7 @@
         height: 20px !important;
         line-height: 8px !important;
         border: 1px solid #FFF !important;
+        padding-top: 4px;
     }
 </style>
 
@@ -229,8 +231,8 @@
     <div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;">
         分歧
         <div class="btn-group d-radio-btn" data-toggle="buttons">
-          <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-repeat="item in divergenceIds" ng-click="switchDiver(item.id)">
-            <input type="radio" class="diverRadio" name="diverType" autocomplete="off" checked>{{item.id}}
+          <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-repeat="item in divergenceIds.details" ng-click="switchDiver(item.pid)">
+            <input type="radio" class="diverRadio" name="diverType" autocomplete="off" checked>{{item.pid}}
           </label>
         </div>
     </div>

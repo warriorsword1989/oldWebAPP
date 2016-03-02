@@ -369,9 +369,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $("#picMapShow").css("display", "none");
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        console.log(data.g_location.coordinates[1]+"_"+data.g_location.coordinates[0])
                         var center=map.getCenter();
-                        console.log(center["lat"],center["lng"]);
                         objCtrl.setCurrentObject(data.data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
@@ -380,7 +378,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
                                 map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                console.log(d.errcode)
                                 if (d.errcode === -1) {
                                    // swal("查询失败", d.errmsg, "error");
                                    $timeout(function(){
