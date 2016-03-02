@@ -16,7 +16,13 @@ function initProHtml(projects){
 	$.each(projects,function(i,v){
 		_html.push('<div class="box col-md-3 col-lg-3">');
 		_html.push('<div class="img_box">');
-		_html.push('<img class="img_box_img" src="http://img05.tooopen.com/images/20150307/tooopen_sy_81814762458.jpg" alt="');
+        if(v.projectName.indexOf("tianjin")>-1){
+            _html.push('<img class="img_box_img" src="css/img/tianjin.png" alt="');
+        }
+        else{
+            _html.push('<img class="img_box_img" src="css/img/beijing.png" alt="');
+        }
+
 		_html.push(v.projectName);
 		_html.push('">');
 		_html.push('<div class="img_box_caption">');
