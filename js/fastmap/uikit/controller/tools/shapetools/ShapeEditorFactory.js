@@ -3,13 +3,8 @@
  * Class ShapeEditorFactory
  */
 
-fastmap.uikit.ShapeEditorFactory = (function() {
+fastmap.uikit.ShapeEditorFactory =  L.Class.extend({
 
-
-
-    var instantiated;
-    function init(options) {
-        var shapeEditorFactory =  L.Class.extend({
             /***
              *
              * @param {Object}options
@@ -37,17 +32,6 @@ fastmap.uikit.ShapeEditorFactory = (function() {
                 return toolsObject;
             }
         });
-        return  new shapeEditorFactory(options);
-    }
-
-    return function(options) {
-        if (!instantiated) {
-            instantiated = init(options);
-        }
-        return instantiated;
-    }
-
-})();
 
 fastmap.uikit.shapeeditorfactory = function (options) {
     return new fastmap.uikit.ShapeEditorFactory(options);

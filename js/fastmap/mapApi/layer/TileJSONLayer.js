@@ -1343,7 +1343,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     var rdLinkType = RD_LINK_TYPE[0];
                 }
 
-                var color = RD_LINK_Colors[parseInt(c)];
+                var color = RD_LINK_Colors[parseInt(c)-1];
                 return {
                     size: 1,
                     color: color,

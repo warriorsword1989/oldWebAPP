@@ -366,14 +366,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         }, nodeStyle, feature.properties);
 
                         if(feature.properties.snode == nodeArr[0]){
-                            this.layer._drawPoint(ctx,geom[0], {
-                                color: 'rgba(105,105,105,1)',
-                                radius: 3
+                            this.layer._drawPoint(ctx,geom[0][0], {
+                                color: 'blue',
+                                radius: 4
                             }, true);
                         }else if(feature.properties.enode == nodeArr[0]){
-                            this.layer._drawPoint(ctx, geom[geom.length-1], {
-                                color: 'rgba(105,105,105,1)',
-                                radius: 3
+                            this.layer._drawPoint(ctx, geom[geom.length-1][0], {
+                                color: 'blue',
+                                radius: 4
                             }, true);
                         }
 
