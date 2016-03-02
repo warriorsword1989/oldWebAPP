@@ -1,0 +1,176 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        /*color: #0f096e;*/
+        color: #58666e;
+        /*background-color: transparent;*/
+       margin-right: 0px;
+   }
+
+   .list-group-item {
+       position: relative;
+       display: block;
+       padding: 1px 15px;
+       margin-bottom: -1px;
+       /*background-color: #000;*/
+        border: 1px solid #ddd;
+    }
+
+    #rdNodediv {
+       /* background-color: #000;*/
+        opacity: 1;
+        width: 100%;
+    }
+
+    #rdNodediv ul {
+        /*background-color: #000;*/
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+    }
+
+    #rdNodediv ul > li {
+        background-color: transparent;
+    }
+
+    #rdNodediv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+        width:130px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+
+    }
+
+
+
+    #rdNodediv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+        width:130px;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    #rdNodediv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #rdNodediv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #rdNodediv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+
+    .checkboxli {
+        background-color: #e4e4e4;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+    }
+</style>
+<div id="rdNodediv"  ng-controller="rdNodeFromController" >
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">道路点</label></div>
+                <div class="inline"><input type="text" readonly ng-model="rdNodeData.pid"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">NODE种别</label></div>
+            <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.kind"
+                            ng-options="value.id as value.label for value in kindOptions" >
+                    </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">差分产品ID</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="rdNodeData.difGroupid">
+                </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">数据来源</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.srcFlag"
+                            ng-options="value.id as value.label for value in srcFlagOptions" >
+                    </select>
+                </div>
+        </li>
+
+        <li class="list-group-item">
+            <div ><label class="control-label">精度级别</label></div>
+
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.digitalLevel"
+                            ng-options="value.id as value.label for value in digitalLeveOptions" >
+                    </select>
+                </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">辅助标志</label></div>
+
+            <div class="inline" style="text-align: left">
+                <select ng-model="auxiFlag" ng-options="value.id as value.label for value in auxiFlagOptions" >
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">图幅号码</label></div>
+                <div class="inline" style="text-align: left" ng-repeat="mitem in rdNodeData.meshes">
+                    <input type="text"  ng-model="mitem.meshId">
+                </div>
+
+        </li>
+        <li class="list-group-item">
+            <div style="margin-top: 5px;"><label class="control-label">Node形态</label></div>
+
+            <div class="inline" style="text-align: left;">
+                <a  ng-click="showPopover()" style="cursor: pointer;">添加</a>
+            </div>
+            <div class="inline" id="fromOfWRoaddiv" >
+                <li ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                    {{fromitem.label}}
+                </li>
+            </div>
+        </li>
+
+    </ul>
+</div>
