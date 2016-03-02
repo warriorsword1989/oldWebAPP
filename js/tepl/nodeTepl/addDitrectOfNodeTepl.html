@@ -1,0 +1,27 @@
+<style>
+.checkboxli {
+background-color: #e4e4e4;
+border: 1px solid #aaa;
+border-radius: 4px;
+cursor: default;
+float: left;
+margin-left: 5px;
+margin-right: 5px;
+margin-top: 5px;
+padding: 0 5px;
+}
+    div{
+        font-size: 12px;
+    }
+</style>
+<div ng-controller="addDirectOfRestController" style="color:#FFF;">
+            <div style="padding: 5px;color:#FFF;"><label class="control-label">node形态添加</label><a style="float: right; margin-right: 10px;" ng-click="closeWin()">X</a></div>
+            <div  ng-repeat="addItem in fromOfWayOption">
+                <span ng-if="addItem.isCheck==true" style="padding: 5px;color:#FFF;">
+                    <input type="checkbox"  checked="checked" ng-click="remove(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
+                </span>
+                <span ng-if="addItem.isCheck==false" style="padding: 5px;color:#FFF;">
+                    <input type="checkbox"   ng-click="getCheck(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
+                </span>
+            </div>
+</div>

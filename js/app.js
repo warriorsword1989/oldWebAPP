@@ -1,13 +1,14 @@
 ﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad,$timeout) {
 
-$('#dataTipsOriginImg').smartZoom({'containerClass':'zoomableContainer'}); 
+//$('#dataTipsOriginImg').smartZoom({'containerClass':'zoomableContainer'});
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
     //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
+    $scope.suspendObjURL = "";
     $scope.save = "";//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消

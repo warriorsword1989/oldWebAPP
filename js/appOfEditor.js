@@ -9,6 +9,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
+    $scope.suspendObjURL = "";
     $scope.save = "";//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
@@ -16,11 +17,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.panelFlag = true;
-    $scope.outErrorArr=[true,false,false,false] ;
+    $scope.panelFlag = false;
+    $scope.outErrorArr=[false,false,false,true] ;
     $scope.arrowFlag = true;
     $scope.objectFlag = true;
-    $scope.outErrorUrlFlag = true;
+    $scope.outErrorUrlFlag = false;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
@@ -38,8 +39,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     //登录时
     keyEvent($ocLazyLoad,$scope);
     $scope.zoom = [];
-    $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-        $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
+    $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
+            $scope.outputTab = 'js/tepl/outputTepl.html';
         appInit();
         for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
             $scope.zoom.push(i);
@@ -282,18 +283,17 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 
 }]);
 function appInit(){
-
     map = L.map('map',{
         attributionControl: false,
         zoomControl:false
     }).setView([40.012834, 116.476293], 17);
     /*增加比例尺*/
-    var scale = L.control.scale({
-        metric:true,
-        imperial:false,
-        position:'bottomleft',
-        updateWhenIdle:true
-    }).addTo(map);
+//    var scale = L.control.scale({
+//        metric:true,
+//        imperial:false,
+//        position:'bottomleft',
+//        updateWhenIdle:true
+//    }).addTo(map);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();

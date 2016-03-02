@@ -12,13 +12,24 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
-            Application.functions.getRdObjectById("19736","RDSPEEDLIMIT",function(data) {
-                objCtrl.setCurrentObject(data.data);
-                $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/speedLimitTepl.html';
+            $("#fm-dataList-btnGroup button").click(function(){
+                $("#fm-dataList-btnGroup button").removeClass("active");
+                $(this).addClass("active");
+            })
+            Application.functions.getRdObjectById("100015136","RDNODE",function(data) {
+                objCtrl.setCurrentObject(data);
+                $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/nodeTepl/rdNodeFromTepl.html';
                     }
                 );
             })
+            //Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
+            //    objCtrl.setCurrentObject(data.data);
+            //    $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
+            //            $scope.$parent.$parent.objectEditURL = 'js/tepl/restrictTepl/trafficLimitOfNormalTepl.html';
+            //        }
+            //    );
+            //})
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
@@ -242,11 +253,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if($scope.showOrHideId!=="") {
                     if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
                         $("#" +  $scope.showOrHideId).removeClass("selected");
-                        $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
                     else {
                         $("#" +  $scope.showOrHideId).addClass("selected")
-                        $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                     }
                    if($scope.showOrHideId===item.id) {
                        $scope.showOrHideId = "";
@@ -256,11 +267,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if($scope.showOrHideIdOfPending!=="") {
                     if ($("#" +  $scope.showOrHideIdOfPending).hasClass("selected")) {
                         $("#" +  $scope.showOrHideIdOfPending).removeClass("selected");
-                        $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
                     else {
                         $("#" +  $scope.showOrHideIdOfPending).addClass("selected")
-                        $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                     }
                     if($scope.showOrHideIdOfPending===(item.id+"Pending")) {
                         $scope.showOrHideIdOfPending= "";
@@ -270,11 +281,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if($scope.showOrHideIdOfPended!=="") {
                     if ($("#" +  $scope.showOrHideIdOfPended).hasClass("selected")) {
                         $("#" +  $scope.showOrHideIdOfPended).removeClass("selected");
-                        $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                     }
                     else {
                         $("#" +  $scope.showOrHideIdOfPended).addClass("selected")
-                        $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                        $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("gglyphicon-folder-open").removeClass("glyphicon-folder-close")
                     }
                     if($scope.showOrHideIdOfPended===(item.id+"Pended")) {
                         $scope.showOrHideIdOfPended= "";
@@ -289,11 +300,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.showOrHideId = item.id;
                             if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
                                 $("#" +  $scope.showOrHideId).removeClass("selected");
-                                $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideId).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                             }
                             else {
                                 $("#" +  $scope.showOrHideId).addClass("selected")
-                                $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.allSubItems = data.data;
                         });
@@ -302,11 +313,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.showOrHideIdOfPending = (item.id+"Pending");
                             if ($("#" +  $scope.showOrHideIdOfPending).hasClass("selected")) {
                                 $("#" +  $scope.showOrHideIdOfPending).removeClass("selected");
-                                $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPending).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                             }
                             else {
                                 $("#" +  $scope.showOrHideIdOfPending).addClass("selected")
-                                $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.pendSubItems = data.data;
                         });
@@ -315,11 +326,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $scope.showOrHideIdOfPended = (item.id+"Pended");
                             if ($("#" +  $scope.showOrHideIdOfPended).hasClass("selected")) {
                                 $("#" +  $scope.showOrHideIdOfPended).removeClass("selected");
-                                $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-triangle-bottom").addClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPended).find("i").removeClass("glyphicon-folder-open").addClass("glyphicon-folder-close")
                             }
                             else {
                                 $("#" +  $scope.showOrHideIdOfPended).addClass("selected")
-                                $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-triangle-bottom").removeClass("glyphicon-triangle-right")
+                                $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.solvedSubItems = data.data;
                         });
@@ -358,9 +369,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $("#picMapShow").css("display", "none");
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        console.log(data.g_location.coordinates[1]+"_"+data.g_location.coordinates[0])
                         var center=map.getCenter();
-                        console.log(center["lat"],center["lng"]);
                         objCtrl.setCurrentObject(data.data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
@@ -369,7 +378,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
                                 map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                console.log(d.errcode)
                                 if (d.errcode === -1) {
                                    // swal("查询失败", d.errmsg, "error");
                                    $timeout(function(){
@@ -487,22 +495,32 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                        data.f_array.push({id: "413226", type: 1});
-                        data.f_array.push({id: "49101507", type: 1});
                         $scope.$parent.$parent.brigeLinkArray = data.f_array;
-                        Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
-                            if (data.errcode === -1) {
+                        if(!data.f_array.length){
+                            $timeout(function(){
+                                $.showPoiMsg('f_array为空',e);
+                                $scope.$apply();
+                            });
+                            return;
+                        }
+                        Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (d) {
+                            if (d.errcode === -1) {
+                                $timeout(function(){
+                                    $.showPoiMsg(d.errmsg,e);
+                                    $scope.$apply();
+                                });
                                 return;
                             }
-                            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+                            var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
                             for (var i = 0, len = linkArr.length; i < len; i++) {
                                 var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                                 points.push(point);
                             }
+                            // map.panTo({lat: (data.gSLoc.coordinates[1]+data.gELoc.coordinates[1])/2, lon: (data.gELoc.coordinates[0]+data.gSLoc.coordinates[0])/2});
                             map.panTo({lat: points[0].y, lon: points[0].x});
                             var line = fastmap.mapApi.lineString(points);
-                            selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-                            objCtrl.setCurrentObject(data);
+                            selectCtrl.onSelected({geometry: line, id: data.f_array[0].id});
+                            objCtrl.setCurrentObject(d);
                             if (objCtrl.updateObject !== "") {
                                 objCtrl.updateObject();
                             }

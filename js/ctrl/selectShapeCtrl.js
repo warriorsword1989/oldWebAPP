@@ -235,11 +235,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             if (objCtrl.rdrestrictionObject !== "") {
                                 objCtrl.rdrestrictionObject();
                             }
-                            $ocLazyLoad.load('ctrl/rdRestriction').then(function () {
+                            $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
                                 if ($scope.tips === 0) {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
                                 } else if ($scope.type === 1) {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfTruckTepl.html";
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfTruckTepl.html";
                                 }
                             })
                             break;

@@ -49,7 +49,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 var geom = feature.geometry.coordinates;
 
                 if (this.dataTipsId && data[key].properties.id == this.dataTipsId) {
-                    //console.log("id" + data[key].properties.id);
+                    // console.log("id" + data[key].properties.id);
                     var ctx = {
                         canvas: this.tiles[index].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
