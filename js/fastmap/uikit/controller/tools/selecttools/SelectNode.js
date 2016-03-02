@@ -19,8 +19,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
-        //this.container = this._map._container;
-        //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
         this.id = this.currentEditLayer.options.id;
         this.tiles = this.currentEditLayer.tiles;
@@ -52,12 +50,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this._map.off('mousemove', this.onMouseMove, this);
     },
 
-    //disable: function () {
-    //    if (!this._enabled) { return; }
-    //    this._map.dragging.enable();
-    //    this._enabled = false;
-    //    this.removeHooks();
-    //},
+
     onMouseMove:function(event){
         this.snapHandler.setTargetIndex(0);
         if(this.snapHandler.snaped == true){
@@ -118,7 +111,8 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                     this.currentEditLayer.fire("getId", {
                         id: data[item].properties.snode
                     })
-                    this.selectCtrl.selectedFeatures =data[item].properties.snode
+                    this.selectCtrl.selectedFeatures =data[item].properties.snode;
+                    break;
                 } else {
 
                 }
@@ -175,34 +169,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                     var restrictObj = feature.properties.restrictioninfo;
                     var geom = feature.geometry.coordinates;
                     if (restrictObj !== undefined) {
-                        if (restrictObj.constructor === Array) {
-                            for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                newStyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                if (theory > 0) {
-                                    newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                                    newGeom[1] = (parseInt(geom[1]));
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                } else {
-                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                }
-                            }
-                        } else {
+
                             var restrictArr = restrictObj.split(",");
                             for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
-                                if (restrictArr[fact].constructor === Array) {
-                                    newStyle = {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
 
-                                } else {
-                                    if (restrictArr[fact].indexOf("[") > -1) {
-                                        restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                        restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                        newStyle = {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                    } else {
-                                        newStyle = {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-                                    }
-
-                                }
                                 if (fact > 0) {
                                     newGeom[0] = (parseInt(geom[0]) + fact * 16);
                                     newGeom[1] = (parseInt(geom[1]));
@@ -211,7 +182,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                                     this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
                                 }
                             }
-                        }
+
 
                     }
 
@@ -220,82 +191,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         }
     }
     ,
-    /***
-     * 绘制高亮
-     * @param id
-     * @private
-     */
-    _drawHeight: function (id) {
-        this.redrawTiles = this.tiles;
-        for (var obj in this.tiles) {
-            var data = this.tiles[obj].data.features;
 
-            for (var key in data) {
-
-                var feature = data[key];
-                var type = feature.geometry.type;
-                var geom = feature.geometry.coordinates;
-                if (data[key].properties.id == id) {
-                    var ctx = {
-                        canvas: this.tiles[obj].options.context,
-                        tile: L.point(key.split(',')[0], key.split(',')[1]),
-                        zoom: this._map.getZoom()
-                    }
-                    if (type == "Point") {
-                        if (feature.properties.restrictioninfo === undefined) {
-                            return;
-                        }
-                        var newStyle = "", newGeom = [];
-                        var restrictObj = feature.properties.restrictioninfo;
-                        if (restrictObj !== undefined) {
-                            if (restrictObj.constructor === Array) {
-                                for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyle = {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    if (theory > 0) {
-                                        newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                                        newGeom[1] = (parseInt(geom[1]));
-                                        this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    } else {
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                    }
-
-                                }
-                            } else {
-                                var restrictArr = restrictObj.split(",");
-                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                    if (restrictArr[fact].constructor === Array) {
-                                        newStyle = {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                    } else {
-                                        if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyle = {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                        } else {
-                                            newStyle = {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-                                        }
-                                    }
-                                    if (fact > 0) {
-                                        newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                                        newGeom[1] = (parseInt(geom[1]));
-                                        this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    } else {
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                    }
-
-                                }
-                            }
-
-                        }
-
-
-                    }
-                }
-            }
-        }
-
-
-    },
     /***
      * 点击node点
      * @param d
