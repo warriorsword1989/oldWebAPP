@@ -23,16 +23,18 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        Application.functions.getRdObjectByDetailId($scope.diverId, "RDBRANCH", function (data) {
+        console.log(divergenceIds)
+        Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
             $scope.$apply();
         });
     }
     $scope.setOriginalDataFunc();
     $scope.getObjectById = function(){
+        console.log(2)
         $scope.$parent.$parent.showLoading = true;  //showLoading
          //箭头图
-        Application.functions.getRdObjectByDetailId($scope.diverId, "RDBRANCH", function (data) {
+        Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
             // oldData = data.data;
             // objectEditCtrl.setOriginalData(data.data);
             if(data.errcode == 0){
