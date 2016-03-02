@@ -485,7 +485,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     $scope.dateSelect = function(e){
         $('body').append($(e.target).parents(".date-well").find(".datetip"));
         if($('body .datetip:last').css('display') == 'none'){
-            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':'345px'});
+            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':'285px'});
             $('body .datetip:last').show();
         }else{
             $('body .datetip:last').hide();

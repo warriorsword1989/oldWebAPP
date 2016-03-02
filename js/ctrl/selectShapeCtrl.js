@@ -93,10 +93,18 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
             $scope.$parent.$parent.changeBtnClass(num);
-            layerCtrl.pushLayerFront('referenceLine');
+
+            layerCtrl.pushLayerFront('edit');
+            //layerCtrl.pushLayerFront('referenceLine');
 
 
-            map.currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink, linksFlag: true});
+            map.currentTool = new fastmap.uikit.SelectPath(
+                {
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
@@ -170,42 +178,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if (data.errcode === -1) {
                         return;
                     }
-                    var lines = []
+                    var lines = [];
+                    var linepids = [];
                     for (var index in data.data) {
                         var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
                         for (var i = 0, len = linkArr.length; i < len; i++) {
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                             points.push(point);
                         }
-                        //var line = fastmap.mapApi.lineString(points);
-                        lines.push(points);
+                        lines.push(fastmap.mapApi.lineString(points));
+                        linepids.push(data.data[index].pid);
                     }
 
                     var multipolyline = fastmap.mapApi.multiPolyline(lines);
 
-                    var editLyer = layerCtrl.getLayerById('edit');
-                    layerCtrl.pushLayerFront('edit');
-                    var sobj = shapeCtrl.shapeEditorResult;
-                    editLyer.drawGeometry = multipolyline;
-                    editLyer.draw(multipolyline, editLyer);
-                    sobj.setOriginalGeometry(multipolyline);
-                    sobj.setFinalGeometry(multipolyline);
-
                     selectCtrl.onSelected({geometry: multipolyline, id: $scope.data.id});
 
-                    if (shapeCtrl.getCurrentTool()['options']) {
-                        shapeCtrl.stopEditing();
-                    }
-
-                    shapeCtrl.setEditingType('pathNodeMove');
-                    shapeCtrl.startEditing();
-                    shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);
-                    shapeCtrl.on("stopshapeeditresultfeedback", function () {
-                        shapeCtrl.off("startshapeeditresultfeedback", saveOrEsc);
-                    });
-
-
                     Application.functions.getRdObjectById($scope.data.id, "RDNODE", function (data) {
+                        data.linepids = linepids;
+                        data.nodeid = $scope.data.id;
                         objCtrl.setCurrentObject(data);
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();

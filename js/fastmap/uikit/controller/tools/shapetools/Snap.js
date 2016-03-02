@@ -75,7 +75,7 @@ fastmap.uikit.Snap = L.Handler.extend({
 
         for (var layerindex in this._guides){
             this.currentTileData = this._guides[layerindex].tiles[tiles[0]+':'+tiles[1]];
-            var closest = this.closeestLineSnap(this._map, this.currentTileData.data.features, tilePixcel, 10,this.snapVertex,this._guides[layerindex].id);
+            var closest = this.closeestLineSnap(this._map, this.currentTileData.data.features, tilePixcel, 10,this.snapVertex,this._guides[layerindex].selectedid);
             if(closest){
                 this.snaped = true;
                 this.properties = closest.properties;
@@ -257,6 +257,7 @@ fastmap.uikit.Snap = L.Handler.extend({
 
                     result = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0],latlngA[1]),new fastmap.mapApi.Point(latlngB[0],latlngB[1]));
                     result.distance = distance;
+                    result.index = -1;
                 }
         }
         return result;

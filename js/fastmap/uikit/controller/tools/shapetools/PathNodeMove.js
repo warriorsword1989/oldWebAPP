@@ -67,20 +67,20 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
 
-        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates;
 
-        for (var j = 0, len = points.coordinates.length; j < len; j++) {
+        for (var j = 0, len = points.length; j < len; j++) {
 
-            for(var k= 0,length = points.coordinates[j].length; k<length; k++){
-                //if(j != 0 && j !=len-1){
-                var disAB = this.distance(this._map.latLngToLayerPoint([points.coordinates[j][k].y,points.coordinates[j][k].x]), layerPoint);
+            for(var k= 0,length = points[j].components.length; k<length; k++){
+
+                var disAB = this.distance(this._map.latLngToLayerPoint([points[j].components[k].y,points[j].components[k].x]), layerPoint);
 
                 if (disAB > 0 && disAB < 5) {
 
                     this.targetIndexs.push(j+"-"+k);
-                    //that.resetVertex(j,layerPoint);
+
                 }
-                //}
+
             }
 
 
@@ -93,7 +93,6 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
 
         this.container.style.cursor = 'pointer';
 
-
         this.container.style.cursor = 'pointer';
         if (this._mapDraggable) {
             this._map.dragging.disable();
@@ -105,15 +104,6 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
         this.targetIndex = this.targetIndexs.length;
         this.targetPoint = event.latlng;
 
-
-
-
-        //if(this.snapHandler.snaped == true){
-        //    this.shapeEditor.fire('snaped',{'snaped':true});
-        //    this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
-        //}else{
-        //    this.shapeEditor.fire('snaped',{'snaped':false});
-        //}
         for(var i in this.targetIndexs){
             this.resetVertex(this.targetIndexs[i],this.targetPoint);
         }
@@ -139,11 +129,8 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
      * 重新设置节点
      */
     resetVertex:function(index ,targetPoint){
-        //for(var i in this.shapeEditor.shapeEditorResult.getFinalGeometry().components){
-        //    this.shapeEditor.shapeEditorResult.getFinalGeometry().components[index].splice(index, 1, fastmap.mapApi.point(targetPoint.lng, targetPoint.lat));
-        //}
 
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates[index.split('-')[0]].splice(index.split('-')[1], 1, fastmap.mapApi.point(targetPoint.lng, targetPoint.lat));
+        this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates[index.split('-')[0]].components.splice(index.split('-')[1], 1, fastmap.mapApi.point(targetPoint.lng, targetPoint.lat));
         //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
         //    distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
         //distance = distance1<distance2?distance1:distance2
