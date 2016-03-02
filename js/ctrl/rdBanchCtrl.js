@@ -23,7 +23,6 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        console.log(divergenceIds)
         Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
             $scope.$apply();
@@ -31,7 +30,6 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     }
     $scope.setOriginalDataFunc();
     $scope.getObjectById = function(){
-        console.log(2)
         $scope.$parent.$parent.showLoading = true;  //showLoading
          //箭头图
         Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
