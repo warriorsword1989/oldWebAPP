@@ -102,7 +102,15 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                 } else {
                     this.enodePid = parseInt(this.snapHandler.properties.snode);
                 }
-            } else {
+            } else if (this.snapHandler.snapIndex == -1) {
+                this.catches.push({
+                    linkPid: parseInt(this.snapHandler.properties.id),
+                    lon: mousePoint.lng,
+                    lat: mousePoint.lat
+                })
+            }
+
+            else {
                 if (this.clickcount == 2) {
                     this.snodePid = parseInt(this.snapHandler.properties.enode);
                 } else {
@@ -115,13 +123,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                 })
             }
 
-            if (this.snapHandler.snapIndex == -1) {
-                this.catches.push({
-                    linkPid: parseInt(this.snapHandler.properties.pid),
-                    lon: mousePoint.lng,
-                    lat: mousePoint.lat
-                })
-            }
+
 
         } else {
 
