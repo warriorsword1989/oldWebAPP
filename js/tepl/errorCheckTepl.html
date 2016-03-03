@@ -68,8 +68,8 @@
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;padding-left: 25px;">{{row.createDate}}</div></td>
                <td><div style="width:80px;color:#FFF;word-wrap:break-word;padding-left: 20px;">{{row.worker}}</div></td>
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;">
-                   <select class="form-control" ng-model="initType"
-                           ng-options="value.id as value.label for value in initTypeOptions"  style="padding: 0px"  ng-change="changeType(initType,row.id)">
+                   <select class="form-control" ng-model="initType"  style="height: 25px;padding: 0;"
+                           ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
                    </select></div>
                </td>
            </tr>
