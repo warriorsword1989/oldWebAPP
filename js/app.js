@@ -14,6 +14,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.cancel = "";//取消
     $scope.rowkeyOfDataTips = "";
     $scope.updateDataTips = "";
+    $scope.brigeLinkArrays = [];//桥
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
