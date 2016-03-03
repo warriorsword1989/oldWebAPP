@@ -220,6 +220,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }else{
             if($scope.checkTotalPage - $scope.itemsByPage == 0){
                 $(".pic-next").prop('disabled','disabled');
+            }else{
+                $(".pic-next").prop('disabled',false);
             }
             $(".pic-pre").prop('disabled',false);
         }
