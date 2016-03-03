@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var zonePeopertyApp = angular.module("lazymodule", []);
-zonePeopertyApp.controller("zonePeopertyController",function($scope) {
+zonePeopertyApp.controller("zonePeopertyController",function($scope,$timeout,$ocLazyLoad) {
     $scope.zoneData =  $scope.linkData;
     $scope.typeoption=[
         {"id":0,"label":"未分类"},
@@ -38,6 +38,14 @@ zonePeopertyApp.controller("zonePeopertyController",function($scope) {
         $("#sidediv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#side"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
         item.side=flag;
+    }
+
+    $scope.showZoneWin=function(){
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+        $scope.linkData["oridiRowId"] = item.rowId;
+        $ocLazyLoad.load('ctrl/linkCtrl/infoOfZoneCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfZoneTepl.html";
+        })
     }
 
 })
