@@ -16,13 +16,13 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-            Application.functions.getRdObjectById("16590530","RDLINK",function(data) {
-                objCtrl.setCurrentObject(data.data);
-                $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/currentObjectTepl.html';
-                    }
-                );
-            })
+//            Application.functions.getRdObjectById("16590530","RDLINK",function(data) {
+//                objCtrl.setCurrentObject(data.data);
+//                $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+//                        $scope.$parent.$parent.objectEditURL = 'js/tepl/currentObjectTepl.html';
+//                    }
+//                );
+//            })
             //Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
             //    objCtrl.setCurrentObject(data.data);
             //    $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
