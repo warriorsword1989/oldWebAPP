@@ -76,9 +76,9 @@ fastmap.uikit.SelectRdlane = (function () {
             }
             ,
 
-            /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
-     *清除高亮
-     */
+            /***
+             *清除高亮
+             */
             _cleanHeight: function () {
 
                 for (var index in this.redrawTiles) {
@@ -92,38 +92,13 @@ fastmap.uikit.SelectRdlane = (function () {
                     if (data.hasOwnProperty("features")) {
                         for (var i = 0; i < data.features.length; i++) {
                             var feature = data.features[i];
-                            //if (feature.properties.laneconnexityinfo === undefined) {
-                            //    break;
-                            //}
-                            //var newStyle = "", newGeom = [];
-                            //var laneObj = feature.properties.laneconnexityinfo;
-                            //var geom = feature.geometry.coordinates;
-                            //if (laneObj !== undefined) {
-                            //
-                            //    var laneArr = laneObj.split(",");
-                            //    for (var fact = 0, factLen = laneArr.length; fact < factLen; fact++) {
-                            //
-                            //        if (laneArr[fact].indexOf("[") > -1) {
-                            //            laneArr[fact] = laneArr[fact].replace("[", "");
-                            //            laneArr[fact] = laneArr[fact].replace("]", "");
-                            //            newStyle = {src: './css/laneinfo/normal/' + laneArr[fact] + laneArr[fact] + '.png'};
-                            //        } else if (laneArr[fact].indexOf("[") > -1) {
-                            //            laneArr[fact] = laneArr[fact].replace("<", "");
-                            //            laneArr[fact] = laneArr[fact].replace(">", "");
-                            //        }
-                            //        else {
-                            //            newStyle = {src: './css/laneinfo/normal/' + laneArr[fact] + '.png'};
-                            //        }
-                            //        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                            //
-                            //    }
-                            //}
+
                             if (feature.properties.laneconnexityinfo === undefined) {
                                 return;
                             }
                             var newstyle = "";
                             var restrictObj = feature.properties.laneconnexityinfo;
-                            var route = (feature.properties.rdlaneconnexityrotate-90) * (Math.PI / 180);
+                            var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
                             if (isNaN(route)) {
                                 route = 0;
                             }
