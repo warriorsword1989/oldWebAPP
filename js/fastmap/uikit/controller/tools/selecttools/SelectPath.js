@@ -1,6 +1,6 @@
 /**
  * Created by zhongxiaoming on 2015/9/18.
- * Class PathVertexInsert
+ * Class SelectPath
  */
 
 fastmap.uikit.SelectPath = L.Handler.extend({
@@ -17,16 +17,18 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        //this.shapeEditor = this.options.shapeEditor;
+        this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.map;
-        //this.container = this._map._container;
-        //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
         this.tiles = this.currentEditLayer.tiles;
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.linksFlag = this.options.linksFlag;
+
+        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:false,snapVertex:false});
+        this.snapHandler.enable();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
     },
 
     /***
@@ -34,7 +36,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-
+        this._map.on('mousemove', this.onMouseMove, this);
     },
 
     /***
@@ -42,25 +44,37 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        this._map.off('mousemove', this.onMouseMove, this);
     },
 
-    //disable: function () {
-    //    if (!this._enabled) { return; }
-    //    this._map.dragging.enable();
-    //    this._enabled = false;
-    //    this.removeHooks();
-    //},
+    onMouseMove:function(event){
+        this.snapHandler.setTargetIndex(0);
+        if(this.snapHandler.snaped == true){
+            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
+        }else{
+            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
+    },
+
 
     onMouseDown: function (event) {
-        var mouseLatlng = event.latlng;
-        var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
+        var mouseLatlng;
+        if(this.snapHandler.snaped == true){
+            mouseLatlng = this.targetPoint
+        }else{
+            mouseLatlng = event.latlng;
+        }
 
+        var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
-            var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-
+            var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
@@ -72,6 +86,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
                     if (this.linksFlag) {
                         this.currentEditLayer.fire("getId", {id: id,point:point});
+                        this.currentEditLayer.selectedid = id;
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
                         }
@@ -132,9 +147,8 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        //this.currentEditLayer.fire("getId")
     },
-    /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
+    /***
      *清除高亮
      */
     _cleanHeight: function () {

@@ -164,7 +164,7 @@ basicApp.controller("basicController",function($scope,$timeout) {
         $scope.$apply();
     }
     $scope.picNowNum = 0;
-    //$scope.pagesize=10;
+    $scope.pagesize=0;
     $scope.getPicsDate = function(){
         var nameParameter = {
             "name": $scope.inNmae,
@@ -176,7 +176,7 @@ basicApp.controller("basicController",function($scope,$timeout) {
                 $(".pic-loading").hide();
                 $("#namesDiv").css("display", "block");
                 $scope.pictures = data.data.data;
-                $scope.picTotal = Math.ceil(data.data.total/10);
+                $scope.picTotal = Math.ceil(data.data.total/$scope.pagesize);
                 $scope.goPaging();
                 $scope.$apply();
             }

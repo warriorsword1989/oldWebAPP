@@ -8,7 +8,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
 
-
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
