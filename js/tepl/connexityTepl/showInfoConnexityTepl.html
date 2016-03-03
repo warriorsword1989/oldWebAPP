@@ -1,0 +1,114 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        /*color: #0f096e;*/
+        color: #58666e;
+        background-color: transparent;
+        margin-right: 0px;
+    }
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #infoOfConnexityDiv {
+        background-color: #000;
+        opacity: 1;
+        width: 100%;
+    }
+
+    #infoOfConnexityDiv ul {
+        background-color: #000;
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+    }
+
+    #infoOfConnexityDiv ul > li {
+        background-color: #000;
+    }
+
+    #infoOfConnexityDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #infoOfConnexityDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #infoOfConnexityDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #infoOfConnexityDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #infoOfConnexityDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+</style>
+<div ng-controller="infoOfConnexityController" id="infoOfConnexityDiv">
+    <ul class="list-group list-group-lg m-b-none" ng-repeat="item in outLanesArr">
+        <li class="list-group-item">
+            <div><label class="control-label">退出lindID</label></div>
+            <div class="inline"><input type="text" ng-model="item.outLinkPid" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">通达方向</label></div>
+            <div class="inline">
+                <select ng-options="value.id as value.label for value in reachDirOptions"
+                        ng-model="item.reachDir"></select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">进入车道</label></div>
+            <div class="inline"><input type="text" ng-model="item.connexityPid" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">公交车道</label></div>
+            <div class="inline"><input type="text" ng-model="item.busLaneInfo" readonly/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">关系类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="crossingOrLine" value=0 ng-model="item.relationshipType">
+                    路口
+                </label>
+                <label>
+                    <input type="radio" name="crossingOrLine" value=1 ng-model="item.relationshipType">
+                    线线
+                </label>
+            </div>
+        </li>
+    </ul>
+</div>

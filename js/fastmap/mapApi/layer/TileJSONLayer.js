@@ -298,7 +298,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
                 });
             }
-            
         };
     },
     _drawImgRoute: function (ctx, geom, imgsrc, arrorSrc, boolPixelCrs, rount) {
@@ -1064,7 +1063,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
 
                     } else {
-                        this._drawImg(ctx, geom, style, boolPixelCrs);
+
+                            this._drawImg(ctx, geom, style, boolPixelCrs);
+
+
                     }
 
                     break;

@@ -211,8 +211,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 rdlaneconnexity.redraw();
                 Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
                     objCtrl.setCurrentObject(data.data);
-                    $ocLazyLoad.load("ctrl/rdLaneConnexityCtrl").then(function () {
-                        $scope.$parent.$parent.objectEditURL = "js/tepl/rdLaneConnexityTepl.html";
+                    $ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
+                        $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
                     });
                 });
             })
