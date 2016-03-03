@@ -117,21 +117,6 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
         context.linewidth = 1;  //边框宽
         context.strokeStyle = 'red'//边框颜色
         context.strokeRect(options.x, options.y, options.width, options.height);
-        if(this.options.gridInfo[grid.options.gridId]){
-            if(this.options.gridInfo[grid.options.gridId].userId&&!this.options.gridInfo[grid.options.gridId].couldReturn){
-                context.fillStyle = '#B0FEFB';
-                context.fillRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
-            }
-            if(this.options.gridInfo[grid.options.gridId].couldBorrow){
-                context.fillStyle = '#8B84A3';
-                context.fillRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
-            }
-
-            if(this.options.gridInfo[grid.options.gridId].userId&&this.options.gridInfo[grid.options.gridId].couldReturn){
-                context.fillStyle = '#19B076';
-                context.fillRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
-            }
-        }
     },
 
     /***
