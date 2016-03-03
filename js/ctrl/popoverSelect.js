@@ -63,7 +63,7 @@ function  initOrig(origArray,vehicleOptions,ul){
     //下拉框方法
     $("#"+ul).popover({
         trigger: 'click',
-        placement: 'bottom', //top, bottom, left or right
+        placement: 'left', //top, bottom, left or right
         html: 'true',
         content:function(){ return ContentMethod(origArray,vehicleOptions)}
     });
@@ -76,7 +76,6 @@ function  initOrig(origArray,vehicleOptions,ul){
         }
         applicArray=origArray;
     }
-
 }
 
 function initdiv(ul){

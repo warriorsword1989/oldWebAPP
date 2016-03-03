@@ -36,6 +36,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 
     };
 
+
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
     });

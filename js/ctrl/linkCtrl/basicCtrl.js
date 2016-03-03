@@ -65,7 +65,4 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     };
 
 
-
-
-
 })

@@ -191,6 +191,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             return time.split('M')[1].split('d')[0]+'月'+time.split('M')[1].split('d')[1]+'日';
         }else if(time.indexOf('M') > -1 && time.indexOf('d') > -1 && time.indexOf('y') > -1){      //只有年月日
             return time.split('y')[1].split('M')[0]+'年'+time.split('y')[1].split('M')[1].split('d')[0]+'月'+time.split('y')[1].split('M')[1].split('d')[1]+'日';
+        }else if(time.indexOf('d') > -1){
+            return $scope.weekTranslate(time.split('){d')[0])+'起'+time.split('){d')[1].split('}')[0]+'天內';
         }else{
             return time+'月';
         }
@@ -481,16 +483,12 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     }
     /*点击选择日期*/
     $scope.dateSelect = function(e){
-        var $datetip = $(e.target).parents(".date-well").find(".datetip");
-        if($datetip.css('display') == 'none'){
-            // $(".datetip").css('top',(getMousePos(e).y -20) + 'px');
-            // $(".arrow").css('right',(15) + 'px');
-            $(".datetip").css('top','10%');
-            // $(e.target).parents(".date-well").find('.bg-hide-div').css('background-color')
-            // console.log(document.documentElement.scrollTop,getMousePos(e).y,250)
-            $datetip.fadeIn();
+        $('body').append($(e.target).parents(".date-well").find(".datetip"));
+        if($('body .datetip:last').css('display') == 'none'){
+            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':'285px'});
+            $('body .datetip:last').show();
         }else{
-            $datetip.fadeOut();
+            $('body .datetip:last').hide();
         }
     }
     /*点击选择时间*/

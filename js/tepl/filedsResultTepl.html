@@ -209,11 +209,31 @@
         cursor: pointer;
     }
 
+    #fm-dataSelectContainer>a{
+        color:rgba(255,255,255,0.5);
+    }
+
+    #fm-dataSelectContainer>a:hover{
+        color:rgba(255,255,255,0.8);
+    }
+
+    #fm-dataSelectContainer>input{
+        border-radius: 4px;
+        background-color: rgba(0,0,0,0.3);
+        border-width: 0;
+        height: 30px;
+        padding-left: 3px;
+    }
 </style>
 <div ng-controller="fieldsResultController" >
+    <div id="fm-dataSelectContainer" style="">
+        <a href="#" class="btn glyphicon glyphicon-edit" style="font-size: 20px" ></a>
+        <input type="text" style="vertical-align: top;margin-top: 10px;width:180px;padding-right:30px" placeholder="搜索..." />
+        <a href="#" class="btn glyphicon glyphicon-search" style="margin-left: -40px" ></a>
+    </div>
     <div id="fm-dataList-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-xs"><a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;">全部</a></button>
+            <button type="button" class="btn btn-xs"><a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;">全 部</a></button>
         </div>
         <div class="btn-group" role="group" style="border-left: 1px solid #404040;border-right: 1px solid #404040">
             <button type="button" class="btn btn-xs"><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px;">待处理</a></button>

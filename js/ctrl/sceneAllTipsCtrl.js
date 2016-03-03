@@ -267,30 +267,25 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.$apply();
     };
     $scope.openOrigin = function (id) {
-        if(id <= selectCtrl.rowKey.f_array.length-1){
+        if(selectCtrl.rowKey.feedback.f_array && id <= selectCtrl.rowKey.feedback.f_array.length-1){
+            $("#dataTipsOriginModal").show();
             $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
             var originImg = $("#dataTipsOriginImg");
             originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            /*$("#dataTipsOriginModal").css('width',(202+parseInt($("#mainContent").width()))+'px');
-            $("#dataTipsOriginModal").modal({
-                backdrop:false,
-                show:true
-            });
-            $(".modal-backdrop").remove();*/
             dataTipsOriginImg.onload = function(){
                 originImg.hide();
                 originImg.smartZoom('destroy'); 
                 if($(".zoomableContainer").length == 0){
                     $("#dataTipsOriginModal").width(parseInt($("#mainContent").width())-244);
                     originImg.smartZoom({'containerClass':'zoomableContainer'});
-                    $('#zoomInButton,#zoomOutButton').bind("click", function(e){
+                    /*$('#zoomInButton,#zoomOutButton').bind("click", function(e){
                         var scaleToAdd = 0.8;
                         if(e.target.id == 'zoomOutButton')
                             scaleToAdd = -scaleToAdd;
                         originImg.smartZoom('zoom', scaleToAdd);
-                    });
+                    });*/
                 }
-                $("#dataTipsOriginModal").css('visibility', 'inherit');
+                $("#dataTipsOriginModal").show();
                 originImg.show();
             }
             
@@ -399,14 +394,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "stage": 3,
                 "handler": 0
             }
-            if ($scope.dataTipsData.s_sourceType === "1901") {  //道路名
-                if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
-                    $timeout(function(){
-                        $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
-                        $scope.$apply();
-                    });
-                    return;
-                }
+            if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
+                $timeout(function(){
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
@@ -447,6 +440,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     }
 });
 $("#tipsImgClose").click(function(){
-    $("#dataTipsOriginModal").css('visibility','hidden');
+    $("#dataTipsOriginModal").hide();
     $("#dataTipsOriginImg").hide();
 })
