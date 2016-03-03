@@ -61,7 +61,6 @@
             <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" id="test">
                 <div ng-include="layersURL"></div>
             </div>
-
             <div ui-layout-container>
                 <div ui-layout="{flow:'row',dividerSize:'2'}">
                     <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
@@ -72,6 +71,10 @@
                             <div ng-include="addShapeURL" style="float: left;"></div>
                             <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
                         </div>
+                    </div>
+                    <div id="picMapShow">
+                        <img id="picMapImg" alt="无此箭头图">
+                        <div id="picMapDesc"></div>
                     </div>
                 </div>
                 <div class="suspend"  ng-include="suspendObjURL">
