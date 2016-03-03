@@ -408,7 +408,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                             });
                                         });
                                     }
-
                                 });
                                 break;
                             case "1604":
