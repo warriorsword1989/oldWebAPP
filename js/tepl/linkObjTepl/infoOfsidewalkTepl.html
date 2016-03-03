@@ -1,0 +1,151 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #sidewalkDiv {
+        background-color: #000;
+        opacity: 1;
+        padding: 10px 5px;
+        width: 100%;
+        z-index: 20;
+    }
+
+    #sidewalkDiv ul {
+        background-color: #000;
+        list-style: none;
+        padding:5px;
+        overflow: hidden;
+    }
+
+    #sidewalkDiv ul > li {
+        background-color: #000;
+    }
+
+    #sidewalkDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #sidewalkDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #sidewalkDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #sidewalkDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #sidewalkDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+</style>
+<div ng-controller="sidewalkController" id="sidewalkDiv">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div>
+                <a ng-click="addSideWalk()" style="cursor: pointer">添加任性便道</a>
+            </div>
+        </li>
+    </ul>
+    <ul ng-repeat="sideItem in sidewalkData" class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+
+        <li class="list-group-item">
+            <div><label class="control-label">位置关系</label></div>
+            <div class="inline">
+                <select  ng-model="sideItem.sidewalkLoc" ng-options="value.id as value.label for value in sidewalkLocoptions">
+                <option>--</option>
+            </select>
+                   <span class="glyphicon glyphicon-remove-sign"
+                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
+                         ng-click="minusSideWalk($index)"></span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">隔离方式</label></div>
+            <div class="inline">
+                <select  ng-model="sideItem.dividerType" ng-options="value.id as value.label for value in dividerTypeoptions" >
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">作业方向</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="workDirRadio" value=0 ng-model="sideItem.workDir">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="workDirRadio" value=1 ng-model="sideItem.workDir">
+                    顺
+                </label>
+                <label>
+                    <input type="radio" name="workDirRadio" value=2 ng-model="sideitem.workDir">
+                    逆
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">处理标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="processFlagRadio" value=0 ng-model="sideItem.processFlag">
+                    程序
+                </label>
+                <label>
+                    <input type="radio" name="processFlagRadio" value=1 ng-model="sideItem.processFlag">
+                    手工
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">采集标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="captureFlagRadio" value=0 ng-model="sideItem.captureFlag">
+                    未采集
+                </label>
+                <label>
+                    <input type="radio" name="captureFlagRadio" value=1 ng-model="sideItem.captureFlag">
+                    外业确认
+                </label>
+            </div>
+        </li>
+    </ul>
+</div>

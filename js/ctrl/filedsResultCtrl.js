@@ -16,10 +16,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-            Application.functions.getRdObjectById("100015136","RDNODE",function(data) {
-                objCtrl.setCurrentObject(data);
-                $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/nodeTepl/rdNodeFromTepl.html';
+            Application.functions.getRdObjectById("16590530","RDLINK",function(data) {
+                objCtrl.setCurrentObject(data.data);
+                $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/currentObjectTepl.html';
                     }
                 );
             })
@@ -423,7 +423,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         objCtrl.setCurrentObject(data.data);
                         var connexityId = data.id;
-                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, connexityId, "ctrl/rdLaneConnexityCtrl", "js/tepl/rdLaneConnexityTepl.html");
+                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, connexityId, "ctrl/connexityCtrl/rdLaneConnexityCtrl", "js/tepl/connexityTepl/rdLaneConnexityTepl.html");
                     } else if (pItemId === "1302") {//交限
                         if (data.t_lifecycle === 1) {
                             var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
@@ -445,8 +445,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     if (objCtrl.updateObject !== "") {
                                         objCtrl.updateObject();
                                     }
-                                    $ocLazyLoad.load("ctrl/rdRestriction").then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $ocLazyLoad.load("ctrl/restrictionCtrl/rdRestriction").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
                                         $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
                                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
                                         });
@@ -465,8 +465,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     if (objCtrl.updateObject !== "") {
                                         objCtrl.updateObject();
                                     }
-                                    $ocLazyLoad.load("ctrl/rdRestriction").then(function () {
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                                    $ocLazyLoad.load("ctrl/restrictionCtrl/rdRestriction").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
                                         $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
                                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
                                         });
@@ -580,8 +580,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         return;
                                     } else {
                                         objCtrl.setCurrentObject(data.data[0]);
-                                        $ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdCrossTepl.html";
+                                        $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
+                                            $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
 
                                         });
                                     }
