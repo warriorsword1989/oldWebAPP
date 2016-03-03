@@ -411,7 +411,23 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                 detail = '每年的'+mBegin+'月到次年的'+mEnd+'月';
             }
             /*持续时间——周，例如：每个星期中周二的09:33到周六的14:33*/
-            if(v.split('][').length > 1 && v.split('][')[0].indexOf('t') > -1 && v.split('][')[0].indexOf('h') > -1 && v.split('][')[0].indexOf('m') > -1 && v.split('][')[0].indexOf('y') == -1 && v.split('][')[0].indexOf('M') == -1 && v.split('][')[0].indexOf('d') == -1){
+            if(v.split('][').length > 1 && (
+                (
+                    v.split('][')[0].indexOf('t') > -1 
+                    && v.split('][')[0].indexOf('h') > -1 
+                    && v.split('][')[0].indexOf('m') > -1 
+                    && v.split('][')[0].indexOf('y') == -1 
+                    && v.split('][')[0].indexOf('M') == -1 
+                    && v.split('][')[0].indexOf('d') == -1
+                )||(
+                    v.split('][')[1].indexOf('t') > -1 
+                    && v.split('][')[1].indexOf('h') > -1 
+                    && v.split('][')[1].indexOf('m') > -1 
+                    && v.split('][')[1].indexOf('y') == -1 
+                    && v.split('][')[1].indexOf('M') == -1 
+                    && v.split('][')[1].indexOf('d') == -1
+                )
+            )){
                 var weekArr = [];
                 var bwk,ewk,btime,etime;
                 if(vague){
@@ -421,36 +437,65 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                     v = v.substring(1,v.split("").length-1);
                     weekArr = v.split('][');
                 }
-                $.each(weekArr,function(m,n){
-                    var wkAtime = [];
-                    if(m == 0){
-                        wkAtime = n.split('*');
-                        if(wkAtime[0].indexOf('t')>-1){
-                            bwk = $scope.weekTranslate(wkAtime[0].substr(1));
-                            btime = wkAtime[1].split(')(')[0].split('[(')[1];
-                        }else{
-                            bwk = $scope.weekTranslate(wkAtime[1].substr(1));
-                            btime = wkAtime[0].split(')(')[0].split('[(')[1];
+                /*类似[(t2)(t6)]*[[(h7m0)(h9m0)]+[(h17m0)(h20m0)]]旧值格式*/
+                if(weekArr.length == 2 && (weekArr[0].indexOf('t') > -1 &&weekArr[1].indexOf('t') == -1||weekArr[1].indexOf('t') > -1 &&weekArr[0].indexOf('t')==-1)){
+                    if(weekArr[0].indexOf('t') > -1){
+                        if(weekArr[0].indexOf(')]*[[(')){
+                            var btime_2,
+                                etime_2,
+                                tempWk = weekArr[0].split(')]*[[(');
+                            bwk = $scope.weekTranslate(tempWk[0].split(')(t')[0].substr(1));
+                            ewk = $scope.weekTranslate(tempWk[0].split(')(t')[1]);
+                            btime = $scope.timeAnalyze(tempWk[1].split(')(')[0]);
+                            etime = $scope.timeAnalyze(tempWk[1].split(')(')[1].substring(0,tempWk[1].split(')(')[1].length-3));
+                            btime_2 = $scope.timeAnalyze(weekArr[1].split(')(')[0].substr(1));
+                            etime_2 = $scope.timeAnalyze(weekArr[1].split(')(')[1].substring(0,weekArr[1].split(')(')[1].length-2));
+                            detail = '每个星期中'+bwk+'到'+ewk+'的'+btime+'到'+etime+'和'+btime_2+'到'+etime_2;
                         }
-                    }else if(m == weekArr.length-1){
-                        wkAtime = n.split('*');
-                        if(wkAtime[0].indexOf('t')>-1){
-                            ewk = $scope.weekTranslate(wkAtime[0].substr(1));
-                            etime = wkAtime[1].split(')(')[1].split(')]')[0];
-                        }else{
-                            if(wkAtime.length > 1){
-                                ewk = $scope.weekTranslate(wkAtime[1].substr(1));
-                                etime = wkAtime[0].split(')(')[1].split(')]')[0];
-                            }else if(wkAtime.length == 1 && weekArr.length > 1){
-                                ewk = $scope.weekTranslate(wkAtime[0].substring(1,wkAtime[0].length-1));
-                                etime = wkAtime[0].substring(1,wkAtime[0].length-1).split(')(')[1];
+                    }else{
+                        var btime_2,
+                            etime_2,
+                            tempWk = weekArr[1].split(')]]*[(');
+                        bwk = $scope.weekTranslate(tempWk[1].split(')(t')[0].substr(1));
+                        ewk = $scope.weekTranslate(tempWk[1].split(')(t')[1]);
+                        btime = $scope.timeAnalyze(tempWk[0].split(')(')[0]);
+                        etime = $scope.timeAnalyze(tempWk[0].split(')(')[1].substring(0,tempWk[0].split(')(')[1].length-3));
+                        btime_2 = $scope.timeAnalyze(weekArr[0].split(')(')[0].substr(1));
+                        etime_2 = $scope.timeAnalyze(weekArr[0].split(')(')[1].substring(0,weekArr[0].split(')(')[1].length-2));
+                        detail = '每个星期中'+bwk+'到'+ewk+'的'+btime+'到'+etime+'和'+btime_2+'到'+etime_2;
+                    }
+                }else{
+                    $.each(weekArr,function(m,n){
+                        var wkAtime = [];
+                        if(m == 0){
+                            wkAtime = n.split('*');
+                            if(wkAtime[0].indexOf('t')>-1){
+                                bwk = $scope.weekTranslate(wkAtime[0].substr(1));
+                                btime = wkAtime[1].split(')(')[0].split('[(')[1];
+                            }else{
+                                bwk = $scope.weekTranslate(wkAtime[1].substr(1));
+                                btime = wkAtime[0].split(')(')[0].split('[(')[1];
+                            }
+                        }else if(m == weekArr.length-1){
+                            wkAtime = n.split('*');
+                            if(wkAtime[0].indexOf('t')>-1){
+                                ewk = $scope.weekTranslate(wkAtime[0].substr(1));
+                                etime = wkAtime[1].split(')(')[1].split(')]')[0];
+                            }else{
+                                if(wkAtime.length > 1){
+                                    ewk = $scope.weekTranslate(wkAtime[1].substr(1));
+                                    etime = wkAtime[0].split(')(')[1].split(')]')[0];
+                                }else if(wkAtime.length == 1 && weekArr.length > 1){
+                                    ewk = $scope.weekTranslate(wkAtime[0].substring(1,wkAtime[0].length-1));
+                                    etime = wkAtime[0].substring(1,wkAtime[0].length-1).split(')(')[1];
+                                }
                             }
                         }
-                    }
-                });
-                btime = $scope.timeAnalyze(btime);
-                etime = $scope.timeAnalyze(etime);
-                detail = '每个星期中'+bwk+'的'+btime+'到'+ewk+'的'+etime;
+                    });
+                    btime = $scope.timeAnalyze(btime);
+                    etime = $scope.timeAnalyze(etime);
+                    detail = '每个星期中'+bwk+'的'+btime+'到'+ewk+'的'+etime;
+                }
             }
             if(vague)
                 detail = detail + '（模糊）';
