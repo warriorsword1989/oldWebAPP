@@ -16,10 +16,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-            Application.functions.getRdObjectById("735834","RDLINK",function(data) {
+            Application.functions.getRdObjectById("32679","RDLANECONNEXITY",function(data) {
                 objCtrl.setCurrentObject(data.data);
-                $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/currentObjectTepl.html';
+                $ocLazyLoad.load('ctrl/connexityCtrl/rdLaneConnexityCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = 'js/tepl/connexityTepl/rdLaneConnexityTepl.html';
                     }
                 );
             })
