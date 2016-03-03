@@ -75,6 +75,8 @@ function keyEvent(ocLazyLoad, scope) {
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
+                scope.changeBtnClass("");
+                scope.$apply();
             }
 
             if (event.keyCode == 32) {

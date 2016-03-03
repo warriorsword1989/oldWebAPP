@@ -18,13 +18,22 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.toolsFlag = true;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
-        for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
-            if(claFlag===id) {
-                $scope.classArr[claFlag] = !$scope.classArr[claFlag];
-            }else{
-                $scope.classArr[claFlag] = false;
+        if(id==="") {
+            for(var clNum= 0,clLen=$scope.classArr.length;clNum<clLen;clNum++) {
+                $scope.classArr[clNum] = false;
+            }
+
+        }else{
+            for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
+                if(claFlag===id) {
+                    $scope.classArr[claFlag] = !$scope.classArr[claFlag];
+                }else{
+                    $scope.classArr[claFlag] = false;
+                }
             }
         }
+
+
     };
 
     $scope.$on("dataTipsToParent", function (event, data) {

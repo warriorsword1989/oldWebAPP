@@ -280,11 +280,25 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         image.src = imgsrc.src;
         image.onload = function () {
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            g.save();
-            g.translate(p.x, p.y);
-            g.drawImage(image, -image.width / 2, -image.height);
-            //g.drawImage(image, p.x, p.y);
-            g.restore();
+            if(geom.length <=2){
+                g.save();
+                g.translate(p.x, p.y);
+                g.drawImage(image, -image.width / 2, -image.height);
+                //g.drawImage(image, p.x, p.y);
+                g.restore();
+            }else{  //  如果传的坐标不止两组，如桥
+                $.each(geom,function(i,v){
+                    if(i == 0 || i == geom.length-1){
+                        $.each(v,function(m,n){
+                            g.save();
+                            g.translate(n[0], n[1]);
+                            g.drawImage(image, -image.width / 2, -image.height);
+                            g.restore();
+                        });
+                    }
+                });
+            }
+
         };
     },
     _drawImgRoute: function (ctx, geom, imgsrc, arrorSrc, boolPixelCrs, rount) {
@@ -1050,7 +1064,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
 
                     } else {
-                        this._drawImg(ctx, geom, style, boolPixelCrs);
+
+                            this._drawImg(ctx, geom, style, boolPixelCrs);
+
+
                     }
 
                     break;
