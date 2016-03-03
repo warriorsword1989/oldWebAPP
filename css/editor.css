@@ -297,7 +297,7 @@ a.fm-panel-controlArrowLeftAndRight>span{
 .fm-out-error{
     width: 100%;
     padding-right: 290px;
-    padding-top: 40px;
+    padding-top: 15px;
     height: 250px;
     position:absolute;
     bottom: 0px;
@@ -336,7 +336,7 @@ div.fm-out-error a.fm-panel-controlArrowUpAndDown>span{
 .fm-out-error-xl{
     width: 100%;
     padding-right: 0px;
-    padding-top: 40px;
+    padding-top: 15px;
     height: 250px;
     position:absolute;
     bottom: 0px;
@@ -349,7 +349,7 @@ div.fm-out-error a.fm-panel-controlArrowUpAndDown>span{
     width: 100%;
     padding-right: 0px;
     padding-top: 15px;
-    height: 0px;
+    height: 15px;
     position:absolute;
     bottom: 0px;
 }
