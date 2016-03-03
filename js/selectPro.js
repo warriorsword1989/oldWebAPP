@@ -39,7 +39,7 @@ function initProHtml(projects){
 		_html.push(v.projectId);
 		_html.push('</span>');
 		_html.push('</p>');
-		_html.push('<a class="img_box_caption_a" href="main1.html?proId=');
+		_html.push('<a class="img_box_caption_a" href="project.html?proId=');
 		_html.push(v.projectId);
 		_html.push('"></a>');
 		_html.push('</div>');
