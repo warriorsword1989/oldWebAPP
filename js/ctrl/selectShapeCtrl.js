@@ -306,7 +306,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         selectCtrl.fire("selectByAttribute", {feather: data});
 
 
-                        console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
 
                             case "2001"://测线
