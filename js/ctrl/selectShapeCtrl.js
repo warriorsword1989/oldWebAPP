@@ -400,7 +400,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                     if(data.f_array.length!=0){
-                                        $scope.$parent.$parent.brigeLinkArray= data.f_array;
+                                        $scope.brigeLinkArray= data.f_array;
                                         Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (d) {
                                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                                 $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
