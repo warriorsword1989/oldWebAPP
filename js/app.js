@@ -1,11 +1,6 @@
 ﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
-app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad,$timeout) {
-
-//$('#dataTipsOriginImg').smartZoom({'containerClass':'zoomableContainer'});
+app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     dragF('toolsDiv');
-    //dragF('toolsDiv1');
-    //dragF("popToolBar");
-    //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.suspendObjURL = "";
@@ -14,21 +9,21 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.cancel = "";//取消
     $scope.rowkeyOfDataTips = "";
     $scope.updateDataTips = "";
-    $scope.brigeLinkArrays = [];//桥
+    $scope.brigeLinkArray = [];//桥
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
-    $scope.changeBtnClass=function(id) {
-        if(id==="") {
-            for(var clNum= 0,clLen=$scope.classArr.length;clNum<clLen;clNum++) {
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
+    $scope.changeBtnClass = function (id) {
+        if (id === "") {
+            for (var clNum = 0, clLen = $scope.classArr.length; clNum < clLen; clNum++) {
                 $scope.classArr[clNum] = false;
             }
 
-        }else{
-            for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
-                if(claFlag===id) {
+        } else {
+            for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
+                if (claFlag === id) {
                     $scope.classArr[claFlag] = !$scope.classArr[claFlag];
-                }else{
+                } else {
                     $scope.classArr[claFlag] = false;
                 }
             }
@@ -44,29 +39,29 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     //登录时
     $scope.zoom = [];
 
-    keyEvent($ocLazyLoad,$scope);
+    keyEvent($ocLazyLoad, $scope);
     $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
         appInit();
-        for(var i=map.getMinZoom();i<=map.getMaxZoom();i++){
+        for (var i = map.getMinZoom(); i <= map.getMaxZoom(); i++) {
             $scope.zoom.push(i);
         }
-        $scope.removeZoomClass = function(){
-            $.each($(".zoom-btn"),function(m,n){
-                $(n).prop('disabled',false).removeClass('btn-primary');
+        $scope.removeZoomClass = function () {
+            $.each($(".zoom-btn"), function (m, n) {
+                $(n).prop('disabled', false).removeClass('btn-primary');
             })
         }
-        $scope.changeZoom = function(i,e){
+        $scope.changeZoom = function (i, e) {
             $scope.removeZoomClass();
             map.setZoom(i);
             $('#nowZoom').text(i);
-            $(e.target).prop('disabled',true).addClass('btn-primary');
+            $(e.target).prop('disabled', true).addClass('btn-primary');
         }
         $('#nowZoom').text(map.getZoom());
         /*当比例尺改变时*/
-        map.on('zoomend',function(){
+        map.on('zoomend', function () {
             $('#nowZoom').text(map.getZoom());
             $scope.removeZoomClass();
-            $(".zoom-btn[data-zoom-size="+map.getZoom()+"]").prop('disabled',true).addClass('btn-primary');
+            $(".zoom-btn[data-zoom-size=" + map.getZoom() + "]").prop('disabled', true).addClass('btn-primary');
         })
         $scope.disZoom = map.getZoom();
         $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
@@ -90,7 +85,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             }
         );
     });
- 
+
     $scope.changeLayers = function (layers) {
 
         if (layers === "taskLayers") {
@@ -105,8 +100,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                     $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 }
             );
-            $("#resultLayers").css("background-color","#49C2FC");
-            $("#referenceLayers").css("background-color","#D4D4D4");
+            $("#resultLayers").css("background-color", "#49C2FC");
+            $("#referenceLayers").css("background-color", "#D4D4D4");
         }
         else if (layers === "referenceLayers") {
             $("#resultLayerDiv").removeClass("active");
@@ -115,8 +110,8 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                     $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
                 }
             );
-            $("#referenceLayers").css("background-color","#49C2FC");
-            $("#resultLayers").css("background-color","#D4D4D4");
+            $("#referenceLayers").css("background-color", "#49C2FC");
+            $("#resultLayers").css("background-color", "#D4D4D4");
         }
 
 
@@ -124,10 +119,10 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
 
     var output = fastmap.uikit.OutPutController();
     $scope.itemsByPage = 1;
-    $scope.checkTotalPage=0;
-    $scope.checkTotal=0;
-    $scope.meshesId=[605603,0605603];
-    $scope.rowCollection=[];
+    $scope.checkTotalPage = 0;
+    $scope.checkTotal = 0;
+    $scope.meshesId = [605603, 0605603];
+    $scope.rowCollection = [];
     $scope.showTab = function (tab) {
         if (tab === "outPut") {
             $("#errorClear").show();
@@ -135,7 +130,7 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
             $("#checkErrorLi").hide();
             $("#inspectDiv").show();
             $("#wrongDiv").hide();
-            $scope.rowCollection=[];
+            $scope.rowCollection = [];
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
@@ -151,33 +146,33 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
                 }
             );
 
-        }else if(tab==="getCheck"){
+        } else if (tab === "getCheck") {
             $("#checkErrorLi").show();
-            if( $scope.itemsByPage==1){
-                $scope.rowCollection=[];
+            if ($scope.itemsByPage == 1) {
+                $scope.rowCollection = [];
                 $scope.getCheckDateAndCount();
             }
         }
     };
-    $scope.getCheckDateAndCount=function(){
+    $scope.getCheckDateAndCount = function () {
         var params = {
-            "projectId":11,
-            "meshes":$scope.meshesId
+            "projectId": 11,
+            "meshes": $scope.meshesId
         };
-        Application.functions.getCheckCount(JSON.stringify(params),function(data){
-            if(data.errcode == 0) {
-                $scope.checkTotalPage = Math.ceil(data.data/5);
-                $scope.checkTotal=data.data;
+        Application.functions.getCheckCount(JSON.stringify(params), function (data) {
+            if (data.errcode == 0) {
+                $scope.checkTotalPage = Math.ceil(data.data / 5);
+                $scope.checkTotal = data.data;
             }
         });
         var params = {
-            "projectId":11,
-            "pageNum":$scope.itemsByPage,
-            "pageSize":5,
-            "meshes":$scope.meshesId
+            "projectId": 11,
+            "pageNum": $scope.itemsByPage,
+            "pageSize": 5,
+            "meshes": $scope.meshesId
         };
-        Application.functions.getCheckDatas(JSON.stringify(params),function(data){
-            if(data.errcode == 0) {
+        Application.functions.getCheckDatas(JSON.stringify(params), function (data) {
+            if (data.errcode == 0) {
                 $scope.rowCollection = data.data;
                 //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
                 $scope.goPaging();
@@ -186,17 +181,18 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
         });
     }
     /*防止用户点击“取消”按钮是js报错*/
-    $scope.cancel = function(){}
+    $scope.cancel = function () {
+    }
 
-    $scope.getCheckDate=function(){
+    $scope.getCheckDate = function () {
         var param = {
-            "projectId":11,
-            "pageNum":$scope.itemsByPage,
-            "pageSize":5,
-            "meshes":$scope.meshesId
+            "projectId": 11,
+            "pageNum": $scope.itemsByPage,
+            "pageSize": 5,
+            "meshes": $scope.meshesId
         };
-        Application.functions.getCheckDatas(JSON.stringify(param),function(data){
-            if(data.errcode == 0) {
+        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
+            if (data.errcode == 0) {
                 $scope.rowCollection = data.data;
                 $scope.goPaging();
                 $scope.$apply();
@@ -205,30 +201,30 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     }
 
     /*箭头图代码点击下一页*/
-    $scope.picNext = function(){
+    $scope.picNext = function () {
         $scope.itemsByPage += 1;
         $scope.getCheckDate();
     }
     /*箭头图代码点击上一页*/
-    $scope.picPre = function(){
+    $scope.picPre = function () {
         $scope.itemsByPage -= 1;
         $scope.getCheckDate();
     }
 
     /*点击翻页*/
-    $scope.goPaging = function(){
-        if($scope.itemsByPage == 1){
-            if($scope.checkTotalPage == 0 || $scope.checkTotalPage == 1){
-                $(".pic-next").prop('disabled','disabled');
-            }else{
-                $(".pic-next").prop('disabled',false);
+    $scope.goPaging = function () {
+        if ($scope.itemsByPage == 1) {
+            if ($scope.checkTotalPage == 0 || $scope.checkTotalPage == 1) {
+                $(".pic-next").prop('disabled', 'disabled');
+            } else {
+                $(".pic-next").prop('disabled', false);
             }
-            $(".pic-pre").prop('disabled','disabled');
-        }else{
-            if($scope.checkTotalPage - $scope.itemsByPage == 0){
-                $(".pic-next").prop('disabled','disabled');
+            $(".pic-pre").prop('disabled', 'disabled');
+        } else {
+            if ($scope.checkTotalPage - $scope.itemsByPage == 0) {
+                $(".pic-next").prop('disabled', 'disabled');
             }
-            $(".pic-pre").prop('disabled',false);
+            $(".pic-pre").prop('disabled', false);
         }
         $scope.$apply();
     }
@@ -237,19 +233,19 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();
         output.clear();
-        if(output.updateOutPuts!=="") {
+        if (output.updateOutPuts !== "") {
             output.updateOutPuts();
         }
     };
 
-    $scope.showStop=function(){
+    $scope.showStop = function () {
         //禁止滚动
         //map.scrollWheelZoom=false;
-        this.scrollWheelZoom=false;
+        this.scrollWheelZoom = false;
     }
-    $scope.showStart=function(){
+    $scope.showStart = function () {
         //可以滚动
-        this.scrollWheelZoom=true;
+        this.scrollWheelZoom = true;
     }
     $scope.showOrHide = function () {
         var modifyToolsDiv = $("#modifyToolsDiv");
@@ -266,39 +262,37 @@ app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, 
     }
 
 
-
-
 }]);
-function appInit(){
-    map = L.map('map',{
+function appInit() {
+    map = L.map('map', {
         attributionControl: false,
-        zoomControl:false
+        zoomControl: false
     }).setView([40.012834, 116.476293], 17);
     /*增加比例尺*/
     var scale = L.control.scale({
-        metric:true,
-        imperial:false,
-        position:'bottomleft',
-        updateWhenIdle:true
+        metric: true,
+        imperial: false,
+        position: 'bottomleft',
+        updateWhenIdle: true
     }).addTo(map);
-    var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
+    var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();
     var outPutCtrl = new fastmap.uikit.OutPutController();
     var objCtrl = new fastmap.uikit.ObjectEditController({});
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var featCode = new fastmap.uikit.FeatCodeController();
-    var tooltipsCtrl=new fastmap.uikit.ToolTipsController();
-    tooltipsCtrl.setMap(map,'tooltip');
+    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    tooltipsCtrl.setMap(map, 'tooltip');
     shapeCtrl.setMap(map);
-    layerCtrl.on('layerOnShow',function(event){
-        if(event.flag == true){
+    layerCtrl.on('layerOnShow', function (event) {
+        if (event.flag == true) {
             map.addLayer(event.layer);
-        }else{
+        } else {
             map.removeLayer(event.layer);
         }
     })
-    for(var layer in layerCtrl.getVisibleLayers()){
+    for (var layer in layerCtrl.getVisibleLayers()) {
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
 }
@@ -340,9 +334,9 @@ function dragF(id) {
         }
     });
 }
-function dragF1(id,pId) {
+function dragF1(id, pId) {
     var $dragDiv = $('#' + id),
-        $parentDiv = $('#'+pId);
+        $parentDiv = $('#' + pId);
     var $drag = $dragDiv.find('div');
     $drag.on({
         mousedown: function (e) {
