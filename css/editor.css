@@ -297,7 +297,7 @@ a.fm-panel-controlArrowLeftAndRight>span{
 .fm-out-error{
     width: 100%;
     padding-right: 290px;
-    padding-top: 40px;
+    padding-top: 15px;
     height: 250px;
     position:absolute;
     bottom: 0px;
@@ -336,7 +336,7 @@ div.fm-out-error a.fm-panel-controlArrowUpAndDown>span{
 .fm-out-error-xl{
     width: 100%;
     padding-right: 0px;
-    padding-top: 40px;
+    padding-top: 15px;
     height: 250px;
     position:absolute;
     bottom: 0px;
@@ -348,8 +348,8 @@ div.fm-out-error a.fm-panel-controlArrowUpAndDown>span{
 .fm-out-error-xl-sx{
     width: 100%;
     padding-right: 0px;
-    padding-top: 40px;
-    height: 0px;
+    padding-top: 15px;
+    height: 15px;
     position:absolute;
     bottom: 0px;
 }
@@ -580,4 +580,17 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     border: 1px solid #9d9d9d;
     box-shadow: 4px 4px 8px 4px #333;
     border-radius: 4px;
+}
+
+.tooltipclass {
+    display: none;
+    position: absolute;
+    background:#ffffff;
+    color: #000000;
+    border: 1px solid red;
+    font-family: sans-serif;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    z-index: 1000;
 }

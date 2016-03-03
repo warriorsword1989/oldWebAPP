@@ -20,9 +20,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.panelFlag = false;
     $scope.outErrorArr=[false,false,false,true] ;
     $scope.arrowFlag = true;
-    $scope.objectFlag = true;
+    $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
             if(claFlag===id) {
@@ -220,6 +220,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }else{
             if($scope.checkTotalPage - $scope.itemsByPage == 0){
                 $(".pic-next").prop('disabled','disabled');
+            }else{
+                $(".pic-next").prop('disabled',false);
             }
             $(".pic-pre").prop('disabled',false);
         }

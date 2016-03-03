@@ -1,8 +1,8 @@
 /**
  * Created by liuzhaoxia on 2015/12/23.
  */
-var otherApp = angular.module("lazymodule", []);
-otherApp.controller("rdLaneConnexityController", function ($scope) {
+var otherApp = angular.module('mapApp', ['oc.lazyLoad']);
+otherApp.controller("rdLaneConnexityController", function ($scope,$ocLazyLoad) {
 
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -15,7 +15,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
     $scope.showNormalData = [];
     $scope.showTransitData = [];
     $scope.outLanesArr = [];
-    $scope.place = -11111;
+
     //附加车道图标获得
     $scope.getAdditionalLane = function (index, data) {
         var obj = {}, arr;
@@ -119,12 +119,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
 
         }
     };
-    setTimeout(function () {
-        for (var sitem in $scope.lanesData.topos) {
-            var flag = $scope.lanesData.topos[sitem].relationshipType;
-            $("#relationshipType" + flag + "_" + sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-        }
-    }, 10)
     $scope.addRdLancdData = [
         {"id": '0', "class": false},
         {"id": '1', "class": false},
@@ -199,27 +193,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope) {
         }
     }
     //REACH_DIR
-    $scope.reachDirOptions = [
-        {"id": 0, "label": "0 未调查"},
-        {"id": 1, "label": "1 直"},
-        {"id": 2, "label": "2 左"},
-        {"id": 3, "label": "3 右"},
-        {"id": 4, "label": "4 调"},
-        {"id": 5, "label": "5 左斜前"},
-        {"id": 6, "label": "6 右斜前"}
-    ];
     $scope.showLanesInfo=function(item,index) {
-        if( $scope.outLanesArr.length!==0) {
-            $scope.outLanesArr.length = 0;
-        }
-        $scope.place = index;
-        for (var i = 0, len = $scope.lanesData["topos"].length; i < len; i++) {
-            var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-            if (arrOfDecimal.length=== (index+1)) {
-                $scope.outLanesArr.push($scope.lanesData["topos"][i]);
-            }
-
-        }
+        $scope.lanesData["index"] = index;
+        $scope.$parent.$parent.suspendObjURL = "";
+        $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
+            $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
+        })
     };
 });
 

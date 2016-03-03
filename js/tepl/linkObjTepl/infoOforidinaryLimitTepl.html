@@ -1,0 +1,213 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*background-color: #000;*/
+        border: 1px solid #ddd;
+    }
+
+    #oridinaryLimitDiv {
+        /*background-color: #000;*/
+        opacity: 1;
+        width: 100%;
+    }
+
+    #oridinaryLimitDiv ul {
+        /*background-color: #000;*/
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+    }
+
+    #oridinaryLimitDiv ul > li {
+        background-color: transparent;
+    }
+
+    #oridinaryLimitDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #oridinaryLimitDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #oridinaryLimitDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #oridinaryLimitDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #oridinaryLimitDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+    .checkboxThree:after {
+        content: '否';
+        position: absolute;
+        top: 3px;
+        left: 50px;
+        height: 2px;
+        color: #ddd;
+        font-size: 16px;
+    }
+
+    .checkboxThree label {
+        display: block;
+        width: 32px;
+        height: 20px;
+        border-radius: 50px;
+
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+        cursor: pointer;
+        position: absolute;
+        top: 3px;
+        z-index: 5;
+        left: 3px;
+        background: #ddd;
+    }
+
+    /**
+     * Create the checkbox event for the label
+     */
+    .checkboxThree input[type=checkbox]:checked + label {
+        left: 50px;
+        background: #26ca28;
+    }
+
+    .checkboxli {
+        background-color: #e4e4e4;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+    }
+</style>
+<div ng-controller="oridinaryLimitController" id="oridinaryLimitDiv">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label" >供用信息</label></div>
+            <div class="inline">
+                <select  ng-model="linkData.appInfo"
+                        ng-options="value.id as value.label for value in appInfoOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >限制类型</label></div>
+            <div class="inline">
+                <select ng-model="oridiData.type"
+                        ng-options="value.id as value.label for value in typeOptions">
+                    <option>--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >限制方向</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.limitDir"
+                        ng-options="value.id as value.label for value in limitDirOptions"  ng-change="changeDirect(oridiData.limitDir)">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >收费类型</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.tollType"
+                        ng-options="value.id as value.label for value in tollTypeOptions">
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >天气条件</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.weather"
+                        ng-options="value.id as value.label for value in weatherOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">录入时间</label></div>
+            <div class="inline"><input type="text" ng-model="oridiData.inputTime"/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">赋值方式</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="processFlagRadio" value=0 ng-model="oridiData.processFlag">
+                    外埠
+                </label>
+                <label>
+                    <input type="radio" name="processFlagRadio" value=1 ng-model="oridiData.processFlag">
+                    本埠
+                </label>
+                <label>
+                    <input type="radio" name="processFlagRadio" value=2 ng-model="oridiData.processFlag">
+                    不应用
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">时间段</label></div>
+            <div class="inline">
+                <input type="text"  ng-model="oridiData.timeDomain" readonly>
+                <!--<span class="input-group-addon show-domain-ico" aria-controls="time_domain{{$index}}" aria-expanded="false" href="#time_domain{{$index}}" data-toggle="collapse" title="查看编辑时间段" ng-click="showDomain(time_domain$index,item.timeDomain)">-->
+                    <!--<i class="glyphicon glyphicon-menu-down"></i>-->
+                <!--</span>-->
+            </div>
+        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div ng-include="dateURL" class="muti-date" date-str='{{item.timeDomain}}'></div>-->
+        <!--</li>-->
+        <li class="list-group-item">
+            <div><label class="control-label">车辆类型</label></div>
+            <div class="inline">
+                <input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-model="checkValue">允许
+                <a    ng-click="showPopover($index,item.vehicle)">添加</a>
+            </div>
+        </li>
+    </ul>
+    <div  id="vehicleExpressiondiv"
+          style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;word-break: break-all;word-wrap: break-word;"
+          tabindex="0" role="button" data-toggle="popover"  title="车辆类型">
+    </div>
+</div>

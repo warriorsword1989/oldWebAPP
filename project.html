@@ -197,6 +197,7 @@
     <script type="text/javascript" src="js/lib/sweet-alert/js/sweet-alert.min.js"></script>
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
+    <script src="js/Application.js"></script>
     <script>
         $(function(){
             initMap()
@@ -209,27 +210,93 @@
                 tms: true
             }).addTo(map);
 
-            var gridInfos={
-                "595673_00":{id:"595673_00",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "595673_01":{id:"595673_01",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "595673_10":{id:"595673_10",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "595673_11":{id:"595673_11",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_00":{id:"605602_00",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_01":{id:"605602_01",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_10":{id:"605602_10",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_11":{id:"605602_11",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605603_00":{id:"605603_00",userId:null,couldBorrow:true},
-                "605603_01":{id:"605603_00",userId:null,couldBorrow:true},
-                "605601_10":{id:"605601_10",userId:123,couldReturn:true},
-                "605601_11":{id:"605601_10",userId:123,couldReturn:true}
-            }
 
-            var gridLayer=new fastmap.mapApi.GridLayer("",{gridInfo:gridInfos,layername: '图幅',id: 'grid',url: '',divideX:2,divideY:2,visible: true,zIndex: 5});
+            var gridLayer=new fastmap.mapApi.GridLayer("",{gridInfo:null,layername: '图幅',id: 'grid',url: '',divideX:2,divideY:2,visible: true,zIndex: 5});
             map.addLayer(gridLayer);
 
             var meshLayer=new fastmap.mapApi.MeshLayer("",{layername: '图幅',id: 'mesh',url: '',visible: true,zIndex: 3});
-            map.addLayer(meshLayer)
+            map.addLayer(meshLayer);
+
+
+            var projectId=getUrlParam("proId");
+
+            $.ajax({
+                url:Application.url+"/man/grid/getByUser?",
+                data:{parameter:JSON.stringify({"userId":4408,"projectId":projectId})},
+                dataType:"json",
+                success:function(data){
+                      if(data.data.Normal){
+                           for(var i=0;i<data.data.Normal.length;i++){
+                               var gridId=data.data.Normal[i].toString();
+                               var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                               createPolygon(meshBorder,gridId.substr(6),"#0DFEFF",'<div style="width:200px;height: 200px"><img style="width: 200px;height: 200px;cursor: pointer" src="css/img/pie.jpg" onclick="startWork()" /></div>');
+                           }
+                      }
+                      if(data.data.CanBorrow){
+                          for(var j=0;j<data.data.CanBorrow.length;j++){
+                              var gridId=data.data.CanBorrow[j].toString();
+                              var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                              createPolygon(meshBorder,gridId.substr(6),"#4C9DA0",'<a href="#" class="btn btn-success">借数据</a>');
+                          }
+                      }
+                      if(data.data.BorrowIn){
+                          for(var k=0;k<data.data.BorrowIn.length;k++){
+                              var gridId=data.data.BorrowIn[k].toString();
+                              var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                              createPolygon(meshBorder,gridId.substr(6),"#E8D70C",'<a href="#" class="btn btn-success">还数据</a>');
+                          }
+                      }
+                      if(data.data.BorrowOut){
+                          for(var m=0;m<data.data.BorrowOut.length;m++){
+                              var gridId=data.data.BorrowOut[m].toString();
+                              var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                              createPolygon(meshBorder,gridId.substr(6),"#FFAE00",'<a href="#" class="btn btn-success">已借格网数据</a>');
+                          }
+                      }
+                },
+                error:function(){
+
+                }
+            })
+
         }
+
+        function getUrlParam (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        function createPolygon(meshBorder,id,color,htmlStr){
+            var dLon=(meshBorder.maxLon-meshBorder.minLon)/2;
+            var dLat=(meshBorder.maxLat-meshBorder.minLat)/2;
+            switch (id){
+                case "01":
+                    var bounds = [[meshBorder.maxLat, meshBorder.minLon], [meshBorder.maxLat-dLat,meshBorder.minLon+dLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+                case "02":
+                    var bounds = [[meshBorder.maxLat, meshBorder.minLon+dLon], [meshBorder.maxLat-dLat,meshBorder.maxLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+                case "03":
+                    var bounds = [[meshBorder.maxLat-dLat, meshBorder.minLon], [meshBorder.minLat,meshBorder.minLon+dLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+                case "04":
+                    var bounds = [[meshBorder.maxLat-dLat, meshBorder.minLon+dLon], [meshBorder.minLat,meshBorder.maxLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+            }
+        }
+
+        function startWork(){
+            window.location.href="editor.html";
+        }
+
     </script>
 </body>
 </html>
