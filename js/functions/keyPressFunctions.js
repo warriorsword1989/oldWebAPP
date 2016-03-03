@@ -553,8 +553,8 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
                             objEditCtrl.setCurrentObject(data.data);
-                            ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                scope.objectEditURL = "js/tepl/rdCrossTepl.html";
+                            ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
                             });
                         });
                     })
