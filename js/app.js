@@ -1,4 +1,4 @@
-﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
+﻿﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad,$timeout) {
 
 //$('#dataTipsOriginImg').smartZoom({'containerClass':'zoomableContainer'});
