@@ -123,15 +123,16 @@
     /*输入查询图片*/
     .pic-show{
         position: absolute;
-        border: 1px solid #ddd;
+        border: 1px solid #fff;
         z-index: 999;
+        border-radius: 4px;
         padding-left: 4px;
         padding-top: 6px;
         padding-bottom: 7px;
-        background-color: #fff;
+        background-color: #333;
         display: none;
         box-shadow: 4px 4px 7px 0px #777;    
-        min-width: 100%;
+        min-width: 70%;
         min-height: 193px;
     }
     .pic-show-well{
@@ -141,12 +142,13 @@
     .img-well{
         float: left;
         padding: 3px;
-        border: 1px solid #ddd;
+        border: 1px solid #fff;
+        border-radius: 4px;
         margin: 4px;
         cursor: pointer;
     }
     .show-img{
-        width: 60px;
+        width: 85px;
         height: 49px;
     }
     .num-well{
@@ -163,7 +165,7 @@
         top: -13px;
     }
     .pic-loading{
-        min-height: 283px;
+        min-height: 416px;
         position: absolute;
         top: -1px;
         left: 1px;
@@ -231,8 +233,7 @@
     <div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;">
         分歧
         <div class="btn-group d-radio-btn" data-toggle="buttons">
-          <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-repeat="item in divergenceIds.details" ng-click="switchDiver(item.pid)">
-            <input type="radio" class="diverRadio" name="diverType" autocomplete="off" checked>{{item.pid}}
+          <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
           </label>
         </div>
     </div>
@@ -288,7 +289,7 @@
     <!--begin 模式图信息-->
     <div class="module-box">
         <div class="box-head font-bold">
-            <div class="d-title">模式图信息</div>
+            <div class="d-title">详细信息</div>
             <a data-toggle="collapse" href="#detailChart" aria-expanded="true" class="pull-right">
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
@@ -300,51 +301,8 @@
                     <select class="rounded d-input"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
                 </div> 
             </div>
-            <div class="d-group">
-                <div class="d-name">出口编号：</div>
-                <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="exitNum">
-                </div> 
-            </div>
-            <div class="d-group">
-                <div class="d-name">箭头图标志：</div>
-                <div class="d-value">
-                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                      <label ng-class="{'btn-primary':item.code==arrowFlag,'btn-default':item.code!=arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
-                        <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
-                      </label>
-                    </div>
-                </div> 
-            </div>
-            <div class="d-group">
-                <div class="d-name">设施类型：</div>
-                <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="设施类型" ng-model="diverObj.outLinkPid">
-                </div> 
-            </div>
-            <div class="d-group">
-                <div class="d-name">名称种别：</div>
-                <div class="d-value">
-                    <select class="d-input" ng-model="nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
-                    </select>
-                </div> 
-            </div>
-            <div class="d-group">
-                <div class="d-name">声音方向：</div>
-                <div class="d-value">
-                    <select class="d-input" ng-model="voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
-                    </select>
-                </div> 
-            </div>
-            <div class="d-group">
-                <div class="d-name">向导代码：</div>
-                <div class="d-value">
-                    <select class="d-input" ng-model="guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
-                    </select>
-                </div> 
-            </div>
-            <div class="clearfix"></div>
-            <div class="line line-dashed b-b line-lg"></div>
+            <!-- <div class="clearfix"></div>
+            <div class="line line-dashed b-b line-lg"></div> -->
             <div class="d-group">
                 <div class="d-name">箭头图代码：</div>
                 <div class="d-value">
@@ -377,17 +335,60 @@
                 </div> 
             </div>
             <div class="d-group">
-                <div class="d-name">底图代码：</div>
+                <div class="d-name">模式图号：</div>
                 <div class="d-value">
                     <div ng-bind="patternCode" style="margin-top: 7px;"></div>
                 </div> 
             </div>
             <div class="d-group">
+                <div class="d-name">出口编号：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="exitNum">
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">箭头标志：</div>
+                <div class="d-value">
+                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                      <label ng-class="{'btn-primary':item.code==arrowFlag,'btn-default':item.code!=arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
+                        <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                      </label>
+                    </div>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">设施类型：</div>
+                <div class="d-value">
+                    <select class="rounded d-input"  ng-model="estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">名称种别：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                    </select>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">声音方向：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
+                    </select>
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">向导代码：</div>
+                <div class="d-value">
+                    <select class="d-input" ng-model="guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
+                    </select>
+                </div> 
+            </div>
+            <!-- <div class="d-group">
                 <div class="d-name">分歧号码：</div>
                 <div class="d-value">
                     <input type="text" class="d-input rounded" placeholder="分歧号码" ng-model="branchPid">
                 </div> 
-            </div>
+            </div> -->
         </div>
     </div>
     <!--end 模式图信息-->
