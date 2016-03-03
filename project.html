@@ -209,27 +209,51 @@
                 tms: true
             }).addTo(map);
 
-            var gridInfos={
-                "595673_00":{id:"595673_00",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "595673_01":{id:"595673_01",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "595673_10":{id:"595673_10",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "595673_11":{id:"595673_11",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_00":{id:"605602_00",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_01":{id:"605602_01",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_10":{id:"605602_10",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605602_11":{id:"605602_11",userId:123,progress:{finish:5000,noneFinish:4000}},
-                "605603_00":{id:"605603_00",userId:null,couldBorrow:true},
-                "605603_01":{id:"605603_00",userId:null,couldBorrow:true},
-                "605601_10":{id:"605601_10",userId:123,couldReturn:true},
-                "605601_11":{id:"605601_10",userId:123,couldReturn:true}
-            }
 
             var gridLayer=new fastmap.mapApi.GridLayer("",{gridInfo:gridInfos,layername: '图幅',id: 'grid',url: '',divideX:2,divideY:2,visible: true,zIndex: 5});
             map.addLayer(gridLayer);
 
             var meshLayer=new fastmap.mapApi.MeshLayer("",{layername: '图幅',id: 'mesh',url: '',visible: true,zIndex: 3});
-            map.addLayer(meshLayer)
+            map.addLayer(meshLayer);
+
+
+            var projectId=getUrlParam("proId");
+
+            $.ajax({
+                url:Application.url+"/man/grid/getByUser?",
+                data:{parameter:JSON.stringify({"userId":4408,"projectId":projectId})},
+                dataType:"json",
+                success:function(data){
+                      if(data.data.Normal){
+
+                      }
+                      if(data.data.CanBorrow){
+
+                      }
+                      if(data.data.BorrowIn){
+
+                      }
+                      if(data.data.BorrowOut){
+
+                      }
+                },
+                error:function(){
+
+                }
+            })
+
         }
+
+        function getUrlParam (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+
     </script>
 </body>
 </html>

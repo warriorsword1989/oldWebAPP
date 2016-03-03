@@ -41,6 +41,7 @@ function keyEvent(ocLazyLoad, scope) {
             var selectCtrl = fastmap.uikit.SelectController();
             var rdLink = layerCtrl.getLayerById('referenceLine');
             var restrict = layerCtrl.getLayerById('referencePoint');
+            var rdCross = layerCtrl.getLayerById('rdcross');
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var editLayer = layerCtrl.getLayerById('edit');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
@@ -70,11 +71,14 @@ function keyEvent(ocLazyLoad, scope) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
                 rdLink.redraw();
+                rdCross.redraw();
                 editLayer.drawGeometry = null;
                 editLayer.clear();
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
+                scope.changeBtnClass("");
+                scope.$apply();
             }
 
             if (event.keyCode == 32) {
@@ -549,8 +553,8 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
                             objEditCtrl.setCurrentObject(data.data);
-                            ocLazyLoad.load('ctrl/rdCrossCtrl').then(function () {
-                                scope.objectEditURL = "js/tepl/rdCrossTepl.html";
+                            ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
+                                scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
                             });
                         });
                     })

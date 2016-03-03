@@ -202,56 +202,14 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 shapeCtrl.setEditingType("transformDirect");
                             }
                         }else{
-                           alert('error')
+
                         }
 
 
                     })
 
 
-
                 });
-                //
-                //if (selectCtrl.selectedFeatures) {
-                //    if (selectCtrl.selectedFeatures.direct === 1) {
-                //        tooltipsCtrl.setEditEventType('speedLimit');
-                //        var point = selectCtrl.selectedFeatures.point;
-                //        var link = selectCtrl.selectedFeatures.geometry.components;
-                //        for (var i = 0, len = link.length; i < len; i++) {
-                //            pointsOfDis = $scope.distance(point, link[i]);
-                //            if (pointsOfDis < minLen) {
-                //                minLen = pointsOfDis;
-                //                pointForAngle = link[i];
-                //            }
-                //        }
-                //        angle = $scope.includeAngle(point, pointForAngle);
-                //        console.log(angle);
-                //        console.log("angle  " + angle)
-                //        var marker = {
-                //            flag: false,
-                //            point: point,
-                //            type: "marker",
-                //            angle: angle,
-                //            orientation: "2",
-                //            pointForDirect: point
-                //        };
-                //        var editLayer = layerCtrl.getLayerById('edit');
-                //        layerCtrl.pushLayerFront('edit');
-                //        var sobj = shapeCtrl.shapeEditorResult;
-                //        editLayer.drawGeometry = marker;
-                //        editLayer.draw(marker, editLayer);
-                //        sobj.setOriginalGeometry(marker);
-                //        sobj.setFinalGeometry(marker);
-                //        shapeCtrl.setEditingType("transformDirect");
-                //        shapeCtrl.startEditing();
-                //        tooltipsCtrl.setCurrentTooltip("选择方向!");
-                //    } else {
-                //        tooltipsCtrl.setEditEventType('speedLimit');
-                //        tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
-                //        shapeCtrl.setEditingType("transformDirect");
-                //    }
-                //
-                //}
 
 
             } else if(type==="rdBranch") {
