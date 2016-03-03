@@ -194,7 +194,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         }else if(time.indexOf('d') > -1){
             return $scope.weekTranslate(time.split('){d')[0])+'起'+time.split('){d')[1].split('}')[0]+'天內';
         }else{
-            return time+'月';
+            return '周'+time;
         }
         
     }
@@ -296,7 +296,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                     }   //星期数组去空
                 }
                 mutiDate = weeksStr.join('').split('][');
-                if(weeksStr.length > 1 && mutiDate.length == 1){
+                if(weeksStr.length >= 1 && mutiDate.length == 1){
                     $.each(weeksStr,function(m,n){
                         if(n){
                             if(m == weeksStr.length-1){
@@ -438,8 +438,13 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                             ewk = $scope.weekTranslate(wkAtime[0].substr(1));
                             etime = wkAtime[1].split(')(')[1].split(')]')[0];
                         }else{
-                            ewk = $scope.weekTranslate(wkAtime[1].substr(1));
-                            etime = wkAtime[0].split(')(')[1].split(')]')[0];
+                            if(wkAtime.length > 1){
+                                ewk = $scope.weekTranslate(wkAtime[1].substr(1));
+                                etime = wkAtime[0].split(')(')[1].split(')]')[0];
+                            }else if(wkAtime.length == 1 && weekArr.length > 1){
+                                ewk = $scope.weekTranslate(wkAtime[0].substring(1,wkAtime[0].length-1));
+                                etime = wkAtime[0].substring(1,wkAtime[0].length-1).split(')(')[1];
+                            }
                         }
                     }
                 });

@@ -1,0 +1,267 @@
+<style>
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #namesOfLinkDiv {
+        background-color: #000;
+        opacity: 1;
+        padding: 10px 5px;
+        width: 100%;
+        z-index: 20;
+    }
+
+    #namesOfLinkDiv ul {
+        background-color: #000;
+        list-style: none;
+        padding:5px;
+        overflow: hidden;
+    }
+
+    #namesOfLinkDiv ul > li {
+        background-color: #000;
+    }
+
+    #namesOfLinkDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #namesOfLinkDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #namesOfLinkDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #namesOfLinkDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #namesOfLinkDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+    /*输入查询图片*/
+    .pic-show {
+        /*position: absolute;*/
+        border: 1px solid #ddd;
+        z-index: 999;
+        padding-left: 4px;
+        padding-top: 6px;
+        padding-bottom: 7px;
+        background-color: #fff;
+        display: none;
+        box-shadow: 4px 4px 7px 0px #777;
+        min-width: 100%;
+        min-height: 193px;
+    }
+
+    .pic-show-well {
+        min-width: 100%;
+        min-height: 246px;
+    }
+
+    .img-well {
+        float: left;
+        padding: 3px;
+        border: 1px solid #ddd;
+        margin: 4px;
+        cursor: pointer;
+    }
+
+    .show-img {
+        width: 60px;
+        height: 49px;
+    }
+
+    .num-well {
+        margin-left: 5px;
+    }
+
+    .pic-show-btn {
+        margin-right: 5px;
+    }
+
+    .option-hide {
+        position: absolute;
+        right: -10px;
+        background-color: #fff;
+        border-radius: 50%;
+        top: -13px;
+    }
+
+    .pic-loading {
+        min-height: 283px;
+        position: absolute;
+        top: -1px;
+        left: 1px;
+        transition: all 0.5s;
+        z-index: 9999999;
+        background-color: rgba(0, 0, 0, 0.52);
+        min-width: 100%;
+        cursor: not-allowed;
+        text-align: center;
+        color: #fff;
+        padding-top: 60%;
+    }
+
+    .img-describe {
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+    }
+</style>
+<div ng-controller="namesOfLinkController" id="namesOfLinkDiv">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div>
+                <a ng-click="addRoadName()" style="cursor: pointer">添加名称</a>
+            </div>
+        </li>
+    </ul>
+    <ul ng-repeat="nameItem in names" class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+        <li class="list-group-item">
+            <div><label class="control-label">名称号码</label></div>
+            <div class="inline"><input type="text" ng-model="nameItem.nameId" disabled/>
+                   <span class="glyphicon glyphicon-remove-sign"
+                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
+                         ng-click="minusRoadName($index)"></span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称组号</label></div>
+            <div class="inline"><input type="text" ng-model="nameItem.nameGroupid" disabled/></div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">道路名称</label></div>
+            <div class="inline">
+                <input type="text" ng-model="nameItem.name" style="width: 70px"/>
+                <button type="button" class="btn-primary"
+                        ng-click="searchGroupidByNames($index)">检索
+                </button>
+            </div>
+        </li>
+        <li class="list-group-item" id="name{{$index}}" style="display: none">
+            <div class="pic-show">
+                <div class="option-hide">
+                    <button type="button" class="close" aria-label="Close"
+                            ng-click="hidePicSelect($event)">
+                        <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
+                    </button>
+                </div>
+                <div class="pic-show-well">
+                    <div class="img-well" ng-repeat="nitem in pictures"
+                         ng-click="selectNmaesId(nitem.nameId,nitem.name)">
+                        <div class="img-describe">{{nitem.nameId}}&nbsp;&nbsp;
+                            {{nitem.name}} &nbsp;&nbsp; {{nitem.province}}
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="pull-left num-well">
+                    第 <span class="pic-num" ng-bind="picNowNum+1">1</span> 页
+                    |
+                    共 <span class="pic-total" ng-bind="picTotal">1</span>
+                    页<br>
+                    <!--每页条数<input style="width:40px;" type="text" id="pagesize"-->
+                               <!--value="5">-->
+                </div>
+                <div class="pic-show-btn pull-right">
+                    <div class="pull-right btn-group">
+                        <button class="btn btn-default btn-xs pic-pre"
+                                ng-click="picPre()" disabled><<
+                        </button>
+                        <button class="btn btn-default btn-xs pic-next"
+                                ng-click="picNext()">>>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >名称分类</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="originOfName" value=0 ng-model="nameItem.nameClass">
+                    官方名
+                </label>
+                <label>
+                    <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
+                    别名
+                </label>
+                <label>
+                    <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
+                    曾用名
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">名称来源</label></div>
+            <div class="inline">
+                <select  ng-model="nameItem.srcFlag"
+                        ng-options="value.id as value.label for value in srcFlagOptions">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">路线属性</label></div>
+            <div class="inline">
+                <select  ng-model="nameItem.routeAtt"
+                        ng-options="value.id as value.label for value in routeAttOptions">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >主从CODE</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="code" value=0 ng-model="nameItem.code">
+                    官方名
+                </label>
+                <label>
+                    <input type="radio" name="code" value=1 ng-model="nameItem.code">
+                    别名
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">录入时间</label></div>
+            <div class="inline"><input type="text" ng-model="nameItem.inputTime" disabled/></div>
+        </li>
+    </ul>
+
+</div>

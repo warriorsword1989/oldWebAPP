@@ -45,22 +45,31 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
         });
         //随着地图的变化 高亮的线不变
-        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "link",
-            initFlag: true,
-            linkPid: $scope.linkData.pid.toString()
-        });
-        highLightLayer.pushHighLightLayers(highLightLink);
-        highLightLink.drawOfLinkForInit();
-        /*var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-            map: map,
-            highLightFeature: "dataTips",
-            dataTips: $scope.dataTipsData.rowkey
-        });
-        highLightDataTips.drawTipsForInit();
-        highLightLayer.pushHighLightLayers(highLightDataTips);
-        console.log(highLightLayer)*/
+        if($scope.dataTipsData && $scope.dataTipsData.f_array.length > 0){
+            var linksarr = [];
+            for(var item in $scope.dataTipsData.f_array){
+                linksarr.push($scope.dataTipsData.f_array[item].id);
+            }
+            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                map: map,
+                highLightFeature: "link",
+                initFlag: true,
+                linksArr: linksarr
+            });
+            highLightLayer.pushHighLightLayers(highLightLink);
+            highLightLink.drawLinksOfCrossForInit(linksarr,[],[]);
+        }else{
+            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                map: map,
+                highLightFeature: "link",
+                initFlag: true,
+                linkPid: $scope.linkData.pid.toString()
+            });
+            highLightLayer.pushHighLightLayers(highLightLink);
+            highLightLink.drawOfLinkForInit();
+        }
+
+
     };
     //初始化controller调用
     if (objectCtrl.data) {

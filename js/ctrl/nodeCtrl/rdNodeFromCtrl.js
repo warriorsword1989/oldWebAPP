@@ -7,7 +7,8 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
-
+    var rdLink = layerCtrl.getLayerById("referenceLine");
+    var highLightLayer = fastmap.uikit.HighLightController();
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
@@ -78,6 +79,17 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 }
             }
         }
+
+
+        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "linksOfnode",
+            initFlag: true
+        });
+        highLightLayer.pushHighLightLayers(highLightLink);
+
+        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
+
     };
 
     if(objectEditCtrl.data.data) {

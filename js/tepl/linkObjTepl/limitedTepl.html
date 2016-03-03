@@ -1,405 +1,88 @@
 <style>
-    div {
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.42857143;
-        color: #58666e;
-        background-color: transparent;
-        margin-right: 0px;
-    }
-
-    label {
-        font-weight: normal;
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
     }
 
     #traffiLimitedDiv {
-        border: 1px solid #FBFBFB;
+        background-color: #000;
+        opacity: 1;
+        padding: 10px 5px;
         width: 100%;
-        height: 530px;
-        min-height: 300px;
-        overflow-y: scroll;
+        z-index: 20;
     }
 
-    .line-dashed {
-        background-color: transparent;
-        border-style: dashed !important;
-        border-width: 0;
+    #traffiLimitedDiv ul {
+        background-color: #000;
+        list-style: none;
+        padding:5px;
+        overflow: hidden;
     }
 
-    .b-b {
-        border-bottom: 1px solid #dee5e7;
+    #traffiLimitedDiv ul > li {
+        background-color: #000;
     }
 
-    .line-lg {
-        margin-top: 15px;
-        margin-bottom: 15px;
+    #traffiLimitedDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
     }
 
-    .pull-in {
-        margin-left: -15px;
-        margin-right: -15px;
+    #traffiLimitedDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
     }
 
-    .col-centered {
-        float: none;
-        margin: 0 auto;
-    }
-    .form-horizontal .control-label{
-        text-align: center;
+    #traffiLimitedDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
     }
 
-    .checkboxli{
-        background-color: #e4e4e4;
-        border: 1px solid #aaa;
-        border-radius: 4px;
-        cursor: default;
-        float: left;
-        margin-left: 5px;
-        margin-right: 5px;
-        margin-top: 5px;
-        padding: 0 5px;
+    #traffiLimitedDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
     }
-    .popover{
-        width: 100%;
+
+    #traffiLimitedDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
     }
-    .popover-content{
-        overflow-y:auto;height:200px;
+    .m-b-none {
+        margin-bottom: 0 !important;
     }
-    .show-domain-ico{
-        background-color: #fff;
-        cursor: pointer;
-    }
+
 </style>
-<div id="realTimeDiv" ng-controller="limitedController">
-    <div class="panel-group" id="popularLimited" style="margin: 0px;">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    普通限制信息 共(<span ng-if="linkLimitData!=undefined">{{linkLimitData.limits.length}}</span>) 个
-                    <a data-toggle="collapse" data-parent="#accordion"
-                       href="#popularLimitedDiv">
-                        <span class="glyphicon glyphicon-chevron-down" ng-click="slideShow('#popularLimitedDiv')" style="float: left"></span>
-                    </a>
-                    <span class="glyphicon glyphicon-plus"
-                          style="float: right;color: darkgray;"
-                          ng-click="addLimit()"></span>
-                </h4>
+<div id="traffiLimitedDiv" ng-controller="limitedController">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div >
+                <a ng-click="addLimit()" style="cursor: pointer">普通限制信息</a>
             </div>
-            <div id="popularLimitedDiv" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <form class="form-horizontal" method="get">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">供用信息</label>
-
-                            <div  class="col-sm-9">
-                                <select class="form-control" ng-model="linkData.appInfo"
-                                        ng-options="value.id as value.label for value in appInfoOptions">
-                                    <option>--</option>
-
-                                </select>
-                            </div>
-
-                        </div>
-                    </form>
-                    <div class="list-group" ng-repeat="item in linkLimitData.limits">
-                        <div class="list-group-item">
-                            <form class="form-horizontal" method="get">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">限制类型</label>
-
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="item.type"
-                                                ng-options="value.id as value.label for value in typeOptions">
-                                            <option>--</option>
-
-                                        </select>
-                                    </div>
-                                  <span class="glyphicon glyphicon-remove-sign"
-                                        style="float: right;color: darkgray;margin-top: -45px"
-                                        ng-click="minusLimit($index)"></span>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">限制方向</label>
-
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="item.limitDir"
-                                                ng-options="value.id as value.label for value in limitDirOptions"  ng-change="changeDirect(item.limitDir)">
-                                            <option>--</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">收费类型</label>
-
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="item.tollType"
-                                                ng-options="value.id as value.label for value in tollTypeOptions">
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">天气条件</label>
-
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="item.weather"
-                                                ng-options="value.id as value.label for value in weatherOptions">
-                                            <option>--</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">录入时间</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" ng-model="item.inputTime">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">赋值方式</label>
-
-                                    <div class="col-sm-9">
-                                        <div id="processFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
-                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="processFlag0_{{$index}}" ng-click="checkprocessFlag(0,item,$index)" ng-model="item.processFlag">默认</button>
-                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="processFlag1_{{$index}}" ng-click="checkprocessFlag(1,item,$index)" ng-model="item.processFlag">外业</button>
-                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="processFlag2_{{$index}}" ng-click="checkprocessFlag(2,item,$index)" ng-model="item.processFlag">未验证</button>
-                                        </div>
-                                        <!--<div class="radio">-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="processFlagRadio" value="0"-->
-                                                       <!--ng-model="formData.processFlag" >-->
-                                                <!--默认-->
-                                            <!--</label>-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="processFlagRadio" value="1"-->
-                                                       <!--ng-model="formData.processFlag">-->
-                                                <!--外业-->
-                                            <!--</label>-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="processFlagRadio" value="2"-->
-                                                       <!--ng-model="formData.processFlag">-->
-                                                <!--未验证-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">时间段</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-sm-11 input-group" style="padding-left: 15px">
-                                                <input type="text" class="form-control" ng-model="item.timeDomain" readonly>
-                                                <span class="input-group-addon show-domain-ico" aria-controls="time_domain{{$index}}" aria-expanded="false" href="#time_domain{{$index}}" data-toggle="collapse" title="查看编辑时间段" ng-click="showDomain(time_domain$index,item.timeDomain)">
-                                                    <i class="glyphicon glyphicon-menu-down"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="form-group collapse domain-well" id="time_domain{{$index}}" aria-expanded="false">
-                                    <div ng-include="dateURL" class="muti-date" date-str='{{item.timeDomain}}'></div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <!--<div class="form-group">-->
-                                    <!--<label class="col-sm-3 control-label">车辆类型</label>-->
-                                    <!--<div class="col-sm-9">-->
-                                        <!--<div class="row">-->
-                                            <!--<div class="col-sm-7" style="padding-left: 15px">-->
-                                                <!--<input type="text" class="form-control" ng-model="item.vehicle">-->
-                                            <!--</div>-->
-                                            <!--<div class="col-sm-3">-->
-                                                <!--<button type="submit" class="btn btn-default" >车辆控件</button>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                <!--</div>-->
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">车辆类型</label>
-                                    <div class="col-sm-4 control-label">
-                                        <input  type="checkbox" id="checkallow()" ng-checked="checkValue" ng-model="checkValue">允许
-                                    </div>
-                                    <a  class="col-sm-4 control-label" ng-click="showPopover($index,item.vehicle)">添加</a>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label"></label>
-                                    <div class="col-sm-8">
-
-                                        <!--<select class="form-control" ng-model="rdSubRestrictData.vehicleExpression"-->
-                                        <!--ng-options="value.id as value.label for value in vehicleOptions" >-->
-                                        <!--</select>-->
-                                        <div  id="vehicleExpressiondiv{{$index}}"  style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;word-break: break-all;word-wrap: break-word;" tabindex="0" role="button" data-toggle="popover"  title="车辆类型"  >
-                                            <!--<ul id="newul" class="list-inline" style="width:100%;height:auto;white-spacing:nowrap;"></ul>-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </form></div>
-                    </div>
-
-                </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item" ng-repeat="limitItem in linkLimitData.limits">
+            <div ng-repeat="typeItem in typeOptions|filter:limitItem.type " ng-click="showOrdinaryInfo(limitItem)"><label class="control-label">{{typeItem.label}}</label></div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div >
+                <a ng-click="addLimitTruck()" style="cursor: pointer">卡车限制信息</a>
             </div>
-        </div>
-    </div>
-    <div class="panel-group" id="trafficLimited" style="margin: 0px;">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    卡车限制信息 共（<span ng-if="linkLimitData!=undefined">{{linkLimitData.limitTrucks.length}}</span>）个
-                    <a data-toggle="collapse" data-parent="#accordion"
-                       href="#trafficLimitedDiv">
-                        <span class="glyphicon glyphicon-chevron-down" ng-click="slideShow('#trafficLimitedDiv')" style="float: left"></span>
-                    </a>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item" ng-repeat="truckItem in linkLimitData.limitTrucks">
+            <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)"><label class="control-label">{{dirItem.label}}</label></div>
+        </li>
+    </ul>
 
-                    <span class="glyphicon glyphicon-plus"
-                          style="float: right;color: darkgray;"
-                          ng-click="addLimitTruck()"></span>
-                </h4>
-
-            </div>
-            <div id="trafficLimitedDiv" class="panel-collapse collapse in">
-                <div class="panel-body">
-                    <div class="list-group"  ng-repeat="tItem in linkLimitData.limitTrucks">
-                        <div class="list-group-item">
-                            <form class="form-horizontal" method="get">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">验证标识</label>
-                                    <div class="col-sm-9">
-                                        <div id="truckFlagdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
-                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="truckFlag0_{{$index}}" ng-click="checktruckFlag(0,linkLimitData,$index)" ng-model="linkLimitData.truckFlag">已验证</button>
-                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="truckFlag1_{{$index}}" ng-click="checktruckFlag(1,linkLimitData,$index)" ng-model="linkLimitData.truckFlag">未验证</button>
-                                        </div>
-                                        <!--<div class="radio">-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="truckFlagRadio" value="0" ng-model="linkLimitData.truckFlag">-->
-                                                <!--已验证-->
-                                            <!--</label>-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="truckFlagRadio" value="1" ng-model="linkLimitData.truckFlag">-->
-                                                <!--未验证-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                    </div>
-                                    <span class="glyphicon glyphicon-remove-sign"
-                                          style="float: right;color: darkgray;margin-top: -39px"
-                                          ng-click="minusLimitTruck($index)"></span>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">限制方向</label>
-
-                                    <div class="col-sm-9">
-                                        <select class="form-control" ng-model="tItem.limitDir" ng-options="value.id as value.label for value in limitDirOptions" ng-change="changeDirect(tItem.limitDir)">
-                                            <option>--</option>
-                                        </select>
-                                   </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">时间段</label>
-                                    <div class="col-sm-9">
-                                        <div class="row">
-                                            <div class="col-sm-11 input-group" style="padding-left: 15px">
-                                                <input type="text" class="form-control" ng-model="tItem.timeDomain" readonly>
-                                                <span class="input-group-addon show-domain-ico" aria-controls="time_t_domain{{$index}}" aria-expanded="false" href="#time_t_domain{{$index}}" data-toggle="collapse" title="查看编辑时间段" ng-click="showDomain(time_t_domain$index,tItem.timeDomain)">
-                                                    <i class="glyphicon glyphicon-menu-down"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="form-group collapse domain-well" id="time_t_domain{{$index}}" aria-expanded="false">
-                                    <div ng-include="dateURL" class="muti-date" date-str='{{tItem.timeDomain}}'></div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">拖挂车限制</label>
-
-                                    <div class="col-sm-9">
-
-                                        <div id="resTrailerdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
-                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="resTrailer0_{{$index}}" ng-click="checkresTrailer(0,tItem,$index)" ng-model="tItem.resTrailer">已验证</button>
-                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="resTrailer1_{{$index}}" ng-click="checkresTrailer(1,tItem,$index)" ng-model="tItem.resTrailer">未验证</button>
-                                        </div>
-                                        <!--<div class="radio">-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="resTrailerRadio" value="0" ng-model="tItem.resTrailer">-->
-                                                <!--限制-->
-                                            <!--</label>-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="resTrailerRadio" value="1" ng-model="tItem.resTrailer">-->
-                                                <!--不限制-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">车辆限重</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" placeholder="0" ng-model="tItem.resWeigh">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">限制承重</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" placeholder="0" ng-model="tItem.resAxleLoad">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">限制轴数</label>
-
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" placeholder="0" ng-model="tItem.resAxleCount">
-                                    </div>
-                                </div>
-                                <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">车辆限制</label>
-
-                                    <div class="col-sm-9">
-
-                                        <div id="resOutdiv{{$index}}" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">
-                                            <button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="resOut0_{{$index}}" ng-click="checkresOut(0,tItem,$index)" ng-model="tItem.resOut">限外埠</button>
-                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="resOut1_{{$index}}" ng-click="checkresOut(1,tItem,$index)" ng-model="tItem.resOut">限本埠</button>
-                                            <button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="resOut2_{{$index}}" ng-click="checkresOut(2,tItem,$index)" ng-model="tItem.resOut">不应用</button>
-                                        </div>
-
-                                        <!--<div class="radio">-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="resOutRadio" value="0"-->
-                                                       <!--ng-model="tItem.resOut">-->
-                                                <!--限外埠-->
-                                            <!--</label>-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="resOutRadio" value="1"-->
-                                                       <!--ng-model="tItem.resOut">-->
-                                                <!--限本埠-->
-                                            <!--</label>-->
-                                            <!--<label>-->
-                                                <!--<input type="radio" name="resOutRadio" value="2"-->
-                                                       <!--ng-model="tItem.resOut">-->
-                                                <!--不应用-->
-                                            <!--</label>-->
-                                        <!--</div>-->
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
