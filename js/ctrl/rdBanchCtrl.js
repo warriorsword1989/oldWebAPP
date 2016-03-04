@@ -178,13 +178,13 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         var params = {
             "name":$scope.arrowCode,
             "pageNum":$scope.picPageNum,
-            "pageSize":9
+            "pageSize":6
         };
         Application.functions.getArrowImgGroup(JSON.stringify(params),function(data){
             if(data.errcode == 0){
                 $(".pic-loading").hide();
                 $scope.pictures = data.data.data;
-                $scope.picTotal = Math.ceil(data.data.total/9);
+                $scope.picTotal = Math.ceil(data.data.total/6);
                 $scope.goPaging();
                 $scope.$apply();
             }
@@ -200,6 +200,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
             $scope.getPicsDate();
             $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
             $("#picMapImg").attr('src',$scope.arrowMapShow);
+            $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
             $("#picMapDesc").text($scope.arrowCode);
             if($.trim($scope.arrowCode) == ''){
                 $('.pic-show').hide();
@@ -224,6 +225,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         $scope.arrowCode = code;
         $scope.patternCode = '8'+$.trim($scope.arrowCode).substr(1);
         $("#picMapImg").attr('src',url);
+        $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
         $("#picMapDesc").text(code);
         $('.pic-show').hide();
         $("#picMapShow").show();
@@ -239,11 +241,11 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     ];
     /*分歧类型*/
     $scope.branchTypeOptions=[
-        {"id": 0, "label": "0 高亮分歧(无名称)"},
-        {"id": 1, "label": "1 方面分歧"},
-        {"id": 2, "label": "2 IC分歧"},
-        {"id": 3, "label": "3 3D分歧"},
-        {"id": 4, "label": "4 复杂路口模式图"}
+        {"id": 0, "label": "高亮分歧(无名称)"},
+        {"id": 1, "label": "方面分歧"},
+        {"id": 2, "label": "IC分歧"},
+        {"id": 3, "label": "3D分歧"},
+        {"id": 4, "label": "复杂路口模式图"}
     ];
     /*箭头图标志*/
     $scope.arrowPicFlag = [
@@ -392,15 +394,16 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 /*模式图*/
                 /*箭头图代码*/
                 $scope.arrowCode = dObj.details[0].arrowCode;
+                /*底图代码*/
+                $scope.patternCode = dObj.details[0].patternCode;
                 if($scope.arrowCode) {
                     $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
                 }
                 $("#picMapImg").attr('src',$scope.arrowMapShow);
+                $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
                 $("#picMapDesc").text($scope.arrowCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
-                /*底图代码*/
-                $scope.patternCode = dObj.details[0].patternCode;
                 // $(".detail-well").show();
                 $("#picMapShow").show();
             }else{

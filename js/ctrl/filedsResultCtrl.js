@@ -16,15 +16,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-<<<<<<< HEAD
-//            Application.functions.getRdObjectById("16590530","RDLINK",function(data) {
-//                objCtrl.setCurrentObject(data.data);
-//                $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-//                        $scope.$parent.$parent.objectEditURL = 'js/tepl/currentObjectTepl.html';
-//                    }
-//                );
-//            })
-=======
+
             Application.functions.getRdObjectById("735834","RDLINK",function(data) {
                 objCtrl.setCurrentObject(data.data);
                 $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
@@ -32,7 +24,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                 );
             })
->>>>>>> webApp/master
+
             //Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
             //    objCtrl.setCurrentObject(data.data);
             //    $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
@@ -40,6 +32,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //        }
             //    );
             //})
+
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {

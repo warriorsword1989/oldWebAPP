@@ -22,6 +22,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.arrowFlag = true;
     $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
+    $scope.suspendFlag = false;
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
@@ -32,6 +33,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
             }
         }
     };
+   $scope.changeSuspendShow=function() {
+       $scope.suspendFlag = false;
+   };
 
     $scope.$on("dataTipsToParent", function (event, data) {
         $scope.$broadcast("dataTipsToChild", data);
@@ -74,9 +78,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                                 $scope.selectShapeURL = 'js/tepl/selectShapeTepl.html';
                                 $ocLazyLoad.load('ctrl/addShapeCtrl').then(function () {
                                         $scope.addShapeURL = 'js/tepl/addShapeTepl.html';
+                                    $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
+                                        $scope.objectEditURL = 'js/tepl/blankTepl.html';
 
-                                    }
-                                );
+                                    });
+                                    });
                             }
                         );
                     }

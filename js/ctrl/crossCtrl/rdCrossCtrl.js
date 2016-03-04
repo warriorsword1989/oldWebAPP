@@ -41,6 +41,9 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         })
     };
     $scope.showNames=function() {
+        if(! $scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = true;
+        }
         $ocLazyLoad.load('ctrl/crossCtrl/namesOfCrossCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/crossTepl/namesOfCross.html";
         })

@@ -4,7 +4,7 @@
 var conditionSpeedApp = angular.module("myApp",[]);
 conditionSpeedApp.controller("conditionSpeedController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.speedLimitsData = objCtrl.data.speedlimits;
+    $scope.speedLimitsData = objCtrl.data.data.speedlimits;
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},
         {"id":55,"label":"服务区内道路"},

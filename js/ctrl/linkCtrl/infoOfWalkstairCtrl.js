@@ -4,7 +4,7 @@
 var walkstairApp = angular.module("mapApp", []);
 walkstairApp.controller("walkstairController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.walkstairData = objCtrl.data.walkstairs;
+    $scope.walkstairData = objCtrl.data.data.walkstairs;
     $scope.walkstairLocoptions=[
         {"id": 0, "label":"无"},
         {"id": 1, "label":"右侧"},
