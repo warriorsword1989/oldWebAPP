@@ -84,6 +84,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
     $scope.showAddDirectTepl=function() {
+        if(!$scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = true;
+        }
         $ocLazyLoad.load('ctrl/restrictionCtrl/addDirectOfRestrictionCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html";
         })
