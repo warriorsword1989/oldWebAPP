@@ -241,11 +241,11 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     ];
     /*分歧类型*/
     $scope.branchTypeOptions=[
-        {"id": 0, "label": "0 高亮分歧(无名称)"},
-        {"id": 1, "label": "1 方面分歧"},
-        {"id": 2, "label": "2 IC分歧"},
-        {"id": 3, "label": "3 3D分歧"},
-        {"id": 4, "label": "4 复杂路口模式图"}
+        {"id": 0, "label": "高亮分歧(无名称)"},
+        {"id": 1, "label": "方面分歧"},
+        {"id": 2, "label": "IC分歧"},
+        {"id": 3, "label": "3D分歧"},
+        {"id": 4, "label": "复杂路口模式图"}
     ];
     /*箭头图标志*/
     $scope.arrowPicFlag = [
