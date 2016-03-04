@@ -9,7 +9,7 @@
         border: 1px solid #FFFFFF;
         border-style: ridge;
         color: #fff;
-        background-color: #404040;
+        background-color: #333;
     }
     label {
         font-weight: normal;
@@ -30,7 +30,7 @@
         /*overflow-y: scroll;*/
         /* opacity: .8;
         background-color: #404040; */
-
+        
     }
 
     .line-dashed {
@@ -89,7 +89,7 @@
         /*background-color: #eee;*/
         padding: 5px;
         cursor: pointer;
-        color: #666666;
+        color: #fff;
         transition:all 0.5s;
         margin-bottom: 10px;
         /*margin-left: 1px;*/
@@ -132,7 +132,7 @@
         padding-bottom: 7px;
         background-color: #333;
         display: none;
-        box-shadow: 4px 4px 7px 0px #777;
+        box-shadow: 4px 4px 7px 0px #777;    
         min-width: 70%;
         min-height: 193px;
     }
@@ -195,7 +195,7 @@
         float: left;
         margin: 5px;
         border-radius: 4px;
-        background-color: #202020;
+        background-color: #555;
         /*opacity: 0.8;*/
     }
     .box-head{
@@ -215,7 +215,7 @@
     .d-input{
         border: 1px solid #FFFFFF;
         border-style: ridge;
-        background-color: rgba(90, 90, 90, 0.98);
+        background-color: #333;
         width: 100%;
         border-radius: 3px;
         color: #fff;
@@ -234,10 +234,35 @@
         border: 1px solid #FFF !important;
         padding-top: 4px;
     }
+    .show-detail-title{
+        cursor: pointer; 
+        transition: all 0.3s; 
+    }
+    .show-detail-title:hover{
+       background-color: #333;
+    }
+    /* 公用详细信息样式 */
+    .detail-info-title{
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    .detail-info-box{
+        border-radius: 3px;
+        border:1px solid #fff;
+        float: left;
+        padding: 8px;
+        width: 100%;
+        background-color: #555;
+    }
+    .split-line{
+        border-top: 1px solid #fff;
+        margin-left: -8px;
+        margin-right: -8px;
+        margin-top: 3px;
+    }
 </style>
-
-<div  ng-controller="rdBranchController" class="" id="rdBranchDiv">
-    <div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;color: #fff;">
+<div id="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
+   <div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;color: #fff;">
         分歧
         <div class="btn-group d-radio-btn" data-toggle="buttons">
           <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
@@ -268,31 +293,6 @@
             </div> 
         </div>
     </div>
-    <!--begin 经过线-->
-    <div class="module-box">
-        <div class="box-head font-bold">
-            <a data-toggle="collapse" href="#passLine" aria-expanded="true" class="pull-right">
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-             经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
-        </div>
-        <div id="passLine" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
-            <div class="d-group">
-                <div class="d-name">经过线序号：</div>
-                <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="经过线序号" ng-model="passline.seqNum">
-                </div> 
-            </div>
-            <div class="d-group">
-                <div class="d-name">Link号码：</div>
-                <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="link号码" ng-model="passline.linkPid">
-                </div> 
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <!--end 经过线-->
     <!--begin 模式图信息-->
     <div class="module-box">
         <div class="box-head font-bold">
@@ -308,8 +308,6 @@
                     <select class="rounded d-input"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
                 </div> 
             </div>
-            <!-- <div class="clearfix"></div>
-            <div class="line line-dashed b-b line-lg"></div> -->
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
@@ -390,92 +388,21 @@
                     </select>
                 </div> 
             </div>
-            <!-- <div class="d-group">
-                <div class="d-name">分歧号码：</div>
-                <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="分歧号码" ng-model="branchPid">
-                </div> 
-            </div> -->
         </div>
     </div>
     <!--end 模式图信息-->
     <!--begin 名称信息-->
-    <div class="module-box">
+    <div class="module-box show-detail-title" ng-click="showDetail(0);">
         <div class="box-head font-bold">
-            <a data-toggle="collapse" data-parent="#accordion"
-               href="#loadPropertyDiv" class="pull-right">
-                <span class="glyphicon glyphicon-chevron-down" style="float: left"></span>
-            </a>
             名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
-            <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;font-size: 20px;cursor: pointer;color: #fff;" ng-click="nameInfoAdd()"></span>
-        </div>
-
-        <div id="loadPropertyDiv" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
-            <div class="info-well" id="nameInfo{{item.nameGroupid}}" ng-repeat="item in diverObj.details[0].names | orderBy: '-nameGroupid'">
-                <!-- <span class="glyphicon glyphicon-remove-sign info-remove" ng-click="minusTime($index)"></span> --> 
-                <div class="info-head-well">
-                    名称组号
-                    <span ng-bind="item.nameGroupid" style="line-height: 2.5;"></span>
-                    <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item)"> × </span>
-                    <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=diverObj.details[0].names.length-1"></span>
-                    <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
-                </div>
-                <div class="line line-dashed b-b line-lg">
-                    <div class="d-group">
-                        <div class="d-name">语言代码：</div>
-                        <div class="d-value">
-                            <select class="d-input"  ng-model="item.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
-                        </div> 
-                    </div>
-                    <div class="d-group">
-                        <div class="d-name">分歧名称：</div>
-                        <div class="d-value">
-                            <input type="text" class="d-input" placeholder="分歧名称"
-                                   ng-model="item.name" ng-blur="diverName(item.nameGroupid,item.name)">
-                        </div> 
-                    </div>
-                    <div class="d-group">
-                        <div class="d-name">名称发音：</div>
-                        <div class="d-value">
-                            <input type="text" class="d-input name-phonetic" placeholder="名称发音"
-                                   ng-model="item.phonetic">
-                        </div> 
-                    </div>
-                    <div class="d-group">
-                        <div class="d-name">名称语音：</div>
-                        <div class="d-value">
-                            <input type="text" class="d-input name-voincefile" placeholder="名称语音"
-                                   ng-model="item.voiceFile">
-                        </div> 
-                    </div>
-                    <div class="d-group">
-                        <div class="d-name">名称分类：</div>
-                        <div class="d-value">
-                            <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                              <label ng-class="{'btn-primary active':n.code==item.nameClass,'btn-default':n.code!=item.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,item.nameGroupid)">
-                                <input type="radio" name="nameClass{{item.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
-                              </label>
-                            </div>
-                        </div> 
-                    </div>
-                    <div class="d-group">
-                        <div class="d-name">编号类型：</div>
-                        <div class="d-value">
-                            <select class="d-input" ng-model="item.codeType"
-                                    ng-options="value.id as value.label for value in codeTypeOptions" >
-                            </select>
-                        </div> 
-                    </div>
-                    <div class="d-group">
-                        <div class="d-name">名称来源：</div>
-                        <div class="d-value">
-                            <input type="text" class="d-input" placeholder="名称来源" ng-model="item.srcFlag">
-                        </div> 
-                    </div>
-                </div>
-                <div class="clearfix"></div>
-                </div>
         </div>
     </div>
     <!--end 名称信息-->
+    <!--begin 经过线-->
+    <div class="module-box show-detail-title" ng-click="showDetail(1);">
+        <div class="box-head font-bold">
+             经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
+        </div>
+    </div>
+    <!--end 经过线-->
 </div>

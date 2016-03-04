@@ -60,8 +60,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
     },
 
     onMouseMove: function(event){
-        //this.container
-        //this.container.style.cursor = 'crosshair';
+
         this.snapHandler.setTargetIndex(0);
         var that = this;
         if(this.snapHandler.snaped == true){
@@ -79,7 +78,6 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     },
-    drawFeedBack: function(){},
 
     resetVertex:function(layerPoint){
 

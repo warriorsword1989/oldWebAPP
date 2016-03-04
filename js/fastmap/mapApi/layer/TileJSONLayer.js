@@ -358,7 +358,43 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             g.rotate(rount);//旋转度数
             // g.translate(-xpos, -ypos);
             //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+
+            //g.clearRect(0,0, g.canvas.width, g.canvas.height);
+
             g.drawImage(image, -image.width / 2, -image.height / 2);
+            g.restore();
+        };
+    },
+    _drawlaneImgbound: function (ctx, geom, imgsrc, boolPixelCrs, rount) {
+        if (!imgsrc.src) {
+            return;
+        }
+        var p = null;
+        if (boolPixelCrs) {
+            p = {x: geom[0], y: geom[1]}
+        } else {
+            p = this._tilePoint(ctx, imgsrc);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        var image = new Image(),
+            arrorImg = new Image();
+        image.src = imgsrc.src;
+        image.onload = function () {
+            g.save();
+            g.translate(p.x, p.y);
+            g.rotate(rount);//旋转度数
+            // g.translate(-xpos, -ypos);
+            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+            var proj = [{x:-image.width / 2,y:-image.height / 2},{x:image.width / 2,y:-image.height / 2},{x:image.width / 2,y:image.height / 2},{x:-image.width / 2,y:image.height / 2},{x:-image.width / 2,y:-image.height / 2}];
+            g.strokeStyle = '#7FFFD4';
+            g.beginPath();
+            for (var j = 0; j < proj.length; j++) {
+                var method = (j === 0 ? 'move' : 'line') + 'To';
+                g[method](proj[j].x, proj[j].y);
+            }
+            g.stroke();
+
             g.restore();
         };
     },

@@ -1,9 +1,8 @@
-/*
- * Created by liuzhaoxia on 2015/12/10.
+/**
+ * Created by liwanchong on 2016/2/29.
  */
-//var otherApp=angular.module("lazymodule", []);
-var otherApp=angular.module("lazymodule", []);
-otherApp.controller("rdBranchController",function($scope,$timeout){
+var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
+namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoad) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var divergenceIds = objCtrl.data;
@@ -37,6 +36,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
             // objectEditCtrl.setOriginalData(data.data);
             if(data.errcode == 0){
                 $scope.diverObj = data.data;
+                objCtrl.setCurrentObject($scope.diverObj);
                 // $scope.diverObj.vias = [{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1}]
                 $scope.initDiver();
                 $scope.$parent.$parent.showLoading = false;  //showLoading
@@ -64,68 +64,6 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
     $scope.switchArrowType = function(code){
         $scope.arrowFlag = code;
     }
-    /*点击名称分类*/
-    $scope.switchNameClass = function(code,id){
-        $.each($scope.diverObj.details[0].names,function(i,v){
-            if(id == v.nameGroupid){
-                v.nameClass = code;
-            }
-        });
-    }
-    /*上移或者下移*/
-    $scope.changeOrder = function(item,type){
-        if(type == 1){  //下移
-            $.each($scope.diverObj.details[0].names,function(i,v){
-                if(v.nameGroupid == item.nameGroupid-1){
-                    v.nameGroupid += 1;
-                }
-            });
-            item.nameGroupid -= 1;
-        }else{  //上移
-            $.each($scope.diverObj.details[0].names,function(i,v){
-                if(v.nameGroupid == item.nameGroupid+1){
-                    v.nameGroupid -= 1;
-                }
-            });
-            item.nameGroupid += 1;
-        }
-    }
-    /*删除名称信息*/
-    $scope.removeNameInfo = function(item){
-        Array.prototype.deleteElementByValue = function(varElement)
-        {
-            var numDeleteIndex = -1;
-            for (var i=0; i<this.length; i++)
-            {
-                // 严格比较，即类型与数值必须同时相等。
-                if (this[i] === varElement)
-                {
-                    this.splice(i, 1);
-                    numDeleteIndex = i;
-                    break;
-                }
-            }
-            return numDeleteIndex;
-        }
-        /*数组中删除*/
-        $.each($scope.diverObj.details[0].names,function(i,v){
-            if(item == v){
-                $scope.diverObj.details[0].names.deleteElementByValue(item);
-            }
-        });
-        $.each($scope.diverObj.details[0].names,function(i,v){
-            if(v){
-                /*删除一个，之后的nameGroup都减一*/
-                if(v.nameGroupid > item.nameGroupid){
-                    v.nameGroupid -= 1;
-                }
-                /*如果只剩一条名称信息*/
-                if($scope.diverObj.details[0].names.length == 1){
-                    $scope.diverObj.details[0].names[0].nameGroupid = 1;
-                }
-            } 
-        });
-    }
     /*根据id获取箭头图图片*/
     $scope.getArrowPic = function(id){
         var params = {
@@ -149,23 +87,6 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
             $(".pic-pre").prop('disabled',false);
         }
         $scope.$apply();
-    }
-    /*新增名称信息*/
-    $scope.nameInfoAdd = function(){
-        var protoArr = $scope.diverObj.details[0].names;
-        var newArr = {};
-        newArr.codeType = 0;
-        newArr.detailId = 0;
-        newArr.langCode = $scope.languageCode[0].code;
-        newArr.name = '';
-        newArr.nameClass = 0;
-        newArr.nameGroupid = protoArr.length + 1;
-        newArr.phonetic = '';
-        newArr.pid = 0;
-        newArr.voiceFile = '';
-        newArr.srcFlag = 0;
-        newArr.seqNum = 0;
-        protoArr.push(newArr);
     }
     $scope.picNowNum = 0;
     $scope.getPicsDate = function(){
@@ -220,6 +141,16 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         $scope.picNowNum -= 1;
         $scope.getPicsDate();
     }
+    /*改变当前箭头图的坐标位置*/
+    $scope.changeArrowPosition = function(){
+        var $picMapShow = $("#picMapShow");
+        if($scope.$parent.$parent.suspendFlag){
+            $picMapShow.css('right','595px');
+        }else{
+            $picMapShow.css('right','289px');
+        }
+        $picMapShow.show();
+    }
     /*点击选中的图片*/
     $scope.selectPicCode = function(code,url){
         $scope.arrowCode = code;
@@ -228,7 +159,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
         $("#picMapDesc").text(code);
         $('.pic-show').hide();
-        $("#picMapShow").show();
+        $scope.changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function(e){
@@ -289,82 +220,6 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
         {"id": 3, "label": "3 未调查"},
         {"id": 9, "label": "9 不应用"}
     ];
-    /*名称分类*/
-    $scope.nameClassType = [
-        {"code":0,"label":"方向"},
-        {"code":1,"label":"出口"}
-    ];
-    $scope.codeTypeOptions=[
-        {"id":0,"label":"0 无"},
-        {"id":1,"label":"1 普通路名"},
-        {"id":2,"label":"2 设施名"},
-        {"id":3,"label":"3 高速道路名"},
-        {"id":4,"label":"4 国家高速编号"},
-        {"id":5,"label":"5 国道编号"},
-        {"id":6,"label":"6 省道编号"},
-        {"id":7,"label":"7 县道编号"},
-        {"id":8,"label":"8 乡道编号"},
-        {"id": 9, "label": "9 专用道编号"},
-        {"id": 10, "label": "10 省级高速编号"}
-
-    ];
-    /*语言代码*/
-    $scope.languageCode = [
-        {"code":"CHI","name":"简体中文"},
-        {"code":"CHT","name":"繁体中文"},
-        {"code":"ENG","name":"英文"},
-        {"code":"POR","name":"葡萄牙文"},
-        {"code":"ARA","name":"阿拉伯语"},
-        {"code":"BUL","name":"保加利亚语"},
-        {"code":"CZE","name":"捷克语"},
-        {"code":"DAN","name":"丹麦语"},
-        {"code":"DUT","name":"荷兰语"},
-        {"code":"EST","name":"爱沙尼亚语"},
-        {"code":"FIN","name":"芬兰语"},
-        {"code":"FRE","name":"法语"},
-        {"code":"GER","name":"德语"},
-        {"code":"HIN","name":"印地语"},
-        {"code":"HUN","name":"匈牙利语"},
-        {"code":"ICE","name":"冰岛语"},
-        {"code":"IND","name":"印度尼西亚语"},
-        {"code":"ITA","name":"意大利语"},
-        {"code":"JPN","name":"日语"},
-        {"code":"KOR","name":"韩语"},
-        {"code":"LIT","name":"立陶宛语"},
-        {"code":"NOR","name":"挪威语"},
-        {"code":"POL","name":"波兰语"},
-        {"code":"RUM","name":"罗马尼亚语"},
-        {"code":"RUS","name":"俄语"},
-        {"code":"SLO","name":"斯洛伐克语"},
-        {"code":"SPA","name":"西班牙语"},
-        {"code":"SWE","name":"瑞典语"},
-        {"code":"THA","name":"泰国语"},
-        {"code":"TUR","name":"土耳其语"},
-        {"code":"UKR","name":"乌克兰语"},
-        {"code":"SCR","name":"克罗地亚语"}
-    ];
-    /*分歧名称输入完查询发音和拼音*/
-    $scope.diverName = function(id,name){
-        $scope.$parent.$parent.showLoading = true;  //showLoading
-        var param = {
-            "word":name
-        }
-        Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$parent.$parent.showLoading = false;  //showLoading
-            $scope.$apply();
-            if(data.errcode == 0){
-                $.each($scope.diverObj.details[0].names,function(i,v){
-                    if(v.nameGroupid == id){
-                        v.phonetic = data.data.phonetic;
-                        v.voiceFile = data.data.voicefile;
-                    }
-                });
-                $scope.$apply();
-            }else{
-                swal("查找失败", "问题原因："+data.errmsg, "error");
-            }
-        });
-    }
     /*初始化信息显示*/
     $scope.initDiver = function(){
         var dObj = $scope.diverObj;
@@ -405,7 +260,7 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
                 // $(".detail-well").show();
-                $("#picMapShow").show();
+                $scope.changeArrowPosition();
             }else{
                 // $(".detail-well").hide();
                 $("#picMapShow").hide();
@@ -455,6 +310,27 @@ otherApp.controller("rdBranchController",function($scope,$timeout){
                 arr.splice(i,1);
             }
         }
+    }
+    /*展示详细信息*/
+    $scope.showDetail=function(type) {
+        if(! $scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = true;
+        }
+        if(type == 0){  //  名称
+            $ocLazyLoad.load('ctrl/branchCtrl/nameInfoCtrl').then(function () {
+                $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/nameInfoTepl.html";
+            });
+        }else{  //经过线
+            $ocLazyLoad.load('ctrl/branchCtrl/passlineCtrl').then(function () {
+                $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/passlineTepl.html";
+            });
+        }
+        $scope.changeArrowPosition();
+    };
+    /*关闭详细信息面板，移动箭头图位置*/
+    $scope.$parent.$parent.changeSuspendShow = function(){
+        $scope.$parent.$parent.suspendFlag = false;
+        $scope.changeArrowPosition();
     }
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
