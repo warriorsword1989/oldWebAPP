@@ -22,7 +22,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.arrowFlag = true;
     $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
             if(claFlag===id) {
