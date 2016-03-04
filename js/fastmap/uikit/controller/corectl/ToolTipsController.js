@@ -58,6 +58,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this.toolsdiv.style.display = "block";
                 this.toolsdiv.style.marginLeft = event.originalEvent.clientX-10+ 'px';
                 this.toolsdiv.style.marginTop = event.originalEvent.clientY +20+ 'px';
+                this.toolsdiv.style.position = "fixed";
                 this._map.on('click', this.onClickTooltip,this);
                 this._map.on('mouseout', this.onMoveOutTooltip,this);
             },
