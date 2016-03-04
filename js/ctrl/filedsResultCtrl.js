@@ -32,6 +32,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //        }
             //    );
             //})
+
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {

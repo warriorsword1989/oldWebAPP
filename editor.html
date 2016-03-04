@@ -58,10 +58,9 @@
     </div>
     <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-            <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" id="test">
+            <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" id="test" style="padding: 2px 5px;">
                 <div ng-include="layersURL"></div>
             </div>
-
             <div ui-layout-container>
                 <div ui-layout="{flow:'row',dividerSize:'0'}">
                     <div ui-layout-container id="map" style="width: 100%;height: 100%;position: absolute;"></div>
@@ -73,9 +72,19 @@
                             <div id="modifyToolsDiv" ng-include="modifyToolURL" style="float: left"></div>
                         </div>
                     </div>
+                    <div id="picMapShow">
+                        <img id="picMapImg" alt="无此箭头图">
+                        <img id="picModalImg" alt="无此模式图">
+                        <div id="picMapDesc"></div>
+                    </div>
                 </div>
-                <div class="suspend"  ng-include="suspendObjURL">
+                <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
+                    <div  style="margin-top: -20px"><span class="glyphicon glyphicon-remove-sign" style="color: #ffffff;cursor: pointer" ng-click="changeSuspendShow()"></span></div>
+
+                    <div  ng-include="suspendObjURL" >
+                    </div>
                 </div>
+
                 <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]" style="overflow: hidden;">
                     <div ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]">
                         <a class="fm-panel-controlArrowLeftAndRight" ng-click="changeWidthOfPanel()" href="#"

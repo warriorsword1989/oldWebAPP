@@ -23,7 +23,7 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
         {"id": 9, "label": "9 未定义"}
     ];
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.names = objCtrl.data.names;
+    $scope.names = objCtrl.data.data.names;
     $scope.addRoadName=function(){
         $scope.names.unshift({
             code:0,
