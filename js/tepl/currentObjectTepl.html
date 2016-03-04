@@ -48,19 +48,33 @@
         text-align: center;
     }
     .btnclass{
-        background-color:#49C2FC;
+        background-color:#404040;
         border-radius: 5px;
     }
     .btnDefultclass{
-        background-color:#fff;
+        /*background-color:#fff;*/
         border-color: #ccc;
+    }
+
+    .currentUl{
+        width: 100%;
+        padding: 0;
+    }
+    .currentLi {
+        display:inline;
+        width: 40px;
+        padding: 1px;
+    }
+    .currentLi >button{
+        width:40px;
+        padding: 2px;
     }
 </style>
 <div id="currentObjectDiv" ng-controller="linkObjectCtroller">
     <div style="height:7%">
         <form class="form-horizontal" method="get">
-     <div class="panel panel-default ">
-         <div class="panel-heading font-bold" style=" text-align: center;height: 100%;">
+     <div class="panel panel-default " style="background-color: transparent;">
+         <div class="panel-heading font-bold" style=" text-align: center;height: 100%; background-color: transparent;color:#FFF;">
              道路线
 
              <span ng-if="brigeLinkArrays==null" class="label label-info" >{{linkData.pid}}</span>
@@ -71,28 +85,38 @@
      </div>
         </form>
     </div>
-    <div style="height: 10%">
-        <form class="form-horizontal" method="get">
+    <!--<div style="height: 10%">-->
+        <!--<form class="form-horizontal" method="get">-->
 
-            <div class="form-group">
-                <div class="col-sm-12 ">
-                    <div class="btn-group" style="width:100%;" >
-                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[0],'btnDefultclass':notAcitive[0]}"  ng-click="changeModule('basicModule',0)" class="btn">基础属性</button>
-                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[1],'btnDefultclass':notAcitive[1]}" ng-click="changeModule('limitedModule',1)" class="btn">限制信息</button>
-                        <button type="button" style="width: 34%;border-radius: 5px;" ng-class="{'btnclass':isActive[2],'btnDefultclass':notAcitive[2]}"  ng-click="changeModule('paginationModule',2)" class="btn">行人导航</button>
-                    </div>
-                </div>
+            <!--<div class="form-group">-->
+                <!--<div class="col-sm-12 ">-->
+                    <!--<div class="btn-group" style="width:100%;" >-->
+                        <!--<button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[0],'btnDefultclass':notAcitive[0]}"  ng-click="changeModule('basicModule',0)" class="btn">基础属性</button>-->
+                        <!--<button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[1],'btnDefultclass':notAcitive[1]}" ng-click="changeModule('limitedModule',1)" class="btn">限制信息</button>-->
+                        <!--<button type="button" style="width: 34%;border-radius: 5px;" ng-class="{'btnclass':isActive[2],'btnDefultclass':notAcitive[2]}"  ng-click="changeModule('paginationModule',2)" class="btn">行人导航</button>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div class="col-sm-12" >
-                    <div class="btn-group" style="width: 100%;">
-                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[3],'btnDefultclass':notAcitive[3]}" ng-click="changeModule('realtimeModule',3)" class="btn">实时交通</button>
-                        <button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[4],'btnDefultclass':notAcitive[4]}" ng-click="changeModule('zoneModule',4)" class="btn">区域属性</button>
-                        <button type="button" style="width: 34%;border-radius: 5px;" ng-class="{'btnclass':isActive[5],'btnDefultclass':notAcitive[5]}" class="btn" ng-click="changeModule('otherModule',5)">其他属性</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+                <!--<div class="col-sm-12" >-->
+                    <!--<div class="btn-group" style="width: 100%;">-->
+                        <!--<button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[3],'btnDefultclass':notAcitive[3]}" ng-click="changeModule('realtimeModule',3)" class="btn">实时交通</button>-->
+                        <!--<button type="button" style="width: 33%;border-radius: 5px;" ng-class="{'btnclass':isActive[4],'btnDefultclass':notAcitive[4]}" ng-click="changeModule('zoneModule',4)" class="btn">区域属性</button>-->
+                        <!--<button type="button" style="width: 34%;border-radius: 5px;" ng-class="{'btnclass':isActive[5],'btnDefultclass':notAcitive[5]}" class="btn" ng-click="changeModule('otherModule',5)">其他属性</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+    <ul class="currentUl">
+        <li class="currentLi" title="基础属性"><button ng-class="{'btnclass':isActive[0],'btnDefultclass':notAcitive[0]}"  ng-click="changeModule('basicModule',0)"><img src="./css/currentButton/base.png"></button></li>
+        <li class="currentLi"  title="其他属性"><button ng-class="{'btnclass':isActive[5],'btnDefultclass':notAcitive[5]}" ng-click="changeModule('otherModule',5)"><img src="./css/currentButton/roadName.png"></button></li>
+        <li class="currentLi" title="区域属性"><button ng-class="{'btnclass':isActive[4],'btnDefultclass':notAcitive[4]}" ng-click="changeModule('zoneModule',4)"><img src="./css/currentButton/speedlimit.png"></button></li>
+        <li class="currentLi"  title="限制信息"><button ng-class="{'btnclass':isActive[1],'btnDefultclass':notAcitive[1]}" ng-click="changeModule('limitedModule',1)"><img src="./css/currentButton/limited.png"></button></li>
+        <li class="currentLi" title="实时交通"><button ng-class="{'btnclass':isActive[3],'btnDefultclass':notAcitive[3]}" ng-click="changeModule('realtimeModule',3)"><img src="./css/currentButton/realtimeTraffic.png"></button></li>
+        <li class="currentLi"  title="行人导航"><button ng-class="{'btnclass':isActive[2],'btnDefultclass':notAcitive[2]}"  ng-click="changeModule('paginationModule',2)"><img src="./css/currentButton/pagination.png"></button></li>
+    </ul>
+
+
     <div style=" height: 100%; width: 100%;">
         <div ng-include="currentURL" ></div></div>
 </div>

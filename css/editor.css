@@ -442,7 +442,7 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     position: absolute;
     top: 0px;
     left: 250px;
-    z-index:100000;
+    z-index:2;
     overflow-y: hidden;
     width:280px;
 }
