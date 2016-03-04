@@ -160,7 +160,7 @@ Application.functions.saveNodeMove = function(param, func){
 }
 
 Application.functions.getByCondition=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsuppor/getByCondition?parameter='+param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByCondition?parameter='+param,
         function (data) {
             func(data)
         });

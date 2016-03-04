@@ -79,8 +79,8 @@ function keyEvent(ocLazyLoad, scope) {
                 $(editLayer.options._div).unbind();
                 scope.changeBtnClass("");
                 scope.$apply();
-                shapeCtrl.setFinalGeometry(null);
-                shapeCtrl.setOriginalGeometry(null);
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
 
             }
