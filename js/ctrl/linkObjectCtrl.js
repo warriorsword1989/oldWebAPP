@@ -45,7 +45,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
         });
         //随着地图的变化 高亮的线不变
-        if($scope.dataTipsData && $scope.dataTipsData.f_array.length > 0){
+        if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
             var linksarr = [];
             for(var item in $scope.dataTipsData.f_array){
                 linksarr.push($scope.dataTipsData.f_array[item].id);
