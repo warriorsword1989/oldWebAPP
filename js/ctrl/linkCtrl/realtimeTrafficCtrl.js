@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var realtimeTrafficApp = angular.module("lazymodule", []);
-realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
+realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeout,$ocLazyLoad) {
     $scope.rticData =  $scope.linkData;
     if($scope.rticData.intRtics.length===0) {
         if($("#wideRTICDiv").hasClass("in")) {
@@ -144,5 +144,22 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
         $("#rticsrangeTypediv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
         $("#rticsrangeType"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
         item.rangeType=flag;
+    }
+
+
+    $scope.showRticsInfo= function (item) {
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+        $scope.linkData["oridiRowId"] = item.rowId;
+        $ocLazyLoad.load('ctrl/linkCtrl/infoOfRealTimeRticsCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeRticsTepl.html";
+        })
+    }
+
+    $scope.showCarInfo= function (citem) {
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+        $scope.linkData["oridiRowId"] = citem.rowId;
+        $ocLazyLoad.load('ctrl/linkCtrl/infoOfRealTimeCarCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeCarTepl.html";
+        })
     }
 })
