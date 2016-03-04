@@ -46,6 +46,7 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
         $scope.sceneEnty = $scope.dataTipsData.in.id;
         /*模式图号*/
         $scope.schemaNo = $scope.dataTipsData.ptn;
+        $scope.scheName=$scope.dataTipsData.name;
         /*退出*/
         $scope.sceneExit = [];
         $.each($scope.dataTipsData.o_array,function(i,v){

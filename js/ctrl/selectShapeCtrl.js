@@ -292,9 +292,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             //if (objCtrl.updateRdCross !== "") {
                             //    objCtrl.updateRdCross();
                             //}
-                            $ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
+                            /*$ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
-                            })
+                            })*/
+                            $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                            });
                             break;
                     }
 
@@ -420,11 +423,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 }
                                 break;
                             case "1407":
-                                $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
+                                /*$ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
                                     $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
                                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                                     });
+                                });*/
+                                $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
                                 });
                                 objCtrl.setCurrentObject(data.brID);
                                 break;

@@ -5,27 +5,30 @@
         color:#FFF;
     }
     td{
+        padding: 10px;
         color:#FFF;
+        border-bottom: 1px solid #fff;
+        font-size: 12px;
     }
 </style>
 <div ng-controller="outPutController" class="scroll-styled" style="height:100%;width: 100%;overflow-y: auto; ">
    <!--<textarea ng-model="outputtext"style="width: 100%;height: 100%"></textarea>-->
-    <table st-table="rowCollection" class="table table-striped" >
+    <table st-table="rowCollection" style="width: 100%;">
         <thead >
-        <tr>
-            <th st-sort="rank">操作</th>
-            <th st-sort="rank">类型</th>
-            <th st-sort="ruleId">编号</th>
+        <tr style="width:100%;border-bottom: 1px solid #fff;padding-left: 20px;">
+            <th style="width:33%;padding: 15px;">操作</th>
+            <th style="width:33%;padding: 15px;">类型</th>
+            <th style="width:33%;padding: 15px;">编号</th>
         </tr>
         </thead>
         <tbody style="height: 100px">
         <tr ng-repeat="row in outValue track by $index">
-            <td ng-if="row.type==''"  style="background-color: #49C2FC;">{{row.op}}</td>
+            <td ng-if="row.type==''"  >{{row.op}}</td>
             <td ng-if="row.type!=''">{{row.op}}</td>
-            <td ng-if="row.type==''"  style="background-color: #49C2FC;">{{row.type }}</td>
+            <td ng-if="row.type==''" >{{row.type }}</td>
             <td ng-if="row.type!=''">{{row.type }}</td>
             <!--<td ng-if="row.op=='删除'"><a>{{row.pid}}</a></td>-->
-            <td ng-if="row.type==''"  style="background-color: #49C2FC;">
+            <td ng-if="row.type==''"  >
                 <span ng-if="row.pid==null" >{{row.pid}}</span>
                 <span ng-if="row.rowId==null">{{row.rowId}}</span>
             </td>
