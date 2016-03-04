@@ -464,7 +464,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             tile: tile.options.context._tilePoint,
             zoom: zoom
         };
-        if (data.hasOwnProperty("properties")) {
+        if (data.hasOwnProperty("features")) {
             for (var i = 0, len = data.features.length; i < len; i++) {
                 var feature = data.features[i];
                 var geom = feature.geometry.coordinates;
