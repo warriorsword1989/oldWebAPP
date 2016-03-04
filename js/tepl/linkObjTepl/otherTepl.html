@@ -4,31 +4,34 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        /*background-color: #000;*/
         border: 1px solid #ddd;
     }
 
     #otherDiv {
-        /*background-color: #000;*/
         opacity: 1;
         width: 100%;
     }
 
     #otherDiv ul {
-        /*background-color: #000;*/
         list-style: none;
-        /*padding:5px;*/
         overflow: hidden;
     }
 
     #otherDiv ul > li {
         background-color: transparent;
+        border-right: none;
+        border-left: none;
     }
 
-    #otherDiv ul > li > div > input {
+    #otherDiv ul > li > div > input[type='text'] {
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width: 170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #otherDiv ul > li > div > select {
@@ -36,6 +39,9 @@
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+        width: 160px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #otherDiv ul > li > div:first-child {
@@ -255,7 +261,7 @@
             <div class="inline">
                 <input id="difGroupIdText" type="text" value="0" style="width:40px"
                        ng-model="roadlinkData.difGroupId">
-               <button type="button" class="btn btn-default btn-xs" ng-click="qkdifGroupId()">清空
+               <button type="button" class="btn btn-default btn-xs" ng-click="qkdifGroupId()" style="width: 50px">清 空
                 </button>
             </div>
         </li>
