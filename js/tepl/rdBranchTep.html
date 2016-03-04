@@ -115,10 +115,10 @@
     .info-head-well{
         margin-right: -15px;
         margin-left: -15px;
-        background-color: #f5f5f5;
         border-bottom: 1px solid #ddd;
         padding-left: 15px;
         border-top-right-radius: 4px;
+        color: #fff;
         border-top-left-radius: 4px;
     }
     /*输入查询图片*/
@@ -246,13 +246,13 @@
     </div>
     <div class="module-box">
         <div class="d-group">
-            <div class="d-name">入：</div>
+            <div class="d-name">进入线：</div>
             <div class="d-value">
                 <input type="text" class="d-input rounded" placeholder="入" ng-model="diverObj.inLinkPid">
             </div> 
         </div>
         <div class="d-group">
-            <div class="d-name">出：</div>
+            <div class="d-name">退出线：</div>
             <div class="d-value">
                 <input type="text" class="d-input rounded" placeholder="出" ng-model="diverObj.outLinkPid">
             </div> 
@@ -276,7 +276,7 @@
             </a>
              经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
         </div>
-        <div id="passLine" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
+        <div id="passLine" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
             <div class="d-group">
                 <div class="d-name">经过线序号：</div>
                 <div class="d-value">
@@ -301,7 +301,7 @@
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </a>
         </div>
-        <div id="detailChart" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
+        <div id="detailChart" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
             <div class="d-group">
                 <div class="d-name">分歧类型：</div>
                 <div class="d-value">
@@ -311,7 +311,7 @@
             <!-- <div class="clearfix"></div>
             <div class="line line-dashed b-b line-lg"></div> -->
             <div class="d-group">
-                <div class="d-name">箭头图代码：</div>
+                <div class="d-name">箭头图号：</div>
                 <div class="d-value">
                     <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="arrowCode" ng-keydown="showPicSelect()">
                     <div class="pic-show">
@@ -410,13 +410,7 @@
             <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;font-size: 20px;cursor: pointer;color: #fff;" ng-click="nameInfoAdd()"></span>
         </div>
 
-        <div id="loadPropertyDiv" class="panel-collapse col-sm-12 collapse" aria-expanded="false">
-            <div class="d-group">
-                <div class="d-name">经过线序号：</div>
-                <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="经过线序号" ng-model="passline.seqNum">
-                </div> 
-            </div>
+        <div id="loadPropertyDiv" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
             <div class="info-well" id="nameInfo{{item.nameGroupid}}" ng-repeat="item in diverObj.details[0].names | orderBy: '-nameGroupid'">
                 <!-- <span class="glyphicon glyphicon-remove-sign info-remove" ng-click="minusTime($index)"></span> --> 
                 <div class="info-head-well">
@@ -426,60 +420,61 @@
                     <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=diverObj.details[0].names.length-1"></span>
                     <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
                 </div>
-                <div class="line line-dashed b-b line-lg"></div>
-                <div class="d-group">
-                    <div class="d-name">语言代码：</div>
-                    <div class="d-value">
-                        <select class="d-input"  ng-model="item.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
-                    </div> 
+                <div class="line line-dashed b-b line-lg">
+                    <div class="d-group">
+                        <div class="d-name">语言代码：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="item.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
+                        </div> 
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">分歧名称：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input" placeholder="分歧名称"
+                                   ng-model="item.name" ng-blur="diverName(item.nameGroupid,item.name)">
+                        </div> 
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称发音：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input name-phonetic" placeholder="名称发音"
+                                   ng-model="item.phonetic">
+                        </div> 
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称语音：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input name-voincefile" placeholder="名称语音"
+                                   ng-model="item.voiceFile">
+                        </div> 
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称分类：</div>
+                        <div class="d-value">
+                            <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                              <label ng-class="{'btn-primary active':n.code==item.nameClass,'btn-default':n.code!=item.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,item.nameGroupid)">
+                                <input type="radio" name="nameClass{{item.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
+                              </label>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">编号类型：</div>
+                        <div class="d-value">
+                            <select class="d-input" ng-model="item.codeType"
+                                    ng-options="value.id as value.label for value in codeTypeOptions" >
+                            </select>
+                        </div> 
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称来源：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input" placeholder="名称来源" ng-model="item.srcFlag">
+                        </div> 
+                    </div>
                 </div>
-                <div class="d-group">
-                    <div class="d-name">分歧名称：</div>
-                    <div class="d-value">
-                        <input type="text" class="d-input" placeholder="分歧名称"
-                               ng-model="item.name" ng-blur="diverName(item.nameGroupid,item.name)">
-                    </div> 
+                <div class="clearfix"></div>
                 </div>
-                <div class="d-group">
-                    <div class="d-name">名称发音：</div>
-                    <div class="d-value">
-                        <input type="text" class="d-input name-phonetic" placeholder="名称发音"
-                               ng-model="item.phonetic">
-                    </div> 
-                </div>
-                <div class="d-group">
-                    <div class="d-name">名称语音：</div>
-                    <div class="d-value">
-                        <input type="text" class="d-input name-voincefile" placeholder="名称语音"
-                               ng-model="item.voiceFile">
-                    </div> 
-                </div>
-                <div class="d-group">
-                    <div class="d-name">名称分类：</div>
-                    <div class="d-value">
-                        <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                          <label ng-class="{'btn-primary active':n.code==item.nameClass,'btn-default':n.code!=item.nameClass,'btn btn-sm':true}" ng-repeat="n in nameClassType" ng-click="switchNameClass(n.code,item.nameGroupid)">
-                            <input type="radio" name="nameClass{{item.nameClass}}" autocomplete="off" data-relation-type="{{n.code}}">{{n.label}}
-                          </label>
-                        </div>
-                    </div> 
-                </div>
-                <div class="d-group">
-                    <div class="d-name">编号类型：</div>
-                    <div class="d-value">
-                        <select class="d-input" ng-model="item.codeType"
-                                ng-options="value.id as value.label for value in codeTypeOptions" >
-                        </select>
-                    </div> 
-                </div>
-                <div class="d-group">
-                    <div class="d-name">名称来源：</div>
-                    <div class="d-value">
-                        <input type="text" class="d-input" placeholder="名称来源" ng-model="item.srcFlag">
-                    </div> 
-                </div>
-            </div>
-            <div class="clearfix"></div>
         </div>
     </div>
     <!--end 名称信息-->
