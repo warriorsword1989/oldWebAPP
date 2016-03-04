@@ -281,7 +281,9 @@
             <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus"></span></div>
             <div class="lanePic" >
                 <img  ng-repeat="item in showNormalData track by $index"
-                     ng-click="showLanesInfo(item,$index)"  ng-src="./css/laneinfo/arwG/{{item}}.png"
+                     ng-click="showLanesInfo(item,$index,$event)"
+                     ng-keyup="keyPress($event)"
+                     ng-src="./css/laneinfo/arwG/{{item}}.png"
                      title="{{item}}">
             </div>
 

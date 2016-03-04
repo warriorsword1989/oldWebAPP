@@ -47,6 +47,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         });
                     } else {
                         if (data.t_lifecycle === 1) {
+                            if(data.f){
+                                Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                                    objCtrl.setCurrentObject(data);
+                                    if (objCtrl.tipsUpdateObject !== "") {
+                                        objCtrl.tipsUpdateObject();
+                                    }
+                                    $ocLazyLoad.load(propertyCtrl).then(function () {
+                                        $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                                    });
+                                });
+                            }
+                        }
+                    }
+
+
+                } else if (stage === 3) {
+                    if (data.t_lifecycle === 3) {
+                        if(data.f){
                             Application.functions.getRdObjectById(data.f.id, type, function (data) {
                                 objCtrl.setCurrentObject(data);
                                 if (objCtrl.tipsUpdateObject !== "") {
@@ -58,21 +77,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 });
                             });
                         }
-                    }
-
-
-                } else if (stage === 3) {
-                    if (data.t_lifecycle === 3) {
-                        Application.functions.getRdObjectById(data.f.id, type, function (data) {
-                            objCtrl.setCurrentObject(data);
-                            if (objCtrl.tipsUpdateObject !== "") {
-                                objCtrl.tipsUpdateObject();
-                            }
-                            $ocLazyLoad.load(propertyCtrl).then(function () {
-                                $scope.$parent.$parent.objectEditURL = propertyTepl;
-
-                            });
-                        });
                     }
                 }
             }
@@ -88,6 +92,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         }
         if (typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
+        }
+        if( $scope.$parent.$parent.panelFlag ) {
+            $scope.$parent.$parent.panelFlag = false;
+            $scope.$parent.$parent.objectFlag = false;
         }
         if (type === "link") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -117,6 +125,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             rdLink.on("getId", function (data) {
                 $scope.data = data;
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
+                    if(! $scope.$parent.$parent.panelFlag ) {
+                        $scope.$parent.$parent.panelFlag = true;
+                        $scope.$parent.$parent.objectFlag = true;
+                    }
 
                     if (data.errcode === -1) {
                         return;
@@ -169,6 +181,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             //清除link层的所有监听事件
             rdLink.clearAllEventListeners()
             rdLink.on("getId", function (data) {
+                if(! $scope.$parent.$parent.panelFlag ) {
+                    $scope.$parent.$parent.panelFlag = true;
+                    $scope.$parent.$parent.objectFlag = true;
+                }
                 $scope.data = data;
                 Application.functions.getLinksbyNodeId(JSON.stringify({
                     projectId: 11,
@@ -225,6 +241,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, data.optype, function (data) {
+                    if(! $scope.$parent.$parent.panelFlag ) {
+                        $scope.$parent.$parent.panelFlag = true;
+                        $scope.$parent.$parent.objectFlag = true;
+                    }
                     objCtrl.setCurrentObject(data.data);
                     tooltipsCtrl.onRemoveTooltip();
 
@@ -306,7 +326,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         selectCtrl.fire("selectByAttribute", {feather: data});
 
 
-                        console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
 
                             case "2001"://测线
@@ -320,6 +339,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                     if(data.f.type==1) {
                                         $scope.dataId = data.f.id;
                                         Application.functions.getRdObjectById($scope.dataId, "RDLINK", function (d) {
+                                            if(! $scope.$parent.$parent.panelFlag ) {
+                                                $scope.$parent.$parent.panelFlag = true;
+                                                $scope.$parent.$parent.objectFlag = true;
+                                            }
                                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                                 $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                                             });
@@ -354,6 +377,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                         });
                                     } else {
                                         Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
+                                            if(! $scope.$parent.$parent.panelFlag ) {
+                                                $scope.$parent.$parent.panelFlag = true;
+                                                $scope.$parent.$parent.objectFlag = true;
+                                            }
                                             objCtrl.setCurrentObject(data.data);
                                             if (objCtrl.updateObject !== "") {
                                                 objCtrl.updateObject();
@@ -379,6 +406,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                                 objCtrl.updateObject();
                                             }
                                             $ocLazyLoad.load("ctrl/restrictionCtrl/rdRestriction").then(function () {
+                                                if(! $scope.$parent.$parent.panelFlag ) {
+                                                    $scope.$parent.$parent.panelFlag = true;
+                                                    $scope.$parent.$parent.objectFlag = true;
+                                                }
                                                 $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
                                                 $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
                                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
@@ -403,6 +434,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                     if(data.f_array.length!=0){
                                         $scope.brigeLinkArray= data.f_array;
                                         Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (d) {
+                                            if(! $scope.$parent.$parent.panelFlag ) {
+                                                $scope.$parent.$parent.panelFlag = true;
+                                                $scope.$parent.$parent.objectFlag = true;
+                                            }
                                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                                 $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                                             });
@@ -423,6 +458,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                             "data": obj
                                         }
                                         Application.functions.getByCondition(JSON.stringify(param), function (data) {
+                                            if(! $scope.$parent.$parent.panelFlag ) {
+                                                $scope.$parent.$parent.panelFlag = true;
+                                                $scope.$parent.$parent.objectFlag = true;
+                                            }
                                             objCtrl.setCurrentObject(data.data[0]);
                                             $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                                                 $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
@@ -471,6 +510,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
                     $scope.$parent.$parent.objectEditURL = "";
+                    if(! $scope.$parent.$parent.panelFlag ) {
+                        $scope.$parent.$parent.panelFlag = true;
+                        $scope.$parent.$parent.objectFlag = true;
+                    }
                     objCtrl.setCurrentObject(data.data);
                     if (objCtrl.updateRdCross !== "") {
                         objCtrl.updateRdCross();
