@@ -4,7 +4,7 @@
 var sidewalkApp = angular.module("mapApp", []);
 sidewalkApp.controller("sidewalkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.sidewalkData = objCtrl.data.sidewalks;
+    $scope.sidewalkData = objCtrl.data.data.sidewalks;
     $scope.dividerTypeoptions=[
         {"id": 0, "label":"未调查"},
         {"id": 1, "label":"高度差隔离(马路涯)"},

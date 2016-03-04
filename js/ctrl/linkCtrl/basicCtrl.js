@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var basicApp = angular.module("lazymodule", ['oc.lazyLoad']);
+var basicApp = angular.module("mapApp", ['oc.lazyLoad']);
 basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -58,6 +58,10 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
 
 
     $scope.showNames=function() {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
+
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/linkCtrl/namesOfLinkCtrl').then(function () {
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/namesOfLinkTepl.html";

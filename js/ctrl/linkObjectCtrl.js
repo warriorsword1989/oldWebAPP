@@ -13,7 +13,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     var selectCtrl = new fastmap.uikit.SelectController();
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
-    $scope.brigeLinkArrays=$scope.$parent.$parent.brigeLinkArray;
     $scope.brigeIndex=0;
 
     $scope.isActive = [true, false, false, false, false, false];
