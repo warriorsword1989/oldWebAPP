@@ -74,8 +74,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="suspend"  ng-include="suspendObjURL">
+                <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
+                    <div  style="margin-top: -20px"><span class="glyphicon glyphicon-remove-sign" style="color: #ffffff;cursor: pointer" ng-click="changeSuspendShow()"></span></div>
+
+                    <div  ng-include="suspendObjURL" >
+                    </div>
                 </div>
+
                 <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]" style="overflow: hidden;">
                     <div ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]">
                         <a class="fm-panel-controlArrowLeftAndRight" ng-click="changeWidthOfPanel()" href="#"

@@ -288,10 +288,16 @@ a.fm-panel-controlArrowLeftAndRight>span{
     position: absolute;
     right: 295px;
     background-color: #404040;
+    padding:0px 5px;
     border: none;
     /*opacity: .9;*/
     overflow-y:hidden;
+    display: block;
     z-index: 10;
+    padding-top: 20px;
+}
+.suspend_hide{
+    display: none;
 }
 /*********************fm-error***************************/
 .fm-out-error{

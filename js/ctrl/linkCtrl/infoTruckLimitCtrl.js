@@ -4,7 +4,7 @@
 var truckLimitApp = angular.module("myApp", []);
 truckLimitApp.controller("truckLimitInfoController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.linkData = objCtrl.data;
+    $scope.linkData = objCtrl.data.data;
     $scope.limitDirOptions = [
         {"id": 0, "label": "未调查"},
         {"id": 1, "label": "双方向"},

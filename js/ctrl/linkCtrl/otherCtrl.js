@@ -68,12 +68,18 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         $('#fromOfWRoaddiv').popover('show');
     }
     $scope.showOridinarySpeed = function () {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/linkCtrl/infoOfOridinarySpeedCtrl').then(function () {
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoiOfOridinarySpeedTepl.html";
         })
     };
     $scope.showConditionSpeed=function() {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/linkCtrl/infoOfConditionSpeedCtrl').then(function () {
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html";
