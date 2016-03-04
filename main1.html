@@ -37,6 +37,16 @@
             height: 100%;
             border-bottom-left-radius: 4px;
             text-align: center;
+            position: absolute;
+            z-index: 99;
+        }
+        #picModalImg{
+            width: 100%;
+            height: 100%;
+            border-bottom-left-radius: 4px;
+            text-align: center;
+            position: absolute;
+            z-index: 9;
         }
         #picMapDesc {
             background-color: #fff;
@@ -206,7 +216,7 @@
                     </div>
                     <div id="picMapShow">
                         <img id="picMapImg" alt="无此箭头图">
-
+                        <img id="picModalImg" alt="无此模式图">
                         <div id="picMapDesc"></div>
                     </div>
                     <div class="now-zoom">当前比例尺:
