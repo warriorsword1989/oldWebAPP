@@ -7,7 +7,7 @@ oridinarySpeedApp.controller("oridanarySpeedCintroller", function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
-    $scope.speedLimitsData = objCtrl.data.speedlimits;
+    $scope.speedLimitsData = objCtrl.data.data.speedlimits;
     $scope.speedTypeOption=[
         {"id":0,"label":"普通"},
         {"id":1,"label":"指示牌"},

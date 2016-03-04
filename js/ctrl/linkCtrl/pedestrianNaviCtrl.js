@@ -24,12 +24,18 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         {"id": 4, "label":"无隔离"}
     ];
    $scope.showSidewalk=function() {
+       if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+           $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+       }
        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
        $ocLazyLoad.load('ctrl/linkCtrl/infoOfSidewalkCtrl').then(function () {
            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfsidewalkTepl.html";
        })
   };
    $scope.showWalkstair=function() {
+       if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+           $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+       }
        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
        $ocLazyLoad.load('ctrl/linkCtrl/infoOfWalkstairCtrl').then(function () {
            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfWalkstairTepl.html";

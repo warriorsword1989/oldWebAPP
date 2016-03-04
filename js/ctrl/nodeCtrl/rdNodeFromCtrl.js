@@ -101,7 +101,9 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
 
 
     $scope.showPopover=function(){
-        //$('#fromOfWRoaddiv').popover('show');
+        if(!$scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = true;
+        }
         $ocLazyLoad.load('ctrl/nodeCtrl/addDirectOfNodeCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/nodeTepl/addDitrectOfNodeTepl.html";
         })

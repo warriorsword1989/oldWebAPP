@@ -58,6 +58,10 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
 
 
     $scope.showNames=function() {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
+
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/linkCtrl/namesOfLinkCtrl').then(function () {
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/namesOfLinkTepl.html";

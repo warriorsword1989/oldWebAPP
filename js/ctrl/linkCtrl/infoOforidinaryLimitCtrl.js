@@ -4,7 +4,7 @@
 var oridinaryInfoApp = angular.module("myApp", []);
 oridinaryInfoApp.controller("oridinaryLimitController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.linkData = objCtrl.data;
+    $scope.linkData = objCtrl.data.data;
     $scope.appInfoOptions = [
         {"id": 0, "label": "调查中"},
         {"id": 1, "label": "可以通行"},
