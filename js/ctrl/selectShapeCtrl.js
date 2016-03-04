@@ -198,8 +198,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         data.linepids = linepids;
                         data.nodeid = $scope.data.id;
                         objCtrl.setCurrentObject(data);
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
+                        if (objCtrl.nodeObjRefresh !== "") {
+                            objCtrl.nodeObjRefresh();
                         }
                         $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/nodeTepl/rdNodeFromTepl.html";
