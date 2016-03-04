@@ -2,33 +2,9 @@
  * Created by liwanchong on 2015/10/29.
  */
 var realtimeTrafficApp = angular.module("lazymodule", []);
-realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
+realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeout,$ocLazyLoad) {
     $scope.rticData =  $scope.linkData;
-    if($scope.rticData.intRtics.length===0) {
-        if($("#wideRTICDiv").hasClass("in")) {
-            $("#wideRTICDiv").removeClass("in");
-        }
-    }
-    if($scope.rticData.rtics.length===0) {
-        if($("#carRTICDiv").hasClass("in")) {
-            $("#carRTICDiv").removeClass("in");
-        }
 
-    }
-    setTimeout(function(){
-        for(var sitem in $scope.rticData.intRtics){
-            var flag=$scope.rticData.intRtics[sitem].updownFlag;
-            var rangeType=$scope.rticData.intRtics[sitem].rangeType;
-            $("#updownFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            $("#rangeType"+rangeType+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-        }
-        for(var sitem in $scope.rticData.rtics){
-            var flag=$scope.rticData.rtics[sitem].updownFlag;
-            var rangeType=$scope.rticData.rtics[sitem].rangeType;
-            $("#rticsupdownFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            $("#rticsrangeType"+rangeType+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-        }
-    },10)
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
         {"id": 1,"label":"顺方向"},
@@ -45,23 +21,10 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
     $scope.minusIntRtic = function (id) {
         $scope.rticData.intRtics.splice(id, 1);
         if($scope.rticData.intRtics.length===0) {
-            if($("#wideRTICDiv").hasClass("in")) {
-                $("#wideRTICDiv").removeClass("in");
-            }
+
         }
-        setTimeout(function(){
-            for(var sitem in $scope.rticData.intRtics){
-                var flag=$scope.rticData.intRtics[sitem].updownFlag;
-                var rangeType=$scope.rticData.intRtics[sitem].rangeType;
-                $("#updownFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-                $("#rangeType"+rangeType+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            }
-        },10)
     };
     $scope.addIntRtic = function () {
-        if(!$("#wideRTICDiv").hasClass("in")) {
-            $("#wideRTICDiv").addClass("in");
-        }
         $scope.rticData.intRtics.unshift(
             {
                 code: 1,
@@ -73,14 +36,6 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
             }
         )
 
-        setTimeout(function(){
-            for(var sitem in $scope.rticData.intRtics){
-                var flag=$scope.rticData.intRtics[sitem].updownFlag;
-                var rangeType=$scope.rticData.intRtics[sitem].rangeType;
-                $("#updownFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-                $("#rangeType"+rangeType+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            }
-        },10)
     };
     $scope.addCarRtic = function () {
         if(!$("#carRTICDiv").hasClass("in")) {
@@ -97,52 +52,35 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope) {
                 updownFlag: 0
             }
         )
-        setTimeout(function(){
-            for(var sitem in $scope.rticData.rtics){
-                var flag=$scope.rticData.rtics[sitem].updownFlag;
-                var rangeType=$scope.rticData.rtics[sitem].rangeType;
-                $("#rticsupdownFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-                $("#rticsrangeType"+rangeType+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            }
-        },10)
     };
     $scope.minusCarRtic=function(id){
         $scope.rticData.rtics.splice(id, 1);
         if($scope.rticData.rtics.length===0) {
-            if($("#carRTICDiv").hasClass("in")) {
-                $("#carRTICDiv").removeClass("in");
-            }
 
         }
-        setTimeout(function(){
-            for(var sitem in $scope.rticData.rtics){
-                var flag=$scope.rticData.rtics[sitem].updownFlag;
-                var rangeType=$scope.rticData.rtics[sitem].rangeType;
-                $("#rticsupdownFlag"+flag+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-                $("#rticsrangeType"+rangeType+"_"+sitem).removeClass("btn btn-default").addClass("btn btn-primary");
-            }
-        },10)
     }
 
-    $scope.checkupdownFlag=function(flag,item,index){
-        $("#updownFlagdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#updownFlag"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.updownFlag=flag;
-    }
-    $scope.checkrangeType=function(flag,item,index){
-        $("#rangeTypediv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rangeType"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.rangeType=flag;
+
+
+    $scope.showRticsInfo= function (item) {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+        $scope.linkData["oridiRowId"] = item.rowId;
+        $ocLazyLoad.load('ctrl/linkCtrl/infoOfRealTimeRticsCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeRticsTepl.html";
+        })
     }
 
-    $scope.checkrticsupdownFlag=function(flag,item,index){
-        $("#rticsupdownFlagdiv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rticsupdownFlag"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.updownFlag=flag;
-    }
-    $scope.checkrticsrangeType=function(flag,item,index){
-        $("#rticsrangeTypediv"+index+" :button").removeClass("btn btn-primary").addClass("btn btn-default");
-        $("#rticsrangeType"+flag+"_"+index).removeClass("btn btn-default").addClass("btn btn-primary");
-        item.rangeType=flag;
+    $scope.showCarInfo= function (citem) {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+        $scope.linkData["oridiRowId"] = citem.rowId;
+        $ocLazyLoad.load('ctrl/linkCtrl/infoOfRealTimeCarCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeCarTepl.html";
+        })
     }
 })

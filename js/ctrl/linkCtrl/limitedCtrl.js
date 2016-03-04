@@ -84,6 +84,9 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         {"id": 9, "label": "不应用"}
     ];
     $scope.showOrdinaryInfo=function(item) {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["oridiRowId"] = item.rowId;
         $ocLazyLoad.load('ctrl/linkCtrl/infoOforidinaryLimitCtrl').then(function () {
@@ -91,6 +94,9 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         })
     };
     $scope.showTrcukInfo=function(item) {
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["truckRowId"] = item.rowId;
         $ocLazyLoad.load('ctrl/linkCtrl/infoTruckLimitCtrl').then(function () {

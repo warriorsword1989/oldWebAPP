@@ -193,12 +193,22 @@ otherApp.controller("rdLaneConnexityController", function ($scope,$ocLazyLoad) {
         }
     }
     //REACH_DIR
-    $scope.showLanesInfo=function(item,index) {
+    $scope.showLanesInfo=function(item,index,event) {
+        if(! $scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = true;
+        }
         $scope.lanesData["index"] = index;
         $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
         })
+        $scope.keyPress(event);
+    };
+    $scope.keyPress=function(event) {
+        var keycode = window.event?event.keyCode:event.which;
+        if(keycode===13) {
+            alert("13");
+        }
     };
 });
 

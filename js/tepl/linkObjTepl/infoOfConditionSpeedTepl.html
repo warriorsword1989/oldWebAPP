@@ -1,0 +1,153 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        background-color: #000;
+        border: 1px solid #ddd;
+    }
+
+    #conditionSpeedDiv {
+        background-color: #000;
+        opacity: 1;
+        padding: 10px 5px;
+        width: 100%;
+        z-index: 20;
+    }
+
+    #conditionSpeedDiv ul {
+        background-color: #000;
+        list-style: none;
+        padding:5px;
+        overflow: hidden;
+    }
+
+    #conditionSpeedDiv ul > li {
+        background-color: #000;
+    }
+
+    #conditionSpeedDiv ul > li > div > input {
+        color: #F3F6FA;
+        background-color: #000;
+        border: none;
+    }
+
+    #conditionSpeedDiv ul > li > div > select {
+        color: #F3F6FA;
+        background-color: #000;
+        margin-left: -3px;
+        border: 1px none;
+    }
+
+    #conditionSpeedDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #conditionSpeedDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #conditionSpeedDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+</style>
+<div ng-controller="conditionSpeedController" id="conditionSpeedDiv">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div>
+                <a ng-click="addSpeedLimit()" style="cursor: pointer">增加限速</a>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" ng-repeat="conItem in speedLimitsData" ng-if="conItem.speedType===3">
+        <li class="list-group-item">
+            <div><label class="control-label">限速类型</label></div>
+            <div class="inline">
+                <select ng-model="conItem.speedType"
+                        ng-options="value.id as value.label for value in speedTypeOption">
+                    <option>--</option>
+                </select>
+                   <span class="glyphicon glyphicon-remove-sign"
+                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
+                         ng-click="minusSpeedlimit($index)"></span>
+                 <span class="glyphicon glyphicon-remove-sign"
+                       style="float: left;color: darkgray;left: 0px;margin-top: 5px;position: absolute"
+                       ng-click="changeSpeedAndDirect(roadlinkData.direct,conItem.rowid)"></span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">限速条件</label></div>
+            <div class="inline">
+                <select ng-model="conItem.speedDependent"
+                        ng-options="value.id as value.label for value in speedDependentOption">
+                    <option>--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">顺向速度</label></div>
+            <div class="inline">
+                <input type="text"
+                       placeholder="0530" id="{{conItem.rowid}}fromSpeedLimit"
+                       ng-model="conItem.fromSpeedLimit">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">逆向速度</label></div>
+            <div class="inline">
+                <input type="text"
+                       placeholder="0530" id="{{item.rowid}}toSpeedLimit"
+                       ng-model="conItem.toSpeedLimit">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">顺向来源</label></div>
+            <div class="inline">
+                <select ng-model="item.fromLimitSrc"
+                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">逆向来源</label></div>
+            <div class="inline">
+                <select ng-model="item.toLimitSrc"
+                        ng-options="value.id as value.label for value in fromLimitSrcOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">时间段</label></div>
+            <div class="inline">
+                <input type="text"
+                       ng-model="conItem.timeDomain">
+            </div>
+        </li>
+    </ul>
+</div>

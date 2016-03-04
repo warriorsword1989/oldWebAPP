@@ -13,7 +13,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     var selectCtrl = new fastmap.uikit.SelectController();
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
-    $scope.brigeLinkArrays=$scope.$parent.$parent.brigeLinkArray;
     $scope.brigeIndex=0;
 
     $scope.isActive = [true, false, false, false, false, false];
@@ -45,7 +44,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
         });
         //随着地图的变化 高亮的线不变
-        if($scope.dataTipsData && $scope.dataTipsData.f_array.length > 0){
+        if($scope.dataTipsData&&$scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
             var linksarr = [];
             for(var item in $scope.dataTipsData.f_array){
                 linksarr.push($scope.dataTipsData.f_array[item].id);
