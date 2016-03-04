@@ -47,6 +47,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         });
                     } else {
                         if (data.t_lifecycle === 1) {
+                            if(data.f){
+                                Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                                    objCtrl.setCurrentObject(data);
+                                    if (objCtrl.tipsUpdateObject !== "") {
+                                        objCtrl.tipsUpdateObject();
+                                    }
+                                    $ocLazyLoad.load(propertyCtrl).then(function () {
+                                        $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                                    });
+                                });
+                            }
+                        }
+                    }
+
+
+                } else if (stage === 3) {
+                    if (data.t_lifecycle === 3) {
+                        if(data.f){
                             Application.functions.getRdObjectById(data.f.id, type, function (data) {
                                 objCtrl.setCurrentObject(data);
                                 if (objCtrl.tipsUpdateObject !== "") {
@@ -58,21 +77,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 });
                             });
                         }
-                    }
-
-
-                } else if (stage === 3) {
-                    if (data.t_lifecycle === 3) {
-                        Application.functions.getRdObjectById(data.f.id, type, function (data) {
-                            objCtrl.setCurrentObject(data);
-                            if (objCtrl.tipsUpdateObject !== "") {
-                                objCtrl.tipsUpdateObject();
-                            }
-                            $ocLazyLoad.load(propertyCtrl).then(function () {
-                                $scope.$parent.$parent.objectEditURL = propertyTepl;
-
-                            });
-                        });
                     }
                 }
             }
