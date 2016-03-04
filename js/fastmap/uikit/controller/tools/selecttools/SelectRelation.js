@@ -137,7 +137,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
             this.overlays = this.unique(this.overlays);
             for(var item in this.overlays){
-                html += '<li><a id="'+this.overlays[item].layer.options.requestType+'">'+this.overlays[item].layer.options.layername+'</a></li>';
+                html += '<li><a href="#" id="'+this.overlays[item].layer.options.requestType+'">'+this.overlays[item].layer.options.layername+'</a></li>';
             }
             html +='</ul>';
 

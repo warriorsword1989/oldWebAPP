@@ -144,8 +144,6 @@ fastmap.uikit.Snap = L.Handler.extend({
         result = this.closestLine(map, data, point, selectedid);
         if (!result || result.distance > tolerance)
             return null;
-
-
         var isSnapVertices = false;
 
         //If snapped layer is linear, try to snap on vertices (extremities and middle points)
