@@ -34,9 +34,10 @@
         display: none;
         padding: 10px;
         margin-top: 10px;
-        box-shadow: 1px 1px 10px 0 #777777;
+        border: 1px solid #FFF;
+        box-shadow: 1px 1px 10px 0 #080808;
         background-color: #404040;
-        opacity: .8;
+        opacity: 1;
         color: #fff;
         border-radius: 3px;
         position: absolute;
@@ -65,8 +66,6 @@
     }
     .line{
         border-top: 1px solid #ddd;
-        margin-left: -10px;
-        margin-right: -10px;
     }
     .time-slide-well{
         border: 1px solid #ddd;
@@ -74,7 +73,26 @@
         border-radius: 3px;
     }
     .date-well{
-        /*width: 350px;*/
+        width: 100%;
+        border: 1px solid #FFF;
+        border-radius: 4px;
+        color: #FFF !important;
+        font-size: 12px;
+    }
+    .date-title{
+        font-size: 12px;
+        margin: 2px;
+    }
+    .date-head{
+        color: #FFF;
+        padding: 4px;
+    }
+    .date-body{
+        color: #FFF;
+    }
+    .date-code-list{
+        color: #FFF;
+        padding: 4px;
     }
     .remove-date-list{
         color:#FF0000;
@@ -182,16 +200,16 @@
         background-color: rgba(51, 51, 51, 0.65) !important;
     }
 </style>
-<div class="panel panel-default date-well" ng-controller="DateCtrl">
-  <div class="panel-heading">
-    <h3 class="panel-title pull-left">时间段</h3>
+<div class="date-well" ng-controller="DateCtrl">
+  <div class="date-head">
+    <h3 class="date-title pull-left">时间段</h3>
     <div class="pull-right">
         <a href="javascript:;" class="data-empty" ng-click="dateEmpty($event)">清空</a>
         <a href="javascript:;" ng-click="dateSelect($event)">添加</a>
     </div>
     <div class="clearfix"></div>
   </div>
-  <div class="panel-body">
+  <div class="date-body">
     <div class="date-list"></div>
     <div class="date-list" ng-repeat="item in dateList">
         <div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
