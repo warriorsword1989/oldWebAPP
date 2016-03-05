@@ -128,7 +128,7 @@
             <div><label>作用方向</label></div>
             <div class="inline">
                 <select ng-model="speedLimitData.direct"
-                        ng-options="value.id as value.label for value in speedDirectTypeOptions">
+                        ng-options="value.id as value.label for value in speedDirectTypeOptions" ng-change="changeDirect(speedLimitData.direct)">
                 </select>
             </div>
 

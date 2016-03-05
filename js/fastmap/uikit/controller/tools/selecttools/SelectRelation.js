@@ -72,7 +72,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
             this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
 
-            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data == undefined){
+            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 return;
             }
 
