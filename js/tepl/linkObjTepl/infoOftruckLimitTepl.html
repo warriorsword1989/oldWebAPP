@@ -9,15 +9,13 @@
     }
 
     #truckLimitInfoDiv {
-        /*background-color: #000;*/
         opacity: 1;
         width: 100%;
+        font-size: 12px;
     }
 
     #truckLimitInfoDiv ul {
-        /*background-color: #000;*/
         list-style: none;
-        /*padding:5px;*/
         overflow: hidden;
     }
 
@@ -29,6 +27,11 @@
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #truckLimitInfoDiv ul > li > div > select {
@@ -36,6 +39,8 @@
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+        width:170px;
+        border-radius: 4px;
     }
 
     #truckLimitInfoDiv ul > li > div:first-child {
@@ -61,6 +66,10 @@
 
     .m-b-none {
         margin-bottom: 0 !important;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
     }
 
     .radio {
@@ -95,7 +104,7 @@
         <li class="list-group-item">
             <div><label class="control-label">时间段</label></div>
             <div class="inline">
-                <input type="text" class="form-control" ng-model="tItem.timeDomain" readonly>
+                <input type="text"  ng-model="tItem.timeDomain" readonly>
                                                 <!--<span class="input-group-addon show-domain-ico" aria-controls="time_t_domain{{$index}}" aria-expanded="false" href="#time_t_domain{{$index}}" data-toggle="collapse" title="查看编辑时间段" ng-click="showDomain(time_t_domain$index,tItem.timeDomain)">-->
                                                     <!--<i class="glyphicon glyphicon-menu-down"></i>-->
                                                 <!--</span>-->
