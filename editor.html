@@ -81,7 +81,7 @@
                 <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
                     <div  style="margin-top: -20px"><span class="glyphicon glyphicon-remove-sign" style="color: #ffffff;cursor: pointer" ng-click="changeSuspendShow()"></span></div>
 
-                    <div  ng-include="suspendObjURL" class="scroll-styled" style="overflow-y: auto">
+                    <div  ng-include="suspendObjURL" class="scroll-styled" style="overflow-y: auto;height: 100%;">
                     </div>
                 </div>
 
@@ -98,15 +98,15 @@
                         <div style="width: 290px;bottom: 0px;position:absolute;border-color: #e7e7e7;z-index:10 ">
                             <div id="fm-attrOption-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs"><a href="#" data-toggle="tab" ng-click="save()" style="font-size: 10px;">保 存</a>
+                                    <button type="button" class="btn btn-xs" ng-click="save()"><a href="#" data-toggle="tab"  style="font-size: 10px;">保 存</a>
                                     </button>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs"><a href="#" data-toggle="tab" ng-click="delete()"  style="font-size: 10px;">删 除</a>
+                                    <button type="button" class="btn btn-xs" ng-click="delete()"><a href="#" data-toggle="tab"   style="font-size: 10px;">删 除</a>
                                     </button>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs"><a href="#" data-toggle="tab" ng-click="cancel()" style="font-size: 10px;">取 消</a>
+                                    <button type="button" class="btn btn-xs" ng-click="cancel()"><a href="#" data-toggle="tab" style="font-size: 10px;">取 消</a>
                                     </button>
                                 </div>
                             </div>
@@ -147,8 +147,8 @@
                                 </div>
                             </li>
                             <li style="float:right">
-                                <button id="immediatelyCheck" class="btn btn-xs" ng-click="showTab('getCheck')">刷新检查</button>
-                                <button id="errorClear" style=" display: none;width: 60px" ng-click="empty()" class="btn btn-xs">清 空</button>
+                                <button id="immediatelyCheck" class="btn btn-xs" style="display: none;" ng-click="showTab('getCheck')">刷新检查</button>
+                                <button id="errorClear" style=" width: 60px" ng-click="empty()" class="btn btn-xs">清 空</button>
                             </li>
                         </ul>
                         <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">

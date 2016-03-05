@@ -9,6 +9,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var ly = fastmap.uikit.LayerController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var rdLink = ly.getLayerById('referenceLine');
+    var editLyer = ly.getLayerById('edit');
     map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
@@ -21,15 +22,8 @@ modifyApp.controller("modifyToolController", function ($scope) {
         $scope.$parent.$parent.changeBtnClass(num);
         map.currentTool.disable();
         if (shapeCtrl.shapeEditorResult) {
-            feature = selectCtrl.selectedFeatures.geometry;
-            var editLyer = ly.getLayerById('edit');
-            ly.pushLayerFront('edit');
-            var sobj = shapeCtrl.shapeEditorResult;
-            editLyer.drawGeometry = feature;
-            editLyer.draw(feature, editLyer);
-            sobj.setOriginalGeometry(feature);
-            sobj.setFinalGeometry(feature);
-            if(tooltipsCtrl.getCurrentTooltip()!=""){
+
+            if(tooltipsCtrl.getCurrentTooltip()&&tooltipsCtrl.getCurrentTooltip()!=""){
                 tooltipsCtrl.onRemoveTooltip();
             }
             if(type==="pathVertexInsert") {
@@ -38,6 +32,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
+                    return;
                 }
             }else if(type==="pathVertexReMove") {
                 if(selectCtrl.selectedFeatures){
@@ -45,6 +40,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始删除形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                    return;
                 }
             }else if(type==="pathVertexMove") {
                 if(selectCtrl.selectedFeatures){
@@ -52,23 +48,32 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始移动形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
+                    return;
                 }
             }else if(type==="pathBreak") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathBreak');
                     tooltipsCtrl.setCurrentTooltip('开始打断link！');
+
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
+                    return;
                 }
             }else if(type==="pathNodeMove") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathNodeMove');
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
                 }
-                //else{
-                //    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
-                //}
             }
+            feature = selectCtrl.selectedFeatures.geometry;
+
+            ly.pushLayerFront('edit');
+            var sobj = shapeCtrl.shapeEditorResult;
+            editLyer.drawGeometry = feature;
+            editLyer.draw(feature, editLyer);
+            sobj.setOriginalGeometry(feature);
+            sobj.setFinalGeometry(feature);
+
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
@@ -76,8 +81,11 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
             });
             function saveOrEsc (event) {
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+                if(event.changeTooltips){
+                    tooltipsCtrl.setStyleTooltip("color:black;");
+                    tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+                }
+
             };
 
         }
