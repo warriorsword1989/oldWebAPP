@@ -17,9 +17,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.panelFlag = false;
+    $scope.panelFlag = false;//panelFlag属性面板状态
     $scope.outErrorArr=[false,false,false,true] ;
-    $scope.arrowFlag = true;
+    $scope.arrowFlag = true;//属性面板折叠按钮状态
     $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
     $scope.suspendFlag = false;
@@ -271,12 +271,26 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         $scope.panelFlag = !$scope.panelFlag;
         $scope.arrowFlag = !$scope.arrowFlag;
         $scope.objectFlag = !$scope.objectFlag;
-        $scope.outErrorFlag = !$scope.outErrorFlag;
-        if($scope.outErrorArr[0]===true||$scope.outErrorArr[2]===true) {
-            $scope.outErrorArr[0] = !$scope.outErrorArr[0];
-            $scope.outErrorArr[2] = !$scope.outErrorArr[2];
+        if($scope.panelFlag){
+            if($scope.outErrorArr[2]){
+                $scope.outErrorArr[2]=false;
+                $scope.outErrorArr[0]=true;
+            }
+            if($scope.outErrorArr[3]){
+                $scope.outErrorArr[3]=false;
+                $scope.outErrorArr[1]=true;
+            }
         }
-
+        else{
+            if($scope.outErrorArr[1]){
+                $scope.outErrorArr[3]=true;
+                $scope.outErrorArr[1]=false;
+            }
+            if($scope.outErrorArr[0]){
+                $scope.outErrorArr[2]=true;
+                $scope.outErrorArr[0]=false;
+            }
+        }
     };
     $scope.changeOutOrErrorStyle=function() {
         if($scope.outErrorArr[0]===true||$scope.outErrorArr[1]===true) {

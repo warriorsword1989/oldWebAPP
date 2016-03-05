@@ -75,27 +75,28 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 return;
             }
 
-            var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
-            var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
+                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
-            var id = null;
-            for (var item in data) {
-                if(this.currentEditLayers[layer].requestType =='RDCROSS'){
+                for (var item in data) {
+                    if(this.currentEditLayers[layer].requestType =='RDCROSS'){
 
-                    for (var key in data[item].geometry.coordinates) {
-                        if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
+                        for (var key in data[item].geometry.coordinates) {
+                            if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
+                                this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                            }
+                        }
+                    }else{
+                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+
                             this.overlays.push({layer:this.currentEditLayers[layer],data:data});
                         }
                     }
-                }else{
-                    if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
 
-                        this.overlays.push({layer:this.currentEditLayers[layer],data:data});
-                    }
                 }
-
             }
-            var id = null;
+
        }
         if(this.overlays.length == 1){
             switch (this.overlays[0].layer.requestType) {
