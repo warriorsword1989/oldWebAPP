@@ -369,7 +369,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
                     selectCtrl.fire("selectByAttribute", {feather: data});
-                    $("#picMapShow").css("display", "none");
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var center=map.getCenter();
@@ -485,7 +484,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     } else if (pItemId === "1407") {//高速分歧
-                        $("#picMapShow").css("display", "block");
                         $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
                             $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
