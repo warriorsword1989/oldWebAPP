@@ -284,7 +284,7 @@
                         </div>
                         <ul ng-repeat="pendSubItem in pendSubItems">
                             <li ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '"
-                                ng-click="showTab(pendSubItem,$event,pendSubItem.id)">
+                                ng-click="showTab(pendSubItem,$event,pendItem.id)">
                                 <label>{{pendSubItem.m.e}}</label>
                             </li>
                         </ul>
@@ -309,7 +309,7 @@
                         </div>
                         <ul ng-repeat="solveSubItem in solvedSubItems">
                             <li ng-if="solveSubItem.i!=''||solveSubItem.i!=null||solveSubItem.i!=' '"
-                                ng-click="showTab(solveSubItem,$event,solveSubItem.id)">
+                                ng-click="showTab(solveSubItem,$event,solveItem.id)">
                                 <label>{{solveSubItem.m.e}}</label>
                             </li>
                         </ul>

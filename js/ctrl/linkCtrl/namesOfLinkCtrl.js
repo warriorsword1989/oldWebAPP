@@ -54,15 +54,17 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
             }
             $(".pic-pre").prop('disabled','disabled');
         }else{
-            if($scope.picTotal - $scope.picNowNum == 0){
+            if($scope.picTotal - ($scope.picNowNum+1) == 0){
                 $(".pic-next").prop('disabled','disabled');
+            }else{
+                $(".pic-next").prop('disabled',false);
             }
             $(".pic-pre").prop('disabled',false);
         }
         $scope.$apply();
     }
     $scope.picNowNum = 0;
-    //$scope.pagesize=10;
+    //$scope.pagesize=0;
 
     $scope.getPicsDate = function(){
         var nameParameter = {
@@ -75,7 +77,7 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
                 $(".pic-loading").hide();
                 $("#namesDiv").css("display", "block");
                 $scope.pictures = data.data.data;
-                $scope.picTotal = Math.ceil(data.data.total/10);
+                $scope.picTotal = Math.ceil(data.data.total/5);
                 $scope.goPaging();
                 $scope.$apply();
             }

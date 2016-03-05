@@ -26,6 +26,7 @@
         /*background-color: #FFFFFF;*/
         border: 1px solid #eeeeee;
         border-radius: 4px;
+
     }
 
     .middle {
@@ -39,7 +40,7 @@
     .left {
         float: left;
 
-        width: 60%;
+        width: 100%;
         /*background-color: #eeefff;*/
         /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
@@ -50,11 +51,12 @@
 
         float: left;
 
-        width: 38%;
+        width: 100%;
         /*background-color: #FFFFFF;*/
         margin-left: 3px;
-        border: 1px solid #eeeeee;
-        border-radius: 4px;
+        /*border: 1px solid #eeeeee;*/
+        /*border-radius: 4px;*/
+        margin-top: 15px;
     }
 
     .both {
@@ -132,6 +134,18 @@
             <img ng-repeat="phitem in photos track by $index  "  style="border:1px solid #e5e5e5;" ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
         </div>
     </div>
+    <div class="right" >
+        <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
+            <div class="col-sm-6" ng-repeat="item in dataTipsData.o_array">
+                <div ng-if="item.flag===1" class="out-link-img">
+                    <img ng-src="css/limit/dataTips/{{item.oInfo}}.png" ng-click="showOutLink(item)">
+                </div>
+                <div ng-if="item.flag===2" class="out-link-img">
+                    <img ng-src="css/limit/dataTips/{{item.oInfo}}{{item.oInfo}}.png" ng-click="showOutLink(item)">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="middle">
         <div class="left"  >
             <div class="panel panel-default" style="background-color: #404040;margin-bottom: 0px;">
@@ -171,18 +185,7 @@
                 </div>
             </div>
         </div>
-        <div class="right" >
-            <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
-                <div class="col-sm-6" ng-repeat="item in dataTipsData.o_array">
-                    <div ng-if="item.flag===1" class="out-link-img">
-                        <img ng-src="css/limit/dataTips/{{item.oInfo}}.png" ng-click="showOutLink(item)">
-                    </div>
-                  <div ng-if="item.flag===2" class="out-link-img">
-                      <img ng-src="css/limit/dataTips/{{item.oInfo}}{{item.oInfo}}.png" ng-click="showOutLink(item)">
-                  </div>
-                </div>
-            </div>
-        </div>
+
         <div class="both" >
             <div class="panel panel-default" style="height: 100%;background-color: #404040;">
                 <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px; ">
