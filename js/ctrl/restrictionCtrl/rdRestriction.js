@@ -176,7 +176,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     };
 
 
-    //双击
+    //右击
     $scope.deleteDirect = function (item,event) {
         if(event.button===2) {
             var len = $scope.rdRestrictData.details.length;
