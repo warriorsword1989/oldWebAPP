@@ -13,7 +13,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
-        $scope.changeDirect($scope.speedLimitData.direct);
+        //$scope.changeDirect($scope.speedLimitData.direct);
     }
     if(objectEditCtrl.data){
         $scope.initializeData();
