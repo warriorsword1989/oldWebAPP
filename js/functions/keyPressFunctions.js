@@ -108,7 +108,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -146,8 +146,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                             var pid = data.data.pid;
                             restrict.redraw();
@@ -207,7 +206,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -298,11 +297,11 @@ function keyEvent(ocLazyLoad, scope) {
 
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改交限成功",
+                                "op":"创建RDSPEEDLIMIT成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -353,7 +352,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     "type":"",
                                     "pid": ""
                                 };
-                                data.data.log.unshift(sinfo);
+                                data.data.log.push(sinfo);
                                 info=data.data.log;
                             }else{
                                 info=[{
@@ -402,7 +401,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -445,7 +444,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -479,11 +478,11 @@ function keyEvent(ocLazyLoad, scope) {
                         var info = null;
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改RDBRANCH成功",
+                                "op":"创建RDBRANCH成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -538,11 +537,11 @@ function keyEvent(ocLazyLoad, scope) {
                         var info = null;
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改RDCROSS成功",
+                                "op":"创建RDCROSS成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
