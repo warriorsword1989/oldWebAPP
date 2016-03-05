@@ -73,7 +73,13 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
-            var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+            var pixels = null;
+            if(this.snapHandler.snaped == false){
+                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+            }else{
+                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat,this._map.getZoom());
+            }
+
             var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
             var id = null;
