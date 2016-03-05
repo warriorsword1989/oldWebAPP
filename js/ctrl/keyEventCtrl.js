@@ -60,7 +60,7 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -100,7 +100,7 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{

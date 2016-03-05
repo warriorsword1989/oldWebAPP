@@ -114,7 +114,7 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
-                var info = [];
+                var info = null;
                 if (data.errcode === 0) {
                     if(workPoint)
                         workPoint.redraw();
@@ -132,8 +132,19 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout
                      $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                      })
                      });*/
+                    var sinfo={
+                        "op":"改状态成功",
+                        "type":"",
+                        "pid": ""
+                    };
+                    data.data.log.push(sinfo);
+                    info=data.data.log;
                 } else {
-                    info.push(data.errmsg + data.errid);
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
 
                     swal("操作失败",data.errmsg, "error");
                 }

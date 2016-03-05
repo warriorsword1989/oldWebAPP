@@ -104,7 +104,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
@@ -137,6 +137,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             $scope.$parent.$parent.objectEditURL = "";
             var info=null;
             if (data.errcode==0) {
+                var sinfo={
+                    "op":"删除RDSPEEDLIMIT成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
