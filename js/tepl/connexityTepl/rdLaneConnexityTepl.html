@@ -179,7 +179,7 @@
     }
 
     #rdLaneConnexityDiv {
-        /*background-color: #000;*/
+        /* background-color: #000;*/
         opacity: 1;
         width: 100%;
     }
@@ -199,13 +199,24 @@
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width:130px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+
     }
+
+
 
     #rdLaneConnexityDiv ul > li > div > select {
         color: #F3F6FA;
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+        width:130px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #rdLaneConnexityDiv ul > li > div:first-child {
@@ -225,7 +236,7 @@
 
     .inline {
         display: inline-block !important;
-        /*width: 70%;*/
+        width: 170px;
         text-align: left;
     }
 
@@ -238,14 +249,18 @@
     }
     .lanePic{
         /*float: left;*/
+        border: 1px solid #ffff00;
+        border-radius:50%;
+        width:30px;height: 30px;
+        /*padding: 0px 10px;*/
         transition: all 0.5s;
-        border-radius: 50%;
 
     }
     .lanePic > img{
         text-align: center;
         cursor: pointer;
-        margin: 15px;
+
+        /*margin: 15px;*/
         transition: all 0.5s;
         border-radius: 50%;
     }
@@ -253,7 +268,7 @@
         box-shadow: 0px 0px 7px 4px #9d9d9d;
     }
 </style>
-<div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv">
+<div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv" oncontextmenu=self.event.returnValue=false>
     <ul  class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div><label class="control-label">车信id</label></div>
@@ -278,58 +293,29 @@
             </div>
         </li>
         <li class="list-group-item">
-            <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus"></span></div>
-            <div class="lanePic" >
-                <img  ng-repeat="item in showNormalData track by $index"
-                     ng-click="showLanesInfo(item,$index,$event)"
-                     ng-keyup="keyPress($event)"
-                     ng-src="./css/laneinfo/arwG/{{item}}.png"
-                     title="{{item}}">
+            <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
+            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index">
+                <div  class="lanePic">
+                    <span style="float:right;font-size: 14px;top: 0px" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                    <img
+                            ng-click="showLanesInfo(item,$index,$event)"
+                            ng-mousedown="changeDirect(item,$event,$index)"
+                            ng-src="./css/laneinfo/arwG/{{item}}.png"
+                            title="{{item}}">
+                </div>
             </div>
 
 
         </li>
         <li class="list-group-item">
-            <div class="lanePic" style="width: 100%">
-                <img ng-repeat="items in showTransitData track by $index"
-                     ng-dblclick="minusTransitData(items)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
-                     title="{{items}}">
+            <div style="display: inline-block" ng-repeat="items in showTransitData track by $index">
+                <div class="lanePic">
+                    <img
+                            ng-dblclick="minusTransitData(items)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
+                            title="{{items}}">
+                </div>
             </div>
+
         </li>
     </ul>
-
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close"
-                            data-dismiss="modal" aria-hidden="true">
-                        &times;
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        增加车信
-                    </h4>
-                </div>
-                <div class="modal-body" style="overflow:scroll;height: 50%;">
-                    <div class="col-sm-1 sing-flag" style="list-style: none;" ng-repeat="addItem in addRdLancdData"
-                         ng-click="changeColor(addItem,$index)" ng-class='{selected: $index==selectedRow}'>
-                        <li ng-class='{selected:addItem.class}' style="width: 30px;height: 30px;"><img
-                                ng-src="./css/laneinfo/arwB/{{addItem.id}}.png"></li>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary" ng-click="addLaneConnexity()">
-                        增加
-                    </button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal -->
-    </div>
 </div>

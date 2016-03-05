@@ -191,7 +191,6 @@ html,body{
     position: absolute;
     right: 0px;
     background-color: transparent;
-    transition: all 0.3s ease-out;
     border: none;
     /*opacity: .9;*/
     overflow-y:hidden;
@@ -287,7 +286,7 @@ a.fm-panel-controlArrowLeftAndRight>span{
     width: 300px;
     height: 100%;
     position: absolute;
-    right: 295px;
+    right: 291px;
     background-color: #404040;
     padding:0px 5px;
     border: none;
@@ -606,6 +605,7 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     line-height: 20px;
     z-index: 1000;
 }
+<<<<<<< HEAD
 
 /*高速分歧map上图片显示*/
 #picMapShow {
@@ -670,3 +670,5 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
 
 
 /*}*/
+=======
+>>>>>>> 72d424d01e14aa6e7de99a956fb621ebce379445
