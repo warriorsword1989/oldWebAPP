@@ -51,7 +51,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
 
     _click:function(){
-        if(this.overlays &&this.overlays.length == 1){
+        if(this.overlays &&this.overlays.length > 1){
             this._map.openPopup(this.popup);
         }
 

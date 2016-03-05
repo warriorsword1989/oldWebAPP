@@ -158,7 +158,6 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      *清除高亮
      */
     _cleanHeight: function () {
-        console.log("from clear");
         for (var index in this.redrawTiles) {
             var data = this.redrawTiles[index].data;
             this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
