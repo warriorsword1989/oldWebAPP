@@ -207,10 +207,10 @@
                 <div class="pic-show-btn pull-right">
                     <div class="pull-right btn-group">
                         <button class="btn btn-default btn-xs pic-pre"
-                                ng-click="picPre()" disabled><<
+                                ng-click="picPre()" disabled>
                         </button>
                         <button class="btn btn-default btn-xs pic-next"
-                                ng-click="picNext()">>>
+                                ng-click="picNext()">
                         </button>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
             <div class="radio inline" style="text-align: left">
                 <label>
                     <input type="radio" name="originOfName" value=0 ng-model="nameItem.nameClass">
-                    官方名
+                    官方
                 </label>
                 <label>
                     <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
@@ -229,7 +229,7 @@
                 </label>
                 <label>
                     <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
-                    曾用名
+                    曾用
                 </label>
             </div>
         </li>
@@ -253,12 +253,12 @@
             <div><label class="control-label" >主从CODE</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="code" value=0 ng-model="nameItem.code">
-                    官方名
+                    <input type="radio" name="code" value=1 ng-model="nameItem.code">
+                    主
                 </label>
                 <label>
-                    <input type="radio" name="code" value=1 ng-model="nameItem.code">
-                    别名
+                    <input type="radio" name="code" value=2 ng-model="nameItem.code">
+                    从
                 </label>
             </div>
         </li>
