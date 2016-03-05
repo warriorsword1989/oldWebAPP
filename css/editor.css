@@ -346,7 +346,6 @@ div.fm-out-error a.fm-panel-controlArrowUpAndDown>span{
     padding-top: 15px;
     height: 250px;
     position:absolute;
-    transition: all 0.3s ease-out;
     bottom: 0px;
 }
 .fm-out-error-xl a.fm-panel-controlArrowUpAndDown>span{
