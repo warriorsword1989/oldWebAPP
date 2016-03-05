@@ -51,7 +51,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
 
     _click:function(){
-        if(this.overlays &&this.overlays.length > 1){
+        if(this.overlays &&this.overlays.length == 1){
             this._map.openPopup(this.popup);
         }
 
@@ -67,6 +67,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
         this.overlays=[];
+        var  frs = null;
         for(var layer in this.currentEditLayers){
 
             this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
@@ -102,31 +103,23 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             switch (this.overlays[0].layer.requestType) {
 
                 case'RDRESTRICTION':
-                    var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs= new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDLANECONNEXITY":
-                    var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDSPEEDLIMIT":
-                    var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDCROSS":
-                    var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDBRANCH":
-                    var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
             }
+            frs.tiles = this.tiles;
+            frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
         }else if (this.overlays.length > 1){
             var html = '<ul style="list-style:none;padding: 0px" id="layerpopup">';
 
@@ -158,32 +151,23 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         switch (e.target.id) {
 
                             case'RDRESTRICTION':
-                                var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDLANECONNEXITY":
-                                var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDSPEEDLIMIT":
-                                var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDCROSS":
-                                var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDBRANCH":
-                                var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
                                 break;
                         }
-
+                        frs.tiles = that.tiles;
+                        frs.drawGeomCanvasHighlight(event, d);
                     }
 
                 }
