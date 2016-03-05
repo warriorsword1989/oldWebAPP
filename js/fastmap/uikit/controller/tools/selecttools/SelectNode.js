@@ -95,7 +95,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             }
         }
 
-
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
@@ -114,7 +113,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                     this.selectCtrl.selectedFeatures =data[item].properties.snode;
                     break;
                 } else {
-
+                    this.currentEditLayer.fire("getId", {
+                        id: data[item].properties.enode
+                    })
+                    this.selectCtrl.selectedFeatures =data[item].properties.enode;
+                    break;
                 }
 
 
