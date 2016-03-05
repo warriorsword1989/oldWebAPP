@@ -143,7 +143,7 @@ fastmap.uikit.ObjectEditController = (function () {
                                     obj = data[item][m];
                                     obj["objStatus"] = "INSERT";
                                     delete obj["$$hashKey"];
-                                    obj["pid"]=pids;
+                                    //obj["pid"]=pids;
                                     if (obj) {
                                         if(oriData[item][0]["linkPid"]){
                                             obj["linkPid"]=oriData[item][0]["linkPid"];

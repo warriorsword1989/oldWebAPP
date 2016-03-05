@@ -22,24 +22,24 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         {"id": 15, "label": "15 10级路(障碍物)"}
     ];
     $scope.laneClassOptions = [
-        {"id": 0, "label": "0 未赋值"},
-        {"id": 1, "label": "1 一条车道"},
-        {"id": 2, "label": "2 2或3条"},
-        {"id": 3,"label":"3 4条及以上"}
+        {"id": 0, "label": "未赋值"},
+        {"id": 1, "label": "一条车道"},
+        {"id": 2, "label": "2或3条"},
+        {"id": 3,"label":"4条及以上"}
     ];
     $scope.imiCodeOptions = [
-        {"id": 0, "label": "0 其他道路"},
-        {"id": 1, "label": "1 交叉点内部道路"},
-        {"id": 2, "label": "2 转弯道"},
-        {"id": 3, "label": "3 无法描述的"}
+        {"id": 0, "label": "其他道路"},
+        {"id": 1, "label": "交叉点内部道路"},
+        {"id": 2, "label": "转弯道"},
+        {"id": 3, "label": "无法描述的"}
     ];
     $scope.functionClassOptions = [
-        {"id": 0, "label": "0 未赋值"},
-        {"id": 1, "label": "1 等级1"},
-        {"id": 2, "label": "2 等级2"},
-        {"id": 3, "label": "3 等级3"},
-        {"id": 4, "label": "4 等级4"},
-        {"id": 5, "label": "5 等级5"}
+        {"id": 0, "label": "未赋值"},
+        {"id": 1, "label": "等级1"},
+        {"id": 2, "label": "等级2"},
+        {"id": 3, "label": "等级3"},
+        {"id": 4, "label": "等级4"},
+        {"id": 5, "label": "等级5"}
     ];
     $scope.nameTypeOptions = [
         {"id": 0, "label": "0 普通"},
