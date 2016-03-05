@@ -9,6 +9,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var ly = fastmap.uikit.LayerController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var rdLink = ly.getLayerById('referenceLine');
+    var editLyer = ly.getLayerById('edit');
     map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
@@ -30,6 +31,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
+                    return;
                 }
             }else if(type==="pathVertexReMove") {
                 if(selectCtrl.selectedFeatures){
@@ -37,6 +39,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始删除形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                    return;
                 }
             }else if(type==="pathVertexMove") {
                 if(selectCtrl.selectedFeatures){
@@ -44,27 +47,28 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始移动形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
+                    return;
                 }
             }else if(type==="pathBreak") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathBreak');
                     tooltipsCtrl.setCurrentTooltip('开始打断link！');
+
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
+                    return;
                 }
             }else if(type==="pathNodeMove") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathNodeMove');
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
                 }
-                //else{
-                //    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
-                //}
             }
             if (!selectCtrl.selectedFeatures){
                 return;
             }
             feature = selectCtrl.selectedFeatures.geometry;
+
             var editLyer = ly.getLayerById('edit');
             ly.pushLayerFront('edit');
             var sobj = shapeCtrl.shapeEditorResult;
