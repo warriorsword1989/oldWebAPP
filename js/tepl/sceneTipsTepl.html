@@ -1,10 +1,3 @@
-<meta charset="UTF-8">
-<link rel="stylesheet" href="../lib/bootstrap-3.3.5/css/bootstrap.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css" type="text/css">
-<script src="../lib/jquery/2.1.1/jquery-2.1.1.js"></script>
-<script src="../lib/bootstrap-3.3.5/js/bootstrap.js"></script>
-<script src="../lib/angularjs/1.4.4/angular.js"></script>
-
 <style>
     div {
         -webkit-font-smoothing: antialiased;
@@ -66,7 +59,7 @@
 
     .both {
         clear: both;
-        height: 40%;
+        /*height: 40%;*/
         width: 100%;
         /*background-color: #666999;*/
         border-radius: 4px;
@@ -167,10 +160,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">备注:</label>
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-4 control-label" style="padding: 4px">时 段</label>
                             <div class="col-sm-8" style="padding: 4px">
-                                {{remarksContent}}
+                                <span class="label label-default" ng-bind="timeDomain"></span>
+                                <!-- <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;">时段</button> -->
                             </div>
                         </div>
                     </form>
@@ -194,36 +188,38 @@
                 <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px; ">
                     <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
 
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px">时 段</label>
+
+
+                        <!--<div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">-->
+                            <!--<label class="col-sm-4 control-label" style="padding: 4px"> 卡车信息</label>-->
+
+                            <!--<div class="col-sm-8" style="padding: 4px">-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <div class="form-group" style="height: 6%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                            <label class="col-sm-4 control-label" style="padding: 4px">备注:</label>
                             <div class="col-sm-8" style="padding: 4px">
-                                <span class="label label-default" ng-bind="timeDomain"></span>
-                                <!-- <button type="button" class="btn " style="background-color: #F6F6F6; border-color: #737475;margin-left: 3px; border-radius: 5px;">时段</button> -->
-                            </div>
-                        </div>
-
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
-                            <label class="col-sm-4 control-label" style="padding: 4px"> 卡车信息</label>
-
-                            <div class="col-sm-8" style="padding: 4px">
-
+                                {{remarksContent}}
                             </div>
                         </div>
 
                         <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;padding-left: 20px;">
+
                             <div class="col-sm-4" style="padding:5px;">
-                                <button type="button"  class="btn btn-xs ">
-                                    <a href="#" data-toggle="tab" ng-click="closeDataTips()" style="font-size: 10px;">关闭</a>
+                                <button type="button"  class="btn btn-xs "  >
+                                    <a href="#" data-toggle="tab" ng-click="upBridgeStatus($event)" style="font-size: 10px;">改状态</a>
                                 </button>
                             </div>
                             <div class="col-sm-4" style="padding:5px;">
                                 <button type="button"  class="btn btn-xs "  >
-                                    <a href="#" data-toggle="tab" ng-click="transDataTips()" style="font-size: 10px;">转换</a>
+                                    <a href="#" data-toggle="tab" ng-click="transDataTips()" style="font-size: 10px;">转数据</a>
                                     </button>
                             </div>
                             <div class="col-sm-4" style="padding:5px;">
-                                <button type="button"  class="btn btn-xs "  >
-                                    <a href="#" data-toggle="tab" ng-click="increaseDataTips()" style="font-size: 10px;">增加</a>
+                                <button type="button"  class="btn btn-xs ">
+                                    <a href="#" data-toggle="tab" ng-click="closeDataTips()" style="font-size: 10px;">关 闭</a>
                                 </button>
                             </div>
                         </div>

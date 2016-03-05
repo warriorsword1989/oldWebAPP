@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2016/1/4.
  */
 var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
+dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout) {
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var checkCtrl = fastmap.uikit.CheckResultController();
@@ -14,6 +14,8 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
     $scope.photos = [];
+    //初始化dataTips面板中的数据
+    $scope.dataTipsData = selectCtrl.rowKey;
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -21,8 +23,7 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
     $scope.outIdS=[]; 
 
     if (selectCtrl.rowKey) {
-        //初始化dataTips面板中的数据
-        $scope.dataTipsData = selectCtrl.rowKey;
+
         // console.log($scope.dataTipsData);
         $scope.oarrayData=$scope.dataTipsData.o_array;
         for(var i in $scope.oarrayData){
@@ -96,4 +97,54 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope) {
         }
 
     };
+    //改状态
+    $scope.upBridgeStatus = function (e) {
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
+            }
+            if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
+                $timeout(function(){
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
+            }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+
+                var info = [];
+                if (data.errcode === 0) {
+                    if(workPoint)
+                        workPoint.redraw();
+                    $scope.showContent = "外业新增";
+                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
+                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
+                     if (d.errcode === -1) {
+                     return;
+                     }
+                     objCtrl.setCurrentObject(d);
+                     if (objCtrl.updateObject !== "") {
+                     objCtrl.updateObject();
+                     }
+                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                     $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                     })
+                     });*/
+                } else {
+                    info.push(data.errmsg + data.errid);
+
+                    swal("操作失败",data.errmsg, "error");
+                }
+                outPutCtrl.pushOutput(info);
+                if (outPutCtrl.updateOutPuts !== "") {
+                    outPutCtrl.updateOutPuts();
+                }
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+            })
+        }
+    }
+
+
 });
