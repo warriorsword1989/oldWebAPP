@@ -10,6 +10,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdRestrction = layerCtrl.getLayerById('restriction');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     var limitPicArr = [];
     //删除以前高亮的进入线和退出线
@@ -28,9 +29,12 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         for(var i= 0,len=objectEditCtrl.data.details.length;i<len;i++) {
             linksObj["outLink" + i] = objectEditCtrl.data.details[i].outLinkPid.toString();
         }
-        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
+        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj});
+        var highLightRestriction=new fastmap.uikit.HighLightRender(rdRestrction,{map:map,highLightFeature:"restrict",restrictId:$scope.rdRestrictData.pid,initFlag:true});
+
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
+        //highLightLayer.pushHighLightLayers(highLightRestriction);
         $.each(objectEditCtrl.data.details,function(i,v){
             if(v)
                 limitPicArr.push(v.timeDomain);

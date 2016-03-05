@@ -14,6 +14,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
+    var editlayer = layerCtrl.getLayerById('edit');
     $scope.toolTipText = "";
 
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyCtrl, propertyTepl) {
@@ -47,6 +48,25 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         });
                     } else {
                         if (data.t_lifecycle === 1) {
+                            if(data.f){
+                                Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                                    objCtrl.setCurrentObject(data);
+                                    if (objCtrl.tipsUpdateObject !== "") {
+                                        objCtrl.tipsUpdateObject();
+                                    }
+                                    $ocLazyLoad.load(propertyCtrl).then(function () {
+                                        $scope.$parent.$parent.objectEditURL = propertyTepl;
+
+                                    });
+                                });
+                            }
+                        }
+                    }
+
+
+                } else if (stage === 3) {
+                    if (data.t_lifecycle === 3) {
+                        if(data.f){
                             Application.functions.getRdObjectById(data.f.id, type, function (data) {
                                 objCtrl.setCurrentObject(data);
                                 if (objCtrl.tipsUpdateObject !== "") {
@@ -58,21 +78,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 });
                             });
                         }
-                    }
-
-
-                } else if (stage === 3) {
-                    if (data.t_lifecycle === 3) {
-                        Application.functions.getRdObjectById(data.f.id, type, function (data) {
-                            objCtrl.setCurrentObject(data);
-                            if (objCtrl.tipsUpdateObject !== "") {
-                                objCtrl.tipsUpdateObject();
-                            }
-                            $ocLazyLoad.load(propertyCtrl).then(function () {
-                                $scope.$parent.$parent.objectEditURL = propertyTepl;
-
-                            });
-                        });
                     }
                 }
             }
@@ -210,8 +215,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         data.linepids = linepids;
                         data.nodeid = $scope.data.id;
                         objCtrl.setCurrentObject(data);
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
+                        if (objCtrl.nodeObjRefresh !== "") {
+                            objCtrl.nodeObjRefresh();
                         }
                         $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/nodeTepl/rdNodeFromTepl.html";
@@ -225,11 +230,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
-            //layerCtrl.pushLayerFront('restriction');
+
             map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
-            //restrict.options.selectType = 'relation';
-            //restrict.options.editable = true;
+
+            editlayer.bringToBack();
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择关系！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
@@ -288,9 +293,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             //if (objCtrl.updateRdCross !== "") {
                             //    objCtrl.updateRdCross();
                             //}
-                            $ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
+                            /*$ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
-                            })
+                            })*/
+                            $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                            });
                             break;
                     }
 
@@ -322,7 +330,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         selectCtrl.fire("selectByAttribute", {feather: data});
 
 
-                        console.log(data.s_sourceType);
                         switch (data.s_sourceType) {
 
                             case "2001"://测线
@@ -417,11 +424,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 }
                                 break;
                             case "1407":
-                                $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
+                                /*$ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
                                     $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
                                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                                     });
+                                });*/
+                                $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
                                 });
                                 objCtrl.setCurrentObject(data.brID);
                                 break;

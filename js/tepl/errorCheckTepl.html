@@ -44,7 +44,7 @@
         </tr>
         </thead>
     </table>
-   <div  class="errorClass">
+   <div  class="errorClass scroll-styled">
        <table style="overflow-y: hidden;margin-bottom: 0px;width: 100%;" >
            <tr ng-repeat="row in rowCollection" style="border-top: 1px solid #FFF;">
                <td><div style="width:135px;color:#FFF;word-wrap:break-word;">{{row.ruleid}}</div></td>
@@ -65,7 +65,7 @@
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;"><a style="cursor: pointer;" ng-click="showOnMap(row.targets)">{{row.targets }}</a></div></td>
                <td><div style="width:135px;color:#FFF;word-wrap:break-word;">{{row.information}}</div></td>
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.geometry}}</div></td>
-               <td><div style="width:100px;color:#FFF;word-wrap:break-word;padding-left: 25px;">{{row.createDate}}</div></td>
+               <td><div style="width:100px;color:#FFF;word-wrap:break-word;padding-left: 25px;">{{row.create_date}}</div></td>
                <td><div style="width:80px;color:#FFF;word-wrap:break-word;padding-left: 20px;">{{row.worker}}</div></td>
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;">
                    <select class="form-control" ng-model="initType"  style="height: 25px;padding: 0;"

@@ -52,20 +52,23 @@ fastmap.uikit.PathBreak = L.Handler.extend({
     },
 
     onMouseDown: function(event){
+        var layerPoint = event.layerPoint;
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
-        var layerPoint = event.layerPoint;
-        this.resetVertex(layerPoint);
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
-       // this.disable();
-        //this.container.style.cursor = '';
+
+        if(this.snapHandler.snaped == true){
+            layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
+            this.resetVertex(layerPoint);
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
+        }
+
+
+
     },
 
     onMouseMove: function(event){
-        //this.container
         this.snapHandler.setTargetIndex(0);
-        var that = this;
         if(this.snapHandler.snaped == true){
             this.shapeEditor.fire('snaped',{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
@@ -80,7 +83,6 @@ fastmap.uikit.PathBreak = L.Handler.extend({
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     },
-    drawFeedBack: function(){},
 
     resetVertex:function(layerPoint){
 
