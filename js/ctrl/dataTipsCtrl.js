@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/22.
  */
 var dataTipsApp = angular.module("lazymodule", []);
-dataTipsApp.controller("sceneTipsController", function ($scope) {
+dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
     var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
     var checkCtrl = fastmap.uikit.CheckResultController();
@@ -341,4 +341,54 @@ dataTipsApp.controller("sceneTipsController", function ($scope) {
         $("#dataTipsOriginImg").attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
         $("#dataTipsOriginModal").modal('show');
     }
+
+//改状态
+    $scope.upBridgeStatus = function (e) {
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+            var stageParam = {
+                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "stage": 3,
+                "handler": 0
+            }
+            if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
+                $timeout(function(){
+                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $scope.$apply();
+                });
+                return;
+            }
+            Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+
+                var info = [];
+                if (data.errcode === 0) {
+                    if(workPoint)
+                        workPoint.redraw();
+                    $scope.showContent = "外业新增";
+                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
+                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
+                     if (d.errcode === -1) {
+                     return;
+                     }
+                     objCtrl.setCurrentObject(d);
+                     if (objCtrl.updateObject !== "") {
+                     objCtrl.updateObject();
+                     }
+                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                     $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                     })
+                     });*/
+                } else {
+                    info.push(data.errmsg + data.errid);
+
+                    swal("操作失败",data.errmsg, "error");
+                }
+                outPutCtrl.pushOutput(info);
+                if (outPutCtrl.updateOutPuts !== "") {
+                    outPutCtrl.updateOutPuts();
+                }
+                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+            })
+        }
+    }
+
 });

@@ -16,6 +16,23 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
+
+//            Application.functions.getRdObjectById("735834","RDLINK",function(data) {
+//                objCtrl.setCurrentObject(data.data);
+//                $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+//                        $scope.$parent.$parent.objectEditURL = 'js/tepl/currentObjectTepl.html';
+//                    }
+//                );
+//            })
+
+            //Application.functions.getRdObjectById("37663","RDRESTRICTION",function(data) {
+            //    objCtrl.setCurrentObject(data.data);
+            //    $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
+            //            $scope.$parent.$parent.objectEditURL = 'js/tepl/restrictTepl/trafficLimitOfNormalTepl.html';
+            //        }
+            //    );
+            //})
+
             // Application.functions.getTipsStatics([60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
@@ -355,7 +372,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var center=map.getCenter();
-                        objCtrl.setCurrentObject(data.data);
+                        objCtrl.setCurrentObject(data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
                     } else if (pItemId === "1201") {//道路种别
@@ -446,6 +463,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 });
                             } else {
                                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
+                                    if(data.errcode===-1){
+                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                        });
+                                        return;
+                                    }
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.updateObject !== "") {
                                         objCtrl.updateObject();
@@ -616,6 +639,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                     if (data.t_lifecycle === 2) {
                         Application.functions.getRdObjectById(propertyId, type, function (data) {
+                            if(data.errcode===-1){
+                                return;
+                            }
                             objCtrl.setCurrentObject(data.data);
                             if (objCtrl.tipsUpdateObject !== "") {
                                 objCtrl.tipsUpdateObject();
@@ -631,6 +657,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         if (stage.stage === 1) {
                             if (data.t_lifecycle === 1) {
                                 Application.functions.getRdObjectById(propertyId, type, function (data) {
+                                    if(data.errcode===-1){
+                                        return;
+                                    }
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.tipsUpdateObject !== "") {
                                         objCtrl.tipsUpdateObject();
@@ -645,6 +674,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         } else if (stage.stage === 3) {
                             if (data.t_lifecycle === 3) {
                                 Application.functions.getRdObjectById(propertyId, type, function (data) {
+                                    if(data.errcode===-1){
+                                        return;
+                                    }
                                     objCtrl.setCurrentObject(data.data);
                                     if (objCtrl.tipsUpdateObject !== "") {
                                         objCtrl.tipsUpdateObject();

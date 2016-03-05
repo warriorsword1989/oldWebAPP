@@ -365,12 +365,12 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             color: '#F63428'
                         }, nodeStyle, feature.properties);
 
-                        if(feature.properties.snode == nodeArr[0]){
+                        if(nodeArr &&feature.properties.snode == nodeArr[0]){
                             this.layer._drawPoint(ctx,geom[0][0], {
                                 color: 'blue',
                                 radius: 4
                             }, true);
-                        }else if(feature.properties.enode == nodeArr[0]){
+                        }else if(nodeArr &&feature.properties.enode == nodeArr[0]){
                             this.layer._drawPoint(ctx, geom[geom.length-1][0], {
                                 color: 'blue',
                                 radius: 4
@@ -464,7 +464,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             tile: tile.options.context._tilePoint,
             zoom: zoom
         };
-        if (data.hasOwnProperty("properties")) {
+        if (data.hasOwnProperty("features")) {
             for (var i = 0, len = data.features.length; i < len; i++) {
                 var feature = data.features[i];
                 var geom = feature.geometry.coordinates;

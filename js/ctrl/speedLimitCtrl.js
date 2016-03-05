@@ -13,6 +13,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
+        $scope.changeDirect($scope.speedLimitData.direct);
     }
     if(objectEditCtrl.data){
         $scope.initializeData();
@@ -154,4 +155,34 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
 
         })
     }
+
+
+    //箭头方向
+    $scope.changeDirect = function (direct) {
+        map.currentTool = shapeCtrl.getCurrentTool();
+        map.currentTool.disable();
+        var containerPoint;
+        var point= {x:$scope.speedLimitData.geometry.coordinates[0][0], y:$scope.speedLimitData.geometry.coordinates[0][1]};
+        var pointVertex= {x:$scope.speedLimitData.geometry.coordinates[1][0], y:$scope.speedLimitData.geometry.coordinates[1][1]};
+        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        var marker = {
+            flag:true,
+            pid:$scope.speedLimitData.pid,
+            point: point,
+            type: "marker",
+            angle:angle,
+            orientation:direct.toString()
+        };
+        var editLayer = layerCtrl.getLayerById('edit');
+        layerCtrl.pushLayerFront('edit');
+        var sobj = shapeCtrl.shapeEditorResult;
+        editLayer.drawGeometry =  marker;
+        editLayer.draw( marker, editLayer);
+        sobj.setOriginalGeometry( marker);
+        sobj.setFinalGeometry(marker);
+        shapeCtrl.setEditingType("transformDirect");
+        shapeCtrl.startEditing();
+    };
 });

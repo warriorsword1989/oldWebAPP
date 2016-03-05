@@ -39,7 +39,7 @@ fastmap.uikit.SelectRdlane = (function () {
                                 this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDLANECONNEXITY'})
 
                                 if (this.redrawTiles.length != 0) {
-                                    this._cleanHeight();
+                                    this.cleanHeight();
                                 }
 
                                 this._drawHeight(id);
@@ -71,8 +71,9 @@ fastmap.uikit.SelectRdlane = (function () {
                 }
             },
             cleanHeight: function () {
+
                 this._cleanHeight();
-                //this._map.fire("getNodeId")
+
             }
             ,
 
@@ -81,80 +82,74 @@ fastmap.uikit.SelectRdlane = (function () {
              */
             _cleanHeight: function () {
 
-                for (var index in this.redrawTiles) {
-                    var data = this.redrawTiles[index].data;
-                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
-                    var ctx = {
-                        canvas: this.redrawTiles[index].options.context,
-                        tile: this.redrawTiles[index].options.context._tilePoint
-                        //, zoom: this._map.getZoom()
-                    }
-                    if (data.hasOwnProperty("features")) {
-                        for (var i = 0; i < data.features.length; i++) {
-                            var feature = data.features[i];
+                this._redraw();
+            },
 
-                            if (feature.properties.laneconnexityinfo === undefined) {
-                                return;
+            _redraw:function(){
+                this.redrawTiles = this.tiles;
+                for (var obj in this.tiles) {
+                    var data = this.tiles[obj].data.features;
+                    if(this.tiles[obj].options.context._layer.requestType == 'RDLANECONNEXITY' ){
+
+                        this.tiles[obj].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+
+                        for (var key in data) {
+
+                            var feature = data[key];
+                            var type = feature.geometry.type;
+                            var geom = feature.geometry.coordinates;
+
+                            var ctx = {
+                                canvas: this.tiles[obj].options.context,
+                                tile: L.point(key.split(',')[0], key.split(',')[1])
+
                             }
-                            var newstyle = "";
-                            var restrictObj = feature.properties.laneconnexityinfo;
-                            var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
-                            if (isNaN(route)) {
-                                route = 0;
-                            }
-                            var newgeom = [];
-                            if (restrictObj !== undefined) {
-                                if (restrictObj.length > 1) {
-                                    var restrictArr = restrictObj.split(",");
-                                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-                                        if (restrictArr[fact].constructor === Array) {
-                                            newstyle = {src: './css/laneinfo/arwF/' + restrictArr[fact][0] + '.png'};
+                            if (type == "Point") {
+                                if (feature.properties.laneconnexityinfo === undefined) {
+                                    break;
+                                }
+                                var newStyle = "", newGeom = [];
+                                var laneObj = feature.properties.laneconnexityinfo;
+                                var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
+                                var newgeom = [];
+                                if (laneObj !== undefined) {
+
+                                    var laneObjArr = laneObj.split(",");
+
+                                    for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
+                                        if (laneObjArr[fact].constructor === Array) {
+                                            newstyle = {src: './css/laneinfo/arwF/' + laneObjArr[fact][0] + '.png'};
                                         } else {
-                                            if (restrictArr[fact].indexOf("[") > -1) {
-                                                restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                                restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                                newstyle = {src: './css/laneinfo/extF/' + restrictArr[fact] + '.png'};
+                                            if (laneObjArr[fact].indexOf("[") > -1) {
+                                                newstyle = {src: './css/laneinfo/extF/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
 
-                                            } else if (restrictArr[fact].indexOf("<") > -1) {
-                                                restrictArr[fact] = restrictArr[fact].replace("<", "");
-                                                restrictArr[fact] = restrictArr[fact].replace(">", "");
-                                                newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact] + '.png'};
+                                            } else if (laneObjArr[fact].indexOf("<") > -1) {
+                                                newstyle = {src: './css/laneinfo/arwB/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
 
-                                            } else if (restrictArr[fact] != "9") {
-                                                newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
+                                            } else if (laneObjArr[fact] != "9") {
+                                                newstyle = {src: './css/laneinfo/arwG/' + laneObjArr[fact] + '.png'};
                                             }
+                                        }
+                                        if (newstyle.src === './css/laneinfo/extF/[.png') {
+                                            console.log("test");
                                         }
                                         if (fact > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 10;
                                             newgeom[1] = parseInt(geom[1]);
-                                            this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
                                         } else {
-                                            this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newstyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgbound(ctx, geom, newstyle, true, route);
                                         }
                                     }
-                                } else {
-                                    if (restrictObj.constructor === Array) {
-                                        newstyle = {src: './css/laneinfo/arwF/' + restrictArr[0] + '.png'};
-                                    } else {
-                                        if (restrictObj.indexOf("[") > -1) {
-                                            restrictObj = restrictObj.replace("[", "");
-                                            restrictObj = restrictObj.replace("]", "");
-                                            newstyle = {src: './css/laneinfo/extF/' + restrictObj + '.png'};
-
-                                        } else if (restrictObj.indexOf("<") > -1) {
-                                            restrictObj = restrictObj.replace("<", "");
-                                            restrictObj = restrictObj.replace(">", "");
-                                            newstyle = {src: './css/laneinfo/arwB/' + restrictObj + '.png'};
-
-                                        } else if (restrictObj != "9") {
-                                            newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
-                                        }
-                                    }
-                                    this._drawlaneImgRoute(ctx, geom, newstyle, true, route);
                                 }
+
                             }
+
                         }
                     }
+
                 }
             }
             ,
@@ -185,22 +180,39 @@ fastmap.uikit.SelectRdlane = (function () {
                                 }
                                 var newStyle = "", newGeom = [];
                                 var laneObj = feature.properties.laneconnexityinfo;
+                                var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
+                                var newgeom = [];
                                 if (laneObj !== undefined) {
 
                                     var laneObjArr = laneObj.split(",");
+
                                     for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-                                        if (laneObjArr[fact].indexOf("[") > -1) {
-                                            laneObjArr[fact] = laneObjArr[fact].replace("[", "");
-                                            laneObjArr[fact] = laneObjArr[fact].replace("]", "");
-                                        } else if (laneObjArr[fact].indexOf("[") > -1) {
-                                            laneObjArr[fact] = laneObjArr[fact].replace("<", "");
-                                            laneObjArr[fact] = laneObjArr[fact].replace(">", "");
+                                        if (laneObjArr[fact].constructor === Array) {
+                                            newstyle = {src: './css/laneinfo/arwF/' + laneObjArr[fact][0] + '.png'};
+                                        } else {
+                                            if (laneObjArr[fact].indexOf("[") > -1) {
+                                                newstyle = {src: './css/laneinfo/extF/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
+
+                                            } else if (laneObjArr[fact].indexOf("<") > -1) {
+                                                newstyle = {src: './css/laneinfo/arwB/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
+
+                                            } else if (laneObjArr[fact] != "9") {
+                                                newstyle = {src: './css/laneinfo/arwG/' + laneObjArr[fact] + '.png'};
+                                            }
                                         }
-
-                                        newStyle = {src: './css/limit/laneinfo/' + laneObjArr[fact] + '.png'};
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+                                        if (newstyle.src === './css/laneinfo/extF/[.png') {
+                                            console.log("test");
+                                        }
+                                        if (fact > 0) {
+                                            newgeom[0] = parseInt(geom[0]) + fact * 10;
+                                            newgeom[1] = parseInt(geom[1]);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
+                                            this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
+                                        } else {
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newstyle, true, route);
+                                            this.currentEditLayer._drawlaneImgbound(ctx, geom, newstyle, true, route);
+                                        }
                                     }
-
                                 }
 
                             }

@@ -54,14 +54,16 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
-        var layerPoint = event.layerPoint;
-        this.resetVertex(layerPoint);
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
+        if(this.snapHandler.snaped == true){
+            var layerPoint = event.layerPoint;
+            this.resetVertex(layerPoint);
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+        }
+
     },
 
     onMouseMove: function(event){
-        //this.container
-        //this.container.style.cursor = 'crosshair';
+
         this.snapHandler.setTargetIndex(0);
         var that = this;
         if(this.snapHandler.snaped == true){
@@ -79,7 +81,6 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     },
-    drawFeedBack: function(){},
 
     resetVertex:function(layerPoint){
 

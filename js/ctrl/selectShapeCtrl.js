@@ -14,6 +14,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
+    var editlayer = layerCtrl.getLayerById('edit');
     $scope.toolTipText = "";
 
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyCtrl, propertyTepl) {
@@ -214,8 +215,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         data.linepids = linepids;
                         data.nodeid = $scope.data.id;
                         objCtrl.setCurrentObject(data);
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
+                        if (objCtrl.nodeObjRefresh !== "") {
+                            objCtrl.nodeObjRefresh();
                         }
                         $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/nodeTepl/rdNodeFromTepl.html";
@@ -229,11 +230,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
-            //layerCtrl.pushLayerFront('restriction');
+
             map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
-            //restrict.options.selectType = 'relation';
-            //restrict.options.editable = true;
+
+            editlayer.bringToBack();
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择关系！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
