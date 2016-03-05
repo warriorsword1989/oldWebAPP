@@ -55,21 +55,6 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         {"id": "81", "label": "停车位引导道路"},
         {"id": "82", "label": "虚拟提左提右"}
     ];
-    for (var p in $scope.roadlinkData.forms) {
-        for (var s in $scope.fromOfWayOption) {
-            if ($scope.roadlinkData.forms[p].formOfWay == $scope.fromOfWayOption[s].id) {
-                $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
-            }
-        }
-    }
-    for (var typeNum = 0, typeLen = $scope.roadlinkData.speedlimits.length; typeNum < typeLen; typeNum++) {
-        if ($scope.roadlinkData.speedlimits[typeNum].speedType === 3) {
-            $scope.speedOfConLength++;
-        }
-    }
-    $scope.otherFromOfWay = [];
-    //初始化数据
-    initOrig($scope.newFromOfWRoadDate, $scope.fromOfWayOption, "fromOfWRoaddiv");
     //点击内容显示框时，关闭下拉，保存数据
     $("#fromOfWRoaddiv").click(function () {
         $("#fromOfWRoaddiv").popover('hide');
