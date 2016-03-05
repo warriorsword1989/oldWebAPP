@@ -4,7 +4,12 @@
 var formOfWayApp = angular.module("mapApp", []);
 formOfWayApp.controller("formOfWayController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.formsData = objCtrl.data.data.forms;
+    if(objCtrl.data.data) {
+        $scope.formsData = objCtrl.data.data.forms;
+    }else{
+        $scope.formsData = objCtrl.data.forms;
+    }
+
     $scope.fromOfWayOption = [
         {"id": "0", "label": "未调查","isCheck":false},
         {"id": "1", "label": "无属性","isCheck":false},
@@ -52,24 +57,23 @@ formOfWayApp.controller("formOfWayController",function($scope){
         for(var s in $scope.fromOfWayOption){
             if($scope.formsData[p].formOfWay==$scope.fromOfWayOption[s].id){
                 $scope.fromOfWayOption[s].isCheck=true;
-                $scope.formOfWayArr.push( $scope.fromOfWayOption[s]);
             }
         }
     }
     $scope.getCheck=function(item){
         item.isCheck=true;
-        $scope.formOfWayArr.push(item);
-        $('#fromOfWRoaddiv').html("");
-        initOrig($scope.formOfWayArr, $scope.fromOfWayOption, "fromOfWRoaddiv");
+        var obj = {};
+        obj.formOfWay = parseInt(item.id);
+        obj.linkPid = objCtrl.data.data.pid;
+        $scope.formsData.unshift(obj)
     }
 
     $scope.remove= function (item) {
         item.isCheck=false;
-        for(var p in $scope.formOfWayArr){
-            if($scope.formOfWayArr[p].formOfWay==item.id){
-                $scope.formOfWayArr.splice(p,1);
+        for(var p in $scope.formsData){
+            if($scope.formsData[p].formOfWay==item.id){
+                $scope.formsData.splice(p,1);
             }
         }
-        initOrig($scope.formOfWayArr, $scope.fromOfWayOption, "fromOfWRoaddiv");
     }
 })

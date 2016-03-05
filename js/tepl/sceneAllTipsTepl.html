@@ -103,7 +103,7 @@
         padding-left: 4px;
         padding-top: 6px;
         padding-bottom: 7px;
-        background-color: #fff;
+        /*background-color: #fff;*/
         opacity: 0.9;
         /*box-shadow: 4px 4px 7px 0px #777;*/
         min-width: 100%;
@@ -307,7 +307,7 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
                                     <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
-                                        <div ng-if="gItem.arwG!==null||gItem.arwG!==''">
+                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9">
                                             <img
                                                  ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png">
                                         </div>
@@ -320,7 +320,7 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
-                                        <div ng-if="bItem.arwB!==null||bItem.arwB!==''">
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9">
                                             <img
                                                  ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
                                         </div>
