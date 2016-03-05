@@ -62,8 +62,6 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
         var obj={};
         obj.auxiFlag=0;
         obj.formOfWay=item.id;
-        //obj.nodePid=$scope.rdNodeData.forms[0].nodePid;
-        //obj.rowId=$scope.rdNodeData.forms[0].rowId;
         $scope.rdNodeData.forms.push(obj);
         objectEditCtrl.nodeObjRefresh();
     }

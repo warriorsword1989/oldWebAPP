@@ -144,11 +144,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     /*改变当前箭头图的坐标位置*/
     $scope.changeArrowPosition = function(){
         var $picMapShow = $("#picMapShow");
-        if($scope.$parent.$parent.suspendFlag){
-            $picMapShow.css('right','595px');
-        }else{
-            $picMapShow.css('right','289px');
-        }
         $picMapShow.show();
     }
     /*点击选中的图片*/

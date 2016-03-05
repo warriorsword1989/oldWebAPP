@@ -1,43 +1,49 @@
 <style>
+
     .list-group-item {
         position: relative;
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        background-color: #000;
         border: 1px solid #ddd;
     }
 
     #namesOfCrossDiv {
-        background-color: #000;
         opacity: 1;
         padding: 10px 5px;
         width: 100%;
-        z-index: 20;
+        font-size: 12px;
     }
 
     #namesOfCrossDiv ul {
-        background-color: #000;
         list-style: none;
-        padding:5px;
         overflow: hidden;
+        padding:5px;
     }
 
     #namesOfCrossDiv ul > li {
-        background-color: #000;
+        background-color: transparent;
     }
 
     #namesOfCrossDiv ul > li > div > input {
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width:130px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
-    #rdCrossDiv ul > li > div > select {
+    #namesOfCrossDiv ul > li > div > select {
         color: #F3F6FA;
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+        width: 130px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #namesOfCrossDiv ul > li > div:first-child {
@@ -57,8 +63,8 @@
 
     .inline {
         display: inline-block !important;
-        /*width: 70%;*/
         text-align: left;
+        width: 130px !important;
     }
 
     .m-b-none {
