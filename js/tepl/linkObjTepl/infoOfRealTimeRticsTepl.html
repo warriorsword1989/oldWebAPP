@@ -37,7 +37,7 @@
         color: #F3F6FA;
         background-color: #000;
         border: none;
-        width: 100px;
+        border-radius: 4px;
     }
 
     #oridinaryRticsDiv ul > li > div > select {
@@ -46,11 +46,13 @@
         margin-left: -3px;
         border: 1px none;
         width: 170px;
+        border-radius: 4px;
     }
 
     #oridinaryRticsDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
+        padding-top: 3px;
     }
 
     #oridinaryRticsDiv ul > li > label {
@@ -67,6 +69,7 @@
         display: inline-block !important;
         /*width: 70%;*/
         text-align: left;
+        padding-top: 5px;
     }
 
     .m-b-none {
@@ -131,8 +134,8 @@
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div><label class="control-label">RTIC代码</label></div>
-            <div class="inline"><input type="text" ng-model="oridiData.code" readonly/>
-                <button type="submit" class="btn btn-xs">新增</button>
+            <div class="inline"><input style="width:148px;" type="text" ng-model="oridiData.code" readonly/>
+                    <span class="glyphicon glyphicon-plus" style="cursor: pointer;margin-left: 3px;color:#FFF;"></span>
             </div>
         </li>
         <li class="list-group-item">

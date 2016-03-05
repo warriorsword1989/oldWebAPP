@@ -54,6 +54,7 @@
     #zoneProperDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
+        padding-top: 4px;
     }
 
     #zoneProperDiv ul > li > label {
@@ -112,7 +113,6 @@
                             <!--<button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="urbanbtn0" ng-click="checkurban(0)" ng-model="zoneData.urban">否</button>-->
                             <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="urbanbtn1" ng-click="checkurban(1)" ng-model="zoneData.urban">是</button>-->
                         <!--</div>-->
-                        <div class="radio">
                             <label>
                                 <input type="radio" name="urbanRadio" value="0" ng-model="zoneData.urban">
                                 否
@@ -121,7 +121,6 @@
                                 <input type="radio" name="urbanRadio" value="1" ng-model="zoneData.urban">
                                 是
                             </label>
-                        </div>
                     </div>
                 </li>
                 <!--<div class="form-group">-->
@@ -172,7 +171,7 @@
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div  class="inline" style="text-align: left;width: 120px;">
-                    zone（共<span ng-if="zoneData!=undefined">{{zoneData.zones.length}}</span>条）
+                <a  style="cursor: pointer;color:#FFF;">zone（共<span ng-if="zoneData!=undefined">{{zoneData.zones.length}}</span>条）</a>
             </div>
         </li>
     </ul>
