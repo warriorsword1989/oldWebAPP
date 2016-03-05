@@ -307,6 +307,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 function appInit(){
     map = L.map('map',{
         attributionControl: false,
+        doubleClickZoom:false,
         zoomControl:false
     }).setView([40.012834, 116.476293], 17);
     /*增加比例尺*/
