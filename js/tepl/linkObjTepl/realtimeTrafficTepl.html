@@ -1,5 +1,12 @@
 
 <style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        /*background-color: transparent;*/
+        margin-right: 0px;
+    }
     .list-group-item {
         position: relative;
         display: block;
@@ -69,8 +76,8 @@
     </ul>
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="item in rticData.intRtics">
-            <div ng-click="showRticsInfo(item)"><label class="control-label">{{item.code}}</label>
-                <span class="glyphicon glyphicon-remove-sign" style="float: right;color: darkgray;float: right;padding: 4px;" ng-click="minusIntRtic($index)"></span>
+            <div ng-click="showRticsInfo(item)"><label style="padding-top: 5px;" class="control-label">{{item.code}}</label>
+                <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;" ng-click="minusIntRtic($index)"></span>
             </div>
         </li>
     </ul>
@@ -84,8 +91,8 @@
     </ul>
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="cItem in linkData.rtics">
-            <div ng-click="showCarInfo(cItem)"><label class="control-label">{{cItem.code}}</label>
-                <span class="glyphicon glyphicon-remove-sign" style="float: right;color: darkgray;float: right;padding: 4px;" ng-click="minusCarRtic($index)"></span>
+            <div ng-click="showCarInfo(cItem)"><label style="padding-top: 5px;" class="control-label">{{cItem.code}}</label>
+                <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;" ng-click="minusCarRtic($index)"></span>
             </div>
         </li>
     </ul>
