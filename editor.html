@@ -80,7 +80,7 @@
                     </div>
                 </div>
 
-                <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]" style="overflow: hidden;">
+                <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]" style="overflow: hidden;transition:all 0.3s ease-out;">
                     <div ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]">
                         <a class="fm-panel-controlArrowLeftAndRight" ng-click="changeWidthOfPanel()" href="#"
                            style="position: absolute;top: 50%;margin-top: -20px;cursor: pointer;">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-class="{'fm-out-error':outErrorArr[0],'fm-out-error-sx':outErrorArr[1],'fm-out-error-xl':outErrorArr[2],'fm-out-error-xl-sx':outErrorArr[3]}" style="overflow: hidden;">
+                <div ng-class="{'fm-out-error':outErrorArr[0],'fm-out-error-sx':outErrorArr[1],'fm-out-error-xl':outErrorArr[2],'fm-out-error-xl-sx':outErrorArr[3]}" style="overflow: hidden;transition:all 0.3s ease-out;">
                     <div style="text-align: center;margin-top: -15px;width: 100%;cursor: pointer;height: 15px;">
                         <a class="fm-panel-controlArrowUpAndDown" ng-click="changeOutOrErrorStyle()"><span></span></a>
                     </div>
