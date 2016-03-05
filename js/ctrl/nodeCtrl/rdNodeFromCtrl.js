@@ -156,7 +156,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             swal("操作失败", '沒有做任何操作', "error");
             reutrn;
         }
-        if(objectEditCtrl.changedProperty.forms.length > 0){
+        if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
             $.each(objectEditCtrl.changedProperty.forms,function(i,v){
                 if(v.linkPid || v.pid){
                     delete v.linkPid;

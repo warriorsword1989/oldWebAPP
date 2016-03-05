@@ -1,0 +1,86 @@
+<style>
+    .split-line{
+        border-top: 1px solid #fff;
+        margin-left: -8px;
+        margin-right: -8px;
+        margin-top: 3px;
+    }
+    /* 公用详细信息样式 */
+    .detail-info-title{
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    .detail-info-box{
+        border-radius: 3px;
+        border:1px solid #fff;
+        float: left;
+        font-size: 12px;
+        padding: 8px;
+        width: 100%;
+        background-color: #555;
+    }
+    .info-head-well{
+        margin-right: -15px;
+        margin-left: -15px;
+        border-bottom: 1px solid #ddd;
+        padding-left: 15px;
+        border-top-right-radius: 4px;
+        color: #fff;
+        border-top-left-radius: 4px;
+    }
+    .d-name{
+        float: left;
+        width: 30%;
+        text-align: right;
+        color: #fff;
+    }
+    .d-value{
+        float: left;
+        width: 69%;
+        color: #fff;
+    }
+    .d-input{
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+        width: 100%;
+        border-radius: 3px;
+        color: #fff;
+    }
+    .d-group{
+        margin-top:3px;
+        float: left;
+        width: 100%;
+    }
+    .d-title{
+        float: left;
+    }
+    .d-radio-btn>label{
+        height: 20px !important;
+        line-height: 8px !important;
+        border: 1px solid #FFF !important;
+        padding-top: 4px;
+    }
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+</style>
+<div id="braPasslineDiv" class="detail-info-box" ng-controller="BraPasslineCtrl">
+    <div class="detail-info-title">
+    经过线 （共 <span ng-bind="vias.length">0</span> 条）
+    </div>
+    <div class="col-sm-12" ng-repeat="item in vias">
+        <div class="clearfix"></div>
+        <div class="split-line"></div>
+        <div class="d-group">
+            <div class="d-name">序号：</div>
+            <div class="d-value" ng-bind="item.seqNum"></div> 
+        </div>
+        <div class="d-group">
+            <div class="d-name">Link号码：</div>
+            <div class="d-value" ng-bind="item.linkPid"></div> 
+        </div>
+    </div>
+</div>

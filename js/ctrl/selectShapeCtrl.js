@@ -14,6 +14,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
+    var editlayer = layerCtrl.getLayerById('edit');
     $scope.toolTipText = "";
 
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyCtrl, propertyTepl) {
@@ -229,11 +230,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         else if (type === "relation") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.changeBtnClass(num);
-            //layerCtrl.pushLayerFront('restriction');
+
             map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
-            //restrict.options.selectType = 'relation';
-            //restrict.options.editable = true;
+
+            editlayer.bringToBack();
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择关系！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
@@ -292,9 +293,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             //if (objCtrl.updateRdCross !== "") {
                             //    objCtrl.updateRdCross();
                             //}
-                            $ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
+                            /*$ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
-                            })
+                            })*/
+                            $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                            });
                             break;
                     }
 
@@ -420,11 +424,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 }
                                 break;
                             case "1407":
-                                $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
+                                /*$ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
                                     $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
                                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                                     });
+                                });*/
+                                $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
                                 });
                                 objCtrl.setCurrentObject(data.brID);
                                 break;

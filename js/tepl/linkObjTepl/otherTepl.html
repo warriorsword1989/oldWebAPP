@@ -4,31 +4,34 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        /*background-color: #000;*/
         border: 1px solid #ddd;
     }
 
     #otherDiv {
-        /*background-color: #000;*/
         opacity: 1;
         width: 100%;
     }
 
     #otherDiv ul {
-        /*background-color: #000;*/
         list-style: none;
-        /*padding:5px;*/
         overflow: hidden;
     }
 
     #otherDiv ul > li {
         background-color: transparent;
+        border-right: none;
+        border-left: none;
     }
 
-    #otherDiv ul > li > div > input {
+    #otherDiv ul > li > div > input[type='text'] {
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width: 170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #otherDiv ul > li > div > select {
@@ -36,6 +39,9 @@
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+        width: 160px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #otherDiv ul > li > div:first-child {
@@ -255,7 +261,7 @@
             <div class="inline">
                 <input id="difGroupIdText" type="text" value="0" style="width:40px"
                        ng-model="roadlinkData.difGroupId">
-               <button type="button" class="btn btn-default btn-xs" ng-click="qkdifGroupId()">清空
+               <button type="button" class="btn btn-default btn-xs" ng-click="qkdifGroupId()" style="width: 50px">清 空
                 </button>
             </div>
         </li>
@@ -303,276 +309,11 @@
             </div>
         </li>
         <li class="list-group-item">
-            <div><label class="control-label"></label>道路形态</div>
+            <div><label class="control-label">道路形态</label></div>
             <div class="inline">
-                <input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-model="checkValue">允许
-                <a    ng-click="showPopover">添加</a>
+                <label ng-click="addFormOfWay()">编辑</label>
             </div>
         </li>
     </ul>
-    <div  id="fromOfWRoaddiv"
-          style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;word-break: break-all;word-wrap: break-word;"
-          tabindex="0" role="button" data-toggle="popover"  title="道路形态">
-    </div>
-    <!--<div class="panel-group" id="normalProperty" style="margin: 0px;">-->
-        <!--<div class="panel panel-default">-->
-            <!--<div class="panel-body" style="overflow-y: auto;">-->
-                <!--<div class="list-group">-->
-                    <!--<div class="list-group-item">-->
-                        <!--<form class="form-horizontal" method="get">-->
-                            <!--<div class="panel-group" id="zoneLeftOrRight" style="margin: 0px;">-->
-                                <!--<div class="panel panel-default">-->
-                                    <!--<div class="panel-heading">-->
-                                        <!--<h4 class="panel-title">-->
-                                            <!--普通限速 共（<span ng-if="roadlinkData!=undefined">{{speedOfPopLength}}</span>）个-->
-                                            <!--<a data-toggle="collapse" data-parent="#accordion"-->
-                                               <!--href="#ptOrRightDiv">-->
-                                                <!--<span class="glyphicon glyphicon-chevron-down"-->
-                                                      <!--style="float: left"></span>-->
-                                            <!--</a>-->
-                                             <!--<span class="glyphicon glyphicon-plus" style="float: right;color:darkgray;"-->
-                                                   <!--ng-click="changeSpeedAndDirect(roadlinkData.direct,100000)"></span>-->
-                                        <!--</h4>-->
-                                    <!--</div>-->
-                                    <!--<div id="ptOrRightDiv" class="panel-collapse collapse in">-->
-                                        <!--<div class="panel-body">-->
-                                            <!--<div class="list-group" ng-repeat="speeditem in roadlinkData.speedlimits">-->
-                                                <!--<div ng-if="speeditem.speedType===0">-->
-                                                    <!--<div class="list-group-item">-->
-                                                        <!--<form class="form-horizontal" method="get">-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">限速类型</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="speeditem.speedType"-->
-                                                                            <!--ng-options="value.id as value.label for value in speedTypeOption">-->
-                                                                        <!--<option>--</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">顺向限速</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<input type="text" class="form-control"-->
-                                                                           <!--placeholder="0530" id="fromSpeed"-->
-                                                                           <!--ng-model="speeditem.fromSpeedLimit">-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">逆向限速</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<input type="text" class="form-control"-->
-                                                                           <!--placeholder="0530" id="toSpeed"-->
-                                                                           <!--ng-model="speeditem.toSpeedLimit">-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">顺向限速来源</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="speeditem.fromLimitSrc"-->
-                                                                            <!--ng-options="value.id as value.label for value in fromLimitSrcOption">-->
-                                                                        <!--<option>--</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">逆向限速来源</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="speeditem.toLimitSrc"-->
-                                                                            <!--ng-options="value.id as value.label for value in fromLimitSrcOption">-->
-                                                                        <!--<option>--</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">等级赋值</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<div class="btn-group"-->
-                                                                         <!--id="speedClassWorkdiv{{$index}}"-->
-                                                                         <!--style="border-radius: 10px;border: 1px solid #2aabd2;  ">-->
-                                                                    <!--<span ng-if="speeditem.speedClassWork==0">-->
-                                                                        <!--<button class="btn btn-primary"-->
-                                                                                <!--style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;"-->
-                                                                                <!--id="speedClassWorkbtn0_{{$index}}"-->
-                                                                                <!--ng-click="checkspeedClassWork(0,speeditem,$index)"-->
-                                                                                <!--ng-model="speeditem.speedClassWork">手工-->
-                                                                        <!--</button>-->
-                                                                        <!--<button class="btn btn-default"-->
-                                                                                <!--style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;"-->
-                                                                                <!--id="speedClassWorkbtn1_{{$index}}"-->
-                                                                                <!--ng-click="checkspeedClassWork(1,speeditem,$index)"-->
-                                                                                <!--ng-model="speeditem.speedClassWork">程序-->
-                                                                        <!--</button>-->
-                                                                    <!--</span>-->
-                                                                     <!--<span ng-if="speeditem.speedClassWork==1">-->
-                                                                         <!--<button class="btn btn-default"-->
-                                                                                 <!--style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;"-->
-                                                                                 <!--id="speedClassWorkbtn0_{{$index}}"-->
-                                                                                 <!--ng-click="checkspeedClassWork(0,speeditem,$index)"-->
-                                                                                 <!--ng-model="speeditem.speedClassWork">手工-->
-                                                                         <!--</button>-->
-                                                                         <!--<button class="btn btn-primary"-->
-                                                                                 <!--style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;"-->
-                                                                                 <!--id="speedClassWorkbtn1_{{$index}}"-->
-                                                                                 <!--ng-click="checkspeedClassWork(1,speeditem,$index)"-->
-                                                                                 <!--ng-model="speeditem.speedClassWork">程序-->
-                                                                         <!--</button>-->
-                                                                    <!--</span>-->
-                                                                    <!--</div>-->
-                                                                    <!--&lt;!&ndash;<div class="radio">&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;<label>&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;<input type="radio" name="speedClassWordRadio" value="0"&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;ng-model="speeditem.speedClassWork">&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;手工&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;</label>&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;<label>&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;<input type="radio" name="speedClassWordRadio" value="1"&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;ng-model="speeditem.speedClassWork">&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;程序&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;</label>&ndash;&gt;-->
-                                                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                        <!--</form>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-
-                                            <!--</div>-->
-                                        <!--</div>-->
-
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="panel-group" id="loadProperty" style="margin: 0px;">-->
-                                <!--<div class="panel panel-default">-->
-                                    <!--<div class="panel-heading">-->
-                                        <!--<h4 class="panel-title">-->
-                                            <!--条件限速 共（<span ng-if="roadlinkData!=undefined"> {{speedOfConLength}}</span>）个-->
-                                            <!--<a data-toggle="collapse" data-parent="#accordion"-->
-                                               <!--href="#tjOrRightDiv">-->
-                                                <!--<span class="glyphicon glyphicon-chevron-down"-->
-                                                      <!--style="float: left"></span>-->
-                                            <!--</a>-->
-                                                <!--<span class="glyphicon glyphicon-plus"-->
-                                                      <!--style="float: right;color:darkgray;"-->
-                                                      <!--ng-click="addSpeedLimit()"></span>-->
-                                        <!--</h4>-->
-                                    <!--</div>-->
-                                    <!--<div id="tjOrRightDiv" class="panel-collapse collapse in">-->
-                                        <!--<div class="panel-body">-->
-                                            <!--<div class="list-group" ng-repeat="item in roadlinkData.speedlimits">-->
-                                                <!--<div ng-if="item.speedType===3">-->
-                                                    <!--<div class="list-group-item">-->
-                                                        <!--<form class="form-horizontal" method="get">-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">限速类型</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="item.speedType"-->
-                                                                            <!--ng-options="value.id as value.label for value in speedTypeOption">-->
-                                                                        <!--<option>--</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                                <!--<span class="glyphicon glyphicon-remove-sign"-->
-                                                                      <!--style="float: right;color: darkgray;margin-top: -45px"-->
-                                                                      <!--ng-click="minusSpeedlimit($index)"></span>-->
-                                                                  <!--<span class="glyphicon glyphicon-remove-sign"-->
-                                                                        <!--style="float: left;color: darkgray;margin-top: -45px"-->
-                                                                        <!--ng-click="changeSpeedAndDirect(roadlinkData.direct,item.rowid)"></span>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">限速条件</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="item.speedDependent"-->
-                                                                            <!--ng-options="value.id as value.label for value in speedDependentOption">-->
-                                                                        <!--<option>--</option>-->
-
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">顺向限速</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<input type="text" class="form-control"-->
-                                                                           <!--placeholder="0530" id="{{item.rowid}}fromSpeedLimit"-->
-                                                                           <!--ng-model="item.fromSpeedLimit">-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">逆向限速</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<input type="text" class="form-control"-->
-                                                                           <!--placeholder="0530" id="{{item.rowid}}toSpeedLimit"-->
-                                                                           <!--ng-model="item.toSpeedLimit">-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">顺向限速来源</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="item.fromLimitSrc"-->
-                                                                            <!--ng-options="value.id as value.label for value in fromLimitSrcOption">-->
-                                                                        <!--<option>--</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">逆向限速来源</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<select class="form-control"-->
-                                                                            <!--ng-model="item.toLimitSrc"-->
-                                                                            <!--ng-options="value.id as value.label for value in fromLimitSrcOption">-->
-                                                                        <!--<option>--</option>-->
-                                                                    <!--</select>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                            <!--<div class="form-group">-->
-                                                                <!--<label class="col-sm-4 control-label">时间段</label>-->
-
-                                                                <!--<div class="col-sm-8">-->
-                                                                    <!--<div class="row">-->
-                                                                        <!--<div class="col-sm-5">-->
-                                                                            <!--<input type="text" class="form-control"-->
-                                                                                   <!--ng-model="item.timeDomain">-->
-                                                                        <!--</div>-->
-                                                                        <!--<div class="col-sm-5">-->
-                                                                            <!--<button type="submit"-->
-                                                                                    <!--class="btn btn-default">时间控件-->
-                                                                            <!--</button>-->
-                                                                        <!--</div>-->
-                                                                    <!--</div>-->
-                                                                <!--</div>-->
-                                                            <!--</div>-->
-                                                        <!--</form>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</form>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
 

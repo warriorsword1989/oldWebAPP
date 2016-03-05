@@ -67,69 +67,59 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
         this.overlays=[];
+        var  frs = null;
         for(var layer in this.currentEditLayers){
 
             this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
 
-            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data == undefined){
+            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 return;
             }
 
-            var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
+                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
+                for (var item in data) {
+                    if(this.currentEditLayers[layer].requestType =='RDCROSS'){
 
-            var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                        for (var key in data[item].geometry.coordinates) {
+                            if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
+                                this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                            }
+                        }
+                    }else{
+                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
 
-            var id = null;
-            for (var item in data) {
-                if(this.currentEditLayers[layer].requestType =='RDCROSS'){
-
-                    for (var key in data[item].geometry.coordinates) {
-                        if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
                             this.overlays.push({layer:this.currentEditLayers[layer],data:data});
                         }
                     }
-                }else{
-                    if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
 
-
-                        this.overlays.push({layer:this.currentEditLayers[layer],data:data});
-                    }
                 }
-
-
             }
-            var id = null;
+
        }
         if(this.overlays.length == 1){
             switch (this.overlays[0].layer.requestType) {
 
                 case'RDRESTRICTION':
-                    var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs= new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDLANECONNEXITY":
-                    var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDSPEEDLIMIT":
-                    var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDCROSS":
-                    var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
                 case "RDBRANCH":
-                    var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
-                    frs.tiles = this.tiles;
-                    frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+                    frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
                     break;
             }
+            frs.tiles = this.tiles;
+            frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
         }else if (this.overlays.length > 1){
             var html = '<ul style="list-style:none;padding: 0px" id="layerpopup">';
 
@@ -161,32 +151,23 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         switch (e.target.id) {
 
                             case'RDRESTRICTION':
-                                var  frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDLANECONNEXITY":
-                                var  frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDSPEEDLIMIT":
-                                var  frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDCROSS":
-                                var  frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
                                 break;
                             case "RDBRANCH":
-                                var  frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
-                                frs.tiles = that.tiles;
-                                frs.drawGeomCanvasHighlight(event, d);
+                                frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
                                 break;
                         }
-
+                        frs.tiles = that.tiles;
+                        frs.drawGeomCanvasHighlight(event, d);
                     }
 
                 }
@@ -226,153 +207,154 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         } else {
             return 0;
         }
-    },
-    cleanHeight: function () {
-        this._cleanHeight();
-    },
-
-    /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
-     *清除高亮
-     */
-    _cleanHeight: function () {
-
-        for (var index in this.redrawTiles) {
-            var data = this.redrawTiles[index].data;
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
-            var ctx = {
-                canvas: this.redrawTiles[index].options.context,
-                tile: this.redrawTiles[index].options.context._tilePoint,
-                zoom: this._map.getZoom()
-            }
-            if (data.hasOwnProperty("features")) {
-                for (var i = 0; i < data.features.length; i++) {
-                    var feature = data.features[i];
-                    if (feature.properties.restrictioninfo === undefined) {
-                        break;
-                    }
-                    var newStyle="", newGeom=[];
-                    var restrictObj = feature.properties.restrictioninfo;
-                    var geom = feature.geometry.coordinates;
-                    if (restrictObj !== undefined) {
-                        if (restrictObj.constructor === Array) {
-                            for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                newStyle= {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                if (theory > 0) {
-                                    newGeom[0]=(parseInt(geom[0]) + theory*16);
-                                    newGeom[1]=(parseInt(geom[1]));
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                }else{
-                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                }
-                            }
-                        } else {
-                            var restrictArr = restrictObj.split(",");
-                            for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                if (restrictArr[fact].constructor === Array) {
-                                    newStyle= {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-
-                                } else {
-                                    if(restrictArr[fact].indexOf("[")>-1){
-                                        restrictArr[fact]=restrictArr[fact].replace("[","");
-                                        restrictArr[fact]=restrictArr[fact].replace("]","");
-                                        newStyle= {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                    }else{
-                                        newStyle= {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
-                                    }
-
-                                }
-                                if(fact>0){
-                                    newGeom[0]=(parseInt(geom[0]) + fact*16);
-                                    newGeom[1]=(parseInt(geom[1]));
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                }else{
-                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-            }
-        }
     }
-    ,
+    //,
+    //cleanHeight: function () {
+    //    this._cleanHeight();
+    //},
+    //
+    ///***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
+    // *清除高亮
+    // */
+    //_cleanHeight: function () {
+    //
+    //    for (var index in this.redrawTiles) {
+    //        var data = this.redrawTiles[index].data;
+    //        this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+    //        var ctx = {
+    //            canvas: this.redrawTiles[index].options.context,
+    //            tile: this.redrawTiles[index].options.context._tilePoint,
+    //            zoom: this._map.getZoom()
+    //        }
+    //        if (data.hasOwnProperty("features")) {
+    //            for (var i = 0; i < data.features.length; i++) {
+    //                var feature = data.features[i];
+    //                if (feature.properties.restrictioninfo === undefined) {
+    //                    break;
+    //                }
+    //                var newStyle="", newGeom=[];
+    //                var restrictObj = feature.properties.restrictioninfo;
+    //                var geom = feature.geometry.coordinates;
+    //                if (restrictObj !== undefined) {
+    //                    if (restrictObj.constructor === Array) {
+    //                        for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+    //                            newStyle= {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+    //                            if (theory > 0) {
+    //                                newGeom[0]=(parseInt(geom[0]) + theory*16);
+    //                                newGeom[1]=(parseInt(geom[1]));
+    //                                this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+    //                            }else{
+    //                                this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+    //                            }
+    //                        }
+    //                    } else {
+    //                        var restrictArr = restrictObj.split(",");
+    //                        for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+    //
+    //                            if (restrictArr[fact].constructor === Array) {
+    //                                newStyle= {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+    //
+    //                            } else {
+    //                                if(restrictArr[fact].indexOf("[")>-1){
+    //                                    restrictArr[fact]=restrictArr[fact].replace("[","");
+    //                                    restrictArr[fact]=restrictArr[fact].replace("]","");
+    //                                    newStyle= {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+    //                                }else{
+    //                                    newStyle= {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
+    //                                }
+    //
+    //                            }
+    //                            if(fact>0){
+    //                                newGeom[0]=(parseInt(geom[0]) + fact*16);
+    //                                newGeom[1]=(parseInt(geom[1]));
+    //                                this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+    //                            }else{
+    //                                this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+    //                            }
+    //                        }
+    //                    }
+    //
+    //                }
+    //
+    //            }
+    //        }
+    //    }
+    //}
+    //
     /***
      * 绘制高亮
      * @param id
      * @private
      */
-    _drawHeight: function (id) {
-        this.redrawTiles = this.tiles;
-        for (var obj in this.tiles) {
-            var data = this.tiles[obj].data.features;
-
-            for (var key in data) {
-
-                var feature = data[key];
-                var type = feature.geometry.type;
-                var geom = feature.geometry.coordinates;
-                if (data[key].properties.id == id) {
-                    var ctx = {
-                        canvas: this.tiles[obj].options.context,
-                        tile: L.point(key.split(',')[0], key.split(',')[1]),
-                        zoom: this._map.getZoom()
-                    }
-                    if (type == "Point") {
-                        if (feature.properties.restrictioninfo === undefined) {
-                            break;
-                        }
-                        var newStyle="", newGeom=[];
-                        var restrictObj = feature.properties.restrictioninfo;
-                        if (restrictObj !== undefined) {
-                            if (restrictObj.constructor === Array) {
-                                for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyle= {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                                    if (theory > 0) {
-                                        newGeom[0]=(parseInt(geom[0]) + theory*16);
-                                        newGeom[1]=(parseInt(geom[1]));
-                                        this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    }else{
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                    }
-
-                                }
-                            } else {
-                                var restrictArr = restrictObj.split(",");
-                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                    if (restrictArr[fact].constructor === Array) {
-                                        newStyle= {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
-                                    } else {
-                                        if(restrictArr[fact].indexOf("[")>-1){
-                                            restrictArr[fact]=restrictArr[fact].replace("[","");
-                                            restrictArr[fact]=restrictArr[fact].replace("]","");
-                                            newStyle= {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
-                                        }else{
-                                            newStyle= {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
-                                        }
-                                    }
-                                    if(fact>0){
-                                        newGeom[0]=(parseInt(geom[0]) + fact*16);
-                                        newGeom[1]=(parseInt(geom[1]));
-                                        this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                    }else{
-                                        this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                    }
-
-                                }
-                            }
-
-                        }
-
-
-                    }
-                }
-            }
-        }
-
-
-    }
+    //_drawHeight: function (id) {
+    //    this.redrawTiles = this.tiles;
+    //    for (var obj in this.tiles) {
+    //        var data = this.tiles[obj].data.features;
+    //
+    //        for (var key in data) {
+    //
+    //            var feature = data[key];
+    //            var type = feature.geometry.type;
+    //            var geom = feature.geometry.coordinates;
+    //            if (data[key].properties.id == id) {
+    //                var ctx = {
+    //                    canvas: this.tiles[obj].options.context,
+    //                    tile: L.point(key.split(',')[0], key.split(',')[1]),
+    //                    zoom: this._map.getZoom()
+    //                }
+    //                if (type == "Point") {
+    //                    if (feature.properties.restrictioninfo === undefined) {
+    //                        break;
+    //                    }
+    //                    var newStyle="", newGeom=[];
+    //                    var restrictObj = feature.properties.restrictioninfo;
+    //                    if (restrictObj !== undefined) {
+    //                        if (restrictObj.constructor === Array) {
+    //                            for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+    //                                newStyle= {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+    //                                if (theory > 0) {
+    //                                    newGeom[0]=(parseInt(geom[0]) + theory*16);
+    //                                    newGeom[1]=(parseInt(geom[1]));
+    //                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+    //                                }else{
+    //                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+    //                                }
+    //
+    //                            }
+    //                        } else {
+    //                            var restrictArr = restrictObj.split(",");
+    //                            for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+    //
+    //                                if (restrictArr[fact].constructor === Array) {
+    //                                    newStyle= {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+    //                                } else {
+    //                                    if(restrictArr[fact].indexOf("[")>-1){
+    //                                        restrictArr[fact]=restrictArr[fact].replace("[","");
+    //                                        restrictArr[fact]=restrictArr[fact].replace("]","");
+    //                                        newStyle= {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+    //                                    }else{
+    //                                        newStyle= {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
+    //                                    }
+    //                                }
+    //                                if(fact>0){
+    //                                    newGeom[0]=(parseInt(geom[0]) + fact*16);
+    //                                    newGeom[1]=(parseInt(geom[1]));
+    //                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+    //                                }else{
+    //                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+    //                                }
+    //
+    //                            }
+    //                        }
+    //
+    //                    }
+    //
+    //
+    //                }
+    //            }
+    //        }
+    //    }
+    //
+    //
+    //}
 });

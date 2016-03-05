@@ -103,7 +103,7 @@
         padding-left: 4px;
         padding-top: 6px;
         padding-bottom: 7px;
-        background-color: #fff;
+        /*background-color: #fff;*/
         opacity: 0.9;
         /*box-shadow: 4px 4px 7px 0px #777;*/
         min-width: 100%;
@@ -307,7 +307,7 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
                                     <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
-                                        <div ng-if="gItem.arwG!==null||gItem.arwG!==''">
+                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9">
                                             <img
                                                  ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png">
                                         </div>
@@ -320,7 +320,7 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
-                                        <div ng-if="bItem.arwB!==null||bItem.arwB!==''">
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9">
                                             <img
                                                  ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
                                         </div>
@@ -540,20 +540,19 @@
                             </div>
                         </div>
 
-                        <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;" ng-if="allTipsType!=1302&&allTipsType!=1301">
-                            <div class="col-sm-3" style="padding:5px;">
+                        <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;" ng-if="allTipsType!=1302">
+                            <div class="col-sm-4" style="padding:5px;">
                                 <button type="button" class="btn btn-xs "
-                                        ng-show="allTipsType==2001||allTipsType==1201" >
+                                        ng-show="allTipsType==2001||allTipsType==1201||allTipsType!=1301" >
                                     <a href="#" data-toggle="tab" ng-click="transBridge($event)" style="font-size: 10px;">转数据</a>
                                 </button>
                             </div>
-                            <div class="col-sm-5" style="padding:5px;">
-                                <button type="button" class="btn btn-xs " ng-hide="allTipsType==2001||allTipsType==1201"
-                                        ng-hide="allTipsType==1201" >
+                            <div class="col-sm-4" style="padding:5px;">
+                                <button type="button" class="btn btn-xs " ng-hide="allTipsType==2001||allTipsType==1201">
                                     <a href="#" data-toggle="tab" ng-click="upBridgeStatus(nArrayData[0],$event)" style="font-size: 10px;">改状态</a>
                                 </button>
                             </div>
-                            <div class="col-sm-3" style="padding:5px;">
+                            <div class="col-sm-4" style="padding:5px;">
                                 <button type="button" class="btn btn-xs ">
                                     <a href="#" data-toggle="tab" ng-click="closeTips()" style="font-size: 10px;">关 闭</a>
                                 </button>

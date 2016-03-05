@@ -17,9 +17,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
     $scope.toolsFlag = true;
-    $scope.panelFlag = false;
+    $scope.panelFlag = false;//panelFlag属性面板状态
     $scope.outErrorArr=[false,false,false,true] ;
-    $scope.arrowFlag = true;
+    $scope.arrowFlag = true;//属性面板折叠按钮状态
     $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
     $scope.suspendFlag = false;
@@ -110,6 +110,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
+
         } else if (tab === "errorCheck") {
             $("#lierror").addClass("selected");
             $("#liout").removeClass("selected");
@@ -123,17 +124,24 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                 }
             );
 
+
         }else if(tab==="getCheck"){
+            $scope.isActiveOutError[1]=true;
+            $scope.isActiveOutError[0]=false;
+            $scope.notActiveOutError[1]=false;
+            $scope.notActiveOutError[0]=true;
             $("#fm-error-checkErrorLi").show();
-            if( $scope.itemsByPage==1){
+            //if( $scope.itemsByPage==1){
                 $scope.rowCollection=[];
+                $scope.itemsByPage=1;
                 $scope.getCheckDateAndCount();
-            }
+            //}
             $("#fm-error-wrongDiv").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
             );
+
 
 
 
@@ -270,12 +278,26 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         $scope.panelFlag = !$scope.panelFlag;
         $scope.arrowFlag = !$scope.arrowFlag;
         $scope.objectFlag = !$scope.objectFlag;
-        $scope.outErrorFlag = !$scope.outErrorFlag;
-        if($scope.outErrorArr[0]===true||$scope.outErrorArr[2]===true) {
-            $scope.outErrorArr[0] = !$scope.outErrorArr[0];
-            $scope.outErrorArr[2] = !$scope.outErrorArr[2];
+        if($scope.panelFlag){
+            if($scope.outErrorArr[2]){
+                $scope.outErrorArr[2]=false;
+                $scope.outErrorArr[0]=true;
+            }
+            if($scope.outErrorArr[3]){
+                $scope.outErrorArr[3]=false;
+                $scope.outErrorArr[1]=true;
+            }
         }
-
+        else{
+            if($scope.outErrorArr[1]){
+                $scope.outErrorArr[3]=true;
+                $scope.outErrorArr[1]=false;
+            }
+            if($scope.outErrorArr[0]){
+                $scope.outErrorArr[2]=true;
+                $scope.outErrorArr[0]=false;
+            }
+        }
     };
     $scope.changeOutOrErrorStyle=function() {
         if($scope.outErrorArr[0]===true||$scope.outErrorArr[1]===true) {
@@ -293,6 +315,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 function appInit(){
     map = L.map('map',{
         attributionControl: false,
+        doubleClickZoom:false,
         zoomControl:false
     }).setView([40.012834, 116.476293], 17);
     /*增加比例尺*/
