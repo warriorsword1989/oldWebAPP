@@ -125,10 +125,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 
         }else if(tab==="getCheck"){
             $("#fm-error-checkErrorLi").show();
-            if( $scope.itemsByPage==1){
+            //if( $scope.itemsByPage==1){
                 $scope.rowCollection=[];
+                $scope.itemsByPage=1;
                 $scope.getCheckDateAndCount();
-            }
+            //}
             $("#fm-error-wrongDiv").show();
             $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
