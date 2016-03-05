@@ -412,6 +412,11 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     color:#FFF;
     background-color: rgba(255,255,255,0.3);
 }
+
+#fm-out-error-inspectAndWrongTab>li button.selected{
+    color:rgba(0,0,0,0.5);
+    background-color: rgba(255,255,255,0.8);
+}
 #fm-out-error-inspectAndWrongTab>li button:hover{
     color:rgba(0,0,0,0.5);
     background-color: rgba(255,255,255,0.8);
@@ -642,3 +647,26 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     /*border-left: 1px solid #C0C0C0;
     border-right: 1px solid #c0c0c0;*/
 }
+
+
+/*.editbtnclass{*/
+    /*background-color: rgba(255,255,255,0.8);*/
+
+    /*color:#000000;*/
+    /*border: 0;*/
+    /*border-radius: 3px;*/
+    /*width:75px;*/
+    /*height: 22px;*/
+
+/*}*/
+
+/*.editbtnDefultclass{*/
+    /*color:#FFF;*/
+    /*background-color: rgba(255,255,255,0.3);*/
+    /*border: 0;*/
+    /*border-radius: 3px;*/
+    /*width:75px;*/
+    /*height: 22px;*/
+
+
+/*}*/
