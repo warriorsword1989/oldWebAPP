@@ -21,15 +21,8 @@ modifyApp.controller("modifyToolController", function ($scope) {
         $scope.$parent.$parent.changeBtnClass(num);
         map.currentTool.disable();
         if (shapeCtrl.shapeEditorResult) {
-            feature = selectCtrl.selectedFeatures.geometry;
-            var editLyer = ly.getLayerById('edit');
-            ly.pushLayerFront('edit');
-            var sobj = shapeCtrl.shapeEditorResult;
-            editLyer.drawGeometry = feature;
-            editLyer.draw(feature, editLyer);
-            sobj.setOriginalGeometry(feature);
-            sobj.setFinalGeometry(feature);
-            if(tooltipsCtrl.getCurrentTooltip()!=""){
+
+            if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
             if(type==="pathVertexInsert") {
@@ -69,6 +62,15 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 //    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                 //}
             }
+            feature = selectCtrl.selectedFeatures.geometry;
+            var editLyer = ly.getLayerById('edit');
+            ly.pushLayerFront('edit');
+            var sobj = shapeCtrl.shapeEditorResult;
+            editLyer.drawGeometry = feature;
+            editLyer.draw(feature, editLyer);
+            sobj.setOriginalGeometry(feature);
+            sobj.setFinalGeometry(feature);
+
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
