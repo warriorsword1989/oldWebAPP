@@ -21,7 +21,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
         $scope.$parent.$parent.changeBtnClass(num);
         map.currentTool.disable();
         if (shapeCtrl.shapeEditorResult) {
-
             if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -61,6 +60,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 //else{
                 //    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                 //}
+            }
+            if (!selectCtrl.selectedFeatures){
+                return;
             }
             feature = selectCtrl.selectedFeatures.geometry;
             var editLyer = ly.getLayerById('edit');
