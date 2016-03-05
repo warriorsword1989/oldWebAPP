@@ -54,9 +54,12 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
-        var layerPoint = event.layerPoint;
-        this.resetVertex(layerPoint);
-        this.shapeEditor.shapeEditorResultFeedback.setupFeedback()
+        if(this.snapHandler.snaped == true){
+            var layerPoint = event.layerPoint;
+            this.resetVertex(layerPoint);
+            this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+        }
+
     },
 
     onMouseMove: function(event){

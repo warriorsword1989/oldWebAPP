@@ -39,10 +39,6 @@
         border-width: 0;
     }
 
-    .b-b {
-        border-bottom: 1px solid #dee5e7;
-    }
-
     .line-lg {
         margin-top: 15px;
         margin-bottom: 15px;
@@ -63,13 +59,6 @@
     .glyphicon-chevron-down{
         cursor: pointer;
     }
-    .info-well{
-        border: 1px solid #ccc;
-        padding-left: 15px;
-        padding-right: 15px;
-        border-radius: 4px;
-        margin-bottom: 10px;
-    }
     .info-group{
         margin-right: 0 !important;
     }
@@ -84,42 +73,6 @@
     }
     .info-remove:hover{
         color: #CC0000 !important
-    }
-    .info-option{
-        /*background-color: #eee;*/
-        padding: 5px;
-        cursor: pointer;
-        color: #fff;
-        transition:all 0.5s;
-        margin-bottom: 10px;
-        /*margin-left: 1px;*/
-        margin-top: -1px
-    }
-    .info-option:hover{
-        color: #ffffff;
-        background-color: #0099FF
-    }
-    .info-remove-ico{
-        height: 24px;
-        width: 24px;
-        text-align: center;
-        line-height: 1;
-        font-weight: bolder;
-        border-top-right-radius: 4px;
-        margin-top: 0px;
-    }
-    .info-remove-ico:hover{
-        background-color: #CC0000 !important;
-        color: #fff;
-    }
-    .info-head-well{
-        margin-right: -15px;
-        margin-left: -15px;
-        border-bottom: 1px solid #ddd;
-        padding-left: 15px;
-        border-top-right-radius: 4px;
-        color: #fff;
-        border-top-left-radius: 4px;
     }
     /*输入查询图片*/
     .pic-show{
@@ -198,6 +151,14 @@
         background-color: #555;
         /*opacity: 0.8;*/
     }
+    .module-fix-box{
+        padding: 10px;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #555;
+    }
     .box-head{
         color: #fff;
     }
@@ -241,24 +202,32 @@
     .show-detail-title:hover{
        background-color: #333;
     }
-    /* 公用详细信息样式 */
-    .detail-info-title{
-        color: #fff;
-        margin-bottom: 5px;
-    }
-    .detail-info-box{
-        border-radius: 3px;
-        border:1px solid #fff;
+    /*高速分歧map上图片显示*/
+    #picMapShow {
+        width: 120px;
+        border: 1px solid #fff;
+        height: 120px;
         float: left;
-        padding: 8px;
-        width: 100%;
-        background-color: #555;
+        border-radius: 4px;
+        margin-left: 85px;
     }
-    .split-line{
-        border-top: 1px solid #fff;
-        margin-left: -8px;
-        margin-right: -8px;
-        margin-top: 3px;
+    #picMapImg {
+        width: 120px;
+        position: absolute;
+        height: 120px;
+        z-index: 99;
+    }
+    #picModalImg{
+        width: 120px;
+        top: 39px;
+        height: 120px;
+        position: absolute;
+        z-index: 9;
+    }
+    #picMapDesc {
+        color: #fff;
+        width: 100%;
+        text-align: center;
     }
 </style>
 <div id="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
@@ -269,39 +238,36 @@
           </label>
         </div>
     </div>
-    <div class="module-box">
-        <div class="d-group">
-            <div class="d-name">进入线：</div>
-            <div class="d-value">
-                <input type="text" class="d-input rounded" placeholder="入" ng-model="diverObj.inLinkPid">
-            </div> 
-        </div>
-        <div class="d-group">
-            <div class="d-name">退出线：</div>
-            <div class="d-value">
-                <input type="text" class="d-input rounded" placeholder="出" ng-model="diverObj.outLinkPid">
-            </div> 
-        </div>
-        <div class="d-group info-group">
-            <div class="d-name">关系类型：</div>
-            <div class="d-value">
-                <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                  <label ng-class="{'btn-primary':item.code==relationCode,'btn-default':item.code!=relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
-                    <input type="radio" name="relationType" ng-model="diverObj.relationshipType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
-                  </label>
-                </div>
-            </div> 
-        </div>
+    <div id="picMapShow">
+        <img id="picMapImg">
+        <img id="picModalImg" alt="无此模式图">
+        <div id="picMapDesc"></div>
     </div>
     <!--begin 模式图信息-->
-    <div class="module-box">
-        <div class="box-head font-bold">
-            <div class="d-title">详细信息</div>
-            <a data-toggle="collapse" href="#detailChart" aria-expanded="true" class="pull-right">
-                <span class="glyphicon glyphicon-chevron-down"></span>
-            </a>
-        </div>
+    <div class="module-fix-box">
         <div id="detailChart" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
+            <div class="d-group">
+                <div class="d-name">进入线：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="入" ng-model="diverObj.inLinkPid">
+                </div> 
+            </div>
+            <div class="d-group">
+                <div class="d-name">退出线：</div>
+                <div class="d-value">
+                    <input type="text" class="d-input rounded" placeholder="出" ng-model="diverObj.outLinkPid">
+                </div> 
+            </div>
+            <div class="d-group info-group">
+                <div class="d-name">关系类型：</div>
+                <div class="d-value">
+                    <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
+                      <label ng-class="{'btn-primary':item.code==relationCode,'btn-default':item.code!=relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
+                        <input type="radio" name="relationType" ng-model="diverObj.relationshipType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                      </label>
+                    </div>
+                </div> 
+            </div>
             <div class="d-group">
                 <div class="d-name">分歧类型：</div>
                 <div class="d-value">
