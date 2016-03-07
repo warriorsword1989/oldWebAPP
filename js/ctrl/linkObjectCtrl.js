@@ -169,6 +169,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         if($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
         }
+        console.log($scope.linkData)
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
