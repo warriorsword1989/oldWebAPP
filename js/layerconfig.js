@@ -38,9 +38,9 @@ Application.layersConfig =
                         subdomains: ["rt0", "rt1", "rt2", "rt3"],
                         tms: true,
                         maxZoom: 20,
-                        selected: true,
+                        selected: false,
                         id: 'tencent',
-                        visible: true,
+                        visible: false,
                         added: true,
                         singleselect: true,
                         zIndex: 2
