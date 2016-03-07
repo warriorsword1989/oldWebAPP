@@ -475,8 +475,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     } else if (pItemId === "1407") {//高速分歧
-                        $ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
+                        $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                            $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
                             $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                             });

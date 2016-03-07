@@ -37,7 +37,7 @@
             <td style="width:80px;">错误等级</td>
             <td style="width:100px;">错误对象</td>
             <td style="width:135px;">错误信息</td>
-            <td style="width:100px;">错误定位</td>
+            <!--<td style="width:100px;">错误定位</td>-->
             <td style="width:100px;">检查时间</td>
             <td style="width:80px;">作业员</td>
             <td style="width:100px;">检查管理</td>
@@ -63,8 +63,8 @@
                    </div>
                </td>
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;"><a style="cursor: pointer;" ng-click="showOnMap(row.targets)">{{row.targets }}</a></div></td>
-               <td><div style="width:135px;color:#FFF;word-wrap:break-word;">{{row.information}}</div></td>
-               <td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.geometry}}</div></td>
+               <td><div title="{{row.information}}" style="width:135px;color:#FFF;word-wrap:break-word;">{{row.information.substring(0,8)}}...</div></td>
+               <!--<td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.geometry}}</div></td>-->
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;padding-left: 25px;">{{row.create_date}}</div></td>
                <td><div style="width:80px;color:#FFF;word-wrap:break-word;padding-left: 20px;">{{row.worker}}</div></td>
                <td><div style="width:100px;color:#FFF;word-wrap:break-word;">
