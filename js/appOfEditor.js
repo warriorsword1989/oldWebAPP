@@ -351,7 +351,6 @@ function dragF(id) {
     $drag.on({
         mousedown: function (e) {
             e.preventDefault();
-
             var t = $dragDiv.offset(),
                 o = e.pageX - t.left,
                 i = e.pageY - t.top;
@@ -367,12 +366,9 @@ function dragF(id) {
                             top: e.pageY - i,
                             left: e.pageX - o
                         })
-
                     }
-
                 })
             }
-
         },
         mouseup: function () {
             map.dragging.enable();
@@ -403,22 +399,15 @@ function dragF1(id,pId) {
                             top: e.pageY - i,
                             left: e.pageX - o
                         })
-
                     }
-
                 })
             }
-
         },
         mouseup: function () {
             map.dragging.enable();
             $dragDiv.unbind("mousemove.drag");
         }
     });
-
-
-
-
 }
 
 
