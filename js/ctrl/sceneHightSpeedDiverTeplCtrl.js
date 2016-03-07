@@ -133,18 +133,20 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout
                      })
                      });*/
                     var sinfo={
-                        "op":"改状态成功",
+                        "op":"修改状态成功",
                         "type":"",
                         "pid": ""
                     };
                     data.data.log.push(sinfo);
                     info=data.data.log;
+
                 } else {
                     info=[{
                         "op":data.errcode,
                         "type":data.errmsg,
                         "pid": data.errid
                     }];
+                    info.push(data.errmsg + data.errid);
 
                     swal("操作失败",data.errmsg, "error");
                 }
