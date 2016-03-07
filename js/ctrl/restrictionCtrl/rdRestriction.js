@@ -272,10 +272,10 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
             var restrict = layerCtrl.getLayerById("restriction");
             restrict.redraw();
+            var info = null;
+            if (data.errcode==0) {
                 var sinfo={
                     "op":"修改RDRESTICTIONR成功",
                     "type":"",
@@ -340,12 +340,10 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var info = null;
-            if (data.errcode==0) {
             var restrict = layerCtrl.getLayerById("restriction");
             restrict.redraw();
-
-
+            var info = null;
+            if (data.errcode==0) {
                 var sinfo={
                     "op":"删除RDRESTICTIONR成功",
                     "type":"",
@@ -375,10 +373,10 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                var info = null;
-                if (data.errcode==0) {
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
+                var info = null;
+                if (data.errcode==0) {
                     var sinfo={
                         "op":"修改交限状态成功",
                         "type":"",
