@@ -17,7 +17,8 @@ fastmap.uikit.Snap = L.Handler.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-
+        this.interLinks = [];
+        this.interNodes = [];
         this._map = this.options.map;
         this.snapIndex = -1;
         this.shapeEditor = this.options.shapeEditor;
@@ -83,8 +84,10 @@ fastmap.uikit.Snap = L.Handler.extend({
                     this.properties = closest.properties;
                     this.snapIndex = closest.index;
                     this.coordinates = closest.layer;
+                    this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
                 } else {
+                    //this.selectedVertex = closest.selectedVertexe;
                     this.snaped = false;
 
                 }
@@ -107,34 +110,34 @@ fastmap.uikit.Snap = L.Handler.extend({
         //this.removeHooks();
     },
 
-    snapList: function () {
-        var snaplist = [];
-
-        function processGuide(guide) {
-            if ((guide._layers !== undefined) &&
-                (typeof guide.searchBuffer !== 'function')) {
-                // Guide is a layer group and has no L.LayerIndexMixin (from Leaflet.LayerIndex)
-                for (var id in guide._layers) {
-                    processGuide(guide._layers[id]);
-                }
-            }
-            else if (typeof guide.searchBuffer === 'function') {
-                // Search snaplist around mouse
-                snaplist = snaplist.concat(guide.searchBuffer(latlng, this._buffer));
-            }
-            else {
-                snaplist.push(guide);
-            }
-        }
-
-        for (var i = 0, n = this._guides.length; i < n; i++) {
-            var guide = this._guides[i];
-            processGuide.call(this, guide);
-        }
-
-
-        return snaplist;
-    },
+    //snapList: function () {
+    //    var snaplist = [];
+    //
+    //    function processGuide(guide) {
+    //        if ((guide._layers !== undefined) &&
+    //            (typeof guide.searchBuffer !== 'function')) {
+    //            // Guide is a layer group and has no L.LayerIndexMixin (from Leaflet.LayerIndex)
+    //            for (var id in guide._layers) {
+    //                processGuide(guide._layers[id]);
+    //            }
+    //        }
+    //        else if (typeof guide.searchBuffer === 'function') {
+    //            // Search snaplist around mouse
+    //            snaplist = snaplist.concat(guide.searchBuffer(latlng, this._buffer));
+    //        }
+    //        else {
+    //            snaplist.push(guide);
+    //        }
+    //    }
+    //
+    //    for (var i = 0, n = this._guides.length; i < n; i++) {
+    //        var guide = this._guides[i];
+    //        processGuide.call(this, guide);
+    //    }
+    //
+    //
+    //    return snaplist;
+    //},
 
     closeestLineSnap: function (map, data, point, tolerance, withVertices, selectedid) {
         tolerance = typeof tolerance == 'number' ? tolerance : Infinity;
@@ -154,6 +157,7 @@ fastmap.uikit.Snap = L.Handler.extend({
                 result.latlng = closest;
                 result.distance = point.distanceTo(new fastmap.mapApi.Point(closest[0], closest[1]));
                 result.index = closest.index;
+                result.selectedVertexe = true;
                 isSnapVertices = true;
             }
         }

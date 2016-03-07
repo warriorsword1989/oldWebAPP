@@ -110,7 +110,7 @@ fastmap.uikit.SelectRdlane = (function () {
                                 }
                                 var newStyle = "", newGeom = [];
                                 var laneObj = feature.properties.laneconnexityinfo;
-                                var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
+                                var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
                                 var newgeom = [];
                                 if (laneObj !== undefined) {
 
@@ -180,7 +180,7 @@ fastmap.uikit.SelectRdlane = (function () {
                                 }
                                 var newStyle = "", newGeom = [];
                                 var laneObj = feature.properties.laneconnexityinfo;
-                                var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
+                                var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
                                 var newgeom = [];
                                 if (laneObj !== undefined) {
 
@@ -204,8 +204,8 @@ fastmap.uikit.SelectRdlane = (function () {
                                             console.log("test");
                                         }
                                         if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 10;
-                                            newgeom[1] = parseInt(geom[1]);
+                                            newgeom[0] = parseInt(geom[0])*Math.cos(route) + fact * 10*Math.sin(route);
+                                            newgeom[1] = parseInt(geom[1])*Math.sin(route) + fact * 10*Math.cos(route);
                                             this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
                                             this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
                                         } else {
