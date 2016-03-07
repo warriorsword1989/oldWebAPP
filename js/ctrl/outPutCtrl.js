@@ -13,7 +13,7 @@ outPutModule.controller('outPutController', function ($scope, $timeout) {
         var info=[];
         for(var i=0;i<outValue.length;i++) {
                 $.each(outValue[i], function (a, item) {
-                    info.push(item);
+                    info.unshift(item);
                 });
         }
         if(outValue.length===0) {

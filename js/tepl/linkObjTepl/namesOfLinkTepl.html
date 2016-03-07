@@ -5,33 +5,34 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        background-color: #000;
+        /*background-color: #000;*/
         border: 1px solid #ddd;
     }
 
     #namesOfLinkDiv {
-        background-color: #000;
         opacity: 1;
-        padding: 10px 5px;
         width: 100%;
-        z-index: 20;
+        font-size: 12px;
     }
 
     #namesOfLinkDiv ul {
-        background-color: #000;
         list-style: none;
-        padding:5px;
         overflow: hidden;
     }
 
     #namesOfLinkDiv ul > li {
-        background-color: #000;
+        background-color: transparent;
     }
 
     #namesOfLinkDiv ul > li > div > input {
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
     }
 
     #namesOfLinkDiv ul > li > div > select {
@@ -39,6 +40,8 @@
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+        width:170px;
+        border-radius: 4px;
     }
 
     #namesOfLinkDiv ul > li > div:first-child {
@@ -169,10 +172,10 @@
         <li class="list-group-item">
             <div><label class="control-label">道路名称</label></div>
             <div class="inline">
-                <input type="text" ng-model="nameItem.name" style="width: 70px"/>
-                <button type="button" class="btn-primary"
-                        ng-click="searchGroupidByNames($index)">检索
-                </button>
+                <input type="text" ng-model="nameItem.name" style="width: 150px"/>
+                <span  class="glyphicon glyphicon-search"
+                        ng-click="searchGroupidByNames($index)">
+                </span>
             </div>
         </li>
         <li class="list-group-item" id="name{{$index}}" style="display: none">
@@ -203,10 +206,10 @@
                 <div class="pic-show-btn pull-right">
                     <div class="pull-right btn-group">
                         <button class="btn btn-default btn-xs pic-pre"
-                                ng-click="picPre()" disabled><<
+                                ng-click="picPre()" disabled>
                         </button>
                         <button class="btn btn-default btn-xs pic-next"
-                                ng-click="picNext()">>>
+                                ng-click="picNext()">
                         </button>
                     </div>
                 </div>
@@ -217,7 +220,7 @@
             <div class="radio inline" style="text-align: left">
                 <label>
                     <input type="radio" name="originOfName" value=0 ng-model="nameItem.nameClass">
-                    官方名
+                    官方
                 </label>
                 <label>
                     <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
@@ -225,7 +228,7 @@
                 </label>
                 <label>
                     <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
-                    曾用名
+                    曾用
                 </label>
             </div>
         </li>
@@ -249,12 +252,12 @@
             <div><label class="control-label" >主从CODE</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="code" value=0 ng-model="nameItem.code">
-                    官方名
+                    <input type="radio" name="code" value=1 ng-model="nameItem.code">
+                    主
                 </label>
                 <label>
-                    <input type="radio" name="code" value=1 ng-model="nameItem.code">
-                    别名
+                    <input type="radio" name="code" value=2 ng-model="nameItem.code">
+                    从
                 </label>
             </div>
         </li>

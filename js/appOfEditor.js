@@ -110,6 +110,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
+
         } else if (tab === "errorCheck") {
             $("#lierror").addClass("selected");
             $("#liout").removeClass("selected");
@@ -123,6 +124,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                 }
             );
 
+
         }else if(tab==="getCheck"){
             $("#fm-error-checkErrorLi").show();
             //if( $scope.itemsByPage==1){
@@ -135,6 +137,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
             );
+
 
 
 

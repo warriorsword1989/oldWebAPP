@@ -166,10 +166,9 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         }
     };
     $scope.$parent.$parent.save = function () {
-        //if( shapeCtrl.shapeEditorResult.getFinalGeometry()) {
-        //    console.log(shapeCtrl.shapeEditorResult.getFinalGeometry());
-        //    return;
-        //}
+        if($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -252,7 +251,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
@@ -284,7 +283,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{

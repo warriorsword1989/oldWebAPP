@@ -16,7 +16,7 @@ function keyEvent(ocLazyLoad, scope) {
             var checkCtrl = fastmap.uikit.CheckResultController();
             var selectCtrl = fastmap.uikit.SelectController();
             var rdLink = layerCtrl.getLayerById('referenceLine');
-            var restrict = layerCtrl.getLayerById('referencePoint');
+            var restrict = layerCtrl.getLayerById('restriction');
             var rdCross = layerCtrl.getLayerById('rdcross');
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var editLayer = layerCtrl.getLayerById('edit');
@@ -108,7 +108,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -127,18 +127,18 @@ function keyEvent(ocLazyLoad, scope) {
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
                         "command": "CREATE",
-                        "type": "RESTRICTION",
+                        "type": "RDRESTRICTION",
                         "projectId": 11,
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
 
-                        var pid = data.data.log[0].pid;
+
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
-                        restrict.redraw();
+
                         var info=null;
                         if (data.errcode==0) {
                             var sinfo={
@@ -146,8 +146,23 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
+                            var pid = data.data.pid;
+                            restrict.redraw();
+                            Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
+                                if(! scope.panelFlag ) {
+                                    scope.panelFlag = true;
+                                    scope.objectFlag = true;
+                                }
+                                objEditCtrl.setCurrentObject(data.data);
+                                if (objEditCtrl.updateObject !== "") {
+                                    objEditCtrl.updateObject();
+                                }
+                                ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
+                                    scope.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
+                                })
+                            })
                         }else{
                             info=[{
                                 "op":data.errcode,
@@ -161,15 +176,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         toolTipsCtrl.onRemoveTooltip();
 
-                        Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
-                            objEditCtrl.setCurrentObject(data.data);
-                            if (objEditCtrl.updateObject !== "") {
-                                objEditCtrl.updateObject();
-                            }
-                            ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
-                                scope.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
-                            })
-                        })
+
 
                     });
                 } else if (shapeCtrl.editType === "pathBreak") {
@@ -199,7 +206,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -290,11 +297,11 @@ function keyEvent(ocLazyLoad, scope) {
 
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改交限成功",
+                                "op":"创建RDSPEEDLIMIT成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -345,7 +352,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     "type":"",
                                     "pid": ""
                                 };
-                                data.data.log.unshift(sinfo);
+                                data.data.log.push(sinfo);
                                 info=data.data.log;
                             }else{
                                 info=[{
@@ -394,7 +401,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -437,7 +444,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -471,11 +478,11 @@ function keyEvent(ocLazyLoad, scope) {
                         var info = null;
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改RDBRANCH成功",
+                                "op":"创建RDBRANCH成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -530,11 +537,11 @@ function keyEvent(ocLazyLoad, scope) {
                         var info = null;
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改RDCROSS成功",
+                                "op":"创建RDCROSS成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{

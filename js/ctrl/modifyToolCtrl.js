@@ -22,8 +22,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
         $scope.$parent.$parent.changeBtnClass(num);
         map.currentTool.disable();
         if (shapeCtrl.shapeEditorResult) {
-
-            if(tooltipsCtrl.getCurrentTooltip()&&tooltipsCtrl.getCurrentTooltip()!=""){
+            if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
             if(type==="pathVertexInsert") {
@@ -65,8 +64,12 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
                 }
             }
+            if (!selectCtrl.selectedFeatures){
+                return;
+            }
             feature = selectCtrl.selectedFeatures.geometry;
 
+            var editLyer = ly.getLayerById('edit');
             ly.pushLayerFront('edit');
             var sobj = shapeCtrl.shapeEditorResult;
             editLyer.drawGeometry = feature;
