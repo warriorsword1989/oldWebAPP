@@ -121,7 +121,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             frs.tiles = this.tiles;
             frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
         }else if (this.overlays.length > 1){
-            var html = '<ul style="list-style:none;padding: 0px" id="layerpopup">';
+            var html = '<ul id="layerpopup">';
 
 
 
