@@ -359,7 +359,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
-                var info = [];
+                var info = null;
                 if (data.errcode === 0) {
                     if(workPoint)
                         workPoint.redraw();
@@ -379,7 +379,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
                      });*/
 
                     var sinfo={
-                        "op":"修改交限状态成功",
+                        "op":"修改交限成功",
                         "type":"",
                         "pid": ""
                     };
@@ -391,7 +391,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
                         "type":data.errmsg,
                         "pid": data.errid
                     }];
-                    //info.push(data.errmsg + data.errid);
 
                     swal("操作失败",data.errmsg, "error");
                 }

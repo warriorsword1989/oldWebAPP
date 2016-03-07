@@ -475,6 +475,7 @@ function keyEvent(ocLazyLoad, scope) {
                             var sinfo = {
                                 "op": "创建RDBRANCH成功",
                                 "type": "",
+
                                 "pid": ""
                             };
                             data.data.log.push(sinfo);
@@ -535,6 +536,7 @@ function keyEvent(ocLazyLoad, scope) {
                             return;
                         }
                         var info = null;
+
                         if (data.errcode == 0) {
                             var sinfo = {
                                 "op": "创建RDCROSS成功",
