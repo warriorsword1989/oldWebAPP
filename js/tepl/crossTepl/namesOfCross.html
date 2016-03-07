@@ -127,11 +127,11 @@
             <div><label class="control-label">名称来源</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="originOfName" value=0 ng-model="nameItem.srcFlag">
+                    <input type="radio" name="originOfName{{$index}}" value=0 ng-model="nameItem.srcFlag">
                     未定义
                 </label>
                 <label>
-                    <input type="radio" name="originOfName" value=1 ng-model="nameItem.srcFlag">
+                    <input type="radio" name="originOfName{{$index}}" value=1 ng-model="nameItem.srcFlag">
                     翻译
                 </label>
             </div>
