@@ -1,4 +1,11 @@
 <style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        /*background-color: transparent;*/
+        margin-right: 0px;
+    }
     .list-group-item {
         position: relative;
         display: block;
@@ -6,6 +13,7 @@
         margin-bottom: -1px;
         /*background-color: #000;*/
         border: 1px solid #ddd;
+        font-size: 12px;
     }
 
     #zoneInfoDiv {
@@ -29,18 +37,22 @@
         color: #F3F6FA;
         background-color: #000;
         border: none;
+        width: 170px;
+        border-radius: 4px;
     }
 
     #zoneInfoDiv ul > li > div > select {
         color: #F3F6FA;
         background-color: #000;
-        margin-left: -3px;
         border: 1px none;
+        width: 170px;
+        border-radius: 4px;
     }
 
     #zoneInfoDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
+        padding-top: 3px;
     }
 
     #zoneInfoDiv ul > li > label {
@@ -57,6 +69,7 @@
         display: inline-block !important;
         /*width: 70%;*/
         text-align: left;
+        padding-top: 5px;
     }
 
     .m-b-none {
@@ -74,13 +87,13 @@
         <li class="list-group-item">
             <div><label class="control-label">区划号码</label></div>
             <div class="inline">
-                <input type="number" class="form-control" placeholder="0" ng-model="oridiData.regionId">
+                <input type="number"  placeholder="0" ng-model="oridiData.regionId">
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">Zone类型</label></div>
             <div class="inline">
-                <select class="form-control" ng-model="oridiData.type" ng-options="value.id as value.label for value in typeoption">
+                <select  ng-model="oridiData.type" ng-options="value.id as value.label for value in typeoption">
                     <option>--</option>
                 </select>
             </div>

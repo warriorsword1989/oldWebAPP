@@ -126,10 +126,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 
 
         }else if(tab==="getCheck"){
-            $scope.isActiveOutError[1]=true;
-            $scope.isActiveOutError[0]=false;
-            $scope.notActiveOutError[1]=false;
-            $scope.notActiveOutError[0]=true;
             $("#fm-error-checkErrorLi").show();
             //if( $scope.itemsByPage==1){
                 $scope.rowCollection=[];

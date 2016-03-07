@@ -2,9 +2,10 @@
  * Created by liwanchong on 2016/3/2.
  */
 var oridinaryInfoApp = angular.module("myApp", []);
-oridinaryInfoApp.controller("oridinaryLimitController",function($scope) {
+oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data.data;
+console.log($scope.linkData)
     $scope.appInfoOptions = [
         {"id": 0, "label": "调查中"},
         {"id": 1, "label": "可以通行"},
@@ -118,4 +119,36 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope) {
 
     }
     $scope.showvehicle("2147483655");
+    $timeout(function(){
+        $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+            $scope.dateURL = 'js/tepl/fmdateTimer.html';
+            if($scope.linkData.limitTrucks.length == 0)
+                $scope.linkData.limitTrucks.push({timeDomain:''});
+            if($scope.linkData.limits.length == 0)
+                $scope.linkData.limits.push({timeDomain:''});
+            /*查询数据库取出时间字符串*/
+            $.each($scope.linkData.limits,function(i,v){
+                $scope.fmdateTimer(v.timeDomain);
+            })
+            $.each($scope.linkData.limitTrucks,function(i,v){
+                $timeout(function(){
+                    $scope.$broadcast('set-code',v.timeDomain);
+                    $scope.codeOutput = v.timeDomain;
+                    $scope.$apply();
+                },100);
+            })
+            // var tmpStr = (!$scope.linkLimitData.limitTrucks[0].timeDomain)?'':$scope.linkLimitData.limitTrucks[0].timeDomain;
+        });
+    })
+    /*时间控件*/
+    $scope.fmdateTimer = function(str){
+        $scope.$on('get-date', function(event,data) {
+            $scope.codeOutput = data;
+        });
+        $timeout(function(){
+            $scope.$broadcast('set-code',str);
+            $scope.codeOutput = str;
+            $scope.$apply();
+        },100);
+    }
 })

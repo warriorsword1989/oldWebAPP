@@ -10,7 +10,7 @@ zonePeopertyApp.controller("zonePeopertyController",function($scope,$timeout,$oc
         {"id":2,"label":"KDZone"},
         {"id":3,"label":"GCZone"}
     ];
-    $scope.showZoneWin=function(){
+    $scope.showZoneWin=function(item){
         if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
         }

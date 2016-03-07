@@ -61,7 +61,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
-            if (data.data) {
+            if (data.errcode===0) {
                 if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
                     var stageParam = {
                         "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
@@ -77,7 +77,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -98,14 +98,16 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                     info=data.data.log;
-                }else{
+                }else{//错误
                     info=[{
                         "op":data.errcode,
                         "type":data.errmsg,
                         "pid": data.errid
                     }];
+                      return;
+
                 }
             outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
@@ -134,7 +136,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
