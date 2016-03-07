@@ -50,8 +50,12 @@
         width: 32px;
         height: 32px;
     }
+
+    #fm-modifyToolContainer>button:focus{
+        outline: none;
+    }
 </style>
-<div ng-controller="modifyToolController" class="btn-group btn-group-sm">
+<div id="fm-modifyToolContainer" ng-controller="modifyToolController" class="btn-group btn-group-sm">
     <button type="button" class="btn insertDot_{{modifyShapeClaArr[8]}}" id="insertDot" ng-click="modifyShape('pathVertexInsert',8,$event)" title="插入形状点"></button>
     <button type="button" class="btn deleteDot_{{modifyShapeClaArr[9]}}" id="deleteDot" ng-click="modifyShape('pathVertexReMove',9,$event)" title="删除形状点"></button>
     <button type="button" class="btn moveDot_{{modifyShapeClaArr[10]}}" id="moveDot" ng-click="modifyShape('pathVertexMove',10,$event)" title="移动形状点"></button>
