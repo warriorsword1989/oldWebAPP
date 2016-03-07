@@ -256,21 +256,55 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     };
     //删除车道
     $scope.minusLane=function(index) {
-        $scope.lanesArr.splice(index, 1);//
-        $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
         $scope.showNormalData.splice(index, 1);
         $scope.showTransitData.splice(index, 1);
-        var lenN = $scope.lanesData["topos"].length,arr=[];
+        if(index===0){
+            $scope.lanesArr[0] = $scope.showNormalData[0];
+            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
+            $scope.lanesData["leftExtend"] = 0;
+        }else if(index===($scope.lanesArr.length-1)) {
+            $scope.lanesArr[$scope.lanesArr.length-1] = $scope.showNormalData[$scope.lanesArr.length-1];
+            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
+            $scope.lanesData["leftExtend"] = 0;
+        }else{
+            $scope.lanesArr.splice(index, 1);//
+            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
 
-        for(var n= 0;n<lenN;n++) {
-            var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][n]["inLaneInfo"]);
+            var lenN = $scope.lanesData["topos"].length,arr=[];
+
+            for(var n= 0;n<lenN;n++) {
+                var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][n]["inLaneInfo"]);
+                var lenOfInfo =(16- arrOfDecimal.length);
+                if (lenOfInfo!== index) {
+                    arr.push($scope.lanesData["topos"][n]);
+                }
+            }
+            $scope.lanesData["topos"].length = 0;
+            $scope.lanesData["topos"] = arr;
+        }
+
+    };
+    $scope.minusTransitData=function(item,index) {
+        var num = index;
+        $scope.showTransitData[num] = "text";
+        if($scope.showNormalData[0].indexOf("[")!==-1) {
+            num -= 1;
+        }
+        $scope.lanesArr[num] = $scope.showNormalData[num];
+        $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
+        for(var k= 0,lenK=$scope.lanesData["topos"].length;k<lenK;k++) {
+            var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
             var lenOfInfo =(16- arrOfDecimal.length);
-            if (lenOfInfo!== index) {
-                arr.push($scope.lanesData["topos"][n]);
+            if(lenOfInfo===num) {
+                $scope.lanesData["topos"][k]["busLaneInfo"] = 0;
+
             }
         }
-        $scope.lanesData["topos"].length = 0;
-        $scope.lanesData["topos"] = arr;
+        $scope.$parent.$parent.suspendObjURL = "";
+        $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
+            $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
+        })
+
     };
     $document.bind("keydown", function (event) {
         if (event.keyCode == 16) {//shift键 公交车道
@@ -281,9 +315,21 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             }else{
                 transitId = $scope.changeItem;
             }
-            var transitStr = "<" + $scope.changeItem.id + ">"
-            $scope.lanesArr[$scope.lanesData["selectNum"]] += transitStr;
+            var transitStr = "<" + transitId + ">"
+            $scope.lanesArr[$scope.selectNum] += transitStr;
             $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
+            for(var k= 0,lenK=$scope.lanesData["topos"].length;k<lenK;k++) {
+                var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
+                var lenOfInfo =(16- arrOfDecimal.length);
+                if(lenOfInfo=== $scope.selectNum) {
+                    $scope.lanesData["topos"][k]["busLaneInfo"] = $scope.lanesData["topos"][k]["inLaneInfo"];
+                }
+            }
+            $scope.$parent.$parent.suspendObjURL = "";
+            $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
+                $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
+            })
+
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
@@ -297,9 +343,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                if($scope.selectNum === 0) {
                    $scope.showNormalData.unshift([additionId]);
                    $scope.lanesArr[0] += additionStr;
+                   $scope.lanesData["leftExtend"] = 1;
                }else{
                    $scope.showNormalData.push([additionId]);
                    $scope.lanesArr[$scope.lanesArr.length - 1] += additionStr;
+                   $scope.lanesData["rightExtend"] = 1;
                 }
                 $scope.showTransitData.push("test");
                 $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
