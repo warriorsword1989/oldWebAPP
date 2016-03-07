@@ -69,7 +69,7 @@ Application.functions.getRdObjectByDetailId=function(id,type,func) {
  * @param func
  */
 Application.functions.saveLinkGeometry = function (param, func) {
-    fastmap.dataApi.ajaxConstruct(Application.url + '/editsupport/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url + '/editsupport/edit?parameter=' + param.replace(/\+/g,'%2B'),
         function (data) {
             func(data)
         });

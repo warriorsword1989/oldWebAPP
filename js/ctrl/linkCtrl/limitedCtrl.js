@@ -99,6 +99,7 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         }
         $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["truckRowId"] = item.rowId;
+        $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/linkCtrl/infoTruckLimitCtrl').then(function () {
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOftruckLimitTepl.html";
         })
@@ -106,10 +107,10 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
-            if($scope.linkLimitData.limitTrucks.length == 0)
+            /*if($scope.linkLimitData.limitTrucks.length == 0)
                 $scope.linkLimitData.limitTrucks.push({timeDomain:''});
             if($scope.linkLimitData.limits.length == 0)
-                $scope.linkLimitData.limits.push({timeDomain:''});
+                $scope.linkLimitData.limits.push({timeDomain:''});*/
             /*查询数据库取出时间字符串*/
             $.each($scope.linkLimitData.limits,function(i,v){
                 $scope.fmdateTimer(v.timeDomain);
