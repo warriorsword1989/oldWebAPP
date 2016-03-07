@@ -323,20 +323,24 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = null;
-                if (data.errcode===0) {
+                if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
-                    var sinfo={
-                        "op":"测线转换数据成功",
-                        "type":"",
-                        "pid": ""
-                    };
-                    data.data.log.push(sinfo);
-                    info=data.data.log;
-                    if(workPoint)
-                    workPoint.redraw();
-                    swal("操作成功", "测线转换操作成功！", "success");
-                    $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                    $scope.$apply();
+
+                    if(data.errcode == 0){
+                        if(workPoint)
+                        workPoint.redraw();
+                        var sinfo={
+                            "op":"测线转换操作成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.push(sinfo);
+                        info=data.data.log;
+
+                        swal("操作成功", "测线转换操作成功！", "success");
+                        $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
+                        $scope.$apply();
+                    }
                 } else {
                     info=[{
                         "op":data.errcode,
@@ -353,6 +357,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
             });
         } else if ($scope.dataTipsData.s_sourceType === "1201") {
+            var info=null;
             var kindObj = {
                 "objStatus": "UPDATE",
                 "pid": parseInt($scope.dataTipsData.f.id),
@@ -365,25 +370,25 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "data": kindObj
             };
             if (stage === 1) {
-
                 Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                    var info = null;
+
                     $scope.$parent.$parent.showLoading = false;  //showLoading
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
-                        var sinfo={
-                            "op":"种别转换数据成功",
-                            "type":"",
-                            "pid": ""
-                        };
-                        data.data.log.push(sinfo);
-                        info=data.data.log;
                         objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         if (objCtrl.updateObject !== "") {
                             objCtrl.updateObject();
                         }
                         restrictLayer.redraw();
+                        workPoint.redraw();
+                        var sinfo={
+                            "op":"种别转换操作成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.push(sinfo);
+                        info=data.data.log;
                         swal("操作成功", "种别转换操作成功！", "success");
                     } else {
                         info=[{
@@ -393,14 +398,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-                    outPutCtrl.pushOutput(info);
-                    if (outPutCtrl.updateOutPuts !== "") {
-                        outPutCtrl.updateOutPuts();
-                    }
 
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
+            }
+
+            outPutCtrl.pushOutput(info);
+            if (outPutCtrl.updateOutPuts !== "") {
+                outPutCtrl.updateOutPuts();
             }
         }
 
@@ -422,7 +428,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
-                var info = null;
+                var info = [];
                 if (data.errcode === 0) {
                     if(workPoint)
                         workPoint.redraw();
@@ -441,12 +447,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         })
                     });*/
                     var sinfo={
-                        "op":"改状态成功",
+                        "op":"状态修改成功",
                         "type":"",
                         "pid": ""
                     };
                     data.data.log.push(sinfo);
                     info=data.data.log;
+                    swal("操作成功", "状态修改成功！", "success");
                 } else {
                     info=[{
                         "op":data.errcode,
