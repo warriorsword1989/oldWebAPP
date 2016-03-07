@@ -56,11 +56,11 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                         var info = null;
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改道路link成功",
+                                "op":"创建道路link成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -96,11 +96,11 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                         var info = null;
                         if (data.errcode==0) {
                             var sinfo={
-                                "op":"修改交限成功",
+                                "op":"创建交限成功",
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{

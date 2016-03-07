@@ -322,26 +322,31 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 return;
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-                var info = [];
+                var info = null;
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
 
-                    $.each(data.data.log, function (i, item) {
-                        if (item.pid) {
-                            info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                        } else {
-                            info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                        }
-                    });
                     if(data.errcode == 0){
                         if(workPoint)
                         workPoint.redraw();
+                        var sinfo={
+                            "op":"测线转换操作成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.push(sinfo);
+                        info=data.data.log;
+
                         swal("操作成功", "测线转换操作成功！", "success");
                         $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
                         $scope.$apply();
                     }
                 } else {
-                    info.push(data.errmsg + data.errid)
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
                     swal("操作失败", data.errmsg, "error");
                 }
                 outPutCtrl.pushOutput(info);
@@ -352,6 +357,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
             });
         } else if ($scope.dataTipsData.s_sourceType === "1201") {
+            var info=null;
             var kindObj = {
                 "objStatus": "UPDATE",
                 "pid": parseInt($scope.dataTipsData.f.id),
@@ -365,6 +371,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             };
             if (stage === 1) {
                 Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+
                     $scope.$parent.$parent.showLoading = false;  //showLoading
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
@@ -374,14 +381,32 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             objCtrl.updateObject();
                         }
                         restrictLayer.redraw();
+                        workPoint.redraw();
+                        var sinfo={
+                            "op":"种别转换操作成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.push(sinfo);
+                        info=data.data.log;
                         swal("操作成功", "种别转换操作成功！", "success");
                     } else {
+                        info=[{
+                            "op":data.errcode,
+                            "type":data.errmsg,
+                            "pid": data.errid
+                        }];
                         swal("操作失败", data.errmsg, "error");
                     }
 
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
+            }
+
+            outPutCtrl.pushOutput(info);
+            if (outPutCtrl.updateOutPuts !== "") {
+                outPutCtrl.updateOutPuts();
             }
         }
 
@@ -421,8 +446,20 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                         })
                     });*/
+                    var sinfo={
+                        "op":"状态修改成功",
+                        "type":"",
+                        "pid": ""
+                    };
+                    data.data.log.push(sinfo);
+                    info=data.data.log;
+                    swal("操作成功", "状态修改成功！", "success");
                 } else {
-                    info.push(data.errmsg + data.errid);
+                    info=[{
+                        "op":data.errcode,
+                        "type":data.errmsg,
+                        "pid": data.errid
+                    }];
 
                     swal("操作失败",data.errmsg, "error");
                 }

@@ -77,7 +77,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -98,7 +98,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                     info=data.data.log;
                 }else{
                     info=[{
@@ -134,7 +134,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{

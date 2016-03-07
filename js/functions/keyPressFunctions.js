@@ -108,7 +108,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -146,7 +146,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                             var pid = data.data.pid;
                             restrict.redraw();
@@ -206,7 +206,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -301,7 +301,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -352,7 +352,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     "type":"",
                                     "pid": ""
                                 };
-                                data.data.log.unshift(sinfo);
+                                data.data.log.push(sinfo);
                                 info=data.data.log;
                             }else{
                                 info=[{
@@ -401,7 +401,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -444,7 +444,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -482,7 +482,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -541,7 +541,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
