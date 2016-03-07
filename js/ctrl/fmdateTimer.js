@@ -535,7 +535,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     $scope.dateSelect = function(e){
         $('body').append($(e.target).parents(".date-well").find(".datetip"));
         if($('body .datetip:last').css('display') == 'none'){
-            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':'285px'});
+            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':'600px'});
             $('body .datetip:last').show();
         }else{
             $('body .datetip:last').hide();
@@ -1211,21 +1211,6 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         if($scope.dateValid(dateWell)){
             $scope.dateCode = dateTime.code();
             $scope.dateDescribe = dateTime.describe();
-            /*var _dateList = [];
-            _dateList.push('<div class="date-list">');
-            _dateList.push('<div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="');
-            _dateList.push(dateTime.code());
-            _dateList.push('">');
-            _dateList.push(dateTime.describe());
-            _dateList.push('</div>');
-            _dateList.push('<div class="col-xs-2 col-md-2 col-lg-1">');
-            _dateList.push('<span class="glyphicon glyphicon-minus-sign remove-date-list pull-right" ng-click="removeList($event)"></span>');
-            _dateList.push('</div>');
-            _dateList.push('<div class="clearfix"></div>');
-            _dateList.push('<div class="line"></div>');
-            _dateList.push('</div>');
-            var newElem = $compile(_dateList.join(''))($scope);
-            dateListWell.find(".date-list:last").after(newElem);*/
             $scope.dateList.push({
                 code:dateTime.code(),
                 describe:dateTime.describe()
@@ -1256,15 +1241,3 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $(e.target).parents('.date-well').parent().attr('date-str','');
     }
 }]);
-/*获取指针位置*/
-function getMousePos(event) {
-            var position = {};
-            var e = event || window.event;
-            var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-            var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-            var x = e.pageX || e.clientX + scrollX;
-            var y = e.pageY || e.clientY + scrollY;
-            position.x = x;
-            position.y = y;
-            return position;
-   }
