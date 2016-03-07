@@ -506,6 +506,17 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     cursor: pointer;
 }
 
+
+/*-------------------------------------------------选择关系popup-----------------------------------------------*/
+
+#layerpopup{
+    list-style:none;
+    padding: 0px;
+    min-width: 150px;
+}
+
+
+
 /* ---------------------滚动条-------------------------------------------------- */
 .scroll-styled::-webkit-scrollbar {
     width: 6px;
