@@ -237,7 +237,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
                             "type":"",
                             "pid": ""
                         };
-                        data.data.log.push(sinfo);
+                        data.data.log.unshift(sinfo);
                         info=data.data.log;
                     }else{
                         info=[{
@@ -377,21 +377,8 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
                      $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                      })
                      });*/
-
-                    var sinfo={
-                        "op":"修改交限状态成功",
-                        "type":"",
-                        "pid": ""
-                    };
-                    data.data.log.push(sinfo);
-                    info=data.data.log;
                 } else {
-                    info=[{
-                        "op":data.errcode,
-                        "type":data.errmsg,
-                        "pid": data.errid
-                    }];
-                    //info.push(data.errmsg + data.errid);
+                    info.push(data.errmsg + data.errid);
 
                     swal("操作失败",data.errmsg, "error");
                 }

@@ -177,7 +177,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
@@ -214,7 +214,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{

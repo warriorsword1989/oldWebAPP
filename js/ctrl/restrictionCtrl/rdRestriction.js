@@ -272,16 +272,16 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             "data": objectEditCtrl.changedProperty
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referencePoint");
+            restrict.redraw();
             var info = null;
             if (data.errcode==0) {
-            var restrict = layerCtrl.getLayerById("restriction");
-            restrict.redraw();
                 var sinfo={
                     "op":"修改RDRESTICTIONR成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
@@ -290,7 +290,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                     "pid": data.errid
                 }];
             }
-            outPutCtrl.pushOutput(info);
+            outPutCtrl.pushOutput(data.data);
             if(outPutCtrl.updateOutPuts!=="") {
                 outPutCtrl.updateOutPuts();
             }
@@ -311,7 +311,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                         "type":"",
                         "pid": ""
                     };
-                    data.data.log.push(sinfo);
+                    data.data.log.unshift(sinfo);
                     info=data.data.log;
                 }else{
                     info=[{
@@ -340,18 +340,16 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var restrict = layerCtrl.getLayerById("referencePoint");
+            restrict.redraw();
             var info = null;
             if (data.errcode==0) {
-            var restrict = layerCtrl.getLayerById("restriction");
-            restrict.redraw();
-
-
                 var sinfo={
-                    "op":"删除RDRESTICTIONR成功",
+                    "op":"修改RDRESTICTIONR状态成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
@@ -375,16 +373,16 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
             }
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
-                var info = null;
-                if (data.errcode==0) {
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
+                var info = null;
+                if (data.errcode==0) {
                     var sinfo={
                         "op":"修改交限状态成功",
                         "type":"",
                         "pid": ""
                     };
-                    data.data.log.push(sinfo);
+                    data.data.log.unshift(sinfo);
                     info=data.data.log;
                 }else{
                     info=[{

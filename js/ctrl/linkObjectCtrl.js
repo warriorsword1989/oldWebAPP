@@ -251,7 +251,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
@@ -283,7 +283,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.unshift(sinfo);
                 info=data.data.log;
             }else{
                 info=[{
