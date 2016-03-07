@@ -58,7 +58,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             return flag;
         };
         /*初始化功能按钮*/
-        $scope.initCurrentTool = function(){
+        $scope.initCurrentTool = function () {
             $("#node").removeClass('node_true').addClass('node_false');
             $("#link").removeClass('link_true').addClass('link_false');
             $("#relation").removeClass('relation_true').addClass('relation_false');
@@ -72,9 +72,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             $("#moveDot").removeClass('moveDot_true').addClass('moveDot_false');
             $("#pathBreak").removeClass('pathBreak_true').addClass('pathBreak_false');
         }
-        $scope.addShape = function (type, num,event) {
+        $scope.addShape = function (type, num, event) {
 
-            if(event)
+            if (event)
                 event.stopPropagation();
             $scope.initCurrentTool();
             if (tooltipsCtrl.getCurrentTooltip()) {
@@ -128,7 +128,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            }else if (type === "speedLimit") {
+            } else if (type === "speedLimit") {
 
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
@@ -145,19 +145,19 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType('pointVertexAdd');
                 shapeCtrl.startEditing();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('开始增加交限！');
+                tooltipsCtrl.setCurrentTooltip('开始增加限速！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击增加交限!");
+                tooltipsCtrl.setChangeInnerHtml("点击增加限速!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
 
-                shapeCtrl.on('resetcomplete',function(e){
+                shapeCtrl.on('resetcomplete', function (e) {
                     var pro = e.property;
                     var geo = e.geometry;
                     Application.functions.getRdObjectById(pro.id, "RDLINK", function (data) {
-                        if(data.errcode==0){
+                        if (data.errcode == 0) {
                             selectCtrl.onSelected({
                                 geometry: data.data.geometry.coordinates,
-                                id:data.data.pid,
+                                id: data.data.pid,
                                 direct: pro.direct,
                                 point: $.extend(true, {}, shapeCtrl.shapeEditorResult.getFinalGeometry())
                             });
@@ -165,16 +165,16 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
                             if (pro.direct == 1) {
                                 tooltipsCtrl.setEditEventType('speedLimit');
-                                var point =  shapeCtrl.shapeEditorResult.getFinalGeometry();
+                                var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
                                 var link = linkArr;
                                 for (var i = 0, len = link.length; i < len; i++) {
-                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y,point.x]), map.latLngToContainerPoint([link[i][1],link[i][0]]));
+                                    pointsOfDis = $scope.distance(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([link[i][1], link[i][0]]));
                                     if (pointsOfDis < minLen) {
                                         minLen = pointsOfDis;
                                         pointForAngle = link[i];
                                     }
                                 }
-                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y,point.x]),map.latLngToContainerPoint([pointForAngle[1],pointForAngle[0]]) );
+                                angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 console.log(angle);
                                 console.log("angle  " + angle)
                                 var marker = {
@@ -201,18 +201,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
                                 shapeCtrl.setEditingType("transformDirect");
                             }
-                        }else{
-
+                        } else {
                         }
-
-
                     })
-
-
                 });
-
-
-            } else if(type==="rdBranch") {
+            } else if (type === "rdBranch") {
                 shapeCtrl.setEditingType("rdBranch")
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {
@@ -241,7 +234,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
 
-            }  else if (type === "rdcross") {
+            } else if (type === "rdcross") {
                 var linksArr = [], nodesArr = [];
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
@@ -280,16 +273,16 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
 
 
-            }else if(type==="laneConnexity") {
+            } else if (type === "laneConnexity") {
+                if(! $scope.$parent.$parent.panelFlag ) {
+                    $scope.$parent.$parent.panelFlag = true;
+                    $scope.$parent.$parent.objectFlag = true;
+                }
                 $ocLazyLoad.load("ctrl/addLaneconnexityCtrl").then(function () {
                     $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
 
                 });
-            }
-            else if (type === "speedLimit") {
-
-            }
-            else if (type === "node") {
+            } else if (type === "node") {
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
