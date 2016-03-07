@@ -90,6 +90,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     $scope.picNowNum = 0;
     $scope.getPicsDate = function(){
+        $scope.loadText = 'loading...';
         $(".pic-loading").show();
         $scope.picPageNum = 0;
         if($scope.picNowNum == 0){
@@ -103,11 +104,17 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         };
         Application.functions.getArrowImgGroup(JSON.stringify(params),function(data){
             if(data.errcode == 0){
-                $(".pic-loading").hide();
-                $scope.pictures = data.data.data;
-                $scope.picTotal = Math.ceil(data.data.total/6);
-                $scope.goPaging();
-                $scope.$apply();
+                if(data.data.total == 0){
+                    $scope.loadText = '搜不到数据';
+                    $scope.pictures = [];
+                    $scope.$apply();
+                }else{
+                    $(".pic-loading").hide();
+                    $scope.pictures = data.data.data;
+                    $scope.picTotal = Math.ceil(data.data.total/6);
+                    $scope.goPaging();
+                    $scope.$apply();
+                }
             }
         });
     }
