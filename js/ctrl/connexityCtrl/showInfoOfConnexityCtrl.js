@@ -27,7 +27,6 @@ infoOfConnexityApp.controller("infoOfConnexityController",function($scope) {
         if (lenOfInfo=== $scope.infoData["index"]) {
 
             $scope.outLanesArr.push($scope.infoData["topos"][i]);
-            $scope.infoData
         }
 
     }

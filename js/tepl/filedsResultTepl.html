@@ -260,7 +260,7 @@
                         <ul ng-repeat="aItem in allSubItems">
                             <li ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '"
                                 ng-click="showTab(aItem,$event,pItem.id)">
-                                <label title="{{aItem.m.f}}">{{aItem.m.e}}</label>
+                                <label title="{{aItem.m.f|date:'yyyy-MM-dd HH:mm:ss'}}">{{aItem.m.e}}</label>
                             </li>
                         </ul>
                     </li>
@@ -284,8 +284,8 @@
                         </div>
                         <ul ng-repeat="pendSubItem in pendSubItems">
                             <li ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '"
-                                ng-click="showTab(pendSubItem,$event,pendSubItem.id)">
-                                <label>{{pendSubItem.m.e}}</label>
+                                ng-click="showTab(pendSubItem,$event,pendItem.id)">
+                                <label>{{pendSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss'}}</label>
                             </li>
                         </ul>
                     </li>
@@ -309,8 +309,8 @@
                         </div>
                         <ul ng-repeat="solveSubItem in solvedSubItems">
                             <li ng-if="solveSubItem.i!=''||solveSubItem.i!=null||solveSubItem.i!=' '"
-                                ng-click="showTab(solveSubItem,$event,solveSubItem.id)">
-                                <label>{{solveSubItem.m.e}}</label>
+                                ng-click="showTab(solveSubItem,$event,solveItem.id)">
+                                <label>{{solveSubItem.m.e|date:'yyyy-MM-dd HH:mm:ss'}}</label>
                             </li>
                         </ul>
                     </li>

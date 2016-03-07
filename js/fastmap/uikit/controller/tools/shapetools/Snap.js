@@ -76,7 +76,7 @@ fastmap.uikit.Snap = L.Handler.extend({
 
         for (var layerindex in this._guides) {
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
-            if (this.currentTileData.data.features != undefined) {
+            if (this.currentTileData.data.features) {
 
                 var closest = this.closeestLineSnap(this._map, this.currentTileData.data.features, tilePixcel, 10, this.snapVertex, this._guides[layerindex].selectedid);
                 if (closest) {

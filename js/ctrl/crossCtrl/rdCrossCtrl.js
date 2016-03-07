@@ -43,6 +43,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         if(! $scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
+        $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/crossCtrl/namesOfCrossCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/crossTepl/namesOfCross.html";
         })
@@ -77,7 +78,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                                 "type":"",
                                 "pid": ""
                             };
-                            data.data.log.unshift(sinfo);
+                            data.data.log.push(sinfo);
                             info=data.data.log;
                         }else{
                             info=[{
@@ -98,7 +99,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                     info=data.data.log;
                 }else{
                     info=[{
@@ -134,7 +135,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.unshift(sinfo);
+                data.data.log.push(sinfo);
                 info=data.data.log;
             }else{
                 info=[{

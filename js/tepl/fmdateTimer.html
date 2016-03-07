@@ -34,9 +34,11 @@
         display: none;
         padding: 10px;
         margin-top: 10px;
-        box-shadow: 1px 1px 10px 0 #777777;
-        background-color: #404040;
-        opacity: .8;
+        /*border: 1px solid #FFF;*/
+        box-shadow: 1px 1px 10px 0 #080808;
+        background-color: #555;
+        opacity: 1;
+        font-size: 12px;
         color: #fff;
         border-radius: 3px;
         position: absolute;
@@ -65,16 +67,36 @@
     }
     .line{
         border-top: 1px solid #ddd;
-        margin-left: -10px;
-        margin-right: -10px;
+    }
+    .line-date{
+        margin: auto -10px;
     }
     .time-slide-well{
         border: 1px solid #ddd;
-        padding: 10px;
+        padding: 10px 5px;
         border-radius: 3px;
     }
     .date-well{
-        /*width: 350px;*/
+        width: 100%;
+        border: 1px solid #FFF;
+        border-radius: 4px;
+        color: #FFF !important;
+        font-size: 12px;
+    }
+    .date-title{
+        font-size: 12px;
+        margin: 2px;
+    }
+    .date-head{
+        color: #FFF;
+        padding: 4px;
+    }
+    .date-body{
+        color: #FFF;
+    }
+    .date-code-list{
+        color: #FFF;
+        padding: 4px;
     }
     .remove-date-list{
         color:#FF0000;
@@ -87,24 +109,29 @@
         padding-right: 100px; 
     } */
     .select-time{
-        background-color: #999 !important;
+        background-color: #333 !important;
         border-radius: 0;
         border: 1px solid #fff;
         height: 26px;
         color: #fff;
         padding-left: 10px;
+        border-radius: 3px;
     }
     .select-time-add{
-        width: 60px;
+        width: 50px;
         border: 1px solid #f5f5f5;
-        background-color: #999 !important;
+        background-color: #333 !important;
         color: #fff;
         margin-left: -1px;
         height: 26px;
         padding-left: 10px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
     .select-time-after{
         width: 80px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
     .time-name{
         margin-top: 7px;
@@ -129,25 +156,38 @@
         margin-right: -1px;
         height: 26px;
         border: 1px solid #fff;
-        background-color: #999;
+        background-color: #333;
         color: #fff;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        padding: 0 10px;
+        font-size: 12px;
     }
     .select-date{
-        background-color: #999 !important;
+        background-color: #333 !important;
         border: 1px solid #fff;
         color: #fff;
         width: 82px !important;
         margin-right: -1px;
         height: 26px;
+        border-radius: 3px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        font-size: 12px;
+        padding-left: 5px;
+        line-height: 2;
     }
     .date-picker{
-        padding: 0;
+        padding: 0 5px;
+        font-size: 12px;
         border: 1px solid #fff;
-        background-color: #FFFFFF;
+        background-color: #333;
+        color: #fff;
         cursor: pointer;
+        transition: all 0.3s;
     }
     .date-picker:hover{
-        background-color: #e6e6e6;
+        background-color: #337ab7;
         border-color: #fff;
         background-image: none;
         outline: 0;
@@ -173,25 +213,50 @@
         cursor: pointer;
     }
     .month-select{
-        background-color: #999;
+        background-color: #333;
         border: 1px solid #fff;
         color: #fff;
+        height: 26px;
+        border-radius: 3px;
+    }
+    .date-btn{
+        font-size: 12px;
+        border: 1px solid #fff;
+        height: 25px;
+        padding-top: 3px;
+        width: 50%;
+        border-radius: 0;
     }
     /* 选择日期 */
     .datepicker{
-        background-color: rgba(51, 51, 51, 0.65) !important;
+        background-color: #333 !important;
+    }
+    .datepicker thead tr:first-child th:hover, .datepicker tfoot tr th:hover{
+        color: #000;
+    }
+    .datepicker table tr td.day:hover, .datepicker table tr td.day.focused{
+        color:#000;
+    }
+    .datepicker table tr td span:hover{
+        color:#000;
+    }
+    .datepicker-dropdown.datepicker-orient-bottom:after{
+        border-top: 6px solid #333;
+    }
+    .datepicker-dropdown:after{
+        border-bottom: 6px solid #333;
     }
 </style>
-<div class="panel panel-default date-well" ng-controller="DateCtrl">
-  <div class="panel-heading">
-    <h3 class="panel-title pull-left">时间段</h3>
+<div class="date-well" ng-controller="DateCtrl">
+  <div class="date-head">
+    <h3 class="date-title pull-left">时间段</h3>
     <div class="pull-right">
         <a href="javascript:;" class="data-empty" ng-click="dateEmpty($event)">清空</a>
         <a href="javascript:;" ng-click="dateSelect($event)">添加</a>
     </div>
     <div class="clearfix"></div>
   </div>
-  <div class="panel-body">
+  <div class="date-body">
     <div class="date-list"></div>
     <div class="date-list" ng-repeat="item in dateList">
         <div class="col-xs-10 col-md-10 col-lg-11 date-code-list" date-code="{{item.code}}" ng-bind="item.describe">
@@ -206,12 +271,12 @@
     <div class="datetip">
         <div class="pull-left" style="margin-top: -8px;color: #FFF;">时间段设置</div>
         <div class="pull-right" style="margin-top: -10px;">
-            <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)" style="color: #fff;opacity: 1;">
+            <button type="button" class="close" aria-label="Close" ng-click="dateSelect($event)" style="color: #fff;opacity: 1;margin-top: -4px;margin-right: -8px;">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="clearfix"></div>
-        <div class="line"></div>
+        <div class="line line-date"></div>
         <label class="radio-inline">
           <input type="radio" name="timeType" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
         </label>
@@ -220,8 +285,8 @@
         </label>
       <!-- begin 固定时间 -->
       <div class="form-group fix-time time-slide-well">
-        <div class="btn-group d-btn" data-toggle="buttons">
-          <label class="btn btn-default week-group" ng-click="weekGroup($event)" check-code='{{week.code}}' check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values">
+        <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
+          <label class="btn btn-default week-group" ng-click="weekGroup($event)" check-code='{{week.code}}' check-name="{{week.name}}" check-value="{{week.value}}" ng-repeat="week in wks.values" style="font-size: 12px;width: 14.28%;">
            {{week.value}}
           </label>
         </div>
@@ -244,10 +309,8 @@
       <!-- begin 持续时间 -->
       <div class="form-group continue-time time-slide-well" style="display:none">
         <div class="btn-group full-width d-btn" data-toggle="buttons">
-          <label class="btn btn-default" ng-repeat="value in dwm.values" ng-class="{btn: true,'btn-default': true, active: value.code == dwm.selection.code}" style="width:33%">
-            <div ng-click='dwmType($event,value)'>
-                <input type="radio" name="week" ng-model="dwm.selection" ng-value="value" autocomplete="off" ng-click="dwmType($event,value)" dwm-type="dwm.selection" checked> {{value.value}}
-            </div>
+          <label class="btn btn-default" ng-repeat="value in dwm.values" ng-class="{btn: true,'btn-default': true, active: value.code == dwm.selection.code}" ng-click="dwmType($event,value)" style="width:33%;font-size: 12px;">
+                <input type="radio" name="week" ng-model="dwm.selection" ng-value="value" autocomplete="off" dwm-type="dwm.selection" checked> {{value.value}}
           </label>
         </div>
         <!-- 日 -->
@@ -328,9 +391,9 @@
               <input type="checkbox" ng-model="vagueTime" value="z"> 模糊时间
             </label>
         </div>
-        <div class="btn-option">
-            <button class="btn btn-default" type="button" ng-click="dateSelect($event)">关闭</button>
-            <button class="btn btn-primary date-save" ng-click="dateSave($event)" type="button">
+        <div class="btn-option btn-group" style="width:100%;">
+            <button class="btn btn-default date-btn" type="button" ng-click="dateSelect($event)">关闭</button>
+            <button class="btn btn-primary date-btn" ng-click="dateSave($event)" type="button">
                 <i class="glyphicon glyphicon-floppy-disk"></i> 保存
             </button>
         </div>

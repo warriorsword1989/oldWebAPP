@@ -23,7 +23,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
     $scope.suspendFlag = false;
-    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
             if(claFlag===id) {
@@ -110,6 +110,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
             );
+
         } else if (tab === "errorCheck") {
             $("#lierror").addClass("selected");
             $("#liout").removeClass("selected");
@@ -123,6 +124,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                 }
             );
 
+
         }else if(tab==="getCheck"){
             $("#fm-error-checkErrorLi").show();
             //if( $scope.itemsByPage==1){
@@ -135,6 +137,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                     $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
                 }
             );
+
 
 
 
@@ -348,7 +351,6 @@ function dragF(id) {
     $drag.on({
         mousedown: function (e) {
             e.preventDefault();
-
             var t = $dragDiv.offset(),
                 o = e.pageX - t.left,
                 i = e.pageY - t.top;
@@ -364,12 +366,9 @@ function dragF(id) {
                             top: e.pageY - i,
                             left: e.pageX - o
                         })
-
                     }
-
                 })
             }
-
         },
         mouseup: function () {
             map.dragging.enable();
@@ -400,22 +399,15 @@ function dragF1(id,pId) {
                             top: e.pageY - i,
                             left: e.pageX - o
                         })
-
                     }
-
                 })
             }
-
         },
         mouseup: function () {
             map.dragging.enable();
             $dragDiv.unbind("mousemove.drag");
         }
     });
-
-
-
-
 }
 
 

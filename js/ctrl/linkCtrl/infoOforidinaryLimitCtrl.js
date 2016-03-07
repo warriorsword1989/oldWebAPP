@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/3/2.
  */
 var oridinaryInfoApp = angular.module("myApp", []);
-oridinaryInfoApp.controller("oridinaryLimitController",function($scope) {
+oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data.data;
     $scope.appInfoOptions = [
@@ -81,6 +81,7 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope) {
     for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
         if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
             $scope.oridiData = $scope.linkData.limits[i];
+            $scope.limitNum = i;
         }
 
     }
@@ -118,4 +119,26 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope) {
 
     }
     $scope.showvehicle("2147483655");
+    $timeout(function(){
+        $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+            $scope.dateURL = 'js/tepl/fmdateTimer.html';
+            /*查询数据库取出时间字符串*/
+            $timeout(function(){
+                $scope.fmdateTimer($scope.linkData.limits[$scope.limitNum].timeDomain);
+                $scope.$broadcast('set-code',$scope.linkData.limits[$scope.limitNum].timeDomain);
+                $scope.$apply();
+            },100);
+        });
+    })
+    /*时间控件*/
+    $scope.fmdateTimer = function(str){
+        $scope.$on('get-date', function(event,data) {
+            $scope.linkData.limits[$scope.limitNum].timeDomain = data;
+        });
+        $timeout(function(){
+            $scope.$broadcast('set-code',str);
+            $scope.linkData.limits[$scope.limitNum].timeDomain = str;
+            $scope.$apply();
+        },100);
+    }
 })

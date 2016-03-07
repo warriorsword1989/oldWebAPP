@@ -159,5 +159,4 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         newArr.seqNum = 0;
         protoArr.push(newArr);
     }
-    console.log('BraNameCtrl')
 });
