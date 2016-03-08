@@ -96,6 +96,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.initializeNodeData();
     }
     objectEditCtrl.nodeObjRefresh=function() {
+        console.log(item)
         $scope.initializeNodeData();
 };
 

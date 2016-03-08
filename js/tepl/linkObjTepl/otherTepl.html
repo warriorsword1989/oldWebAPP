@@ -150,6 +150,7 @@
         margin-right: 5px;
         margin-top: 5px;
         padding: 0 5px;
+        color: #fff;
     }
 
     .popover {
@@ -310,6 +311,11 @@
             <div><label class="control-label">道路形态</label></div>
             <div class="inline">
                 <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+            </div>
+            <div class="inline" id="fromOfWRoaddiv" >
+                <li ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                    {{fromitem.label}}
+                </li>
             </div>
         </li>
     </ul>
