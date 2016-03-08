@@ -105,15 +105,27 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
         }
     };
     $scope.addLaneConnexity=function() {
+        var lastLane= $scope.lanesArr[$scope.lanesArr.length-1].split("");
+        var zeroLane = $scope.lanesArr[0].split("");
         if( $scope.laneInfo["selectNum"]) {
             var selectLane = $scope.lanesArr[$scope.laneInfo["selectNum"]].split("");
-            selectLane[0] = $scope.item.id;
+            if($scope.laneInfo["selectNum"]===0) {
+                if($scope.lanesArr[0].indexOf("[")!==-1) {
+                    selectLane[1] = $scope.item.id;
+                }
+            }else if($scope.laneInfo["selectNum"]===($scope.lanesArr.length-1)){
+                if($scope.lanesArr[$scope.laneInfo["selectNum"]].indexOf("[")!==-1) {
+                    selectLane[1] = $scope.item.id;
+                }
+
+            }else{
+                selectLane[0] = $scope.item.id;
+                $scope.changeInfo($scope.laneInfo["selectNum"], $scope.item);
+            }
             $scope.lanesArr[$scope.laneInfo["selectNum"]] = selectLane.join("");
             $scope.laneInfo["laneInfo"] = $scope.lanesArr.join(",");
-            $scope.changeInfo($scope.laneInfo["selectNum"], $scope.item);
             $scope.laneInfo["selectNum"] = undefined;
         }else{
-            var lastLane = $scope.lanesArr[$scope.lanesArr.length - 1].split("");
             if(lastLane[lastLane.length-1]==="]"||lastLane[lastLane.length-1]===">") {
                  for(var j=0,lenJ=$scope.laneInfo["topos"].length-1;j<lenJ;j++) {
                      var arrOfDecimal = $scope.decimalToArr($scope.infoData["topos"][i]["inLaneInfo"]);
