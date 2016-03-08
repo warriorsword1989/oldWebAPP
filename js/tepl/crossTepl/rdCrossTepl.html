@@ -86,11 +86,21 @@
     }
 </style>
 <div id="rdCrossDiv" ng-controller="rdCrossController">
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    道路路口
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdCrossData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
     <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">道路路口</label></div>
-            <div class="inline"><input type="text" readonly ng-model="rdCrossData.pid"/></div>
-        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路路口</label></div>-->
+            <!--<div class="inline"><input type="text" readonly ng-model="rdCrossData.pid"/></div>-->
+        <!--</li>-->
         <li class="list-group-item">
             <div><label class="control-label">信号灯</label></div>
             <div class="radio inline" style="text-align: left">

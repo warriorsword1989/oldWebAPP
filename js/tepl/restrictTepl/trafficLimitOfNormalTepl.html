@@ -90,11 +90,21 @@
 </style>
 
 <div  ng-controller="normalController" id="traffiLimitedDiv" oncontextmenu=self.event.returnValue=false>
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    普通交限
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdRestrictData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
     <ul  class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">普通交限</label></div>
-            <div class="inline"><input type="text" readonly ng-model="rdRestrictData.pid"/></div>
-        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">普通交限</label></div>-->
+            <!--<div class="inline"><input type="text" readonly ng-model="rdRestrictData.pid"/></div>-->
+        <!--</li>-->
         <li class="list-group-item">
             <div><label class="control-label">进入</label></div>
             <div class="inline"><input type="text" ng-model="rdRestrictData.inLinkPid" readonly/></div>
