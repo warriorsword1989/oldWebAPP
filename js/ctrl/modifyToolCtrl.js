@@ -10,6 +10,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var rdLink = ly.getLayerById('referenceLine');
     var editLyer = ly.getLayerById('edit');
+
     map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
@@ -63,13 +64,29 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setEditEventType('pathNodeMove');
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
                 }
+            }else if(type === 'naviTool'){
+
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
+                if (tooltipsCtrl.getCurrentTooltip()) {
+                    tooltipsCtrl.onRemoveTooltip();
+                }
+                editLyer.drawGeometry = null;
+                shapeCtrl.stopEditing();
+                editLyer.bringToBack();
+                map.currentTool.disable();
+                editLyer.clear();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                return;
             }
             if (!selectCtrl.selectedFeatures){
                 return;
             }
             feature = selectCtrl.selectedFeatures.geometry;
 
-            var editLyer = ly.getLayerById('edit');
+            //var editLyer = ly.getLayerById('edit');
             ly.pushLayerFront('edit');
             var sobj = shapeCtrl.shapeEditorResult;
             editLyer.drawGeometry = feature;

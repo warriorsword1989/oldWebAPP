@@ -271,6 +271,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
+        if ($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("restriction");
             restrict.redraw();

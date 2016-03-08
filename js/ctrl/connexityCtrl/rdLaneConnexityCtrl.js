@@ -368,7 +368,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": 11,
             "data": objCtrl.changedProperty
         };
-
+        if ($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
