@@ -10,7 +10,6 @@
     table td{
         color:#FFF;
         font-weight: bold;
-        padding-left: 5px;
     }
     table th{
         color:#FFF;
@@ -32,42 +31,42 @@
     <table st-table="rowCollection" class="table table-striped" style="height:38px;margin-top: -38px;margin-bottom: 0px;">
         <thead>
         <tr>
-            <td style="width:135px;">检查规则号</td>
-            <td style="width:80px;">类型</td>
-            <td style="width:80px;">错误等级</td>
-            <td style="width:100px;">错误对象</td>
-            <td style="width:135px;">错误信息</td>
+            <td style="width:90px;">检查规则号</td>
+            <td style="width:40px;">类型</td>
+            <td style="width:70px;">错误等级</td>
+            <td style="width:70px;">错误对象</td>
+            <td style="width:120px;">错误信息</td>
             <!--<td style="width:100px;">错误定位</td>-->
-            <td style="width:100px;">检查时间</td>
+            <td style="width:70px;">检查时间</td>
             <td style="width:80px;">作业员</td>
-            <td style="width:100px;">检查管理</td>
+            <td style="width:80px;">检查管理</td>
         </tr>
         </thead>
     </table>
    <div  class="errorClass scroll-styled">
        <table style="overflow-y: hidden;margin-bottom: 0px;width: 100%;" >
            <tr ng-repeat="row in rowCollection" style="border-top: 1px solid #FFF;">
-               <td><div style="width:135px;color:#FFF;word-wrap:break-word;">{{row.ruleid}}</div></td>
-               <td><div style="width:80px;color:#FFF;word-wrap:break-word;">
-                   <span ng-if="row.situation==null" style="padding:20px;">无</span>
-                   <span ng-if="row.situation!=null" style="padding:20px;">{{row.situation}}</span>
+               <td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.ruleid}}</div></td>
+               <td><div style="width:40px;color:#FFF;word-wrap:break-word;">
+                   <span  ng-if="row.situation==null" >无</span>
+                   <span  ng-if="row.situation!=null" >{{row.situation}}</span>
                    </div>
                </td>
                <td>
-                   <div style="width:80px;color:#FFF;word-wrap:break-word;">
-                   <span ng-if="row.rank==0" style="padding:20px;">无</span>
-                   <span ng-if="row.rank==1" style="padding:20px;">Fatal</span>
-                   <span ng-if="row.rank==2" style="padding:20px;">Critical</span>
-                   <span ng-if="row.rank==3" style="padding:20px;">Error</span>
-                   <span ng-if="row.rank==4" style="padding:20px;">warning</span>
+                   <div style="width:40px;color:#FFF;word-wrap:break-word;">
+                   <span ng-if="row.rank==0" >无</span>
+                   <span ng-if="row.rank==1" >Fatal</span>
+                   <span ng-if="row.rank==2" >Critical</span>
+                   <span ng-if="row.rank==3" >Error</span>
+                   <span ng-if="row.rank==4" >warning</span>
                    </div>
                </td>
-               <td><div style="width:100px;color:#FFF;word-wrap:break-word;"><a style="cursor: pointer;" ng-click="showOnMap(row.targets)">{{row.targets }}</a></div></td>
-               <td><div title="{{row.information}}" style="width:135px;color:#FFF;word-wrap:break-word;">{{row.information.substring(0,8)}}...</div></td>
+               <td><div style="width:80px;color:#FFF;word-wrap:break-word;"><a style="cursor: pointer;" ng-click="showOnMap(row.targets)">{{row.targets }}</a></div></td>
+               <td><div title="{{row.information}}" style="width:120px;color:#FFF;word-wrap:break-word;">{{row.information.substring(0,8)}}...</div></td>
                <!--<td><div style="width:100px;color:#FFF;word-wrap:break-word;">{{row.geometry}}</div></td>-->
-               <td><div style="width:100px;color:#FFF;word-wrap:break-word;padding-left: 25px;">{{row.create_date}}</div></td>
-               <td><div style="width:80px;color:#FFF;word-wrap:break-word;padding-left: 20px;">{{row.worker}}</div></td>
-               <td><div style="width:100px;color:#FFF;word-wrap:break-word;">
+               <td><div style="width:80px;color:#FFF;word-wrap:break-word;">{{row.create_date}}</div></td>
+               <td><div style="width:60px;color:#FFF;word-wrap:break-word;">{{row.worker}}</div></td>
+               <td><div style="width:80px;color:#FFF;word-wrap:break-word;">
                    <select class="form-control" ng-model="initType"  style="height: 25px;padding: 0;"
                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
                    </select></div>
