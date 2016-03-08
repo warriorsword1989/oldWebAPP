@@ -310,7 +310,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     };
 
     $scope.getObjectById = function(type){
-        $scope.$parent.$parent.showLoading = true;  //showLoading
          //箭头图
          if(type){
             $scope.diverObj = divergenceIds;
@@ -322,10 +321,8 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                     $scope.diverObj = data.data;
                     objCtrl.setCurrentObject($scope.diverObj);
                     $scope.initDiver();
-                    $scope.$parent.$parent.showLoading = false;  //showLoading
                     $scope.$apply();
                 }else{
-                    $scope.$parent.$parent.showLoading = false;  //showLoading
                     $scope.$apply();
                     swal("查询失败", "问题原因："+data.errmsg, "error");
                 }
