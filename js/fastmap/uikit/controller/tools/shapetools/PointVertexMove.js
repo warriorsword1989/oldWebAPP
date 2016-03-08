@@ -15,6 +15,7 @@ fastmap.uikit.PointVertexMove = L.Handler.extend({
      * @param {Object}options
      */
     initialize: function (options) {
+        this._map._container.style.cursor = 'pointer';
         this.options = options || {};
         L.setOptions(this, options);
     },

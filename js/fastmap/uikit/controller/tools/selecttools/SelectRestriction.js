@@ -151,17 +151,18 @@ function init(options) {
                             }
                             var newStyle = "", newGeom = [];
                             var restrictObj = feature.properties.restrictioninfo;
+                            var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                             var geom = feature.geometry.coordinates;
                             if (restrictObj !== undefined) {
                                 if (restrictObj.constructor === Array) {
                                     for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
                                         newStyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
                                         if (theory > 0) {
-                                            newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                                            newGeom[1] = (parseInt(geom[1]));
-                                            this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
                                         } else {
-                                            this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
                                         }
                                     }
                                 } else {
@@ -182,11 +183,11 @@ function init(options) {
 
                                         }
                                         if (fact > 0) {
-                                            newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                                            newGeom[1] = (parseInt(geom[1]));
-                                            this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
                                         } else {
-                                            this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
                                         }
                                     }
                                 }
@@ -215,6 +216,7 @@ function init(options) {
                     var feature = data[key];
                     var type = feature.geometry.type;
                     var geom = feature.geometry.coordinates;
+                    var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                     if (data[key].properties.id == id) {
                         var ctx = {
                             canvas: this.tiles[obj].options.context,
@@ -232,11 +234,11 @@ function init(options) {
                                     for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
                                         newStyle = {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
                                         if (theory > 0) {
-                                            newGeom[0] = (parseInt(geom[0]) + theory * 16);
-                                            newGeom[1] = (parseInt(geom[1]));
-                                            this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
                                         } else {
-                                            this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
                                         }
 
                                     }
@@ -256,11 +258,11 @@ function init(options) {
                                             }
                                         }
                                         if (fact > 0) {
-                                            newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                                            newGeom[1] = (parseInt(geom[1]));
-                                            this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
                                         } else {
-                                            this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
                                         }
 
                                     }

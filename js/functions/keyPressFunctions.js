@@ -186,6 +186,11 @@ function keyEvent(ocLazyLoad, scope) {
                         }
 
                     }
+                    if(breakPoint == null){
+                        shapeCtrl.stopEditing();
+                        resetPage();
+                        return;
+                    }
                     var param = {
                         "command": "BREAK",
                         "type": "RDLINK",
@@ -335,14 +340,42 @@ function keyEvent(ocLazyLoad, scope) {
                         for (var index in link.components) {
                             coordinate.push([link.components[index].x, link.components[index].y]);
                         }
+                        var snapObj = selectCtrl.getSnapObj();
+                        //var nodePid = null;
+                        var interLinks =snapObj.interLinks.length!=0?snapObj.interLinks: [];
+                        var interNodes = snapObj.interNodes.length!=0?snapObj.interNodes: [];
+                        //if(snapObj){
+                        //    if(snapObj.targetIndex == 0){
+                        //        nodePid = selectCtrl.selectedFeatures.snode;
+                        //    }else if(snapObj.targetIndex == selectCtrl.selectedFeatures.geometry.components.length-1) {
+                        //        nodePid = selectCtrl.selectedFeatures.enode;
+                        //    }else{
+                        //        nodePid = null;
+                        //    }
+                        //}
+                        //
+                        //if(snapObj.selectedVertex == true){
+                        //    if(snapObj.snapIndex == 0){
+                        //        interNodes.push({pid:parseInt(snapObj.properties.snode),nodePid:nodePid});
+                        //    }else{
+                        //        interNodes.push({pid:parseInt(snapObj.properties.enode),nodePid:nodePid});
+                        //    }
+                        //
+                        //}else{
+                        //    interLinks.push({pid:parseInt(snapObj.properties.id),nodePid:nodePid});
+                        //
+                        //}
+
+
                         var param = {
-                            "command": "UPDATE",
+                            "command": "REPAIR",
                             "type": "RDLINK",
                             "projectId": 11,
+                            "objId":parseInt(selectCtrl.selectedFeatures.id),
                             "data": {
-                                "pid": parseInt(selectCtrl.selectedFeatures.id),
-                                "objStatus": "UPDATE",
-                                "geometry": {"type": "LineString", "coordinates": coordinate}
+                                "geometry": {"type": "LineString", "coordinates": coordinate},
+                                "interLinks":interLinks,
+                                "interNodes":interNodes
                             }
                         }
                         //结束编辑状态
