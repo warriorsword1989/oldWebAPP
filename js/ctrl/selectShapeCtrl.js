@@ -129,6 +129,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if(! $scope.$parent.$parent.panelFlag ) {
                         $scope.$parent.$parent.panelFlag = true;
                         $scope.$parent.$parent.objectFlag = true;
+                        $scope.$parent.$parent.outErrorArr[3]=false;
+                        $scope.$parent.$parent.outErrorArr[1]=true;
                     }
 
                     if (data.errcode === -1) {
@@ -185,6 +187,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 if(! $scope.$parent.$parent.panelFlag ) {
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
+                    $scope.$parent.$parent.outErrorArr[3]=false;
+                    $scope.$parent.$parent.outErrorArr[1]=true;
                 }
                 $scope.data = data;
                 Application.functions.getLinksbyNodeId(JSON.stringify({
@@ -245,6 +249,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if(! $scope.$parent.$parent.panelFlag ) {
                         $scope.$parent.$parent.panelFlag = true;
                         $scope.$parent.$parent.objectFlag = true;
+                        $scope.$parent.$parent.outErrorArr[3]=false;
+                        $scope.$parent.$parent.outErrorArr[1]=true;
                     }
                     objCtrl.setCurrentObject(data.data);
                     tooltipsCtrl.onRemoveTooltip();
