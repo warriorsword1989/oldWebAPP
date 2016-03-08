@@ -19,6 +19,7 @@ function keyEvent(ocLazyLoad, scope) {
             var restrict = layerCtrl.getLayerById('restriction');
             var rdCross = layerCtrl.getLayerById('rdcross');
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
+            var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
             var editLayer = layerCtrl.getLayerById('edit');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
@@ -465,8 +466,6 @@ function keyEvent(ocLazyLoad, scope) {
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
 
-                        var pids = [];
-                        pids.push({id: data.data.pid});
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
@@ -481,6 +480,20 @@ function keyEvent(ocLazyLoad, scope) {
                             };
                             data.data.log.push(sinfo);
                             info = data.data.log;
+                            rdBranch.redraw();
+                            Application.functions.getRdObjectById("", "RDBRANCH", function (data) {
+                                if (!scope.panelFlag) {
+                                    scope.panelFlag = true;
+                                    scope.objectFlag = true;
+                                }
+                                objEditCtrl.setCurrentObject(data.data);
+                                if (objEditCtrl.updateObject !== "") {
+                                    objEditCtrl.updateObject();
+                                }
+                                ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
+                                    scope.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                                })
+                            },data.data.pid)
                         } else {
                             info = [{
                                 "op": data.errcode,
@@ -493,15 +506,6 @@ function keyEvent(ocLazyLoad, scope) {
                             outPutCtrl.updateOutPuts();
                         }
                         toolTipsCtrl.onRemoveTooltip();
-
-
-                        objEditCtrl.setCurrentObject(pids);
-                        if (objEditCtrl.updateObject !== "") {
-                            objEditCtrl.updateObject();
-                        }
-                        ocLazyLoad.load('ctrl/rdBanchCtrl').then(function () {
-                            scope.objectEditURL = "js/tepl/rdBranchTep.html";
-                        })
                     })
 
 

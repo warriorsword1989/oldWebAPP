@@ -12,6 +12,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     $scope.divergenceIds = divergenceIds;
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
@@ -21,13 +22,14 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $timeout(function(){
         $('.diverRadio:first').triggerHandler('click');
     });
+
     $scope.setOriginalDataFunc = function(){
         Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
             $scope.$apply();
         });
     }
-    $scope.setOriginalDataFunc();
+    //$scope.setOriginalDataFunc();
     $scope.getObjectById = function(){
         $scope.$parent.$parent.showLoading = true;  //showLoading
          //箭头图
@@ -48,7 +50,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
         });
     }
-    $scope.getObjectById();
+    //$scope.getObjectById();
     /*切换不同的分歧信息显示*/
     $scope.switchDiver = function(id){
         $scope.diverObj = {};
@@ -90,6 +92,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     $scope.picNowNum = 0;
     $scope.getPicsDate = function(){
+        $scope.loadText = 'loading...';
         $(".pic-loading").show();
         $scope.picPageNum = 0;
         if($scope.picNowNum == 0){
@@ -103,11 +106,17 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         };
         Application.functions.getArrowImgGroup(JSON.stringify(params),function(data){
             if(data.errcode == 0){
-                $(".pic-loading").hide();
-                $scope.pictures = data.data.data;
-                $scope.picTotal = Math.ceil(data.data.total/6);
-                $scope.goPaging();
-                $scope.$apply();
+                if(data.data.total == 0){
+                    $scope.loadText = '搜不到数据';
+                    $scope.pictures = [];
+                    $scope.$apply();
+                }else{
+                    $(".pic-loading").hide();
+                    $scope.pictures = data.data.data;
+                    $scope.picTotal = Math.ceil(data.data.total/6);
+                    $scope.goPaging();
+                    $scope.$apply();
+                }
             }
         });
     }
@@ -327,6 +336,14 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $scope.$parent.$parent.suspendFlag = false;
         $scope.changeArrowPosition();
     }
+    $scope.initializeBranch=function() {
+        $scope.diverObj = objCtrl.data;
+        $scope.initDiver();
+    };
+    $scope.initializeBranch();
+    objCtrl.refreshBranch=function() {
+        $scope.initializeBranch();
+    };
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
         $scope.$parent.$parent.showLoading = true;  //showLoading
@@ -421,9 +438,15 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                         highLightLayer.removeHighLightLayers();
                     }
                     $timeout(function(){
-                        swal("删除成功", "PID数据删除成功！", "success");
+                        swal("删除成功", "分歧数据删除成功！", "success");
                     },500)
                     outPutCtrl.pushOutput(data.errmsg);
+                    if($scope.$parent.$parent.panelFlag ) {
+                        $scope.$parent.$parent.panelFlag = false;
+                        $scope.$parent.$parent.objectFlag = false;
+                    }
+                    //$scope.$parent.$parent.objectEditURL = "";
+                    rdBranch.redraw();
                 }else{
                     $timeout(function(){
                         swal("删除失败", "问题原因："+data.errmsg, "error");

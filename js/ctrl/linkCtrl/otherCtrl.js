@@ -55,6 +55,24 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         {"id": "81", "label": "停车位引导道路"},
         {"id": "82", "label": "虚拟提左提右"}
     ];
+    $scope.auxiFlagoption=[
+        {"id":0,"label":"无"},
+        {"id":55,"label":"服务区内道路"},
+        {"id":56,"label":"环岛IC链接路"},
+        {"id":58,"label":"补助道路"},
+        {"id":70,"label":"JCT道路名删除"},
+        {"id":71,"label":"线假立交"},
+        {"id":72,"label":"功能面关联道路"},
+        {"id":73,"label":"环岛直连MD"},
+        {"id":76,"label":"7级降8级标志"},
+        {"id":77,"label":"交叉点间Link"}
+    ];
+    $scope.toolinfoOption=[
+        {"id":0,"label":"未调查"},
+        {"id":1,"label":"收费"},
+        {"id":2,"label":"免费"},
+        {"id":3,"label":"收费道路的免费区间"}
+    ];
     //点击内容显示框时，关闭下拉，保存数据
     $("#fromOfWRoaddiv").click(function () {
         $("#fromOfWRoaddiv").popover('hide');

@@ -4,9 +4,7 @@
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad) {
     var layerCtrl = fastmap.uikit.LayerController();
-    var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var originObjCtrl = objCtrl;
     var outPutCtrl = fastmap.uikit.OutPutController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
@@ -43,6 +41,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         if(! $scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
+        $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/crossCtrl/namesOfCrossCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/crossTepl/namesOfCross.html";
         })
