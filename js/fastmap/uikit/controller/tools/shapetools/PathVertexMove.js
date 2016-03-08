@@ -23,6 +23,9 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;
+        this.interLinks = [];
+        this.interNodes = [];
+        this.selectCtrl = fastmap.uikit.SelectController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
@@ -89,21 +92,75 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         }
 
         var that = this;
+        var nodePid = null;
         if(this.snapHandler.snaped == true){
             this.shapeEditor.fire('snaped',{'snaped':true});
+            this.snapHandler.targetIndex = this.targetIndex;
+            this.selectCtrl.setSnapObj(this.snapHandler);
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+
         }else{
             this.shapeEditor.fire('snaped',{'snaped':false});
+
         }
 
         that.resetVertex(layerPoint);
+        //this.snapHandler.interLinks = this.interLinks;
+        //this.snapHandler.interNodes = this.interNodes;
         that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
     },
 
+    contains:function(obj,arr){
+        for(var item in arr){
+            if(arr[item].nodePid == obj.nodePid){
+                arr.splice(item,1,obj);
+                return true;
+            }
+        }
+
+        return false;
+    },
     onMouseUp: function(event){
         this.targetIndex = null;
         this.snapHandler.setTargetIndex(this.targetIndex);
+
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
+        var nodePid = null;
+        if(this.snapHandler.snaped == true){
+            if(this.snapHandler){
+                if(this.snapHandler.targetIndex == 0){
+                    nodePid = this.selectCtrl.selectedFeatures.snode;
+                }else if(this.snapHandler.targetIndex == this.selectCtrl.selectedFeatures.geometry.components.length-1) {
+                    nodePid = this.selectCtrl.selectedFeatures.enode;
+                }else{
+                    nodePid = null;
+                }
+            }
+
+            if(this.snapHandler.selectedVertex == true){
+                if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes )){
+                if(this.snapHandler.snapIndex == 0){
+
+                    this.interNodes.push({pid:parseInt(this.snapHandler.properties.snode),nodePid:nodePid});
+                }else{
+                    this.interNodes.push({pid:parseInt(this.snapHandler.properties.enode),nodePid:nodePid});
+                }
+                }
+
+
+            }else{
+                if(this.interLinks.length ==0 || !this.contains({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid},this.interLinks )){
+                    this.interLinks.push({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid});
+                }
+
+
+            }
+
+            if(nodePid == null){
+                this.interNodes = [];
+                this.interLinks = [];
+            }
+        }
     },
 
     //两点之间的距离
