@@ -567,7 +567,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 Application.functions.getByCondition(JSON.stringify(param), function (data) {
                                     if (data.errcode === -1) {
                                        $timeout(function(){
-                                            $.showPoiMsg('errid:'+data.errid+' ,errmsg:'+data.errmsg,e);
+                                            $.showPoiMsg(data.errmsg,e);
                                             $scope.$apply();
                                         })
                                         return;
