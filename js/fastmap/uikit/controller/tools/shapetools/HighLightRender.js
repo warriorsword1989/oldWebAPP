@@ -248,9 +248,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     if (this.linkPid !== undefined && feature.properties.id === this.linkPid) {
                         this.layer._drawLineString(ctx, geom, true, {
                             size: 2,
-                            color: '#F63428'
+                            color: '#00F5FF'
                         }, {
-                            color: '#F63428',
+                            color: '#00F5FF',
                             radius: 3
                         }, feature.properties);
                     } else {

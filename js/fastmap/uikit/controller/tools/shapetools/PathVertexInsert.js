@@ -20,6 +20,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
+        this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
         this.snapHandler.enable();
@@ -55,8 +56,8 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
             this._map.dragging.disable();
         }
         if(this.snapHandler.snaped == true){
-            var layerPoint = event.layerPoint;
-            this.resetVertex(layerPoint);
+            //var layerPoint = event.layerPoint;
+            this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
         }
 

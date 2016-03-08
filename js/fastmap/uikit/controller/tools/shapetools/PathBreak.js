@@ -61,6 +61,7 @@ fastmap.uikit.PathBreak = L.Handler.extend({
             layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
             this.resetVertex(layerPoint);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+            this.disable();
         }
 
     },
