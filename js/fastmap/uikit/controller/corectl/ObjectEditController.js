@@ -39,6 +39,8 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.rdSpeedLimitObject = "";
                 this.nodeObjRefresh = "";
                 this.selectNodeRefresh="";
+                this.refreshBranch = "";
+                this.refreshInfo = "";
                 this.on("FeatureSelected", this.setCurrentObject, this);
                 this.on("switchedData", this.setCurrentObject, this);
             },
@@ -191,7 +193,12 @@ fastmap.uikit.ObjectEditController = (function () {
                                     obj = oriData[item][k];
                                     obj["objStatus"] = "DELETE";
                                     delete obj["$$hashKey"];
-                                    obj["pid"]=pids;
+                                    if(!obj["pid"]) {
+                                        obj["pid"]=pids;
+                                    }
+                                    if(obj["vias"]) {
+                                        obj["vias"] = undefined;
+                                    }
                                     objArr.push(obj);
                                 }
                             }
