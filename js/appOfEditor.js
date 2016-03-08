@@ -297,13 +297,23 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }
     };
     $scope.changeOutOrErrorStyle=function() {
+
         if($scope.outErrorArr[0]===true||$scope.outErrorArr[1]===true) {
             $scope.outErrorArr[0] = !$scope.outErrorArr[0];
             $scope.outErrorArr[1] = !$scope.outErrorArr[1];
-        }
-        if($scope.outErrorArr[2]===true||$scope.outErrorArr[3]===true) {
+        }else if($scope.outErrorArr[2]===true) {
             $scope.outErrorArr[2] = !$scope.outErrorArr[2];
             $scope.outErrorArr[3] = !$scope.outErrorArr[3];
+        } else if($scope.outErrorArr[3]===true) {
+            if($scope.panelFlag) {
+                $scope.outErrorArr[3] = false;
+                $scope.outErrorArr[2]=false;
+                $scope.outErrorArr[0]=true;
+            }else{
+                $scope.outErrorArr[2] = !$scope.outErrorArr[2];
+                $scope.outErrorArr[3] = !$scope.outErrorArr[3];
+            }
+
         }
         $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
     };
