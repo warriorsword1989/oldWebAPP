@@ -307,7 +307,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     "kind":$scope.dataTipsData.kind,
                     "laneNum":$scope.dataTipsData.ln,
                     "geometry": {"type": "LineString", "coordinates": $scope.dataTipsData.g_location.coordinates}
-
                 }
             }
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){

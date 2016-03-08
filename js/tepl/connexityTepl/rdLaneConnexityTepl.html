@@ -249,8 +249,8 @@
     }
     .lanePic{
         /*float: left;*/
-        border: 1px solid #ffff00;
-        border-radius:50%;
+        /*border: 1px solid #ffff00;*/
+        /*border-radius:50%;*/
         width:30px;height: 30px;
         /*padding: 0px 10px;*/
         transition: all 0.5s;
@@ -286,7 +286,7 @@
             <div><label class="control-label">附加车道</label></div>
             <div class="inline">
                 <label for="leftAddtionalLane">左</label>
-                <input id="leftAddtionalLane" type="text" style="width: 49px" ng-model="lanesData.leftExtend" ng-change="addLeftAdditionalLane($event)"/>
+                <input id="leftAddtionalLane" type="text" style="width: 49px" ng-model="lanesData.leftExtend"/>
                 <label for="rightAddtionalLane">右</label>
                 <input id="rightAddtionalLane" type="text" style="width: 49px" ng-model="lanesData.rightExtend"/>
 
@@ -296,7 +296,7 @@
             <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
             <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index">
                 <div  class="lanePic">
-                    <span style="float:right;font-size: 14px;top: 0px" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                    <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
                     <img
                             ng-click="showLanesInfo(item,$index,$event)"
                             ng-mousedown="changeDirect(item,$event,$index)"
@@ -311,7 +311,7 @@
             <div style="display: inline-block" ng-repeat="items in showTransitData track by $index">
                 <div class="lanePic">
                     <img
-                            ng-dblclick="minusTransitData(items)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
+                            ng-dblclick="minusTransitData(items,$index)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
                             title="{{items}}">
                 </div>
             </div>

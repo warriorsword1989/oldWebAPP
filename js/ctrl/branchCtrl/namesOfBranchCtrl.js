@@ -22,13 +22,14 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $timeout(function(){
         $('.diverRadio:first').triggerHandler('click');
     });
+
     $scope.setOriginalDataFunc = function(){
         Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
             $scope.$apply();
         });
     }
-    $scope.setOriginalDataFunc();
+    //$scope.setOriginalDataFunc();
     $scope.getObjectById = function(){
         $scope.$parent.$parent.showLoading = true;  //showLoading
          //箭头图
@@ -49,7 +50,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
         });
     }
-    $scope.getObjectById();
+    //$scope.getObjectById();
     /*切换不同的分歧信息显示*/
     $scope.switchDiver = function(id){
         $scope.diverObj = {};
@@ -335,6 +336,14 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $scope.$parent.$parent.suspendFlag = false;
         $scope.changeArrowPosition();
     }
+    $scope.initializeBranch=function() {
+        $scope.diverObj = objCtrl.data;
+        $scope.initDiver();
+    };
+    $scope.initializeBranch();
+    objCtrl.refreshBranch=function() {
+        $scope.initializeBranch();
+    };
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
         $scope.$parent.$parent.showLoading = true;  //showLoading
@@ -422,9 +431,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                 $scope.$parent.$parent.showLoading = false;  //showLoading
                 $scope.$apply();
                 if(data.errcode == 0){
-                    //$scope.getObjectById();
-                    //$scope.setOriginalDataFunc();
-                    //objectEditCtrl.setOriginalData(param.data);
+                    $scope.getObjectById();
+                    $scope.setOriginalDataFunc();
+                    objectEditCtrl.setOriginalData(param.data);
                     if(highLightLayer.highLightLayersArr.length!==0) {
                         highLightLayer.removeHighLightLayers();
                     }
@@ -436,7 +445,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                         $scope.$parent.$parent.panelFlag = false;
                         $scope.$parent.$parent.objectFlag = false;
                     }
-                    $scope.$parent.$parent.objectEditURL = "";
+                    //$scope.$parent.$parent.objectEditURL = "";
                     rdBranch.redraw();
                 }else{
                     $timeout(function(){
@@ -449,6 +458,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*取消属性编辑*/
     $scope.$parent.$parent.cancel = function(){
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
         if($scope.getObjectById()){
             $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();
