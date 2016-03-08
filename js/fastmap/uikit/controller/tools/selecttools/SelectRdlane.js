@@ -134,8 +134,8 @@ fastmap.uikit.SelectRdlane = (function () {
                                             console.log("test");
                                         }
                                         if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 10;
-                                            newgeom[1] = parseInt(geom[1]);
+                                            newgeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
                                             this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
                                             //this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
                                         } else {
@@ -204,8 +204,8 @@ fastmap.uikit.SelectRdlane = (function () {
                                             console.log("test");
                                         }
                                         if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0])*Math.cos(route) + fact * 10*Math.sin(route);
-                                            newgeom[1] = parseInt(geom[1])*Math.sin(route) + fact * 10*Math.cos(route);
+                                            newgeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
                                             this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
                                             this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
                                         } else {

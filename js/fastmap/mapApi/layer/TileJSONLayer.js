@@ -931,6 +931,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
+                        var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                         var newgeom = [];
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
@@ -963,11 +964,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         }
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 16;
-                                        newgeom[1] = parseInt(geom[1]);
-                                        this._drawImg(ctx, newgeom, newstyle, boolPixelCrs);
+                                        newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                        this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs,route);
                                     } else {
-                                        this._drawImg(ctx, geom, newstyle, boolPixelCrs);
+                                        this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
                                     }
 
                                 }
@@ -1050,7 +1051,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.laneconnexityinfo;
-                        var route = (feature.properties.laneconnexityrotate-90) * (Math.PI / 180);
+                        var route = (feature.properties.laneconnexityrotate) * (Math.PI / 180);
                         if (isNaN(route)) {
                             route = 0;
                         }
@@ -1076,8 +1077,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         console.log("test");
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 10;
-                                        newgeom[1] = parseInt(geom[1]);
+                                        newgeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
                                         this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
                                     } else {
                                         this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs, route);
