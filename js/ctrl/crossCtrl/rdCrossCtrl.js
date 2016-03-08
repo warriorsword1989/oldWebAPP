@@ -56,7 +56,9 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             "projectId": 11,
             "data": objCtrl.changedProperty
         };
-
+        if ($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
