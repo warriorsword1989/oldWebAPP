@@ -98,6 +98,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.panelFlag = false;
             $scope.$parent.$parent.objectFlag = false;
         }
+        $("#popoverTips").hide();
         if (type === "link") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板

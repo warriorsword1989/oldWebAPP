@@ -20,6 +20,7 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
+        this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;

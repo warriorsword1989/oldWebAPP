@@ -458,6 +458,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*取消属性编辑*/
     $scope.$parent.$parent.cancel = function(){
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
         if($scope.getObjectById()){
             $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();

@@ -32,6 +32,7 @@ fastmap.uikit.SelectController=(function() {
                 this.selectedFeatures = null;
                 this.updateTipsCtrl = "";
                 this.updateKindTips = "";
+                this.snapObj= null;
                 this.on("selectByAttribute", this.OnSelectByAttribute, this);
             },
             /**
@@ -73,6 +74,17 @@ fastmap.uikit.SelectController=(function() {
             clear:function() {
                 this.fire("FeatureCleared",{features:this.selectedFeatures});
                 this.selectedFeatures= [];
+            },
+
+            /***
+             * 当前捕捉到的对象
+              */
+            getSnapObj:function(){
+                return this.snapObj;
+            },
+
+            setSnapObj:function(obj){
+                this.snapObj = obj;
             }
         });
         return new selectController(options);

@@ -168,6 +168,22 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #sceneHightSpeedDiv div.panel-default{
+        border: none;
+        border-radius: 4px;
+    }
+    #sceneHightSpeedDiv div.left{
+        border: none;
+        border-radius: 4px;
+    }
+    #sceneHightSpeedDiv img:not(:last-child){
+        border-right: none;
+    }
+    #sceneHightSpeedDiv img{
+        border:1px solid rgba(255,255,255,0.3);
+    }
+
 </style>
 <div ng-controller="sceneHightSpeedDiverTeplCtrl" id="sceneHightSpeedDiv" style="width:100%;height: 100%;">
     <div class="topTitle">
@@ -175,13 +191,13 @@
     </div>
     <div class="title" >
         <div class="col-sm-12"   style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 9px;">
-            <img ng-repeat="phitem in photos track by $index  " style="border:1px solid #e5e5e5;" ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
+            <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
         </div>
     </div>
     <div class="middle">
         <div class="left">
             <div class="panel panel-default" style="margin-bottom: 0px;background-color: #555;width: 100%;">
-                <div class="panel-body">
+                <div class="panel-body" style="border-radius: 4px">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状 态:</label>
