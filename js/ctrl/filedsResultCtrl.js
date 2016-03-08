@@ -329,6 +329,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             };
             //点击列表需要的方法
             $scope.showTab = function (item, e, pItemId) {
+                $scope.$parent.$parent.objectFlag=false;
+                $scope.$parent.$parent.panelFlag=false;
                 $("#dataList>li>ul>li").click(function (e) {
                     e.stopPropagation()
                     $("#dataList>li>ul>li").removeClass("selected")

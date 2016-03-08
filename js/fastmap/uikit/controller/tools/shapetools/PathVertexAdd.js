@@ -24,7 +24,7 @@ fastmap.uikit.PathVertexAdd = L.Handler.extend({
         this.targetPoint = null;
         this.targetIndex = null;
         var points = null;
-
+        this._map._container.style.cursor = 'pointer';
         this.startPoint = null;
         this.endPoint = null;
         this.insertPoint = null;

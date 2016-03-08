@@ -127,6 +127,17 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #tipsBtnsDiv div.panel-default{
+        border: none;
+        border-radius: 4px;
+    }
+    #tipsBtnsDiv img:not(:last-child){
+        border-right: none;
+    }
+    #tipsBtnsDiv img{
+        border:1px solid rgba(255,255,255,0.3);
+    }
 </style>
 <div ng-controller="sceneTipsController" id="scenetipsDiv" style="width: 100%;">
     <div class="topTitle">
@@ -139,7 +150,7 @@
     </div>
     <div class="right" >
         <div class="form-group" style="background-color: #404040;margin-bottom: 0px;">
-            <div class="col-sm-6" ng-repeat="item in dataTipsData.o_array">
+            <div class="col-sm-2" ng-repeat="item in dataTipsData.o_array">
                 <div ng-if="item.flag===1" class="out-link-img">
                     <img ng-src="css/limit/dataTips/{{item.oInfo}}.png" ng-click="showOutLink(item)">
                 </div>
@@ -150,9 +161,9 @@
         </div>
     </div>
     <div class="middle">
-        <div class="left"  >
+        <div class="left"  style="border: none;" >
             <div class="panel panel-default" style="background-color: #555;margin-bottom: 0px;border: 0;">
-                <div class="panel-body">
+                <div class="panel-body" style="border: none;border-radius: 4px">
                     <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label" style="padding: 4px">状态:</label>

@@ -114,6 +114,7 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectRelation.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdCross.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdBranch.js",
+
                 "fastmap/uikit/ctlmodel/CheckResult.js",
                 "fastmap/uikit/ctlmodel/ContentStyle.js",
                 "fastmap/uikit/ctlmodel/DataTip.js",

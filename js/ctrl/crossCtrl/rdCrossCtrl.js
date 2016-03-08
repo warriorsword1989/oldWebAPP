@@ -56,7 +56,9 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             "projectId": 11,
             "data": objCtrl.changedProperty
         };
-
+        if ($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
@@ -148,5 +150,11 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                 outPutCtrl.updateOutPuts();
             }
         })
+    }
+
+    $scope.$parent.$parent.cancel=function(){
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
     }
 });

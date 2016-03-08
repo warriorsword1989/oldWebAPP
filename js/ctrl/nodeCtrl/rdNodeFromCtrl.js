@@ -168,6 +168,9 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 return v;
             });
         }
+        if ($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
@@ -230,5 +233,10 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 outPutCtrl.updateOutPuts();
             }
         })
+    }
+    $scope.$parent.$parent.cancel=function(){
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
     }
 })
