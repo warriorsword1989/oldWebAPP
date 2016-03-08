@@ -402,6 +402,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //取消操作
     $scope.$parent.$parent.cancel = function () {
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
         $timeout(function(){
             $(".data-empty").trigger('click');
             $scope.$apply();

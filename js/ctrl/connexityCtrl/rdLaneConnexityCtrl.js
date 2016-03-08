@@ -429,5 +429,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             }
         })
     }
+
+    $scope.$parent.$parent.cancel=function(){
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
+    }
 });
 
