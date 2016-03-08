@@ -26,40 +26,15 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
+        // console.log(divergenceIds)
+        objectEditCtrl.setOriginalData(divergenceIds);
+       /* Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
+        console.log(data.data)
             $scope.$apply();
-        });
+        });*/
     }
     $scope.setOriginalDataFunc();
-    $scope.getObjectById = function(){
-        $scope.$parent.$parent.showLoading = true;  //showLoading
-         //箭头图
-        Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
-            // oldData = data.data;
-            // objectEditCtrl.setOriginalData(data.data);
-            if(data.errcode == 0){
-                $scope.diverObj = data.data;
-                objCtrl.setCurrentObject($scope.diverObj);
-                // $scope.diverObj.vias = [{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1}]
-                $scope.initDiver();
-                $scope.$parent.$parent.showLoading = false;  //showLoading
-                $scope.$apply();
-            }else{
-                $scope.$parent.$parent.showLoading = false;  //showLoading
-                $scope.$apply();
-                swal("查询失败", "问题原因："+data.errmsg, "error");
-            }
-        });
-    }
-    $scope.getObjectById();
-    /*切换不同的分歧信息显示*/
-    $scope.switchDiver = function(id){
-        $scope.diverObj = {};
-        $scope.diverId = id;
-        $scope.getObjectById();
-        $scope.setOriginalDataFunc();
-    }
     /*点击关系类型*/
     $scope.switchRelType = function(code){
         $scope.relationCode = code;
@@ -333,6 +308,31 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         }
         $scope.changeArrowPosition();
     };
+
+    $scope.getObjectById = function(type){
+        $scope.$parent.$parent.showLoading = true;  //showLoading
+         //箭头图
+         if(type){
+            $scope.diverObj = divergenceIds;
+            objCtrl.setCurrentObject($scope.diverObj);
+            $scope.initDiver();
+         }else{
+            Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
+                if(data.errcode == 0){
+                    $scope.diverObj = data.data;
+                    objCtrl.setCurrentObject($scope.diverObj);
+                    $scope.initDiver();
+                    $scope.$parent.$parent.showLoading = false;  //showLoading
+                    $scope.$apply();
+                }else{
+                    $scope.$parent.$parent.showLoading = false;  //showLoading
+                    $scope.$apply();
+                    swal("查询失败", "问题原因："+data.errmsg, "error");
+                }
+            });
+         }
+    }
+    $scope.getObjectById(true);
     /*关闭详细信息面板，移动箭头图位置*/
     $scope.$parent.$parent.changeSuspendShow = function(){
         $scope.$parent.$parent.suspendFlag = false;
@@ -425,9 +425,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                 $scope.$parent.$parent.showLoading = false;  //showLoading
                 $scope.$apply();
                 if(data.errcode == 0){
-                    //$scope.getObjectById();
-                    //$scope.setOriginalDataFunc();
-                    //objectEditCtrl.setOriginalData(param.data);
                     if(highLightLayer.highLightLayersArr.length!==0) {
                         highLightLayer.removeHighLightLayers();
                     }
@@ -452,7 +449,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*取消属性编辑*/
     $scope.$parent.$parent.cancel = function(){
-        if($scope.getObjectById()){
+        if($scope.getObjectById(false)){
             $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();
         }
