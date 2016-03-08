@@ -321,7 +321,7 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
                                     <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
-                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9">
+                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null">
                                             <img
                                                  ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png">
                                         </div>
@@ -334,7 +334,7 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
-                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9">
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&gItem.arwG!=null">
                                             <img
                                                  ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
                                         </div>
