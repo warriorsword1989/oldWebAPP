@@ -24,7 +24,7 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
     ];
     $scope.changeType=function(selectInd,rowid){
         var params = {
-            "projectId":11,
+            "projectId":Application.projectid,
             "id":rowid,
             "type":selectInd
         };

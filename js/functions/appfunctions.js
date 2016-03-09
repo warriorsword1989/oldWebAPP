@@ -18,7 +18,7 @@ Application.functions.getTipsStatics = function(meshidArray, stage,func){
     )
 }
 Application.functions.getTipsListItems=function(meshidArray,stage,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":11}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":'+Application.projectid+'}',
         function(data){
             func(data)
         }
@@ -39,12 +39,12 @@ Application.functions.getTipsResult=function(rowkey,func) {
  */
 Application.functions.getRdObjectById=function(id,type,func,detailid) {
     if(detailid){
-        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+detailid+'}',
+        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+detailid+'}',
             function(data) {
                 func(data);
             });
     }else{
-        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":11,"type":"'+type+'","pid":'+id+'}',
+        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
             function(data) {
                 func(data);
             });
@@ -58,7 +58,7 @@ Application.functions.getRdObjectById=function(id,type,func,detailid) {
  * @param func
  */
 Application.functions.getRdObjectByDetailId=function(id,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":11,"type":"'+type+'","detailId":'+id+'}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+id+'}',
         function(data) {
             func(data)
         });

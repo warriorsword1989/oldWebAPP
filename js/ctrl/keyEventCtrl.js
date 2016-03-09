@@ -42,7 +42,7 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
 
                     var paramOfLink = {
                         "command": "createlink",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": {
                             "eNodePid": 0,
                             "sNodePid": 0,
@@ -81,7 +81,7 @@ ketEventApp.controller('keyEventController', ['$scope', '$ocLazyLoad', function 
                 } else if (shapeCtrl.editType === "restriction") {
                     var paramOfRestrict = {
                         "command": "createrestriction",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": $scope.limitRelation
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
