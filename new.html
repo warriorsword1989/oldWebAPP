@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>FastMap道路编辑系统</title>
+
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-3.3.5/css/bootstrap.css"/>
+    <link rel="stylesheet" href="js/lib/ui-layout/ui-layout.css">
+    <link rel="stylesheet" href="js/lib/ng-table/1.0.0/ng-table.css">
+    <link rel="stylesheet" href="js/lib/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/timepicki/css/timepicki.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/bootstrap-datepicker/css/datepicker3.css">
+    <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
+    <link rel="stylesheet" type="text/css" href="css/new.css">
+    <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="js/fastmap/fastmapapi.js"></script>
+</head>
+<body ng-controller="RoadEditController">
+<div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
+    <div id="fm-menu-container" ui-layout-container size="40px">
+        <div id="fm-logo-container">
+            <a id="fm-logo" href="#" ></a>
+        </div>
+        <div id="fm-tabs-container">
+            <div id="fm-tabs">
+                <ul>
+                    <li><a><span class="glyphicon glyphicon-hdd"></span></a></li>
+                    <li><a><span class="glyphicon glyphicon-hdd"></span></a></li>
+                </ul>
+                <a><div class="fill-purple"></div></a>
+                <a><div class="fill-blue"></div><span class="glyphicon glyphicon-picture"></span></a>
+                <a><div class="fill-blue"></div><span class="glyphicon glyphicon-menu-hamburger"></span></a>
+            </div>
+        </div>
+    </div>
+    <div id="fm-pane-container" ui-layout-container></div>
+</div>
+<script type="text/javascript" data-main="js/mainOfEditor" src="js/lib/require/require.js"></script>
+</body>
+</html>
