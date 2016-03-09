@@ -374,7 +374,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
-        param.projectId = 11;
+        param.projectId = Application.projectid;
         param.data = objectEditCtrl.changedProperty;
         /*解决linkPid报错*/
         if(param.data.details){
@@ -423,7 +423,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             var param = {
                 "command":"DELETE",
                 "type":"RDBRANCHDETAIL",
-                "projectId":11,
+                "projectId":Application.projectid,
                 "objId":$scope.diverObj.details[0].pid
             };
             Application.functions.saveBranchInfo(JSON.stringify(param),function(data){

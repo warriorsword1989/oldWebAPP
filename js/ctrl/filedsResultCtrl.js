@@ -560,7 +560,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             if (data.f.id) {
                                 var obj = {"nodePid": parseInt(data.f.id)};
                                 var param = {
-                                    "projectId": 11,
+                                    "projectId": Application.projectid,
                                     "type": "RDCROSS",
                                     "data": obj
                                 }
