@@ -268,7 +268,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         var param = {
             "command": "UPDATE",
             "type":"RDRESTRICTION",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
         if ($scope.$parent.$parent.suspendFlag) {
@@ -338,7 +338,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         {
             "command":"DELETE",
             "type":"RDRESTRICTION",
-            "projectId":11,
+            "projectId":Application.projectid,
             "objId":pid
         };
         //结束编辑状态
@@ -405,9 +405,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //取消操作
     $scope.$parent.$parent.cancel = function () {
-        $scope.$parent.$parent.panelFlag = false;
+        /*$scope.$parent.$parent.panelFlag = false;
         $scope.$parent.$parent.objectFlag = false;
-        $scope.$parent.$parent.objectEditURL="";
+        $scope.$parent.$parent.objectEditURL="";*/
         $timeout(function(){
             $(".data-empty").trigger('click');
             $scope.$apply();

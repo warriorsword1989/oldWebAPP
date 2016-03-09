@@ -337,9 +337,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         if(!$scope.diverObj){
-            $scope.$parent.$parent.showLoading = false;  //showLoading
             swal("操作失败", "请输入属性值！", "error");
             return false;
         }
@@ -365,7 +363,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
-        param.projectId = 11;
+        param.projectId = Application.projectid;
         param.data = objectEditCtrl.changedProperty;
         /*解决linkPid报错*/
         if(param.data.details){
@@ -378,13 +376,11 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
         }
         if(param.data == false){
-            $scope.$parent.$parent.showLoading = false;  //showLoading
             swal("操作失败", "属性值无任何改变！", "error");
             return false;
         }
         Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
             var outPutCtrl = fastmap.uikit.OutPutController();
-            $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();
             if(data.errcode == 0){
                 $scope.setOriginalDataFunc();
@@ -409,17 +405,15 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             cancelButtonText:'取消'
         },
         function(){
-            $scope.$parent.$parent.showLoading = true;  //showLoading
             $scope.$apply();
             var param = {
                 "command":"DELETE",
                 "type":"RDBRANCHDETAIL",
-                "projectId":11,
+                "projectId":Application.projectid,
                 "objId":$scope.diverObj.details[0].pid
             };
             Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
                 var outPutCtrl = fastmap.uikit.OutPutController();
-                $scope.$parent.$parent.showLoading = false;  //showLoading
                 $scope.$apply();
                 if(data.errcode == 0){
                     if(highLightLayer.highLightLayersArr.length!==0) {

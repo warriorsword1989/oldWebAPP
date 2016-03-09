@@ -12,7 +12,6 @@
     }
 
     #rdLaneConnexityDiv {
-        /*border: 1px solid #FBFBFB;*/
         width: 100%;
         height: 100%;
     }
@@ -122,6 +121,54 @@
     .lanePic > .active{
         box-shadow: 0px 0px 7px 4px #9d9d9d;
     }
+    .module-box{
+        border: 1px solid #FFF;
+        padding: 10px;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #555;
+        /*opacity: 0.8;*/
+    }
+    .module-fix-box{
+        padding: 10px;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #555;
+    }
+    .box-head{
+        color: #fff;
+    }
+    .d-name{
+        float: left;
+        width: 30%;
+        text-align: right;
+        color: #fff;
+    }
+    .d-value{
+        float: left;
+        width: 69%;
+        color: #fff;
+    }
+    .d-input{
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+        width: 100%;
+        border-radius: 3px;
+        color: #fff;
+    }
+    .d-group{
+        margin-top:3px;
+        float: left;
+        width: 100%;
+    }
+    .d-title{
+        float: left;
+    }
 </style>
 <div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv" oncontextmenu=self.event.returnValue=false>
     <div style="height:50px">
@@ -135,10 +182,35 @@
         </form>
     </div>
     <ul  class="list-group list-group-lg m-b-none">
-        <!--<li class="list-group-item">-->
-            <!--<div><label class="control-label">车信id</label></div>-->
-            <!--<div class="inline"><input type="text" readonly ng-model="lanesData.pid"/></div>-->
-        <!--</li>-->
+        <li class="list-group-item">
+            <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
+            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index" ng-if="showNormalData.length!==0">
+                <div >
+                    <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                    <img
+                            ng-click="showLanesInfo(item,$index,$event)"
+                            ng-mousedown="changeDirect(item,$event,$index)"
+                            ng-src="./css/laneinfo/arw/{{item}}.png"
+                            title="{{item}}">
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div style="display: none;"></div>
+            <div style="display: inline-block;padding-top: 15px" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
+                <div >
+                    <span ng-if="items!=='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                          class="glyphicon glyphicon-remove-sign"
+                          ng-click="minusTransitData(items,$index)"></span>
+                       <span ng-if="items==='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                               ></span>
+                    <img ng-click="changeTransit(items,$index)"
+                         ng-src="./css/laneinfo/arw/{{items}}.png"
+                         title="{{items}}">
+                </div>
+            </div>
+
+        </li>
         <li class="list-group-item">
             <div><label class="control-label">进入线</label></div>
             <div class="inline"><input type="text" readonly ng-model="lanesData.inLinkPid"/></div>
@@ -157,31 +229,6 @@
 
             </div>
         </li>
-        <li class="list-group-item">
-            <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
-            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index">
-                <div  class="lanePic">
-                    <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
-                    <img
-                            ng-click="showLanesInfo(item,$index,$event)"
-                            ng-mousedown="changeDirect(item,$event,$index)"
-                            ng-src="./css/laneinfo/arwG/{{item}}.png"
-                            title="{{item}}">
-                </div>
-            </div>
 
-
-        </li>
-        <li class="list-group-item">
-            <div style="display: none"></div>
-            <div style="display: inline-block" ng-repeat="items in showTransitData track by $index">
-                <div class="lanePic">
-                    <img
-                            ng-dblclick="minusTransitData(items,$index)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
-                            title="{{items}}">
-                </div>
-            </div>
-
-        </li>
     </ul>
 </div>

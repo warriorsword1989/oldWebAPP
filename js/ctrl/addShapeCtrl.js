@@ -5,12 +5,13 @@ var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
 addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
-
+        var editlayer = layerCtrl.getLayerById('edit');
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var objCtrl=fastmap.uikit.ObjectEditController();
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
@@ -77,6 +78,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (event)
                 event.stopPropagation();
             $scope.initCurrentTool();
+            editlayer.clear();
+            editlayer.bringToBack();
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            rdLink.clearAllEventListeners()
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -274,12 +280,24 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             } else if (type === "laneConnexity") {
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
                 if(! $scope.$parent.$parent.panelFlag ) {
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
                 }
-                $ocLazyLoad.load("ctrl/addLaneconnexityCtrl").then(function () {
-                    $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
+                var obj = {};
+                obj["showTransitData"]=[]
+                obj["showAdditionalData"] = [];
+                obj["showNormalData"] = [];
+                obj["inLaneInfoArr"] = [];
+                $scope.$parent.$parent.objectEditURL = "";
+                objCtrl.setCurrentObject(obj);
+                $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
+                    $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
 
                 });
             } else if (type === "node") {

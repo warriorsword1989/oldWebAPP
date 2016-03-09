@@ -58,13 +58,13 @@
     </div>
     <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-            <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" id="test" style="padding: 2px 5px;">
+            <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" id="test" style="padding: 2px 0px;">
                 <div ng-include="layersURL"></div>
             </div>
             <div ui-layout-container>
                 <div ui-layout="{flow:'row',dividerSize:'0'}">
                     <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
-                    <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:100;background-color: transparent">
+                    <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
                         <div class="btn-toolbar" style="margin-left: 0px">
                             <div ng-include="selectShapeURL" style="float: left"></div>
                             <div style="float: left"><span class="divider-vertical"></span></div>
@@ -93,15 +93,15 @@
                         <div style="width: 290px;bottom: 0px;position:absolute;border-color: #e7e7e7;z-index:10 ">
                             <div id="fm-attrOption-btnGroup" class="btn-group btn-group-justified output-console" style="margin-top: 10px;display: none;" role="group" aria-label="...">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs" ng-click="save()"><a href="#" data-toggle="tab"  style="font-size: 10px;">保 存</a>
+                                    <button type="button" class="btn btn-xs" ng-click="save()"><a href="#" data-toggle="tab"  style="font-size: 10px;"><i class="glyphicon glyphicon-floppy-disk"></i> 保 存</a>
                                     </button>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs" ng-click="delete()"><a href="#" data-toggle="tab"   style="font-size: 10px;">删 除</a>
+                                    <button type="button" class="btn btn-xs" ng-click="delete()"><a href="#" data-toggle="tab"   style="font-size: 10px;"><i class="glyphicon glyphicon-trash"></i> 删 除</a>
                                     </button>
                                 </div>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs" ng-click="cancel()"><a href="#" data-toggle="tab" style="font-size: 10px;">取 消</a>
+                                    <button type="button" class="btn btn-xs" ng-click="cancel()"><a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-floppy-remove"></i> 取 消</a>
                                     </button>
                                 </div>
                             </div>
@@ -113,14 +113,14 @@
                         <a class="fm-panel-controlArrowUpAndDown" ng-click="changeOutOrErrorStyle()"><span></span></a>
                     </div>
                     <div style="height: 100%;padding-top: 30px"  ng-class="{true:'fm-out-error-url',false:'fm-out-error-url-sx'}[outErrorUrlFlag]">
-                        <ul id="fm-out-error-inspectAndWrongTab" style="height: 30px;background-color: #404040;opacity: 0.95;margin-bottom: 0px;margin-top: -30px">
+                        <ul id="fm-out-error-inspectAndWrongTab" style="height: 30px;background-color: #404040;;margin-bottom: 0px;margin-top: -30px">
                             <li style="font-size: 10px">
                                 <div class="btn-group btn-group-justified" style="width: 150px" role="group" aria-label="">
                                     <div class="btn-group" role="group">
-                                        <button id="liout" type="button" class="btn btn-xs selected" ng-click="showTab('outPut')">输出结果</button>
+                                        <button id="liout" type="button" class="btn btn-xs selected" ng-click="showTab('outPut')"><i class="glyphicon glyphicon-filter"></i> 输出结果</button>
                                     </div>
                                     <div class="btn-group" role="group" style="border-left: 1px solid #404040;border-right: 1px solid #404040">
-                                        <button  id="lierror" type="button" class="btn btn-xs "  ng-click="showTab('errorCheck')">检查结果</button>
+                                        <button  id="lierror" type="button" class="btn btn-xs "  ng-click="showTab('errorCheck')"><i class="glyphicon glyphicon-tasks"></i> 检查结果</button>
                                     </div>
                                 </div>
                             </li>
@@ -142,8 +142,8 @@
                                 </div>
                             </li>
                             <li style="float:right">
-                                <button id="immediatelyCheck" class="btn btn-xs" style="display: none;" ng-click="showTab('getCheck')">刷新检查</button>
-                                <button id="errorClear" style=" width: 60px" ng-click="empty()" class="btn btn-xs">清 空</button>
+                                <button id="immediatelyCheck" class="btn btn-xs" style="display: none;" ng-click="showTab('getCheck')"><i class="glyphicon glyphicon-refresh"></i> 刷新检查</button>
+                                <button id="errorClear" style=" width: 60px" ng-click="empty()" class="btn btn-xs"><i class="glyphicon glyphicon-ban-circle"></i> 清 空</button>
                             </li>
                         </ul>
                         <div id="inwTabContent" class="tab-content" style="height: 100%;width: 100%">
@@ -168,6 +168,9 @@
 <div id='tooltip' class="tooltipclass"></div>
 <div id="dataTipsOriginModal" style="display:none">
     <div class="modal-header">
+        <div class="pull-right" id="fullPicBtn" ng-click="showFullPic();" title="全屏">
+            <span class="glyphicon glyphicon-fullscreen"></span>
+        </div>
         <button id="tipsImgClose" type="button" class="close"
                 data-dismiss="modal" aria-hidden="true" title="关闭">
             &times;
@@ -177,11 +180,19 @@
         </h4>
     </div>
     <div class="modal-body">
+        <div class="switch-left" ng-click="switchPic(0);">
+            <img src="css/img/left.png">
+        </div>
         <div id="imgContainer"> 
             <img id="dataTipsOriginImg" src=""/> 
         </div>
+        <div class="switch-right" ng-click="switchPic(1);">
+            <img src="css/img/right.png">
+        </div>
+        <div id="imgPage">{{imgPageNow}}/{{imgAllPage}}</div>
     </div>
 </div>
+<div id="fullScalePic" ng-click="hideFullPic();"><img src=""></div>
 <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>
 <script type="text/javascript" data-main="js/mainOfEditor" src="js/lib/require/require.js"></script>
 </body>

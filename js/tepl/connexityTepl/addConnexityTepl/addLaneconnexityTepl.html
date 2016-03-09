@@ -1,0 +1,105 @@
+<style>
+
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        /*background-color: transparent;*/
+        margin-right: 0px;
+    }
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*background-color: #000;*/
+        border: 1px solid #ddd;
+        border-right: none;
+        border-left: none;
+    }
+
+    #laneConneexityDiv {
+        opacity: 1;
+        width: 100%;
+    }
+
+    #laneConneexityDiv ul {
+        background-color: #303030;
+        list-style: none;
+        overflow: hidden;
+    }
+
+    #laneConneexityDiv ul > li {
+        background-color: #303030;
+    }
+
+
+    #laneConneexityDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .show-img-normal {
+        width: 40px;
+        height: 30px;
+    }
+
+    .show-img-transit {
+        width: 40px;
+        height: 30px;
+    }
+
+    .img-describe {
+        background-color: #777;
+        color: #fff;
+        font-size: 11px;
+        text-align: center;
+    }
+</style>
+
+<div ng-controller="addLaneConnexityController" class="panel panel-default" id="laneConneexityDiv"
+     oncontextmenu=self.event.returnValue=false>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">创建车信</label></div>
+        </li>
+        <li class="list-group-item">
+            <div class="inline" ng-repeat="item in directData.showNormalData">
+                <div>
+                      <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                            class="glyphicon glyphicon-remove-sign"
+                            ng-click="minusNormalData(item,$index,$event)"></span>
+                    <img class="show-img-normal" ng-src="./css/laneinfo/arw/{{item.flag}}.png"
+                         ng-click="addTransitData(item,$index)"
+                         title="{{item.flag}}">
+                </div>
+
+            </div>
+
+        </li>
+        <li class="list-group-item">
+            <div  class="inline" style="padding-top: 15px"  ng-repeat="busItem in directData.showTransitData">
+                <div>
+                       <span  ng-if="busItem.flag!=='test'" style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                              class="glyphicon glyphicon-remove-sign"
+                              ng-click="minusTransitData(busItem,$index)"></span>
+                 <span ng-if="busItem.flag==='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                         ></span>
+                    <img class="show-img-transit" ng-src="./css/laneinfo/arw/{{busItem.flag}}.png"
+                         title="{{busItem.flag}}">
+                </div>
+
+            </div>
+        </li>
+
+    </ul>
+</div>
