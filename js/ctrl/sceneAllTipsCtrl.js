@@ -295,7 +295,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
             var paramOfLink = {
                 "command": "CREATE",
@@ -322,6 +321,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 });
                 return;
             }
+            $scope.$parent.$parent.showLoading = true;  //showLoading
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = null;
                 $scope.$parent.$parent.showLoading = false;  //showLoading
@@ -372,6 +372,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "data": kindObj
             };
             if (stage === 1) {
+                $scope.$parent.$parent.showLoading = true;  //showLoading
                 Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
 
                     $scope.$parent.$parent.showLoading = false;  //showLoading
