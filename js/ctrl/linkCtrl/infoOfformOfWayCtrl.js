@@ -65,7 +65,8 @@ formOfWayApp.controller("formOfWayController",function($scope){
         var obj = {};
         obj.formOfWay = parseInt(item.id);
         obj.linkPid = objCtrl.data.data.pid;
-        $scope.formsData.unshift(obj)
+        $scope.formsData.unshift(obj);
+        objCtrl.updateObject();
     }
 
     $scope.remove= function (item) {
@@ -75,5 +76,6 @@ formOfWayApp.controller("formOfWayController",function($scope){
                 $scope.formsData.splice(p,1);
             }
         }
+        objCtrl.updateObject();
     }
 })

@@ -28,15 +28,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.showTransitData.push("test");
         } else {
             arr = data.split("[");
-            //把第一个放进去
-            $scope.showNormalData.push(arr[0]);
-            $scope.showTransitData.push("test");
-            //第二个
+            //
             if (index === 0) {
-                $scope.showNormalData.unshift([arr[1].substr(0, 1)]);
+                $scope.showNormalData.unshift(arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString());
                 $scope.showTransitData.unshift("test");
             } else {
-                $scope.showNormalData.push([arr[1].substr(0, 1)]);
+                $scope.showNormalData.push(arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString());
                 $scope.showTransitData.push("test");
             }
 
@@ -60,6 +57,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var arr = [];
         arr = data.toString(2).split("");
         return arr;
+    };
+    $scope.intToDecial = function (data) {
+        var str = "1";
+        for (var i = 0; i < 15 - data; i++) {
+            str += "0";
+        }
+        return parseInt(str, 2).toString(10);
     };
     //删除以前高亮的进入线和退出线
     if (highLightLayer.highLightLayersArr.length !== 0) {
@@ -255,47 +259,45 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         }
     };
     //删除车道
-    $scope.minusLane=function(index) {
+    $scope.minusLane = function (index) {
         $scope.showNormalData.splice(index, 1);
         $scope.showTransitData.splice(index, 1);
-        if(index===0){
-            $scope.lanesArr[0] = $scope.showNormalData[0];
-            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
+        $scope.lanesArr.splice(index, 1);//
+        $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
+        $scope.lanesData["laneNum"] -= 1;
+        if (index === 0) {
             $scope.lanesData["leftExtend"] = 0;
-        }else if(index===($scope.lanesArr.length-1)) {
-            $scope.lanesArr[$scope.lanesArr.length-1] = $scope.showNormalData[$scope.lanesArr.length-1];
-            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
-            $scope.lanesData["leftExtend"] = 0;
-        }else{
-            $scope.lanesArr.splice(index, 1);//
-            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");//修改laneInfo字段
-
-            var lenN = $scope.lanesData["topos"].length,arr=[];
-
-            for(var n= 0;n<lenN;n++) {
-                var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][n]["inLaneInfo"]);
-                var lenOfInfo =(16- arrOfDecimal.length);
-                if (lenOfInfo!== index) {
-                    arr.push($scope.lanesData["topos"][n]);
-                }
-            }
-            $scope.lanesData["topos"].length = 0;
-            $scope.lanesData["topos"] = arr;
+        } else if (index === ($scope.lanesArr.length - 1)) {
+            $scope.lanesData["right"] = 0;
         }
+        var lenN = $scope.lanesData["topos"].length, arr = [];
+        for (var n = 0; n < lenN; n++) {
+            var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][n]["inLaneInfo"]);
+            var lenOfInfo = (16 - arrOfDecimal.length);
+            if (lenOfInfo !== index) {
+                if (n > index) {
+                    $scope.lanesData["topos"][n]["inLaneInfo"] = parseInt($scope.intToDecial(n- 1));
+                }
+                arr.push($scope.lanesData["topos"][n]);
+            }
+        }
+        $scope.lanesData["topos"].length = 0;
+        $scope.lanesData["topos"] = arr;
+
 
     };
-    $scope.minusTransitData=function(item,index) {
+    $scope.minusTransitData = function (item, index) {
         var num = index;
         $scope.showTransitData[num] = "text";
-        if($scope.showNormalData[0].indexOf("[")!==-1) {
+        if ($scope.showNormalData[0].indexOf("[") !== -1) {
             num -= 1;
         }
         $scope.lanesArr[num] = $scope.showNormalData[num];
         $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
-        for(var k= 0,lenK=$scope.lanesData["topos"].length;k<lenK;k++) {
+        for (var k = 0, lenK = $scope.lanesData["topos"].length; k < lenK; k++) {
             var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
-            var lenOfInfo =(16- arrOfDecimal.length);
-            if(lenOfInfo===num) {
+            var lenOfInfo = (16 - arrOfDecimal.length);
+            if (lenOfInfo === num) {
                 $scope.lanesData["topos"][k]["busLaneInfo"] = 0;
 
             }
@@ -310,18 +312,18 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         if (event.keyCode == 16) {//shift键 公交车道
             var transitId = "";
             $scope.showTransitData[$scope.selectNum] = $scope.showNormalData[$scope.selectNum].toString() + $scope.showNormalData[$scope.selectNum].toString();
-            if($scope.changeItem.id) {
+            if ($scope.changeItem.id) {
                 transitId = $scope.changeItem.id;
-            }else{
+            } else {
                 transitId = $scope.changeItem;
             }
             var transitStr = "<" + transitId + ">"
             $scope.lanesArr[$scope.selectNum] += transitStr;
             $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
-            for(var k= 0,lenK=$scope.lanesData["topos"].length;k<lenK;k++) {
+            for (var k = 0, lenK = $scope.lanesData["topos"].length; k < lenK; k++) {
                 var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
-                var lenOfInfo =(16- arrOfDecimal.length);
-                if(lenOfInfo=== $scope.selectNum) {
+                var lenOfInfo = (16 - arrOfDecimal.length);
+                if (lenOfInfo === $scope.selectNum) {
                     $scope.lanesData["topos"][k]["busLaneInfo"] = $scope.lanesData["topos"][k]["inLaneInfo"];
                 }
             }
@@ -334,22 +336,22 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         } else if (event.keyCode === 17) {//ctrl键 附加车道
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
                 var additionId = "";
-                if($scope.changeItem.id) {
+                if ($scope.changeItem.id) {
                     additionId = $scope.changeItem.id;
-                }else{
+                } else {
                     additionId = $scope.changeItem;
                 }
-                var additionStr = "[" + additionId + "]";
-               if($scope.selectNum === 0) {
-                   $scope.showNormalData.unshift([additionId]);
-                   $scope.lanesArr[0] += additionStr;
-                   $scope.lanesData["leftExtend"] = 1;
-               }else{
-                   $scope.showNormalData.push([additionId]);
-                   $scope.lanesArr[$scope.lanesArr.length - 1] += additionStr;
-                   $scope.lanesData["rightExtend"] = 1;
+                var additionStr = "[" + additionId + "]",
+                    showAdditionStr = (additionId.toString() + additionId.toString() + additionId.toString());
+                if ($scope.selectNum === 0) {
+                    $scope.showNormalData[0] = showAdditionStr;
+                    $scope.lanesArr[0] = additionStr;
+                    $scope.lanesData["leftExtend"] = 1;
+                } else {
+                    $scope.showNormalData[$scope.selectNum] = showAdditionStr;
+                    $scope.lanesArr[$scope.selectNum] = additionStr;
+                    $scope.lanesData["rightExtend"] = 1;
                 }
-                $scope.showTransitData.push("test");
                 $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
 
                 $scope.$apply();
@@ -360,7 +362,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
     });
     $scope.$parent.$parent.save = function () {
-        objCtrl.setCurrentObject( $scope.lanesData);
+        objCtrl.setCurrentObject($scope.lanesData);
         objCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -374,17 +376,17 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
-                var sinfo={
-                    "op":"修改车信成功",
-                    "type":"",
+                var sinfo = {
+                    "op": "修改车信成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
             }
@@ -397,7 +399,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
     };
     $scope.$parent.$parent.delete = function () {
-        var objId = parseInt( $scope.lanesData.pid);
+        var objId = parseInt($scope.lanesData.pid);
         var param = {
             "command": "DELETE",
             "type": "RDLANECONNEXITY",
@@ -406,21 +408,21 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
-            if (data.errcode==0) {
+            if (data.errcode == 0) {
                 rdConnexity.redraw();
                 $scope.rdCrossData = null;
                 $scope.$parent.$parent.objectEditURL = "";
-                var sinfo={
-                    "op":"删除车信成功",
-                    "type":"",
+                var sinfo = {
+                    "op": "删除车信成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
             }

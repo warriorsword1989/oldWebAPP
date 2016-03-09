@@ -12,170 +12,19 @@
     }
 
     #rdLaneConnexityDiv {
-        border: 1px solid #FBFBFB;
+        /*border: 1px solid #FBFBFB;*/
         width: 100%;
         height: 100%;
     }
 
-    .line-dashed {
-        background-color: transparent;
-        border-style: dashed !important;
-        border-width: 0;
-    }
-
-    .b-b {
-        border-bottom: 1px solid #dee5e7;
-    }
-
-    .line-lg {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    .pull-in {
-        margin-left: -15px;
-        margin-right: -15px;
-    }
-
-    .col-centered {
-        float: none;
-        margin: 0 auto;
-    }
-
-    .i-switch {
-        position: relative;
-        display: inline-block;
-        width: 35px;
-        height: 20px;
-        margin: 0;
-        cursor: pointer;
-        background-color: #27c24c;
-        border-radius: 30px;
-    }
-
-    .i-switch input {
-        position: absolute;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
-
-    .i-switch input:checked + i:before {
-        top: 50%;
-        right: 5px;
-        bottom: 50%;
-        left: 50%;
-        border-width: 0;
-        border-radius: 5px;
-    }
-
-    .i-switch input:checked + i:after {
-        margin-left: 16px;
-    }
-
-    .i-switch i:before {
-        position: absolute;
-        top: -1px;
-        right: -1px;
-        bottom: -1px;
-        left: -1px;
-        background-color: #fff;
-        border: 1px solid #f0f0f0;
-        border-radius: 30px;
-        content: "";
-        -webkit-transition: all 0.2s;
-        transition: all 0.2s;
-    }
-
-    .i-switch i:after {
-        position: absolute;
-        top: 1px;
-        bottom: 1px;
-        width: 18px;
-        background-color: #fff;
-        border-radius: 50%;
-        content: "";
-        -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-        -webkit-transition: margin-left 0.3s;
-        transition: margin-left 0.3s;
-    }
-
-    .i-switch-md {
-        width: 40px;
-        height: 24px;
-    }
-
-    /*输入查询图片*/
-    .pic-show {
-        /*position: absolute;*/
-        border: 1px solid #ddd;
-        z-index: 999;
-        padding-left: 4px;
-        padding-top: 6px;
-        padding-bottom: 7px;
-        background-color: #fff;
-        /*box-shadow: 4px 4px 7px 0px #777;*/
-        min-width: 100%;
-    }
-
-    .pic-show-well-normal {
-        min-width: 100%;
-        min-height: 60px;
-    }
-
-    .pic-show-well-transit {
-        min-width: 100%;
-        min-height: 60px;
-    }
-
-    .img-well {
-        float: left;
-        padding: 3px;
-        /*border: 1px solid #ddd;*/
-        margin: 4px;
-        cursor: pointer;
-    }
-
-    .show-img {
-        width: 60px;
-        height: 49px;
-    }
-
-    .show-img-normal {
-        width: 40px;
-        height: 30px;
-    }
-
-    .show-img-transit {
-        width: 40px;
-        height: 30px;
-    }
-
-    .img-describe {
-        background-color: #777;
-        color: #fff;
-        font-size: 11px;
-        text-align: center;
-    }
-
-    .selected {
-        background-color: lightgreen;
-        text-align: center;
-    }
-
-    .sing-flag {
-        padding: 8px;
-        transition: all 0.5s;
-        cursor: pointer;
-        border-radius: 3px;
-    }
     .list-group-item {
         position: relative;
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
         /*background-color: #000;*/
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #rdLaneConnexityDiv {
@@ -189,21 +38,26 @@
         list-style: none;
         /*padding:5px;*/
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #rdLaneConnexityDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
     }
 
     #rdLaneConnexityDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width:130px;
         margin-left: -3px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
 
     }
 
@@ -236,7 +90,7 @@
 
     .inline {
         display: inline-block !important;
-        width: 170px;
+        /*width: 170px;*/
         text-align: left;
     }
 
@@ -269,11 +123,21 @@
     }
 </style>
 <div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv" oncontextmenu=self.event.returnValue=false>
+    <div style="height:50px">
+        <form class="form-horizontal" method="get" style="border: 0;">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    车信ID
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{lanesData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
     <ul  class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">车信id</label></div>
-            <div class="inline"><input type="text" readonly ng-model="lanesData.pid"/></div>
-        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">车信id</label></div>-->
+            <!--<div class="inline"><input type="text" readonly ng-model="lanesData.pid"/></div>-->
+        <!--</li>-->
         <li class="list-group-item">
             <div><label class="control-label">进入线</label></div>
             <div class="inline"><input type="text" readonly ng-model="lanesData.inLinkPid"/></div>
@@ -308,6 +172,7 @@
 
         </li>
         <li class="list-group-item">
+            <div style="display: none"></div>
             <div style="display: inline-block" ng-repeat="items in showTransitData track by $index">
                 <div class="lanePic">
                     <img

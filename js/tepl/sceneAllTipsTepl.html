@@ -55,9 +55,9 @@
     }
 
     .both {
-        width: 96%;
+        width: 95%;
         margin-top: 5px;
-        padding-left: 7px;
+        padding-left: 10px;
 
     }
 
@@ -169,6 +169,18 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #sceneRoadTipsDiv div.panel-default{
+        border: none;
+        border-radius: 4px;
+    }
+    #sceneRoadTipsDiv img:not(:last-child){
+        border-right: none;
+    }
+    #sceneRoadTipsDiv img{
+        border:1px solid rgba(255,255,255,0.3);
+    }
+
 </style>
 <div ng-controller="sceneAllTipsController" id="sceneRoadTipsDiv" style="width:100%;">
     <div class="topTitle">
@@ -187,8 +199,7 @@
     </div>
     <div class="title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 9px;">
-            <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px"
-                 style="border:1px solid #e5e5e5;" ng-click="openOrigin($index)">
+            <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
         </div>
     </div>
     <div class="middle">
@@ -532,10 +543,10 @@
             </div>
         </div>
         <div class="both">
-            <div class="panel panel-default" style="height: 100%; border: 0;background-color: transparent;">
-                <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px; background-color: transparent;">
+            <div class="panel panel-default" style="height: 100%; border: 0;background-color: transparent;border:0;border-radius:4px;">
+                <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px; background-color: #555;border-radius:4px;">
                     <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px"> 备注：</label>
 
                             <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px">
