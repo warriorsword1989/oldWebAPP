@@ -193,7 +193,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 }
                 $scope.data = data;
                 Application.functions.getLinksbyNodeId(JSON.stringify({
-                    projectId: 11,
+                    projectId: Application.projectid,
                     type: 'RDLINK',
                     data: {nodePid: data.id}
                 }), function (data) {
@@ -464,7 +464,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                     if (data.f.id) {
                                         var obj = {"nodePid": parseInt(data.f.id)};
                                         var param = {
-                                            "projectId": 11,
+                                            "projectId": Application.projectid,
                                             "type": "RDCROSS",
                                             "data": obj
                                         }

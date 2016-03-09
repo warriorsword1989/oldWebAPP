@@ -89,7 +89,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var paramOfLink = {
                         "command": "CREATE",
                         "type": "RDLINK",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": {
                             "eNodePid": properties.enodePid ? properties.enodePid : 0,
                             "sNodePid": properties.snodePid ? properties.snodePid : 0,
@@ -128,7 +128,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var paramOfRestrict = {
                         "command": "CREATE",
                         "type": "RDRESTRICTION",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
@@ -194,7 +194,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var param = {
                         "command": "BREAK",
                         "type": "RDLINK",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
                         "data": {"longitude": breakPoint.x, "latitude": breakPoint.y}
@@ -242,7 +242,7 @@ function keyEvent(ocLazyLoad, scope) {
                             var paramOfDirect = {
                                 "type": "RDLINK",
                                 "command": "UPDATE",
-                                "projectId": 11,
+                                "projectId": Application.projectid,
                                 "data": directOfLink
                             };
                             Application.functions.saveLinkGeometry(JSON.stringify(paramOfDirect), function (data) {
@@ -273,7 +273,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var parameter = {
                         "command": "CREATE",
                         "type": "RDSPEEDLIMIT",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": {
                             "direct": direct,
                             "linkPid": parseInt(feature.id),
@@ -370,7 +370,7 @@ function keyEvent(ocLazyLoad, scope) {
                         var param = {
                             "command": "REPAIR",
                             "type": "RDLINK",
-                            "projectId": 11,
+                            "projectId": Application.projectid,
                             "objId":parseInt(selectCtrl.selectedFeatures.id),
                             "data": {
                                 "geometry": {"type": "LineString", "coordinates": coordinate},
@@ -411,7 +411,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "command": "MOVE",
                         "type": "RDNODE",
                         "objId": options.id,
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": {longitude: options.latlng.lng, latitude: options.latlng.lat}
                     }
                     //结束编辑状态
@@ -458,7 +458,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var param = {
                         "command": "BREAK",
                         "type": "RDLINK",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
                         "data": {"longitude": link.x, "latitude": link.y}
@@ -494,7 +494,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var paramOfRdBranch = {
                         "command": "CREATE",
                         "type": "RDBRANCH",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRdBranch), function (data) {
@@ -548,7 +548,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var param = {
                         "command": "CREATE",
                         "type": "RDCROSS",
-                        "projectId": 11,
+                        "projectId": Application.projectid,
                         "data": options
                     }
                     //结束编辑状态

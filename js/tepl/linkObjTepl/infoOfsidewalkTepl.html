@@ -9,7 +9,7 @@
     }
 
     #sidewalkDiv {
-        background-color: #000;
+        background-color: transparent;
         opacity: 1;
         padding: 10px 5px;
         width: 100%;
@@ -17,14 +17,14 @@
     }
 
     #sidewalkDiv ul {
-        background-color: #000;
+        background-color: transparent;
         list-style: none;
         padding:5px;
         overflow: hidden;
     }
 
     #sidewalkDiv ul > li {
-        background-color: #000;
+        background-color: transparent;
     }
 
     #sidewalkDiv ul > li > div > input {
@@ -78,8 +78,8 @@
 <div ng-controller="sidewalkController" id="sidewalkDiv">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div>
-                <a ng-click="addSideWalk()" style="cursor: pointer">添加任性便道</a>
+            <div style="width:100px;">
+                <a ng-click="addSideWalk()" style="cursor: pointer;color:#FFF;">添加人行便道</a>
             </div>
         </li>
     </ul>

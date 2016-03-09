@@ -64,7 +64,7 @@ formOfWayApp.controller("formOfWayController",function($scope){
         item.isCheck=true;
         var obj = {};
         obj.formOfWay = parseInt(item.id);
-        obj.linkPid = objCtrl.data.data.pid;
+        obj.linkPid = objCtrl.data.pid;
         $scope.formsData.unshift(obj);
         objCtrl.updateObject();
     }

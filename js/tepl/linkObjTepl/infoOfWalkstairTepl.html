@@ -2,29 +2,29 @@
     .list-group-item {
         position: relative;
         display: block;
-        padding: 1px 15px;
+        /*padding: 1px 15px;*/
         margin-bottom: -1px;
         background-color: #000;
         border: 1px solid #ddd;
     }
 
     #walkstairDiv {
-        background-color: #000;
+        background-color: transparent;
         opacity: 1;
-        padding: 10px 5px;
+        /*padding: 10px 5px;*/
         width: 100%;
         z-index: 20;
     }
 
     #walkstairDiv ul {
-        background-color: #000;
+        background-color: transparent;
         list-style: none;
-        padding:5px;
+        /*padding:5px;*/
         overflow: hidden;
     }
 
     #walkstairDiv ul > li {
-        background-color: #000;
+        background-color: transparent;
     }
 
     #walkstairDiv ul > li > div > input {
@@ -37,6 +37,7 @@
         color: #F3F6FA;
         background-color: #000;
         margin-left: -3px;
+        width:170px;
         border: 1px none;
     }
 
@@ -78,8 +79,8 @@
 <div ng-controller="walkstairController" id="walkstairDiv">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div>
-                <a ng-click="addStairWalk()" style="cursor: pointer">添加人行阶梯</a>
+            <div style="width: 100px;">
+                <a ng-click="addStairWalk()" style="cursor: pointer;color:#FFF;">添加人行阶梯</a>
             </div>
         </li>
     </ul>

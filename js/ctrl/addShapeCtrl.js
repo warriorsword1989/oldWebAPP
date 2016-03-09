@@ -5,7 +5,7 @@ var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
 addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
-
+        var editlayer = layerCtrl.getLayerById('edit');
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
@@ -274,6 +274,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             } else if (type === "laneConnexity") {
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                editlayer.bringToBack();
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
                 if(! $scope.$parent.$parent.panelFlag ) {
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
