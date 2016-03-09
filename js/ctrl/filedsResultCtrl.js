@@ -483,6 +483,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                             });
                         });
+                        /*Application.functions.getRdObjectById(v.id, "RDBRANCH", function (d) {
+                            console.log(data)
+                        });*/
                         objCtrl.setCurrentObject(data.brID);
                         map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
                     } else if (pItemId === "1510") {//桥1510
