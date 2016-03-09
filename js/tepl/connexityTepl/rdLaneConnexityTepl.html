@@ -142,7 +142,7 @@
         </li>
         <li class="list-group-item">
             <div style="width: 100%;text-align: right"> <span style="float:right;font-size: 14px" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
-            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index">
+            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index" ng-if="showNormalData.length!==0">
                 <div  class="lanePic">
                     <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
                     <img
@@ -157,10 +157,10 @@
         </li>
         <li class="list-group-item">
             <div style="display: none"></div>
-            <div style="display: inline-block" ng-repeat="items in showTransitData track by $index">
+            <div style="display: inline-block" ng-repeat="items in showTransitData track by $index" ng-if="showTransitData.length!==0">
                 <div class="lanePic">
-                    <img
-                            ng-dblclick="minusTransitData(items,$index)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
+                    <img ng-click="changeTransit()" ng-mousedown="minusTransitData(items,$index)"
+                          ng-src="./css/laneinfo/arwG/{{items}}.png"
                             title="{{items}}">
                 </div>
             </div>
