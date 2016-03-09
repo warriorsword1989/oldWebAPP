@@ -291,6 +291,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             
         }
     }
+    /*tips图片全屏*/
+    $scope.$parent.$parent.showFullPic = function(){
+        $("#fullScalePic img").attr('src',$("#dataTipsOriginImg").attr('src'));
+        $("#fullScalePic").show();
+    }
+    /*隐藏tips图片*/
+    $scope.$parent.$parent.hideFullPic = function(){
+        $("#fullScalePic").hide();
+    }
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
@@ -424,7 +433,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
-                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $.showPoiMsg('状态已改，不允许改变状态！',e);
                     $scope.$apply();
                 });
                 return;
