@@ -233,11 +233,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
         $scope.photoTipsData = selectCtrl.rowKey.feedback.f_array;
 
-
+        $scope.photoNum = 0;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
+                $scope.photoNum++;
             } else if ($scope.photoTipsData[i].type === 3) {
                 $scope.remarksContent = $scope.photoTipsData[i].content;
             }
@@ -271,6 +272,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $scope.photoId = id;
             $("#dataTipsOriginModal").show();
             $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
+            $scope.$parent.$parent.imgPageNow = id+1;
+            $scope.$parent.$parent.imgAllPage = $scope.photoNum;
             var originImg = $("#dataTipsOriginImg");
             originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
             dataTipsOriginImg.onload = function(){
@@ -303,13 +306,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     }
     /*图片切换*/
     $scope.$parent.$parent.switchPic = function(type){
-            console.log($scope.photos)
         if(type == 0){
             if($scope.photoId-1 >=0){
                 $scope.openOrigin($scope.photoId-1);
             }
         }else{
-            if($scope.photoId+1 <= $scope.photos.length){
+            if($scope.photoId+2 <= $scope.photoNum){
                 $scope.openOrigin($scope.photoId+1);
             }
         }
