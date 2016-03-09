@@ -1,0 +1,51 @@
+html,body{
+    font-family: '微软雅黑 Regular';
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+}
+
+.fill-blue{
+    background: #3887be;
+}
+.fill-purple{
+    background: #8a8acb;
+}
+.fill-green{
+    background: #56b881;;
+}
+
+#fm-menu-container{
+    background-color: #222;
+    color:#FFF;
+}
+#fm-menu-container #fm-logo-container{
+    text-align: center;
+    padding: 20px 10px;
+}
+
+#fm-menu-container #fm-logo-container #fm-logo{
+    display: block;
+    width: 100%;
+    color: #FFF;
+    font-weight:bold;
+    text-decoration: none;
+}
+
+#fm-menu-container #fm-tabs-container>#fm-tabs>a{
+    padding-left: 10px;
+    color: #FFF;
+    font-size: 12px;
+    font-weight: bold;
+    display: block;
+}
+
+#fm-menu-container #fm-tabs-container>#fm-tabs>a>div{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 10px;
+    height: 40px;
+}

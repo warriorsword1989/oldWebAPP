@@ -11,6 +11,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var objCtrl=fastmap.uikit.ObjectEditController();
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
@@ -288,8 +289,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
                 }
-                $ocLazyLoad.load("ctrl/addLaneconnexityCtrl").then(function () {
-                    $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
+                var obj = {};
+                obj["showTransitData"]=[]
+                obj["showAdditionalData"] = [];
+                obj["showNormalData"] = [];
+                obj["inLaneInfoArr"] = [];
+                $scope.$parent.$parent.objectEditURL = "";
+                objCtrl.setCurrentObject(obj);
+                $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
+                    $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
 
                 });
             } else if (type === "node") {

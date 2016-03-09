@@ -111,9 +111,9 @@ fastmap.uikit.ObjectEditController = (function () {
                                 }
                             }
                             if (objArr.length !== 0) {
-                                // if(oriData["linkPid"]){
+                                if(oriData["linkPid"]){
                                 obj["linkPid"]=oriData["pid"];
-                                //}
+                                }
                                 retObj[item] = objArr;
                             }
                         }else if(oriData[item].length < data[item].length) {
