@@ -219,7 +219,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         var param = {
             "command": "UPDATE",
             "type":"RDLINK",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data": objectCtrl.changedProperty
         };
         if ($scope.$parent.$parent.suspendFlag) {
@@ -276,7 +276,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         var param = {
             "command": "DELETE",
             "type":"RDLINK",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {

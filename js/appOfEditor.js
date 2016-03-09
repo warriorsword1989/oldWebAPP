@@ -3,6 +3,7 @@
  */
 var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+    $scope.showLoading = true;
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
@@ -81,7 +82,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
                                         $scope.addShapeURL = 'js/tepl/addShapeTepl.html';
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
                                         $scope.objectEditURL = 'js/tepl/blankTepl.html';
-
+                                        $scope.showLoading = false;
+                                        $(".output-console").show();
                                     });
                                     });
                             }

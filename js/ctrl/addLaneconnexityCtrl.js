@@ -181,7 +181,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
             var param = {
                 "command": "CREATE",
                 "type": "RDLANECONNEXITY",
-                "projectId": 11,
+                "projectId": Application.projectid,
                 "data":  $scope.laneConnexity
             };
             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {

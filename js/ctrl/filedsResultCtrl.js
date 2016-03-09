@@ -560,14 +560,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             if (data.f.id) {
                                 var obj = {"nodePid": parseInt(data.f.id)};
                                 var param = {
-                                    "projectId": 11,
+                                    "projectId": Application.projectid,
                                     "type": "RDCROSS",
                                     "data": obj
                                 }
                                 Application.functions.getByCondition(JSON.stringify(param), function (data) {
                                     if (data.errcode === -1) {
                                        $timeout(function(){
-                                            $.showPoiMsg('errid:'+data.errid+' ,errmsg:'+data.errmsg,e);
+                                            $.showPoiMsg(data.errmsg,e);
                                             $scope.$apply();
                                         })
                                         return;

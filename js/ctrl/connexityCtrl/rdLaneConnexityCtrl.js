@@ -367,7 +367,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var param = {
             "command": "UPDATE",
             "type": "RDLANECONNEXITY",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
         if ($scope.$parent.$parent.suspendFlag) {
@@ -403,7 +403,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var param = {
             "command": "DELETE",
             "type": "RDLANECONNEXITY",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {

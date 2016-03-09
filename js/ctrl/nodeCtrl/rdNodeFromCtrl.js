@@ -149,7 +149,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         var param = {
             "command": "UPDATE",
             "type":"RDNODE",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
         if(!objectEditCtrl.changedProperty){
@@ -202,7 +202,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {
             "command":"DELETE",
             "type":"RDNODE",
-            "projectId":11,
+            "projectId":Application.projectid,
             "objId":pid
         };
         //结束编辑状态
