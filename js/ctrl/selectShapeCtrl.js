@@ -17,12 +17,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var editlayer = layerCtrl.getLayerById('edit');
     $scope.toolTipText = "";
 
-    $scope.showTipsOrProperty = function (data, type, objCtrl, propertyCtrl, propertyTepl) {
+    $scope.showTipsOrProperty = function (data, type, objCtrl,propertyId, propertyCtrl, propertyTepl) {
         $scope.$parent.$parent.objectEditURL = "";
         $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
             if (data.t_lifecycle === 2) {
-                Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                Application.functions.getRdObjectById(propertyId, type, function (data) {
                     objCtrl.setCurrentObject(data);
                     if (objCtrl.tipsUpdateObject !== "") {
                         objCtrl.tipsUpdateObject();
@@ -37,7 +37,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 var stage = parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
                 if (stage === 1) {
                     if (data.s_sourceType === "1201") {
-                        Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                        Application.functions.getRdObjectById(propertyId, type, function (data) {
                             objCtrl.setCurrentObject(data);
                             if (objCtrl.tipsUpdateObject !== "") {
                                 objCtrl.tipsUpdateObject();
@@ -49,7 +49,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     } else {
                         if (data.t_lifecycle === 1) {
                             if(data.f){
-                                Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                                Application.functions.getRdObjectById(propertyId, type, function (data) {
                                     objCtrl.setCurrentObject(data);
                                     if (objCtrl.tipsUpdateObject !== "") {
                                         objCtrl.tipsUpdateObject();
@@ -67,7 +67,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                 } else if (stage === 3) {
                     if (data.t_lifecycle === 3) {
                         if(data.f){
-                            Application.functions.getRdObjectById(data.f.id, type, function (data) {
+                            Application.functions.getRdObjectById(propertyId, type, function (data) {
                                 objCtrl.setCurrentObject(data);
                                 if (objCtrl.tipsUpdateObject !== "") {
                                     objCtrl.tipsUpdateObject();
@@ -98,6 +98,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
         if( $scope.$parent.$parent.panelFlag ) {
             $scope.$parent.$parent.panelFlag = false;
             $scope.$parent.$parent.objectFlag = false;
+            $scope.$parent.$parent.outErrorArr[0]=false;
+            $scope.$parent.$parent.outErrorArr[1]=false;
+            $scope.$parent.$parent.outErrorArr[2]=false;
+            $scope.$parent.$parent.outErrorArr[3]=true;
         }
         $("#popoverTips").hide();
         if (type === "link") {
@@ -364,7 +368,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                 type = "RDLINK";
                                 propertyCtrl = "ctrl/linkObjectCtrl";
                                 propertyTepl = "js/tepl/currentObjectTepl.html";
-                                $scope.showTipsOrProperty(data, type, objCtrl, propertyCtrl, propertyTepl);
+                                var categoriesId = data.f.id;
+                                $scope.showTipsOrProperty(data, type, objCtrl, categoriesId,propertyCtrl, propertyTepl);
                                 break;
                             case "1301"://车信
                                 var connexityId = data.id;
