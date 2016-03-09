@@ -20,11 +20,11 @@
     }
 
     #fm-dataList-btnGroup>div>button:hover{
-        background: rgba(164,164,229,1);
+        background: rgba(164,164,229,0.9);
     }
 
     #fm-dataList-btnGroup>div>button.active{
-        background: rgba(164,164,229,1);
+        background: rgba(164,164,229,0.9);
     }
 
     #fm-dataList-btnGroup>div>button:focus{
@@ -43,6 +43,14 @@
         margin-bottom: 10px;
     }
 
+    #myTabContent #dataList > li>div:hover>a {
+        color: rgba(255,255,255,0.5);
+    }
+
+    #myTabContent #dataList > li>div:hover>i{
+        color: rgba(255,255,255,0.5);
+    }
+
     #myTabContent #dataList > li > ul {
         display: none;
     }
@@ -57,7 +65,20 @@
     #myTabContent #dataList > li > div > label {
         color: #FFF;
         cursor: pointer;
+        font-weight: bold;
     }
+
+    #myTabContent #dataList > li > div > label>span{
+        color:rgba(255,255,255,0.5);
+        font-size: 10px;
+        margin-left: 5px;
+    }
+
+    #myTabContent #dataList > li > div:hover > label>span{
+        color:#FFF;
+    }
+
+
     #myTabContent #dataList > li > div > label:hover {
         color: rgba(255,255,255,0.5);
     }
@@ -86,6 +107,7 @@
 
     #myTabContent #dataList > li > ul > li > label {
         cursor: pointer;
+        font-weight: bold;
     }
     /********************待处理的样式****************************************/
     #myTabContent #dataListOfPending {
@@ -96,6 +118,14 @@
     #myTabContent #dataListOfPending > li {
         list-style-type: none;
         margin-bottom: 10px;
+    }
+
+    #myTabContent #dataListOfPending > li>div:hover>a {
+        color: rgba(255,255,255,0.5);
+    }
+
+    #myTabContent #dataListOfPending > li>div:hover>i{
+        color: rgba(255,255,255,0.5);
     }
 
     #myTabContent #dataListOfPending > li > ul {
@@ -114,6 +144,16 @@
         color: #FFF;
         cursor: pointer;
         vertical-align: top;
+    }
+
+    #myTabContent #dataListOfPending > li > div > label>span{
+        color:rgba(255,255,255,0.5);
+        font-size: 10px;
+        margin-left: 5px;
+    }
+
+    #myTabContent #dataListOfPending > li > div:hover > label>span{
+        color:#FFF;
     }
 
     #myTabContent #dataListOfPending > li > div > label:hover {
@@ -159,6 +199,14 @@
         margin-bottom: 10px;
     }
 
+    #myTabContent #dataListOfPended > li>div:hover>a {
+        color: rgba(255,255,255,0.5);
+    }
+
+    #myTabContent #dataListOfPended > li>div:hover>i{
+        color: rgba(255,255,255,0.5);
+    }
+
     #myTabContent #dataListOfPended > li > ul {
         display: none;
     }
@@ -175,6 +223,16 @@
         color: #FFF;
         cursor: pointer;
         vertical-align: top;
+    }
+
+    #myTabContent #dataListOfPended > li > div > label>span{
+        color:rgba(255,255,255,0.5);
+        font-size: 10px;
+        margin-left: 5px;
+    }
+
+    #myTabContent #dataListOfPended > li > div:hover > label>span{
+        color:#FFF;
     }
 
     #myTabContent #dataListOfPended > li > div > i {
@@ -213,49 +271,89 @@
         color:rgba(255,255,255,0.5);
     }
 
+    #fm-dataList-btnGroup button{
+        outline-color: rgba(164,164,229,1);
+    }
+
+    #fm-dataSelectContainer>a{
+        color: #FFF;
+        cursor: pointer;
+    }
+
     #fm-dataSelectContainer>a:hover{
-        color:rgba(255,255,255,0.8);
+        color:rgba(255,255,255,0.5);
     }
 
     #fm-dataSelectContainer>input{
         border-radius: 4px;
         background-color: rgba(0,0,0,0.3);
         border-width: 0;
-        height: 30px;
         padding-left: 3px;
+    }
+
+    #dataList a{
+        color:#FFF;
+        text-decoration: none;
+    }
+
+    #dataList>li>div>a{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    #dataListOfPending a{
+        color:#FFF;
+        text-decoration: none;
+    }
+
+    #dataListOfPending>li>div>a{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    #dataListOfPended a{
+        color:#FFF;
+        text-decoration: none;
+    }
+
+    #dataListOfPended>li>div>a{
+        margin-left: 5px;
+        margin-right: 5px;
     }
 </style>
 <div ng-controller="fieldsResultController" >
-    <div id="fm-dataSelectContainer" style="">
-        <a href="#" class="btn glyphicon glyphicon-edit" style="font-size: 20px" ></a>
-        <input type="text" style="vertical-align: top;margin-top: 10px;width:180px;padding-right:30px" placeholder="搜索..." />
-        <a href="#" class="btn glyphicon glyphicon-search" style="margin-left: -40px" ></a>
+    <div style="background-color: rgb(64,64,64);padding: 2px 5px;">
+        <div id="fm-dataSelectContainer">
+            <a href="#" title="框选" class="btn glyphicon glyphicon-edit" style="font-size: 14px;" ></a>
+            <input type="text" style="vertical-align: top;margin-top: 10px;width:130px;padding-right:30px;height: 20px;" placeholder="搜索..." />
+            <a href="#" title="搜索" class="btn glyphicon glyphicon-search" style="margin-left: -33px;" ></a>
+            <a href="#" title="刷新" class="btn glyphicon glyphicon-refresh" style="padding:6px 12px;font-size:14px;"></a>
+        </div>
+        <div id="fm-dataList-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-xs active"><i class="glyphicon glyphicon-th-large"></i> <a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;text-decoration: none;font-weight:bold">全 部</a></button>
+            </div>
+            <div class="btn-group" role="group" style="border-left: 1px solid #404040;border-right: 1px solid #404040">
+                <button type="button" class="btn btn-xs"><i class="glyphicon glyphicon-list-alt"></i> <a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px;text-decoration: none;font-weight:bold">待 处 理</a></button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-xs"><i class="glyphicon glyphicon-th-list"></i> <a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])" style="font-size: 10px;text-decoration: none;font-weight:bold">已 处 理</a></button>
+            </div>
+        </div>
     </div>
-    <div id="fm-dataList-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-xs"><a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;">全 部</a></button>
-        </div>
-        <div class="btn-group" role="group" style="border-left: 1px solid #404040;border-right: 1px solid #404040">
-            <button type="button" class="btn btn-xs"><a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px;">待处理</a></button>
-        </div>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-xs"><a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])" style="font-size: 10px;">已处理</a></button>
-        </div>
-    </div>
+
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="allTaskers">
-            <div style="padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
+            <div style="background-color:rgb(64,64,64);padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
                 <span>共{{items.total}}个</span>
             </div>
             <div style="width:100%;">
                 <ul id="dataList">
                     <li ng-repeat="pItem in items" id="{{pItem.id}}">
-                        <div ng-click="showContent(pItem,[1,3],0,$event)"><i
-                                class="glyphicon glyphicon-folder-close"></i>
-                            <input  type="checkbox" style="margin-top: 2px;vertical-align: top"
-                                   ng-checked="pItem.flag"
-                                   ng-click="showLayers(pItem,$event)"/>
-                            <label>{{pItem.name}}({{pItem.total}})</label>
+                        <div ng-click="showContent(pItem,[1,3],0,$event)">
+                            <i class="glyphicon glyphicon-folder-close"></i>
+                            <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[pItem.flag]" ng-click="showLayers(pItem,$event)"></a>
+                            <label>{{pItem.name}} <span>{{pItem.total}}</span></label>
                         </div>
                         <ul ng-repeat="aItem in allSubItems">
                             <li ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '"
@@ -277,10 +375,8 @@
                     <li ng-repeat="pendItem in items " id="{{pendItem.id}}Pending">
                         <div ng-click="showContent(pendItem,[1],1,$event)"><i
                                 class="glyphicon glyphicon-folder-close" style=""></i>
-                            <input  type="checkbox"  style="margin-top: 2px;vertical-align: top;"
-                                   ng-checked="pendItem.flag"
-                                   ng-click="showLayers(pendItem,$event)"/>
-                            <label>{{pendItem.name}}({{pendItem.total}})</label>
+                            <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[pendItem.flag]" ng-click="showLayers(pendItem,$event)"></a>
+                            <label>{{pendItem.name}} <span>{{pendItem.total}}</span></label>
                         </div>
                         <ul ng-repeat="pendSubItem in pendSubItems">
                             <li ng-if="pendSubItem.i!=''||pendSubItem.i!=null||pendSubItem.i!=' '"
@@ -300,12 +396,9 @@
             <div style="width:100%;">
                 <ul id="dataListOfPended">
                     <li ng-repeat="solveItem in items" id="{{solveItem.id}}Pended">
-                        <div ng-click="showContent(solveItem,[3],3,$event)"><i
-                                class="glyphicon glyphicon-folder-close" style=""></i>
-                            <input  type="checkbox"  style="margin-top: 2px;vertical-align: top"
-                                   ng-checked="solveItem.flag"
-                                   ng-click="showLayers(solveItem,$event)"/>
-                            <label>{{solveItem.name}}({{solveItem.total}})</label>
+                        <div ng-click="showContent(solveItem,[3],3,$event)"><i  class="glyphicon glyphicon-folder-close" style=""></i>
+                            <a class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[solveItem.flag]" ng-click="showLayers(solveItem,$event)"></a>
+                            <label>{{solveItem.name}}  <span>{{solveItem.total}}</span></label>
                         </div>
                         <ul ng-repeat="solveSubItem in solvedSubItems">
                             <li ng-if="solveSubItem.i!=''||solveSubItem.i!=null||solveSubItem.i!=' '"

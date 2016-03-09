@@ -129,7 +129,7 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
         var param = {
             "type":"RDLINK",
             "command": "UPDATE",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data":kindObj
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
