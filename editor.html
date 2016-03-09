@@ -180,11 +180,15 @@
         </h4>
     </div>
     <div class="modal-body">
-        <div class="switch-left"></div>
+        <div class="switch-left" ng-click="switchPic(0);">
+            <img src="css/img/left.png">
+        </div>
         <div id="imgContainer"> 
             <img id="dataTipsOriginImg" src=""/> 
         </div>
-        <div class="switch-right"></div>
+        <div class="switch-right" ng-click="switchPic(1);">
+            <img src="css/img/right.png">
+        </div>
     </div>
 </div>
 <div id="fullScalePic" ng-click="hideFullPic();"><img src=""></div>

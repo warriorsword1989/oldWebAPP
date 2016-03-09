@@ -268,6 +268,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
     $scope.openOrigin = function (id) {
         if(selectCtrl.rowKey.feedback.f_array && id <= selectCtrl.rowKey.feedback.f_array.length-1){
+            $scope.photoId = id;
             $("#dataTipsOriginModal").show();
             $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
             var originImg = $("#dataTipsOriginImg");
@@ -300,6 +301,19 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.$parent.$parent.hideFullPic = function(){
         $("#fullScalePic").hide();
     }
+    /*图片切换*/
+    $scope.$parent.$parent.switchPic = function(type){
+            console.log($scope.photos)
+        if(type == 0){
+            if($scope.photoId-1 >=0){
+                $scope.openOrigin($scope.photoId-1);
+            }
+        }else{
+            if($scope.photoId+1 <= $scope.photos.length){
+                $scope.openOrigin($scope.photoId+1);
+            }
+        }
+    }
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
@@ -330,10 +344,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 });
                 return;
             }
-            $scope.$parent.$parent.showLoading = true;  //showLoading
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = null;
-                $scope.$parent.$parent.showLoading = false;  //showLoading
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
 
@@ -381,10 +393,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "data": kindObj
             };
             if (stage === 1) {
-                $scope.$parent.$parent.showLoading = true;  //showLoading
                 Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
 
-                    $scope.$parent.$parent.showLoading = false;  //showLoading
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
                         objCtrl.data.data["kind"] = $scope.dataTipsData.kind;

@@ -55,7 +55,6 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
 
     //初始化DataTips相关数据
     $scope.initializeDataTips = function() {
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         $scope.dataTipsData = selectCtrl.rowKey;
         $scope.photos = [];
         var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
@@ -108,7 +107,6 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
                 $scope.photos.push(newimgs);
             }
         }
-        $scope.$parent.$parent.showLoading = false;  //showLoading
     };
     if (selectCtrl.rowKey) {
         //dataTips的初始化数据
@@ -120,7 +118,6 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
     }
     /*转换*/
     $scope.transBridge = function(){
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         var kindObj = {
             "objStatus":"UPDATE",
             "pid":parseInt($scope.dataTipsData.f.id),
@@ -133,7 +130,6 @@ dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
             "data":kindObj
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-            $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$parent.$parent.$apply();
             if(data.errcode==0){
                 swal("操作成功", "种别转换操作成功！", "success");
