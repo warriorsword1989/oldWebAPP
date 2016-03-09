@@ -308,7 +308,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
-                "projectId": 11,
+                "projectId": Application.projectid,
                 "data": {
                     "eNodePid": 0,
                     "sNodePid": 0,
@@ -377,7 +377,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             var param = {
                 "type": "RDLINK",
                 "command": "UPDATE",
-                "projectId": 11,
+                "projectId": Application.projectid,
                 "data": kindObj
             };
             if (stage === 1) {

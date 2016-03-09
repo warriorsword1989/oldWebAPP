@@ -153,6 +153,7 @@ function init(options) {
                             var restrictObj = feature.properties.restrictioninfo;
                             var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                             var geom = feature.geometry.coordinates;
+                            var newgeom = [];
                             if (restrictObj !== undefined) {
                                 if (restrictObj.constructor === Array) {
                                     for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
@@ -217,6 +218,7 @@ function init(options) {
                     var type = feature.geometry.type;
                     var geom = feature.geometry.coordinates;
                     var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
+                    var newgeom = [];
                     if (data[key].properties.id == id) {
                         var ctx = {
                             canvas: this.tiles[obj].options.context,
