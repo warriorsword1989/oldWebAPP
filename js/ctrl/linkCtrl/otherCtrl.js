@@ -4,10 +4,9 @@
 
 var otherApp = angular.module("mapApp", ['oc.lazyLoad']);
 otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) {
+    var objectEditCtrl = fastmap.uikit.ObjectEditController();
     $scope.roadlinkData = $scope.linkData;
     $scope.speedOfConLength = 0;
-    $scope.newFromOfWRoadDate = [];
-
     $scope.speedTypeOption = [
         {"id": 0, "label": "普通"},
         {"id": 1, "label": "指示牌"},
@@ -86,7 +85,43 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         $scope.roadlinkData.forms = $scope.otherFromOfWay;
     });
 
+    $scope.initOtherData = function(){
+        $scope.newFromOfWRoadDate = [];
+        if($scope.roadlinkData.forms.length>0){
+            $scope.auxiFlag=$scope.roadlinkData.forms[0].auxiFlag;
+            $scope.formOfWay=$scope.roadlinkData.forms[0].formOfWay;
+        }
+        for(var p in $scope.roadlinkData.forms){
+            for(var s in $scope.fromOfWayOption){
+                if($scope.roadlinkData.forms[p].formOfWay==$scope.fromOfWayOption[s].id){
+                    $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
+                }
+            }
+        }
+    }
+    $scope.initOtherData();
+    if(objectEditCtrl.data.data) {
+        $scope.initOtherData();
+    }
+    objectEditCtrl.updateObject=function() {
+        $scope.initOtherData();
+    }
+    $scope.saveroadtype=function(){
+        $scope.rdNodeData.forms.unshift({
+            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
+            linkPid:$scope.rdNodeData.pid
+        })
 
+        $scope.newFromOfWRoadDate.unshift({
+            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
+            name: $("#roadtypename").find("option:selected").text()
+        });
+        $('#myModal').modal('hide');
+    }
+    $scope.deleteroadtype=function(){
+        $scope.newFromOfWRoadDate.splice(type, 1);
+        $scope.roadlinkData.forms.splice(type, 1);
+    }
     $scope.saveroadname = function () {
         $scope.roadlinkData.forms.unshift({
             formOfWay: parseInt($("#roadtypename").find("option:selected").val()),

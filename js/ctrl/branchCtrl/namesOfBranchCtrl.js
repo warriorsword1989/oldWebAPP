@@ -16,48 +16,25 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.divergenceIds = divergenceIds;
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
+    if(!objCtrl.data){
+        return;
+    }
     $scope.diverId = divergenceIds.pid;
 
 
     $timeout(function(){
         $('.diverRadio:first').triggerHandler('click');
     });
-
     $scope.setOriginalDataFunc = function(){
-        Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
+        // console.log(divergenceIds)
+        objectEditCtrl.setOriginalData(divergenceIds);
+       /* Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
             objectEditCtrl.setOriginalData(data.data);
+        console.log(data.data)
             $scope.$apply();
-        });
+        });*/
     }
-    //$scope.setOriginalDataFunc();
-    $scope.getObjectById = function(){
-        $scope.$parent.$parent.showLoading = true;  //showLoading
-         //箭头图
-        Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
-            // oldData = data.data;
-            // objectEditCtrl.setOriginalData(data.data);
-            if(data.errcode == 0){
-                $scope.diverObj = data.data;
-                objCtrl.setCurrentObject($scope.diverObj);
-                // $scope.diverObj.vias = [{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1},{"branchPid":13920,"groupId":1,"linkPid":552430,"rowId":"254CBB55BE249216E050A8C08304EB19","seqNum":1}]
-                $scope.initDiver();
-                $scope.$parent.$parent.showLoading = false;  //showLoading
-                $scope.$apply();
-            }else{
-                $scope.$parent.$parent.showLoading = false;  //showLoading
-                $scope.$apply();
-                swal("查询失败", "问题原因："+data.errmsg, "error");
-            }
-        });
-    }
-    //$scope.getObjectById();
-    /*切换不同的分歧信息显示*/
-    $scope.switchDiver = function(id){
-        $scope.diverObj = {};
-        $scope.diverId = id;
-        $scope.getObjectById();
-        $scope.setOriginalDataFunc();
-    }
+    $scope.setOriginalDataFunc();
     /*点击关系类型*/
     $scope.switchRelType = function(code){
         $scope.relationCode = code;
@@ -331,19 +308,33 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         }
         $scope.changeArrowPosition();
     };
+
+    $scope.getObjectById = function(type){
+         //箭头图
+         if(type){
+            $scope.diverObj = divergenceIds;
+            objCtrl.setCurrentObject($scope.diverObj);
+            $scope.initDiver();
+         }else{
+            Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
+                if(data.errcode == 0){
+                    $scope.diverObj = data.data;
+                    objCtrl.setCurrentObject($scope.diverObj);
+                    $scope.initDiver();
+                    $scope.$apply();
+                }else{
+                    $scope.$apply();
+                    swal("查询失败", "问题原因："+data.errmsg, "error");
+                }
+            });
+         }
+    }
+    $scope.getObjectById(true);
     /*关闭详细信息面板，移动箭头图位置*/
     $scope.$parent.$parent.changeSuspendShow = function(){
         $scope.$parent.$parent.suspendFlag = false;
         $scope.changeArrowPosition();
     }
-    $scope.initializeBranch=function() {
-        $scope.diverObj = objCtrl.data;
-        $scope.initDiver();
-    };
-    $scope.initializeBranch();
-    objCtrl.refreshBranch=function() {
-        $scope.initializeBranch();
-    };
     /*保存分歧数据*/
     $scope.$parent.$parent.save = function () {
         $scope.$parent.$parent.showLoading = true;  //showLoading
@@ -374,7 +365,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
-        param.projectId = 11;
+        param.projectId = Application.projectid;
         param.data = objectEditCtrl.changedProperty;
         /*解决linkPid报错*/
         if(param.data.details){
@@ -423,7 +414,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             var param = {
                 "command":"DELETE",
                 "type":"RDBRANCHDETAIL",
-                "projectId":11,
+                "projectId":Application.projectid,
                 "objId":$scope.diverObj.details[0].pid
             };
             Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
@@ -431,9 +422,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                 $scope.$parent.$parent.showLoading = false;  //showLoading
                 $scope.$apply();
                 if(data.errcode == 0){
-                    $scope.getObjectById();
-                    $scope.setOriginalDataFunc();
-                    objectEditCtrl.setOriginalData(param.data);
                     if(highLightLayer.highLightLayersArr.length!==0) {
                         highLightLayer.removeHighLightLayers();
                     }
@@ -445,7 +433,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                         $scope.$parent.$parent.panelFlag = false;
                         $scope.$parent.$parent.objectFlag = false;
                     }
-                    //$scope.$parent.$parent.objectEditURL = "";
+                    $scope.$parent.$parent.objectEditURL = "";
                     rdBranch.redraw();
                 }else{
                     $timeout(function(){
@@ -461,9 +449,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $scope.$parent.$parent.panelFlag = false;
         $scope.$parent.$parent.objectFlag = false;
         $scope.$parent.$parent.objectEditURL="";
-        if($scope.getObjectById()){
-            $scope.$parent.$parent.showLoading = false;  //showLoading
-            $scope.$apply();
-        }
+        $scope.getObjectById(false);
     }
 })

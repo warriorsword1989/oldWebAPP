@@ -11,7 +11,8 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #rdCrossDiv {
@@ -22,26 +23,33 @@
     }
 
     #rdCrossDiv ul {
+        /*background-color: #000;*/
         list-style: none;
+        /*padding:5px;*/
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #rdCrossDiv ul > li {
         /*background-color: #000;*/
-        background-color: transparent;
-        border-right: none;
-        border-left: none;
+        background-color: #555;
+        color: #FFF;
+
     }
 
     #rdCrossDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width:170px;
         margin-left: -3px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #rdCrossDiv ul > li > div > select {
@@ -68,7 +76,7 @@
 
     .inline {
         display: inline-block !important;
-        width: 170px;
+        /*width: 170px;*/
         text-align: left;
     }
 

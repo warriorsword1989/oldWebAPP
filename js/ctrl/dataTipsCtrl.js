@@ -203,7 +203,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
             restrictObj["nodePid"] = inNode;
             var param = {
                 "command": "createrestriction",
-                "projectId": 11,
+                "projectId": Application.projectid,
                 "data": restrictObj
             };
             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {

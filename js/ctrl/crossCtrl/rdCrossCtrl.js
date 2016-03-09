@@ -53,7 +53,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         var param = {
             "command": "UPDATE",
             "type": "RDCROSS",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
         if ($scope.$parent.$parent.suspendFlag) {
@@ -121,7 +121,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         var param = {
             "command": "DELETE",
             "type": "RDCROSS",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {

@@ -10,9 +10,10 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        border: 1px solid #ddd;
-        border-right: none;
-        border-left: none;
+        /*border: 1px solid #ddd;*/
+        /*border-right: none;*/
+        /*border-left: none;*/
+        border: 0;
     }
 
     #traffiLimitedDiv {
@@ -26,19 +27,25 @@
         list-style: none;
         /*padding:5px;*/
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #traffiLimitedDiv ul > li {
-       background-color: transparent;
+        background-color: #555;
+        color: #FFF;
     }
 
     #traffiLimitedDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #303030;
-        border: none;
         border-radius:4px;
         width: 100%;
         padding-left: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #traffiLimitedDiv ul > li > div > select {
@@ -66,7 +73,7 @@
 
     .inline {
         display: inline-block !important;
-        width:170px;
+        /*width:170px;*/
         text-align: left;
     }
 

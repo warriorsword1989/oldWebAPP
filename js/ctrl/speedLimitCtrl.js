@@ -92,7 +92,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         var param = {
             "command": "UPDATE",
             "type": "RDSPEEDLIMIT",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         };
 
@@ -124,7 +124,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         var param = {
             "command": "DELETE",
             "type": "RDSPEEDLIMIT",
-            "projectId": 11,
+            "projectId": Application.projectid,
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
