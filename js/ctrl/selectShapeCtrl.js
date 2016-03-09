@@ -434,9 +434,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                         $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
                                     });
                                 });*/
-                                $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
+                                $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/sceneAllTipsTepl.html";
+                                    $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
+                                    });
                                 });
+                                console.log(data.brID)
                                 objCtrl.setCurrentObject(data.brID);
                                 break;
                             case "1510"://1510
