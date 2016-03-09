@@ -13,7 +13,8 @@
         padding: 1px 15px;
         margin-bottom: -1px;
         /*background-color: #000;*/
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #realTimeDiv {
@@ -27,25 +28,31 @@
     #realTimeDiv ul {
         /*background-color: #000;*/
         list-style: none;
-        padding:5px;
+        /*padding:5px;*/
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #realTimeDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
     }
 
     #realTimeDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #realTimeDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #realTimeDiv ul > li > div:first-child {

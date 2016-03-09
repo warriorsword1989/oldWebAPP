@@ -81,6 +81,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     //获取某个模块的信息
     $scope.changeModule = function (url,ind) {
         $scope.changeActive(ind);
+        $scope.$parent.$parent.suspendFlag = false;
+        $scope.$parent.$parent.suspendObjURL = "";
         if (url === "basicModule") {
             //$scope.changeActive(0);
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
