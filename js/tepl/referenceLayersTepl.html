@@ -9,36 +9,39 @@
         margin-top: 10px;;
     }
 
-    #layerPanel ul>li:not(:first-child){
+    #layerPanel ul>li{
         margin-left: 10px;
     }
 
-    #layerPanel ul>li:not(:first-child) label {
+    #layerPanel ul>li label {
         color: #FFF;
     }
 
-    #layerPanel ul>li:not(:first-child) label:hover {
-        color: rgba(255,255,255,0.5);
-    }
-
-    #layerPanel ul>li:not(:first-child) input{
+    #layerPanel ul>li input{
         cursor: pointer;
     }
 
     #layerPanel ul>li>div>label{
-        color:#7a828b;
+        color:#FFF;
     }
 
-    #layerPanel ul>li>div>label:hover{
-        color:#16C497;
-        cursor: pointer;
+    #layerPanel ul>li>div>a{
+        color:#FFF;
+    }
+
+    #layerPanel ul>li:hover>div>a{
+        color:rgba(255,255,255,0.5);
+    }
+
+    #layerPanel ul>li:hover>div>label{
+        color:rgba(255,255,255,0.5);
     }
 </style>
 <div ng-controller="referenceLayersController" id="layerPanel">
+    <div style="background-color: rgb(64,64,64);padding: 5px 10px;">
+        <label style="font-size:18px;color:#FFF;">参考图层设置</label>
+    </div>
     <ul>
-        <li>
-            <label style="font-size:18px;color:#FFF;">参考图层设置</label>
-        </li>
         <li ng-repeat="item in items">
             <div ng-if="item.options.singleselect===true">
                 <input tabindex="1" style="float:right;margin-right: 10px" type="radio"
@@ -47,9 +50,7 @@
                 <label>{{item.options.layername}}</label>
             </div>
             <div ng-if="item.options.singleselect!==true">
-                <input tabindex="1" style="float:right;margin-right: 10px" type="checkbox"
-                       ng-checked="item.options.visible"
-                       ng-click="showLayers(item,$event)"/>
+                <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]" ng-click="showLayers(item,$event)"></a>
                 <label>{{item.options.layername}}</label>
             </div>
         </li>
