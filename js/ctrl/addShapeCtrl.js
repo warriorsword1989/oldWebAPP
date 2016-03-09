@@ -278,8 +278,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
                 }
-                $ocLazyLoad.load("ctrl/addLaneconnexityCtrl").then(function () {
-                    $scope.$parent.$parent.objectEditURL = "js/tepl/addLaneconnexityTepl.html";
+                $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
+                    $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
 
                 });
             } else if (type === "node") {
