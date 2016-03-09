@@ -78,6 +78,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (event)
                 event.stopPropagation();
             $scope.initCurrentTool();
+            editlayer.clear();
+            editlayer.bringToBack();
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            rdLink.clearAllEventListeners()
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -276,7 +281,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             } else if (type === "laneConnexity") {
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                editlayer.bringToBack();
+
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
