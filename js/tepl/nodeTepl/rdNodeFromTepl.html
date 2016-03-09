@@ -13,7 +13,8 @@
        display: block;
        padding: 1px 15px;
        margin-bottom: -1px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+       border: 0;
     }
 
     #rdNodediv {
@@ -27,21 +28,28 @@
         list-style: none;
         /*padding:5px;*/
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #rdNodediv ul > li {
-        background-color: transparent;
+        background-color: #555;
+        color: #FFF;
+
     }
 
     #rdNodediv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width:170px;
         margin-left: -3px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
 
@@ -79,6 +87,7 @@
 
     .m-b-none {
         margin-bottom: 0 !important;
+        border-radius:4px;
     }
 
     .form-horizontal .control-label {
@@ -92,7 +101,7 @@
 
 
     .checkboxli {
-        background-color: #e4e4e4;
+        background-color: #333;
         border: 1px solid #aaa;
         border-radius: 4px;
         cursor: default;
@@ -101,15 +110,26 @@
         margin-right: 5px;
         margin-top: 5px;
         padding: 0 5px;
+        color:#FFF;
     }
 </style>
 <div id="rdNodediv"  ng-controller="rdNodeFromController" >
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">道路点</label></div>
-                <div class="inline"><input type="text" readonly ng-model="rdNodeData.pid"/>
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    道路点
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdNodeData.pid}}</span>
+                </div>
             </div>
-        </li>
+        </form>
+    </div>
+    <ul class="list-group list-group-lg m-b-none">
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路点</label></div>-->
+                <!--<div class="inline"><input type="text" readonly ng-model="rdNodeData.pid"/>-->
+            <!--</div>-->
+        <!--</li>-->
         <li class="list-group-item">
             <div ><label class="control-label">NODE种别</label></div>
             <div class="inline" style="text-align: left">
@@ -163,10 +183,13 @@
             <div class="inline" style="text-align: left;">
                 <a  ng-click="showPopover()" style="cursor: pointer;">添加</a>
             </div>
+        </li>
+        <li class="list-group-item">
+            <div style="margin-top: 5px;"><label class="control-label"></label></div>
             <div class="inline" id="fromOfWRoaddiv" >
-                <li ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
                     {{fromitem.label}}
-                </li>
+                </div>
             </div>
         </li>
 

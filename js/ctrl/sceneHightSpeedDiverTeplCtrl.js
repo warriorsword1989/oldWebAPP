@@ -158,9 +158,8 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout
             })
         }
     }
-
-    $scope.closeBridge=function(){
-        $("#popoverTips").css("display", "none");
+    /*tips关闭功能*/
+    $scope.closeBridge = function(){
+        $("#popoverTips").hide();
     }
-
 });

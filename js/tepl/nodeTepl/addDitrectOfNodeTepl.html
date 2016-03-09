@@ -16,8 +16,7 @@
     }
 </style>
 <div ng-controller="addDirectOfRestController" style="color:#FFF;">
-    <div style="padding: 5px;color:#FFF;"><label class="control-label">node形态添加</label><a
-            style="float: right; margin-right: 10px;" ng-click="closeWin()">X</a></div>
+    <div style="padding: 5px;color:#FFF;"><label class="control-label">node形态添加</label></div>
     <div ng-repeat="addItem in fromOfWayOption">
                 <span ng-if="addItem.isCheck==true" style="padding: 5px;color:#FFF;">
                     <input type="checkbox" checked="checked" ng-click="remove(addItem)" value="{{addItem.id}}">{{addItem.label}}</br>
