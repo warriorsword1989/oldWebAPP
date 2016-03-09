@@ -40,11 +40,11 @@
         <li ng-repeat="item in items">
             <div ng-if="item.options.singleselect===true">
                 <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-ok-circle',false:'glyphicon-remove-circle'}[item.options.visible]" ng-click="showLayers(item,$event)"></a>
-                <label>{{item.options.layername}}</label>
+                <label style="font-weight: bold;">{{item.options.layername}}</label>
             </div>
             <div ng-if="item.options.singleselect!==true">
                 <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]" ng-click="showLayers(item,$event)"></a>
-                <label>{{item.options.layername}}</label>
+                <label style="font-weight: bold;">{{item.options.layername}}</label>
             </div>
         </li>
     </ul>
