@@ -169,7 +169,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         if($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
         }
-        console.log($scope.linkData)
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -224,6 +223,14 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         };
         if ($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
+        }
+        var objLength = 0;
+        for(var key in objectCtrl.changedProperty){
+            objLength++;
+        }
+        if(objLength == 3){
+            swal("操作失败", '没有修改内容', "error");
+            return;
         }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
