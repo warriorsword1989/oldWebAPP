@@ -341,7 +341,7 @@
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
                                         <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB==null" style="border:none;">
-                                            <img ng-if="bItem.arwB==null" width="15px" height="22px" style="border:0;">
+                                            <img ng-if="bItem.arwB==null" width="15px" height="22px" style="border:0;visibility: hidden;">
                                         </div>
                                         <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null">
                                             <img ng-if="bItem.arwB!=null" width="15px" height="22px" ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
