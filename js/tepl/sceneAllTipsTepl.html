@@ -320,10 +320,10 @@
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
-                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
+                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
                                         <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null">
                                             <img
-                                                 ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png">
+                                                 ng-src="./css/laneinfo/arw/{{gItem.arwG}}.png">
                                         </div>
 
                                     </div>
@@ -333,10 +333,10 @@
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
-                                    <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
+                                    <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
                                         <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&gItem.arwG!=null">
                                             <img
-                                                 ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
+                                                 ng-src="./css/laneinfo/arw/{{bItem.arwB}}.png">
                                         </div>
 
                                     </div>
