@@ -1069,7 +1069,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         } else if (restrictArr[fact].indexOf("<") > -1) {
                                             newstyle = {src: './css/laneinfo/arwB/' + restrictArr[fact].substr(restrictArr[fact].length - 2, 1) + '.png'};
 
-                                        } else if (restrictArr[fact] != "9") {
+                                        } else if (restrictArr[fact]&&restrictArr[fact] != "9") {
+
                                             newstyle = {src: './css/laneinfo/arwG/' + restrictArr[fact] + '.png'};
                                         }
                                     }
@@ -1094,7 +1095,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     } else if (restrictObj.indexOf("<") > -1) {
                                         newstyle = {src: './css/laneinfo/arwB/' + restrictObj.substr(restrictObj.length - 2, 1) + '.png'};
 
-                                    } else if (restrictObj != "9") {
+                                    } else if (restrictObj&&restrictObj != "9") {
                                         newstyle = {src: './css/laneinfo/arwG/' + restrictObj + '.png'};
                                     }
                                 }
