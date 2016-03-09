@@ -338,10 +338,13 @@
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
-                                    <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
-                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&gItem.arwG!=null">
-                                            <img
-                                                 ng-src="./css/laneinfo/arw/{{bItem.arwB}}.png">
+                                    <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB==null" style="border:none;">
+                                            <img ng-if="bItem.arwB==null" width="15px" height="22px" style="border:0;visibility: hidden;">
+
+                                        </div>
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null">
+                                            <img ng-if="bItem.arwB!=null" width="15px" height="22px" ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
                                         </div>
 
                                     </div>

@@ -4,44 +4,52 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #otherDiv {
         opacity: 1;
         width: 100%;
+
     }
 
     #otherDiv ul {
         list-style: none;
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #otherDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
         border-right: none;
         border-left: none;
     }
 
     #otherDiv ul > li > div > input[type='text'] {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width: 170px;
         margin-left: -3px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #otherDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
         width: 160px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #otherDiv ul > li > div:first-child {
@@ -141,7 +149,7 @@
     }
 
     .checkboxli {
-        background-color: #e4e4e4;
+        /*background-color: #e4e4e4;*/
         border: 1px solid #aaa;
         border-radius: 4px;
         cursor: default;
@@ -312,10 +320,14 @@
             <div class="inline">
                 <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
             </div>
+
+        </li>
+        <li>
+            <div><label class="control-label"></label></div>
             <div class="inline" id="fromOfWRoaddiv" >
-                <li ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
                     {{fromitem.label}}
-                </li>
+                </div>
             </div>
         </li>
     </ul>

@@ -4,40 +4,49 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        background-color: #000;
+        /*background-color: #000;*/
         border: 1px solid #ddd;
     }
 
     #conditionSpeedDiv {
-        background-color: #000;
         opacity: 1;
-        padding: 10px 5px;
         width: 100%;
-        z-index: 20;
+        font-size: 12px;
     }
 
     #conditionSpeedDiv ul {
-        background-color: #000;
         list-style: none;
-        padding:5px;
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #conditionSpeedDiv ul > li {
-        background-color: #000;
+        background-color: #555;
     }
 
     #conditionSpeedDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #conditionSpeedDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
+        width:170px;
+        border-radius: 4px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #conditionSpeedDiv ul > li > div:first-child {
@@ -77,8 +86,8 @@
 <div ng-controller="conditionSpeedController" id="conditionSpeedDiv">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div>
-                <a ng-click="addSpeedLimit()" style="cursor: pointer">增加限速</a>
+            <div style="color:#FFF;">
+                <a ng-click="addSpeedLimit()" style="cursor: pointer;color:#FFF;">增加限速</a>
             </div>
         </li>
     </ul>

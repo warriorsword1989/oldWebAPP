@@ -32,6 +32,7 @@
         text-indent: 0px;
         text-shadow: none;
         cursor: pointer;
+        font-size: 12px;
     }
 
     div.errorClass td>div>select:focus{
@@ -40,6 +41,16 @@
 
     div.errorClass td>div>select:hover{
         color:#FFF;
+    }
+
+    div.errorClass td>div>select:hover>option{
+        background-color: rgb(64,64,64);
+    }
+
+    #fm-option-type>option{
+        background-color: rgb(64,64,64);
+        font-size: 12px;
+        color: #FFF;
     }
 
 </style>
@@ -84,7 +95,7 @@
                <td><div style="width:80px;color:#FFF;word-wrap:break-word;">{{row.create_date}}</div></td>
                <td><div style="width:60px;color:#FFF;word-wrap:break-word;">{{row.worker}}</div></td>
                <td><div style="width:80px;color:#FFF;word-wrap:break-word;">
-                   <select class="form-control" ng-model="initType"  style="height: 25px;padding: 0;"
+                   <select id="fm-option-type" class="form-control" ng-model="initType"  style="height: 25px;padding: 0;"
                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
                    </select>
                   </div>
