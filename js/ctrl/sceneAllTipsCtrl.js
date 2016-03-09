@@ -291,11 +291,19 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             
         }
     }
+    /*tips图片全屏*/
+    $scope.$parent.$parent.showFullPic = function(){
+        $("#fullScalePic img").attr('src',$("#dataTipsOriginImg").attr('src'));
+        $("#fullScalePic").show();
+    }
+    /*隐藏tips图片*/
+    $scope.$parent.$parent.hideFullPic = function(){
+        $("#fullScalePic").hide();
+    }
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
             var paramOfLink = {
                 "command": "CREATE",
@@ -322,8 +330,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 });
                 return;
             }
+            $scope.$parent.$parent.showLoading = true;  //showLoading
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = null;
+                $scope.$parent.$parent.showLoading = false;  //showLoading
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
 
@@ -371,6 +381,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "data": kindObj
             };
             if (stage === 1) {
+                $scope.$parent.$parent.showLoading = true;  //showLoading
                 Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
 
                     $scope.$parent.$parent.showLoading = false;  //showLoading
@@ -422,7 +433,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
-                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $.showPoiMsg('状态已改，不允许改变状态！',e);
                     $scope.$apply();
                 });
                 return;

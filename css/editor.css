@@ -616,3 +616,28 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     line-height: 20px;
     z-index: 1000;
 }
+#fullScalePic{
+    display: none;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999999;
+    /*opacity: 0.9;    */
+    text-align: center;
+    cursor: pointer;
+}
+#fullScalePic img{
+    height: 100%;
+}
+#fullPicBtn{
+    position: absolute;
+    right: 40px;
+    top: 16px;
+    color: #ccc;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+#fullPicBtn:hover{
+    color: #555;
+}
