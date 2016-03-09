@@ -4,8 +4,9 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        /*background-color: #000;*/
-        border: 1px solid #ddd;
+        /*background-color: transparent;*/
+        margin-right: 0px;
+        border: 0;
     }
 
     #traffiLimitedDiv {
@@ -19,25 +20,31 @@
     #traffiLimitedDiv ul {
         /*background-color: #000;*/
         list-style: none;
-        padding:5px;
+        /*padding:5px;*/
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #traffiLimitedDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
     }
 
     #traffiLimitedDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #traffiLimitedDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #traffiLimitedDiv ul > li > div:first-child {
