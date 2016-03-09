@@ -47,36 +47,6 @@
     .m-b-none {
         margin-bottom: 0 !important;
     }
-    .trafficPic {
-        float: left;
-        transition: all 0.5s;
-        border-radius: 50%;
-        text-align: center;
-        cursor: pointer;
-        margin: 13px;
-    }
-
-    .trafficPic > img {
-        transition: all 0.5s;
-        border-radius: 50%;
-    }
-
-    .trafficPic > .active {
-        box-shadow: 0px 0px 7px 4px #9d9d9d;
-    }
-
-    .img-well {
-        float: left;
-        padding: 3px;
-        /*border: 1px solid #ddd;*/
-        margin: 4px;
-        cursor: pointer;
-    }
-
-    .show-img {
-        width: 30px;
-        height: 30px;
-    }
 
     .show-img-normal {
         width: 40px;
@@ -103,24 +73,33 @@
             <div><label class="control-label">创建车信</label></div>
         </li>
         <li class="list-group-item">
-            <div class="inline" ng-repeat="item in showNormalData"
-                 ng-mousedown="minusNormalData(item,$index,$event)" ng-click="addTransitData(item,$index)">
-                <img class="show-img-normal" ng-src="./css/laneinfo/arw/{{item.flag}}.png"
-                     title="{{item.flag}}">
+            <div class="inline" ng-repeat="item in directData.showNormalData">
+                <div>
+                      <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                            class="glyphicon glyphicon-remove-sign"
+                            ng-click="minusNormalData(item,$index,$event)"></span>
+                    <img class="show-img-normal" ng-src="./css/laneinfo/arw/{{item.flag}}.png"
+                         ng-click="addTransitData(item,$index)"
+                         title="{{item.flag}}">
+                </div>
+
             </div>
 
         </li>
         <li class="list-group-item">
-            <div  class="inline"  ng-repeat="item in showTransitData" ng-dblclick="minusTransitData(item)">
-                <img class="show-img-transit" ng-src="./css/laneinfo/arw/{{item.flag}}.png"
-                     title="{{item.flag}}">
+            <div  class="inline" style="padding-top: 15px"  ng-repeat="busItem in directData.showTransitData">
+                <div>
+                       <span  ng-if="busItem.flag!=='test'" style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                              class="glyphicon glyphicon-remove-sign"
+                              ng-click="minusTransitData(busItem,$index)"></span>
+                 <span ng-if="busItem.flag==='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
+                         ></span>
+                    <img class="show-img-transit" ng-src="./css/laneinfo/arw/{{busItem.flag}}.png"
+                         title="{{busItem.flag}}">
+                </div>
+
             </div>
         </li>
-        <li class="list-group-item">
-            <div class="inline img-well"  ng-repeat="item in laneConnexityData"
-                 ng-click="addNormalData(item,$event)" ng-mousedown="additionalData(item,$event)">
-                <img class="show-img" ng-src="./css/laneinfo/arw/{{item.flag}}.png" title="{{item.flag}}">
-            </div>
-        </li>
+
     </ul>
 </div>

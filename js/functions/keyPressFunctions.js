@@ -21,6 +21,7 @@ function keyEvent(ocLazyLoad, scope) {
             var speedlimitlayer = layerCtrl.getLayerById('speedlimit');
             var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
             var editLayer = layerCtrl.getLayerById('edit');
+            var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
             var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
@@ -344,29 +345,6 @@ function keyEvent(ocLazyLoad, scope) {
                         //var nodePid = null;
                         var interLinks =snapObj.interLinks.length!=0?snapObj.interLinks: [];
                         var interNodes = snapObj.interNodes.length!=0?snapObj.interNodes: [];
-                        //if(snapObj){
-                        //    if(snapObj.targetIndex == 0){
-                        //        nodePid = selectCtrl.selectedFeatures.snode;
-                        //    }else if(snapObj.targetIndex == selectCtrl.selectedFeatures.geometry.components.length-1) {
-                        //        nodePid = selectCtrl.selectedFeatures.enode;
-                        //    }else{
-                        //        nodePid = null;
-                        //    }
-                        //}
-                        //
-                        //if(snapObj.selectedVertex == true){
-                        //    if(snapObj.snapIndex == 0){
-                        //        interNodes.push({pid:parseInt(snapObj.properties.snode),nodePid:nodePid});
-                        //    }else{
-                        //        interNodes.push({pid:parseInt(snapObj.properties.enode),nodePid:nodePid});
-                        //    }
-                        //
-                        //}else{
-                        //    interLinks.push({pid:parseInt(snapObj.properties.id),nodePid:nodePid});
-                        //
-                        //}
-
-
                         var param = {
                             "command": "REPAIR",
                             "type": "RDLINK",
@@ -601,6 +579,57 @@ function keyEvent(ocLazyLoad, scope) {
                             });
                         });
                     })
+                }else if(shapeCtrl.editType === "rdlaneConnexity") {
+                    var laneData = objEditCtrl.data["inLaneInfoArr"],
+                        laneInfo = objEditCtrl.data["laneConnexity"];
+                        laneStr="";
+                    if(laneData.length===0) {
+                        laneStr = laneData[0];
+                    }else{
+                        laneStr = laneData.join(",");
+                    }
+                    laneInfo["laneInfo"] = laneStr;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDLANECONNEXITY",
+                        "projectId": Application.projectid,
+                        "data": laneInfo
+                    };
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        if (data.errcode === -1) {
+                            checkCtrl.setCheckResult(data);
+                            return;
+                        }
+                        var info = [];
+                        if (data.data) {
+                            $.each(data.data.log, function (i, item) {
+                                if (item.pid) {
+                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
+                                } else {
+                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
+                                }
+                            });
+                        } else {
+                            info.push(data.errmsg + data.errid);
+                        }
+                        outPutCtrl.pushOutput(info);
+                        var pid = data.data.log[0].pid;
+                        checkCtrl.setCheckResult(data);
+                        //清空上一次的操作
+                        map.currentTool.cleanHeight();
+                        map.currentTool.disable();
+                        rdlaneconnexity.redraw();
+                        if(scope.suspendFlag) {
+                            scope.suspendFlag = false;
+                        }
+                        Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
+                            objEditCtrl.setCurrentObject(data.data);
+                            ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
+                                scope.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
+                            });
+                        });
+                    })
+
                 }
             }
         });

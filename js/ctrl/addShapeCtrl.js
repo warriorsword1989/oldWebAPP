@@ -11,6 +11,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var objCtrl=fastmap.uikit.ObjectEditController();
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
@@ -77,6 +78,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (event)
                 event.stopPropagation();
             $scope.initCurrentTool();
+            editlayer.clear();
+            editlayer.bringToBack();
+            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+            rdLink.clearAllEventListeners()
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
@@ -275,7 +281,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             } else if (type === "laneConnexity") {
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                editlayer.bringToBack();
+
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
@@ -283,6 +289,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
                 }
+                var obj = {};
+                obj["showTransitData"]=[]
+                obj["showAdditionalData"] = [];
+                obj["showNormalData"] = [];
+                obj["inLaneInfoArr"] = [];
+                $scope.$parent.$parent.objectEditURL = "";
+                objCtrl.setCurrentObject(obj);
                 $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
                     $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
 
