@@ -1,8 +1,11 @@
 /**
+ * Created by liwanchong on 2016/3/9.
+ */
+/**
  * Created by liwanchong on 2016/3/4.
  */
-var directConnexityApp = angular.module("mapApp", []);
-directConnexityApp.controller("directOfConnexityController",function($scope) {
+var addDirectConnexityApp = angular.module("mapApp", []);
+addDirectConnexityApp.controller("addDirectOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var linksObj = {};//存放需要高亮的进入线和退出线的id
@@ -82,15 +85,6 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
             highLightLayer.removeHighLightLayers();
         }
         linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
-        for (var i = 0, len = $scope.laneInfo["topos"].length; i < len; i++) {
-            var arrOfDecimal = $scope.decimalToArr($scope.laneInfo["topos"][i]["inLaneInfo"]);
-            var lenOfInfo =(16- arrOfDecimal.length);
-            if (lenOfInfo=== $scope.laneInfo["index"]) {
-                linksObj["outLink" + $scope.flagNum] = $scope.laneInfo["topos"][i].outLinkPid.toString();
-                $scope.flagNum++;
-            }
-
-        }
         var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
             map: map,
             highLightFeature: "links",
@@ -111,35 +105,75 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
 
         }
     };
-    $scope.changeLaneConnexity=function() {
+    $scope.addLaneConnexity=function() {
         var lastLane= $scope.lanesArr[$scope.lanesArr.length-1].split("");
         var zeroLane = $scope.lanesArr[0].split("");
-        if( $scope.laneInfo["selectNum"]!==undefined) {
+        if( $scope.laneInfo["selectNum"]) {
             var selectLane = $scope.lanesArr[$scope.laneInfo["selectNum"]].split("");
+            var selObj={
+                "busLaneInfo": 0,
+                "connexityPid": $scope.laneInfo["pid"],
+                "inLaneInfo": parseInt($scope.intToDecial($scope.laneInfo["selectNum"]+1)),
+                "outLinkPid": 0,
+                "reachDir": $scope.changeData($scope.item.id),
+                "relationshipType": 1
+            }
             for (var m= 0,lenM=$scope.laneInfo["topos"].length;m<lenM;m++) {
                 var decimalArr = $scope.decimalToArr($scope.laneInfo["topos"][m]["inLaneInfo"]);
                 var infoLen =(16- decimalArr.length);
-                if($scope.laneInfo["selectNum"]===infoLen) {
-                    $scope.laneInfo["topos"][m]["reachDir"] =$scope.changeData($scope.item.id);
+                for(var n=$scope.laneInfo["selectNum"]+2,lenN=($scope.lanesArr.length-$scope.laneInfo["selectNum"]+1);n<=lenN;n++) {
+                    if(n===infoLen) {
+                        $scope.laneInfo["topos"][m]["inLaneInfo"]=parseInt($scope.intToDecial(n+1))
+                    }
                 }
             }
-            if($scope.lanesArr[$scope.laneInfo["selectNum"]].indexOf("[")!==-1) {
-                $scope.lanesArr[$scope.laneInfo["selectNum"]]= "["+$scope.item.id+"]";
-            }else if($scope.lanesArr[$scope.laneInfo["selectNum"]].indexOf("<")!==-1){
-                var transitArr = $scope.lanesArr[$scope.laneInfo["selectNum"]].split("");
-                if($scope.laneInfo["transitFlag"]) {
-                    transitArr[transitArr.length - 2] = $scope.item.id;
-                    $scope.laneInfo["transitFlag"] = undefined;
-                }else{
-                    transitArr[0] = $scope.item.id;
-                }
-
-                $scope.lanesArr[$scope.laneInfo["selectNum"]] = transitArr.join("");
-            }else{
-                $scope.lanesArr[$scope.laneInfo["selectNum"]]= $scope.item.id;
-            }
+            $scope.lanesArr.splice($scope.laneInfo["selectNum"]+1, 0, $scope.item.id);
             $scope.laneInfo["laneInfo"] = $scope.lanesArr.join(",");
+            $scope.laneInfo["topos"].unshift(selObj);
             $scope.laneInfo["selectNum"] = undefined;
+        }else{
+            if(lastLane[lastLane.length-1]==="]") {
+                for(var j=0,lenJ=$scope.laneInfo["topos"].length;j<lenJ;j++) {
+                    var arrOfDecimal = $scope.decimalToArr($scope.laneInfo["topos"][j]["inLaneInfo"]);
+                    var lenOfInfo =(16- arrOfDecimal.length);
+                    if((lenJ)===lenOfInfo) {
+                        $scope.laneInfo["topos"][j]["inLaneInfo"]=parseInt($scope.intToDecial(lenJ))
+                    }
+                }
+                var newObj={
+                    "busLaneInfo": 0,
+                    "connexityPid": $scope.laneInfo["pid"],
+                    "inLaneInfo": parseInt($scope.intToDecial($scope.laneInfo["topos"].length-1)),
+                    "outLinkPid": 0,
+                    "reachDir": $scope.changeData($scope.item.id),
+                    "relationshipType": 1
+                }
+                $scope.lanesArr.splice($scope.lanesArr.length - 1, 0, $scope.item.id);
+                $scope.laneInfo["laneInfo"] = $scope.lanesArr.join(",");
+                $scope.laneInfo["topos"].unshift(newObj);
+            }else{
+                if($scope.laneInfo["laneInfo"]) {
+                    $scope.laneInfo["laneInfo"] += ",";
+                }
+                $scope.laneInfo["laneInfo"] += $scope.item.id;
+                var laneNum = "";
+                if($scope.lanesArr[0]==="") {
+                    laneNum =0;
+                }else{
+                    laneNum = $scope.lanesArr.length;
+                }
+                var newNum = parseInt($scope.intToDecial(laneNum));
+                var obj={
+                    "busLaneInfo": 0,
+                    "connexityPid": $scope.laneInfo["pid"],
+                    "inLaneInfo":newNum,
+                    "outLinkPid": 0,
+                    "reachDir": $scope.changeData($scope.item.id),
+                    "relationshipType": 1
+                }
+                $scope.laneInfo["topos"].unshift(obj);
+            }
+
         }
 
         objCtrl.rdLaneObject();
@@ -149,6 +183,6 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
     };
     $scope.selectLaneInfo = function (item, index) {
         $scope.item = item;
-        $scope.changeLaneConnexity();
+        $scope.addLaneConnexity();
     }
 });
