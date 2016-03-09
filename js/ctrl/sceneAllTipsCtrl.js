@@ -324,6 +324,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
             Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
                 var info = null;
+                $scope.$parent.$parent.showLoading = false;  //showLoading
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
 
