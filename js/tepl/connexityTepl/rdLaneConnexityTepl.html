@@ -64,12 +64,13 @@
 
     #rdLaneConnexityDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
         width:130px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #rdLaneConnexityDiv ul > li > div:first-child {
@@ -170,69 +171,6 @@
     }
 </style>
 <div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv" oncontextmenu=self.event.returnValue=false>
-<<<<<<< HEAD
-    <div class="module-fix-box">
-        <div class="d-group">
-            <div class="d-name">车信ID：</div>
-            <div class="d-value">
-                <input type="text" class="d-input rounded" placeholder="车信ID" ng-model="lanesData.pid" readonly>
-            </div> 
-        </div>
-        <div class="d-group">
-            <div class="d-name">进入线：</div>
-            <div class="d-value">
-                <input type="text" class="d-input rounded" placeholder="进入线" ng-model="lanesData.inLinkPid" readonly>
-            </div> 
-        </div>
-        <div class="d-group">
-            <div class="d-name">车道总数：</div>
-            <div class="d-value">
-                <input type="text" class="d-input rounded" placeholder="车道总数" ng-model="lanesData.laneNum" readonly>
-            </div> 
-        </div>
-        <div class="d-group">
-            <div class="d-name">附加车道</div>
-            <div class="d-value"></div> 
-        </div>
-        <div class="d-group">
-            <div class="d-name">左：</div>
-            <div class="d-value">
-                <input id="leftAddtionalLane" type="text" class="d-input rounded" placeholder="左" ng-model="lanesData.leftExtend">
-            </div> 
-        </div>
-        <div class="d-group">
-            <div class="d-name">右：</div>
-            <div class="d-value">
-                <input id="rightAddtionalLane" type="text" class="d-input rounded" placeholder="右" ng-model="lanesData.rightExtend">
-            </div> 
-        </div>
-        <div class="d-group" style="margin-top: 20px;">
-            <div style="width: 100%;text-align: right"> 
-            <span style="float:right;font-size: 14px;color: #e5e5e5;cursor: pointer;" class="glyphicon glyphicon-plus" ng-click="addLane()"></span>
-            </div>
-            <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index">
-                <div  class="lanePic">
-                    <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
-                    <img
-                            ng-click="showLanesInfo(item,$index,$event)"
-                            ng-mousedown="changeDirect(item,$event,$index)"
-                            ng-src="./css/laneinfo/arwG/{{item}}.png"
-                            title="{{item}}">
-                </div>
-            </div>
-        </div>
-        <div class="d-group">
-            <div style="display: none"></div>
-            <div style="display: inline-block" ng-repeat="items in showTransitData track by $index">
-                <div class="lanePic">
-                    <img
-                            ng-dblclick="minusTransitData(items,$index)"  ng-src="./css/laneinfo/arwG/{{items}}.png"
-                            title="{{items}}">
-                </div>
-            </div>
-        </div>
-    </div>
-=======
     <div style="height:50px">
         <form class="form-horizontal" method="get" style="border: 0;">
             <div class="panel panel-default " style="background-color: transparent;border:0;">
@@ -256,8 +194,6 @@
                             title="{{item}}">
                 </div>
             </div>
-
-
         </li>
         <li class="list-group-item">
             <div style="display: none;"></div>
@@ -295,5 +231,4 @@
         </li>
 
     </ul>
->>>>>>> url/master
 </div>
