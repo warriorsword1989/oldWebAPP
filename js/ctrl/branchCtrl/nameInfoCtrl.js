@@ -60,12 +60,10 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     ];
     /*分歧名称输入完查询发音和拼音*/
     $scope.diverName = function(id,name){
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         var param = {
             "word":name
         }
         Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();
             if(data.errcode == 0){
                 $.each($scope.details[0].names,function(i,v){

@@ -40,12 +40,10 @@ namesOfCross.controller("namesController",function($scope) {
     ];
     /*路口名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         var param = {
             "word": name
         }
         Application.functions.getNamePronunciation(JSON.stringify(param), function (data) {
-            $scope.$parent.$parent.showLoading = false;  //showLoading
             $scope.$apply();
             if (data.errcode == 0) {
                 $.each( $scope.names, function (i, v) {
