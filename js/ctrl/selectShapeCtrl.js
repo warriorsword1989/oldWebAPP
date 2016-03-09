@@ -85,6 +85,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
 
     }
     $scope.selectShape = function (type, num) {
+        ///rdLink.clearAllEventListeners();
         if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
         }
