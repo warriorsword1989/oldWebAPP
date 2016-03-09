@@ -1,4 +1,4 @@
-.ti_tx, .mi_tx, .mer_tx{width: 100%;text-align: center;margin: 10px 0;}
+.ti_tx, .mi_tx, .mer_tx{width: 100%;text-align: center;margin: 10px 0;color: #fff}
 .time, .mins, .meridian{width: 60px;float: left;margin: 0px 10px;font-size: 20px;color: #2d2e2e;font-family: 'arial';font-weight: 700;}
 .time-prev, .time-next{cursor: pointer;padding: 18px;width: 28%;border: 1px solid #ccc;margin: auto;background: url(../images/arrow.png) no-repeat;border-radius: 5px;}
 .time-prev:hover, .time-next:hover{background-color:#ccc;}
@@ -24,7 +24,7 @@
 	display:none;
 	width:182px;
 	box-shadow: 1px 1px 10px 0px rgba(50, 50, 50, 0.35);
-	background:#ffffff;
+	background:#606060;
 	border:1px solid #ccc;
 	float:left;
 	position:absolute;
@@ -36,7 +36,7 @@
 	position: absolute;
 	top: -10px;
 	left: 90px;
-	background: url(../images/top_arr.png) no-repeat;
+	background: url(../images/top_arr_dark.png) no-repeat;
 	width: 18px;
 	height: 10px;
 	z-index: 3;

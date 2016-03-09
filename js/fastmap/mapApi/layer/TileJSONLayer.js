@@ -349,8 +349,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
         var c = ctx.canvas;
         var g = c.getContext('2d');
-        var image = new Image(),
-            arrorImg = new Image();
+        var image = new Image();
         image.src = imgsrc.src;
         image.onload = function () {
             g.save();
@@ -399,6 +398,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         };
     },
     _drawText: function (ctx, geom, name) {
+        geom = this._clip(ctx, geom);
+        //var startPoint = null;
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.font = "10px Courier New";
@@ -409,42 +410,44 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if (geom.length === 2) {
             angle = this._rotateAngle(geom[0][0], geom[1][0]);
             lineLen = this.distance(geom[0][0], geom[1][0]);
-            if (nameLen < lineLen && lineLen > 60) {
-                this._showTextOfAngle(g, 0, nameArr.length, name, angle, geom[0][0]);
+            if (nameLen < lineLen/2 && lineLen > 160) {
+                this._showTextOfAngle(g, 0, nameArr.length, name, angle, [(geom[0][0][0]+geom[1][0][0])/2,(geom[0][0][1]+geom[1][0][1])/2]);
+                //this._showTextOfAngle(g, 0, nameArr.length, name, angle, geom[0][0]);
             }
 
         } else {
-            var startPoint = geom[0][0], startPointForLen = geom[0][0],
+                var startPoint = geom[0][0], startPointForLen = geom[0][0],endPoint = geom[geom.length-1][0],
                 textLength = 0, startText = 0, textIndex = 0,
                 betPointsLen, realLineLen = 0, linkArrLen = geom.length;
             for (var m = 1; m < linkArrLen; m++) {
                 betPointsLen = this.distance(geom[m][0], startPointForLen);
-                if (betPointsLen > 10) {
-                    lineLen += parseInt(betPointsLen / 10);
-                    realLineLen += betPointsLen;
-                }
+                //if (betPointsLen > 10) {
+                //    lineLen += parseInt(betPointsLen / 10);
+                realLineLen += betPointsLen;
+                //}
 
                 startPointForLen = geom[m][0];
             }
-            if (nameLen < lineLen && realLineLen > 1000) {
+            if (nameLen < realLineLen/2 && realLineLen > 50) {
+                startPoint = geom[2][0]
                 for (var linkFLag = 1; linkFLag < linkArrLen; linkFLag++) {
                     if (textLength < nameArr.length) {
                         betPointsLen = this.distance(geom[linkFLag][0], startPoint);
                         angle = this._rotateAngle(startPoint, geom[linkFLag][0]);
                         if (betPointsLen > 10) {
                             textIndex = parseInt(betPointsLen / 10);
-                            if (textIndex >= nameArr.length) {
+                            //if (textIndex >= nameArr.length) {
                                 this._showTextOfAngle(g, 0, nameArr.length, name, angle, startPoint);
                                 break;
-                            } else {
-                                if ((startText + textIndex) > nameArr.length) {
-                                    textIndex = nameArr.length - startText;
-                                }
-                                this._showTextOfAngle(g, startText, textIndex, name, angle, startPoint);
-                                startPoint = geom[linkFLag][0];
-                                textLength += textIndex;
-                                startText = textLength;
-                            }
+                            //} else {
+                                //if ((startText + textIndex) > nameArr.length) {
+                                //    textIndex = nameArr.length - startText;
+                                //}
+                                //this._showTextOfAngle(g, startText, textIndex, name, angle, startPoint);
+                                //startPoint = geom[linkFLag][0];
+                                //textLength += textIndex;
+                                //startText = textLength;
+                            //}
                         } else {
                             startPoint = geom[linkFLag][0];
                         }
@@ -928,6 +931,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.restrictioninfo;
+                        var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                         var newgeom = [];
                         if (restrictObj !== undefined) {
                             if (restrictObj.constructor === Array) {
@@ -960,11 +964,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         }
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 16;
-                                        newgeom[1] = parseInt(geom[1]);
-                                        this._drawImg(ctx, newgeom, newstyle, boolPixelCrs);
+                                        newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                        this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs,route);
                                     } else {
-                                        this._drawImg(ctx, geom, newstyle, boolPixelCrs);
+                                        this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs,route);
                                     }
 
                                 }
@@ -1047,7 +1051,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                         var newstyle = "";
                         var restrictObj = feature.properties.laneconnexityinfo;
-                        var route = (feature.properties.rdlaneconnexityrotate - 90) * (Math.PI / 180);
+                        var route = (feature.properties.laneconnexityrotate) * (Math.PI / 180);
                         if (isNaN(route)) {
                             route = 0;
                         }
@@ -1073,8 +1077,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         console.log("test");
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 10;
-                                        newgeom[1] = parseInt(geom[1]);
+                                        newgeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
                                         this._drawlaneImgRoute(ctx, newgeom, newstyle, boolPixelCrs, route);
                                     } else {
                                         this._drawlaneImgRoute(ctx, geom, newstyle, boolPixelCrs, route);

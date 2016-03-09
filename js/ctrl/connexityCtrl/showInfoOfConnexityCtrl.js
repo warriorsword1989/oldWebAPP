@@ -22,12 +22,18 @@ infoOfConnexityApp.controller("infoOfConnexityController",function($scope) {
         return arr;
     };
     for (var i = 0, len = $scope.infoData["topos"].length; i < len; i++) {
-        var arrOfDecimal = $scope.decimalToArr($scope.infoData["topos"][i]["inLaneInfo"]);
-        var lenOfInfo =(16- arrOfDecimal.length);
-        if (lenOfInfo=== $scope.infoData["index"]) {
+            var arrOfDecimal = $scope.decimalToArr($scope.infoData["topos"][i]["inLaneInfo"]);
+            var lenOfInfo =(16- arrOfDecimal.length);
+            if (lenOfInfo=== $scope.infoData["index"]) {
+                var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
+                obj["enterLaneNum"] = lenOfInfo+1;
+                if(obj["busLaneInfo"]!==0) {
+                    obj["enterBusNum"] = lenOfInfo + 1;
+                }else{
+                    obj["enterBusNum"] = 0;
+                }
+                $scope.outLanesArr.push(obj);
+            }
 
-            $scope.outLanesArr.push($scope.infoData["topos"][i]);
         }
-
-    }
 })

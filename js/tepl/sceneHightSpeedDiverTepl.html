@@ -13,7 +13,7 @@
     .topTitle{
         height: 30px;
         width: 100%;
-        border: 1px solid #eeeeee;
+        /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
         color: #FFF;
         margin-bottom: 3px;
@@ -22,7 +22,7 @@
     .title {
         height: 70px;
         width: 100%;
-        border: 1px solid #eeeeee;
+        /*border: 1px solid #eeeeee;*/
         border-radius: 4px;
     }
 
@@ -38,10 +38,11 @@
         /*float: left;*/
         /*clear: right;*/
         /*height: 100%;*/
-        width: 100%;
+        width: 95%;
         /*overflow-y: auto;*/
         /*overflow-x: hidden;*/
-        padding: 10px 0px 10px 0px ;
+        padding: 10px 0px 10px 10px ;
+
     }
 
     .right {
@@ -54,8 +55,9 @@
     }
 
     .both {
-        width: 100%;
+        width: 91%;
         margin-top: 5px;
+        margin-left: 10px;
     }
 
     .footer {
@@ -98,7 +100,7 @@
     /*输入查询图片*/
     .pic-show-tips {
         /*position: absolute;*/
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
         z-index: 999;
         padding-left: 4px;
         padding-top: 6px;
@@ -150,7 +152,7 @@
     }
 
     #tipsBtnsDiv>div>button{
-        width:60px;
+        width:75px;
         background-color: rgba(255,255,255,0.3);
     }
 
@@ -166,6 +168,22 @@
         text-decoration: none;
         cursor: pointer;
     }
+
+    #sceneHightSpeedDiv div.panel-default{
+        border: none;
+        border-radius: 4px;
+    }
+    #sceneHightSpeedDiv div.left{
+        border: none;
+        border-radius: 4px;
+    }
+    #sceneHightSpeedDiv img:not(:last-child){
+        border-right: none;
+    }
+    #sceneHightSpeedDiv img{
+        border:1px solid rgba(255,255,255,0.3);
+    }
+
 </style>
 <div ng-controller="sceneHightSpeedDiverTeplCtrl" id="sceneHightSpeedDiv" style="width:100%;height: 100%;">
     <div class="topTitle">
@@ -173,22 +191,22 @@
     </div>
     <div class="title" >
         <div class="col-sm-12"   style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 9px;">
-            <img ng-repeat="phitem in photos track by $index  " style="border:1px solid #e5e5e5;" ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
+            <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
         </div>
     </div>
     <div class="middle">
         <div class="left">
-            <div class="panel panel-default" style="background-color: #404040;margin-bottom: 0px;">
-                <div class="panel-body">
+            <div class="panel panel-default" style="margin-bottom: 0px;background-color: #555;width: 100%;">
+                <div class="panel-body" style="border-radius: 4px;background-color: #555;">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状 态:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span  class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">进 入:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
@@ -196,21 +214,21 @@
                             </div>
                         </div>
 
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">模式图:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label label-default" ng-bind="schemaNo"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">名 称:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label label-default" ng-bind="scheName"></span>
                             </div>
                         </div>
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">退 出:</label>
 
                             <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
@@ -222,10 +240,10 @@
             </div>
         </div>
         <div class="both">
-            <div class="panel panel-default" style="height: 100%;background-color: #404040;">
-                <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px; ">
-                    <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
-                        <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;border: 1px solid #e5e5e5;color:#fff;border-radius:4px;">
+            <div class="panel panel-default" style="height: 100%;background-color: #555;border:0;width: 100%;">
+                <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px;background-color: transparent; ">
+                    <form class="form-horizontal" method="get" style="text-align:left ;">
+                        <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px"> 备注：</label>
 
                             <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px">
@@ -233,27 +251,24 @@
                             </div>
                         </div>
 
-                        <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;padding-left: 20px;">
-                            <div class="col-sm-6" style="padding:5px;">
-                                <button type="button" class="btn btn-xs ">
-                                    <a href="#" data-toggle="tab" ng-click="upBridgeStatus($event)" style="font-size: 10px;">改状态</a>
-                                </button>
-                            </div>
-                            <!--<div class="col-sm-4" style="padding:5px;">-->
-                                <!--<button type="button" class="btn btn-xs " >-->
-                                    <!--<a href="#" data-toggle="tab" ng-click="transBridge()" style="font-size: 10px;">转数据</a>-->
-                                <!--</button>-->
-                            <!--</div>-->
-                            <div class="col-sm-6" style="padding:5px;">
-                                <button type="button" class="btn btn-xs ">
-                                    <a href="#" data-toggle="tab" ng-click="closeBridge()" style="font-size: 10px;">关 闭</a>
-                                </button>
-                            </div>
-                        </div>
+
                     </form>
                 </div>
             </div>
+            <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;float:right;">
+                <div class="col-sm-4" >
 
+                </div>
+                <div class="col-sm-4" >
+                    <button type="button" class="btn btn-xs ">
+                        <a href="#" data-toggle="tab" ng-click="upBridgeStatus($event)" style="font-size: 10px;">改状态</a>
+                    </button>
+                </div>
+                <div class="col-sm-4" >
+                    <button type="button" class="btn btn-xs " ng-click="closeBridge()" style="color:#fff;font-size: 10px;">关闭
+                    </button>
+                </div>
+            </div>
         </div>
 
 

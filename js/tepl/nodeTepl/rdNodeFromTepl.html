@@ -31,6 +31,7 @@
 
     #rdNodediv ul > li {
         background-color: transparent;
+        color: #FFF;
     }
 
     #rdNodediv ul > li > div > input {
@@ -101,15 +102,26 @@
         margin-right: 5px;
         margin-top: 5px;
         padding: 0 5px;
+        color:#FFF;
     }
 </style>
 <div id="rdNodediv"  ng-controller="rdNodeFromController" >
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">道路点</label></div>
-                <div class="inline"><input type="text" readonly ng-model="rdNodeData.pid"/>
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    道路点
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdNodeData.pid}}</span>
+                </div>
             </div>
-        </li>
+        </form>
+    </div>
+    <ul class="list-group list-group-lg m-b-none">
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路点</label></div>-->
+                <!--<div class="inline"><input type="text" readonly ng-model="rdNodeData.pid"/>-->
+            <!--</div>-->
+        <!--</li>-->
         <li class="list-group-item">
             <div ><label class="control-label">NODE种别</label></div>
             <div class="inline" style="text-align: left">

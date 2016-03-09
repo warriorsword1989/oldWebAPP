@@ -271,6 +271,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             "projectId": 11,
             "data": objectEditCtrl.changedProperty
         }
+        if ($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
+        }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("restriction");
             restrict.redraw();
@@ -402,6 +405,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //取消操作
     $scope.$parent.$parent.cancel = function () {
+        $scope.$parent.$parent.panelFlag = false;
+        $scope.$parent.$parent.objectFlag = false;
+        $scope.$parent.$parent.objectEditURL="";
         $timeout(function(){
             $(".data-empty").trigger('click');
             $scope.$apply();
