@@ -78,9 +78,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         return parseInt(str, 2).toString(10);
     };
     //删除以前高亮的进入线和退出线
-    if (highLightLayer.highLightLayersArr.length !== 0) {
+    /*if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
-    }
+    }*/
     $scope.initializeData = function () {
 
         var reg = new RegExp("/\<|\>|\&/g");
@@ -88,9 +88,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.lanesArr = $scope.lanesData["laneInfo"].split(",");
 
         //删除以前高亮的进入线和退出线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
+        /*if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
-        }
+        }*/
         //高亮进入线和退出线
         linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
         for (var i = 0, len = (objectEditCtrl.data.topos).length; i < len; i++) {
