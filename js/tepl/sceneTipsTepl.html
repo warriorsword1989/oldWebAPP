@@ -217,7 +217,7 @@
 
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label" style="padding: 4px">备注:</label>
-                            <div class="col-sm-8" style="padding: 4px">
+                            <div class="col-sm-8" style="padding: 4px;color:#FFF;">
                                 {{remarksContent}}
                             </div>
                         </div>
@@ -225,20 +225,19 @@
                 </div>
             </div>
             <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px;">
-
-                <div class="col-sm-4" >
-                    <button type="button"  class="btn btn-xs "  >
-                        <a href="#" data-toggle="tab" ng-click="upBridgeStatus($event)" style="font-size: 10px;">改状态</a>
-                    </button>
-                </div>
                 <div class="col-sm-4">
                     <button type="button"  class="btn btn-xs "  >
-                        <a href="#" data-toggle="tab" ng-click="transDataTips()" style="font-size: 10px;">转数据</a>
+                        <a href="#" data-toggle="tab" ng-click="transDataTips()" style="font-size: 10px;"><i class="glyphicon glyphicon-wrench"></i> 转 数 据</a>
+                    </button>
+                </div>
+                <div class="col-sm-4" >
+                    <button type="button"  class="btn btn-xs "  >
+                        <a href="#" data-toggle="tab" ng-click="upBridgeStatus($event)" style="font-size: 10px;"><i  class="glyphicon glyphicon-saved"></i> 改 状 态</a>
                     </button>
                 </div>
                 <div class="col-sm-4" >
                     <button type="button"  class="btn btn-xs ">
-                        <a href="#" data-toggle="tab" ng-click="closeDataTips()" style="font-size: 10px;">关 闭</a>
+                        <a href="#" data-toggle="tab" ng-click="closeDataTips()" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
                     </button>
                 </div>
             </div>

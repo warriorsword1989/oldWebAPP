@@ -11,7 +11,8 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #speedlimitTeplDiv {
@@ -22,31 +23,38 @@
     #speedlimitTeplDiv ul {
         list-style: none;
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #speedlimitTeplDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
         border-right: none;
         border-left: none;
     }
 
     #speedlimitTeplDiv ul > li > div>input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width:170px;
         margin-left: -3px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #speedlimitTeplDiv ul > li >div> select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
         width: 170px;
+        border-radius: 4px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #speedlimitTeplDiv ul > li > div:first-child {
@@ -84,15 +92,25 @@
     }
 </style>
 <div id="speedlimitTeplDiv" ng-controller="speedlimitTeplController" style="overflow-y: auto">
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    限速PID
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{speedLimitData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
     <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label">限速PID</label>
-            </div>
-            <div class="inline">
-                <input type="text" readonly ng-model="speedLimitData.pid"/>
-            </div>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">限速PID</label>-->
+            <!--</div>-->
+            <!--<div class="inline">-->
+                <!--<input type="text" readonly ng-model="speedLimitData.pid"/>-->
+            <!--</div>-->
 
-        </li>
+        <!--</li>-->
         <li class="list-group-item">
             <div><label>限速值</label></div>
             <div class="inline">

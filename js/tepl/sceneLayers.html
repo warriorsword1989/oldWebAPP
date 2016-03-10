@@ -8,48 +8,43 @@
         margin-top: 10px;;
     }
 
-    #sceneLayerPanel ul>li:not(:first-child){
+    #sceneLayerPanel ul>li{
         margin-left: 10px;
     }
 
-    #sceneLayerPanel ul>li:not(:first-child) label {
+    #sceneLayerPanel ul>li label {
         color: #FFF;
     }
 
-    #sceneLayerPanel ul>li:not(:first-child) label:hover {
-        color: rgba(255,255,255,0.5);
-    }
-
-    #sceneLayerPanel ul>li:not(:first-child) input{
+    #sceneLayerPanel ul>li input{
         cursor: pointer;
     }
 
-    #sceneLayerPanel ul>li>div>label{
-        color:#7a828b;
+    #sceneLayerPanel ul>li>div>a{
+        color:#FFF;
     }
 
-    #sceneLayerPanel ul>li>div>label:hover{
-        color:#16C497;
-        cursor: pointer;
+    #sceneLayerPanel ul>li:hover>div>a{
+        color:rgba(255,255,255,0.5);
+    }
+
+    #sceneLayerPanel ul>li:hover>div>label{
+        color:rgba(255,255,255,0.5);
     }
 </style>
 <div ng-controller="sceneLayersController" id="sceneLayerPanel">
+    <div style="background-color: rgb(64,64,64);padding: 5px 10px;">
+        <label style="font-size:18px;color:#FFF;">场景设置</label>
+    </div>
     <ul style="padding-left: 10px">
-        <li>
-            <label style="font-size:18px;color:#FFF;">场景设置</label>
-        </li>
         <li ng-repeat="item in items">
             <div ng-if="item.options.singleselect===true">
-                <input tabindex="1" style="float:right;margin-right: 10px" type="radio"
-                       ng-checked="item.options.visible"
-                       ng-click="showLayers(item,$event)"/>
-                <label>{{item.options.layername}}</label>
+                <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-ok-circle',false:'glyphicon-remove-circle'}[item.options.visible]" ng-click="showLayers(item,$event)"></a>
+                <label style="font-weight: bold;">{{item.options.layername}}</label>
             </div>
             <div ng-if="item.options.singleselect!==true">
-                <input tabindex="1" style="float:right;margin-right: 10px" type="checkbox"
-                       ng-checked="item.options.visible"
-                       ng-click="showLayers(item,$event)"/>
-                <label>{{item.options.layername}}</label>
+                <a style="float:right;margin-right: 10px" class="glyphicon" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]" ng-click="showLayers(item,$event)"></a>
+                <label style="font-weight: bold;">{{item.options.layername}}</label>
             </div>
         </li>
     </ul>
