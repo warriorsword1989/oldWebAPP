@@ -126,7 +126,7 @@ fastmap.uikit.SelectRdlane = (function () {
                                             } else if (laneObjArr[fact].indexOf("<") > -1) {
                                                 newstyle = {src: './css/laneinfo/arwB/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
 
-                                            } else if (laneObjArr[fact] != "9") {
+                                            } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
                                                 newstyle = {src: './css/laneinfo/arwG/' + laneObjArr[fact] + '.png'};
                                             }
                                         }
@@ -196,7 +196,7 @@ fastmap.uikit.SelectRdlane = (function () {
                                             } else if (laneObjArr[fact].indexOf("<") > -1) {
                                                 newstyle = {src: './css/laneinfo/arwB/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
 
-                                            } else if (laneObjArr[fact] != "9") {
+                                            } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
                                                 newstyle = {src: './css/laneinfo/arwG/' + laneObjArr[fact] + '.png'};
                                             }
                                         }
