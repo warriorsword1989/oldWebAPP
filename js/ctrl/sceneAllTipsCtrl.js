@@ -233,11 +233,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
         $scope.photoTipsData = selectCtrl.rowKey.feedback.f_array;
 
-
+        $scope.photoNum = 0;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
+                $scope.photoNum++;
             } else if ($scope.photoTipsData[i].type === 3) {
                 $scope.remarksContent = $scope.photoTipsData[i].content;
             }
@@ -268,8 +269,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
     $scope.openOrigin = function (id) {
         if(selectCtrl.rowKey.feedback.f_array && id <= selectCtrl.rowKey.feedback.f_array.length-1){
+            $scope.photoId = id;
             $("#dataTipsOriginModal").show();
             $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
+            $scope.$parent.$parent.imgPageNow = id+1;
+            $scope.$parent.$parent.imgAllPage = $scope.photoNum;
             var originImg = $("#dataTipsOriginImg");
             originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
             dataTipsOriginImg.onload = function(){
@@ -291,11 +295,31 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             
         }
     }
+    /*tips图片全屏*/
+    $scope.$parent.$parent.showFullPic = function(){
+        $("#fullScalePic img").attr('src',$("#dataTipsOriginImg").attr('src'));
+        $("#fullScalePic").show();
+    }
+    /*隐藏tips图片*/
+    $scope.$parent.$parent.hideFullPic = function(){
+        $("#fullScalePic").hide();
+    }
+    /*图片切换*/
+    $scope.$parent.$parent.switchPic = function(type){
+        if(type == 0){
+            if($scope.photoId-1 >=0){
+                $scope.openOrigin($scope.photoId-1);
+            }
+        }else{
+            if($scope.photoId+2 <= $scope.photoNum){
+                $scope.openOrigin($scope.photoId+1);
+            }
+        }
+    }
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
-        $scope.$parent.$parent.showLoading = true;  //showLoading
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
             var paramOfLink = {
                 "command": "CREATE",
@@ -373,7 +397,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             if (stage === 1) {
                 Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
 
-                    $scope.$parent.$parent.showLoading = false;  //showLoading
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
                         objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
@@ -422,7 +445,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
-                    $.showPoiMsg('状态为 '+$scope.showContent+'，不允许改变状态！',e);
+                    $.showPoiMsg('状态已改，不允许改变状态！',e);
                     $scope.$apply();
                 });
                 return;

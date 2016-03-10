@@ -487,6 +487,10 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            //删除高亮的进入线和退出线
+            if (highLightLayer.highLightLayersArr.length !== 0) {
+                highLightLayer.removeHighLightLayers();
+            }
             var info = null;
             if (data.errcode == 0) {
                 rdConnexity.redraw();

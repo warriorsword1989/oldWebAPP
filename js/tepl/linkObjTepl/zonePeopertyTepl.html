@@ -6,13 +6,15 @@
         color: #58666e;
         /*background-color: transparent;*/
         margin-right: 0px;
+
     }
     .list-group-item {
         position: relative;
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #zoneProperDiv {
@@ -23,32 +25,38 @@
     #zoneProperDiv ul {
         list-style: none;
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #zoneProperDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
         border-right: none;
         border-left: none;
     }
 
     #zoneProperDiv ul > li > div > input[type='text'] {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width: 160px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #zoneProperDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
         width: 170px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #zoneProperDiv ul > li > div:first-child {

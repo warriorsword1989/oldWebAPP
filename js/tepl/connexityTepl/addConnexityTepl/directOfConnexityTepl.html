@@ -32,15 +32,17 @@
         background-color: transparent;
     }
 </style>
-<div ng-controller="showDirectOfConnexity" id="addDirectOfConnexityDiv">
+<div ng-controller="showDirectOfConnexity" id="addDirectOfConnexityDiv"  oncontextmenu=self.event.returnValue=false>
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div><label class="control-label">增加车信</label></div>
         </li>
         <li class="list-group-item">
-            <div class="inline img-well"  ng-repeat="item in laneConnexityData"
-                 ng-click="addNormalData(item,$event)" ng-mousedown="additionalData(item,$event)">
-                <img class="show-img" ng-src="./css/laneinfo/arw/{{item.flag}}.png" title="{{item.flag}}">
+            <div  class="trafficPic">
+                <img  ng-repeat="item in laneConnexityData"
+                      ng-src="./css/laneinfo/arw/{{item.flag}}.png"
+                      ng-click="addNormalData(item,$event)"
+                      ng-mousedown="additionalData($event,item)">
             </div>
         </li>
 

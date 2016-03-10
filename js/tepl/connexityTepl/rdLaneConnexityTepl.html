@@ -12,7 +12,6 @@
     }
 
     #rdLaneConnexityDiv {
-        /*border: 1px solid #FBFBFB;*/
         width: 100%;
         height: 100%;
     }
@@ -65,12 +64,13 @@
 
     #rdLaneConnexityDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
         width:130px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #rdLaneConnexityDiv ul > li > div:first-child {
@@ -121,6 +121,54 @@
     .lanePic > .active{
         box-shadow: 0px 0px 7px 4px #9d9d9d;
     }
+    .module-box{
+        border: 1px solid #FFF;
+        padding: 10px;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #555;
+        /*opacity: 0.8;*/
+    }
+    .module-fix-box{
+        padding: 10px;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+        background-color: #555;
+    }
+    .box-head{
+        color: #fff;
+    }
+    .d-name{
+        float: left;
+        width: 30%;
+        text-align: right;
+        color: #fff;
+    }
+    .d-value{
+        float: left;
+        width: 69%;
+        color: #fff;
+    }
+    .d-input{
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+        width: 100%;
+        border-radius: 3px;
+        color: #fff;
+    }
+    .d-group{
+        margin-top:3px;
+        float: left;
+        width: 100%;
+    }
+    .d-title{
+        float: left;
+    }
 </style>
 <div ng-controller="rdLaneConnexityController" id="rdLaneConnexityDiv" oncontextmenu=self.event.returnValue=false>
     <div style="height:50px">
@@ -146,8 +194,6 @@
                             title="{{item}}">
                 </div>
             </div>
-
-
         </li>
         <li class="list-group-item">
             <div style="display: none;"></div>
@@ -158,7 +204,7 @@
                           ng-click="minusTransitData(items,$index)"></span>
                        <span ng-if="items==='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
                                ></span>
-                    <img ng-click="changeTransit(items,$index)"
+                    <img  ng-click="changeTransit(items,$index)"
                          ng-src="./css/laneinfo/arw/{{items}}.png"
                          title="{{items}}">
                 </div>

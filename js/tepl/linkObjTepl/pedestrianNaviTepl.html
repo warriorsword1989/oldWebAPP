@@ -4,7 +4,8 @@
         display: block;
         padding: 1px 15px;
         margin-bottom: -1px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #pedestrianDiv {
@@ -15,25 +16,31 @@
     #pedestrianDiv ul {
         list-style: none;
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #pedestrianDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
         border-right: none;
         border-left: none;
     }
 
     #pedestrianDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #pedestrianDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #pedestrianDiv ul > li > div:first-child {

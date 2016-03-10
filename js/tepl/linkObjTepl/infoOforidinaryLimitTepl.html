@@ -5,7 +5,8 @@
         padding: 1px 15px;
         margin-bottom: -1px;
         /*background-color: #000;*/
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
+        border: 0;
     }
 
     #oridinaryLimitDiv {
@@ -17,34 +18,40 @@
     #oridinaryLimitDiv ul {
         list-style: none;
         overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
     }
 
     #oridinaryLimitDiv ul > li {
-        background-color: transparent;
+        background-color: #555;
     }
 
     #oridinaryLimitDiv ul > li > div > input {
         color: #F3F6FA;
-        background-color: #000;
-        border: none;
         width:170px;
         margin-left: -3px;
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #oridinaryLimitDiv ul > li > div > select {
         color: #F3F6FA;
-        background-color: #000;
         margin-left: -3px;
-        border: 1px none;
         width:170px;
         border-radius: 4px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
     }
 
     #oridinaryLimitDiv ul > li > div:first-child {
-        display: in -block;
+        display:inline-block;
         width: 80px;
     }
 
@@ -114,7 +121,7 @@
     }
 
     .checkboxli {
-        background-color: #e4e4e4;
+        /*background-color: #e4e4e4;*/
         border: 1px solid #aaa;
         border-radius: 4px;
         cursor: default;

@@ -35,7 +35,7 @@
 
     }
 
-    .left {
+    .tip-left {
         /*float: left;*/
         /*clear: right;*/
         /*height: 100%;*/
@@ -128,8 +128,12 @@
         /*border: 1px solid #ddd;*/
         margin: 4px;
         cursor: pointer;
+
     }
 
+    .img-well-tips>div>img{
+        border:none;
+    }
     .show-img {
         width: 60px;
         height: 49px;
@@ -203,7 +207,7 @@
         </div>
     </div>
     <div class="middle">
-        <div class="left">
+        <div class="tip-left">
             <div class="panel panel-default" style="background-color: #555;margin-bottom: 0px;" >
                 <div class="panel-body"  ng-if="allTipsType==1101">
                     <form class="form-horizontal" method="get" style="padding:0px 3px 0px 3px;">
@@ -320,10 +324,11 @@
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
-                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
+                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
                                         <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null">
                                             <img
-                                                 ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png">
+                                                 ng-src="./css/laneinfo/arw/{{gItem.arwG}}.png">
+
                                         </div>
 
                                     </div>
@@ -334,17 +339,18 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
-                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&gItem.arwG!=null">
-                                            <img
-                                                 ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB==null" style="border:none;">
+                                            <img ng-if="bItem.arwB==null" width="15px" height="22px" style="border:0;visibility: hidden;">
+
+                                        </div>
+                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null">
+                                            <img ng-if="bItem.arwB!=null" width="15px" height="22px" ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状态:</label>
 
@@ -357,7 +363,8 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">进入:</label>
 
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label ">{{dataTipsData.in.id}}</span>
+                                <span ng-if="dataTipsData.in.id.length>8" class="label " title="{{dataTipsData.in.id}}">{{dataTipsData.in.id.substring(0,8)}}...</span>
+                                <span ng-if="dataTipsData.in.id.length<=8" class="label " title="{{dataTipsData.in.id}}">{{dataTipsData.in.id}}</span>
                             </div>
                         </div>
 
@@ -548,7 +555,6 @@
                     <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px"> 备注：</label>
-
                             <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px">
 
                             </div>
@@ -561,17 +567,17 @@
                 <div class="col-sm-4" >
                     <button type="button" class="btn btn-xs "
                             ng-show="(allTipsType==2001||allTipsType==1201)&&allTipsType!=1301" >
-                        <a href="#" data-toggle="tab" ng-click="transBridge($event)" style="font-size: 10px;">转数据</a>
+                        <a href="#" data-toggle="tab" ng-click="transBridge($event)" style="font-size: 10px;"><i class="glyphicon glyphicon-wrench"></i> 转 数 据</a>
                     </button>
                 </div>
                 <div class="col-sm-4" >
                     <button type="button" class="btn btn-xs " ng-hide="allTipsType==2001||allTipsType==1201">
-                        <a href="#" data-toggle="tab" ng-click="upBridgeStatus(nArrayData[0],$event)" style="font-size: 10px;">改状态</a>
+                        <a href="#" data-toggle="tab" ng-click="upBridgeStatus(nArrayData[0],$event)" style="font-size: 10px;"><i class="glyphicon glyphicon-saved"></i> 改 状 态</a>
                     </button>
                 </div>
                 <div class="col-sm-4" >
                     <button type="button" class="btn btn-xs ">
-                        <a href="#" data-toggle="tab" ng-click="closeTips()" style="font-size: 10px;">关 闭</a>
+                        <a href="#" data-toggle="tab" ng-click="closeTips()" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
                     </button>
                 </div>
             </div>
