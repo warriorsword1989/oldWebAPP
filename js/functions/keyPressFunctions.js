@@ -343,8 +343,8 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         var snapObj = selectCtrl.getSnapObj();
                         //var nodePid = null;
-                        var interLinks =snapObj.interLinks.length!=0?snapObj.interLinks: [];
-                        var interNodes = snapObj.interNodes.length!=0?snapObj.interNodes: [];
+                        var interLinks =(snapObj&&snapObj.interLinks.length!=0)?snapObj.interLinks: [];
+                        var interNodes = (snapObj&&snapObj.interNodes.length!=0)?snapObj.interNodes: [];
                         var param = {
                             "command": "REPAIR",
                             "type": "RDLINK",
