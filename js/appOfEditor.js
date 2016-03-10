@@ -165,8 +165,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         };
         Application.functions.getCheckDatas(JSON.stringify(params),function(data){
             if(data.errcode == 0) {
-                //$scope.rowCollection = data.data;
-                $scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33433,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
+                $scope.rowCollection = data.data;
+                //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
                 $scope.goPaging();
                 $scope.$apply();
             }
