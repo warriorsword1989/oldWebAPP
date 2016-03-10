@@ -40,8 +40,12 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
     var highLightLayer = fastmap.uikit.HighLightController();
-    $scope.showOnMap=function(targets){
-
+    $scope.showOnMap=function(targets,ind){
+        var a = $("#alinkDiv a");
+        a.each(function() {
+            $(this).css("color","#FFF");
+        });
+        $("#alink"+ind).css("color","rgba(164,164,229,0.9)");
         if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
         }
