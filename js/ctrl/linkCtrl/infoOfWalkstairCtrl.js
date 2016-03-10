@@ -37,4 +37,11 @@ walkstairApp.controller("walkstairController",function($scope) {
     $scope.minusStairWalk=function(id) {
         $scope.walkstairData.splice(id, 1);;
     };
+
+    $scope.changeColor=function(ind){
+        $("#walkstairSpan"+ind).css("color","#FFF");
+    }
+    $scope.backColor=function(ind){
+        $("#walkstairSpan"+ind).css("color","darkgray");
+    }
 });
