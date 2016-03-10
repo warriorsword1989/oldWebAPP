@@ -111,4 +111,11 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope) {
         if ( $scope.speedLimitsData.length === 0) {
         }
     };
+
+    $scope.changeColor=function(ind){
+        $("#minusSpan"+ind).css("color","#FFF");
+    }
+    $scope.backColor=function(ind){
+        $("#minusSpan"+ind).css("color","darkgray");
+    }
 })

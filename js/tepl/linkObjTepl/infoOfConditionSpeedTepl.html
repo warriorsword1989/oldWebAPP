@@ -82,6 +82,7 @@
         margin-bottom: 0px;
         margin-top: 0px;
     }
+
 </style>
 <div ng-controller="conditionSpeedController" id="conditionSpeedDiv">
     <ul class="list-group list-group-lg m-b-none">
@@ -99,11 +100,11 @@
                         ng-options="value.id as value.label for value in speedTypeOption">
                     <option>--</option>
                 </select>
-                   <span class="glyphicon glyphicon-remove-sign"
-                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
-                         ng-click="minusSpeedlimit($index)"></span>
+                <span id="minusSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
+                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor:pointer;"
+                         ng-click="minusSpeedlimit($index)"  ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>
                  <span class="glyphicon glyphicon-remove-sign"
-                       style="float: left;color: darkgray;left: 0px;margin-top: 5px;position: absolute"
+                       style="float: left;color: darkgray;left: 0px;display:none;margin-top: 5px;position: absolute"
                        ng-click="changeSpeedAndDirect(roadlinkData.direct,conItem.rowid)"></span>
             </div>
         </li>
