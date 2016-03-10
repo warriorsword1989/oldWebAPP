@@ -76,7 +76,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 return;
             }
 
-            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
+            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 

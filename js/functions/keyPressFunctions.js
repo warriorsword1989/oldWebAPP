@@ -540,7 +540,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "pid": data.errid
                             }];
 
-                            outPutCtrl.pushOutput(data.errmsg);
+                            outPutCtrl.pushOutput(info);
                             if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
                             }
