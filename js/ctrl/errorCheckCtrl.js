@@ -41,7 +41,6 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
     var workPoint = layerCtrl.getLayerById("workPoint");
     var highLightLayer = fastmap.uikit.HighLightController();
     $scope.showOnMap=function(targets){
-
         if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
         }
