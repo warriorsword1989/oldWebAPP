@@ -129,6 +129,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
             }
             $scope.lanesArr.splice($scope.laneInfo["selectNum"]+1, 0, $scope.item.id);
             $scope.laneInfo["laneInfo"] = $scope.lanesArr.join(",");
+            $scope.laneInfo["laneNum"] += 1;
             $scope.laneInfo["topos"].unshift(selObj);
             $scope.laneInfo["selectNum"] = undefined;
         }else{
@@ -150,12 +151,14 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                 }
                 $scope.lanesArr.splice($scope.lanesArr.length - 1, 0, $scope.item.id);
                 $scope.laneInfo["laneInfo"] = $scope.lanesArr.join(",");
+                $scope.laneInfo["laneNum"] += 1;
                 $scope.laneInfo["topos"].unshift(newObj);
             }else{
                 if($scope.laneInfo["laneInfo"]) {
                     $scope.laneInfo["laneInfo"] += ",";
                 }
                 $scope.laneInfo["laneInfo"] += $scope.item.id;
+                $scope.laneInfo["laneNum"] += 1;
                 var laneNum = "";
                 if($scope.lanesArr[0]==="") {
                     laneNum =0;
@@ -176,7 +179,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
 
         }
 
-        objCtrl.rdLaneObject();
+        objCtrl.rdLaneObject(false);
         if ($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
         }
