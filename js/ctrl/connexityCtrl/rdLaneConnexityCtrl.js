@@ -56,10 +56,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.showTransitData.push("test");
         } else {
             arr = data.split("<");
-            //把第一个放进去
-            $scope.showNormalData.push(arr[0]);
-            //第二个
-            $scope.showTransitData.push(arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString());
+            if(arr[0]) {
+                //把第一个放进去
+                $scope.showNormalData.push(arr[0]);
+                //第二个
+                $scope.showTransitData.push(arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString());
+            }
+
         }
     }
     $scope.decimalToArr = function (data) {
@@ -487,6 +490,10 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            //删除高亮的进入线和退出线
+            if (highLightLayer.highLightLayersArr.length !== 0) {
+                highLightLayer.removeHighLightLayers();
+            }
             var info = null;
             if (data.errcode == 0) {
                 rdConnexity.redraw();
