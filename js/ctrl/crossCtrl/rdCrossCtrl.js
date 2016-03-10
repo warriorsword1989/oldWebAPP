@@ -9,7 +9,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdcross = layerCtrl.getLayerById('rdcross');
-    objCtrl.setOriginalData($.extend(true, {}, objCtrl.data));
     var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
         map: map,
         highLightFeature: "linksOfCross",
@@ -17,7 +16,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     });
     highLightLayer.pushHighLightLayers(highLightLink);
     $scope.initializeRdCrossData = function () {
-
+        objCtrl.setOriginalData($.extend(true, {}, objCtrl.data));
         $scope.rdCrossData = objCtrl.data;
         var links = $scope.rdCrossData.links,linkArr=[];
         for(var i= 0,len=links.length;i<len;i++) {
