@@ -324,12 +324,11 @@
                         <div class="form-group" style="height: 15%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-normal-tips">
-                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info">
-                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext!=1">
-                                            <img ng-src="./css/laneinfo/arwG/{{gItem.arwG}}.png"  width="15px" height="22px">
-                                        </div>
-                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext==1">
-                                            <img ng-src="./css/laneinfo/extF/{{gItem.arwG}}.png"  width="15px" height="22px">
+                                    <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
+                                        <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null">
+                                            <img
+                                                 ng-src="./css/laneinfo/arw/{{gItem.arwG}}.png">
+
                                         </div>
 
                                     </div>
@@ -352,8 +351,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状态:</label>
 
@@ -558,7 +555,7 @@
                     <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px"> 备注：</label>
-                            <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px">
+                            <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px;color:#FFF;">
 
                             </div>
                         </div>
