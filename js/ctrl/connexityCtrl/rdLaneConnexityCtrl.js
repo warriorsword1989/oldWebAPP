@@ -124,6 +124,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.showTransitData = [];
         $scope.outLanesArr = [];
         $scope.initializeData();
+        $scope.lanesData.laneNum = $scope.showTransitData.length;
     }
     if (objCtrl.data) {
         $scope.initializeData();
