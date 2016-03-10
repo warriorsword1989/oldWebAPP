@@ -23,13 +23,16 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
             if (data.t_lifecycle === 2) {
                 Application.functions.getRdObjectById(propertyId, type, function (data) {
-                    objCtrl.setCurrentObject(data);
+                    objCtrl.setCurrentObject(data.data);
                     if (objCtrl.tipsUpdateObject !== "") {
                         objCtrl.tipsUpdateObject();
                     }
                     $ocLazyLoad.load(propertyCtrl).then(function () {
+                        if(!$scope.$parent.$parent.panelFlag ) {
+                            $scope.$parent.$parent.panelFlag = true;
+                            $scope.$parent.$parent.objectFlag = true;
+                        }
                         $scope.$parent.$parent.objectEditURL = propertyTepl;
-
                     });
                 });
             } else {
