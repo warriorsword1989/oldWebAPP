@@ -111,22 +111,13 @@
      </div>
         </form>
     </div>
-    <ul class="currentUl"style="margin:0 auto;text-align: center;margin-bottom: 10px;">
-        <li class="currentLi" title="基础属性"><button  ng-class="{'btnclass':isActive[0],'btnDefultclass':notAcitive[0]}"  ng-click="changeModule('basicModule',0)"><img src="./css/currentButton/base.png"></button></li>
-        <li class="currentLi"  title="其他属性"><button ng-class="{'btnclass':isActive[5],'btnDefultclass':notAcitive[5]}" ng-click="changeModule('otherModule',5)"><img src="./css/currentButton/roadName.png"></button></li>
-        <li class="currentLi" title="区域属性"><button ng-class="{'btnclass':isActive[4],'btnDefultclass':notAcitive[4]}" ng-click="changeModule('zoneModule',4)"><img src="./css/currentButton/speedlimit.png"></button></li>
-        <li class="currentLi"  title="限制信息"><button ng-class="{'btnclass':isActive[1],'btnDefultclass':notAcitive[1]}" ng-click="changeModule('limitedModule',1)"><img src="./css/currentButton/limited.png"></button></li>
-        <li class="currentLi" title="实时交通"><button ng-class="{'btnclass':isActive[3],'btnDefultclass':notAcitive[3]}" ng-click="changeModule('realtimeModule',3)"><img src="./css/currentButton/realtimeTraffic.png"></button></li>
-        <li class="currentLi"  title="行人导航"><button ng-class="{'btnclass':isActive[2],'btnDefultclass':notAcitive[2]}"  ng-click="changeModule('paginationModule',2)"><img src="./css/currentButton/pagination.png"></button></li>
-    </ul>
-
     <div id="fm-link-tabControl" class="btn-group" role="group" aria-label="...">
-        <a title="基础属性" class="btn glyphicon glyphicon-star selected" ng-class=""></a>
-        <a title="其他属性" class="btn glyphicon glyphicon-tag"></a>
-        <a title="区域属性" class="btn glyphicon glyphicon-dashboard"></a>
-        <a title="限制信息" class="btn glyphicon glyphicon-ban-circle"></a>
-        <a title="实时交通" class="btn glyphicon glyphicon-road"></a>
-        <a title="行人导航" class="btn glyphicon glyphicon-send"></a>
+        <a title="基础属性" class="btn glyphicon glyphicon-star selected"  ng-click="changeModule('basicModule',0)"></a>
+        <a title="其他属性" class="btn glyphicon glyphicon-tag" ng-click="changeModule('otherModule',1)"></a>
+        <a title="区域属性" class="btn glyphicon glyphicon-dashboard" ng-click="changeModule('zoneModule',2)"></a>
+        <a title="限制信息" class="btn glyphicon glyphicon-ban-circle" ng-click="changeModule('limitedModule',3)"></a>
+        <a title="实时交通" class="btn glyphicon glyphicon-road" ng-click="changeModule('realtimeModule',4)"></a>
+        <a title="行人导航" class="btn glyphicon glyphicon-send" ng-click="changeModule('paginationModule',5)"></a>
     </div>
 
     <div style="width: 100%;">
