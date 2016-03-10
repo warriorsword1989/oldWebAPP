@@ -301,7 +301,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     }, feature.properties);
                 } else {
                     this.layer._drawLineString(ctx, geom, true, style, {
-                        color: '##00F5FF',
+                        color: '#696969',
                         radius: 3
                     }, feature.properties);
                 }
