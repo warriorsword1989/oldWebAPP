@@ -84,7 +84,7 @@
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="item in rticData.intRtics">
             <div ng-click="showRticsInfo(item)"><label style="padding-top: 5px;" class="control-label">{{item.code}}</label>
-                <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;" ng-click="minusIntRtic($index)"></span>
+                <span id="rticSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusIntRtic($index)"></span>
             </div>
         </li>
     </ul>
@@ -99,7 +99,7 @@
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="cItem in linkData.rtics">
             <div ng-click="showCarInfo(cItem)"><label style="padding-top: 5px;" class="control-label">{{cItem.code}}</label>
-                <span class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;" ng-click="minusCarRtic($index)"></span>
+                <span id="carSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusCarRtic($index)"></span>
             </div>
         </li>
     </ul>

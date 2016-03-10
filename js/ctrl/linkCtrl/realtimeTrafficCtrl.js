@@ -83,4 +83,21 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeo
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeCarTepl.html";
         })
     }
+
+
+
+    $scope.changeColor=function(ind,ord){
+        if(ord==1){
+            $("#rticSpan"+ind).css("color","#FFF");
+        }else{
+            $("#carSpan"+ind).css("color","#FFF");
+        }
+    }
+    $scope.backColor=function(ind,ord){
+        if(ord==1){
+            $("#rticSpan"+ind).css("color","darkgray");
+        }else{
+            $("#carSpan"+ind).css("color","darkgray");
+        }
+    }
 })
