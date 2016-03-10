@@ -28,8 +28,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         objCtrl.tipsUpdateObject();
                     }
                     $ocLazyLoad.load(propertyCtrl).then(function () {
+                        if(!$scope.$parent.$parent.panelFlag ) {
+                            $scope.$parent.$parent.panelFlag = true;
+                            $scope.$parent.$parent.objectFlag = true;
+                        }
                         $scope.$parent.$parent.objectEditURL = propertyTepl;
-
                     });
                 });
             } else {

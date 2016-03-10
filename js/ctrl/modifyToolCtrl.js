@@ -87,6 +87,8 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
+                map._container.style.cursor = '';
+
                 editLyer.drawGeometry = null;
                 shapeCtrl.stopEditing();
                 editLyer.bringToBack();

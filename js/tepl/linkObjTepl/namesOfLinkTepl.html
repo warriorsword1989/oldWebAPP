@@ -129,14 +129,14 @@
     }
 
     .pic-loading {
-        min-height: 283px;
-        position: absolute;
+        min-height: 200px;
+        position: relative;
         top: -1px;
         left: 1px;
         transition: all 0.5s;
-        z-index: 9999999;
+        z-index: 9;
         background-color: rgba(0, 0, 0, 0.52);
-        min-width: 100%;
+        min-width: 80%;
         cursor: not-allowed;
         text-align: center;
         color: #fff;
@@ -162,9 +162,9 @@
         <li class="list-group-item">
             <div><label class="control-label">名称号码</label></div>
             <div class="inline"><input type="text" ng-model="nameItem.nameId" disabled/>
-                   <span class="glyphicon glyphicon-remove-sign"
-                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
-                         ng-click="minusRoadName($index)"></span>
+                   <span id="minusNameSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
+                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor:pointer;"
+                         ng-click="minusRoadName($index)" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>
             </div>
         </li>
         <li class="list-group-item">
