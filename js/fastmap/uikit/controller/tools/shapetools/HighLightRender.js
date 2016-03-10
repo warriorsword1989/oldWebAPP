@@ -247,7 +247,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     var geom = feature.geometry.coordinates;
                     if (this.linkPid !== undefined && feature.properties.id === this.linkPid) {
                         this.layer._drawLineString(ctx, geom, true, {
-                            size: 2,
+                            size:3,
                             color: '#00F5FF'
                         }, {
                             color: '#00F5FF',
@@ -293,15 +293,15 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 var geom = feature.geometry.coordinates;
                 if (this.linkPid !== undefined && feature.properties.id === this.linkPid) {
                     this.layer._drawLineString(ctx, geom, true, {
-                        size: 2,
-                        color: '#F63428'
+                        size:3,
+                        color: '#00F5FF'
                     }, {
-                        color: '#F63428',
+                        color: '#00F5FF',
                         radius: 3
                     }, feature.properties);
                 } else {
                     this.layer._drawLineString(ctx, geom, true, style, {
-                        color: '#696969',
+                        color: '##00F5FF',
                         radius: 3
                     }, feature.properties);
                 }
