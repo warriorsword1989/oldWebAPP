@@ -37,4 +37,10 @@ sidewalkApp.controller("sidewalkController",function($scope) {
     $scope.minusSideWalk = function (id) {
         $scope.sidewalkData.splice(id, 1);
     };
+    $scope.changeColor=function(ind){
+        $("#sideWalkSpan"+ind).css("color","#FFF");
+    }
+    $scope.backColor=function(ind){
+        $("#sideWalkSpan"+ind).css("color","darkgray");
+    }
 })
