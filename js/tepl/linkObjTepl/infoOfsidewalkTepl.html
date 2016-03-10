@@ -100,9 +100,9 @@
                 <select  ng-model="sideItem.sidewalkLoc" ng-options="value.id as value.label for value in sidewalkLocoptions">
                 <option>--</option>
             </select>
-                   <span class="glyphicon glyphicon-remove-sign"
+                   <span id="sideWalkSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
                          style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute"
-                         ng-click="minusSideWalk($index)"></span>
+                         ng-click="minusSideWalk($index)"  ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>
             </div>
         </li>
         <li class="list-group-item">

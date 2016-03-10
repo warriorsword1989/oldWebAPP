@@ -114,7 +114,7 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
     }
 
     $scope.showPopover=function(ind,vehicle){
-        initdiv('vehicleExpressiondiv'+ind);
+        initdiv('vehicleExpressiondiv');
         $('#vehicleExpressiondiv').popover('show');
 
     }
