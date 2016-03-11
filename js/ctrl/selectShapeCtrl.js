@@ -170,7 +170,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if (objCtrl.updateObject !== "") {
                         objCtrl.updateObject();
                     }
-                    $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                    $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function (){
+                    if($scope.$parent.$parent.suspendFlag) {
+                        $scope.$parent.$parent.suspendFlag = false;
+                    }
                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                     })
                 })
