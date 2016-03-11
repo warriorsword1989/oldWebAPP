@@ -107,7 +107,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.outErrorArr[1]=false;
             $scope.$parent.$parent.outErrorArr[2]=false;
             $scope.$parent.$parent.outErrorArr[3]=true;
-            $scope.$parent.$parent.outErrorUrlFlag = !$scope.$parent.$parent.outErrorUrlFlag;
+            $scope.$parent.$parent.outErrorUrlFlag =false;
         }
         if($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
@@ -170,7 +170,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                     if (objCtrl.updateObject !== "") {
                         objCtrl.updateObject();
                     }
-                    $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                    $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function (){
+                    if($scope.$parent.$parent.suspendFlag) {
+                        $scope.$parent.$parent.suspendFlag = false;
+                    }
                         $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
                     })
                 })
