@@ -164,6 +164,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     //修改方向
     $scope.changeDirect = function (item, event, index) {
         if (event.button === 2) {
+            $scope.removeTipsActive();
+            $(event.target).addClass("active");
             $scope.changeFlag = true;
             $scope.addFlag = false;
             $scope.showInfoFlag = false;
@@ -215,8 +217,15 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             }
         }
     };
+    $scope.removeTipsActive = function(){
+        $.each($('.lanePic'),function(i,v){
+            $(v).removeClass('active');
+        });
+    }
     //REACH_DIR
     $scope.showLanesInfo = function (item, index, event) {
+        $scope.removeTipsActive();
+        $(event.target).addClass("active");
         $scope.selectNum = index;
         $scope.lanesData["selectNum"] = index;
         $scope.addFlag = false;
