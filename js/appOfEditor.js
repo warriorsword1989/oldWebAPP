@@ -36,6 +36,12 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }
     };
    $scope.changeSuspendShow=function() {
+       if($('.lanePic')) {
+           $.each($('.lanePic'),function(i,v){
+               $(v).removeClass('active');
+           });
+       }
+
        $scope.suspendFlag = false;
    };
 
