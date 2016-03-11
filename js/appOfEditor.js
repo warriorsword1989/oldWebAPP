@@ -36,6 +36,12 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
         }
     };
    $scope.changeSuspendShow=function() {
+       if($('.lanePic')) {
+           $.each($('.lanePic'),function(i,v){
+               $(v).removeClass('active');
+           });
+       }
+
        $scope.suspendFlag = false;
    };
 
@@ -158,7 +164,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
             }
         });
         var params = {
-            "projectId":11,
+            "projectId":Application.projectid,
             "pageNum":$scope.itemsByPage,
             "pageSize":5,
             "meshes":$scope.meshesId
