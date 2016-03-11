@@ -315,8 +315,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             })
                             break;
                         case 'RDBRANCH':
-                            if (objCtrl.refreshBranch !== "") {
-                                objCtrl.refreshBranch();
+                            if (objCtrl.updateRdBranch&&objCtrl.updateRdBranch !== "") {
+                                objCtrl.updateRdBranch();
                             }
                             $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
