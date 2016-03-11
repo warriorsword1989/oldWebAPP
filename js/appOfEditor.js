@@ -164,7 +164,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
             }
         });
         var params = {
-            "projectId":11,
+            "projectId":Application.projectid,
             "pageNum":$scope.itemsByPage,
             "pageSize":5,
             "meshes":$scope.meshesId
