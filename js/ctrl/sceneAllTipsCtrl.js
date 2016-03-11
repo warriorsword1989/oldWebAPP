@@ -361,7 +361,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         };
                         data.data.log.push(sinfo);
                         info=data.data.log;
-
+                        rdLink.redraw();
                         swal("操作成功", "测线转换操作成功！", "success");
                         $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
                         $scope.$apply();
