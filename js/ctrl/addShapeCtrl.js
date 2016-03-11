@@ -77,13 +77,19 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             if (event)
                 event.stopPropagation();
-            if( $scope.$parent.$parent.panelFlag ) {
+            if($scope.$parent.$parent.panelFlag) {
                 $scope.$parent.$parent.panelFlag = false;
                 $scope.$parent.$parent.objectFlag = false;
+            }
+            if(!$scope.$parent.$parent.outErrorArr[3]) {
                 $scope.$parent.$parent.outErrorArr[0]=false;
                 $scope.$parent.$parent.outErrorArr[1]=false;
                 $scope.$parent.$parent.outErrorArr[2]=false;
                 $scope.$parent.$parent.outErrorArr[3]=true;
+                $scope.$parent.$parent.outErrorUrlFlag = !$scope.$parent.$parent.outErrorUrlFlag;
+            }
+            if($scope.$parent.$parent.suspendFlag) {
+                $scope.$parent.$parent.suspendFlag = false;
             }
             $("#popoverTips").hide();
             $scope.initCurrentTool();
@@ -138,6 +144,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 shapeCtrl.setEditingType('drawPath');
                 shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('drawPath');
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
@@ -159,6 +166,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 shapeCtrl.setEditingType('pointVertexAdd');
                 shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加限速！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
@@ -250,6 +258,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 })
 
             } else if (type === "rdcross") {
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
                 var linksArr = [], nodesArr = [];
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
@@ -320,8 +333,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
+
                 shapeCtrl.setEditingType('pointVertexAdd');
                 shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
                 tooltipsCtrl.setStyleTooltip("color:black;");

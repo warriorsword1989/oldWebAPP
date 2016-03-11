@@ -148,7 +148,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     };
     $scope.getCheckDateAndCount=function(){
         var params = {
-            "projectId":11,
+            "projectId":Application.projectid,
             "meshes":$scope.meshesId
         };
         Application.functions.getCheckCount(JSON.stringify(params),function(data){
@@ -196,7 +196,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
 
     $scope.getCheckDate=function(){
         var param = {
-            "projectId":11,
+            "projectId":Application.projectid ,
             "pageNum":$scope.itemsByPage,
             "pageSize":5,
             "meshes":$scope.meshesId

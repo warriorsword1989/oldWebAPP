@@ -113,6 +113,7 @@
         padding: 0 5px;
         color:#FFF;
     }
+
 </style>
 <div id="rdNodediv"  ng-controller="rdNodeFromController" >
     <div style="height:50px">
@@ -186,8 +187,7 @@
             </div>
         </li>
         <li class="list-group-item">
-            <div style="margin-top: 5px;"><label class="control-label"></label></div>
-            <div class="inline" id="fromOfWRoaddiv" >
+            <div id="fromOfWRoaddiv" style="width:260px;">
                 <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
                     {{fromitem.label}}
                 </div>

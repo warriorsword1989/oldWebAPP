@@ -123,6 +123,12 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     $scope.hidePicSelect = function(e){
         $(e.target).parents('.pic-show').hide();
         $("#" + $scope.namesOfFlag).css("display","none");
-
     }
+    $scope.changeColor=function(ind){
+        $("#minusNameSpan"+ind).css("color","#FFF");
+    }
+    $scope.backColor=function(ind){
+        $("#minusNameSpan"+ind).css("color","darkgray");
+    }
+
 })
