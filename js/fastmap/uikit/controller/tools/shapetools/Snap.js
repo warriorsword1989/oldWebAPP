@@ -93,8 +93,6 @@ fastmap.uikit.Snap = L.Handler.extend({
                 }
             }
         }
-
-
     },
 
     setPoint: function (point) {
@@ -280,4 +278,3 @@ fastmap.uikit.Snap = L.Handler.extend({
     }
 
 });
-
