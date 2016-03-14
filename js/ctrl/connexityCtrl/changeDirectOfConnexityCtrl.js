@@ -142,7 +142,7 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
             $scope.laneInfo["selectNum"] = undefined;
         }
 
-        objCtrl.rdLaneObject();
+        objCtrl.rdLaneObject(false);
         if ($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
         }

@@ -16,13 +16,19 @@ modifyApp.controller("modifyToolController", function ($scope) {
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
-        if( $scope.$parent.$parent.panelFlag ) {
+        if($scope.$parent.$parent.panelFlag) {
             $scope.$parent.$parent.panelFlag = false;
             $scope.$parent.$parent.objectFlag = false;
+        }
+        if(!$scope.$parent.$parent.outErrorArr[3]) {
             $scope.$parent.$parent.outErrorArr[0]=false;
             $scope.$parent.$parent.outErrorArr[1]=false;
             $scope.$parent.$parent.outErrorArr[2]=false;
             $scope.$parent.$parent.outErrorArr[3]=true;
+            $scope.$parent.$parent.outErrorUrlFlag = false;
+        }
+        if($scope.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.suspendFlag = false;
         }
         $("#popoverTips").hide();
         if (shapeCtrl.getCurrentTool()['options']) {
@@ -81,6 +87,8 @@ modifyApp.controller("modifyToolController", function ($scope) {
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
+                map._container.style.cursor = '';
+
                 editLyer.drawGeometry = null;
                 shapeCtrl.stopEditing();
                 editLyer.bringToBack();

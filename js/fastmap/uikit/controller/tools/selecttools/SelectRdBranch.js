@@ -83,7 +83,7 @@ fastmap.uikit.SelectRdBranch = (function () {
 
                 for (var index in this.redrawTiles) {
                     var data = this.redrawTiles[index].data;
-                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+                    //this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
                     var ctx = {
                         canvas: this.redrawTiles[index].options.context,
                         tile: this.redrawTiles[index].options.context._tilePoint

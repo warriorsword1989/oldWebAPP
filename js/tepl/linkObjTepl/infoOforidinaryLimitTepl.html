@@ -22,6 +22,7 @@
         float: left;
         margin: 5px;
         border-radius: 4px;
+        height: 600px;
     }
 
     #oridinaryLimitDiv ul > li {
@@ -131,6 +132,15 @@
         margin-top: 5px;
         padding: 0 5px;
     }
+
+    .popover {
+        width: 100%;
+    }
+
+    .popover-content {
+        overflow-y: auto;
+        height: 150px;
+    }
 </style>
 <div ng-controller="oridinaryLimitController" id="oridinaryLimitDiv" style="font-size: 12px">
     <ul class="list-group list-group-lg m-b-none">
@@ -209,14 +219,15 @@
         <!--</li>-->
         <li class="list-group-item">
             <div><label class="control-label">车辆类型</label></div>
-            <div class="inline">
+            <div class="inline" >
                 <!--<input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-model="checkValue">允许-->
-                <a    ng-click="showPopover($index,item.vehicle)">添加</a>
+                <a   ng-click="showPopover($index,item.vehicle)">添加</a>
+                <div  id="vehicleExpressiondiv"
+                      style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;overflow-y:auto;word-break: break-all;word-wrap: break-word;"
+                      tabindex="0" role="button" data-toggle="popover"  title="车辆类型">
+                </div>
             </div>
         </li>
     </ul>
-    <div  id="vehicleExpressiondiv"
-          style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;word-break: break-all;word-wrap: break-word;"
-          tabindex="0" role="button" data-toggle="popover"  title="车辆类型">
-    </div>
+
 </div>

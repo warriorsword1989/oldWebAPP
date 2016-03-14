@@ -239,6 +239,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.$parent.$parent.panelFlag = false;
                     $scope.$parent.$parent.objectFlag = false;
                 }
+                if(!$scope.$parent.$parent.outErrorArr[3]) {
+                    $scope.$parent.$parent.outErrorArr[0]=false;
+                    $scope.$parent.$parent.outErrorArr[1]=false;
+                    $scope.$parent.$parent.outErrorArr[2]=false;
+                    $scope.$parent.$parent.outErrorArr[3]=true;
+                    $scope.$parent.$parent.outErrorUrlFlag = !$scope.$parent.$parent.outErrorUrlFlag;
+                }
+                if($scope.$parent.$parent.suspendFlag) {
+                    $scope.$parent.$parent.suspendFlag = false;
+                }
                 if($scope.showOrHideId!=="") {
                     if ($("#" +  $scope.showOrHideId).hasClass("selected")) {
                         $("#" +  $scope.showOrHideId).removeClass("selected");
@@ -296,6 +306,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $("#" +  $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.allSubItems = data.data;
+                            $scope.allStyleArr = [];
+                            for(var i= 0,len=$scope.allSubItems.length;i<len;i++) {
+                                $scope.allStyleArr[i] = false;
+                            }
                         });
                     } else if (stage === 1) {
                         $scope.$apply(function () {
@@ -309,6 +323,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $("#" +  $scope.showOrHideIdOfPending).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.pendSubItems = data.data;
+                            $scope.pendingStyleArr = [];
+                            for(var j= 0,lenJ=$scope.pendSubItems.length;j<lenJ;j++) {
+                                $scope.pendingStyleArr[j] = false;
+                            }
                         });
                     } else if (stage === 3) {
                         $scope.$apply(function () {
@@ -322,21 +340,41 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $("#" +  $scope.showOrHideIdOfPended).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
                             $scope.solvedSubItems = data.data;
+                            $scope.solvedStyleArr = [];
+                            for(var k= 0,lenK=$scope.solvedSubItems.length;k<lenK;k++) {
+                                $scope.solvedStyleArr[k] = false;
+                            }
                         });
                     }
 
                 })
             };
+            $scope.changeStyleArr=function(arr,index) {
+                for(var i= 0,len=arr.length;i<len;i++) {
+                    if(i===index) {
+                        arr[i] = true;
+                    }else{
+                        arr[i] = false;
+                    }
+                }
+            };
             //点击列表需要的方法
-            $scope.showTab = function (item, e, pItemId) {
+            $scope.showTab = function (item, e, pItemId,index) {
                 $scope.$parent.$parent.objectFlag=false;
                 $scope.$parent.$parent.panelFlag=false;
-                $("#dataList>li>ul>li").click(function (e) {
-                    e.stopPropagation()
-                    $("#dataList>li>ul>li").removeClass("selected")
-                    $(this).addClass("selected");
-                    $("#tipsSubPanel").removeClass("normal").addClass("selected");
-                })
+                //$("#dataList>li>ul>li").removeClass("selected")
+                //$("#dataList>li>ul>li").addClass("selected");
+               if($scope.allStyleArr&&$scope.allStyleArr.length>=1) {
+                   $scope.changeStyleArr($scope.allStyleArr, index);
+               }
+                if($scope.pendingStyleArr&&$scope.pendingStyleArr.length>=1) {
+                   $scope.changeStyleArr($scope.pendingStyleArr, index);
+               }
+                if($scope.solvedStyleArr&&$scope.solvedStyleArr.length>=1) {
+                   $scope.changeStyleArr($scope.solvedStyleArr, index);
+               }
+
+                $("#tipsSubPanel").removeClass("normal").addClass("selected");
                 if ($scope.$parent.$parent.dataTipsURL) {
                     $scope.$parent.$parent.dataTipsURL = "";
                 }

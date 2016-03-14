@@ -80,7 +80,17 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     };
     //获取某个模块的信息
     $scope.changeModule = function (url,ind) {
-        $scope.changeActive(ind);
+        //$scope.changeActive(ind);
+        var a= $("#fm-link-tabControl a");
+        $.each(a,function(i,value){
+            if(ind==i){
+                $(this).addClass("selected");
+            }else{
+                $(this).removeClass("selected");
+            }
+
+        })
+
         $scope.$parent.$parent.suspendFlag = false;
         $scope.$parent.$parent.suspendObjURL = "";
         if (url === "basicModule") {
