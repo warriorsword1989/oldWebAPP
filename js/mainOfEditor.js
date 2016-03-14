@@ -35,6 +35,7 @@ requirejs.config({
         'ocLazyLoad': ['angular'],
         'ngLayout': ['angular'],
         'smart-table':['angular'],
+        'layers':['application'],
         'applicationfuns':['application'],
         'keyPressFunctions':['jquery','applicationfuns'],
         'bootspopover':['jquery'],

@@ -480,7 +480,8 @@ Application.layersConfig =
                             obj['properties'] = {
                                 'id': item.i,
                                 'type': item.t,
-                                'srctype': item.m.a
+                                'srctype': item.m.a,
+                                'kind':item.m.c
                             }
                             geojson['features'].push(obj);
                         }

@@ -41,15 +41,12 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         for (var index in this.tiles) {
 
             var data = this.tiles[index].data.features;
-
             for (var key in data) {
 
                 var feature = data[key];
                 var type = feature.geometry.type;
                 var geom = feature.geometry.coordinates;
-
                 if (this.dataTipsId && data[key].properties.id == this.dataTipsId) {
-                    // console.log("id" + data[key].properties.id);
                     var ctx = {
                         canvas: this.tiles[index].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
@@ -61,9 +58,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     } else {//已处理
                         style = {src: './css/tips/selected/processed.png'};
                     }
-                    this.layer._drawImg(ctx, geom, style, true);
-
+                    this.layer._drawImg(ctx, geom, style, true,feature.properties);
                 }
+                
             }
         }
         this.initFlag = true;
@@ -94,7 +91,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 } else {//已处理
                     style = {src: './css/tips/selected/processed.png'};
                 }
-                this.layer._drawImg(ctx, geom, style, true);
+                this.layer._drawImg(ctx, geom, style, true,feature.properties);
             }
         }
 

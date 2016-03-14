@@ -264,10 +264,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param boolPixelCrs
      * @private
      */
-    _drawImg: function (ctx, geom, imgsrc, boolPixelCrs) {
-        if (!imgsrc) {
-            return;
-        }
+    _drawImg: function (ctx, geom, imgsrc, boolPixelCrs,property) {
         var p = null;
         if (boolPixelCrs) {
             p = {x: geom[0], y: geom[1]}
@@ -277,28 +274,53 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var c = ctx.canvas;
         var g = c.getContext('2d');
         var image = new Image();
-        image.src = imgsrc.src;
-        image.onload = function () {
-            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            if(geom.length <=2){
-                g.save();
-                g.translate(p.x, p.y);
-                g.drawImage(image, -image.width / 2, -image.height);
-                //g.drawImage(image, p.x, p.y);
-                g.restore();
-            }else{  //  如果传的坐标不止两组，如桥
-                $.each(geom,function(i,v){
-                    if(i == 0 || i == geom.length-1){
-                        $.each(v,function(m,n){
-                            g.save();
-                            g.translate(n[0], n[1]);
-                            g.drawImage(image, -image.width / 2, -image.height);
-                            g.restore();
-                        });
-                    }
-                });
+        if(!property || !property.kind){
+            if (!imgsrc) {
+                return;
             }
-        };
+            image.src = imgsrc.src;
+            image.onload = function () {
+                //以Canvas画布上的坐标(10,10)为起始点，绘制图像
+                if(geom.length <=2){
+                    g.save();
+                    g.translate(p.x, p.y);
+                    g.drawImage(image, -image.width / 2, -image.height);
+                    g.restore();
+                }else{  //  如果传的坐标不止两组，如桥
+                    $.each(geom,function(i,v){
+                        if(i == 0 || i == geom.length-1){
+                            $.each(v,function(m,n){
+                                g.save();
+                                g.translate(n[0], n[1]);
+                                g.drawImage(image, -image.width / 2, -image.height);
+                                g.restore();
+                            });
+                        }
+                    });
+                }
+            };
+        }else{  //如果是种别，需分情况显示
+            this._drawKindSvg(image,g,property,p.x,p.y);
+        }
+    },
+    _drawKindSvg:function(img,g,property,x,y){     //种别svg绘制
+        if(property.srctype == 3){
+            g.strokeStyle = "rgb(4, 187, 245)";  //边框颜色
+            g.fillStyle = 'rgba(4, 187, 245, 0.2)';
+        }else{
+            g.strokeStyle = "#F50404";  //边框颜色
+            g.fillStyle="rgba(245, 4, 4, 0.2)";  //填充的颜色
+        }
+        g.linewidth=1;  //边框宽
+        g.fillRect(x-15,y-22,30,15);  //填充颜色 x y坐标 宽 高
+        g.strokeRect(x-15,y-22,30,15);  //填充边框 x y坐标 宽 高
+        img.src = 'css/tips/kind/K'+property.kind+'.svg';
+        img.onload = function () {
+            g.save();
+            g.translate(x, y);
+            g.drawImage(img, -img.width / 2, -img.height);
+            g.restore();
+        }
     },
     _drawImgRoute: function (ctx, geom, imgsrc, arrorSrc, boolPixelCrs, rount) {
         if (!imgsrc.src) {
@@ -907,7 +929,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @private
      */
     _drawfeature: function (data, ctx, boolPixelCrs) {
-
         for (var i = 0; i < data.features.length; i++) {
             var feature = data.features[i];
 
@@ -1103,11 +1124,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
                         }
 
+                    }else if(feature.properties.kind){  //种别
+                        this._drawImg(ctx, geom, style, boolPixelCrs,feature.properties);
                     } else {
-
-                            this._drawImg(ctx, geom, style, boolPixelCrs);
-
-
+                        this._drawImg(ctx, geom, style, boolPixelCrs);
                     }
 
                     break;
