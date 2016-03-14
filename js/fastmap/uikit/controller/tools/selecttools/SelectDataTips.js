@@ -147,7 +147,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     var style = this.currentEditLayer.styleFor(feature, color);
 
                     var geom = feature.geometry.coordinates;
-                    this.currentEditLayer._drawImg(ctx, geom, style, true);
+                    this.currentEditLayer._drawImg(ctx, geom, style, true,feature.properties);
 
                 }
             }
@@ -185,7 +185,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     }else{//已处理
                         style= {src:'./css/tips/selected/processed.png'};
                     }
-                    this.currentEditLayer._drawImg(ctx, geom, style, true);
+                    this.currentEditLayer._drawImg(ctx, geom, style, true,feature.properties);
                 }
 
             }
