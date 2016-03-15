@@ -567,7 +567,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         } else {//已处理
                             styleForDataTips = {src: './css/tips/normal/processed.png'};
                         }
-                        this.layer._drawImg(ctx, geom, styleForDataTips, true);
+                        this.layer._drawImg(ctx, geom, styleForDataTips, true,feature.properties);
                     }
 
                 }
