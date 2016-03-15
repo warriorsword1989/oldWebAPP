@@ -2,14 +2,6 @@
  * Created by wangtun on 2016/3/15.
  */
 fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
-    pid:null,
-    voiceDir:0,
-    type:0,
-    branchPid:"",
-    patternCode:"",
-    arrowCode:"",
-    arrowFlag:0,
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -18,11 +10,11 @@ fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
     setAttributeData:function(data){
         this.pid = data["pid"];
         this.branchPid = data["branchPid"];
-        this.voiceDir = data["voiceDir"];
-        this.arrowCode = data["arrowCode"];
-        this.type = data["type"];
-        this.patternCode = data["patternCode"];
-        this.arrowFlag = data["arrowFlag"];
+        this.voiceDir = data["voiceDir"] || 0;
+        this.arrowCode = data["arrowCode"] || "";
+        this.type = data["type"] || 0;
+        this.patternCode = data["patternCode"] || "";
+        this.arrowFlag = data["arrowFlag"] || 0;
     },
 
     getIntegrate:function(){

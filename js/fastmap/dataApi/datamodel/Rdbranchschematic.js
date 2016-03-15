@@ -2,12 +2,6 @@
  * Created by wangtun on 2016/3/15.
  */
 fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
-    pid:null,
-    branchPid:null,
-    schematicCode:"",
-    arrowCode:"",
-    memo:"",
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -16,9 +10,9 @@ fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
     setAttributeData:function(data){
         this.pid = data["pid"];
         this.branchPid = data["branchPid"];
-        this.schematicCode = data["schematicCode"];
-        this.arrowCode = data["arrowCode"];
-        this.memo = data["memo"];
+        this.schematicCode = data["schematicCode"] || "";
+        this.arrowCode = data["arrowCode"] || "";
+        this.memo = data["memo"] || "";
     },
 
     getIntegrate:function(){

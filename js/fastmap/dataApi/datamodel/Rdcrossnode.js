@@ -2,18 +2,13 @@
  * Created by wangtun on 2016/3/14.
  */
 fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    isMain:1,
-    nodePid:null,
-    rowId:"",
-
     initialize: function (data, options) {
         L.setOptions(this, options);
     },
 
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.isMain = data["isMain"];
+        this.isMain = data["isMain"] || 0;
         this.nodePid = data["nodePid"];
         this.rowId = data["rowId"];
     },

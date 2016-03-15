@@ -2,15 +2,6 @@
  * Created by wangtun on 2016/3/14.
  */
 fastmap.dataApi.rdCross=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    type:0,
-    signal:0,
-    electroeye:0,
-    kgflag:0,
-    links:[],
-    names:[],
-    nodes:[],
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -18,24 +9,24 @@ fastmap.dataApi.rdCross=fastmap.dataApi.rdRestriction.extend({
 
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.type = data["type"];
-        this.signal = data["signal"];
-        this.kgFlag = data["kgFlag"];
-
+        this.type = data["type"] || 0;
+        this.signal = data["signal"] || 0;
+        this.kgFlag = data["kgFlag"] || 0;
+        this.names=[];
         if(data["names"].length>0){
             for(var i= 0;i<data["names"].length;i++){
                 var name = new fastmap.dataApi.rdCrossName(data["names"][i]);
                 this.names.push(name);
             }
         }
-
+        this.links=[];
         if(data["links"].length>0){
             for(var i= 0;i<data["links"].length;i++){
                 var link = new fastmap.dataApi.rdCrossLink(data["links"][i]);
                 this.links.push(link);
             }
         }
-
+        this.nodes=[];
         if(data["nodes"].length>0){
             for(var i= 0;i<data["nodes"].length;i++){
                 var node = new fastmap.dataApi.rdCrossNode(data["nodes"][i]);
