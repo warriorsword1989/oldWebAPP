@@ -81,15 +81,15 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.detailId = data["detailId"] || null;
-        this.restricPid = data["restricPid"] || null;
-        this.outLinkPid = data["outLinkPid"] || null;
-        this.flag = data["flag"] || 2;
-        this.restricInfo = data["restricInfo"] ||0;
-        this.type = data["type"] || 1;
-        this.relationshipType = data["relationshipType"] || 1;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
+        this.detailId = data["detailId"];
+        this.restricPid = data["restricPid"];
+        this.outLinkPid = data["outLinkPid"];
+        this.flag = data["flag"];
+        this.restricInfo = data["restricInfo"];
+        this.type = data["type"];
+        this.relationshipType = data["relationshipType"];
+        this.uRecord = data["uRecord"];
+        this.uFields = data["uFields"];
     },
 
     /**
@@ -100,15 +100,15 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["detailId"] = this.detailId || null;
-        data["restricPid"] = this.restricPid || null;
-        data["outLinkPid"] = this.outLinkPid || null;
-        data["flag"] = this.flag || 2;
-        data["restricInfo"] = this.restricInfo||0;
-        data["type"] = this.type || 1;
-        data["relationshipType"] = this.relationshipType || 1;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["detailId"] = this.detailId;
+        data["restricPid"] = this.restricPid;
+        data["outLinkPid"] = this.outLinkPid;
+        data["flag"] = this.flag;
+        data["restricInfo"] = this.restricInfo;
+        data["type"] = this.type;
+        data["relationshipType"] = this.relationshipType;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     },
 
@@ -120,15 +120,15 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["detailId"] = this.detailId || null;
-        data["restricPid"] = this.restricPid || null;
-        data["outLinkPid"] = this.outLinkPid || null;
-        data["flag"] = this.flag || 2;
-        data["restricInfo"] = this.restricInfo||0;
-        data["type"] = this.type || 1;
-        data["relationshipType"] = this.relationshipType || 1;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["detailId"] = this.detailId;
+        data["restricPid"] = this.restricPid;
+        data["outLinkPid"] = this.outLinkPid;
+        data["flag"] = this.flag;
+        data["restricInfo"] = this.restricInfo;
+        data["type"] = this.type;
+        data["relationshipType"] = this.relationshipType;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     }
 });
