@@ -63,21 +63,17 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
 
     /***
      *
-     * @param id id
-     * @param point 初始化rdnode的点
+     * @param data data
      * @param options 其他可选参数
      */
-    initialize: function (geometry, attributes, options) {
+    initialize: function (data, options) {
         L.setOptions(this, options);
-        if(!attributes["detailId"]){
+        if(!data["detailId"]){
             throw "对象没有对应detailId"
-        }
-        else{
-            this.id = attributes["detailId"];
         }
 
         this.geoemtry = geometry;
-        this.setAttributeData(attributes);
+        this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
@@ -88,8 +84,6 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         this.restricInfo = data["restricInfo"] ||0;
         this.type = data["type"] || 1;
         this.relationshipType = data["relationshipType"] || 1;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
     },
 
     /**
@@ -100,15 +94,13 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["detailId"] = this.detailId || null;
-        data["restricPid"] = this.restricPid || null;
-        data["outLinkPid"] = this.outLinkPid || null;
-        data["flag"] = this.flag || 2;
-        data["restricInfo"] = this.restricInfo||0;
-        data["type"] = this.type || 1;
-        data["relationshipType"] = this.relationshipType || 1;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["detailId"] = this.detailId ;
+        data["restricPid"] = this.restricPid;
+        data["outLinkPid"] = this.outLinkPid;
+        data["flag"] = this.flag;
+        data["restricInfo"] = this.restricInfo;
+        data["type"] = this.type;
+        data["relationshipType"] = this.relationshipType;
         return data;
     },
 
@@ -120,15 +112,13 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["detailId"] = this.detailId || null;
-        data["restricPid"] = this.restricPid || null;
-        data["outLinkPid"] = this.outLinkPid || null;
-        data["flag"] = this.flag || 2;
-        data["restricInfo"] = this.restricInfo||0;
-        data["type"] = this.type || 1;
-        data["relationshipType"] = this.relationshipType || 1;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["detailId"] = this.detailId ;
+        data["restricPid"] = this.restricPid;
+        data["outLinkPid"] = this.outLinkPid;
+        data["flag"] = this.flag;
+        data["restricInfo"] = this.restricInfo;
+        data["type"] = this.type;
+        data["relationshipType"] = this.relationshipType;
         return data;
     }
 });
@@ -139,6 +129,6 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdRestriction}
  */
-fastmap.dataApi.rdrestrictiondetail = function (geometry, attributes, options) {
-    return new fastmap.dataApi.rdRestrictionDetail(geometry, attributes, options);
+fastmap.dataApi.rdrestrictiondetail = function (data, options) {
+    return new fastmap.dataApi.rdRestrictionDetail(data, options);
 }
