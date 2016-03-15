@@ -19,6 +19,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     }
     //初始化数据
     $scope.initializeData = function () {
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         //删除以前高亮的进入线和退出线
         if(highLightLayer.highLightLayersArr.length!==0) {
@@ -217,6 +218,9 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     $scope.minusTime = function (id) {
         $scope.rdRestrictData.time.splice(id, 1);
     };
+    $scope.changeType=function(item) {
+        item.flag = parseInt(item.flag);
+    };
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
@@ -258,7 +262,6 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         resultStr+=re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
         $scope.rdRestrictData.vehicleExpression=bin2dec(resultStr);
         $scope.rdRestrictData.details[index].timeDomain = $scope.codeOutput;
-        objectEditCtrl.setCurrentObject($scope.rdRestrictData);
         objectEditCtrl.save();
         if(objectEditCtrl.changedProperty){
             $.each(objectEditCtrl.changedProperty.details,function(i,v){

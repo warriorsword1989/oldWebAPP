@@ -4,7 +4,7 @@
 var oridinaryInfoApp = angular.module("myApp", []);
 oridinaryInfoApp.controller("oridinaryCarController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.realtimeData = objCtrl.data.data;
+    $scope.realtimeData = objCtrl.data;
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
         {"id": 1,"label":"顺方向"},

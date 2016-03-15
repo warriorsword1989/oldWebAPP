@@ -73,14 +73,7 @@ namesOfCross.controller("namesController",function($scope) {
                 }
             }
         }
-
-        $scope.names.unshift({
-            nameId: 0,
-            nameGroupid: maxNum + 1,
-            langCode: "CHI",
-            name: "",
-            phonetic: "",
-            srcFlag: 0
-        })
+        var newName = fastmap.dataApi.rdcrossname({nameGroupid: maxNum + 1});
+        $scope.names.unshift(newName);
     }
 })

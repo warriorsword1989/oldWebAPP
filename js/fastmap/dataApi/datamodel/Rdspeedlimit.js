@@ -1,13 +1,13 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.rdSpeedLimit = fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
+    setAttributeData: function (data) {
         this.pid = data["pid"];
         this.linkPid = data["linkPid"];
         this.direct = data["direct"] || 0;
@@ -19,7 +19,7 @@ fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
         this.limitSrc = data["limitSrc"] || 1;
         this.timeDomain = data["timeDomain"] || "";
         this.captureFlag = data["captureFlag"] || 0;
-        this.descript = data["descript"] ||"";
+        this.descript = data["descript"] || "";
         this.meshId = data["meshId"] || 0;
         this.status = data["status"] || 7;
         this.ckStatus = data["ckStatus"] || 6;
@@ -31,7 +31,7 @@ fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
         this.laneSpeedValue = data["laneSpeedValue"] || "";
     },
 
-    getSnapShot:function(){
+    getSnapShot: function () {
         var data = {};
         data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
@@ -58,9 +58,9 @@ fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
         return data;
     },
 
-    getIntegrate:function(){
-        var data={};
-        ata["pid"] = this.pid;
+    getIntegrate: function () {
+        var data = {};
+        data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["direct"] = this.direct;
         data["speedValue"] = this.speedValue;
@@ -84,4 +84,13 @@ fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
 
         return data;
     }
-})
+});
+/***
+ * rdSpeedLimit初始化函数
+ * @param data 限速数据
+ * @param options 其他可选参数
+ * @returns {.dataApi.rdSpeedLimit}
+ */
+fastmap.dataApi.rdspeedlimit = function (data, options) {
+    return new fastmap.dataApi.rdSpeedLimit(data, options);
+}

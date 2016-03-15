@@ -99,8 +99,7 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
             }
         }
     }
-    $scope.initOtherData();
-    if(objectEditCtrl.data.data) {
+    if(objectEditCtrl.data) {
         $scope.initOtherData();
     }
     objectEditCtrl.updateObject=function() {

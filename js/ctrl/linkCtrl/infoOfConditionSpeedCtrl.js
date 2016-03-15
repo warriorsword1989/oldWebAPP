@@ -4,7 +4,7 @@
 var conditionSpeedApp = angular.module("myApp",[]);
 conditionSpeedApp.controller("conditionSpeedController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.speedLimitsData = objCtrl.data.data.speedlimits;
+    $scope.speedLimitsData = objCtrl.data.speedlimits;
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},
         {"id":55,"label":"服务区内道路"},
@@ -91,19 +91,8 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope) {
         {"id":9,"label":"未调查"}
     ];
     $scope.addSpeedLimit = function () {
-        $scope.speedLimitsData.unshift({
-            fromLimitSrc: 1,
-            fromSpeedLimit: 0,
-            linkPid: 0,
-            rowid:$scope.speedOfConLength,
-            speedClass: 5,
-            speedClassWork: 0,
-            speedDependent: 0,
-            speedType: 3,
-            timeDomain: "",
-            toLimitSrc: 0,
-            toSpeedLimit: 0
-        });
+        var newLimits = new fastmap.dataApi.linkspeedlimit({"linkPid":objCtrl.data.pid,"speedType":3});
+        $scope.speedLimitsData.unshift(newLimits);
 
     };
     $scope.minusSpeedlimit = function (id) {

@@ -1035,8 +1035,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
                         var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                         var speedValue = resArray[2] / 10;//限速值
-                        if (gaptureFlag === 1) {//理论判断，限速开始和结束都为蓝色
-                            if (speedFlag === 1) {//解除限速
+                        if (gaptureFlag === "1") {//理论判断，限速开始和结束都为蓝色
+                            if (speedFlag === "1") {//解除限速
                                 speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue + '.png'};
                                 jttype = {src: './css/speedLimit/normal/llend_gray.png'};
                             } else {
@@ -1045,7 +1045,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
 
                         } else {//现场采集，限速开始为红色，结束为黑色
-                            if (speedFlag === 1) {//解除限速
+                            if (speedFlag === "1") {//解除限速
                                 speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue + '.png'};
                                 jttype = {src: './css/speedLimit/normal/end_black.png'};
                             } else {

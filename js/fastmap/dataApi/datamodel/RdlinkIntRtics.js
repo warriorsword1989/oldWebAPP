@@ -1,9 +1,7 @@
 /**
- * Created by wangtun on 2015/9/9.
- * Class Rdnode
+ * Created by liwanchong on 2016/3/14.
  */
-
-fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.linkIntRtic = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -24,11 +22,11 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
         this.rowId= data["rowId"] || "";
-        this.sideWalkLoc = data["sideWalkLoc"] || 0;
-        this.dividerType = data["dividerType"] || 0;
-        this.workDir = data["workDir"] || 0;
-        this.processFlag = data["processFlag"] || 0;
-        this.captureFlag= data["captureFlag"] || 0;
+        this.code = data["code"] || 0;
+        this.rank = data["rank"] || 0;
+        this.rticDir = data["rticDir"] || 0;
+        this.updownFlag = data["updownFlag"] || 0;
+        this.rangeType = data["rangeType"] || 0;
     },
 
     /**
@@ -41,11 +39,11 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["linkPid"] = this.linkPid;
         data["rowId"] = this.rowId;
-        data["sideWalkLoc"] = this.sideWalkLoc;
-        data["dividerType"] = this.dividerType;
-        data["workDir"] = this.workDir;
-        data["processFlag"] = this.processFlag;
-        data["captureFlag"] = this.captureFlag;
+        data["code"] = this.code;
+        data["rank"]  = this.rank;
+        data["rticDir"] = this.rticDir;
+        data["updownFlag"] = this.updownFlag;
+        data["rangeType"]  = this.rangeType;
         return data;
     },
 
@@ -59,22 +57,21 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
         var data = {};
         data["linkPid"] = this.linkPid;
         data["rowId"] = this.rowId;
-        data["sideWalkLoc"] = this.sideWalkLoc;
-        data["dividerType"] = this.dividerType;
-        data["workDir"] = this.workDir;
-        data["processFlag"] = this.processFlag;
-        data["captureFlag"] = this.captureFlag;
+        data["code"] = this.code;
+        data["rank"]  = this.rank;
+        data["rticDir"] = this.rticDir;
+        data["updownFlag"] = this.updownFlag;
+        data["rangeType"]  = this.rangeType;
         return data;
     }
 });
 
 /***
- * linkSidewalk初始化函数
+ * linkrtic初始化函数
  * @param data 初始化属性对象
  * @param options 其他可选参数
- * @returns {.dataApi.linkSidewalk}
+ * @returns {.dataApi.linkRtic}
  */
-fastmap.dataApi.linksidewalk = function (data, options) {
-    return new fastmap.dataApi.linkSidewalk(data, options);
+fastmap.dataApi.linkintrtic = function (data, options) {
+    return new fastmap.dataApi.linkIntRtic(data, options);
 }
-

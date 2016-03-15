@@ -124,15 +124,15 @@
             <div><label class="control-label">交限标志</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag">
+                    <input type="radio" name="theoryOrActual" value=0 ng-model="rdSubRestrictData.flag" ng-click="changeType(rdSubRestrictData)">
                     未验证
                 </label>
                 <label>
-                    <input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag">
+                    <input type="radio" name="theoryOrActual" value=1 ng-model="rdSubRestrictData.flag" ng-click="changeType(rdSubRestrictData)">
                     理论
                 </label>
                 <label>
-                    <input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag">
+                    <input type="radio" name="theoryOrActual" value=2 ng-model="rdSubRestrictData.flag" ng-click="changeType(rdSubRestrictData)">
                     实际
                 </label>
             </div>
@@ -154,8 +154,7 @@
             <div><label class="control-label">限制类型</label></div>
             <div class="radio inline">
                 <label>
-                    <input type="radio" name="researchOrLimited" value=0
-                           ng-model="rdSubRestrictData.type">
+                    <input type="radio" name="researchOrLimited" value=0 ng-model="rdSubRestrictData.type">
                     未查
 
                 </label>

@@ -52,7 +52,7 @@ fastmap.dataApi.rdLaneTopology=fastmap.dataApi.GeoDataModel.extend({
         data["vias"] = [];
 
         for(var i=0;i<this.vias.length;i++){
-            data["vias"].push(this.vias.getIntegrate())
+            data["vias"].push(this.vias[i].getIntegrate())
         }
         return data;
     }

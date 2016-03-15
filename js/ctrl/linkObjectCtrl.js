@@ -35,7 +35,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
             objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
             $scope.linkData = objectCtrl.data.data;
         }else if(objectCtrl.data){
-            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data));
+            objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
             $scope.linkData = objectCtrl.data;
         }
        // $("#basicModule").css("background-color", "#49C2FC");
@@ -211,7 +211,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     delete v.pid;
             });
         }
-        objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         if(objectCtrl.changedProperty.limits){
             if(objectCtrl.changedProperty.limits.length > 0){
@@ -240,12 +239,13 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         for(var key in objectCtrl.changedProperty){
             objLength++;
         }
-        if(objLength == 3){
-            swal("操作失败", '没有修改内容', "error");
-            return;
-        }
+        //if(objLength == 3){
+        //    swal("操作失败", '没有修改内容', "error");
+        //    return;
+        //}
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
+            objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
             if (data.errcode==0) {
                 rdLink.redraw();
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {

@@ -5,7 +5,7 @@ var formOfWayApp = angular.module("mapApp", []);
 formOfWayApp.controller("formOfWayController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
     if(objCtrl.data.data) {
-        $scope.formsData = objCtrl.data.data.forms;
+        $scope.formsData = objCtrl.data.forms;
     }else{
         $scope.formsData = objCtrl.data.forms;
     }
