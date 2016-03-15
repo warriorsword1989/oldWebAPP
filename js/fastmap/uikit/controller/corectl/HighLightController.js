@@ -93,7 +93,7 @@ fastmap.uikit.HighLightController = (function () {
                                 } else {//已处理
                                     styleForDataTips = {src: './css/tips/normal/processed.png'};
                                 }
-                                layer._drawImg(ctx, geom, styleForDataTips, true);
+                                layer._drawImg(ctx, geom, styleForDataTips, true,feature.properties);
                             }
 
 
