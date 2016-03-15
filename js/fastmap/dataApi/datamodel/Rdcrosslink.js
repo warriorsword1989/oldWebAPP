@@ -19,18 +19,18 @@ fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
 
     getIntegrate:function(){
         var data = {};
-        data["pid"] = this.pid || null;
-        data["linkPid"] = this.linkPid || null;
-        data["rowId"] = this.rowId  || null;
+        data["pid"] = this.pid;
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
 
         return data;
     },
 
     getSnapShot:function(){
         var data = {};
-        data["pid"] = this.pid || null;
-        data["linkPid"] = this.linkPid || null;
-        data["rowId"] = this.rowId  || null;
+        data["pid"] = this.pid;
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
 
         return data;
     }
