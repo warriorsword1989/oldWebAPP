@@ -5,96 +5,6 @@
 
 fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
 
-    options: {},
-    /**
-     * 数据类型
-     */
-    type:"rdNode",
-
-    /***
-     * @param nodePid
-     * Node的PID
-     */
-    nodePid:null,
-
-    /***
-     * @param kind
-     * NODE种别
-     */
-    kind:1,
-
-    /***
-     * @param geometry
-     * Node的几何
-     */
-    geometry:null,
-
-    /***
-     * @param adasFlag
-     * ADAS标识
-     */
-    adasFlag:2,
-
-    /***
-     * @param editFlag
-     * 编辑标识
-     */
-    editFlag:1,
-
-    /***
-     * @param difGroupId
-     * 差分产品ID
-     */
-    difGroupId:"",
-
-    /***
-     * @param srcFlag
-     * 数据来源
-     */
-    srcFlag:1,
-
-    /***
-     * @param digitalLevel
-     * 精度级别
-     */
-    digitalLevel:0,
-
-    /***
-     * @param reserved
-     * 预留信息
-     */
-    reserved:"",
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-    /***
-     * @param restrictions
-     * 交限
-     */
-    restrictions:[],
-
-    /***
-     * @param restrictionConditions
-     * 交限
-     */
-    restrictionConditions:[],
-
-    /***
-     * @param restrictionDetails
-     * 交限
-     */
-    restrictionDetails:[],
-
 
     /***
      *
@@ -118,8 +28,6 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         this.srcFlag = data["srcFlag"] || 6;
         this.digitalLevel = data["digitalLevel"] || 0;
         this.reserved = data["reserved"] || "";
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
 
     },
 
@@ -140,8 +48,6 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["srcFlag"] = this.srcFlag;
         data["digitalLevel"] = this.digitalLevel;
         data["reserved"]  = this.reserved;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
         data["forms"]=this.forms;
         data["meshes"]=this.meshes;
         return data;
@@ -164,8 +70,6 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["srcFlag"] = this.srcFlag;
         data["digitalLevel"] = this.digitalLevel;
         data["reserved"]  = this.reserved;
-        data["uRecord"] = this.uRecord;
-        data["uFields"] = this.uFields;
         data["forms"]=this.forms;
         data["meshes"]=this.meshes;
         return data;
@@ -179,7 +83,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdnode = function (geometry, attributes, options) {
-    return new fastmap.dataApi.rdNode(geometry, attributes, options);
+fastmap.dataApi.rdnode = function (data, options) {
+    return new fastmap.dataApi.rdNode(data, options);
 }
 

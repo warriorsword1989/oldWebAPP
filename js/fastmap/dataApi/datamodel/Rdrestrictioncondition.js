@@ -84,6 +84,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
+
         this.detailId = data["detailId"] || null;
         this.timeDomain = data["timeDomain"] || null;
         this.vehicle = data["vehicle"] || 0;

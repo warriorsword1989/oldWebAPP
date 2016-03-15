@@ -4,63 +4,6 @@
  */
 
 fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param detailId
-     * 详细交限
-     */
-    detailId:null,
-
-    /***
-     * @param restricPid
-     * 交限号码
-     */
-    restricPid:null,
-
-    /***
-     * @param outLinkPid
-     * 退出link
-     */
-    outLinkPid:null,
-
-    /***
-     * @param flag
-     * 交限标志
-     */
-    flag:2,
-
-    /***
-     * @param restricInfo
-     * 限制信息
-     */
-    restricInfo:0,
-
-    /***
-     * @param type
-     * 限制类型
-     */
-    type:1,
-
-    /***
-     * @param relationshipType
-     * 关系类型
-     */
-    relationshipType:1,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
      * @param data data
@@ -68,16 +11,15 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        if(!data["detailId"]){
-            throw "对象没有对应detailId"
+        if(!data["pid"]){
+            throw "对象没有对应pid"
         }
-
-        this.geoemtry = geometry;
         this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
-        this.detailId = data["detailId"] || null;
+
+        this.pid = data["pid"] || null;
         this.restricPid = data["restricPid"] || null;
         this.outLinkPid = data["outLinkPid"] || null;
         this.flag = data["flag"] || 2;
@@ -94,7 +36,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["detailId"] = this.detailId ;
+        data["pid"] = this.pid;
         data["restricPid"] = this.restricPid;
         data["outLinkPid"] = this.outLinkPid;
         data["flag"] = this.flag;
@@ -112,7 +54,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["detailId"] = this.detailId ;
+        data["pid"] = this.pid;
         data["restricPid"] = this.restricPid;
         data["outLinkPid"] = this.outLinkPid;
         data["flag"] = this.flag;

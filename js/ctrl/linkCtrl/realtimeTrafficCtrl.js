@@ -25,33 +25,13 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeo
         }
     };
     $scope.addIntRtic = function () {
-        $scope.rticData.intRtics.unshift(
-            {
-                code: 1,
-                rank: 1,
-                //rticDr: 1,
-                updownFlag: 1,
-                rangeType: 0,
-                linkPid:0
-            }
-        )
+        var newIntRtic = fastmap.dataApi.linkintrtic({"linkPid": $scope.rticData.pid});
+        $scope.rticData.intRtics.unshift(newIntRtic)
 
     };
     $scope.addCarRtic = function () {
-        if(!$("#carRTICDiv").hasClass("in")) {
-            $("#carRTICDiv").addClass("in");
-        }
-        $scope.rticData.rtics.unshift(
-            {
-                code: 0,
-                linkPid: 0,
-                rangeType: 1,
-                rank: 2,
-                rowId: "",
-                rticDir: 2,
-                updownFlag: 0
-            }
-        )
+        var newRtic = fastmap.dataApi.linkrtic({"linkPid": $scope.rticData.pid});
+        $scope.rticData.rtics.unshift(newRtic)
     };
     $scope.minusCarRtic=function(id){
         $scope.rticData.rtics.splice(id, 1);

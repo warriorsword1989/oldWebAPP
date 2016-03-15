@@ -4,107 +4,6 @@
  */
 
 fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param linkPid
-     * 道路Id
-     */
-    linkPid:null,
-    /***
-     * @param speedType
-     * 限速类型
-     */
-    speedType:0,
-    /***
-     * @param fromSpeedLimit
-     * 顺向限速
-     */
-    fromSpeedLimit:0,
-
-    /***
-     * @param toSpeedLimit
-     * 逆向限速
-     */
-    toSpeedLimit:0,
-
-    /***
-     * @param speedClass
-     * 限速等级
-     */
-    speedClass:0,
-
-    /***
-     * @param fromLimitSrc
-     * 顺向限速来源
-     */
-    fromLimitSrc:0,
-
-    /***
-     * @param toLimitSrc
-     * 逆向限速来源
-     */
-    toLimitSrc:0,
-
-    /***
-     * @param speedDependent
-     * 限速条件
-     */
-    speedDependent:0,
-
-    /***
-     * @param speedClassWork
-     * 等级赋值标记
-     */
-    speedClassWork:1,
-
-    /***
-     * @param timeDomain
-     * 时间段
-     */
-    timeDomain:"",
-    /***
-     * @param vehicle
-     * 车辆类型
-     */
-    vehicle:0,
-    /***
-     * @param tollType
-     * 收费类型
-     */
-    tollType:9,
-
-    /***
-     * @param weather
-     * 天气条件
-     */
-    weather:9,
-
-    /***
-     * @param inputTime
-     * 天气条件
-     */
-    inputTime:"",
-
-    /***
-     * @param processFlag
-     * 赋值方式
-     */
-    processFlag:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
      * @param data 初始化属性对象
@@ -115,15 +14,13 @@ fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
-        else{
-            this.id = data["linkPid"];
-        }
 
         this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
+        this.rowId= data["rowId"] || "";
         this.speedType = data["speedType"] || 0;
         this.fromSpeedLimit = data["fromSpeedLimit"] || 0;
         this.toSpeedLimit = data["toSpeedLimit"] || 0;
@@ -133,8 +30,6 @@ fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
         this.speedDependent = data["speedDependent"] || 0;
         this.timeDomain = data["timeDomain"] || "";
         this.speedClassWork = data["speedClassWork"] || 1;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
     },
 
     /**
@@ -145,18 +40,17 @@ fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["speedType"] = this.speedType || 0;
-        data["fromSpeedLimit"]  = this.fromSpeedLimit || 0;
-        data["toSpeedLimit"] = this.toSpeedLimit || 0;
-        data["speedClass"] = this.speedClass || 0;
-        data["fromLimitSrc"]  = this.fromLimitSrc || 0;
-        data["toLimitSrc"] = this.toLimitSrc  ||0;
-        data["speedDependent"] = this.speedDependent || 0;
-        data["timeDomain"]  = this.timeDomain || "";
-        data["speedClassWork"] = this.speedClassWork || 1;
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["speedType"] = this.speedType;
+        data["fromSpeedLimit"]  = this.fromSpeedLimit;
+        data["toSpeedLimit"] = this.toSpeedLimit;
+        data["speedClass"] = this.speedClass;
+        data["fromLimitSrc"]  = this.fromLimitSrc;
+        data["toLimitSrc"] = this.toLimitSrc;
+        data["speedDependent"] = this.speedDependent;
+        data["timeDomain"]  = this.timeDomain;
+        data["speedClassWork"] = this.speedClassWork;
         return data;
     },
 
@@ -168,18 +62,17 @@ fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["speedType"] = this.speedType || 0;
-        data["fromSpeedLimit"]  = this.fromSpeedLimit || 0;
-        data["toSpeedLimit"] = this.toSpeedLimit || 0;
-        data["speedClass"] = this.speedClass || 0;
-        data["fromLimitSrc"]  = this.fromLimitSrc || 0;
-        data["toLimitSrc"] = this.toLimitSrc  ||0;
-        data["speedDependent"] = this.speedDependent || 0;
-        data["timeDomain"]  = this.timeDomain || "";
-        data["speedClassWork"] = this.speedClassWork || 1;
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["speedType"] = this.speedType;
+        data["fromSpeedLimit"]  = this.fromSpeedLimit;
+        data["toSpeedLimit"] = this.toSpeedLimit;
+        data["speedClass"] = this.speedClass;
+        data["fromLimitSrc"]  = this.fromLimitSrc;
+        data["toLimitSrc"] = this.toLimitSrc;
+        data["speedDependent"] = this.speedDependent;
+        data["timeDomain"]  = this.timeDomain;
+        data["speedClassWork"] = this.speedClassWork;
         return data;
     }
 });

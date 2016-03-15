@@ -106,6 +106,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
+                speedLimit.redraw();
             }else{
                 info=[{
                     "op":data.errcode,

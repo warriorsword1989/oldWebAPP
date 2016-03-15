@@ -268,14 +268,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         $scope.$parent.$parent.outErrorArr[3] = false;
                         $scope.$parent.$parent.outErrorArr[1] = true;
                     }
-
+                    objCtrl.setCurrentObject($scope.data.optype,data.data);
                     tooltipsCtrl.onRemoveTooltip();
-
                     switch ($scope.data.optype) {
 
                         case 'RDRESTRICTION':
-                            var restrictData=fastmap.dataApi.rdrestriction("RDRESTRICTION")
-                            objCtrl.setCurrentObject(data.data);
                             if (objCtrl.rdrestrictionObject !== "") {
                                 objCtrl.rdrestrictionObject();
                             }
@@ -313,8 +310,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             })
                             break;
                         case 'RDBRANCH':
-                            if (objCtrl.refreshBranch !== "") {
-                                objCtrl.refreshBranch();
+                            if (objCtrl.updateRdBranch&&objCtrl.updateRdBranch !== "") {
+                                objCtrl.updateRdBranch();
                             }
                             $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";

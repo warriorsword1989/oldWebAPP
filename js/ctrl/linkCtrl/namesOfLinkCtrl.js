@@ -23,21 +23,15 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
         {"id": 9, "label": "9 未定义"}
     ];
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.names = objCtrl.data.data.names;
+    if(objCtrl.data.data) {
+        $scope.names = objCtrl.data.data.names;
+    }else{
+        $scope.names = objCtrl.data.names;
+    }
+
     $scope.addRoadName=function(){
-        $scope.names.unshift({
-            code:0,
-            inputTime:"",
-            linkPid: objCtrl.data.pid,
-            name: "",
-            nameClass: 1,
-            nameGroupid: 0,
-            nameType: 0,
-            routeAtt:0,
-            rowId: "",
-            seqNum: 1,
-            srcFlag:0
-        })
+        var newName=fastmap.dataApi.linkname({"linkPid":objCtrl.data.pid})
+        $scope.names.unshift(newName)
     }
     $scope.minusRoadName=function(id) {
         $scope.names.splice(id, 1);

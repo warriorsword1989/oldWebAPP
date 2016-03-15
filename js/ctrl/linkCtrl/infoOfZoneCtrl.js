@@ -4,7 +4,7 @@
 var oridinaryInfoApp = angular.module("myApp", []);
 oridinaryInfoApp.controller("zoneInfoController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.zoneData = objCtrl.data.data;
+    $scope.zoneData = objCtrl.data;
     $scope.typeoption=[
         {"id":0,"label":"未分类"},
         {"id":1,"label":"AOIZone"},
