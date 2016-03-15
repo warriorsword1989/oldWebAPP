@@ -23,14 +23,14 @@ fastmap.dataApi.rdLaneConnexity=fastmap.dataApi.GeoDataModel.extend({
         this.pid = data["pid"];
         this.inLinkPid = data["inLinkPid"];
         this.nodePid = data["nodePid"];
-        this.laneInfo = data["laneInfo"];
-        this.conflictFlag = data["conflictFlag"];
-        this.kgFlag = data["kgFlag"];
-        this.laneNum = data["laneNum"];
-        this.leftExtend = data["leftExtend"];
-        this.rightExtend = data["rightExtend"];
-        this.srcFlag = data["srcFlag"];
-
+        this.laneInfo = data["laneInfo"] || "";
+        this.conflictFlag = data["conflictFlag"] || 0;
+        this.kgFlag = data["kgFlag"] || 0;
+        this.laneNum = data["laneNum"] || 0;
+        this.leftExtend = data["leftExtend"]|| 0;
+        this.rightExtend = data["rightExtend"] || 0;
+        this.srcFlag = data["srcFlag"] ||0;
+        this.topos=[];
         for(var i=0;i<data["topos"].length;i++){
             var topos= new fastmap.dataApi.rdLaneTopology(data["topos"][i]);
             this.topos.push(topos);

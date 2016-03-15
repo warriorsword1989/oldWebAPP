@@ -2,28 +2,6 @@
  * Created by wangtun on 2016/3/14.
  */
 fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    linkPid:0,
-    direct:0,
-    speedValue:0,
-    speedType:0,
-    tollgateFlag:0,
-    speedDependent:0,
-    speedFlag:0,
-    limitSrc:1,
-    timeDomain:"",
-    captureFlag:0,
-    descript:"",
-    meshId:0,
-    status:7,
-    ckStatus:6,
-    adjaFlag:0,
-    recStatusIn:0,
-    recStatusOut:0,
-    timeDescript:"",
-    geometry:null,
-    laneSpeedValue:"",
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -32,25 +10,25 @@ fastmap.dataApi.rdSpeedLimit=fastmap.dataApi.rdRestriction.extend({
     setAttributeData:function(data){
         this.pid = data["pid"];
         this.linkPid = data["linkPid"];
-        this.direct = data["direct"];
-        this.speedValue = data["speedValue"];
-        this.speedType = data["speedType"];
-        this.tollgateFlag = data["tollgateFlag"];
-        this.speedDependent = data["speedDependent"];
-        this.speedFlag = data["speedFlag"];
-        this.limitSrc = data["limitSrc"];
-        this.timeDomain = data["timeDomain"];
-        this.captureFlag = data["captureFlag"];
-        this.descript = data["descript"];
-        this.meshId = data["meshId"];
-        this.status = data["status"];
-        this.ckStatus = data["ckStatus"];
-        this.adjaFlag = data["adjaFlag"];
-        this.recStatusIn = data["recStatusIn"];
-        this.recStatusOut = data["recStatusOut"];
-        this.timeDescript = data["timeDescript"];
+        this.direct = data["direct"] || 0;
+        this.speedValue = data["speedValue"] || 0;
+        this.speedType = data["speedType"] || 0;
+        this.tollgateFlag = data["tollgateFlag"] || 0;
+        this.speedDependent = data["speedDependent"] || 0;
+        this.speedFlag = data["speedFlag"] || 0;
+        this.limitSrc = data["limitSrc"] || 1;
+        this.timeDomain = data["timeDomain"] || "";
+        this.captureFlag = data["captureFlag"] || 0;
+        this.descript = data["descript"] ||"";
+        this.meshId = data["meshId"] || 0;
+        this.status = data["status"] || 7;
+        this.ckStatus = data["ckStatus"] || 6;
+        this.adjaFlag = data["adjaFlag"] || 0;
+        this.recStatusIn = data["recStatusIn"] || 0;
+        this.recStatusOut = data["recStatusOut"] || 0;
+        this.timeDescript = data["timeDescript"] || "";
         this.geometry = data["geometry"];
-        this.laneSpeedValue = data["laneSpeedValue"];
+        this.laneSpeedValue = data["laneSpeedValue"] || "";
     },
 
     getSnapShot:function(){

@@ -2,11 +2,6 @@
  * Created by wangtun on 2016/3/15.
  */
 fastmap.dataApi.rdBranchSignBoard=fastmap.dataApi.rdBranch.extend({
-    pid:null,
-    branchPid:null,
-    arrowCode:"",
-    backimageCode:"",
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -15,8 +10,8 @@ fastmap.dataApi.rdBranchSignBoard=fastmap.dataApi.rdBranch.extend({
     setAttributeData:function(data){
         this.pid = data["pid"];
         this.branchPid = data["branchPid"];
-        this.backimageCode = data["backimageCode"];
-        this.arrowCode = data["arrowCode"];
+        this.backimageCode = data["backimageCode"] || "";
+        this.arrowCode = data["arrowCode"] || "";
     },
 
     getIntegrate:function(){
