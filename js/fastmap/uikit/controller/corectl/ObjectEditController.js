@@ -82,6 +82,18 @@ fastmap.uikit.ObjectEditController = (function () {
                     case "RDRESTRICTION":
                         this.data=fastmap.dataApi.rdrestriction(obj)
                         break;
+                    case "RDCROSS":
+                        this.data=fastmap.dataApi.rdcross(obj)
+                        break;
+                    case "RDLANECONNEXITY":
+                        this.data=fastmap.dataApi.rdlaneconnexity(obj)
+                        break;
+                    case "RDSPEEDLIMIT":
+                        this.data=fastmap.dataApi.rdspeedlimit(obj)
+                        break;
+                    case "RDBRANCH":
+                        this.data = fastmap.dataApi.rdbranch(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

@@ -4,6 +4,7 @@
 fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.setAttributeData(data);
     },
 
     setAttributeData:function(data){

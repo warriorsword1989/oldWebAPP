@@ -53,3 +53,12 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+/***
+ * rdBranchName 名字初始化函数
+ * @param data 分歧名字数据
+ * @param options 其他可选参数
+ * @returns {.dataApi.rdBranchName}
+ */
+fastmap.dataApi.rdbranchname = function (data, options) {
+    return new fastmap.dataApi.rdBranchName(data, options);
+}

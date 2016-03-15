@@ -3,7 +3,6 @@
  */
 var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
 namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoad) {
-    var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var divergenceIds = null;
     var newObjData = {};
@@ -37,11 +36,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.setOriginalDataFunc = function(){
         // console.log(divergenceIds)
         objCtrl.setOriginalData(divergenceIds);
-       /* Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
-            objCtrl.setOriginalData(data.data);
-        console.log(data.data)
-            $scope.$apply();
-        });*/
     }
     $scope.setOriginalDataFunc();
     /*点击关系类型*/
@@ -327,7 +321,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
          //箭头图
          if(type){
             $scope.diverObj = divergenceIds;
-            objCtrl.setCurrentObject($scope.diverObj);
             $scope.initDiver();
          }else{
             Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
