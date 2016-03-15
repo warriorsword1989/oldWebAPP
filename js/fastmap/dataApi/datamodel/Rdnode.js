@@ -107,17 +107,17 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.linkPid = data["linkPid"] || "";
-        this.kind = data["kind"] || 1;
-        this.geometry = data["geometry"] || null;
-        this.adasFlag = data["adasFlag"] || 2;
-        this.editFlag = data["editFlag"] || 1;
-        this.difGroupId = data["difGroupId"] || "";
-        this.srcFlag = data["srcFlag"] || 6;
-        this.digitalLevel = data["digitalLevel"] || 0;
-        this.reserved = data["reserved"] || "";
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
+        this.linkPid = data["linkPid"];
+        this.kind = data["kind"];
+        this.geometry = data["geometry"];
+        this.adasFlag = data["adasFlag"];
+        this.editFlag = data["editFlag"];
+        this.difGroupId = data["difGroupId"];
+        this.srcFlag = data["srcFlag"];
+        this.digitalLevel = data["digitalLevel"];
+        this.reserved = data["reserved"];
+        this.uRecord = data["uRecord"];
+        this.uFields = data["uFields"];
 
         if(data["restrictions"].length>0){
             var rdRestriction = new fastmap.dataApi.rdRestriction(data["restricions"][i]);
@@ -143,17 +143,17 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid  || "";
-        data["kind"] = this.kind || 1;
-        data["geometry"]  = this.geometry || null;
-        data["adasFlag"] = this.adasFlag || 2;
-        data["editFlag"] = this.editFlag || 1;
-        data["difGroupId"] = this.difGroupId || "";
-        data["srcFlag"] = this.srcFlag || 6;
-        data["digitalLevel"] = this.digitalLevel || 0;
-        data["reserved"]  = this.reserved || "";
-        data["uRecord"] = this.uRecord  || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["kind"] = this.kind;
+        data["geometry"]  = this.geometry;
+        data["adasFlag"] = this.adasFlag;
+        data["editFlag"] = this.editFlag;
+        data["difGroupId"] = this.difGroupId;
+        data["srcFlag"] = this.srcFlag;
+        data["digitalLevel"] = this.digitalLevel;
+        data["reserved"]  = this.reserved;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     },
 
@@ -165,17 +165,17 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid  || "";
-        data["kind"] = this.kind || 1;
-        data["geometry"]  = this.geometry || null;
-        data["adasFlag"] = this.adasFlag || 2;
-        data["editFlag"] = this.editFlag || 1;
-        data["difGroupId"] = this.difGroupId || "";
-        data["srcFlag"] = this.srcFlag || 6;
-        data["digitalLevel"] = this.digitalLevel || 0;
-        data["reserved"]  = this.reserved || "";
-        data["uRecord"] = this.uRecord  || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["kind"] = this.kind;
+        data["geometry"]  = this.geometry;
+        data["adasFlag"] = this.adasFlag;
+        data["editFlag"] = this.editFlag;
+        data["difGroupId"] = this.difGroupId;
+        data["srcFlag"] = this.srcFlag;
+        data["digitalLevel"] = this.digitalLevel;
+        data["reserved"]  = this.reserved;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
 
         var restrictions=[];
         for(var i= 0,len=this.restrictions.length;i<len;i++){

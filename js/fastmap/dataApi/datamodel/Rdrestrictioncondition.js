@@ -88,16 +88,16 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.detailId = data["detailId"] || null;
-        this.timeDomain = data["timeDomain"] || null;
-        this.vehicle = data["vehicle"] || 0;
-        this.resTrailer = data["resTrailer"] || 0;
-        this.resWeigh = data["resWeigh"] || 0;
-        this.resAxleLoad = data["resAxleLoad"] || 0;
-        this.resAxleCount = data["resAxleCount"] || 0;
-        this.resOut = data["resOut"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
+        this.detailId = data["detailId"];
+        this.timeDomain = data["timeDomain"];
+        this.vehicle = data["vehicle"];
+        this.resTrailer = data["resTrailer"];
+        this.resWeigh = data["resWeigh"];
+        this.resAxleLoad = data["resAxleLoad"];
+        this.resAxleCount = data["resAxleCount"];
+        this.resOut = data["resOut"];
+        this.uRecord = data["uRecord"];
+        this.uFields = data["uFields"];
     },
 
     /**
@@ -108,16 +108,16 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["detailId"] = this.detailId || null;
-        data["timeDomain"] = this.timeDomain || null;
-        data["vehicle"] = this.vehicle || 0;
-        data["resTrailer"]  = this.resTrailer || 0;
-        data["resWeigh"]  = this.resWeigh || 0;
-        data["resAxleLoad"]  = this.resAxleLoad || 0;
-        data["resAxleCount"]  = this.resAxleCount || 0;
-        data["resOut"] = this.resOut  || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["detailId"] = this.detailId;
+        data["timeDomain"] = this.timeDomain;
+        data["vehicle"] = this.vehicle;
+        data["resTrailer"]  = this.resTrailer;
+        data["resWeigh"]  = this.resWeigh;
+        data["resAxleLoad"]  = this.resAxleLoad;
+        data["resAxleCount"]  = this.resAxleCount;
+        data["resOut"] = this.resOut;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     },
 

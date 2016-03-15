@@ -69,12 +69,12 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"] || null;
-        this.inLinkPid = data["inLinkPid"] || null;
-        this.restricInfo = data["restricInfo"] || null;
-        this.kgFlag = data["kgFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
+        this.pid = data["pid"];
+        this.inLinkPid = data["inLinkPid"];
+        this.restricInfo = data["restricInfo"];
+        this.kgFlag = data["kgFlag"];
+        this.uRecord = data["uRecord"];
+        this.uFields = data["uFields"];
     },
 
     /**
@@ -85,12 +85,12 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid || null;
-        data["inLinkPid"] = this.inLinkPid || null;
-        data["restricInfo"] = this.restricInfo|| null;
-        data["kgFlag"] = this.kgFlag  || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["pid"] = this.pid;
+        data["inLinkPid"] = this.inLinkPid;
+        data["restricInfo"] = this.restricInfo;
+        data["kgFlag"] = this.kgFlag;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     },
 
@@ -102,12 +102,12 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid || null;
-        data["inLinkPid"] = this.inLinkPid || null;
-        data["restricInfo"] = this.restricInfo|| null;
-        data["kgFlag"] = this.kgFlag  || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["pid"] = this.pid;
+        data["inLinkPid"] = this.inLinkPid;
+        data["restricInfo"] = this.restricInfo;
+        data["kgFlag"] = this.kgFlag;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     }
 });

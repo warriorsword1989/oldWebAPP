@@ -20,7 +20,7 @@ fastmap.dataApi.rdCross=fastmap.dataApi.rdRestriction.extend({
         this.pid = data["pid"];
         this.type = data["type"];
         this.signal = data["signal"];
-        this.kgFlag = data["kgFlag"] || 0;
+        this.kgFlag = data["kgFlag"];
 
         if(data["names"].length>0){
             for(var i= 0;i<data["names"].length;i++){
@@ -46,11 +46,11 @@ fastmap.dataApi.rdCross=fastmap.dataApi.rdRestriction.extend({
 
     getSnapShot:function(){
         var data = {};
-        data["pid"] = this.pid || null;
-        data["type"] = this.type || null;
-        data["signal"] = this.signal  || null;
-        data["electroeye"] = this.electroeye  || 7;
-        data["kgflag"] = this.kgflag || 1;
+        data["pid"] = this.pid;
+        data["type"] = this.type;
+        data["signal"] = this.signal;
+        data["electroeye"] = this.electroeye;
+        data["kgflag"] = this.kgflag;
         data["links"] = [];
         for(var i= 0,len= this.data["links"].length;i<len;i++){
             data["links"].push(this.data["links"][i].getIntegrate())
@@ -70,35 +70,12 @@ fastmap.dataApi.rdCross=fastmap.dataApi.rdRestriction.extend({
     },
 
     getIntegrate:function(){
-        data["pid"] = this.pid || null;
-        data["type"] = this.type || null;
-        data["signal"] = this.signal  || null;
-        data["electroeye"] = this.electroeye  || 7;
-        data["kgflag"] = this.kgflag || 1;
-        data["links"] = [];
-        for(var i= 0,len= this.data["links"].length;i<len;i++){
-            data["links"].push(this.data["links"][i].getIntegrate())
-        }
-
-        data["names"]=[];
-        for(var i= 0,len= this.data["names"].length;i<len;i++){
-            data["names"].push(this.data["names"][i].getIntegrate())
-        }
-
-        data["nodes"]=[];
-        for(var i= 0,len= this.data["nodes"].length;i<len;i++){
-            data["nodes"].push(this.data["nodes"][i].getIntegrate())
-        }
-
-        return data;
-    },
-
-    getSnapShot:function(){
-        data["pid"] = this.pid || null;
-        data["type"] = this.type || null;
-        data["signal"] = this.signal  || null;
-        data["electroeye"] = this.electroeye  || 7;
-        data["kgflag"] = this.kgflag || 1;
+        var data={};
+        data["pid"] = this.pid;
+        data["type"] = this.type;
+        data["signal"] = this.signal;
+        data["electroeye"] = this.electroeye;
+        data["kgflag"] = this.kgflag;
         data["links"] = [];
         for(var i= 0,len= this.data["links"].length;i<len;i++){
             data["links"].push(this.data["links"][i].getIntegrate())
