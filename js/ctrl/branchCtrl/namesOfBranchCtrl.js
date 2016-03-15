@@ -220,6 +220,10 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
             linksOfRestric["outLink"] = $scope.diverObj.outLinkPid+'';
             var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
+            //清除地图上的高亮的feature
+            if (highLightLayer.highLightLayersArr.length !== 0) {
+                highLightLayer.removeHighLightLayers();
+            }
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
             /*模式图信息条数*/
