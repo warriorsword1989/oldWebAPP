@@ -2,10 +2,6 @@
  * Created by wangtun on 2016/3/14.
  */
 fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    linkPid:null,
-    rowId:null,
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);

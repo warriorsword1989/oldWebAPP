@@ -2,26 +2,17 @@
  * Created by wangtun on 2016/3/14.
  */
 fastmap.dataApi.rdCrossName=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    nameGroupId:1,
-    langCode:"CHI",
-    name:"",
-    phonetic:"",
-    srcFlag:0,
-
-    rowId:"",
-
     initialize: function (data, options) {
         L.setOptions(this, options);
     },
 
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.nameGroupId = data["nameGroupId"];
-        this.langCode = data["langCode"];
-        this.name = data["name"];
-        this.phonetic=data["phonetic"];
-        this.srcFlag=data["srcFlag"];
+        this.nameGroupId = data["nameGroupId"] || 1;
+        this.langCode = data["langCode"] || "CHI";
+        this.name = data["name"] || "";
+        this.phonetic=data["phonetic"] || "";
+        this.srcFlag=data["srcFlag"] || 0;
         this.rowId = data["rowId"];
     },
 

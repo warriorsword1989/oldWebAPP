@@ -200,8 +200,15 @@
     <script src="js/Application.js"></script>
     <script>
         $(function(){
+
+
             initMap()
         })
+
+        function paramTest(data){
+            var tt=data["key"]||0;
+            var sss=data;
+        }
 
         function initMap(){
             map = L.map('gridMap',{ attributionControl: false,zoomControl:false,doubleClickZoom:false,minZoom:10,maxZoom:14}).setView([40.005834, 116.476293], 12);

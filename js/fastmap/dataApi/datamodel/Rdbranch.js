@@ -1,20 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    inLinkPid:null,
-    nodePid:null,
-    outLinkPid:null,
-    relationshipType:1,
-    realimages:[],
-    schematics:[],
-    seriesbranches:[],
-    signasreals:[],
-    signboards:[],
-    vias:[],
-    details:[],
-
+fastmap.dataApi.rdBranch=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -25,8 +12,8 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
         this.inLinkPid = data["inLinkPid"];
         this.nodePid = data["nodePid"];
         this.outLinkPid = data["outLinkPid"];
-        this.relationshipType = data["relationshipType"];
-
+        this.relationshipType = data["relationshipType"]||1;
+        this.realimages=[];
         if(data["realimages"].length>0){
             for(var i= 0;i<data["realimages"].length;i++){
                 var realImage = new fastmap.dataApi.rdBranchRealImage(data["realimages"][i]);
@@ -34,6 +21,7 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
             }
         }
 
+        this.schematics=[];
         if(data["schematics"].length>0){
             for(var i= 0;i<data["schematics"].length;i++){
                 var schemtic = new fastmap.dataApi.rdBranchSchematic(data["schematics"][i]);
@@ -41,6 +29,7 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
             }
         }
 
+        this.seriesbranches=[];
         if(data["seriesbranches"].length>0){
             for(var i= 0;i<data["seriesbranches"].length;i++){
                 var seriesBranch = new fastmap.dataApi.rdBranchSeriesBranch(data["seriesbranches"][i]);
@@ -48,7 +37,7 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
             }
         }
 
-
+        this.signasreals=[];
         if(data["signasreals"].length>0){
             for(var i= 0;i<data["signasreals"].length;i++){
                 var signasReal = new fastmap.dataApi.rdBranchSignAsreal(data["signasreals"][i]);
@@ -56,6 +45,7 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
             }
         }
 
+        this.signboards=[];
         if(data["signboards"].length>0){
             for(var i= 0;i<data["signboards"].length;i++){
                 var signBoard = new fastmap.dataApi.rdBranchSignBoard(data["signboards"][i]);
@@ -63,6 +53,7 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
             }
         }
 
+        this.vias=[];
         if(data["vias"].length>0){
             for(var i= 0;i<data["vias"].length;i++){
                 var via = new fastmap.dataApi.rdBranchVia(data["vias"][i]);
@@ -70,7 +61,7 @@ fastmap.dataApi.rdBranch=fastmap.dataApi.rdRestriction.extend({
             }
         }
 
-
+        this.details=[];
         if(data["details"].length>0){
             for(var i= 0;i<data["details"].length;i++){
                 var detail = new fastmap.dataApi.rdBranchDetail(data["details"][i]);
