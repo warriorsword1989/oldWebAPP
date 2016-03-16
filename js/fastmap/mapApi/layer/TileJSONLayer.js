@@ -315,18 +315,18 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             g.strokeStyle = "#F50404";  //边框颜色
             g.fillStyle="rgba(245, 4, 4, 0.2)";  //填充的颜色
         }
-        if(property.direc == 1){
+        if(property.direc == 2){
             img.src = 'css/tips/road/1.svg';
         }else{
             img.src = 'css/tips/road/2.svg';
         }
         g.linewidth=1;  //边框宽
-        g.fillRect(x-5,y-25,10,20);  //填充颜色 x y坐标 宽 高
-        g.strokeRect(x-5,y-25,10,20);  //填充边框 x y坐标 宽 高
+        g.fillRect(x-10,y-25,20,20);  //填充颜色 x y坐标 宽 高
+        g.strokeRect(x-10,y-25,20,20);  //填充边框 x y坐标 宽 高
         img.onload = function () {
             g.save();
             g.translate(x, y);
-            g.rotate(property.kind * 90 * Math.PI/8);//旋转度数
+            g.rotate(property.kind *Math.PI/180);//旋转度数  
             g.drawImage(img, -img.width / 2, -img.height);
             g.restore();
         }
