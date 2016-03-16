@@ -315,7 +315,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             g.strokeStyle = "#F50404";  //边框颜色
             g.fillStyle="rgba(245, 4, 4, 0.2)";  //填充的颜色
         }
-        if(property.direc == 1){
+        if(property.direc == 2){
             img.src = 'css/tips/road/1.svg';
         }else{
             img.src = 'css/tips/road/2.svg';
