@@ -173,15 +173,6 @@
 <div id="otherDiv" ng-controller="otherController">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div><label class="control-label" >辅助标志</label></div>
-            <div class="inline">
-                <select  ng-model="roadlinkData.auxiFlag"
-                        ng-options="value.id as value.label for value in auxiFlagoption">
-                    <option>--</option>
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
             <div><label class="control-label" >特殊交通</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
@@ -269,7 +260,7 @@
             <div><label class="control-label">差分产品ID</label></div>
             <div class="inline">
                 <input id="difGroupIdText" type="text" value="0" style="width:150px" ng-model="roadlinkData.difGroupId">
-                <span ng-click="qkdifGroupId()" class="glyphicon glyphicon-remove" style="cursor: pointer;color:#FFF;"></span>
+                <span ng-click="emptyGroupId()" class="glyphicon glyphicon-remove" style="cursor: pointer;color:#FFF;"></span>
             </div>
         </li>
         <li class="list-group-item">
@@ -312,6 +303,18 @@
             <div><label class="control-label">条件限速</label></div>
             <div class="inline">
                     <span>(<a ng-click="showConditionSpeed()" ng-if="roadlinkData!=undefined" style="cursor: pointer">{{roadlinkData.speedlimits.length-1}}</a>)个</span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >辅助标志</label></div>
+            <div class="inline" ng-repeat="auxi in roadlinkData.forms|filter:auxiFilter">
+                <input type="text" ng-if="auxi.auxiFlag===0" placeholder="无" />
+                <input type="text" ng-if="auxi.auxiFlag===3" placeholder="功能面关联道路" />
+
+                <!--<select  ng-model="roadlinkData.auxiFlag"-->
+                         <!--ng-options="value.id as value.label for value in auxiFlagoption">-->
+                    <!--<option>--</option>-->
+                <!--</select>-->
             </div>
         </li>
         <li class="list-group-item">
