@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/24.
  */
 var objectEditApp = angular.module("mapApp", ['oc.lazyLoad']);
-objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLoad) {
+objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
@@ -10,34 +10,44 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var rdRestrction = layerCtrl.getLayerById('restriction');
+    var rdRestriction = layerCtrl.getLayerById('restriction');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     var limitPicArr = [];
     //删除以前高亮的进入线和退出线
-    if(highLightLayer.highLightLayersArr.length!==0) {
+    if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
     //初始化数据
     $scope.initializeData = function () {
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
+        $scope.flag = 0;
         //删除以前高亮的进入线和退出线
-        if(highLightLayer.highLightLayersArr.length!==0) {
+        if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
         }
         //高亮进入线和退出线
         linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
-        for(var i= 0,len=objectEditCtrl.data.details.length;i<len;i++) {
+        for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
             linksObj["outLink" + i] = objectEditCtrl.data.details[i].outLinkPid.toString();
         }
-        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj});
-        var highLightRestriction=new fastmap.uikit.HighLightRender(rdRestrction,{map:map,highLightFeature:"restrict",restrictId:$scope.rdRestrictData.pid,initFlag:true});
+        var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "links",
+            linksObj: linksObj
+        });
+        var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
+            map: map,
+            highLightFeature: "restrict",
+            restrictId: $scope.rdRestrictData.pid,
+            initFlag: true
+        });
 
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
         //highLightLayer.pushHighLightLayers(highLightRestriction);
-        $.each(objectEditCtrl.data.details,function(i,v){
-            if(v)
+        $.each(objectEditCtrl.data.details, function (i, v) {
+            if (v)
                 limitPicArr.push(v.timeDomain);
             else
                 limitPicArr.push('');
@@ -88,8 +98,8 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         {"id": 30, "label": "预留"},
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
-    $scope.showAddDirectTepl=function() {
-        if(!$scope.$parent.$parent.suspendFlag) {
+    $scope.showAddDirectTepl = function () {
+        if (!$scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
         $ocLazyLoad.load('ctrl/restrictionCtrl/addDirectOfRestrictionCtrl').then(function () {
@@ -97,33 +107,33 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         })
     };
 
-    var towbin=dec2bin(6);
+    var towbin = dec2bin(6);
     //var towbin=dec2bin("2147483655");
 
     //循环车辆值域，根据数据库数据取出新的数组显示在页面
-    var originArray=[];
-    $scope.checkValue=false;
-    var len=towbin.length-1;
+    var originArray = [];
+    $scope.checkValue = false;
+    var len = towbin.length - 1;
     //长度小于32即是没有选中checkbox，不允许
-    if(towbin.length<32){
-        $scope.checkValue=false;
-    }else{
-        len=towbin.length-2;
-        $scope.checkValue=true;
+    if (towbin.length < 32) {
+        $scope.checkValue = false;
+    } else {
+        len = towbin.length - 2;
+        $scope.checkValue = true;
     }
-    for(var i=len;i>=0;i--){
-        if(towbin.split("").reverse().join("")[i]==1){
+    for (var i = len; i >= 0; i--) {
+        if (towbin.split("").reverse().join("")[i] == 1) {
             originArray.push($scope.vehicleOptions[i]);
         }
     }
     //初始化数据
-    initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv");
+    initOrig(originArray, $scope.vehicleOptions, "vehicleExpressiondiv");
 
-    $scope.showPopover=function(){
+    $scope.showPopover = function () {
         $('#vehicleExpressiondiv').popover('show');
     }
     //调用的方法
-    objectEditCtrl.rdrestrictionObject=function(){
+    objectEditCtrl.rdrestrictionObject = function () {
         if (objectEditCtrl.data === null) {
             $scope.rdSubRestrictData = [];
         } else {
@@ -131,15 +141,16 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
     }
 
-    $scope.removeTipsActive = function(){
-        $.each($('.show-tips'),function(i,v){
+    $scope.removeTipsActive = function () {
+        $.each($('.show-tips'), function (i, v) {
             $(v).removeClass('active');
         });
     }
     //点击限制方向时,显示其有的属性信息
-    $scope.showTips = function (item,e) {
+    $scope.showTips = function (item, e,index) {
         limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
-        $timeout(function(){
+        $scope.flag = index;
+        $timeout(function () {
             $(".data-empty").trigger('click');
             $scope.$apply();
         })
@@ -147,7 +158,7 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         $(e.target).addClass('active');
         $scope.rdSubRestrictData = item;
         //删除以前高亮的进入线和退出线
-        if(highLightLayer.highLightLayersArr.length!==0) {
+        if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
         }
         $scope.fmdateTimer(limitPicArr[$(e.target).attr('data-index')]);
@@ -155,15 +166,19 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         var linksOfRestric = {};
         linksOfRestric["inLink"] = linksObj["inLink"];
         linksOfRestric["outLink"] = item.outLinkPid.toString();
-        var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
+        var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "links",
+            linksObj: linksOfRestric
+        })
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
     };
     //修改退出线
-    $scope.changeOutLink=function(item) {
-        var currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink,linksFlag:false});
+    $scope.changeOutLink = function (item) {
+        var currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink, linksFlag: false});
         currentTool.enable();
-        rdLink.on("getOutLinksPid",function(data) {
+        rdLink.on("getOutLinksPid", function (data) {
             $scope.$apply(function () {
                 $scope.rdSubRestrictData.outLinkPid = data.id;
             });
@@ -171,10 +186,14 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             changedOutLink["inLink"] = linksObj["inLink"];
             changedOutLink["outLink"] = data.id.toString();
             //删除以前高亮的进入线和退出线
-            if(highLightLayer.highLightLayersArr.length!==0) {
+            if (highLightLayer.highLightLayersArr.length !== 0) {
                 highLightLayer.removeHighLightLayers();
             }
-            var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:changedOutLink})
+            var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
+                map: map,
+                highLightFeature: "links",
+                linksObj: changedOutLink
+            })
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
         })
@@ -182,19 +201,19 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
 
 
     //右击
-    $scope.deleteDirect = function (item,event) {
-        if(event.button===2) {
+    $scope.deleteDirect = function (item, event) {
+        if (event.button === 2) {
             var len = $scope.rdRestrictData.details.length;
-            if(len===1) {
+            if (len === 1) {
                 alert("请点击删除按钮删除该交限");
                 return;
-            }else{
-                for(var i= 0;i<len;i++) {
-                    if(len===1) {
+            } else {
+                for (var i = 0; i < len; i++) {
+                    if (len === 1) {
                         alert("请点击删除按钮删除该交限");
                         break;
-                    }else{
-                        if(item.pid===$scope.rdRestrictData.details[i]["pid"]) {
+                    } else {
+                        if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
                             $scope.rdRestrictData.details.splice(i, 1);
                             len--;
 
@@ -208,8 +227,20 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
         }
 
     };
-
-
+    //修改交限方向的理论或实际
+    $scope.changeType = function (item) {
+        var restrictInfoArr = $scope.rdRestrictData.restricInfo.split(",");
+        item.flag = parseInt(item.flag);
+        if(item.flag===1) {
+            if(restrictInfoArr[$scope.flag].indexOf("[")!==-1) {
+                restrictInfoArr[$scope.flag] = restrictInfoArr[$scope.flag].split("")[1];
+            }
+        }else{
+            restrictInfoArr[$scope.flag] = "[" + restrictInfoArr[$scope.flag] + "]";
+        }
+        $scope.rdRestrictData.restricInfo.length = 0;
+        $scope.rdRestrictData.restricInfo = restrictInfoArr.join(",");
+    };
     //增加时间段
     $scope.addTime = function () {
         $scope.rdRestrictData.time.unshift({startTime: "", endTime: ""});
@@ -218,59 +249,59 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     $scope.minusTime = function (id) {
         $scope.rdRestrictData.time.splice(id, 1);
     };
-    $scope.changeType=function(item) {
-        item.flag = parseInt(item.flag);
-    };
-    $timeout(function(){
+    $timeout(function () {
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
-            var tmpStr = (!$scope.rdRestrictData.time)?'':$scope.rdRestrictData.time;
+            var tmpStr = (!$scope.rdRestrictData.time) ? '' : $scope.rdRestrictData.time;
             // var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
             $scope.fmdateTimer(tmpStr);
         });
     })
     /*时间控件*/
-    $scope.fmdateTimer = function(str){
-        $scope.$on('get-date', function(event,data) {
+    $scope.fmdateTimer = function (str) {
+        $scope.$on('get-date', function (event, data) {
             $scope.codeOutput = data;
         });
-        $timeout(function(){
-            $scope.$broadcast('set-code',str);
+        $timeout(function () {
+            $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
             $scope.$apply();
-        },100);
+        }, 100);
     }
     //修改属性
     $scope.$parent.$parent.save = function () {
         var index = $(".show-tips.active").attr('data-index');
         //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
-        var resultStr="";
-        if($scope.checkValue){
-            resultStr="1";
-        }else{
-            resultStr="0";
+        var resultStr = "";
+        if ($scope.checkValue) {
+            resultStr = "1";
+        } else {
+            resultStr = "0";
         }
-        var re31sult=""
-        for(var j=0;j<31;j++){
-            if(inArray(getEndArray(), j)){
-                re31sult+="1";
-            }else{
-                re31sult+="0";
+        var re31sult = ""
+        for (var j = 0; j < 31; j++) {
+            if (inArray(getEndArray(), j)) {
+                re31sult += "1";
+            } else {
+                re31sult += "0";
             }
         }
-        resultStr+=re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
-        $scope.rdRestrictData.vehicleExpression=bin2dec(resultStr);
+        resultStr += re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
+        $scope.rdRestrictData.vehicleExpression = bin2dec(resultStr);
         $scope.rdRestrictData.details[index].timeDomain = $scope.codeOutput;
         objectEditCtrl.save();
-        if(objectEditCtrl.changedProperty){
-            $.each(objectEditCtrl.changedProperty.details,function(i,v){
-                delete v.linkPid;
-            })
+        if (objectEditCtrl.changedProperty) {
+            if(objectEditCtrl.changedProperty.details) {
+                $.each(objectEditCtrl.changedProperty.details, function (i, v) {
+                    delete v.linkPid;
+                })
+            }
+
         }
         var param = {
             "command": "UPDATE",
-            "type":"RDRESTRICTION",
+            "type": "RDRESTRICTION",
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
@@ -278,30 +309,29 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             $scope.$parent.$parent.suspendFlag = false;
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var restrict = layerCtrl.getLayerById("restriction");
-            restrict.redraw();
             var info = null;
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"修改RDRESTICTIONR成功",
-                    "type":"",
+            if (data.errcode == 0) {
+                var sinfo = {
+                    "op": "修改RDRESTICTIONR成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+                rdRestriction.redraw();
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
             }
             outPutCtrl.pushOutput(info);
-            if(outPutCtrl.updateOutPuts!=="") {
+            if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
         });
-        if ( $scope.$parent.$parent.rowkeyOfDataTips!== undefined) {
+        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,
@@ -311,23 +341,23 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
             Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
 
                 var info = null;
-                if (data.errcode==0) {
-                    var sinfo={
-                        "op":"修改RDRESTICTIONR状态成功",
-                        "type":"",
+                if (data.errcode == 0) {
+                    var sinfo = {
+                        "op": "修改RDRESTICTIONR状态成功",
+                        "type": "",
                         "pid": ""
                     };
                     data.data.log.push(sinfo);
-                    info=data.data.log;
-                }else{
-                    info=[{
-                        "op":data.errcode,
-                        "type":data.errmsg,
+                    info = data.data.log;
+                } else {
+                    info = [{
+                        "op": data.errcode,
+                        "type": data.errmsg,
                         "pid": data.errid
                     }];
                 }
                 outPutCtrl.pushOutput(info);
-                if(outPutCtrl.updateOutPuts!=="") {
+                if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
@@ -337,39 +367,38 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     //删除交限
     $scope.$parent.$parent.delete = function () {
         var pid = parseInt($scope.rdRestrictData.pid);
-        var param = 
+        var param =
         {
-            "command":"DELETE",
-            "type":"RDRESTRICTION",
-            "projectId":Application.projectid,
-            "objId":pid
+            "command": "DELETE",
+            "type": "RDRESTRICTION",
+            "projectId": Application.projectid,
+            "objId": pid
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("restriction");
             restrict.redraw();
             var info = null;
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"删除RDRESTICTIONR成功",
-                    "type":"",
+            if (data.errcode == 0) {
+                var sinfo = {
+                    "op": "删除RDRESTICTIONR成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
                 swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
-            if(outPutCtrl.updateOutPuts!=="") {
+            if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
-            console.log("交限 " + pid + " has been removed");
         })
         if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
             var stageParam = {
@@ -382,23 +411,23 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
                 var workPoint = layerCtrl.getLayerById("workPoint");
                 workPoint.redraw();
                 var info = null;
-                if (data.errcode==0) {
-                    var sinfo={
-                        "op":"修改交限状态成功",
-                        "type":"",
+                if (data.errcode == 0) {
+                    var sinfo = {
+                        "op": "修改交限状态成功",
+                        "type": "",
                         "pid": ""
                     };
                     data.data.log.push(sinfo);
-                    info=data.data.log;
-                }else{
-                    info=[{
-                        "op":data.errcode,
-                        "type":data.errmsg,
+                    info = data.data.log;
+                } else {
+                    info = [{
+                        "op": data.errcode,
+                        "type": data.errmsg,
                         "pid": data.errid
                     }];
                 }
                 outPutCtrl.pushOutput(info);
-                if(outPutCtrl.updateOutPuts!=="") {
+                if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
@@ -409,24 +438,28 @@ objectEditApp.controller("normalController", function ($scope,$timeout,$ocLazyLo
     //取消操作
     $scope.$parent.$parent.cancel = function () {
         /*$scope.$parent.$parent.panelFlag = false;
-        $scope.$parent.$parent.objectFlag = false;
-        $scope.$parent.$parent.objectEditURL="";*/
-        $timeout(function(){
+         $scope.$parent.$parent.objectFlag = false;
+         $scope.$parent.$parent.objectEditURL="";*/
+        $timeout(function () {
             $(".data-empty").trigger('click');
             $scope.$apply();
         })
         Application.functions.getRdObjectById($scope.rdRestrictData.pid, "RDRESTRICTION", function (data) {
             $scope.rdRestrictData = data.data;
             $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
-            if(highLightLayer.highLightLayersArr.length!==0) {
+            if (highLightLayer.highLightLayersArr.length !== 0) {
                 highLightLayer.removeHighLightLayers();
             }
             //高亮进入线和退出线
             linksObj["inLink"] = $scope.rdRestrictData["inLinkPid"].toString();
-            for(var i= 0,len=($scope.rdRestrictData.details).length;i<len;i++) {
+            for (var i = 0, len = ($scope.rdRestrictData.details).length; i < len; i++) {
                 linksObj["outLink" + i] = $scope.rdRestrictData.details[i].outLinkPid.toString();
             }
-            var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksObj})
+            var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
+                map: map,
+                highLightFeature: "links",
+                linksObj: linksObj
+            })
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
 

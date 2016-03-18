@@ -91,14 +91,11 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                             if (feature.properties.speedlimitcondition === undefined) {
                                 break;
                             }
-                            var newStyle = "", newGeom = [];
                             var restrictObj = feature.properties.speedlimitcondition;
-                            var geom = feature.geometry.coordinates, newGeom;
-                            if (restrictObj !== undefined) {
+                            var geom = feature.geometry.coordinates, newGeom = [];
+                            if (restrictObj) {
 
-                                var speedFlagstyle = null;
-                                var jttype = null;
-                                var restrictObj = feature.properties.speedlimitcondition;
+                                var speedFlagstyle = null, jttype = null;
                                 var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
                                 var resArray = restrictObj.split("|");
                                 var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
@@ -106,20 +103,20 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                                 var speedValue = resArray[2] / 10;//限速值
                                 if (gaptureFlag === 1) {//理论判断，限速开始和结束都为蓝色
                                     if (speedFlag === 1) {//解除限速
-                                        speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/llend_gray.png'};
+                                        speedFlagstyle = {src: './css/1101/1101_1_1_' + speedValue + '.svg'};
+                                        jttype = {src: './css/1101/1101_1_1_e.svg'};
                                     } else {
-                                        speedFlagstyle = {src: './css/speedLimit/normal/llstart_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/llstart_blue.png'};
+                                        speedFlagstyle = {src: './css/1101/1101_1_0_' + speedValue + '.svg'};
+                                        jttype = {src: './css/1101/1101_1_0_s.svg'};
                                     }
 
                                 } else {//现场采集，限速开始为红色，结束为黑色
                                     if (speedFlag === 1) {//解除限速
-                                        speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/end_black.png'};
+                                        speedFlagstyle = {src: './css/1101/1101_0_1_' + speedValue + '.svg'};
+                                        jttype = {src: './css/1101/1101_0_1_e.svg'};
                                     } else {
-                                        speedFlagstyle = {src: './css/speedLimit/normal/start_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/start_red.png'};
+                                        speedFlagstyle = {src: './css/1101/1101_0_0_' + speedValue + '.svg'};
+                                        jttype = {src: './css/1101/1101_0_0_s.svg'};
                                     }
                                 }
                                 newGeom[0] = (parseInt(geom[0]));
