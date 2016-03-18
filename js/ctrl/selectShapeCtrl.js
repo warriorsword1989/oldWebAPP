@@ -10,6 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
     var highLightLayer = fastmap.uikit.HighLightController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
@@ -258,7 +259,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择关系！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
-            map.on("getNodeId", function (data) {
+            eventController.on(eventController.eventTypes.GETRELATIONID, function (data) {
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, data.optype, function (data) {

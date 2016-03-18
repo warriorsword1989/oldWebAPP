@@ -17,6 +17,7 @@ function init(options) {
             L.setOptions(this, options);
             this._map = this.options.map;
             this.currentEditLayer = this.options.currentEditLayer;
+            this.eventController = fastmap.uikit.EventController();
             this.tiles = this.options.tiles;
             this.transform = new fastmap.mapApi.MecatorTranform();
             this.redrawTiles = [];
@@ -40,7 +41,7 @@ function init(options) {
                                 newGeom[1] = (parseInt(geom[1]));
                                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -52,7 +53,7 @@ function init(options) {
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -72,7 +73,7 @@ function init(options) {
                                 newGeom[1] = (parseInt(geom[1]));
                                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -84,7 +85,7 @@ function init(options) {
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
