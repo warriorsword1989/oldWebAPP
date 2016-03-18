@@ -300,7 +300,35 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 }
             };
         }else{  //如果是种别，需分情况显示
-            this._drawKindSvg(image,g,property,p.x,p.y);
+            if(property.type == '1201'){
+                this._drawKindSvg(image,g,property,p.x,p.y);
+            }else if(property.type == '1203'){
+                this._drawRoadDirec(image,g,property,p.x,p.y);
+            }
+        }
+    },
+    _drawRoadDirec:function(img,g,property,x,y){
+        if(property.srctype == 3){
+            g.strokeStyle = "rgb(4, 187, 245)";  //边框颜色
+            g.fillStyle = 'rgba(4, 187, 245, 0.2)';
+        }else{
+            g.strokeStyle = "#F50404";  //边框颜色
+            g.fillStyle="rgba(245, 4, 4, 0.2)";  //填充的颜色
+        }
+        if(property.direc == 2){
+            img.src = 'css/tips/road/1.svg';
+        }else{
+            img.src = 'css/tips/road/2.svg';
+        }
+        g.linewidth=1;  //边框宽
+        g.fillRect(x-10,y-25,20,20);  //填充颜色 x y坐标 宽 高
+        g.strokeRect(x-10,y-25,20,20);  //填充边框 x y坐标 宽 高
+        img.onload = function () {
+            g.save();
+            g.translate(x, y);
+            g.rotate(property.kind *Math.PI/180);//旋转度数  
+            g.drawImage(img, -img.width / 2, -img.height);
+            g.restore();
         }
     },
     _drawKindSvg:function(img,g,property,x,y){     //种别svg绘制
