@@ -14,6 +14,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                 L.setOptions(this, options);
                 this._map = this.options.map;
                 this.currentEditLayer = this.options.currentEditLayer;
+                this.eventController = fastmap.uikit.EventController();
                 this.tiles = this.options.tiles;
                 this.transform = new fastmap.mapApi.MecatorTranform();
                 this.redrawTiles = [];
@@ -30,7 +31,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
 
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             id = data[item].properties.id;
-                            this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDSPEEDLIMIT'})
+                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDSPEEDLIMIT'})
 
                             if (this.redrawTiles.length != 0) {
                                 this._cleanHeight();

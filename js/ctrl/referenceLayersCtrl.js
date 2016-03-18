@@ -36,7 +36,7 @@ referenceModule.controller('referenceLayersController',function($scope) {
         }
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
-        layerCtrl.fire('layerSwitch', {layerArr: layerCtrl.layers});
+        layerCtrl.eventController.fire('layerSwitch', {layerArr: layerCtrl.layers});
 
     };
 })
