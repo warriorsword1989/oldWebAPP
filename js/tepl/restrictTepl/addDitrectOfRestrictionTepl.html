@@ -39,15 +39,12 @@
         </li>
         <li class="list-group-item">
             <div class="trafficPic ">
-                <img  ng-repeat="addItem in addLimitedData" ng-if="addItem.flag===false" ng-src="./css/limitM/{{addItem.id}}.png" ng-click="selectTip(addItem,$event)">
+                <img  ng-repeat="addItem in addLimitedData" ng-if="addItem.flag===false" ng-src="./css/1302/1302_1_{{addItem.id}}.svg" ng-click="selectTip(addItem,$event)">
             </div>
             <div class="trafficPic ">
-                <img  ng-repeat="addItems in addLimitedData" ng-if="addItems.flag===true" ng-src="./css/limitM/{{addItems.id}}.png" ng-click="selectTip(addItems,$event)">
+                <img  ng-repeat="addItems in addLimitedData" ng-if="addItems.flag===true" ng-src="./css/1302/1302_2_{{addItems.id}}.svg" ng-click="selectTip(addItems,$event)">
             </div>
         </li>
-        <!--<li class="list-group-item"  style="text-align: end">-->
-            <!---->
-        <!--</li>-->
     </ul>
     <div style="padding: 5px 10px;text-align: right">
         <button type="button" class="btn btn-primary btn-xs" style="width: 60px;text-align: center" ng-click="addTips()">
