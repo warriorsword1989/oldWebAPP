@@ -22,6 +22,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.currentEditLayer = this.options.currentEditLayer;
         this.id = this.currentEditLayer.options.id;
         this.tiles = this.currentEditLayer.tiles;
+        this.eventController = fastmap.uikit.EventController();
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
@@ -89,7 +90,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 newGeom[1] = (parseInt(geom[theory][0][1]));
                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                     id = data[item].properties.id;
-                    this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+                    this.eventController.fire(this.eventController.eventTypes.GETCROSSNODEID, {id: id, tips: 0})
                     break;
                 }
             }
@@ -107,13 +108,13 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 var id = data[item].properties.id;
 
                 if (touchids[0] == 0) {
-                    this.currentEditLayer.fire("getId", {
+                    this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.snode
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.snode;
                     break;
                 } else {
-                    this.currentEditLayer.fire("getId", {
+                    this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.enode
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.enode;

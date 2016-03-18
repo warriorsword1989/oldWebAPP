@@ -8,11 +8,6 @@ fastmap.uikit.OutPutController=(function() {
     var instantiated;
     function init(options) {
             var outPutController =  L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            includes: L.Mixin.Events,
 
             options: {
             },
@@ -48,13 +43,6 @@ fastmap.uikit.OutPutController=(function() {
 
             },
 
-            /***
-             * 移除指定的output
-             * @param id
-             */
-            removeOutput:function(id){
-
-            },
             /***
              * 清空
              */

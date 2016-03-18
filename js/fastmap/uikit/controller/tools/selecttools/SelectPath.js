@@ -25,7 +25,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.linksFlag = this.options.linksFlag;
-
+        this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
@@ -91,7 +91,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     id = data[item].properties.id;
 
                     if (this.linksFlag) {
-                        this.currentEditLayer.fire("getId", {id: id,point:point});
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point});
                         this.currentEditLayer.selectedid = id;
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
@@ -99,7 +99,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
                         this._drawHeight(id);
                     } else {
-                        this.currentEditLayer.fire("getOutLinksPid", {id: id});
+                        this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
                     }
 
                     break;

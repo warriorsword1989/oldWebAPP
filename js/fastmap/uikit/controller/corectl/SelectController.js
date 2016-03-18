@@ -9,11 +9,6 @@ fastmap.uikit.SelectController=(function() {
     var instantiated;
     function init(options) {
             var selectController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            includes: L.Mixin.Events,
 
             /**
              * 相关属性
@@ -33,7 +28,6 @@ fastmap.uikit.SelectController=(function() {
                 this.updateTipsCtrl = "";
                 this.updateKindTips = "";
                 this.snapObj= null;
-                this.on("selectByAttribute", this.OnSelectByAttribute, this);
             },
             /**
              * 根据属性获取元素
@@ -70,7 +64,6 @@ fastmap.uikit.SelectController=(function() {
              * @method clear
              */
             clear:function() {
-                this.fire("FeatureCleared",{features:this.selectedFeatures});
                 this.selectedFeatures= [];
             },
 
