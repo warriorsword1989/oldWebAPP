@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/28.
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootScope', function ($scope, $ocLazyLoad,$rootScope) {
     $scope.selectClaArr = $scope.$parent.$parent.classArr;
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -136,8 +136,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
             //清除link层的所有监听事件
-            rdLink.clearAllEventListeners()
-            rdLink.on("getId", function (data) {
+            //rdLink.clearAllEventListeners()
+            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 $scope.data = data;
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
                     if (!$scope.$parent.$parent.panelFlag) {
@@ -199,8 +199,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.toolTipText = '请选择node！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             //清除link层的所有监听事件
-            rdLink.clearAllEventListeners()
-            rdLink.on("getId", function (data) {
+            //rdLink.clearAllEventListeners()
+            eventController.on(eventController.eventTypes.GETNODEID, function (data) {
                 if (!$scope.$parent.$parent.panelFlag) {
                     $scope.$parent.$parent.panelFlag = true;
                     $scope.$parent.$parent.objectFlag = true;
@@ -338,7 +338,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             workPoint.options.editable = true;
             $scope.$parent.$parent.objectEditURL = "";
             var type, propertyCtrl, propertyTepl;
-            workPoint.on("getNodeId", function (data) {
+            eventController.on(eventController.eventTypes.GETTIPSID, function (data) {
                     $scope.data = data;
                     $("#popoverTips").css("display", "block");
                     Application.functions.getTipsResult(data.id, function (data) {
@@ -537,7 +537,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择路口！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
-            rdCross.on("getNodeId", function (data) {
+            eventController.on(eventController.eventTypes.GETCROSSNODEID, function (data) {
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {

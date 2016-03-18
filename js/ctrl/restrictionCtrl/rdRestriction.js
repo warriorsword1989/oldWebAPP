@@ -10,6 +10,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var eventController = fastmap.uikit.EventController();
     var rdRestriction = layerCtrl.getLayerById('restriction');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     var limitPicArr = [];
@@ -178,7 +179,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     $scope.changeOutLink = function (item) {
         var currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink, linksFlag: false});
         currentTool.enable();
-        rdLink.on("getOutLinksPid", function (data) {
+        eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             $scope.$apply(function () {
                 $scope.rdSubRestrictData.outLinkPid = data.id;
             });

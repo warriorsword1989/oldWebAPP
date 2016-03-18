@@ -156,7 +156,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                     scope.objectFlag = true;
                                 }
-                                objEditCtrl.setCurrentObject(data.data);
+                                objEditCtrl.setCurrentObject("RDRESTRICTION",data.data);
                                 if (objEditCtrl.updateObject !== "") {
                                     objEditCtrl.updateObject();
                                 }
@@ -326,7 +326,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 scope.panelFlag = true;
                                 scope.objectFlag = true;
                             }
-                            objEditCtrl.setCurrentObject(data.data);
+                            objEditCtrl.setCurrentObject("RDSPEEDLIMIT",data.data);
                             ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
                                 scope.objectEditURL = "js/tepl/speedLimitTepl.html";
                             });
@@ -497,7 +497,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                     scope.objectFlag = true;
                                 }
-                                objEditCtrl.setCurrentObject(data.data);
+                                objEditCtrl.setCurrentObject("RDBRANCH",data.data);
                                 if (objEditCtrl.updateObject !== "") {
                                     objEditCtrl.updateObject();
                                 }
@@ -573,7 +573,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 scope.panelFlag = true;
                                 scope.objectFlag = true;
                             }
-                            objEditCtrl.setCurrentObject(data.data);
+                            objEditCtrl.setCurrentObject("RDCROSS",data.data);
                             ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                                 scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
                             });
@@ -623,7 +623,7 @@ function keyEvent(ocLazyLoad, scope) {
                             scope.suspendFlag = false;
                         }
                         Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
-                            objEditCtrl.setCurrentObject(data.data);
+                            objEditCtrl.setCurrentObject("RDLANECONNEXITY",data.data);
                             ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
                                 scope.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
                             });

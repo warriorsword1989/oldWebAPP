@@ -10,6 +10,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
+    var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdConnexity = layerCtrl.getLayerById("rdlaneconnexity");
 
@@ -188,7 +189,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 });
             map.currentTool.enable();
             if ($scope.changeFlag) {
-                rdLink.on("getOutLinksPid", function (data) {
+                eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
                     //删除以前高亮的进入线和退出线
                     if (highLightLayer.highLightLayersArr.length !== 0) {
                         highLightLayer.removeHighLightLayers();
@@ -249,7 +250,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             });
         map.currentTool.enable();
         if ($scope.showInfoFlag) {
-            rdLink.on("getOutLinksPid", function (data) {
+            eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
                 //删除以前高亮的进入线和退出线
                 if (highLightLayer.highLightLayersArr.length !== 0) {
                     highLightLayer.removeHighLightLayers();
@@ -307,7 +308,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         //var currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink,linksFlag:false});
         map.currentTool.enable();
         if ($scope.addFlag) {
-            rdLink.on("getOutLinksPid", function (data) {
+            eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
                 //删除以前高亮的进入线和退出线
                 if (highLightLayer.highLightLayersArr.length !== 0) {
                     highLightLayer.removeHighLightLayers();
