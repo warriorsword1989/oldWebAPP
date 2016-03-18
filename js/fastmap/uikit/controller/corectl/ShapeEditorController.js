@@ -8,7 +8,11 @@ fastmap.uikit.ShapeEditorController=(function() {
     var instantiated;
     function init(options) {
         var shapeEditorController = L.Class.extend({
-
+            /**s
+             * 事件管理器
+             * @property includes
+             */
+            includes: L.Mixin.Events,
 
             options: {},
 
