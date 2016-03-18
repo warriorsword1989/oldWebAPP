@@ -29,6 +29,7 @@ fastmap.uikit.ObjectEditController = (function () {
             initialize: function (options) {
                 this.options = options || {};
                 L.setOptions(this, options);
+                this.eventController = fastmap.uikit.EventController();
                 this.data = {};
                 this.originalData = null;
                 this.updateObject = "";
@@ -41,8 +42,6 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.selectNodeRefresh="";
                 this.refreshBranch = "";
                 this.refreshInfo = "";
-                this.on("FeatureSelected", this.setCurrentObject, this);
-                this.on("switchedData", this.setCurrentObject, this);
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -310,7 +309,6 @@ fastmap.uikit.ObjectEditController = (function () {
              */
             onSaved: function (orignalData, data) {
                 this.changedProperty = this.compareJson(orignalData["pid"],orignalData, data.getIntegrate(), "UPDATE");
-                this.fire("changedPropertyEvent", {changedProperty: this.changedProperty});
             }
         });
         return new objectEditController(options);

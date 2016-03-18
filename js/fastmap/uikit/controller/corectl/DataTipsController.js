@@ -72,10 +72,6 @@ fastmap.uikit.DataTipsController = (function () {
 
                     }
                 }
-
-
-                this.fire("switchedData", {switchData: switchData});
-
             },
             /**
              * 增加数据
