@@ -7,6 +7,7 @@ oridinarySpeedApp.controller("oridanarySpeedController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var eventController = fastmap.uikit.EventController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
     $scope.speedTypeOption=[
@@ -74,7 +75,7 @@ oridinarySpeedApp.controller("oridanarySpeedController", function ($scope) {
         sobj.setFinalGeometry(marker);
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
-        editLayer.on("DIRECTEVENT",function(event){
+        eventController.on(eventController.eventTypes.DIRECTEVENT,function(event){
             $scope.speedAndDirect(event.geometry,index);
         })
 

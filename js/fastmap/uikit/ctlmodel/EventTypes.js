@@ -21,7 +21,8 @@ L.Mixin.EventTypes={
     FEATURECLEARED:'featureCleared',
 
     RESETCOMPLETE:'resetComplete',
-    GETBOXDATA:'dataOfBoxEvent'
+    GETBOXDATA:'dataOfBoxEvent',
+    DIRECTEVENT:'directEvent'
 
 
 }
