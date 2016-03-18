@@ -55,11 +55,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     onMouseMove:function(event){
         this.snapHandler.setTargetIndex(0);
         if(this.snapHandler.snaped == true){
-            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
         }else{
-            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':false});
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },

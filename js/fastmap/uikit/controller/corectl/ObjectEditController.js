@@ -64,7 +64,7 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.data = null;
                 switch(type){
                     case "RDNODE":
-                        this.data=new fastmap.dataApi.rdNode(obj)
+                        this.data=fastmap.dataApi.rdnode(obj)
                         if(options) {
                             this.data.linepids = options.linepids;
                             this.data.nodeid = options.nodeid;

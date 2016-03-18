@@ -12,7 +12,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrict = layerCtrl.getLayerById('restriction');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editlayer = layerCtrl.getLayerById('edit');

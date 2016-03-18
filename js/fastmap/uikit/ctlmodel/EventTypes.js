@@ -24,6 +24,7 @@ L.Mixin.EventTypes={
     GETBOXDATA:'dataOfBoxEvent',
 
     DIRECTEVENT:'directEvent',
+    TILEDRAWEND:'tileDrawend',
 
     SNAPED:'snaped',
     STARTSHAPEEDITRESULTFEEDBACK:'startshapeeditresultfeedback',

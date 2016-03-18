@@ -2,12 +2,6 @@
  * Created by liwanchong on 2015/12/22.
  */
 fastmap.uikit.TransformDirection = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
-
     /***
      *
      * @param {Object}options
@@ -27,7 +21,6 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        //this._map.on('mouseup', this.onMouseUp, this);
     },
 
     disable: function () {
@@ -41,7 +34,6 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        //this._map.off('mouseup', this.onMouseUp, this);
     },
 
 
@@ -50,7 +42,6 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
             this._map.dragging.disable();
         }
         var layerPoint = event.layerPoint;
-        //.components
         var geos = this.shapeEditor.shapeEditorResult.getFinalGeometry();
         var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;

@@ -3,12 +3,6 @@
  * Class PathCut
  */
 fastmap.uikit.PathCut = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
-
     /***
      *
      * @param {Object}options
