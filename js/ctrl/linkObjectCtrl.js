@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("mapApp", ['oc.lazyLoad']);
-myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',function ($scope, $ocLazyLoad,$timeout) {
+myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
@@ -17,6 +17,8 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     $scope.brigeIndex=0;
     //改变模块的背景
     $scope.initializeLinkData = function () {
+        var scope=Application.functions.getScope("selectShapeController");
+        console.log(scope);
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
@@ -316,7 +318,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                 objectCtrl.updateObject();
             }
             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
             });
         });
     }

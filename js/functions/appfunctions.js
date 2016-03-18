@@ -1,3 +1,4 @@
+
 /**
  * Created by zhongxiaoming on 2015/10/26.
  * Class appfunctions
@@ -197,3 +198,13 @@ Application.functions.updateCheckType = function(param,func){
             func(data)
         });
 }
+/**
+ * 获取controller中的scope
+ * @param controller
+ * @returns {*}
+ */
+Application.functions.getScope=function(controller) {
+        var getController = document.querySelector('[ng-controller='+controller+']');
+        var scope = angular.element(getController).scope();
+        return scope;
+};

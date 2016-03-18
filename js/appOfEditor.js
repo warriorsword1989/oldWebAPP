@@ -35,6 +35,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
             }
         }
     };
+
+
    $scope.changeSuspendShow=function() {
        if($('.lanePic')) {
            $.each($('.lanePic'),function(i,v){
@@ -327,19 +329,13 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope,
     };
 
 }]);
+
 function appInit(){
     map = L.map('map',{
         attributionControl: false,
         doubleClickZoom:false,
         zoomControl:false
     }).setView([40.012834, 116.476293], 17);
-    /*增加比例尺*/
-//    var scale = L.control.scale({
-//        metric:true,
-//        imperial:false,
-//        position:'bottomleft',
-//        updateWhenIdle:true
-//    }).addTo(map);
     var layerCtrl = new fastmap.uikit.LayerController({config:Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();

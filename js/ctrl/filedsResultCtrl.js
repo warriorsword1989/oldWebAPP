@@ -419,7 +419,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             $scope.$parent.$parent.outErrorArr[3]=false;
                                             $scope.$parent.$parent.outErrorArr[1]=true;
                                         }
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                        $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                         objCtrl.setCurrentObject("RDLINK", d.data);
                                     });
                                 }
@@ -445,7 +445,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     objCtrl.updateObject();
                                 }
                                 $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                     if(! $scope.$parent.$parent.panelFlag ) {
                                         $scope.$parent.$parent.panelFlag = true;
                                         $scope.$parent.$parent.objectFlag = true;
@@ -584,7 +584,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     $scope.$parent.$parent.outErrorArr[3]=false;
                                     $scope.$parent.$parent.outErrorArr[1]=true;
                                 }
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                             });
                         });
 
@@ -618,7 +618,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         $scope.$parent.$parent.outErrorArr[3]=false;
                                         $scope.$parent.$parent.outErrorArr[1]=true;
                                     }
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjectTepl.html";
                                 });
                             });
                         }
@@ -674,7 +674,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     } else if (pItemId === "2001") {//测线
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
-                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/linkObjectCtrl", "js/tepl/currentObjectTepl.html");
+                        $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/linkObjectCtrl", "js/tepl/linkObjTepl/linkObjectTepl.html");
 
                     }
                 })
