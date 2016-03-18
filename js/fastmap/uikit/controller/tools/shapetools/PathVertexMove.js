@@ -4,11 +4,6 @@
  */
 
 fastmap.uikit.PathVertexMove = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
 
     /***
      *
@@ -30,6 +25,7 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        this.eventController = fastmap.uikit.EventController();
     },
 
     /***
@@ -92,21 +88,20 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         }
 
         var that = this;
-        var nodePid = null;
+
         if(this.snapHandler.snaped == true){
-            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.snapHandler.targetIndex = this.targetIndex;
             this.selectCtrl.setSnapObj(this.snapHandler);
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
 
         }else{
-            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
 
         }
 
         that.resetVertex(layerPoint);
-        //this.snapHandler.interLinks = this.interLinks;
-        //this.snapHandler.interNodes = this.interNodes;
+
         that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
     },
 

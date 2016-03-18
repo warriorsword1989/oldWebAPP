@@ -8,11 +8,6 @@ fastmap.uikit.LayerController = (function () {
 
     function init(options) {
         var layerController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            //includes: L.Mixin.Events,
 
             options: {},
             /**
@@ -27,6 +22,7 @@ fastmap.uikit.LayerController = (function () {
                 L.setOptions(this, options);
                 this.config = this.options.config;
                 this.layers = [];
+                this.eventController = fastmap.uikit.EventController();
                 this.highLightLayersArr = [];
                 this.zIndexQueue=[];
                 this.maxZIndex=1;

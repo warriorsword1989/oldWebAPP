@@ -10,12 +10,7 @@
         this.map = this;
         this.mapControl = new this._mapController(this);
         this.currentTool = null;
-        //开始绘制
-        this.on('startshapeeditresultfeedback', function () {
-        });
-        //结束绘制
-        this.on('stopshapeeditresultfeedback', function () {
-        });
+
     },
     /**
      * 地图控件，主要包含操作地图的方法

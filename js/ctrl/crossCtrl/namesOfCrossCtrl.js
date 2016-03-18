@@ -36,7 +36,7 @@ namesOfCross.controller("namesController",function($scope) {
         {"id": "THA", "label": "泰国语"},
         {"id": "TUR", "label": "土耳其语"},
         {"id": "UKR", "label": "乌克兰语"},
-        {"id": "SCR", "label": "克罗地亚语"},
+        {"id": "SCR", "label": "克罗地亚语"}
     ];
     /*路口名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
