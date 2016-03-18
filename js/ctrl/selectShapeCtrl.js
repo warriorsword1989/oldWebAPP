@@ -172,7 +172,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         if ($scope.$parent.$parent.suspendFlag) {
                             $scope.$parent.$parent.suspendFlag = false;
                         }
-                        $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                        $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                     })
                 })
 
@@ -350,7 +350,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                         switch (data.s_sourceType) {
 
                             case "2001"://测线
-                                $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/linkObjectCtrl", "js/tepl/currentObjectTepl.html");
+                                $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/linkObjectCtrl", "js/tepl/linkObjTepl/linkObjectTepl.html");
                                 break;
                             case "1101"://点限速
                                 var speedLimitId = data.id;
@@ -367,7 +367,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                                 $scope.$parent.$parent.objectFlag = true;
                                             }
                                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                             });
                                         });
                                     }
@@ -377,7 +377,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                             case "1201"://种别
                                 type = "RDLINK";
                                 propertyCtrl = "ctrl/linkObjectCtrl";
-                                propertyTepl = "js/tepl/currentObjectTepl.html";
+                                propertyTepl = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                 var categoriesId = data.f.id;
                                 $scope.showTipsOrProperty(data, type, objCtrl, categoriesId, propertyCtrl, propertyTepl);
                                 break;
@@ -470,7 +470,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', function
                                                 $scope.$parent.$parent.objectFlag = true;
                                             }
                                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                                                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                             });
                                         });
                                     }
