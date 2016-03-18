@@ -129,7 +129,7 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout
                      objCtrl.updateObject();
                      }
                      $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                     $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                     $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjectTepl.html";
                      })
                      });*/
                     var sinfo={

@@ -150,12 +150,12 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
             }
 
         }
-        this.walkStairs = [];
+        this.walkstairs = [];
         if (data["walkstairs"]&&data["walkstairs"].length > 0) {
             for(var i= 0,len=data["walkstairs"].length;i<len;i++) {
 
                 var walkStair =  fastmap.dataApi.linkwalkstair(data["walkstairs"][i]);
-                this.walkStairs.push(walkStair);
+                this.walkstairs.push(walkStair);
             }
 
         }

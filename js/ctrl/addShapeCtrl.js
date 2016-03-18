@@ -12,6 +12,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
         var objCtrl=fastmap.uikit.ObjectEditController();
+        var eventController = fastmap.uikit.EventController();
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
@@ -113,7 +114,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
-                rdLink.on("getId", function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:black;");

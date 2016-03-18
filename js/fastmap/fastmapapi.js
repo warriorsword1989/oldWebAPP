@@ -101,6 +101,7 @@
                 "fastmap/mapApi/layer/EditLayer.js",
                 "fastmap/mapApi/layer/GridLayer.js",
                 //uikit/controller/corectl
+                "fastmap/uikit/ctlmodel/EventTypes.js",
                 "fastmap/uikit/controller/corectl/CheckResultController.js",
                 "fastmap/uikit/controller/corectl/DataTipsController.js",
                 "fastmap/uikit/controller/corectl/FeatCodeController.js",
@@ -111,6 +112,7 @@
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
                 "fastmap/uikit/controller/corectl/HighLightController.js",
+                "fastmap/uikit/controller/corectl/EventController.js",
                 //uikit/controller/tools/shapetools
 
                 "fastmap/uikit/controller/tools/shapetools/Snap.js",
