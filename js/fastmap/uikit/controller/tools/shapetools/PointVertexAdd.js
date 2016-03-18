@@ -3,11 +3,6 @@
  * Class PointVertexAdd
  */
 fastmap.uikit.PointVertexAdd = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
 
     /***
      *

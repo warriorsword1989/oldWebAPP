@@ -26,6 +26,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.mecator = this.options.mecator || "";
         this.showNodeLevel = this.options.showNodeLevel;
         this.clickFunction = this.options.clickFunction || null;
+        this.eventController = fastmap.uikit.EventController();
         var that = this;
         this.redrawTiles = [];
         this.drawTile = function (canvas, tilePoint, zoom) {
@@ -1227,7 +1228,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
 
-        this.fire("tileDrawend", {id: ctx.tile.x + ":" + ctx.tile.y, zoom: ctx.zoom});
+        this.eventController.fire(this.eventController.eventTypes.TILEDRAWEND, {layer:this,id: ctx.tile.x + ":" + ctx.tile.y, zoom: ctx.zoom});
     },
     // NOTE: a placeholder for a function that, given a tile context, returns a string to a GeoJSON service that retrieve features for that context
     /***

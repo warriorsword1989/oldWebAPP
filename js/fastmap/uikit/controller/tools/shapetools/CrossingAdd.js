@@ -3,11 +3,6 @@
  */
 fastmap.uikit.CrossingAdd = L.Handler.extend({
     /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
-    /**
      * 参数
      */
     options: {

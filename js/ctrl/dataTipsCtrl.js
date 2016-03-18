@@ -111,52 +111,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
         $scope.rdSubTipsData = item;
         $scope.timeDomain = item.time;
     };
-    //$scope.$parent.$parent.updateDataTips = function (data) {
-    //    //$scope.photos.length = 0;
-    //    //if ($scope.showContent) {
-    //    //    $scope.showContent = "";
-    //    //}
-    //    //$scope.dataTipsData = data;
-    //    //$scope.rdSubTipsData = data.o_array[0];
-    //    ////获取数据中的图片数组
-    //    //$scope.photoTipsData = data.f_array;
-    //    //for (var i in  $scope.photoTipsData) {
-    //    //    if ($scope.photoTipsData[i].type === 1) {
-    //    //        var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
-    //    //        $scope.photos.push(content);
-    //    //    } else if ($scope.photoTipsData[i].type === 3) {
-    //    //        $scope.remarksContent = $scope.photoTipsData[i].content;
-    //    //    }
-    //    //
-    //    //}
-    //    //if ($scope.photos.length != 0 && $scope.photos.length < 4) {
-    //    //    for (var a = $scope.photos.length; a < 4; a++) {
-    //    //        var imgs = "./css/img/noimg.png";
-    //    //        $scope.photos.push(imgs);
-    //    //    }
-    //    //} else {
-    //    //    for (var j = 0; j < 4; j++) {
-    //    //        var newimgs = "./css/img/noimg.png";
-    //    //        $scope.photos.push(newimgs);
-    //    //    }
-    //    //}
-    //    ////获取高亮的线
-    //    //var detailsOfHigh = $scope.dataTipsData.o_array, linksObj = {};
-    //    //linksObj["inLink"] = $scope.dataTipsData.in.id;
-    //    //for (var hiNum = 0, hiLen = detailsOfHigh.length; hiNum < hiLen; hiNum++) {
-    //    //    var outLinksOfHigh = detailsOfHigh[hiNum].out;
-    //    //    if (outLinksOfHigh !== undefined) {
-    //    //        for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
-    //    //
-    //    //            linksObj["outLink" + outNum] = outLinksOfHigh[outNum].id;
-    //    //
-    //    //        }
-    //    //    }
-    //    //
-    //    //}
-    //    ////highLightRestrict.linksObj = linksObj;
-    //
-    //}
      //关闭dataTips面板
     $scope.closeDataTips = function () {
         $("#popoverTips").css("display", "none");
@@ -365,18 +319,6 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
                         workPoint.redraw();
                     $scope.showContent = "外业新增";
                     $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
-                     if (d.errcode === -1) {
-                     return;
-                     }
-                     objCtrl.setCurrentObject(d);
-                     if (objCtrl.updateObject !== "") {
-                     objCtrl.updateObject();
-                     }
-                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                     $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjectTepl.html";
-                     })
-                     });*/
 
                     var sinfo={
                         "op":"修改交限成功",
