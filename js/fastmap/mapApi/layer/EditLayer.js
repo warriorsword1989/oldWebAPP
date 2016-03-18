@@ -17,6 +17,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.options = options || {};
         this.url = url;
         fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
+        this.eventController = fastmap.uikit.EventController();
         this.minShowZoom = this.options.minShowZoom || 9;
         this.maxShowZoom = this.options.maxShowZoom || 18;
         this.eventController = fastmap.uikit.EventController();
@@ -28,10 +29,10 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         var that = this;
         this.shapeEditor = fastmap.uikit.ShapeEditorController();
 
-        this.shapeEditor.on('snaped', function (event) {
+        this.eventController.on(this.eventController.eventTypes.SNAPED, function (event) {
             that.snaped = event.snaped;
         })
-        this.shapeEditor.on('startshapeeditresultfeedback', delegateDraw);
+        this.eventController.on(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, delegateDraw);
         function delegateDraw(event) {
             that.selectCtrl = fastmap.uikit.SelectController();
             if (that.shapeEditor.shapeEditorResult == null) {
@@ -52,8 +53,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         }
 
-        this.shapeEditor.on('stopshapeeditresultfeedback', function () {
-            this.map._container.style.cursor = '';
+        this.eventController.on(this.eventController.eventTypes.STOPSHAPEEDITRESULTFEEDBACK, function () {
+            that.map._container.style.cursor = '';
 
             var coordinate1 = [];
             if (that.drawGeometry) {
@@ -65,7 +66,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
         });
 
-        this.shapeEditor.on('abortshapeeditresultfeedback', function () {
+        this.eventController.on(this.eventController.eventTypes.ABORTSHAPEEDITRESULTFEEDBACK, function () {
             that.drawGeometry = that.shapEditor.shapeEditorResult.getOriginalGeometry();
             that.shapEditor.shapeEditorResult.setFinalGeometry(that.drawGeometry.clone());
 
@@ -310,7 +311,6 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * 清空图层
      */
     clear: function () {
-        //this.shapeEditor.shapeEditorResult.setFinalGeometry(null);
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
 

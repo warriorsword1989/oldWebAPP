@@ -18,6 +18,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
+        this.eventController = fastmap.uikit.EventController();
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
         this._mapDraggable = this._map.dragging.enabled();
@@ -145,7 +146,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this.snapHandler.setTargetIndex(0);
         var that = this;
         if (this.snapHandler.snaped == true) {
-            this.shapeEditor.fire('snaped', {'snaped': true});
+            this.eventController.fire( this.eventController.eventTypes.SNAPED, {'snaped': true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1], this.snapHandler.snapLatlng[0])
             this.insertPoint = fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat);
             if (this.clickcount > 1) {
@@ -164,7 +165,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                 }
             });
         } else {
-            this.shapeEditor.fire('snaped', {'snaped': false});
+            this.eventController.fire( this.eventController.eventTypes.SNAPED, {'snaped': false});
 
             this.insertPoint = fastmap.mapApi.point(this._map.layerPointToLatLng(layerPoint).lng, this._map.layerPointToLatLng(layerPoint).lat);
             if (this.clickcount > 1) {
