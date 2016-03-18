@@ -24,9 +24,6 @@ referenceModule.controller('referenceLayersController',function($scope) {
         }
 
         for(var layer in layerCtrl.layers){
-            //if(!(item instanceof fastmap.mapApi.TileJSON || item instanceof fastmap.mapApi.MeshLayer) &&layerCtrl.layers[layer].options.visible ===true && !(layerCtrl.layers[layer] instanceof fastmap.mapApi.TileJSON ||layerCtrl.layers[layer] instanceof fastmap.mapApi.MeshLayer)){
-            //    layerCtrl.layers[layer].options.visible = false;
-            //}
             if(item.options['singleselect'] == true){
                 if(layerCtrl.layers[layer].options['singleselect'] === true && item.options.visible != true){
                     layerCtrl.layers[layer].options.visible = false

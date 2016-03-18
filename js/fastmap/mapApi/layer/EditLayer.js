@@ -20,6 +20,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         this.eventController = fastmap.uikit.EventController();
         this.minShowZoom = this.options.minShowZoom || 9;
         this.maxShowZoom = this.options.maxShowZoom || 18;
+        this.eventController = fastmap.uikit.EventController();
         this.initEvent();
         this.drawGeometry = null;
     },
@@ -284,7 +285,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 g.drawImage(img, 0, 0);
                 g.restore();
                 currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
-                self.fire("DIRECTEVENT",{"geometry":currentGeo})
+                self.eventController.fire(self.eventController.eventTypes.DIRECTEVENT,{"geometry":currentGeo})
             })
 
         }

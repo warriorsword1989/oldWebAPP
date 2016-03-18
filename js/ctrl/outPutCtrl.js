@@ -7,7 +7,6 @@ outPutModule.controller('outPutController', function ($scope, $timeout) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = new fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
-   // $scope.outputtext=output.outPuts.join("\n----------------------------------\n");
     output.updateOutPuts=function(){
         var outValue=output.outPuts;
         var info=[];
@@ -20,7 +19,6 @@ outPutModule.controller('outPutController', function ($scope, $timeout) {
             $scope.outValue = "";
         }else{
             $scope.$apply(function(){
-               // $scope.outputtext = outValue.join("\n----------------------------------\n");
                 $scope.outValue=info;
             })
         }

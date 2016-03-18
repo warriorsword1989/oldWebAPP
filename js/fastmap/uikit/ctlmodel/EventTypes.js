@@ -23,6 +23,8 @@ L.Mixin.EventTypes={
     RESETCOMPLETE:'resetComplete',
     GETBOXDATA:'dataOfBoxEvent',
 
+    DIRECTEVENT:'directEvent',
+
     SNAPED:'snaped',
     STARTSHAPEEDITRESULTFEEDBACK:'startshapeeditresultfeedback',
     ABORTSHAPEEDITRESULTFEEDBACK:'abortshapeeditresultfeedback',

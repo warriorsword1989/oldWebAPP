@@ -3,17 +3,12 @@
  */
 var errorCheckModule = angular.module('lazymodule', ['smart-table']);
 errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
-    var checkOutCtrl = fastmap.uikit.CheckResultController();
-    var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
-    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrict = layerCtrl.getLayerById('referencePoint');
-    var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
+    var restrictLayer = layerCtrl.getLayerById("referencePoint");
     $scope.itemsByPage = 1;
     $scope.initType=0;
     $scope.initTypeOptions = [
@@ -36,10 +31,7 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
         });
     }
 
-    var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrictLayer = layerCtrl.getLayerById("referencePoint");
-    var workPoint = layerCtrl.getLayerById("workPoint");
-    var highLightLayer = fastmap.uikit.HighLightController();
+
     $scope.showOnMap=function(targets){
         if (highLightLayer.highLightLayersArr.length !== 0) {
             highLightLayer.removeHighLightLayers();
@@ -48,15 +40,12 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
         var value1=value.replace("]","");
 
         var type=value1.split(",")[0].replace("_","");
-        //type="RDSPEEDLIMIT";
         var id=value1.split(",")[1];
-        //id="0211019bd50acfa67949ce8f23a3640b249562";
         if(type=="RDLINK"){
             Application.functions.getRdObjectById(id, type, function (d) {
                 if (d.errcode === -1) {
                     return;
                 }
-                //map.setView([d.data.geometry.coordinates[0][1], d.data.geometry.coordinates[0][0]], 19)
                 var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var point =L.latLng(linkArr[i][1],linkArr[i][0]);
@@ -65,7 +54,6 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
                 var line =new L.polyline(points);
                 var bounds = line.getBounds();
                 map.fitBounds(bounds,{"maxZoom":19});
-                //map.fitBounds([[points[0].lng,points[0].lat],[points[1].lng,points[1].lat]],{"maxZoom":20})
 
                 //随着地图的变化 高亮的线不变
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {

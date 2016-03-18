@@ -34,7 +34,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        // console.log(divergenceIds)
         objCtrl.setOriginalData(divergenceIds);
     }
     $scope.setOriginalDataFunc();
