@@ -20,6 +20,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
         //this.container = this._map._container;
         //this._mapDraggable = this._map.dragging.enabled();
         this.currentEditLayer = this.options.currentEditLayer;
+        this.eventController = fastmap.uikit.EventController();
         this.tiles = this.currentEditLayer.tiles;
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
@@ -64,7 +65,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                 if(data[item].geometry.coordinates.length <= 2){
                     if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                         id = data[item].properties.id;
-                        this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+                        this.eventController.on(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0})
 
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
@@ -84,7 +85,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     for(var i=0;i<temp.length;i++){
                         if (this._TouchesPoint(temp[i], x, y, 27)) {
                             id = data[item].properties.id;
-                            this.currentEditLayer.fire("getNodeId", {id: id, tips: 0})
+                            this.eventController.on(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0})
                             if (this.redrawTiles.length != 0) {
                                 this._cleanHeight();
                             }

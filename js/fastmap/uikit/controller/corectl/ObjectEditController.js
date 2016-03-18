@@ -10,11 +10,7 @@ fastmap.uikit.ObjectEditController = (function () {
 
     function init(options) {
         var objectEditController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            includes: L.Mixin.Events,
+
             /**
              * 相关属性
              */
@@ -41,8 +37,7 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.selectNodeRefresh="";
                 this.refreshBranch = "";
                 this.refreshInfo = "";
-                this.on("FeatureSelected", this.setCurrentObject, this);
-                this.on("switchedData", this.setCurrentObject, this);
+             
             },
             /**
              * 保存需要编辑的元素的原数据

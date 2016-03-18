@@ -8,11 +8,6 @@ fastmap.uikit.LayerController = (function () {
 
     function init(options) {
         var layerController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            //includes: L.Mixin.Events,
 
             options: {},
             /**
