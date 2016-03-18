@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/2/18.
  */
 var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
-app.controller('RoadEditController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
+app.controller('RoadEditController', ['$scope', '$ocLazyLoad','$rootScope', function ($scope, $ocLazyLoad,$rootScope) {
     $scope.showLoading = true;
     dragF('toolsDiv');
     //dragF('toolsDiv1');

@@ -72,8 +72,6 @@ fastmap.uikit.DataTipsController = (function () {
 
                     }
                 }
-
-
             },
             /**
              * 增加数据

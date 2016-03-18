@@ -43,7 +43,6 @@ fastmap.uikit.OutPutController=(function() {
 
             },
 
-
             /***
              * 清空
              */

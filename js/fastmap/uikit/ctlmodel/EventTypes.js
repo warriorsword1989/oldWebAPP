@@ -11,11 +11,17 @@ L.Mixin.EventTypes={
     LAYERONSHOW:'layerOnShow',
     LAYERONEDIT:'layerOnEdit',
     GETRELATIONID:'getRelationId',
+
     GETOUTLINKSPID:'getOutLinksPid',
     GETNODEID:'getNodeId',
     GETCROSSNODEID:'getCorssNodeId',
     GETTIPSID:'getTipsId',
     SELECTBYATTRIBUTE:'selectByAttribute',
     FEATURESELECTED:'featureSelected',
-    FEATURECLEARED:'featureCleared'
+    FEATURECLEARED:'featureCleared',
+
+    RESETCOMPLETE:'resetComplete',
+    GETBOXDATA:'dataOfBoxEvent'
+
+
 }

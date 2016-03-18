@@ -24,6 +24,7 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
         this.targetPoint = null;
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
+        this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
@@ -81,7 +82,12 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
 
     resetVertex:function(latlng){
         this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(latlng.lng, latlng.lat));
-        this.shapeEditor.fire('resetcomplete',{'property':this.snapHandler.properties,'geometry':this.snapHandler.coordinates});
+        this.eventController.fire(this.eventController.eventTypes.RESETCOMPLETE,
+            {
+                'property':this.snapHandler.properties,
+                'geometry':this.snapHandler.coordinates
+            }
+        );
     }
 
 

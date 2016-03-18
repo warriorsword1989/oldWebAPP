@@ -6,9 +6,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-    var checkCtrl = fastmap.uikit.CheckResultController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.data;
@@ -67,7 +66,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
     map.currentTool.enable();
     $scope.excitLineArr = [];
-    rdLink.on("getId", function (data) {
+    eventController.on(eventController.eventTypes.GETLINKID, function (data) {
         if (data.index === 0) {
             $scope.laneConnexity.inLinkPid = parseInt(data.id);
             tooltipsCtrl.setStyleTooltip("color:black;");
