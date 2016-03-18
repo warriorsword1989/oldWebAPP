@@ -10,6 +10,8 @@ L.Mixin.EventTypes={
     LAYERONSWITCH:'layerSwitch',
     LAYERONSHOW:'layerOnShow',
     LAYERONEDIT:'layerOnEdit',
-    GETRELATIONID:'getRelationId'
+    GETRELATIONID:'getRelationId',
+    RESETCOMPLETE:'resetComplete',
+    GETBOXDATA:'dataOfBoxEvent'
 
 }

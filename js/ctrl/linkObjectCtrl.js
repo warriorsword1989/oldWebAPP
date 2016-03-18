@@ -2,7 +2,7 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("mapApp", ['oc.lazyLoad']);
-myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
+myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
@@ -17,8 +17,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad',function ($scope
     $scope.brigeIndex=0;
     //改变模块的背景
     $scope.initializeLinkData = function () {
-        var scope=Application.functions.getScope("selectShapeController");
-        console.log(scope);
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;

@@ -64,8 +64,6 @@ fastmap.uikit.SelectController=(function() {
              */
             onSelected:function(features) {
                 this.selectedFeatures = features;
-
-                this.fire("FeatureSelected",{features:features});
             },
             /**
              * 清空存放数据的数组
