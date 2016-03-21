@@ -2,13 +2,6 @@
  * Created by wangtun on 2016/3/15.
  */
 fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
-    pid:null,
-    signboardId:null,
-    branchPid:"",
-    svgfileCode:"",
-    arrowCode:"",
-    memo:"",
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -18,9 +11,9 @@ fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
         this.pid = data["pid"];
         this.branchPid = data["branchPid"];
         this.signboardId = data["signboardId"];
-        this.arrowCode = data["arrowCode"];
-        this.memo = data["memo"];
-        this.svgfileCode = data["svgfileCode"];
+        this.arrowCode = data["arrowCode"] || "";
+        this.memo = data["memo"] || "";
+        this.svgfileCode = data["svgfileCode"] || "";
     },
 
     getIntegrate:function(){

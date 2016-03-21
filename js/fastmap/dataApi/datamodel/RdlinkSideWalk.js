@@ -4,57 +4,6 @@
  */
 
 fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param linkPid
-     * 道路Id
-     */
-    linkPid:null,
-
-    /***
-     * @param sideWalkLoc
-     * 位置关系
-     */
-    sideWalkLoc:0,
-
-    /***
-     * @param dividerType
-     * 隔离方式
-     */
-    dividerType:0,
-
-    /***
-     * @param workDir
-     * 作业方向
-     */
-    workDir:0,
-
-    /***
-     * @param processFlag
-     * 处理标识
-     */
-    processFlag:0,
-
-    /***
-     * @param captureFlag
-     * 采集标识
-     */
-    captureFlag:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
      * @param data 初始化属性对象
@@ -74,13 +23,12 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
+        this.rowId= data["rowId"] || "";
         this.sideWalkLoc = data["sideWalkLoc"] || 0;
         this.dividerType = data["dividerType"] || 0;
         this.workDir = data["workDir"] || 0;
         this.processFlag = data["processFlag"] || 0;
         this.captureFlag= data["captureFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
     },
 
     /**
@@ -91,14 +39,13 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["sideWalkLoc"] = this.sideWalkLoc || 0;
-        data["dividerType"] = this.dividerType || 0;
-        data["workDir"] = this.workDir || 0;
-        data["processFlag"] = this.processFlag || 0;
-        data["captureFlag"] = this.captureFlag || 0;
-        data["uRecord"] = this.uRecord|| 0;
-        data["uFields"]  = this.uFields|| "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["sideWalkLoc"] = this.sideWalkLoc;
+        data["dividerType"] = this.dividerType;
+        data["workDir"] = this.workDir;
+        data["processFlag"] = this.processFlag;
+        data["captureFlag"] = this.captureFlag;
         return data;
     },
 
@@ -110,14 +57,13 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["sideWalkLoc"] = this.sideWalkLoc || 0;
-        data["dividerType"] = this.dividerType || 0;
-        data["workDir"] = this.workDir || 0;
-        data["processFlag"] = this.processFlag || 0;
-        data["captureFlag"] = this.captureFlag || 0;
-        data["uRecord"] = this.uRecord|| 0;
-        data["uFields"]  = this.uFields|| "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["sideWalkLoc"] = this.sideWalkLoc;
+        data["dividerType"] = this.dividerType;
+        data["workDir"] = this.workDir;
+        data["processFlag"] = this.processFlag;
+        data["captureFlag"] = this.captureFlag;
         return data;
     }
 });

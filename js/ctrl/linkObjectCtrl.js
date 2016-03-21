@@ -2,12 +2,12 @@
  * Created by liwanchong on 2015/10/29.
  */
 var myApp = angular.module("mapApp", ['oc.lazyLoad']);
-myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',function ($scope, $ocLazyLoad,$timeout) {
+myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var linksObj = {}, rdLink = layerCtrl.getLayerById("referenceLine");
+    var rdLink = layerCtrl.getLayerById("referenceLine");
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -15,32 +15,11 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
-
-    $scope.isActive = [true, false, false, false, false, false];
-    $scope.notAcitive=[false,true,true,true,true,true];
     //改变模块的背景
-    $scope.changeActive = function (id) {
-        for (var num = 0, len = $scope.isActive.length; num < len; num++) {
-            if (num === id) {
-                $scope.isActive[num] = true;
-                $scope.notAcitive[num]=false;
-            } else {
-                $scope.isActive[num] = false;
-                $scope.notAcitive[num]=true;
-            }
-        }
-    }
     $scope.initializeLinkData = function () {
         $scope.dataTipsData = selectCtrl.rowKey;
-        if(objectCtrl.data.data){
-            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data.data));
-            $scope.linkData = objectCtrl.data.data;
-        }else if(objectCtrl.data){
-            objectCtrl.setOriginalData($.extend(true, {}, objectCtrl.data));
-            $scope.linkData = objectCtrl.data;
-        }
-       // $("#basicModule").css("background-color", "#49C2FC");
-        $scope.changeActive(0);
+        objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
+        $scope.linkData = objectCtrl.data;
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
             $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
         });
@@ -81,7 +60,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
     };
     //获取某个模块的信息
     $scope.changeModule = function (url,ind) {
-        //$scope.changeActive(ind);
+
         var a= $("#fm-link-tabControl a");
         $.each(a,function(i,value){
             if(ind==i){
@@ -95,38 +74,30 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         $scope.$parent.$parent.suspendFlag = false;
         $scope.$parent.$parent.suspendObjURL = "";
         if (url === "basicModule") {
-            //$scope.changeActive(0);
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
             });
         } else if (url === "paginationModule") {
-           // $scope.changeActive(2);
             $ocLazyLoad.load('ctrl/linkCtrl/pedestrianNaviCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
-            //$scope.changeActive(3);
             $ocLazyLoad.load('ctrl/linkCtrl/realtimeTrafficCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/realtimeTrafficTepl.html";
             });
         } else if (url === "zoneModule") {
-           // $scope.changeActive(4);
             $ocLazyLoad.load('ctrl/linkCtrl/zonePeopertyCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/zonePeopertyTepl.html";
             });
         } else if (url === "limitedModule") {
-           // $scope.changeActive(1);
             $ocLazyLoad.load('ctrl/linkCtrl/limitedCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/limitedTepl.html";
             });
         } else if (url == "otherModule") {
-            //$scope.changeActive(5);
             $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
             });
         }
-        //$("#currentObjectDiv").find(":button").css("background-color", "#fff");
-        //$(".btn btn-primary").css("background-color", "#49C2FC");
     }
     $scope.angleOfLink=function(pointA,pointB) {
         var PI = Math.PI,angle;
@@ -165,19 +136,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
-
-    $scope.addSideWalk = function () {
-        if (!$("#sideWalkDiv").hasClass("in")) {
-            $("#sideWalkDiv").addClass("in");
-        }
-        $scope.naviData.sideWalkData = {
-            sidewalkLoc: "4",
-            dividerType: "2",
-            workDir: "2",
-            processFlag: "1",
-            captureFlag: "1"
-        }
-    };
     $scope.$parent.$parent.save = function () {
         if($scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = false;
@@ -212,7 +170,6 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                     delete v.pid;
             });
         }
-        objectCtrl.setCurrentObject($scope.linkData);
         objectCtrl.save();
         if(objectCtrl.changedProperty.limits){
             if(objectCtrl.changedProperty.limits.length > 0){
@@ -241,12 +198,13 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
         for(var key in objectCtrl.changedProperty){
             objLength++;
         }
-        if(objLength == 3){
-            swal("操作失败", '没有修改内容', "error");
-            return;
-        }
+        //if(objLength == 3){
+        //    swal("操作失败", '没有修改内容', "error");
+        //    return;
+        //}
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
+            objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
             if (data.errcode==0) {
                 rdLink.redraw();
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
@@ -358,7 +316,7 @@ myApp.controller('linkObjectCtroller', ['$scope', '$ocLazyLoad','$timeout',funct
                 objectCtrl.updateObject();
             }
             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
+                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
             });
         });
     }

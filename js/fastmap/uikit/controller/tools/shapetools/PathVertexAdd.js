@@ -4,11 +4,6 @@
  */
 
 fastmap.uikit.PathVertexAdd = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
 
     /***
      *
@@ -30,6 +25,7 @@ fastmap.uikit.PathVertexAdd = L.Handler.extend({
         this.insertPoint = null;
         this.start = false;
         this.end = false;
+        this.eventController = fastmap.uikit.EventController();
     },
 
     /***

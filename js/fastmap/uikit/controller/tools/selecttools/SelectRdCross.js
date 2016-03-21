@@ -13,6 +13,7 @@ fastmap.uikit.SelectRdCross = (function () {
                 L.setOptions(this, options);
                 this._map = this.options.map;
                 this.currentEditLayer = this.options.currentEditLayer;
+                this.eventController = fastmap.uikit.EventController();
                 this.tiles = this.options.tiles;
                 this.transform = new fastmap.mapApi.MecatorTranform();
                 this.redrawTiles = [];
@@ -32,7 +33,7 @@ fastmap.uikit.SelectRdCross = (function () {
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
                                 id = data[item].properties.id;
-                                this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDCROSS'})
+                                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDCROSS'})
 
                                 if (this.redrawTiles.length != 0) {
                                     this._cleanHeight();

@@ -3,11 +3,6 @@
  */
 
 fastmap.uikit.HighLightRender = L.Class.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
     initialize: function (layer, options) {
         this.options = options || {};
         this._map = this.options.map;
@@ -24,9 +19,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.restrictId = this.options.restrictId;//高亮交限的id
         this.initFlag = this.options.initFlag || false;//当地图变化时,才能激发this.draw()函数
         this.cleanHighLight = "";
+        this.eventController = fastmap.uikit.EventController();
         var that = this;
-        this.layer.on("getId", this.getFeature, this);
-        this.layer.on("tileDrawend", function (e) {
+        this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function (e) {
             if (that.initFlag) {
 
                 that.draw(e);
@@ -516,7 +511,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
     },
     draw: function (e) {
-        this.tiles = e.target.tiles;
+        this.tiles = e.layer.tiles;
         var tile = this.tiles[e.id];
         var zoom = e.zoom;
         if (this.highLightFeature === "links") {

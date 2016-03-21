@@ -4,71 +4,9 @@
  */
 
 fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param linkPid
-     * 道路Id
-     */
-    linkPid:null,
-    /***
-     * @param limitDir
-     * 限制方向
-     */
-    limitDir:0,
-    /***
-     * @param timeDomain
-     * 时间段
-     */
-    timeDomain:"",
-
-    /***
-     * @param resTrailer
-     * 拖挂车限制
-     */
-    resTrailer:0,
-
-    /***
-     * @param resWeigh
-     * 车辆限重
-     */
-    resWeigh:0,
-
-    /***
-     * @param resAxleLoad
-     * 限制轴重
-     */
-    resAxleLoad:0,
-
-    /***
-     * @param resAxleCount
-     * 限制轴数
-     */
-    resAxleCount:0,
-
-    /***
-     * @param resOut
-     * 本外埠车辆限制
-     */
-    resOut:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
-     * @param id id
-     * @param point 初始化rdnode的点
+     * @param data data
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
@@ -76,15 +14,13 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
-        else{
-            this.id = data["linkPid"];
-        }
 
         this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
+        this.rowId= data["rowId"] || "";
         this.limitDir = data["limitDir"] || 0;
         this.timeDomain = data["timeDomain"] || "";
         this.resTrailer = data["resTrailer"] || 0;
@@ -104,16 +40,15 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid  || "";
-        data["limitDir"]  = this.limitDir || 0;
-        data["timeDomain"] = this.timeDomain || "";
-        data["resTrailer"]  = this.resTrailer || 0;
-        data["resWeigh"] = this.resWeigh  || 0;
-        data["resAxleLoad"] = this.resAxleLoad ||0;
-        data["resAxleCount"]  = this.resAxleCount || 0;
-        data["resOut"] = this.resOut || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["limitDir"]  = this.limitDir;
+        data["timeDomain"] = this.timeDomain;
+        data["resTrailer"]  = this.resTrailer;
+        data["resWeigh"] = this.resWeigh;
+        data["resAxleLoad"] = this.resAxleLoad;
+        data["resAxleCount"]  = this.resAxleCount;
+        data["resOut"] = this.resOut;
         return data;
     },
 
@@ -125,16 +60,15 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid  || "";
-        data["limitDir"]  = this.limitDir || 0;
-        data["timeDomain"] = this.timeDomain || "";
-        data["resTrailer"]  = this.resTrailer || 0;
-        data["resWeigh"] = this.resWeigh  || 0;
-        data["resAxleLoad"] = this.resAxleLoad ||0;
-        data["resAxleCount"]  = this.resAxleCount || 0;
-        data["resOut"] = this.resOut || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["limitDir"]  = this.limitDir;
+        data["timeDomain"] = this.timeDomain;
+        data["resTrailer"]  = this.resTrailer;
+        data["resWeigh"] = this.resWeigh;
+        data["resAxleLoad"] = this.resAxleLoad;
+        data["resAxleCount"]  = this.resAxleCount;
+        data["resOut"] = this.resOut;
         return data;
     }
 });

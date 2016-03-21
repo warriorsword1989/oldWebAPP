@@ -140,23 +140,12 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         $scope.fmdateTimer(str);
     }
     $scope.addLimit=function() {
-        if(!$("#popularLimitedDiv").hasClass("in")) {
-            $("#popularLimitedDiv").addClass("in");
-        }
-        $scope.linkLimitData.limits.unshift( {
-            //appInfo: 1,
-            type: 1,
-            limitDir: 1,
-            tollType: 1,
-            weather: 1,
-            processFlag: 1,
-            linkPid:0,
-            vehicle:6
-        });
+        var newLimit = fastmap.dataApi.linklimit({"linkPid":$scope.linkLimitData.pid});
+        $scope.linkLimitData.limits.unshift(newLimit);
 
-        setTimeout(function() {
-            $scope.showvehicle($scope.linkLimitData.limits[$scope.linkLimitData.limits.length - 1].vehicle, $scope.linkLimitData.limits.length - 1);
-        });
+        //setTimeout(function() {
+        //    $scope.showvehicle($scope.linkLimitData.limits[$scope.linkLimitData.limits.length - 1].vehicle, $scope.linkLimitData.limits.length - 1);
+        //});
     };
     $scope.slideShow = function(target){
         $("#popularLimitedDiv").collapse('hide');
@@ -183,19 +172,8 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         $scope.linkLimitData.limits.splice(id, 1);
     };
     $scope.addLimitTruck = function () {
-        $scope.linkLimitData.limitTrucks.unshift(
-            {
-               // truckFlag: 0,
-                limitDir: 1,
-                resTrailer: 1,
-                resWeigh: 0,
-                resAxleLoad: 0,
-                resAxleCount: 0,
-                resOut: 0,
-                rowId:"",
-                linkPid:0
-            }
-        )
+        var newTruckLimit = fastmap.dataApi.linktrucklimit({"linkPid":$scope.linkLimitData.pid});
+        $scope.linkLimitData.limitTrucks.unshift(newTruckLimit);
         $scope.truckFlagarray.push(0);
     };
     $scope.minusLimitTruck=function(id) {

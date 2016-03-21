@@ -36,7 +36,7 @@ namesOfCross.controller("namesController",function($scope) {
         {"id": "THA", "label": "泰国语"},
         {"id": "TUR", "label": "土耳其语"},
         {"id": "UKR", "label": "乌克兰语"},
-        {"id": "SCR", "label": "克罗地亚语"},
+        {"id": "SCR", "label": "克罗地亚语"}
     ];
     /*路口名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
@@ -73,14 +73,7 @@ namesOfCross.controller("namesController",function($scope) {
                 }
             }
         }
-
-        $scope.names.unshift({
-            nameId: 0,
-            nameGroupid: maxNum + 1,
-            langCode: "CHI",
-            name: "",
-            phonetic: "",
-            srcFlag: 0
-        })
+        var newName = fastmap.dataApi.rdcrossname({nameGroupid: maxNum + 1});
+        $scope.names.unshift(newName);
     }
 })

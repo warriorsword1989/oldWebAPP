@@ -12,6 +12,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
         var objCtrl=fastmap.uikit.ObjectEditController();
+        var eventController = fastmap.uikit.EventController();
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
@@ -113,7 +114,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
-                rdLink.on("getId", function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:black;");
@@ -173,9 +174,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setChangeInnerHtml("点击增加限速!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
 
-                shapeCtrl.on('resetcomplete', function (e) {
+                eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                     var pro = e.property;
-                    var geo = e.geometry;
                     Application.functions.getRdObjectById(pro.id, "RDLINK", function (data) {
                         if (data.errcode == 0) {
                             selectCtrl.onSelected({
@@ -240,7 +240,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
-                rdLink.on("getId", function (data) {
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:black;");
@@ -271,7 +271,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     initFlag: true
                 });
                 highLightLayer.pushHighLightLayers(highLightLink);
-                map.on("dataOfBoxEvent", function (event) {
+                eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data, options = {};
                     if (linksArr.length === 0) {
                         linksArr = data["crossLinks"];
