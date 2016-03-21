@@ -18,6 +18,7 @@ fastmap.uikit.SelectRdBranch = (function () {
                 L.setOptions(this, options);
                 this._map = this.options.map;
                 this.currentEditLayer = this.options.currentEditLayer;
+                this.eventController = fastmap.uikit.EventController();
                 this.tiles = this.options.tiles;
                 this.transform = new fastmap.mapApi.MecatorTranform();
                 this.redrawTiles = [];
@@ -35,7 +36,7 @@ fastmap.uikit.SelectRdBranch = (function () {
 
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             id = data[item].properties.SpeedDivergencecondition[0].ids[0].detailId;
-                            this._map.fire("getNodeId", {detailid: id, tips: 0, optype: 'RDBRANCH'})
+                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {detailid: id, tips: 0, optype: 'RDBRANCH'})
 
                             if (this.redrawTiles.length != 0) {
                                 this._cleanHeight();
@@ -83,7 +84,7 @@ fastmap.uikit.SelectRdBranch = (function () {
 
                 for (var index in this.redrawTiles) {
                     var data = this.redrawTiles[index].data;
-                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+                    //this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
                     var ctx = {
                         canvas: this.redrawTiles[index].options.context,
                         tile: this.redrawTiles[index].options.context._tilePoint

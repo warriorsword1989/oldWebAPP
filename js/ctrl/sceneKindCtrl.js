@@ -5,14 +5,9 @@ var dataTipsApp = angular.module("lazymodule", ['oc.lazyLoad']);
 dataTipsApp.controller("sceneKindCtrl", function ($scope, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
-    var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
-    var checkCtrl = fastmap.uikit.CheckResultController();
-    var outPutCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
 
     //清除地图上的高亮的feature

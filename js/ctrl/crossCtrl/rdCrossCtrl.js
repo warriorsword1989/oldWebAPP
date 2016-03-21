@@ -16,7 +16,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     });
     highLightLayer.pushHighLightLayers(highLightLink);
     $scope.initializeRdCrossData = function () {
-        objCtrl.setOriginalData($.extend(true, {}, objCtrl.data));
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
         var links = $scope.rdCrossData.links,linkArr=[];
         for(var i= 0,len=links.length;i<len;i++) {
@@ -32,7 +32,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     };
     $scope.refreshData = function () {
         Application.functions.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS", function (data) {
-            objCtrl.data = data.data;
+            objCtrl.setCurrentObject("RDCROSS", data.data);
             $scope.initializeRdCrossData();
         })
     };
@@ -47,7 +47,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     };
 
     $scope.$parent.$parent.save = function () {
-        objCtrl.setCurrentObject($scope.rdCrossData);
         objCtrl.save();
         var param = {
             "command": "UPDATE",

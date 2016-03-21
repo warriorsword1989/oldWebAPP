@@ -8,7 +8,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var ly = fastmap.uikit.LayerController();
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
-    var rdLink = ly.getLayerById('referenceLine');
     var editLyer = ly.getLayerById('edit');
 
     map.currentTool = shapeCtrl.getCurrentTool();

@@ -2,10 +2,6 @@
  * Created by zhongxiaoming on 2015/11/4.
  * Class SelectMultiPath
  */
-/**
- * Created by zhongxiaoming on 2015/9/18.
- * Class PathVertexInsert
- */
 
 fastmap.uikit.SelectForRestriction = L.Handler.extend({
     /**
@@ -28,6 +24,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
         this.currentEditLayer = this.options.currentEditLayer;
 
+        this.eventController = fastmap.uikit.EventController();
         this.tiles = this.currentEditLayer.tiles;
 
         this.transform = new fastmap.mapApi.MecatorTranform();
@@ -87,12 +84,12 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
                     if (id == this.selectedFeatures[0]) {
                         if (touchids[0] == 0) {
-                            this.currentEditLayer.fire("getId", {
+                            this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                 id: data[item].properties.snode,
                                 index: this.selectedFeatures.length
                             })
                         } else {
-                            this.currentEditLayer.fire("getId", {
+                            this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                 id: data[item].properties.enode,
                                 index: this.selectedFeatures.length
                             })
@@ -114,7 +111,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
             for (var item in data) {
                 if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                     var id = data[item].properties.id;
-                    this.currentEditLayer.fire("getId", {id: id, index: this.selectedFeatures.length})
+                    this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id, index: this.selectedFeatures.length})
                     this.selectedFeatures.push(id)
                     if (this.selectedFeatures.length === 1) {
                         this._drawLineHeight(id, {

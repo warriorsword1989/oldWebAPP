@@ -8,7 +8,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
         {code: '4', value: '三',name: '周三'},
         {code: '5', value: '四',name: '周四'},
         {code: '6', value: '五',name: '周五'},
-        {code: '7', value: '六',name: '周六'},
+        {code: '7', value: '六',name: '周六'}
     ];
     /*固定时间星期*/
     wks.selection = wks.values[0];
@@ -76,7 +76,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     {
       code: 12,
       label: '12月'
-    },
+    }
     ];
     /*持续时间--开始月份*/
     mons.begin = mons.values[0];
@@ -1070,7 +1070,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         '周三':4,
                         '周四':5,
                         '周五':6,
-                        '周六':7,
+                        '周六':7
                     }
                     $.each(checksList.sort(function(a,b){return compareData[a]- compareData[b]}),function(i,v){
                         if(i == checksList.sort(function(a,b){return compareData[a]- compareData[b]}).length-1){

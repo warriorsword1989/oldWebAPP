@@ -4,73 +4,6 @@
  */
 
 fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param linkPid
-     * 道路Id
-     */
-    linkPid:null,
-    /***
-     * @param nameGroupId
-     * 名称组号
-     */
-    nameGroupId:0,
-    /***
-     * @param seqNum
-     * 名称序号
-     */
-    seqNum:1,
-
-    /***
-     * @param nameClass
-     * 名称分类
-     */
-    nameClass:1,
-
-    /***
-     * @param inputTime
-     * 录入时间
-     */
-    inputTime:0,
-
-    /***
-     * @param nameType
-     * 名称类型
-     */
-    nameType:0,
-
-    /***
-     * @param srcFlag
-     * 名称来源
-     */
-    srcFlag:9,
-
-    /***
-     * @param routeAtt
-     * 路线属性
-     */
-    routeAtt:0,
-
-    /***
-     * @param code
-     * 主从Code
-     */
-    code:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
      * @param data 初始化属性对象
@@ -90,7 +23,8 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
-        this.nameGroupId = data["nameGroupId"] || 0;
+        this.rowId= data["rowId"] || "";
+        this.nameGroupid = data["nameGroupid"] || 0;
         this.seqNum = data["seqNum"] || 1;
         this.nameClass = data["nameClass"] || 1;
         this.inputTime = data["inputTime"] || "";
@@ -98,8 +32,6 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
         this.srcFlag = data["srcFlag"] || 9;
         this.routeAtt = data["routeAtt"] || 0;
         this.code = data["code"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
     },
 
     /**
@@ -111,7 +43,8 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot:function() {
         var data = {};
         data["linkPid"] = this.linkPid || "";
-        data["nameGroupId"] = this.nameGroupId  || 0;
+        data["rowId"] = this.rowId|| "";
+        data["nameGroupid"] = this.nameGroupid  || 0;
         data["seqNum"] = this.seqNum || 1;
         data["nameClass"] = this.nameClass || 1;
         data["inputTime"] = this.inputTime || "";
@@ -119,8 +52,6 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
         data["srcFlag"]= this.srcFlag || 9;
         data["routeAtt"] = this.routeAtt  || 0;
         data["code"]  = this.code || 0;
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
         return data;
     },
 
@@ -133,7 +64,8 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function() {
         var data = {};
         data["linkPid"] = this.linkPid || "";
-        data["nameGroupId"] = this.nameGroupId  || 0;
+        data["rowId"] = this.rowId|| "";
+        data["nameGroupid"] = this.nameGroupid  || 0;
         data["seqNum"] = this.seqNum || 1;
         data["nameClass"] = this.nameClass || 1;
         data["inputTime"] = this.inputTime || "";
@@ -141,8 +73,6 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
         data["srcFlag"]= this.srcFlag || 9;
         data["routeAtt"] = this.routeAtt  || 0;
         data["code"]  = this.code || 0;
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
         return data;
     }
 });

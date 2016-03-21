@@ -9,6 +9,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
     var highLightLayer = fastmap.uikit.HighLightController();
+
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
@@ -65,8 +66,8 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":2,"label":"路上点"}
     ];
     $scope.initializeNodeData=function() {
-        $scope.rdNodeData=objectEditCtrl.data.data;
-        objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data.data));
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        $scope.rdNodeData=objectEditCtrl.data;
         if($scope.rdNodeData.forms.length>0){
             $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
             $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
@@ -92,7 +93,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
 
     };
 
-    if(objectEditCtrl.data.data) {
+    if(objectEditCtrl.data) {
         $scope.initializeNodeData();
     }
     objectEditCtrl.nodeObjRefresh=function() {
@@ -144,7 +145,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     }
 
     $scope.$parent.$parent.save = function () {
-        objectEditCtrl.setCurrentObject($scope.rdNodeData);
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -154,7 +154,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         }
         if(!objectEditCtrl.changedProperty){
             swal("操作失败", '沒有做任何操作', "error");
-            reutrn;
+            return;
         }
         if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
             $.each(objectEditCtrl.changedProperty.forms,function(i,v){

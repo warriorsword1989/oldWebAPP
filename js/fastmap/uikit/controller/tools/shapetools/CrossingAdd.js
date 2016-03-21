@@ -3,11 +3,6 @@
  */
 fastmap.uikit.CrossingAdd = L.Handler.extend({
     /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
-    /**
      * 参数
      */
     options: {
@@ -33,6 +28,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         this._map = options.map;
         this.boxLayer = options.layer;
         this._container = this._map._container;
+        this.eventController = fastmap.uikit.EventController();
     },
 
     /***
@@ -119,7 +115,9 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
         var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
-        this._map.fire('dataOfBoxEvent', {data: dataOfRectangle, layerType: this.type});
+
+        this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
+            {data: dataOfRectangle, layerType: this.type});
     },
     _arrayToWeigh: function (arr) {
         var hash = {},

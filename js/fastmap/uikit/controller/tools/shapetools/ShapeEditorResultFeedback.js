@@ -4,16 +4,13 @@
  */
 
 fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
+
 
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
-        this.shapeEditor = this.options.shapeEditor;
+
+        this.eventController = fastmap.uikit.EventController();
         this.tooltip = {};
         this.map = {};
     },
@@ -24,14 +21,14 @@ fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
      * @constructor
      */
     setupFeedback: function (data) {
-        this.shapeEditor.fire('startshapeeditresultfeedback', data);
+        this.eventController.fire(this.eventController.eventTypes.STARTSHAPEEDITRESULTFEEDBACK, data);
     },
 
     /***
      * 放弃编辑
      */
     abortFeedback: function(data){
-        this.shapeEditor.fire('abortshapeeditresultfeedback', data);
+        this.eventController.fire(this.eventController.eventTypes.ABORTSHAPEEDITRESULTFEEDBACK, data);
     },
 
     showTooltip: function () {
@@ -42,6 +39,6 @@ fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
      * 停止编辑
      */
     stopFeedback: function () {
-        this.shapeEditor.fire('stopshapeeditresultfeedback');
+        this.eventController.fire(this.eventController.eventTypes.STOPSHAPEEDITRESULTFEEDBACK);
     }
 })
