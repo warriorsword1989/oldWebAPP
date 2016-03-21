@@ -147,8 +147,46 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
                 break;
             case "1302":
+                //高亮
+                var detailsOfHigh = $scope.dataTipsData.o_array, linksObj = {};
+                linksObj["inLink"] = $scope.dataTipsData.in.id;
+                for (var hiNum = 0, hiLen = detailsOfHigh.length; hiNum < hiLen; hiNum++) {
+                    var outLinksOfHigh = detailsOfHigh[hiNum].out;
+                    if (outLinksOfHigh !== undefined) {
+                        for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
+
+                            linksObj["outLink" + outNum] = outLinksOfHigh[outNum].id;
+
+                        }
+                    }
+
+                }
+                var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
+                    map: map,
+                    highLightFeature: "links",
+                    linksObj: linksObj
+                })
+                highLightLinks.drawOfLinksForInit();
+                highLightLayer.pushHighLightLayers(highLightLinks);
+                var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+                    map: map,
+                    highLightFeature: "dataTips",
+                    dataTips: $scope.dataTipsData.rowkey
+                });
+                highLightDataTips.drawTipsForInit();
+                highLightLayer.pushHighLightLayers(highLightDataTips);
                 break;
             case "1407":
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.in.id;
+                /*模式图号*/
+                $scope.schemaNo = $scope.dataTipsData.ptn;
+                $scope.scheName=$scope.dataTipsData.name;
+                /*退出*/
+                $scope.sceneExit = [];
+                $.each($scope.dataTipsData.o_array,function(i,v){
+                    $scope.sceneExit.push(v.out.id);
+                });
                 break;
             case "1510"://桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
@@ -431,6 +469,68 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
+            }
+        }else if ($scope.dataTipsData.s_sourceType === "1302") {
+            var outLink = "", details = [], detailsOfTips = [];
+            //$scope.$parent.$parent.rdRestrictData.inLinkPid = this.dataTipsData.in.id;
+            var rdRestrictData = objCtrl.data;
+            details = this.dataTipsData.o_array;
+            for (var i = 0, len = details.length; i < len; i++) {
+                var outLinks = details[i].out, outLinkObj = {};
+                if (outLinks) {
+                    for (var j = 0, lenJ = outLinks.length; j < lenJ; j++) {
+                        outLinkObj.conditions = [];
+                        outLinkObj.outLinkPid = outLinks[j].id;
+                        outLinkObj.flag = details[i].flag;
+                        outLinkObj.relationshipType = 0;
+                        outLinkObj.restricInfo = details[i].oInfo;
+                        outLinkObj.type = outLinks[j].type;
+                        if (details[i].vt === 1) {
+                            var cArr = details[i].c_array;
+                            for (var k = 0, lenk = cArr.length; k < lenk; k++) {
+                                var cObj = {};
+                                cObj.resAxleCount = cArr[k].aCt;
+                                cObj.resAxleLoad = cArr[k].aLd;
+                                cObj.resOut = cArr[k].rOt;
+                                cObj.resTrailer = cArr[k].tra;
+                                cObj.resWeigh = cArr[k].w;
+                                cObj.timeDomain = cArr[k].time;
+                                cObj.vehicle = 4;
+                                outLinkObj.conditions.push(cObj);
+                            }
+                        }
+                    }
+                } else {
+                    outLinkObj.conditions = [];
+                    outLinkObj.outLinkPid = "无退出线";
+                    outLinkObj.flag = details[i].flag;
+                    outLinkObj.relationshipType = 0;
+                    outLinkObj.restricInfo = details[i].oInfo;
+                    outLinkObj.type = outLinks[j].type;
+                    if (details[i].vt === 1) {
+                        var cArr = details[i].c_array;
+                        for (var k = 0, lenk = cArr.length; k < lenk; k++) {
+                            var cObj = {};
+                            cObj.resAxleCount = cArr[k].aCt;
+                            cObj.resAxleLoad = cArr[k].aLd;
+                            cObj.resOut = cArr[k].rOt;
+                            cObj.resTrailer = cArr[k].tra;
+                            cObj.resWeigh = cArr[k].w;
+                            cObj.timeDomain = cArr[k].time;
+                            cObj.vehicle = 4;
+                            outLinkObj.conditions.push(cObj);
+                        }
+                    }
+                }
+
+                detailsOfTips.push(outLinkObj);
+
+            }
+            rdRestrictData.details = detailsOfTips;
+            rdRestrictData.stage = 3;
+            objCtrl.setCurrentObject(rdRestrictData);
+            if (objCtrl.updateObject !== "") {
+                objCtrl.updateObject();
             }
         }
 
