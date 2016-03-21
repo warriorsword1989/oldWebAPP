@@ -13,10 +13,20 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad','$rootScope', func
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.suspendObjURL = "";
     $scope.save = function() {
+        if ($scope.suspendFlag) {
+            $scope.suspendFlag = false;
+        }
         eventController.fire(eventController.eventTypes.SAVEPROPERTY,{"data":"test"})
     };//保存方法
-    $scope.delete = "";//删除方法
-    $scope.cancel = "";//取消
+    $scope.delete = function() {
+        eventController.fire(eventController.eventTypes.DELETEPROPERTY,{"data":"test"})
+    };//删除方法
+    $scope.cancel = function() {
+        $scope.panelFlag = false;
+        $scope.objectFlag = false;
+        $scope.objectEditURL="";
+        eventController.fire(eventController.eventTypes.CANCELEVENT,{"data":"test"})
+    };//取消
     $scope.rowkeyOfDataTips = "";
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听

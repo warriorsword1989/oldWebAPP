@@ -9,6 +9,8 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById('speedlimit');
+    var eventController = fastmap.uikit.EventController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
@@ -85,7 +87,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             $scope.$apply();
         }, 100);
     }
-    $scope.$parent.$parent.save = function () {
+    $scope.save = function () {
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -118,7 +120,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             }
         })
     };
-    $scope.$parent.$parent.delete = function () {
+    $scope.delete = function () {
         var objId = parseInt($scope.speedLimitData.pid);
         var param = {
             "command": "DELETE",
@@ -127,26 +129,26 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             "objId": objId
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            if(data.errcode===-1) {
+            if (data.errcode === -1) {
                 return;
             }
             speedLimit.redraw();
             $scope.speedLimitData = null;
             $scope.speedLimitGeometryData = null;
             $scope.$parent.$parent.objectEditURL = "";
-            var info=null;
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"删除RDSPEEDLIMIT成功",
-                    "type":"",
+            var info = null;
+            if (data.errcode == 0) {
+                var sinfo = {
+                    "op": "删除RDSPEEDLIMIT成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
             }
@@ -159,7 +161,10 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             }
 
         })
-    }
+    };
+    $scope.cancel=function() {
+
+    };
 
 
     //箭头方向
@@ -190,4 +195,8 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 });

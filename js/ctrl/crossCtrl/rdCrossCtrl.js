@@ -9,6 +9,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdcross = layerCtrl.getLayerById('rdcross');
+    var eventController = fastmap.uikit.EventController();
     var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
         map: map,
         highLightFeature: "linksOfCross",
@@ -114,7 +115,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         })
 
     };
-    $scope.$parent.$parent.delete = function () {
+    $scope.delete = function () {
         var objId = parseInt($scope.rdCrossData.pid);
         var param = {
             "command": "DELETE",
@@ -150,9 +151,10 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         })
     }
 
-    $scope.$parent.$parent.cancel=function(){
-        $scope.$parent.$parent.panelFlag = false;
-        $scope.$parent.$parent.objectFlag = false;
-        $scope.$parent.$parent.objectEditURL="";
+    $scope.cancel=function(){
     }
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 });
