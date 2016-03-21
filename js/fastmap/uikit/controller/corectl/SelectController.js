@@ -28,6 +28,8 @@ fastmap.uikit.SelectController=(function() {
                 this.updateTipsCtrl = "";
                 this.updateKindTips = "";
                 this.snapObj= null;
+                var eventController = fastmap.uikit.EventController();
+                eventController.on(eventController.eventTypes.SELECTBYATTRIBUTE, this.OnSelectByAttribute,this);
             },
             /**
              * 根据属性获取元素

@@ -13,6 +13,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = new fastmap.uikit.SelectController();
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
+    var eventController = fastmap.uikit.EventController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
     //改变模块的背景
@@ -136,10 +137,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
-    $scope.$parent.$parent.save = function () {
-        if($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
+    $scope.save = function () {
+        console.log(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]);
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -191,20 +190,17 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             "projectId": Application.projectid,
             "data": objectCtrl.changedProperty
         };
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
-        var objLength = 0;
-        for(var key in objectCtrl.changedProperty){
-            objLength++;
-        }
-        //if(objLength == 3){
-        //    swal("操作失败", '没有修改内容', "error");
-        //    return;
+        //var objLength = 0;
+        //for(var key in objectCtrl.changedProperty){
+        //    objLength++;
         //}
+        ////if(objLength == 3){
+        ////    swal("操作失败", '没有修改内容', "error");
+        ////    return;
+        ////}
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
-            objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
+            //objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
             if (data.errcode==0) {
                 rdLink.redraw();
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
@@ -220,14 +216,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                if(data.errcode==0){
-                    swal("操作成功",'保存成功！', "success");
-
-                }
-            } else {
-                swal("操作失败", data.errmsg, "error");
-            }
-            if (data.errcode==0) {
+                swal("操作成功",'保存成功！', "success");
                 var sinfo={
                     "op":"修改道路link成功",
                     "type":"",
@@ -235,7 +224,9 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
-            }else{
+
+            } else {
+                swal("操作失败", data.errmsg, "error");
                 info=[{
                     "op":data.errcode,
                     "type":data.errmsg,
@@ -249,7 +240,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         })
 
     };
-    $scope.$parent.$parent.delete = function () {
+    $scope.delete = function () {
         var objId = parseInt($scope.linkData.pid);
         var param = {
             "command": "DELETE",
@@ -297,9 +288,9 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         })
     }
 
-    $scope.changeLink=function(ind,linkid){
+    $scope.changeLink=function(ind,linkId){
         $scope.brigeIndex=ind;
-        Application.functions.getRdObjectById(linkid, "RDLINK", function (data) {
+        Application.functions.getRdObjectById(linkId, "RDLINK", function (data) {
             if (data.errcode === -1) {
                 return;
             }
@@ -320,11 +311,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             });
         });
     }
-    $scope.$parent.$parent.cancel=function(){
-            $scope.$parent.$parent.panelFlag = false;
-            $scope.$parent.$parent.objectFlag = false;
-            $scope.$parent.$parent.objectEditURL="";
+    $scope.cancel=function(){
     }
-
+    //eventController.off(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
 
 }]);

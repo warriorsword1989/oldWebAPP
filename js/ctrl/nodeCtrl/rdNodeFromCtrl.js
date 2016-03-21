@@ -9,7 +9,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
     var highLightLayer = fastmap.uikit.HighLightController();
-
+    var eventController = fastmap.uikit.EventController();
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
@@ -144,7 +144,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.roadlinkData.forms.splice(type, 1);
     }
 
-    $scope.$parent.$parent.save = function () {
+    $scope.save = function () {
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -167,9 +167,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 return v;
             });
         }
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
+
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
@@ -196,7 +194,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         });
     }
 
-    $scope.$parent.$parent.delete=function(){
+    $scope.delete=function(){
         var pid = parseInt($scope.rdNodeData.pid);
         var param =
         {
@@ -207,10 +205,8 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var restrict = layerCtrl.getLayerById("referenceLine");
-            restrict.redraw();
+            rdLink.redraw();
             var info=[];
-            var info = null;
             if (data.errcode==0) {
                 var sinfo={
                     "op":"删除RDNODE成功",
@@ -233,9 +229,11 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             }
         })
     }
-    $scope.$parent.$parent.cancel=function(){
-        $scope.$parent.$parent.panelFlag = false;
-        $scope.$parent.$parent.objectFlag = false;
-        $scope.$parent.$parent.objectEditURL="";
+    $scope.cancel=function(){
     }
+    //eventController.off(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 })
