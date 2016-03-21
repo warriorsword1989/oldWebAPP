@@ -344,8 +344,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         if (data.rowkey === "undefined") {
                             return;
                         }
-                        selectCtrl.fire("selectByAttribute", {feather: data});
-
 
                         switch (data.s_sourceType) {
 

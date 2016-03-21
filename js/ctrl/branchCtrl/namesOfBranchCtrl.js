@@ -4,13 +4,12 @@
 var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
 namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var divergenceIds = null;
-    var newObjData = {};
-    var linksOfRestric = {};
+    var divergenceIds = null,newObjData = {}, linksOfRestric = {};
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
+    var eventController = fastmap.uikit.EventController();
     divergenceIds = objCtrl.data;
     $scope.divergenceIds = divergenceIds;
     $scope.diverId = divergenceIds.pid;
@@ -342,7 +341,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $scope.changeArrowPosition();
     }
     /*保存分歧数据*/
-    $scope.$parent.$parent.save = function () {
+    $scope.save = function () {
         if(!$scope.diverObj){
             swal("操作失败", "请输入属性值！", "error");
             return false;
@@ -404,7 +403,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
 
 
     /*删除pid*/
-    $scope.$parent.$parent.delete = function(){
+    $scope.delete = function(){
         swal({
             title: "确定操作吗？",
             text: "你确定要删除此PID数据吗？",
@@ -449,10 +448,16 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         });
     }
     /*取消属性编辑*/
-    $scope.$parent.$parent.cancel = function(){
-        $scope.$parent.$parent.panelFlag = false;
-        $scope.$parent.$parent.objectFlag = false;
-        $scope.$parent.$parent.objectEditURL="";
+    $scope.cancel = function(){
         $scope.getObjectById(false);
     }
+    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 })

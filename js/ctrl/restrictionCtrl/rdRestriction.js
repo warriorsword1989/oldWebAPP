@@ -271,7 +271,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         }, 100);
     }
     //修改属性
-    $scope.$parent.$parent.save = function () {
+    $scope.save = function () {
         var index = $(".show-tips.active").attr('data-index');
         //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
         var resultStr = "";
@@ -366,7 +366,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         }
     };
     //删除交限
-    $scope.$parent.$parent.delete = function () {
+    $scope.delete = function () {
         var pid = parseInt($scope.rdRestrictData.pid);
         var param =
         {
@@ -437,7 +437,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         }
     }
     //取消操作
-    $scope.$parent.$parent.cancel = function () {
+    $scope.cancel = function () {
         $timeout(function () {
             $(".data-empty").trigger('click');
             $scope.$apply();
@@ -466,5 +466,14 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             $scope.$apply();
         });
 
+    };
+    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
     }
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 });
