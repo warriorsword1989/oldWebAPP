@@ -393,7 +393,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
-                    selectCtrl.fire("selectByAttribute", {feather: data});
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var center=map.getCenter();
