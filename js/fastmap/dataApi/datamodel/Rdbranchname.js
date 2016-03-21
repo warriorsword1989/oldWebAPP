@@ -2,19 +2,6 @@
  * Created by wangtun on 2016/3/15.
  */
 fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
-    pid:null,
-    seqNum:1,
-    nameGroupId:1,
-    detailId:0,
-    nameClass:0,
-    langCode:"CHI",
-    codeType:0,
-    name:"",
-    phonetic:"",
-    srcFlag:0,
-    voiceFile:"",
-
-
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.setAttributeData(data);
@@ -22,16 +9,16 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
 
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.seqNum = data["seqNum"];
-        this.nameGroupId = data["nameGroupId"];
+        this.seqNum = data["seqNum"] || 1;
+        this.nameGroupId = data["nameGroupId"] || 1;
         this.detailId = data["detailId"];
-        this.nameClass = data["nameClass"];
-        this.langCode = data["langCode"];
-        this.codeType = data["codeType"];
-        this.name = data["name"];
-        this.phonetic = data["phonetic"];
-        this.srcFlag = data["srcFlag"];
-        this.voiceFile = data["voiceFile"];
+        this.nameClass = data["nameClass"] || 0;
+        this.langCode = data["langCode"] || "CHI";
+        this.codeType = data["codeType"] || 0;
+        this.name = data["name"] || "";
+        this.phonetic = data["phonetic"] || "";
+        this.srcFlag = data["srcFlag"] || 0;
+        this.voiceFile = data["voiceFile"] || "";
     },
 
     getIntegrate:function(){
@@ -66,3 +53,12 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+/***
+ * rdBranchName 名字初始化函数
+ * @param data 分歧名字数据
+ * @param options 其他可选参数
+ * @returns {.dataApi.rdBranchName}
+ */
+fastmap.dataApi.rdbranchname = function (data, options) {
+    return new fastmap.dataApi.rdBranchName(data, options);
+}

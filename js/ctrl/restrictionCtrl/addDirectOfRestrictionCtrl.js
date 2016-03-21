@@ -11,16 +11,10 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
         {"id": 2,"flag":false},
         {"id": 3,"flag":false},
         {"id": 4,"flag":false},
-        {"id": 5,"flag":false},
-        {"id": 6,"flag":false},
-        {"id": 7,"flag":false},
-        {"id": 11,"flag":true},
-        {"id": 22,"flag":true},
-        {"id": 33,"flag":true},
-        {"id": 44,"flag":true},
-        {"id": 55,"flag":true},
-        {"id": 66,"flag":true},
-        {"id": 77,"flag":true}
+        {"id": 1,"flag":true},
+        {"id": 2,"flag":true},
+        {"id": 3,"flag":true},
+        {"id": 4,"flag":true}
 
     ];
     $scope.removeImgActive = function(){
@@ -39,14 +33,19 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
         obj.outLinkPid = 0; //$scope.rdLink.outPid;
         obj.pid = 0;//featCodeCtrl.newObj.pid;
         obj.relationshipType = 1;
-        obj.flag = 1;
-        obj.restricPid = 0// featCodeCtrl.newObj.pid;
         obj.type = 1;
+        obj.restricPid = 0// featCodeCtrl.newObj.pid;
+        if(item.flag) {
+            obj.flag = 2;
+
+        }else{
+            obj.flag = 1;
+        }
+
         obj.conditons = [];
         $scope.newLimited = obj;
 
     };
-    var picArr = [];
     //添加交限
     $scope.addTips = function () {
         if ($scope.modifyItem !== undefined) {
@@ -63,13 +62,15 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
                 alert("请先选择tips");
                 return;
             }
-            $.each($scope.addDirectData.details,function(i,v){
-                picArr.push(v.restricInfo);
-            });
-            if($.inArray($scope.newLimited.restricInfo, picArr) == -1 && $scope.newLimited!=''){
-                $scope.addDirectData.details.unshift($scope.newLimited);
-                //limitPicArr.unshift('');
+            $scope.addDirectData.details.unshift($scope.newLimited);
+            if($scope.newLimited.type===1) {
+                $scope.addDirectData.restrictInfo += "," + $scope.newLimited.restricInfo;
+            }else{
+                var newDirect = ",[" + $scope.newLimited.restricInfo + "]";
+                $scope.addDirectData.restrictInfo += newDirect;
+
             }
+
             $scope.removeImgActive();
             $scope.newLimited = '';
             $timeout(function(){

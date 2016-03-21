@@ -4,11 +4,6 @@
  */
 
 fastmap.uikit.PathVertexRemove = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
 
     /***
      *
@@ -26,7 +21,7 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this.targetIndex = null;
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
-
+        this.eventController = fastmap.uikit.EventController();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
     },
     /***
@@ -110,11 +105,11 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this.snapHandler.setTargetIndex(this.targetIndex);
         var that = this;
         if(this.snapHandler.snaped == true){
-            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
             that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
         }else{
-            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
             that.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
 

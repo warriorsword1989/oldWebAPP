@@ -10,11 +10,7 @@ fastmap.uikit.ObjectEditController = (function () {
 
     function init(options) {
         var objectEditController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            includes: L.Mixin.Events,
+
             /**
              * 相关属性
              */
@@ -29,6 +25,7 @@ fastmap.uikit.ObjectEditController = (function () {
             initialize: function (options) {
                 this.options = options || {};
                 L.setOptions(this, options);
+                this.eventController = fastmap.uikit.EventController();
                 this.data = {};
                 this.originalData = null;
                 this.updateObject = "";
@@ -41,8 +38,6 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.selectNodeRefresh="";
                 this.refreshBranch = "";
                 this.refreshInfo = "";
-                this.on("FeatureSelected", this.setCurrentObject, this);
-                this.on("switchedData", this.setCurrentObject, this);
             },
             /**
              * 保存需要编辑的元素的原数据
@@ -62,9 +57,43 @@ fastmap.uikit.ObjectEditController = (function () {
              * 保存当前元素
              * @method setCurrentObject
              * @param {Object}obj
+             * @param type
+             * @param options
              */
-            setCurrentObject: function (obj) {
-                this.data = obj;
+            setCurrentObject: function (type,obj,options) {
+                this.data = null;
+                switch(type){
+                    case "RDNODE":
+                        this.data=fastmap.dataApi.rdnode(obj)
+                        if(options) {
+                            this.data.linepids = options.linepids;
+                            this.data.nodeid = options.nodeid;
+                        }
+
+                        break;
+                    case "RDLINK":
+                        this.data =  fastmap.dataApi.rdlink(obj);
+                        break;
+                    case "RDRESTRICTION":
+                        this.data=fastmap.dataApi.rdrestriction(obj)
+                        break;
+                    case "RDCROSS":
+                        this.data=fastmap.dataApi.rdcross(obj)
+                        break;
+                    case "RDLANECONNEXITY":
+                        this.data=fastmap.dataApi.rdlaneconnexity(obj)
+                        break;
+                    case "RDSPEEDLIMIT":
+                        this.data=fastmap.dataApi.rdspeedlimit(obj)
+                        break;
+                    case "RDBRANCH":
+                        this.data = fastmap.dataApi.rdbranch(obj);
+                        break;
+                    default:
+                        throw "无法解析当前选择的类型!";
+                        break;
+                }
+
 
             },
             /**
@@ -275,8 +304,7 @@ fastmap.uikit.ObjectEditController = (function () {
              * @param {Object}data
              */
             onSaved: function (orignalData, data) {
-                this.changedProperty = this.compareJson(orignalData["pid"],orignalData, data, "UPDATE");
-                this.fire("changedPropertyEvent", {changedProperty: this.changedProperty});
+                this.changedProperty = this.compareJson(orignalData["pid"],orignalData, data.getIntegrate(), "UPDATE");
             }
         });
         return new objectEditController(options);

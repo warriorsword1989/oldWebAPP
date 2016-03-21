@@ -4,397 +4,16 @@
  */
 
 fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-
-    /***
-     * @param linkPid
-     * 起点link的PID
-     */
-    linkPid:"",
-
-    /***
-     * @param sNodePid
-     * 起点Node的PID
-     */
-    sNodePid:null,
-
-    /***
-     * @param eNodePid
-     * 终点Node的PID
-     */
-    eNodePid:null,
-
-    /***
-     * @param kind
-     * 道路类型
-     */
-    kind:7,
-    /***
-     * @param direct
-     * 道路通行方向
-     */
-    direct:1,
-
-    /*
-     *  @param appInfo
-     *  供用信息
-     */
-    appInfo:1,
-
-    /*
-     *  @param tollInfo
-     *  收费信息
-     */
-    tollInfo:2,
-
-    /*
-     * @param routeAdopt
-     * 路径采纳
-     */
-    routeAdopt:2,
-
-    /*
-     * @param multiDigitized
-     * 上下线分离
-     */
-    multiDigitized:0,
-
-    /*
-     * @param developState
-     * 开发状态
-     */
-    developState:0,
-
-    /*
-     * @param imiCode
-     * IMI代码
-     */
-    imiCode:0,
-
-    /*
-     * @param specialTraffic
-     * 特殊交通
-     */
-    specialTraffic:0,
-
-    /*
-     * @param functionClass
-     * 功能等级
-     */
-    functionClass:5,
-
-    /*
-     * @param urban
-     * 城市道路
-     */
-    urban:0,
-
-    /*
-     * @param paveStatus
-     * 铺设状态
-     */
-    paveStatus:0,
-
-    /*
-     * @param laneNum
-     * 总车道数
-     */
-    laneNum:2,
-
-    /*
-     * @param laneLeft
-     * 左车道数
-     */
-    laneLeft:0,
-
-    /*
-     * @param LANE_RIGHT
-     * 右车道数
-     */
-    laneRight:0,
-
-    /*
-     * @param laneWidthLeft
-     * 逆向车道宽度标识
-     */
-    laneWidthLeft:1,
-
-    /*
-     * @param LANE_WIDTH_RIGHT
-     * 顺向车道宽度标识
-     */
-    laneWidthRight:1,
-
-    /*
-     * @param laneClass
-     * 车道等级
-     */
-    laneClass:2,
-
-    /*
-     * @param width
-     * 道路幅宽
-     */
-    width:0,
-
-    /*
-     * @param isViaduct
-     * 是否高架
-     */
-    isViaduct:0,
-
-    /*
-     * @param leftRegionId
-     * 左区划号码
-     */
-    leftRegionId:0,
-
-    /*
-     * @param rightRegionId
-     * 右区划号码
-     */
-    rightRegionId:0,
-
-    /*
-     * @param geometry
-     * LINK坐标
-     */
-    geometry:null,
-
-    /*
-     * @param length
-     * LINK长度
-     */
-    length:0,
-
-    /*
-     * @param meshId
-     * 图幅号码
-     */
-    meshId:0,
-
-    /*
-     * @param onewayMark
-     * 单方向标注
-     */
-    onewayMark:0,
-
-    /*
-     * @param streetLight
-     * 路灯设施
-     */
-    streetLight:0,
-
-    /*
-     * @param parkingLot
-     * 停车设施
-     */
-    parkingLot:0,
-
-    /*
-     * @param adasFlag
-     * ADAS标识
-     */
-    adasFlag:0,
-
-    /*
-     * @param sidewalkFlag
-     * 人行便道标记
-     */
-    sidewalkFlag:0,
-
-    /*
-     * @param WALKSTAIR_FLAG
-     * 人行阶梯标记
-     */
-    walkstairtFlag:0,
-
-    /*
-     * @param dictType
-     * DICI城市类型
-     */
-    diciType:0,
-
-    /*
-     * @param walkFlag
-     * 行人步行属性
-     */
-    walkFlag:0,
-
-    /*
-     * @param difGroupId
-     * 差分产品ID
-     */
-    difGroupId:"",
-
-    /*
-     * @param srcFlag
-     * 数据来源
-     */
-    srcFlag:6,
-
-    /*
-     * @param digitalLevel
-     * 精度级别
-     */
-    digitalLevel:0,
-
-    /*
-     * @param editFlag
-     * 编辑标识
-     */
-    editFlag:1,
-
-    /*
-     * @param truckFlag
-     * 卡车验证标识
-     */
-    truckFlag:0,
-
-    /*
-     * @param feeSid
-     * 计费标准
-     */
-    feeSid:0,
-
-    /*
-     * @param feeFlag
-     * 计费赋值标识
-     */
-    feeFlag:0,
-
-    /*
-     * @param systemId
-     * 区域标识
-     */
-    systemId:0,
-
-    /*
-     * @param originLinkPid
-     * 初始版道路线号
-     */
-    originLinkPid:0,
-
-    /*
-     * @param centerDivider
-     * 道路中心隔离带类型
-     */
-    centerDivider:0,
-
-    /*
-     * @param parkingFlag
-     * 是否包含占道停车场
-     */
-    parkingFlag:0,
-
-    /*
-     * @param memo
-     * 备注信息
-     */
-    memo:"",
-
-    /*
-     * @param reserved
-     * 预留信息
-     */
-    reserved:"",
-
-    /*
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /*
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-    /*
-     * @param forms
-     * Rdlink的form子表
-     */
-    forms:[],
-
-    /*
-     * @param limits
-     * Rdlink的limit子表
-     */
-    limits:[],
-
-    /*
-     * @param names
-     * Rdlink的name子表
-     */
-    names:[],
-
-    /*
-     * @param rtics
-     * Rdlink的rtic子表
-     */
-    rtics:[],
-
-    /*
-     * @param sidewalks
-     * Rdlink的sidewalk子表
-     */
-    sideWalks:[],
-
-    /*
-     * @param speedLimits
-     * Rdlink的speedLimit子表
-     */
-    speedLimits:[],
-
-    /*
-     * @param truckLimits
-     * Rdlink的truckLimit子表
-     */
-    truckLimits:[],
-
-    /*
-     * @param walkStairs
-     * Rdlink的walkStair子表
-     */
-    walkStairs:[],
-
-    /*
-     * @param zones
-     * Rdlink的zones子表
-     */
-    zones:[],
-
     /***
      *
-     * @param geometry geometry
-     * @param attributes 构成rdlink的属性
+     * @param data geometry
      * @param options 其他可选参数
      */
-    initialize: function (geometry,attributes, options) {
+    initialize: function (data, options) {
         L.setOptions(this, options);
-        this.id = attributes["linkId"];
 
-        this.geometry = geometry;
-
-        var vertices = geometry.getVertices();
-
-        if(!attributes["sNodePid"]){
-            throw  "link对象中没有sNode";
-        }
-        else{
-
-            this.startNode = fastmap.dataApi.rdnode(attributes["sNodePid"], vertices[0]);
-        }
-
-        if(!attributes["eNodePid"]){
-            throw "link对象中没有eNode";
-        }
-        else{
-            this.endNode = fastmap.dataApi.rdnode(attributes["eNodePid"], vertices[vertices.length - 1]);
-        }
-        this.setAttributeData(attributes);
+        ///this.geometry = data["geometry"];
+        this.setAttributeData(data);
     },
 
     /**
@@ -403,9 +22,9 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
      *
      * @param {object} data.
      */
-    setAttributeData:function(data){
-        this.linkPid = data["linkPid"]|| null;
-        this.sNodePid = data["sNodePid"]|| null;
+    setAttributeData: function (data) {
+        this.pid = data["pid"] || null;
+        this.sNodePid = data["sNodePid"] || null;
         this.eNodePid = data["eNodePid"] || null;
         this.kind = data["kind"] || 7;
         this.direct = data["direct"] || 1;
@@ -453,52 +72,101 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         this.parkingFlag = data["parkingFlag"] || 0;
         this.memo = data["memo"] || "";
         this.reserved = data["reserved"] || "";
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
 
-        if (data["forms"].length>0){
-            var form = new fastmap.dataApi.linkform(data["forms"][i]);
-            this.forms.push(form);
+        this.forms = [];
+        if (data["forms"]&&data["forms"].length > 0) {
+            for (var i = 0, len = data["forms"].length; i < len; i++) {
+                var form =fastmap.dataApi.linkform(data["forms"][i]);
+                this.forms.push(form);
+            }
+
+
         }
+        this.names = [];
+        if (data["names"]&&data["names"].length > 0) {
 
-        if(data["limits"].length>0){
-            var limit = new fastmap.dataApi.linkLimit(data["limits"][i]);
-            this.limits.push(limit)
+            for (var i = 0, len = data["names"].length; i < len; i++) {
+
+                var name =  fastmap.dataApi.linkname(data["names"][i]);
+                this.names.push(name);
+            }
+
+
         }
+        this.rtics = [];
+        if (data["rtics"]&&data["rtics"].length > 0) {
+            for (var i = 0, len = data["rtics"].length; i < len; i++) {
 
-        if(data["names"].length>0){
-            var name = new fastmap.dataApi.linkName(data["names"][i]);
-            this.names.push(name);
+                var rtic =fastmap.dataApi.linkrtic(data["rtics"][i]);
+                this.rtics.push(rtic);
+            }
+
+
         }
+        this.intRtics = [];
+        if (data["intRtics"]&&data["intRtics"].length > 0) {
+            for (var i = 0, len = data["intRtics"].length; i < len; i++) {
 
-        if(data["rtics"].length>0){
-            var rtic = new fastmap.dataApi.linkRtic(data["rtics"][i]);
-            this.rtics.push(rtic);
+                var intRtics =fastmap.dataApi.linkintrtic(data["intRtics"][i]);
+                this.intRtics.push(intRtics);
+            }
+
+
         }
+        this.sidewalks = [];
+        if (data["sidewalks"]&&data["sidewalks"].length > 0) {
+            for (var i = 0, len = data["sidewalks"].length; i < len; i++) {
 
-        if(data["sideWalks"].length>0){
-            var sideWalk = new fastmap.dataApi.linkSidewalk(data["sideWalks"][i]);
-            this.sidewalks.push(sideWalk);
+                var sideWalk =  fastmap.dataApi.linksidewalk(data["sidewalks"][i]);
+                this.sidewalks.push(sideWalk);
+            }
+
+
         }
+        this.speedlimits = [];
+        if (data["speedlimits"]&&data["speedlimits"].length > 0) {
+            for(var i= 0,len=data["speedlimits"].length;i<len;i++) {
+                var speeedLimit =  fastmap.dataApi.linkspeedlimit(data["speedlimits"][i]);
+                this.speedlimits.push(speeedLimit);
+            }
 
-        if(data["speedLimits"].length>0){
-            var speeedLimit = new fastmap.dataApi.linkSpeedLimit(data["speedLimits"][i]);
-            this.speedLimits.push(speeedLimit);
+
         }
+        this.limits = [];
+        if (data["limits"]&&data["limits"].length > 0) {
+            for(var i= 0,len=data["limits"].length;i<len;i++) {
+                var limit=  fastmap.dataApi.linklimit(data["limits"][i]);
+                this.limits.push(limit);
+            }
 
-        if(data["truckLimits"].length>0){
-            var truckLimit = new fastmap.dataApi.linkTruckLimit(data["truckLimits"][i]);
-            this.truckLimits.push(truckLimit);
+
         }
+        this.limitTrucks = [];
+        if (data["limitTrucks"]&&data["limitTrucks"].length > 0) {
+            for(var i= 0,len=data["limitTrucks"].length;i<len;i++) {
 
-        if(data["walkStairs"].length>0){
-            var walkStair = new fastmap.dataApi.linkWalkStair(data["walkStairs"][i]);
-            this.walkStairs.push(walkStair);
+                var truckLimit = fastmap.dataApi.linktrucklimit(data["limitTrucks"][i]);
+                this.limitTrucks.push(truckLimit);
+            }
+
         }
+        this.walkstairs = [];
+        if (data["walkstairs"]&&data["walkstairs"].length > 0) {
+            for(var i= 0,len=data["walkstairs"].length;i<len;i++) {
 
-        if(data["zones"].length>0){
-            var zone = new fastmap.dataApi.linkZone(data["zones"][i]);
-            this.zones.push(zone);
+                var walkStair =  fastmap.dataApi.linkwalkstair(data["walkstairs"][i]);
+                this.walkstairs.push(walkStair);
+            }
+
+        }
+        this.zones = [];
+        if (data["zones"]&&data["zones"].length > 0) {
+            for(var i= 0,len=data["zones"].length;i<len;i++) {
+
+                var zone =  fastmap.dataApi.linkzone(data["zones"][i]);
+                this.zones.push(zone);
+            }
+
         }
     },
 
@@ -508,19 +176,19 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function(){
+    getSnapShot: function () {
         var data = {};
-        data["linkPid"] = this.linkPid || null;
-        data["sNodePid"] = this.sNodePid || null;
-        data["eNodePid"] = this.eNodePid  || null;
-        data["kind"] = this.kind  || 7;
-        data["direct"] = this.direct || 1;
-        data["appInfo"] = this.appInfo || 1;
-        data["tollInfo"] = this.tollInfo || 2;
-        data["routeAdopt"] = this.routeAdopt || 2;
-        data["multiDigitized"] = this.multiDigitized || 0;
-        data["developState"]  = this.developState || 0;
-        data["imiCode"] = this.imiCode || 0;
+        data["pid"] = this.pid;
+        data["sNodePid"] = this.sNodePid;
+        data["eNodePid"] = this.eNodePid;
+        data["kind"] = this.kind;
+        data["direct"] = this.direct;
+        data["appInfo"] = this.appInfo;
+        data["tollInfo"] = this.tollInfo;
+        data["routeAdopt"] = this.routeAdopt;
+        data["multiDigitized"] = this.multiDigitized;
+        data["developState"] = this.developState;
+        data["imiCode"] = this.imiCode;
 
         return data;
     },
@@ -531,111 +199,109 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function(){
+    getIntegrate: function () {
         var data = {};
-        data["linkPid"] = this.linkPid || null;
-        data["sNodePid"] = this.sNodePid || null;
-        data["eNodePid"] = this.eNodePid  || null;
-        data["kind"] = this.kind  || 7;
-        data["direct"] = this.direct || 1;
-        data["appInfo"] = this.appInfo || 1;
-        data["tollInfo"] = this.tollInfo || 2;
-        data["routeAdopt"] = this.routeAdopt || 2;
-        data["multiDigitized"] = this.multiDigitized || 0;
-        data["developState"]  = this.developState || 0;
-        data["imiCode"] = this.imiCode || 0;
-        data["specialTraffic"] = this.specialTraffic || 0;
-        data["functionClass"] = this.functionClass || 5;
-        data["urban"] = this.urban || 0;
-        data["paveStatus"] = this.paveStatus || 0;
-        data["laneNum"] = this.laneNum|| 2;
-        data["laneLeft"] = this.laneLeft|| 0;
-        data["laneRight"] = this.laneRight|| 0;
-        data["laneWidthLeft"] = this.laneWidthLeft|| 1;
-        data["laneWidthRight"] = this.laneWidthRight|| 1;
-        data["laneClass"]  = this.laneClass|| 2;
-        data["width"] = this.width|| 0;
-        data["isViaduct"] = this.isViaduct || 0;
-        data["leftRegionId"] = this.leftRegionId|| 0;
-        data["rightRegionId"] = this.rightRegionId  || 0;
-        data["geoemtry"] = this.geometry || null;
-        data["length"] = this.length|| 0;
-        data["meshId"]  = this.meshId|| 0;
-        data["onewayMark"] = this.onewayMark|| 0;
-        data["streetLight"] = this.streetLight|| 0;
-        data["parkingLot"] = this.parkingLot || 0;
-        data["adasFlag"] = this.adasFlag || 0;
-        data["sidewalkFlag"] = this.sidewalkFlag|| 0;
-        data["walkstairtFlag"] = this.walkstairtFlag || 0;
-        data["diciType"] =this.diciType || 0;
-        data["walkFlag"] = this.walkFlag|| 0;
-        data["difGroupId"] = this.difGroupId || "";
-        data["srcFlag"] = this.srcFlag || 6;
-        data["digitalLevel"] = this.digitalLevel || 0;
-        data["editFlag"] = this.editFlag  || 1;
-        data["truckFlag"] = this.truckFlag  || 0;
-        data["feeStd"]  = this.feeStd || 0;
-        data["feeFlag"]  = this.feeFlag || 0;
-        data["systemId"]  = this.systemId || 0;
-        data["originLinkPid"] = this.originLinkPid  || 0;
-        data["centerDivider"] = this.centerDivider || 0;
-        data["parkingFlag"] = this.parkingFlag || 0;
-        data["memo"]  = this.memo || "";
-        data["reserved"] = this.reserved || "";
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["pid"] = this.pid;
+        data["sNodePid"] = this.sNodePid;
+        data["eNodePid"] = this.eNodePid;
+        data["kind"] = this.kind;
+        data["direct"] = this.direct;
+        data["appInfo"] = this.appInfo;
+        data["tollInfo"] = this.tollInfo;
+        data["routeAdopt"] = this.routeAdopt;
+        data["multiDigitized"] = this.multiDigitized;
+        data["developState"] = this.developState;
+        data["imiCode"] = this.imiCode;
+        data["specialTraffic"] = this.specialTraffic;
+        data["functionClass"] = this.functionClass;
+        data["urban"] = this.urban;
+        data["paveStatus"] = this.paveStatus;
+        data["laneNum"] = this.laneNum;
+        data["laneLeft"] = this.laneLeft;
+        data["laneRight"] = this.laneRight;
+        data["laneWidthLeft"] = this.laneWidthLeft;
+        data["laneWidthRight"] = this.laneWidthRight;
+        data["laneClass"] = this.laneClass;
+        data["width"] = this.width;
+        data["isViaduct"] = this.isViaduct;
+        data["leftRegionId"] = this.leftRegionId;
+        data["rightRegionId"] = this.rightRegionId;
+        data["geoemtry"] = this.geometry;
+        data["length"] = this.length;
+        data["meshId"] = this.meshId;
+        data["onewayMark"] = this.onewayMark;
+        data["streetLight"] = this.streetLight;
+        data["parkingLot"] = this.parkingLot;
+        data["adasFlag"] = this.adasFlag;
+        data["sidewalkFlag"] = this.sidewalkFlag;
+        data["walkstairtFlag"] = this.walkstairtFlag;
+        data["diciType"] = this.diciType;
+        data["walkFlag"] = this.walkFlag;
+        data["difGroupId"] = this.difGroupId;
+        data["srcFlag"] = this.srcFlag;
+        data["digitalLevel"] = this.digitalLevel;
+        data["editFlag"] = this.editFlag;
+        data["truckFlag"] = this.truckFlag;
+        data["feeStd"] = this.feeStd;
+        data["feeFlag"] = this.feeFlag;
+        data["systemId"] = this.systemId;
+        data["originLinkPid"] = this.originLinkPid;
+        data["centerDivider"] = this.centerDivider;
+        data["parkingFlag"] = this.parkingFlag;
+        data["memo"] = this.memo;
+        data["reserved"] = this.reserved;
 
-        var forms=[];
-        for(var i= 0,len=this.forms.length;i<len;i++){
+        var forms = [];
+        for (var i = 0, len = this.forms.length; i < len; i++) {
             forms.push(this.forms[i].getIntegrate());
         }
         data["forms"] = forms;
 
-        var limits=[];
-        for(var i= 0,len = this.limits.length;i<len;i++){
+        var limits = [];
+        for (var i = 0, len = this.limits.length; i < len; i++) {
             limits.push(this.limits[i].getIntegrate())
         }
         data["limits"] = limits;
 
-        var names=[];
-        for(var i= 0,len=this.names.length;i<len;i++){
+        var names = [];
+        for (var i = 0, len = this.names.length; i < len; i++) {
             names.push(this.names[i].getIntegrate());
         }
 
         data["names"] = names;
 
         var rtics = [];
-        for(var i= 0,len=this.rtics.length;i<len;i++){
+        for (var i = 0, len = this.rtics.length; i < len; i++) {
             rtics.push(this.rtics[i].getIntegrate())
         }
         data["rtics"] = rtics;
 
-        var sideWalks=[];
-        for(var i= 0,len= this.sideWalks.length;i<len;i++){
-            sideWalks.push(this.sideWalks[i].getIntegrate())
+        var sidewalks = [];
+        for (var i = 0, len = this.sidewalks.length; i < len; i++) {
+            sidewalks.push(this.sidewalks[i].getIntegrate())
         }
-        data["sideWalks"] =sideWalks;
+        data["sidewalks"] = sidewalks;
 
-        var speedLimits=[];
-        for(var i= 0,len=this.speedLimits.length;i<len;i++){
-            speedLimits.push(this.speedLimits[i].getIntegrate())
+        var speedlimits = [];
+        for (var i = 0, len = this.speedlimits.length; i < len; i++) {
+            speedlimits.push(this.speedlimits[i].getIntegrate())
         }
-        data["speedLimits"] = speedLimits;
+        data["speedlimits"] = speedlimits;
 
-        var truckLimits=[];
-        for(var i= 0,len=this.truckLimits.length;i<len;i++){
-            truckLimits.push(this.truckLimits[i].getIntegrate())
+        var limitTrucks = [];
+        for (var i = 0, len = this.limitTrucks.length; i < len; i++) {
+            limitTrucks.push(this.limitTrucks[i].getIntegrate())
         }
-        data["truckLimits"] = truckLimits;
+        data["limitTrucks"] = limitTrucks;
 
-        var walkStairs=[];
-        for(var i= 0,len=this.walkStairs.length;i<len;i++){
-            walkStairs.push(this.walkStairs[i].getIntegrate())
+        var walkstairs = [];
+        for (var i = 0, len = this.walkstairs.length; i < len; i++) {
+            walkstairs.push(this.walkstairs[i].getIntegrate())
         }
-        data["walkStairs"] = walkStairs;
+        data["walkstairs"] = walkstairs;
 
-        var zones=[];
-        for(var i= 0,len=this.zones.length;i<len;i++){
+        var zones = [];
+        for (var i = 0, len = this.zones.length; i < len; i++) {
             zones.push(this.zones[i].getIntegrate());
         }
         data["zones"] = zones;
@@ -645,11 +311,11 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
 
 /***
  * Rdlink初始化函数
- * @param node数据
+ * @param data node数据
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdlink = function (geometry, attributes, options) {
-    return new fastmap.dataApi.rdLink(geometry, attributes, options);
+fastmap.dataApi.rdlink = function (data, options) {
+    return new fastmap.dataApi.rdLink(data, options);
 }
 

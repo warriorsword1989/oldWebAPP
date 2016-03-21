@@ -5,69 +5,6 @@
 
 fastmap.dataApi.linkLimit = fastmap.dataApi.GeoDataModel.extend({
 
-    options: {},
-    /***
-     * @param linkPid
-     * 道路Id
-     */
-    linkPid:null,
-    /***
-     * @param type
-     * 限制类型
-     */
-    type:3,
-    /***
-     * @param limitDir
-     * 限制方向
-     */
-    limitDir:0,
-    /***
-     * @param timeDomain
-     * 时间段
-     */
-    timeDomain:"",
-    /***
-     * @param vehicle
-     * 车辆类型
-     */
-    vehicle:0,
-    /***
-     * @param tollType
-     * 收费类型
-     */
-    tollType:9,
-
-    /***
-     * @param weather
-     * 天气条件
-     */
-    weather:9,
-
-    /***
-     * @param inputTime
-     * 天气条件
-     */
-    inputTime:"",
-
-    /***
-     * @param processFlag
-     * 赋值方式
-     */
-    processFlag:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
      * @param data 初始化属性对象
@@ -87,6 +24,7 @@ fastmap.dataApi.linkLimit = fastmap.dataApi.GeoDataModel.extend({
 
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
+        this.rowId= data["rowId"] || "";
         this.type = data["type"] || 3;
         this.limitDir = data["limitDir"] || 0;
         this.timeDomain = data["timeDomain"] || "";
@@ -95,8 +33,6 @@ fastmap.dataApi.linkLimit = fastmap.dataApi.GeoDataModel.extend({
         this.weather = data["weather"] || 9;
         this.inputTime = data["inputTime"] || "";
         this.processFlag = data["processFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
     },
 
     /**
@@ -107,17 +43,16 @@ fastmap.dataApi.linkLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["type"] = this.type || 3;
-        data["limitDir"] = this.limitDir || 0;
-        data["timeDomain"]  = this.timeDomain || "";
-        data["vehicle"] = this.vehicle || 0;
-        data["tollType"] = this.tollType || 9;
-        data["weather"] = this.weather || 9;
-        data["inputTime"]  = this.inputTime || "";
-        data["processFlag"] = this.processFlag || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["type"] = this.type;
+        data["limitDir"] = this.limitDir;
+        data["timeDomain"]  = this.timeDomain;
+        data["vehicle"] = this.vehicle;
+        data["tollType"] = this.tollType;
+        data["weather"] = this.weather;
+        data["inputTime"]  = this.inputTime;
+        data["processFlag"] = this.processFlag;
         return data;
     },
 
@@ -129,17 +64,16 @@ fastmap.dataApi.linkLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["type"] = this.type || 3;
-        data["limitDir"] = this.limitDir || 0;
-        data["timeDomain"]  = this.timeDomain || "";
-        data["vehicle"] = this.vehicle || 0;
-        data["tollType"] = this.tollType || 9;
-        data["weather"] = this.weather || 9;
-        data["inputTime"]  = this.inputTime || "";
-        data["processFlag"] = this.processFlag || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["type"] = this.type;
+        data["limitDir"] = this.limitDir;
+        data["timeDomain"]  = this.timeDomain;
+        data["vehicle"] = this.vehicle;
+        data["tollType"] = this.tollType;
+        data["weather"] = this.weather;
+        data["inputTime"]  = this.inputTime;
+        data["processFlag"] = this.processFlag;
         return data;
     }
 });

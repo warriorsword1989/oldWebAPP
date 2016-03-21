@@ -25,7 +25,6 @@ fastmap.uikit.CheckResultController=(function() {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.updateCheck = "";
-                this.on("objectSaved",this.startCheck,this);
             },
 
             /***

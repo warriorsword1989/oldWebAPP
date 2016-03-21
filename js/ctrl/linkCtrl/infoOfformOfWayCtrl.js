@@ -5,7 +5,7 @@ var formOfWayApp = angular.module("mapApp", []);
 formOfWayApp.controller("formOfWayController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
     if(objCtrl.data.data) {
-        $scope.formsData = objCtrl.data.data.forms;
+        $scope.formsData = objCtrl.data.forms;
     }else{
         $scope.formsData = objCtrl.data.forms;
     }
@@ -62,10 +62,15 @@ formOfWayApp.controller("formOfWayController",function($scope){
     }
     $scope.getCheck=function(item){
         item.isCheck=true;
-        var obj = {};
-        obj.formOfWay = parseInt(item.id);
-        obj.linkPid = objCtrl.data.pid;
-        $scope.formsData.unshift(obj);
+        var newForm = null;
+        if(parseInt(item.id)===53) {
+            newForm= fastmap.dataApi.linkform({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id),"auxiFlag":3});
+        }else{
+            newForm= fastmap.dataApi.linkform({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id)});
+
+        }
+
+        $scope.formsData.unshift(newForm);
         objCtrl.updateObject();
     }
 

@@ -4,53 +4,9 @@
  */
 
 fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param linkPid
-     * 道路Id
-     */
-    linkPid:null,
-    /***
-     * @param stairLoc
-     * 位置关系
-     */
-    stairLoc:0,
-    /***
-     * @param stairFlag
-     * 升降标识
-     */
-    stairFlag:0,
-
-    /***
-     * @param workDir
-     * 作业方向
-     */
-    workDir:0,
-
-    /***
-     * @param captureFlag
-     * 采集标识
-     */
-    captureFlag:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
-     * @param id id
-     * @param point 初始化rdnode的点
+     * @param data data
      * @param options 其他可选参数
      */
     initialize: function (data, options) {
@@ -58,21 +14,16 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
-        else{
-            this.id = data["linkPid"];
-        }
-
         this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
         this.linkPid = data["linkPid"] || "";
+        this.rowId= data["rowId"] || "";
         this.stairLoc = data["stairLoc"] || 0;
         this.stairFlag = data["stairFlag"] || 0;
         this.workDir = data["workDir"] || 0;
         this.captureFlag = data["captureFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
     },
 
     /**
@@ -83,15 +34,14 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["stairLoc"] = this.stairLoc || 0;
-        data["stairFlag"] = this.stairFlag || 0;
-        data["workDir"] = this.workDir || 0;
-        data["captureFlag"] = this.captureFlag || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["stairLoc"] = this.stairLoc;
+        data["stairFlag"] = this.stairFlag;
+        data["workDir"] = this.workDir;
+        data["captureFlag"] = this.captureFlag;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     },
 
@@ -103,15 +53,14 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["stairLoc"] = this.stairLoc || 0;
-        data["stairFlag"] = this.stairFlag || 0;
-        data["workDir"] = this.workDir || 0;
-        data["captureFlag"] = this.captureFlag || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
-        data["uRecord"]  = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["stairLoc"] = this.stairLoc;
+        data["stairFlag"] = this.stairFlag;
+        data["workDir"] = this.workDir;
+        data["captureFlag"] = this.captureFlag;
+        data["uRecord"] = this.uRecord;
+        data["uFields"] = this.uFields;
         return data;
     }
 });

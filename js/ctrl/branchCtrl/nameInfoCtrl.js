@@ -191,7 +191,7 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
         var protoArr = $scope.details[0].names;
-        var newArr = {};
+        /*var newArr = {};
         newArr.codeType = 0;
         newArr.detailId = 0;
         newArr.langCode = $scope.languageCode[0].code;
@@ -203,7 +203,12 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         newArr.voiceFile = '';
         newArr.srcFlag = 0;
         newArr.seqNum = 0;
-        protoArr.push(newArr);
+        protoArr.push(newArr);*/
         $scope.sortNameGroup($scope.details[0].names);
+        var newName = fastmap.dataApi.rdBranchName({
+            "langCode":$scope.languageCode[0].code,
+            "nameGroupid":protoArr.length + 1
+        });
+        protoArr.unshift(newName);
     }
 });

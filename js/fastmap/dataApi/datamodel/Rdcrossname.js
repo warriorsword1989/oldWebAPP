@@ -1,34 +1,28 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdCrossName=fastmap.dataApi.rdRestriction.extend({
-    pid:null,
-    nameGroupId:1,
-    langCode:"CHI",
-    name:"",
-    phonetic:"",
-    srcFlag:0,
-
-    rowId:"",
-
+fastmap.dataApi.rdCrossName = fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
+    setAttributeData: function (data) {
         this.pid = data["pid"];
-        this.nameGroupId = data["nameGroupId"];
-        this.langCode = data["langCode"];
-        this.name = data["name"];
-        this.phonetic=data["phonetic"];
-        this.srcFlag=data["srcFlag"];
+        this.nameGroupid = data["nameGroupid"] || 1;
+        this.nameId = data["nameId"] || 1;
+        this.langCode = data["langCode"] || "CHI";
+        this.name = data["name"] || "";
+        this.phonetic = data["phonetic"] || "";
+        this.srcFlag = data["srcFlag"] || 0;
         this.rowId = data["rowId"];
     },
 
-    getSnapShot:function(){
-        var data={};
-        data["pid"] = this.pid ;
-        data["nameGroupId"] = this.nameGroupId;
+    getSnapShot: function () {
+        var data = {};
+        data["pid"] = this.pid;
+        data["nameGroupid"] = this.nameGroupid;
+        data["nameId"] = this.nameId;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
@@ -37,10 +31,11 @@ fastmap.dataApi.rdCrossName=fastmap.dataApi.rdRestriction.extend({
 
         return data;
     },
-    getIntegrate:function(){
-        var data={};
-        data["pid"] = this.pid ;
-        data["nameGroupId"] = this.nameGroupId;
+    getIntegrate: function () {
+        var data = {};
+        data["pid"] = this.pid;
+        data["nameGroupid"] = this.nameGroupid;
+        data["nameId"] = this.nameId;
         data["langCode"] = this.langCode;
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
@@ -49,4 +44,13 @@ fastmap.dataApi.rdCrossName=fastmap.dataApi.rdRestriction.extend({
 
         return data;
     }
-})
+});
+/***
+ * rdCross中的name初始化函数
+ * @param data node数据
+ * @param options 其他可选参数
+ * @returns {.dataApi.rdCross}
+ */
+fastmap.dataApi.rdcrossname = function (data, options) {
+    return new fastmap.dataApi.rdCrossName(data, options);
+}

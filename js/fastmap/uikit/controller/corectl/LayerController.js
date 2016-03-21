@@ -8,11 +8,6 @@ fastmap.uikit.LayerController = (function () {
 
     function init(options) {
         var layerController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            includes: L.Mixin.Events,
 
             options: {},
             /**
@@ -22,17 +17,19 @@ fastmap.uikit.LayerController = (function () {
              * @param {Object}options
              */
             initialize: function (options) {
+                this.eventController = fastmap.uikit.EventController();
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.config = this.options.config;
                 this.layers = [];
+                this.eventController = fastmap.uikit.EventController();
                 this.highLightLayersArr = [];
                 this.zIndexQueue=[];
                 this.maxZIndex=1;
                 this.initLayer();
-                this.on('layerOnAdd', this.OnAddLayer, this);
-                this.on('layerOnRemove', this.OnRemoveLayer, this);
-                this.on("layerSwitch", this.OnSwitchLayer, this);
+                this.eventController.on(this.eventController.eventTypes.LAYERONADD, this.OnAddLayer, this);
+                this.eventController.on(this.eventController.eventTypes.LAYERONREMOVE, this.OnRemoveLayer, this);
+                this.eventController.on(this.eventController.eventTypes.LAYERONSWITCH, this.OnSwitchLayer, this);
             },
 
             initLayer: function () {
@@ -131,7 +128,7 @@ fastmap.uikit.LayerController = (function () {
              */
             setLayerVisible: function (id, flag) {
                 var layer = this.getLayerById(id);
-                this.fire('layerOnShow', {layer: layer, flag: flag});
+                this.eventController.fire(this.eventController.eventTypes.LAYERONSHOW, {layer: layer, flag: flag});
             },
             /**
              * 可编辑的图层
@@ -145,7 +142,7 @@ fastmap.uikit.LayerController = (function () {
                         this.layers.options. editable = true;
                     }
                 }
-                this.fire('layerOnEdit', {layer: layer});
+                this.eventController.fire(this.eventController.eventTypes.LAYERONEDIT, {layer: layer});
             },
             /**
              * 获取layer

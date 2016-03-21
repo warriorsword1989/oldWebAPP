@@ -283,9 +283,10 @@ function appInit() {
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var eventCtrl = new fastmap.uikit.EventController();
     tooltipsCtrl.setMap(map, 'tooltip');
     shapeCtrl.setMap(map);
-    layerCtrl.on('layerOnShow', function (event) {
+    layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
         if (event.flag == true) {
             map.addLayer(event.layer);
         } else {

@@ -6,7 +6,6 @@ var otherApp = angular.module("mapApp", ['oc.lazyLoad']);
 otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     $scope.roadlinkData = $scope.linkData;
-    $scope.speedOfConLength = 0;
     $scope.speedTypeOption = [
         {"id": 0, "label": "普通"},
         {"id": 1, "label": "指示牌"},
@@ -72,19 +71,6 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         {"id":2,"label":"免费"},
         {"id":3,"label":"收费道路的免费区间"}
     ];
-    //点击内容显示框时，关闭下拉，保存数据
-    $("#fromOfWRoaddiv").click(function () {
-        $("#fromOfWRoaddiv").popover('hide');
-        $scope.endFromOfWayArray = getEndArray();
-        for (var p in $scope.endFromOfWayArray) {
-            $scope.otherFromOfWay.push({
-                formOfWay: $scope.endFromOfWayArray[p].id,
-                linkPid: $scope.roadlinkData.pid
-            })
-        }
-        $scope.roadlinkData.forms = $scope.otherFromOfWay;
-    });
-
     $scope.initOtherData = function(){
         $scope.newFromOfWRoadDate = [];
         if($scope.roadlinkData.forms.length>0){
@@ -99,48 +85,13 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
             }
         }
     }
-    $scope.initOtherData();
-    if(objectEditCtrl.data.data) {
+    if(objectEditCtrl.data) {
         $scope.initOtherData();
     }
     objectEditCtrl.updateObject=function() {
         $scope.initOtherData();
     }
-    $scope.saveroadtype=function(){
-        $scope.rdNodeData.forms.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            linkPid:$scope.rdNodeData.pid
-        })
-
-        $scope.newFromOfWRoadDate.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            name: $("#roadtypename").find("option:selected").text()
-        });
-        $('#myModal').modal('hide');
-    }
-    $scope.deleteroadtype=function(){
-        $scope.newFromOfWRoadDate.splice(type, 1);
-        $scope.roadlinkData.forms.splice(type, 1);
-    }
-    $scope.saveroadname = function () {
-        $scope.roadlinkData.forms.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            linkPid: $scope.roadlinkData.pid
-        })
-
-        $scope.newFromOfWRoadDate.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            name: $("#roadtypename").find("option:selected").text()
-        });
-        $('#myModal').modal('hide');
-    }
-    $scope.deleteroadtype = function (type) {
-        $scope.newFromOfWRoadDate.splice(type, 1);
-        $scope.roadlinkData.forms.splice(type, 1);
-    }
-
-
-    $scope.qkdifGroupId = function () {
+    $scope.emptyGroupId = function () {
         $("#difGroupIdText").val("");
     }
 
@@ -173,5 +124,21 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         $ocLazyLoad.load('ctrl/linkCtrl/infoOfformOfWayCtrl').then(function () {
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfformOfWayTepl.html";
         })
+    };
+    //过滤条件
+    $scope.flag = 0;
+    $scope.auxiFilter=function(item) {
+        if(item.auxiFlag!==3) {
+            $scope.flag += 1;
+            if($scope.flag===$scope.roadlinkData.forms.length) {
+                $scope.flag = 0;
+                return item.auxiFlag === 0;
+            }
+        }else{
+            $scope.flag = 0;
+            return item.auxiFlag === 3;
+        }
+
+
     };
 });

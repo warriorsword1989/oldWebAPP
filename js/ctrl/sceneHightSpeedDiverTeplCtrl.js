@@ -3,15 +3,10 @@
  */
 var dataTipsApp = angular.module("lazymodule", []);
 dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout) {
-    var dataTipsCtrl = new fastmap.uikit.DataTipsController();
     var selectCtrl = new fastmap.uikit.SelectController();
-    var checkCtrl = fastmap.uikit.CheckResultController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
-    var objCtrl = fastmap.uikit.ObjectEditController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
     $scope.photos = [];
     //初始化dataTips面板中的数据
@@ -120,18 +115,6 @@ dataTipsApp.controller("sceneHightSpeedDiverTeplCtrl", function ($scope,$timeout
                         workPoint.redraw();
                     $scope.showContent = "外业新增";
                     $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
-                     if (d.errcode === -1) {
-                     return;
-                     }
-                     objCtrl.setCurrentObject(d);
-                     if (objCtrl.updateObject !== "") {
-                     objCtrl.updateObject();
-                     }
-                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                     $scope.$parent.$parent.objectEditURL = "js/tepl/currentObjectTepl.html";
-                     })
-                     });*/
                     var sinfo={
                         "op":"修改状态成功",
                         "type":"",

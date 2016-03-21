@@ -6,11 +6,6 @@ fastmap.uikit.HighLightController = (function () {
 
     function init(options) {
         var highLightController = L.Class.extend({
-            /**
-             * 事件管理器
-             * @property includes
-             */
-            includes: L.Mixin.Events,
 
             options: {},
 
