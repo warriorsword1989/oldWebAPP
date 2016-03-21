@@ -138,7 +138,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         shapeCtrl.startEditing();
     };
     $scope.save = function () {
-        console.log(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]);
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -313,7 +312,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     }
     $scope.cancel=function(){
     }
-    //eventController.off(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    $scope.changeEvent.disposePublicEvent();
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

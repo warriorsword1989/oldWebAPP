@@ -153,6 +153,11 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
 
     $scope.cancel=function(){
     }
+    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
