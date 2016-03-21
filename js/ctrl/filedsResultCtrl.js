@@ -8,6 +8,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var layerCtrl = fastmap.uikit.LayerController();
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
             $scope.gpsLine = layerCtrl.getLayerById("gpsLine");
+            $scope.eventController = fastmap.uikit.EventController();
             $scope.showOrHideId= "";
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
@@ -393,11 +394,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
 
-                    selectCtrl.fire("selectByAttribute", {feather: data});
+                    $scope.eventController.fire( $scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        var center=map.getCenter();
-                        objCtrl.setCurrentObject(data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
                     } else if (pItemId === "1201") {//道路种别
