@@ -320,6 +320,22 @@
         margin-left: 5px;
         margin-right: 5px;
     }
+    .all-check{
+        margin-left: 25px;
+        color: #e5e5e5;
+        cursor: pointer;
+    }
+    .all-check:hover{
+        color: #fff;
+        text-decoration: none;
+    }
+    .all-check-label{
+        color: #e5e5e5;
+        cursor: pointer;
+    }
+    .all-check-label:hover{
+        color: #fff;
+    }
 </style>
 <div ng-controller="fieldsResultController" >
     <div style="background-color: rgb(64,64,64);padding: 2px 5px;">
@@ -345,6 +361,11 @@
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="allTaskers">
             <div style="background-color:rgb(64,64,64);padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
+                <div class="pull-left">
+                        <a class="glyphicon all-check" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[showAll]" ng-click="showAllLayers(1)">
+                        </a>
+                        <label for="" class="all-check-label" ng-click="showAllLayers(1)">全选</label>
+                </div>
                 <span>共{{items.total}}个</span>
             </div>
             <div style="width:100%;">
@@ -367,6 +388,11 @@
         </div>
         <div class="tab-pane fade" id="pendingTaskers">
             <div style="padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
+                <div class="pull-left">
+                        <a class="glyphicon all-check" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[showAllPre]" ng-click="showAllLayers(2)">
+                        </a>
+                        <label for="" class="all-check-label" ng-click="showAllLayers(2)">全选</label>
+                </div>
                 <span>共{{items.total}}个</span>
                 <!--<span style="float:right">显示</span>-->
             </div>
@@ -391,6 +417,11 @@
         </div>
         <div class="tab-pane fade" id="solvedTaskers">
             <div style="padding:2px 5px;text-align: right;color: #FFF;border-bottom: 1px solid darkgray;margin-bottom: 5px">
+                <div class="pull-left">
+                        <a class="glyphicon all-check" ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[showAllYet]" ng-click="showAllLayers(3)">
+                        </a>
+                        <label for="" class="all-check-label" ng-click="showAllLayers(3)">全选</label>
+                </div>
                 <span>共{{items.total}}个</span>
             </div>
             <div style="width:100%;">
