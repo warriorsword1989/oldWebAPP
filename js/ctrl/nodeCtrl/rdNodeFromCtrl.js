@@ -207,10 +207,8 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var restrict = layerCtrl.getLayerById("referenceLine");
-            restrict.redraw();
+            rdLink.redraw();
             var info=[];
-            var info = null;
             if (data.errcode==0) {
                 var sinfo={
                     "op":"删除RDNODE成功",
