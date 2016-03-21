@@ -5,6 +5,57 @@ var braName = angular.module("mapApp", ['oc.lazyLoad']);
 braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
+     $scope.details[0].names.push(
+            {codeType: 0,
+                detailId: 100000036,
+                langCode: "CHI",
+                name: "测试",
+                nameClass: 0,
+                nameGroupid: 3,
+                phonetic: "Yuan Jing Shi Gao Su",
+                pid: 4636,
+                seqNum: 3,
+                srcFlag: 0,
+                voiceFile: "Yuanjingshigaosu"},
+                {codeType: 0,
+                detailId: 1000000436,
+                langCode: "CHI",
+                name: "测试",
+                nameClass: 0,
+                nameGroupid: 3,
+                phonetic: "Yuan Jing dShi Gao Su",
+                pid: 4636,
+                seqNum: 3,
+                srcFlag: 0,
+                voiceFile: "Yuanjingshigaosu"});
+     $scope.nameGroup = [];
+     $scope.sortNameGroup = function(arr){
+         arr.sort(function(a,b){
+            return b.nameGroupid >= a.nameGroupid;
+         });
+        for (var i = 0; i <= arr.length - 1; i++) {
+            console.log(arr[i])
+            var tempArr = [];
+            if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
+                if($.inArray(arr[i],$scope.nameGroup) == -1){
+                    tempArr.push(arr[i])
+                }
+                for(var j=i+1;j<arr.length-1;j++){
+                    if(arr[j].nameGroupid == arr[i].nameGroupid){
+                        tempArr.push(arr[j]);
+                        i = j;
+                    }
+                }
+            }else{
+                tempArr.push(arr[i])
+            }
+            $scope.nameGroup.push(tempArr);
+        };
+     }
+     $scope.sortNameGroup($scope.details[0].names);
+     $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
+            return b.nameGroupid >= a.nameGroupid;
+         });
     /*名称分类*/
     $scope.nameClassType = [
         {"code":0,"label":"方向"},
@@ -89,56 +140,53 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     /*上移或者下移*/
     $scope.changeOrder = function(item,type){
         if(type == 1){  //下移
-            $.each($scope.details[0].names,function(i,v){
-                if(v.nameGroupid == item.nameGroupid-1){
-                    v.nameGroupid += 1;
-                }
+            $.each($scope.nameGroup,function(i,v){
+                $.each(v,function(m,n){
+                    console.log(n,n.nameGroupid == item.nameGroupid-1)
+                    if(n.nameGroupid == item.nameGroupid-1){
+                        n.nameGroupid += 1;
+                    }  
+                })
             });
             item.nameGroupid -= 1;
         }else{  //上移
-            $.each($scope.details[0].names,function(i,v){
-                if(v.nameGroupid == item.nameGroupid+1){
-                    v.nameGroupid -= 1;
-                }
+            $.each($scope.nameGroup,function(i,v){
+                $.each(v,function(m,n){
+                    console.log(n,n.nameGroupid == item.nameGroupid+ 1)
+                    if(n.nameGroupid == item.nameGroupid+1){
+                        n.nameGroupid -= 1;
+                    }  
+                })
             });
             item.nameGroupid += 1;
         }
+        // $scope.sortNameGroup($scope.details[0].names);
     }
     /*删除名称信息*/
     $scope.removeNameInfo = function(item){
-        Array.prototype.deleteElementByValue = function(varElement)
-        {
-            var numDeleteIndex = -1;
-            for (var i=0; i<this.length; i++)
-            {
-                // 严格比较，即类型与数值必须同时相等。
-                if (this[i] === varElement)
-                {
-                    this.splice(i, 1);
-                    numDeleteIndex = i;
-                    break;
-                }
-            }
-            return numDeleteIndex;
-        }
+        var nameLength = 0;
         /*数组中删除*/
-        $.each($scope.details[0].names,function(i,v){
-            if(item == v){
-                $scope.details[0].names.deleteElementByValue(item);
+        $.each($scope.nameGroup,function(i,v){
+            if(v && v[0].nameGroupid == item.nameGroupid){
+                $scope.nameGroup.splice(i,1);
             }
         });
-        $.each($scope.details[0].names,function(i,v){
-            if(v){
-                /*删除一个，之后的nameGroup都减一*/
-                if(v.nameGroupid > item.nameGroupid){
-                    v.nameGroupid -= 1;
-                }
-                /*如果只剩一条名称信息*/
-                if($scope.details[0].names.length == 1){
-                    $scope.details[0].names[0].nameGroupid = 1;
-                }
-            } 
+        $.each($scope.nameGroup,function(i,v){
+            $.each(v,function(m,n){
+                if(n){
+                    /*删除一个，之后的nameGroup都减一*/
+                    if(n.nameGroupid > item.nameGroupid){
+                        n.nameGroupid -= 1;
+                    }
+                    /*如果只剩一条名称信息*/
+                    /*if($scope.nameGroup.length == 1){
+                        $scope.nameGroup[0].nameGroupid = 1;
+                    }*/
+                    nameLength++;
+                } 
+            })
         });
+        // $scope.details[0].names.length = nameLength;
     }
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
@@ -156,5 +204,6 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         newArr.srcFlag = 0;
         newArr.seqNum = 0;
         protoArr.push(newArr);
+        $scope.sortNameGroup($scope.details[0].names);
     }
 });
