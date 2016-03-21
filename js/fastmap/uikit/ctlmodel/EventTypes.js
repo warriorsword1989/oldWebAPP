@@ -31,6 +31,8 @@ L.Mixin.EventTypes={
     ABORTSHAPEEDITRESULTFEEDBACK:'abortshapeeditresultfeedback',
     STOPSHAPEEDITRESULTFEEDBACK:'stoptshapeeditresultfeedback',
 
+    SELECTBYATTRIBUTE:"selectByAttribute",
+
     SAVEPROPERTY:'saveproperty',
     DELETEPROPERTY:'deleteproperty',
     CANCELEVENT:'cancelevent'

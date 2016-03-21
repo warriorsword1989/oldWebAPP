@@ -6,7 +6,7 @@ referenceModule.controller('referenceLayersController',function($scope) {
 
 
     var layerCtrl = new fastmap.uikit.LayerController();
-
+    var eventController = fastmap.uikit.EventController();
     $scope.items =layerCtrl.layers;
     var outLayers=[];
     for(var i=0;i<layerCtrl.layers.length;i++){
@@ -33,7 +33,6 @@ referenceModule.controller('referenceLayersController',function($scope) {
         }
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
-        layerCtrl.eventController.fire('layerSwitch', {layerArr: layerCtrl.layers});
-
+        eventController.fire(eventController.EventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
     };
 })
