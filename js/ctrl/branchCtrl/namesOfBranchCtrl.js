@@ -226,6 +226,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
+    console.log(dObj.details)
             /*模式图信息条数*/
             if(dObj.details.length > 0){
                 $scope.arrowFlag = dObj.details[0].arrowFlag;
@@ -358,8 +359,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         newObjData = $scope.clone($scope.diverObj);
         newObjData.relationshipType = $scope.relationCode;
         newObjData.pid = parseInt($scope.diverId);
-        if(newObjData.details.length == 0)
+        if(newObjData.details.length == 0){
             newObjData.details.push({});
+        }
         newObjData.details[0].branchType = $scope.branchType;
         newObjData.details[0].exitNum = $scope.exitNum;
         newObjData.details[0].estabType = $scope.estabType;
@@ -370,8 +372,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         newObjData.details[0].arrowCode = $scope.arrowCode;
         newObjData.details[0].patternCode = $scope.patternCode;
         newObjData.details[0].branchPid = $scope.branchPid;
-        if(newObjData.details[0].names)
+        if(newObjData.details[0].names){
             newObjData.details[0].names = $scope.diverObj.details[0].names.reverse();
+        }
         objCtrl.setCurrentObject(newObjData);
         objCtrl.save();
         var param = {};
@@ -379,6 +382,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         param.command = "UPDATE";
         param.projectId = Application.projectid;
         param.data = objCtrl.changedProperty;
+    console.log(objCtrl.changedProperty)
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;
