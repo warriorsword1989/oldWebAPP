@@ -4,6 +4,7 @@
 var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('RoadEditController', ['$scope', '$ocLazyLoad','$rootScope', function ($scope, $ocLazyLoad,$rootScope) {
     $scope.showLoading = true;
+    var eventController = fastmap.uikit.EventController();
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
@@ -11,7 +12,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad','$rootScope', func
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.suspendObjURL = "";
-    $scope.save = "";//保存方法
+    $scope.save = function() {
+        eventController.fire(eventController.eventTypes.SAVEPROPERTY,{"data":"test"})
+    };//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
     $scope.rowkeyOfDataTips = "";
@@ -25,6 +28,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad','$rootScope', func
     $scope.outErrorUrlFlag = false;
     $scope.dataTipsURLFlag = true;//点击tips列表 判断右侧属性栏是否弹出
     $scope.suspendFlag = false;
+    $scope.objOfapp = {"test": "test"};
     $scope.classArr = [false, false, false, false,false,false,false,false,false,false,false,false,false,false];//按钮样式的变化
     $scope.changeBtnClass=function(id) {
         for(var claFlag= 0,claLen=$scope.classArr.length;claFlag<claLen;claFlag++) {
