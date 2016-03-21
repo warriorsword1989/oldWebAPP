@@ -14,6 +14,7 @@ fastmap.uikit.SelectRdlane = (function () {
                 L.setOptions(this, options);
                 this._map = this.options.map;
                 this.currentEditLayer = this.options.currentEditLayer;
+                this.eventController = fastmap.uikit.EventController();
                 this.tiles = this.options.tiles;
                 this.transform = new fastmap.mapApi.MecatorTranform();
                 this.redrawTiles = [];
@@ -36,7 +37,7 @@ fastmap.uikit.SelectRdlane = (function () {
                             newGeom[1] = (parseInt(geom[1]));
                             if (this._TouchesPoint(newGeom, x, y, 20)) {
                                 id = data[item].properties.id;
-                                this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDLANECONNEXITY'})
+                                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDLANECONNEXITY'})
 
                                 if (this.redrawTiles.length != 0) {
                                     this.cleanHeight();

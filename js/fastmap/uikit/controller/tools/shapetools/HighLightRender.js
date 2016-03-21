@@ -3,11 +3,6 @@
  */
 
 fastmap.uikit.HighLightRender = L.Class.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
     initialize: function (layer, options) {
         this.options = options || {};
         this._map = this.options.map;
@@ -24,9 +19,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.restrictId = this.options.restrictId;//高亮交限的id
         this.initFlag = this.options.initFlag || false;//当地图变化时,才能激发this.draw()函数
         this.cleanHighLight = "";
+        this.eventController = fastmap.uikit.EventController();
         var that = this;
-        this.layer.on("getId", this.getFeature, this);
-        this.layer.on("tileDrawend", function (e) {
+        this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function (e) {
             if (that.initFlag) {
 
                 that.draw(e);
@@ -41,15 +36,12 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         for (var index in this.tiles) {
 
             var data = this.tiles[index].data.features;
-
             for (var key in data) {
 
                 var feature = data[key];
                 var type = feature.geometry.type;
                 var geom = feature.geometry.coordinates;
-
                 if (this.dataTipsId && data[key].properties.id == this.dataTipsId) {
-                    // console.log("id" + data[key].properties.id);
                     var ctx = {
                         canvas: this.tiles[index].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
@@ -61,9 +53,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     } else {//已处理
                         style = {src: './css/tips/selected/processed.png'};
                     }
-                    this.layer._drawImg(ctx, geom, style, true);
-
+                    this.layer._drawImg(ctx, geom, style, true,feature.properties);
                 }
+                
             }
         }
         this.initFlag = true;
@@ -94,7 +86,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 } else {//已处理
                     style = {src: './css/tips/selected/processed.png'};
                 }
-                this.layer._drawImg(ctx, geom, style, true);
+                this.layer._drawImg(ctx, geom, style, true,feature.properties);
             }
         }
 
@@ -519,7 +511,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
     },
     draw: function (e) {
-        this.tiles = e.target.tiles;
+        this.tiles = e.layer.tiles;
         var tile = this.tiles[e.id];
         var zoom = e.zoom;
         if (this.highLightFeature === "links") {
@@ -570,7 +562,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         } else {//已处理
                             styleForDataTips = {src: './css/tips/normal/processed.png'};
                         }
-                        this.layer._drawImg(ctx, geom, styleForDataTips, true);
+                        this.layer._drawImg(ctx, geom, styleForDataTips, true,feature.properties);
                     }
 
                 }

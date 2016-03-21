@@ -17,6 +17,7 @@ function init(options) {
             L.setOptions(this, options);
             this._map = this.options.map;
             this.currentEditLayer = this.options.currentEditLayer;
+            this.eventController = fastmap.uikit.EventController();
             this.tiles = this.options.tiles;
             this.transform = new fastmap.mapApi.MecatorTranform();
             this.redrawTiles = [];
@@ -40,7 +41,7 @@ function init(options) {
                                 newGeom[1] = (parseInt(geom[1]));
                                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -52,7 +53,7 @@ function init(options) {
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -72,7 +73,7 @@ function init(options) {
                                 newGeom[1] = (parseInt(geom[1]));
                                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -84,7 +85,7 @@ function init(options) {
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this._map.fire("getNodeId", {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
                                     if (this.redrawTiles.length != 0) {
                                         this._cleanHeight();
@@ -157,7 +158,7 @@ function init(options) {
                             if (restrictObj !== undefined) {
                                 if (restrictObj.constructor === Array) {
                                     for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                        newStyle = {src: './css/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+                                        newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
                                         if (theory > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
@@ -171,15 +172,15 @@ function init(options) {
                                     for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                         if (restrictArr[fact].constructor === Array) {
-                                            newStyle = {src: './css/limit/normal/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+                                            newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
 
                                         } else {
                                             if (restrictArr[fact].indexOf("[") > -1) {
                                                 restrictArr[fact] = restrictArr[fact].replace("[", "");
                                                 restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                                newStyle = {src: './css/limit/normal/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+                                                newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
                                             } else {
-                                                newStyle = {src: './css/limit/normal/' + restrictArr[fact] + '.png'};
+                                                newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
                                             }
 
                                         }

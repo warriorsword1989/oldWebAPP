@@ -4,77 +4,35 @@
  */
 
 fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
-
-    options: {},
-    /***
-     * @param pid
-     * 交线ID
-     */
-    pid:null,
-
-    /***
-     * @param inLinkPid
-     * 进入线Id
-     */
-    inLinkPid:null,
-
-    /***
-     * @param nodePid
-     * 进入node
-     */
-    nodePid:null,
-
-    /***
-     * @param restricInfo
-     * 限制信息
-     */
-    restricInfo:"",
-
-    /***
-     * @param kgFlag
-     * KG标志
-     */
-    kgFlag:0,
-
-    /***
-     * @param uRecord
-     * 更新记录
-     */
-    uRecord:0,
-
-    /***
-     * @param uFields
-     * 更新字段
-     */
-    uFields:"",
-
-
     /***
      *
-     * @param id id
-     * @param point 初始化rdnode的点
+     * @param data data
      * @param options 其他可选参数
      */
-    initialize: function (geometry,attributes, options) {
+    initialize: function (data, options) {
         L.setOptions(this, options);
-        if(!data["pid"]){
+        if (!data["pid"]) {
             throw "对象没有对应pid"
         }
-        else{
-            this.id = data["pid"];
-        }
-
-        this.geoemtry = geometry;
+        this.geoemtry = data["geometry"];
         this.setAttributeData(data);
     },
 
-    setAttributeData:function(data){
+    setAttributeData: function (data) {
         this.pid = data["pid"] || null;
         this.inLinkPid = data["inLinkPid"] || null;
         this.restricInfo = data["restricInfo"] || null;
         this.kgFlag = data["kgFlag"] || 0;
-        this.uRecord = data["uRecord"] || 0;
-        this.uFields = data["uFields"] || "";
+
+        this.details = [];
+        if (data["details"] && data["details"].length > 0) {
+            for (var i = 0, len = data["details"].length; i < len; i++) {
+                var detail = fastmap.dataApi.rdrestrictiondetail(data["details"][i])
+                this.details.push(detail);
+            }
+        }
+
+
     },
 
     /**
@@ -83,14 +41,12 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getSnapShot.
      */
-    getSnapShot:function() {
+    getSnapShot: function () {
         var data = {};
-        data["pid"] = this.pid || null;
-        data["inLinkPid"] = this.inLinkPid || null;
-        data["restricInfo"] = this.restricInfo|| null;
-        data["kgFlag"] = this.kgFlag  || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["pid"] = this.pid;
+        data["inLinkPid"] = this.inLinkPid;
+        data["restricInfo"] = this.restricInfo;
+        data["kgFlag"] = this.kgFlag;
         return data;
     },
 
@@ -100,14 +56,21 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
      *
      * @return {object} getIntegrate.
      */
-    getIntegrate:function() {
+    getIntegrate: function () {
         var data = {};
-        data["pid"] = this.pid || null;
-        data["inLinkPid"] = this.inLinkPid || null;
-        data["restricInfo"] = this.restricInfo|| null;
-        data["kgFlag"] = this.kgFlag  || 0;
-        data["uRecord"] = this.uRecord || 0;
-        data["uFields"] = this.uFields || "";
+        data["pid"] = this.pid;
+        data["inLinkPid"] = this.inLinkPid;
+        data["restricInfo"] = this.restricInfo;
+        data["kgFlag"] = this.kgFlag;
+
+        var details = [];
+        for (var i = 0, len = this.details.length; i < len; i++) {
+            details.push(this.details[i].getIntegrate());
+
+        }
+        data["details"]=details
+
+
         return data;
     }
 });
@@ -118,6 +81,6 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdRestriction}
  */
-fastmap.dataApi.rdrestriction = function (geometry,attributes, options) {
-    return new fastmap.dataApi.rdRestriction(geometry,attributes, options);
+fastmap.dataApi.rdrestriction = function (data, options) {
+    return new fastmap.dataApi.rdRestriction(data, options);
 }

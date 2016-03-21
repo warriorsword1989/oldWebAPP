@@ -5,7 +5,6 @@
 //var selectApp = angular.module("speedLimitApp",[]);
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
-    var selectCtrl = new fastmap.uikit.SelectController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
@@ -13,7 +12,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
-        //$scope.changeDirect($scope.speedLimitData.direct);
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
     }
     if(objectEditCtrl.data){
         $scope.initializeData();
@@ -87,7 +86,6 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         }, 100);
     }
     $scope.$parent.$parent.save = function () {
-        objectEditCtrl.setCurrentObject($scope.speedLimitData);
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -106,6 +104,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
+                speedLimit.redraw();
             }else{
                 info=[{
                     "op":data.errcode,

@@ -3,17 +3,17 @@
  */
 var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
 namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoad) {
-    var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var divergenceIds = objCtrl.data;
-    var objectEditCtrl = fastmap.uikit.ObjectEditController();
+    var divergenceIds = null;
     var newObjData = {};
     var linksOfRestric = {};
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
+    divergenceIds = objCtrl.data;
     $scope.divergenceIds = divergenceIds;
+    $scope.diverId = divergenceIds.pid;
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
     if(!objCtrl.data){
@@ -21,18 +21,20 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     $scope.diverId = divergenceIds.pid;
 
+    objCtrl.updateRdBranch=function() {
+        divergenceIds = objCtrl.data;
+        $scope.divergenceIds = divergenceIds;
+        $scope.diverId = divergenceIds.pid;
+        $scope.diverObj = {};
+        $scope.getObjectById(true)
+    };
+
 
     $timeout(function(){
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        // console.log(divergenceIds)
-        objectEditCtrl.setOriginalData(divergenceIds);
-       /* Application.functions.getRdObjectById(divergenceIds.pid, "RDBRANCH", function (data) {
-            objectEditCtrl.setOriginalData(data.data);
-        console.log(data.data)
-            $scope.$apply();
-        });*/
+        objCtrl.setOriginalData(divergenceIds);
     }
     $scope.setOriginalDataFunc();
     /*点击关系类型*/
@@ -204,12 +206,17 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     /*初始化信息显示*/
     $scope.initDiver = function(){
         var dObj = $scope.diverObj;
+
         /*经过线*/
         if(dObj){
             $scope.relationCode = dObj.relationshipType;
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
             linksOfRestric["outLink"] = $scope.diverObj.outLinkPid+'';
             var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
+            //清除地图上的高亮的feature
+            if (highLightLayer.highLightLayersArr.length !== 0) {
+                highLightLayer.removeHighLightLayers();
+            }
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
             /*模式图信息条数*/
@@ -313,7 +320,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
          //箭头图
          if(type){
             $scope.diverObj = divergenceIds;
-            objCtrl.setCurrentObject($scope.diverObj);
             $scope.initDiver();
          }else{
             Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
@@ -358,13 +364,13 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         newObjData.details[0].branchPid = $scope.branchPid;
         if(newObjData.details[0].names)
             newObjData.details[0].names = $scope.diverObj.details[0].names.reverse();
-        objectEditCtrl.setCurrentObject(newObjData);
-        objectEditCtrl.save();
+        objCtrl.setCurrentObject(newObjData);
+        objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
         param.projectId = Application.projectid;
-        param.data = objectEditCtrl.changedProperty;
+        param.data = objCtrl.changedProperty;
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;
@@ -384,7 +390,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             $scope.$apply();
             if(data.errcode == 0){
                 $scope.setOriginalDataFunc();
-                objectEditCtrl.setOriginalData(param.data);
+                objCtrl.setOriginalData(param.data);
                 swal("操作成功", "高速分歧属性值修改成功！", "success");
                 outPutCtrl.pushOutput(data.errmsg);
             }else{
@@ -393,6 +399,10 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
         });
     }
+
+
+
+
     /*删除pid*/
     $scope.$parent.$parent.delete = function(){
         swal({

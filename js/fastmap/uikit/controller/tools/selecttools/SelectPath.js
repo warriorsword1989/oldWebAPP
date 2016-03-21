@@ -25,10 +25,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.linksFlag = this.options.linksFlag;
-
+        this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        this.eventController = fastmap.uikit.EventController();
     },
 
     /***
@@ -50,11 +51,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     onMouseMove:function(event){
         this.snapHandler.setTargetIndex(0);
         if(this.snapHandler.snaped == true){
-            this.shapeEditor.fire('snaped',{'snaped':true});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
         }else{
-            this.shapeEditor.fire('snaped',{'snaped':false});
+            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
     },
@@ -91,7 +92,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     id = data[item].properties.id;
 
                     if (this.linksFlag) {
-                        this.currentEditLayer.fire("getId", {id: id,point:point});
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point});
                         this.currentEditLayer.selectedid = id;
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
@@ -99,7 +100,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
                         this._drawHeight(id);
                     } else {
-                        this.currentEditLayer.fire("getOutLinksPid", {id: id});
+                        this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
                     }
 
                     break;

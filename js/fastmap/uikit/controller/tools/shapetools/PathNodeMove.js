@@ -4,12 +4,6 @@
  */
 
 fastmap.uikit.PathNodeMove = L.Handler.extend({
-    /**
-     * 事件管理器
-     * @property includes
-     */
-    includes: L.Mixin.Events,
-
     /***
      *
      * @param {Object}options
@@ -132,12 +126,5 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
     resetVertex:function(index ,targetPoint){
 
         this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates[index.split('-')[0]].components.splice(index.split('-')[1], 1, fastmap.mapApi.point(targetPoint.lng, targetPoint.lat));
-        //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
-        //    distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
-        //distance = distance1<distance2?distance1:distance2
-        //if(distance < 2){
-        //    console.log('形状点之间距离不能小于2米！')
-        //}
-
     }
 })
