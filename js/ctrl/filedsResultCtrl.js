@@ -20,65 +20,29 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-            /*全选、反选*/
-            $scope.showAllLayers = function(type){
-                if(type == 1){
-                    if($scope.showAll){
-                        $.each($scope.items,function(i,v){
-                            v.flag = false;
-                            $scope.showAll = false;
-                            delete $scope.tipsObj[v.id] ;
-                            var tips = Object.keys($scope.tipsObj);
-                            $scope.workPoint.requestType = tips;
-                            $scope.gpsLine.requestType = tips;
-                            $scope.workPoint.redraw();
-                            $scope.gpsLine.redraw();
-                        });
-                    }else{
-                        $.each($scope.items,function(i,v){
-                            v.flag = true;
-                            $scope.showAll = true;
-                            $scope.changeList([1,3]);
-                        });
-                    }
-                }else if(type == 2){
-                    if($scope.showAllPre){
-                        $.each($scope.items,function(i,v){
-                            v.flag = false;
-                            $scope.showAllPre = false;
-                            delete $scope.tipsObj[v.id] ;
-                            var tips = Object.keys($scope.tipsObj);
-                            $scope.workPoint.requestType = tips;
-                            $scope.gpsLine.requestType = tips;
-                            $scope.workPoint.redraw();
-                            $scope.gpsLine.redraw();
-                        });
-                    }else{
-                        $.each($scope.items,function(i,v){
-                            v.flag = true;
-                            $scope.showAllPre = true;
-                            $scope.changeList([1]);
-                        });
-                    }
-                }else {
-                    if($scope.showAllYet){
-                        $.each($scope.items,function(i,v){
-                            v.flag = false;
-                            $scope.showAllYet = false;
-                            delete $scope.tipsObj[v.id] ;
-                            var tips = Object.keys($scope.tipsObj);
-                            $scope.workPoint.requestType = tips;
-                            $scope.gpsLine.requestType = tips;
-                            $scope.workPoint.redraw();
-                            $scope.gpsLine.redraw();
-                        });
-                    }else{
-                        $.each($scope.items,function(i,v){
-                            v.flag = true;
-                            $scope.showAllYet = true;
-                            $scope.changeList([3]);
-                        });
-                    }
+            /*清除图层*/
+            $scope.clearLayer = function(v){
+                v.flag = false;
+                delete $scope.tipsObj[v.id] ;
+                var tips = Object.keys($scope.tipsObj);
+                $scope.workPoint.requestType = tips;
+                $scope.gpsLine.requestType = tips;
+                $scope.workPoint.redraw();
+                $scope.gpsLine.redraw();
+            }
+            /*全选、反选事件*/
+            $scope.showAllLayers = function(typeName,typeArr){
+                if($scope[typeName]){
+                    $.each($scope.items,function(i,v){
+                        $scope[typeName] = false;
+                        $scope.clearLayer(v);
+                    });
+                }else{
+                    $.each($scope.items,function(i,v){
+                        v.flag = true;
+                        $scope[typeName] = true;
+                        $scope.changeList(typeArr);
+                    });
                 }
             }
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
