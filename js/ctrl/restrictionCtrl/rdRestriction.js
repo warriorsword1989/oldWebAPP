@@ -468,8 +468,18 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
     };
     if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+        for(var i= 0,lenI=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<lenI;i++) {
             eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
         }
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);

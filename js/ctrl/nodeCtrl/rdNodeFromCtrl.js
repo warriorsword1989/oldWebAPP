@@ -194,46 +194,56 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         });
     }
 
-    $scope.delete=function(){
+    $scope.delete = function () {
         var pid = parseInt($scope.rdNodeData.pid);
         var param =
         {
-            "command":"DELETE",
-            "type":"RDNODE",
-            "projectId":Application.projectid,
-            "objId":pid
+            "command": "DELETE",
+            "type": "RDNODE",
+            "projectId": Application.projectid,
+            "objId": pid
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             rdLink.redraw();
-            var info=[];
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"删除RDNODE成功",
-                    "type":"",
+            var info = [];
+            if (data.errcode == 0) {
+                var sinfo = {
+                    "op": "删除RDNODE成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
                 swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
-            if(outPutCtrl.updateOutPuts!=="") {
+            if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
         })
-    }
+    };
     $scope.cancel=function(){
     }
     if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
         for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
             eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
         }
     }
     //eventController.off(eventController.eventTypes.SAVEPROPERTY, $scope.save);

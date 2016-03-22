@@ -26,9 +26,9 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         });
         //随着地图的变化 高亮的线不变
         if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
-            var linksarr = [];
+            var linksArr = [];
             for(var item in $scope.dataTipsData.f_array){
-                linksarr.push($scope.dataTipsData.f_array[item].id);
+                linksArr.push($scope.dataTipsData.f_array[item].id);
             }
             var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                 map: map,
@@ -37,7 +37,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 linksArr: linksarr
             });
             highLightLayer.pushHighLightLayers(highLightLink);
-            highLightLink.drawLinksOfCrossForInit(linksarr,[],[]);
+            highLightLink.drawLinksOfCrossForInit(linksArr,[],[]);
         }else{
             var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                 map: map,
@@ -129,11 +129,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         };
         var editLayer = layerCtrl.getLayerById('edit');
         layerCtrl.pushLayerFront('edit');
-        var sobj = shapeCtrl.shapeEditorResult;
+        var sObj = shapeCtrl.shapeEditorResult;
         editLayer.drawGeometry =  marker;
         editLayer.draw( marker, editLayer);
-        sobj.setOriginalGeometry( marker);
-        sobj.setFinalGeometry(marker);
+        sObj.setOriginalGeometry( marker);
+        sObj.setFinalGeometry(marker);
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
@@ -189,14 +189,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             "projectId": Application.projectid,
             "data": objectCtrl.changedProperty
         };
-        //var objLength = 0;
-        //for(var key in objectCtrl.changedProperty){
-        //    objLength++;
-        //}
-        ////if(objLength == 3){
-        ////    swal("操作失败", '没有修改内容', "error");
-        ////    return;
-        ////}
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
             //objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
@@ -216,12 +208,12 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     $(editLayer.options._div).unbind();
                 }
                 swal("操作成功",'保存成功！', "success");
-                var sinfo={
+                var sInfo={
                     "op":"修改道路link成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
 
             } else {
@@ -312,7 +304,21 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     }
     $scope.cancel=function(){
     }
-    $scope.changeEvent.disposePublicEvent();
+    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
+        }
+    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

@@ -109,39 +109,33 @@ fastmap.uikit.SelectRdlane = (function () {
                                 if (feature.properties.laneconnexityinfo === undefined) {
                                     break;
                                 }
-                                var newStyle = "", newGeom = [];
                                 var laneObj = feature.properties.laneconnexityinfo;
                                 var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
-                                var newgeom = [];
+                                var newGeom = [],newStyle=null;
                                 if (laneObj !== undefined) {
 
                                     var laneObjArr = laneObj.split(",");
 
                                     for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
                                         if (laneObjArr[fact].constructor === Array) {
-                                            newstyle = {src: './css/laneinfo/arwF/' + laneObjArr[fact][0] + '.png'};
+                                            newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact][0] + '.svg'};
                                         } else {
                                             if (laneObjArr[fact].indexOf("[") > -1) {
-                                                newstyle = {src: './css/laneinfo/extF/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
+                                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact].indexOf("<") > -1) {
-                                                newstyle = {src: './css/laneinfo/arwB/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
+                                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
-                                                newstyle = {src: './css/laneinfo/arwG/' + laneObjArr[fact] + '.png'};
+                                                newStyle = {src: './css/1301/1301_0_' + laneObjArr[fact] + '.svg'};
                                             }
                                         }
-                                        if (newstyle.src === './css/laneinfo/extF/[.png') {
-                                            console.log("test");
-                                        }
                                         if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
-                                            //this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
+                                            newGeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
+                                            newGeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true, route);
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newstyle, true, route);
-                                            //this.currentEditLayer._drawlaneImgbound(ctx, geom, newstyle, true, route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true, route);
                                         }
                                     }
                                 }
@@ -173,45 +167,40 @@ fastmap.uikit.SelectRdlane = (function () {
                             var ctx = {
                                 canvas: this.tiles[obj].options.context,
                                 tile: L.point(key.split(',')[0], key.split(',')[1])
-                                //, zoom: this._map.getZoom()
                             }
                             if (type == "Point") {
                                 if (feature.properties.laneconnexityinfo === undefined) {
                                     break;
                                 }
-                                var newStyle = "", newGeom = [];
+                                var newStyle = null, newGeom = [];
                                 var laneObj = feature.properties.laneconnexityinfo;
                                 var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
-                                var newgeom = [];
                                 if (laneObj !== undefined) {
 
                                     var laneObjArr = laneObj.split(",");
 
                                     for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
                                         if (laneObjArr[fact].constructor === Array) {
-                                            newstyle = {src: './css/laneinfo/arwF/' + laneObjArr[fact][0] + '.png'};
+                                            newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact][0] + '.svg'};
                                         } else {
                                             if (laneObjArr[fact].indexOf("[") > -1) {
-                                                newstyle = {src: './css/laneinfo/extF/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
+                                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact].indexOf("<") > -1) {
-                                                newstyle = {src: './css/laneinfo/arwB/' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.png'};
+                                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
-                                                newstyle = {src: './css/laneinfo/arwG/' + laneObjArr[fact] + '.png'};
+                                                newStyle = {src: './css/1301/1301_0_' + laneObjArr[fact] + '.svg'};
                                             }
                                         }
-                                        if (newstyle.src === './css/laneinfo/extF/[.png') {
-                                            console.log("test");
-                                        }
                                         if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newgeom, newstyle, true, route);
-                                            this.currentEditLayer._drawlaneImgbound(ctx, newgeom, newstyle, true, route);
+                                            newGeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
+                                            newGeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true, route);
+                                            this.currentEditLayer._drawlaneImgbound(ctx, newGeom, newStyle, true, route);
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newstyle, true, route);
-                                            this.currentEditLayer._drawlaneImgbound(ctx, geom, newstyle, true, route);
+                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true, route);
+                                            this.currentEditLayer._drawlaneImgbound(ctx, geom, newStyle, true, route);
                                         }
                                     }
                                 }
