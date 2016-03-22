@@ -151,36 +151,26 @@
     }
 </style>
 <div ng-controller="namesOfLinkController" id="namesOfLinkDiv">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div style="color:#FFF;">
-                <a ng-click="addRoadName()" style="cursor: pointer;color:#FFF;">添加名称</a>
-            </div>
-        </li>
-    </ul>
-    <ul ng-repeat="nameItem in names" class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+    <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
         <li class="list-group-item">
             <div><label class="control-label">名称号码</label></div>
-            <div class="inline"><input type="text" ng-model="nameItem.nameId" disabled/>
-                   <span id="minusNameSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
-                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor:pointer;"
-                         ng-click="minusRoadName($index)" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>
+            <div class="inline"><input type="text" ng-model="oridiData.nameId" disabled/>
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">名称组号</label></div>
-            <div class="inline"><input type="text" ng-model="nameItem.nameGroupid" disabled/></div>
+            <div class="inline"><input type="text" ng-model="oridiData.nameGroupid" disabled/></div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">道路名称</label></div>
             <div class="inline">
-                <input type="text" ng-model="nameItem.name" style="width: 150px"/>
+                <input type="text" ng-model="oridiData.name" style="width: 150px"/>
                 <span  class="glyphicon glyphicon-search"
                         ng-click="searchGroupidByNames($index)">
                 </span>
             </div>
         </li>
-        <li class="list-group-item" id="name{{$index}}" style="display: none">
+        <li class="list-group-item" id="name" style="display: none">
             <div class="pic-show">
                 <div class="option-hide">
                     <button type="button" class="close" aria-label="Close"
@@ -221,15 +211,15 @@
             <div><label class="control-label" >名称分类</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="originOfName" value=0 ng-model="nameItem.nameClass">
+                    <input type="radio" name="originOfName" value=0 ng-model="oridiData.nameClass">
                     官方
                 </label>
                 <label>
-                    <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
+                    <input type="radio" name="originOfName" value=1 ng-model="oridiData.nameClass">
                     别名
                 </label>
                 <label>
-                    <input type="radio" name="originOfName" value=1 ng-model="nameItem.nameClass">
+                    <input type="radio" name="originOfName" value=1 ng-model="oridiData.nameClass">
                     曾用
                 </label>
             </div>
@@ -237,7 +227,7 @@
         <li class="list-group-item">
             <div><label class="control-label">名称来源</label></div>
             <div class="inline">
-                <select  ng-model="nameItem.srcFlag"
+                <select  ng-model="oridiData.srcFlag"
                         ng-options="value.id as value.label for value in srcFlagOptions">
                 </select>
             </div>
@@ -245,7 +235,7 @@
         <li class="list-group-item">
             <div><label class="control-label">路线属性</label></div>
             <div class="inline">
-                <select  ng-model="nameItem.routeAtt"
+                <select  ng-model="oridiData.routeAtt"
                         ng-options="value.id as value.label for value in routeAttOptions">
                 </select>
             </div>
@@ -254,18 +244,18 @@
             <div><label class="control-label" >主从CODE</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="code" value=1 ng-model="nameItem.code">
+                    <input type="radio" name="code" value=1 ng-model="oridiData.code">
                     主
                 </label>
                 <label>
-                    <input type="radio" name="code" value=2 ng-model="nameItem.code">
+                    <input type="radio" name="code" value=2 ng-model="oridiData.code">
                     从
                 </label>
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">录入时间</label></div>
-            <div class="inline"><input type="text" ng-model="nameItem.inputTime" disabled/></div>
+            <div class="inline"><input type="text" ng-model="oridiData.inputTime" disabled/></div>
         </li>
     </ul>
 
