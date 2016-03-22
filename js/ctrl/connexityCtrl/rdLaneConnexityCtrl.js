@@ -7,7 +7,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highLightLayer = fastmap.uikit.HighLightController();
-    var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
@@ -20,26 +19,25 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
     //附加车道图标获得
     $scope.getAdditionalLane = function (index, data) {
-        var obj = {}, arr;
+        var arr;
         if (data.length === 1) {
-            $scope.showNormalData.push(data);
-            $scope.showTransitData.push("test");
+            $scope.showNormalData.push({"flag":data,"type":0});
+            $scope.showTransitData.push({"flag":"test","type":1});
         } else {
             arr = data.split("");
-            //
             if (index === 0) {
-                $scope.showNormalData.unshift(arr[1].toString() + arr[1].toString() + arr[1].toString());
+                $scope.showNormalData.unshift({"flag":arr[1].toString(),"type":2});
                 if(arr[4]) {
-                    $scope.showTransitData.unshift(arr[4].toString() + arr[4].toString());
+                    $scope.showTransitData.unshift({"flag":arr[4].toString(),"type":1});
                 }else{
-                    $scope.showTransitData.unshift("test");
+                    $scope.showTransitData.unshift({"flag":"test","type":1});
                 }
             } else {
-                $scope.showNormalData.push(arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString());
+                $scope.showNormalData.push({"flag":arr[1].toString(),"type":2});
                 if(arr[4]) {
-                    $scope.showTransitData.push(arr[4].toString() + arr[4].toString());
+                    $scope.showTransitData.push({"flag":arr[4].toString(),"type":1});
                 }else{
-                    $scope.showTransitData.push("test");
+                    $scope.showTransitData.push({"flag":"test","type":1});
                 }
             }
 
@@ -49,15 +47,15 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     $scope.getTransitData = function (data) {
         var obj = {}, arr;
         if (data.length === 1) {
-            $scope.showNormalData.push(data);
-            $scope.showTransitData.push("test");
+            $scope.showNormalData.push({"flag":data,"type":0});
+            $scope.showTransitData.push({"flag":"test","type":1});
         } else {
             arr = data.split("<");
             if(arr[0]) {
-                //把第一个放进去
-                $scope.showNormalData.push(arr[0]);
+                //把第一个放进去 {"flag":arr[1].substr(0, 1).toString(),"type":1}
+                $scope.showNormalData.push({"flag":arr[0],"type":0});
                 //第二个
-                $scope.showTransitData.push(arr[1].substr(0, 1).toString() + arr[1].substr(0, 1).toString());
+                $scope.showTransitData.push({"flag":arr[1].substr(0, 1).toString(),"type":1});
             }
 
         }
@@ -95,9 +93,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             highLightLayer.removeHighLightLayers();
         }
         //高亮进入线和退出线
-        linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
-        for (var i = 0, len = (objectEditCtrl.data.topos).length; i < len; i++) {
-            linksObj["outLink" + i] = objectEditCtrl.data.topos[i].outLinkPid.toString();
+        linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
+        for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
+            linksObj["outLink" + i] = objCtrl.data.topos[i].outLinkPid.toString();
         }
         var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
             map: map,
@@ -122,7 +120,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     };
 
     //调用的方法
-    objectEditCtrl.rdLaneObject = function (flag) {
+    objCtrl.rdLaneObject = function (flag) {
         $scope.showNormalData = [];
         $scope.showTransitData = [];
         $scope.outLanesArr = [];
@@ -200,13 +198,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                         var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
                         var lenOfInfo = (16 - arrOfDecimal.length);
                         if (lenOfInfo === index) {
-                            objectEditCtrl.data.topos[i].outLinkPid = data.id;
+                            objCtrl.data.topos[i].outLinkPid = data.id;
                             linksObj["outLink"] = data.id;
                         }
                     }
 
                     //高亮进入线和退出线
-                    linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
+                    linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
                     var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
                         map: map,
                         highLightFeature: "links",
@@ -261,13 +259,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
                     var lenOfInfo = (16 - arrOfDecimal.length);
                     if (lenOfInfo === index) {
-                        objectEditCtrl.data.topos[i].outLinkPid = data.id;
+                        objCtrl.data.topos[i].outLinkPid = data.id;
                         linksObj["outLink"] = data.id;
                     }
                 }
 
                 //高亮进入线和退出线
-                linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
+                linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
                 var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
                     highLightFeature: "links",
@@ -306,7 +304,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 linksFlag: false,
                 shapeEditor: shapeCtrl
             });
-        //var currentTool= new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink,linksFlag:false});
         map.currentTool.enable();
         if ($scope.addFlag) {
             eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
@@ -319,12 +316,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
                     var lenOfInfo = (16 - arrOfDecimal.length);
                     if (lenOfInfo === index) {
-                        objectEditCtrl.data.topos[i].outLinkPid = data.id;
+                        objCtrl.data.topos[i].outLinkPid = data.id;
                         linksObj["outLink"] = data.id;
                     }
                 }
                 //高亮进入线和退出线
-                linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
+                linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
                     var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
                         map: map,
                         highLightFeature: "links",
@@ -402,14 +399,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
     $document.bind("keydown", function (event) {
         if (event.keyCode == 16) {//shift键 公交车道
-            var transitArr = "";
-            if ($scope.changeItem.id) {
-                transitArr = ($scope.changeItem.id).split("");
-            } else {
-                transitArr = ($scope.changeItem).split("");
-            }
-            var transitStr = "<" + transitArr[0] + ">"
-            $scope.showTransitData[$scope.selectNum] =transitArr[0].toString() +transitArr[0].toString();
+            var transitStr = "<" + $scope.changeItem.flag + ">";
+            $scope.showTransitData[$scope.selectNum] = {"flag":$scope.changeItem.flag.toString(),"type":1};
 
             if($scope.lanesArr[$scope.selectNum].indexOf("[")!==-1) {
                 var additionArr = $scope.lanesArr[$scope.selectNum].split("");
@@ -434,17 +425,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
-                var additionId = "";
-                if ($scope.changeItem.id) {
-                    additionId = $scope.changeItem.id;
-                } else {
-                    additionId = $scope.changeItem;
-                }
-                if(additionId.length>1) {
-                    return;
-                }
-                var additionStr = "[" + additionId + "]",
-                    showAdditionStr = (additionId.toString() + additionId.toString() + additionId.toString());
+                var additionStr = "[" + $scope.changeItem.flag + "]",
+                    showAdditionStr = {"flag":$scope.changeItem.flag.toString(),"type":2};
                 if ($scope.selectNum === 0) {
                     $scope.showNormalData[0] = showAdditionStr;
                     $scope.lanesArr[0] = additionStr;
@@ -544,6 +526,16 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
         for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
             eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+        }
+    }
+    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
         }
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);

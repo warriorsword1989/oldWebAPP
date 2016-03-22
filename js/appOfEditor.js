@@ -50,16 +50,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.outErrorUrlFlag = false;
     $scope.dataTipsURLFlag = true;//点击tips列表 判断右侧属性栏是否弹出
     $scope.suspendFlag = false;
-    $scope.changeEvent = {
-        disposePublicEvent: function () {
-            if (eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-                for (var i = 0, len = eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length; i < len; i++) {
-                    eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-                }
-            }
-        }
-
-    };
     $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
     $scope.changeBtnClass = function (id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
