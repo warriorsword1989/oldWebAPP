@@ -23,12 +23,15 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
         {"id": 9, "label": "9 未定义"}
     ];
     var objCtrl = fastmap.uikit.ObjectEditController();
-    if(objCtrl.data.data) {
-        $scope.names = objCtrl.data.data.names;
-    }else{
-        $scope.names = objCtrl.data.names;
-    }
 
+    $scope.names = objCtrl.data.names;
+    $scope.realtimeData = objCtrl.data;
+
+    for(var i= 0,len=$scope.names.length;i<len;i++) {
+        if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+            $scope.oridiData = $scope.names[i];
+        }
+    }
     $scope.addRoadName=function(){
         var newName=fastmap.dataApi.linkname({"linkPid":objCtrl.data.pid})
         $scope.names.unshift(newName)
@@ -69,7 +72,7 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
         Application.functions.getNamesbyName(JSON.stringify(nameParameter), function (data) {
             if(data.errcode == 0){
                 $(".pic-loading").hide();
-                $("#namesDiv").css("display", "block");
+                //$("#namesDiv").css("display", "block");
                 $scope.pictures = data.data.data;
                 $scope.picTotal = Math.ceil(data.data.total/5);
                 $scope.goPaging();
@@ -79,12 +82,12 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     }
 
     $scope.selectNameInd=0;
-    $scope.searchGroupidByNames=function(ind){
-        $("#name" + ind).css("display", "block");
-        $scope.namesOfFlag = "name" + ind;
+    $scope.searchGroupidByNames=function(){
+        $("#name").css("display", "block");
+        $scope.namesOfFlag = "name";
         $scope.pagesize=5;//$("#pagesize").val();
-        $scope.selectNameInd=ind;
-        $scope.inNmae=$scope.names[ind].name;
+       // $scope.selectNameInd=ind;
+        $scope.inNmae=$scope.oridiData.name;
         $timeout(function(){
             $scope.picNowNum = 0;
             $scope.getPicsDate();
@@ -98,8 +101,10 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     }
 
     $scope.selectNmaesId=function(nameid,name){
-        $scope.names[$scope.selectNameInd].nameGroupid=nameid;
-        $scope.names[$scope.selectNameInd].name=name;
+       // $scope.names[$scope.selectNameInd].nameGroupid=nameid;
+       // $scope.names[$scope.selectNameInd].name=name;
+        $scope.oridiData.nameGroupid=nameid;
+        $scope.oridiData.name=name;
         $('.pic-show').hide();
     }
 
@@ -124,5 +129,8 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     $scope.backColor=function(ind){
         $("#minusNameSpan"+ind).css("color","darkgray");
     }
+
+
+
 
 })

@@ -98,6 +98,14 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
             });
+        }else if (url == "nameModule") {//道路名
+            $ocLazyLoad.load('ctrl/linkCtrl/rdNameCtrl').then(function () {
+                $scope.currentURL = "js/tepl/linkObjTepl/rdNameTepl.html";
+            });
+        }else if (url == "speedModule") {//限速
+            $ocLazyLoad.load('ctrl/linkCtrl/speedCtrl').then(function () {
+                $scope.currentURL = "js/tepl/linkObjTepl/speedTepl.html";
+            });
         }
     }
     $scope.angleOfLink=function(pointA,pointB) {
