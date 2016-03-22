@@ -12,7 +12,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         this.options = options || {};
         fastmap.mapApi.WholeLayer.prototype.initialize(this, options);
         this.minShowZoom = this.options.minShowZoom || 9;
-        this.maxShowZoom = this.options.maxShowZoom || 18;
+        this.maxShowZoom = this.options.maxShowZoom || 20;
     },
     /***
      * 图层添加到地图时调用
@@ -77,9 +77,9 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
         context.strokeStyle = '#B3ADE9'//边框颜色
         context.font = "30px Verdana";
         //context.fillText(meshId, options.x, options.y);
-        context.strokeStyle = 'red'//边框颜色
+        context.strokeStyle = '#00ff00'//边框颜色
 
-        context.linewidth = 1;  //边框宽
+        context.linewidth = 3;  //边框宽
         context.strokeRect(options.x, options.y, options.width, options.height);  //填充边框 x y坐标 宽 高
         context.stroke()
 
