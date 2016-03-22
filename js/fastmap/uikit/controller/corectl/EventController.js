@@ -54,8 +54,81 @@ fastmap.uikit.EventController=(function() {
                             events[type] = events[type] || [];
                             events[type].push(event);
                         }
+
+
+                        if( !this.eventTypesMap[type]){
+                            this.eventTypesMap[type] = [];
+                        }
+                        this.eventTypesMap[type].push(fn);
                     }
-                    this.eventTypesMap[types] = fn;
+
+                    return this;
+                },
+                removeEventListener: function (types, fn, context) { // ([String, Function, Object]) or (Object[, Object])
+
+                    if (!this[eventsKey]) {
+                        return this;
+                    }
+
+                    if (!types) {
+                        return this.clearAllEventListeners();
+                    }
+
+                    if (L.Util.invokeEach(types, this.removeEventListener, this, fn, context)) { return this; }
+
+                    var events = this[eventsKey],
+                        contextId = context && context !== this && L.stamp(context),
+                        i, len, type, listeners, j, indexKey, indexLenKey, typeIndex, removed;
+
+                    types = L.Util.splitWords(types);
+
+                    for (i = 0, len = types.length; i < len; i++) {
+                        type = types[i];
+                        indexKey = type + '_idx';
+                        indexLenKey = indexKey + '_len';
+
+                        typeIndex = events[indexKey];
+
+                        if (!fn) {
+                            // clear all listeners for a type if function isn't specified
+                            delete events[type];
+                            delete events[indexKey];
+                            delete events[indexLenKey];
+                            delete eventTypesMap[type];
+
+                        } else {
+                            listeners = contextId && typeIndex ? typeIndex[contextId] : events[type];
+
+                            if (listeners) {
+                                for (j = listeners.length - 1; j >= 0; j--) {
+                                    if ((listeners[j].action === fn) && (!context || (listeners[j].context === context))) {
+                                        removed = listeners.splice(j, 1);
+                                        // set the old action to a no-op, because it is possible
+                                        // that the listener is being iterated over as part of a dispatch
+                                        removed[0].action = L.Util.falseFn;
+                                    }
+                                }
+
+                                if (context && typeIndex && (listeners.length === 0)) {
+                                    delete typeIndex[contextId];
+                                    events[indexLenKey]--;
+                                }
+                            }
+
+                            for (var i= 0,len =this.eventTypesMap[type].length;i<len;i++){
+                                if(this.eventTypesMap[type][i] === fn){
+                                    this.eventTypesMap[type].splice(j,1);
+                                }
+                            }
+
+                        }
+                    }
+
+                    return this;
+                },
+                clearAllEventListeners: function () {
+                    delete this[eventsKey];
+                    this.eventTypesMap={};
                     return this;
                 }
             }],

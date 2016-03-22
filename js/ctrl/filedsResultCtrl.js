@@ -8,6 +8,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var layerCtrl = fastmap.uikit.LayerController();
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
             $scope.gpsLine = layerCtrl.getLayerById("gpsLine");
+            $scope.eventController = fastmap.uikit.EventController();
             $scope.showOrHideId= "";
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
@@ -459,12 +460,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         return;
                     }
                     $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
-
-                    selectCtrl.fire("selectByAttribute", {feather: data});
+                    $scope.eventController.fire( $scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if(pItemId==="1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        var center=map.getCenter();
-                        objCtrl.setCurrentObject(data);
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
                     } else if (pItemId === "1201") {//道路种别
@@ -538,8 +536,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 }
                             }
                             if (trackInfoFlag) {
-                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                     $scope.$parent.$parent.objectEditURL = "";
                                 });
                             } else {
@@ -556,23 +554,23 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             $scope.$parent.$parent.outErrorArr[1]=true;
                                         }
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
-                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                         });
                                     });
                                 })
                             }
                         } else {
                             if (data.id === undefined) {
-                                $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
+                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
                                     $scope.$parent.$parent.objectEditURL = "";
                                 });
                             } else {
                                 Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
                                     if(data.errcode===-1){
-                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                         });
                                         return;
                                     }
@@ -588,8 +586,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             $scope.$parent.$parent.outErrorArr[1]=true;
                                         }
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
-                                        $ocLazyLoad.load('ctrl/dataTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
+                                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                         });
                                     });
                                 })
@@ -599,14 +597,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     } else if (pItemId === "1407") {//高速分歧
                         $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
-                            $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
+                            $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                                 if(! $scope.$parent.$parent.panelFlag ) {
                                     $scope.$parent.$parent.panelFlag = true;
                                     $scope.$parent.$parent.objectFlag = true;
                                     $scope.$parent.$parent.outErrorArr[3]=false;
                                     $scope.$parent.$parent.outErrorArr[1]=true;
                                 }
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
+                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                             });
                         });
                         objCtrl.setCurrentObject("RDRESTRICTION",data.brID);

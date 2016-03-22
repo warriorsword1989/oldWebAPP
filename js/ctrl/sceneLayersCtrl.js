@@ -4,7 +4,7 @@
 var sceneLayersModule = angular.module('lazymodule', []);
 sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = new fastmap.uikit.LayerController();
-
+    var eventController = fastmap.uikit.EventController();
     $scope.items = layerCtrl.layers;
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
@@ -31,7 +31,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         }
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
-        layerCtrl.fire('layerSwitch', {layerArr: layerCtrl.layers});
+        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
 
     };
 })
