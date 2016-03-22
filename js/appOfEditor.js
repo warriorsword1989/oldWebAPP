@@ -5,6 +5,7 @@ var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
     $scope.showLoading = true;
     var eventController = fastmap.uikit.EventController();
+    var highLightLayer = fastmap.uikit.HighLightController();
     dragF('toolsDiv');
     //dragF('toolsDiv1');
     //dragF("popToolBar");
@@ -19,7 +20,18 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         eventController.fire(eventController.eventTypes.SAVEPROPERTY, {"data": "test"})
     };//保存方法
     $scope.delete = function () {
-        eventController.fire(eventController.eventTypes.DELETEPROPERTY, {"data": "test"})
+        //删除后清除高亮并赋给默认模版
+        swal({"title":"操作确认","text":"是否要删除当前要素?","showCancelButton":true,"cancelButtonText":"取消","confirmButtonText":"确定"},function () {
+            $scope.panelFlag = false;
+            $scope.objectFlag = false;
+            $scope.objectEditURL =  'js/tepl/blankTepl.html';
+            if ($scope.suspendFlag) {
+                $scope.suspendFlag = false;
+            }
+            highLightLayer.removeHighLightLayers();
+            eventController.fire(eventController.eventTypes.DELETEPROPERTY, {"data": "test"})
+        },data.errmsg, "error");
+
     };//删除方法
     $scope.cancel = function () {
         $scope.panelFlag = false;
@@ -38,16 +50,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.outErrorUrlFlag = false;
     $scope.dataTipsURLFlag = true;//点击tips列表 判断右侧属性栏是否弹出
     $scope.suspendFlag = false;
-    $scope.changeEvent = {
-        disposePublicEvent: function () {
-            if (eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-                for (var i = 0, len = eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length; i < len; i++) {
-                    eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-                }
-            }
-        }
-
-    };
     $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
     $scope.changeBtnClass = function (id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {

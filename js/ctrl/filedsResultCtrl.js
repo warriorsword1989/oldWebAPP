@@ -13,10 +13,38 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
+            $scope.showAll = true;
+            $scope.showAllPre = true;
+            $scope.showAllYet = true;
             $("#fm-dataList-btnGroup button").click(function(){
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
+            /*清除图层*/
+            $scope.clearLayer = function(v){
+                v.flag = false;
+                delete $scope.tipsObj[v.id] ;
+                var tips = Object.keys($scope.tipsObj);
+                $scope.workPoint.requestType = tips;
+                $scope.gpsLine.requestType = tips;
+                $scope.workPoint.redraw();
+                $scope.gpsLine.redraw();
+            }
+            /*全选、反选事件*/
+            $scope.showAllLayers = function(typeName,typeArr){
+                if($scope[typeName]){
+                    $.each($scope.items,function(i,v){
+                        $scope.clearLayer(v);
+                    });
+                    $scope[typeName] = false;
+                }else{
+                    $.each($scope.items,function(i,v){
+                        v.flag = true;
+                        $scope.changeList(typeArr);
+                    });
+                    $scope[typeName] = true;
+                }
+            }
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
@@ -123,6 +151,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //切换处理 待处理 已处理 页面
             $scope.changeList = function (stage) {
                 $scope.showOrHideId = "";
+                $scope.showAll = true;
+                $scope.showAllPre = true;
+                $scope.showAllYet = true;
                 if($scope.workPoint.requestType!=="") {
                     $scope.workPoint.requestType = "";
                     $scope.gpsLine.requestType = "";
