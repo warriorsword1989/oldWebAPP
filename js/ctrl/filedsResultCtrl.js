@@ -34,15 +34,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.showAllLayers = function(typeName,typeArr){
                 if($scope[typeName]){
                     $.each($scope.items,function(i,v){
-                        $scope[typeName] = false;
                         $scope.clearLayer(v);
                     });
+                    $scope[typeName] = false;
                 }else{
                     $.each($scope.items,function(i,v){
                         v.flag = true;
-                        $scope[typeName] = true;
                         $scope.changeList(typeArr);
                     });
+                    $scope[typeName] = true;
                 }
             }
             Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
