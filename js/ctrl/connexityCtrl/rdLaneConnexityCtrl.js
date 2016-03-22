@@ -14,6 +14,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdConnexity = layerCtrl.getLayerById("rdlaneconnexity");
 
+
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 
@@ -462,7 +463,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
 
     });
-    $scope.$parent.$parent.save = function () {
+    $scope.save = function () {
         objCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -498,7 +499,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         })
 
     };
-    $scope.$parent.$parent.delete = function () {
+    $scope.delete = function () {
         var objId = parseInt($scope.lanesData.pid);
         var param = {
             "command": "DELETE",
@@ -538,10 +539,16 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         })
     }
 
-    $scope.$parent.$parent.cancel=function(){
-        $scope.$parent.$parent.panelFlag = false;
-        $scope.$parent.$parent.objectFlag = false;
-        $scope.$parent.$parent.objectEditURL="";
+    $scope.cancel=function(){
     }
+    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+        }
+    }
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 });
 

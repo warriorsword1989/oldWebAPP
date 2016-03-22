@@ -138,13 +138,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         shapeCtrl.startEditing();
     };
     $scope.save = function () {
-        //if($scope.objOfapp) {
-        //    console.log($scope.objOfapp["test"]);
-        //    return;
-        //}
-        if($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -196,9 +189,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             "projectId": Application.projectid,
             "data": objectCtrl.changedProperty
         };
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
         //var objLength = 0;
         //for(var key in objectCtrl.changedProperty){
         //    objLength++;
@@ -249,7 +239,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         })
 
     };
-    $scope.$parent.$parent.delete = function () {
+    $scope.delete = function () {
         var objId = parseInt($scope.linkData.pid);
         var param = {
             "command": "DELETE",
@@ -320,11 +310,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             });
         });
     }
-    $scope.$parent.$parent.cancel=function(){
-            $scope.$parent.$parent.panelFlag = false;
-            $scope.$parent.$parent.objectFlag = false;
-            $scope.$parent.$parent.objectEditURL="";
+    $scope.cancel=function(){
     }
-
+    $scope.changeEvent.disposePublicEvent();
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
 }]);
