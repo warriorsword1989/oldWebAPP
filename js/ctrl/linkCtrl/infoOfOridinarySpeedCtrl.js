@@ -10,6 +10,14 @@ oridinarySpeedApp.controller("oridanarySpeedController", function ($scope) {
     var eventController = fastmap.uikit.EventController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
+    $scope.realtimeData = objCtrl.data;
+
+
+    for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
+        if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+            $scope.oridiData = $scope.speedLimitsData[i];
+        }
+    }
     $scope.speedTypeOption=[
         {"id":0,"label":"普通"},
         {"id":1,"label":"指示牌"},

@@ -5,6 +5,12 @@ var conditionSpeedApp = angular.module("myApp",[]);
 conditionSpeedApp.controller("conditionSpeedController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
+    $scope.realtimeData = objCtrl.data;
+    for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
+        if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+            $scope.oridiData = $scope.speedLimitsData[i];
+        }
+    }
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},
         {"id":55,"label":"服务区内道路"},
