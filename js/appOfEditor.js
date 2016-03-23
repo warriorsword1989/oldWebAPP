@@ -39,6 +39,32 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         $scope.objectEditURL = "";
         eventController.fire(eventController.eventTypes.CANCELEVENT, {"data": "test"})
     };//取消
+
+    //响应选择要素类型变化事件
+    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE, function(){
+        if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+            for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+            }
+        }
+        if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+            for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+            }
+        }
+        if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
+            }
+        }
+
+        if(eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE]) {
+            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE].length;k<lenK;k++) {
+                eventController.off(eventController.eventTypes.SELECTEDFEATURECHANGE, eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE][k]);
+            }
+        }
+    });
+
     $scope.rowkeyOfDataTips = "";
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听

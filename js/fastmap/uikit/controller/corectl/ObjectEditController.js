@@ -29,14 +29,9 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.data = {};
                 this.originalData = null;
                 this.updateObject = "";
-                this.rdrestrictionObject="";
-                this.rdLaneObject="";
                 this.tipsUpdateObject="";
-                this.updateRdCross = "";
-                this.rdSpeedLimitObject = "";
                 this.nodeObjRefresh = "";
                 this.selectNodeRefresh="";
-                this.refreshBranch = "";
                 this.refreshInfo = "";
             },
             /**

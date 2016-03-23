@@ -234,16 +234,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
 
                     Application.functions.getRdObjectById($scope.data.id, "RDNODE", function (data) {
                         objCtrl.setCurrentObject("RDNODE", data.data, {"linepids": linepids, "nodeid": $scope.data.id});
-
-                        if (objCtrl.nodeObjRefresh !== "") {
-                            objCtrl.nodeObjRefresh();
-                        }
                         $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/nodeTepl/rdNodeFromTepl.html";
                         })
                     });
-
-
                 })
             });
         }
@@ -273,9 +267,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                     switch ($scope.data.optype) {
 
                         case 'RDRESTRICTION':
-                            if (objCtrl.rdrestrictionObject !== "") {
-                                objCtrl.rdrestrictionObject();
-                            }
                             $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
                                 if ($scope.tips === 0) {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
@@ -285,34 +276,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                             })
                             break;
                         case 'RDLANECONNEXITY':
-                            if (objCtrl.rdLaneObject !== "") {
-                                objCtrl.rdLaneObject(true);
-                            }
                             $ocLazyLoad.load('ctrl/connexityCtrl/rdLaneConnexityCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
                             })
                             break;
-
                         case 'RDSPEEDLIMIT':
-                            if (objCtrl.rdSpeedLimitObject !== "") {
-                                objCtrl.rdSpeedLimitObject();
-                            }
                             $ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/speedLimitTepl.html";
                             })
                             break;
                         case 'RDCROSS':
-                            if (objCtrl.updateRdCross !== "") {
-                                objCtrl.updateRdCross();
-                            }
                             $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
                             })
                             break;
                         case 'RDBRANCH':
-                            if (objCtrl.updateRdBranch&&objCtrl.updateRdBranch !== "") {
-                                objCtrl.updateRdBranch();
-                            }
                             $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                                 $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
                             });
@@ -544,9 +522,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         $scope.$parent.$parent.objectFlag = true;
                     }
                     objCtrl.setCurrentObject(data.data);
-                    if (objCtrl.updateRdCross !== "") {
-                        objCtrl.updateRdCross();
-                    }
                     tooltipsCtrl.onRemoveTooltip();
                     $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                         $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
