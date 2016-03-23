@@ -29,6 +29,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         this.srcFlag = data["srcFlag"] || 6;
         this.digitalLevel = data["digitalLevel"] || 0;
         this.reserved = data["reserved"] || "";
+
         this.forms=data["forms"];
 
     },
