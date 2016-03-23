@@ -24,7 +24,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.clearLayer = function(v){
                 v.flag = false;
                 delete $scope.tipsObj[v.id] ;
-
             }
             /*全选、反选事件*/
             $scope.showAllLayers = function(typeName,typeArr){

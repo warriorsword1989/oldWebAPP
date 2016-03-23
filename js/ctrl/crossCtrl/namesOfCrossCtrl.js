@@ -38,6 +38,16 @@ namesOfCross.controller("namesController",function($scope) {
         {"id": "UKR", "label": "乌克兰语"},
         {"id": "SCR", "label": "克罗地亚语"}
     ];
+
+    $scope.names = objCtrl.data.names;
+    $scope.realtimeData = objCtrl.data;
+
+    for(var i= 0,len=$scope.names.length;i<len;i++) {
+        if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+            $scope.oridiData = $scope.names[i];
+        }
+    }
+
     /*路口名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
         var param = {

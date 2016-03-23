@@ -18,7 +18,7 @@
 </head>
 <body ng-controller="RoadEditController">
 <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-    <div id="fm-leftContainer" ui-layout-container size="50px">
+    <div id="fm-leftContainer" ui-layout-container size="50px" style="display: none">
         <div class="fm-left-top-a"><a ><strong>FM</strong></a></div>
         <div class="fm-left-center">
             <div ng-class="{1:'selected'}[isTipsPanel]" ng-click="changeLeftDisplay('tipsPanel')"> <a ><i title="成果" class="glyphicon glyphicon-home"></i></a></div>
@@ -32,7 +32,7 @@
     </div>
     <div ui-layout-container>
         <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-            <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" style="padding: 2px 0px;">
+            <div class="fm-panel-layersURL dark scroll-styled" ui-layout-container size="250px" min-size="250px" style="padding: 2px 0px;display: none;">
                 <div ng-include="layersURL"></div>
             </div>
             <div ui-layout-container>
