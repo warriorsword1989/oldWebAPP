@@ -33,7 +33,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":43,"label":"路口挂接修改"}
     ];
 
-
     $scope.fromOfWayOption=[
         {"id":0,"label":"未调查","isCheck":false},
         {"id":1,"label":"无属性","isCheck":false},
@@ -86,9 +85,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             initFlag: true
         });
         highLightLayer.pushHighLightLayers(highLightLink);
-
         highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
-
     };
 
     if(objectEditCtrl.data) {

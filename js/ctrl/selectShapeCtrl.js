@@ -439,11 +439,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                             objCtrl.setCurrentObject(data.data[0]);
                                             $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                                                 $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
-
                                             });
                                         });
                                     }
-
                                 });
                                 break;
                             case "1803":

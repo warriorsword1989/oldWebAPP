@@ -48,8 +48,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             highLightLayer.pushHighLightLayers(highLightLink);
             highLightLink.drawOfLinkForInit();
         }
-
-
     };
     //初始化controller调用
     if (objectCtrl.data) {
@@ -65,7 +63,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             }else{
                 $(this).removeClass("selected");
             }
-
         })
 
         $scope.$parent.$parent.suspendFlag = false;
@@ -233,7 +230,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 outputCtrl.updateOutPuts();
             }
         })
-
     };
     $scope.delete = function () {
         var objId = parseInt($scope.linkData.pid);
@@ -279,7 +275,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     outputCtrl.updateOutPuts();
                 }
             }
-
         })
     }
 
