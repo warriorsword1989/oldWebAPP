@@ -37,15 +37,32 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             $scope.initializeRdCrossData();
         })
     };
-    $scope.showNames=function() {
+    $scope.showCrossNames=function(nameItem) {
         if(! $scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
         $scope.$parent.$parent.suspendObjURL = "";
+        $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
         $ocLazyLoad.load('ctrl/crossCtrl/namesOfCrossCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/crossTepl/namesOfCross.html";
         })
     };
+
+    $scope.addRdCrossName = function () {
+        var newName = fastmap.dataApi.rdcrossname({"linkPid": $scope.rdCrossData.pid});
+        $scope.rdCrossData.names.unshift(newName)
+    };
+
+    $scope.minuscrossName=function(id){
+        $scope.rdCrossData.names.splice(id, 1);
+    }
+
+    $scope.changeColor=function(ind,ord){
+        $("#crossnameSpan"+ind).css("color","#FFF");
+    }
+    $scope.backColor=function(ind,ord){
+        $("#crossnameSpan"+ind).css("color","darkgray");
+    }
 
     $scope.$parent.$parent.save = function () {
         objCtrl.save();
