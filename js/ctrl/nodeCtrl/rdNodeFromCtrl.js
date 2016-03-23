@@ -65,8 +65,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":2,"label":"路上点"}
     ];
     $scope.initializeNodeData=function() {
-        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-        $scope.rdNodeData=objectEditCtrl.data;
+        $scope.rdNodeData=objectEditCtrl.data
         if($scope.rdNodeData.forms.length>0){
             $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
             $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
@@ -89,13 +88,20 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     };
 
     if(objectEditCtrl.data) {
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.initializeNodeData();
     }
-
+    objectEditCtrl.nodeObjRefresh=function(flag) {
+        if(flag) {
+            objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        }
+        $scope.initializeNodeData();
+    };
     $scope.showPopover=function(){
         if(!$scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
+        $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/nodeCtrl/addDirectOfNodeCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/nodeTepl/addDitrectOfNodeTepl.html";
         })
@@ -115,25 +121,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         }
         objectEditCtrl.selectNodeRefresh();
     }
-
-    $scope.saveroadtype=function(){
-        $scope.rdNodeData.forms.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            linkPid:$scope.rdNodeData.pid
-        })
-
-        $scope.newFromOfWRoadDate.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            name: $("#roadtypename").find("option:selected").text()
-        });
-        $('#myModal').modal('hide');
-    }
-
-    $scope.deleteroadtype=function(){
-        $scope.newFromOfWRoadDate.splice(type, 1);
-        $scope.roadlinkData.forms.splice(type, 1);
-    }
-
     $scope.save = function () {
         objectEditCtrl.save();
         var param = {
