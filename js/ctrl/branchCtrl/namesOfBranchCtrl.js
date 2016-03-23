@@ -14,6 +14,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.divergenceIds = divergenceIds;
     $scope.diverId = divergenceIds.pid;
     $scope.diverObj = {};
+    console.log(objCtrl)
     /*默认显示第一个分歧信息*/
     if(!objCtrl.data){
         return;
@@ -373,7 +374,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         param.command = "UPDATE";
         param.projectId = Application.projectid;
         param.data = objCtrl.changedProperty;
-    console.log(objCtrl.changedProperty)
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;

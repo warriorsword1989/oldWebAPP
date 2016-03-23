@@ -10,7 +10,7 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
     setAttributeData:function(data){
         this.pid = data["pid"];
         this.seqNum = data["seqNum"] || 1;
-        this.nameGroupId = data["nameGroupId"] || 1;
+        this.nameGroupid = data["nameGroupid"] || 1;
         this.detailId = data["detailId"];
         this.nameClass = data["nameClass"] || 0;
         this.langCode = data["langCode"] || "CHI";

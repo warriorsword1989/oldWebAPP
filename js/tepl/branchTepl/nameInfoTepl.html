@@ -110,7 +110,7 @@
     <div id="loadPropertyDiv" class="panel-collapse col-sm-12">
         <div class="info-well" id="nameInfo{{item[0].nameGroupid}}" ng-repeat="item in nameGroup | orderBy: 'nameGroupid'">
             <div class="info-head-well">
-                名称组{{item[0].nameGroupid}}
+                名称组
                 <span ng-bind="item[0].nameGroupid" style="line-height: 2.5;"></span>
                 <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
                 <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item[0],1)" title="下移" ng-if="$index!=details[0].names.length-1"></span>

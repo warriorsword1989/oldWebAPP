@@ -5,7 +5,9 @@ var braName = angular.module("mapApp", ['oc.lazyLoad']);
 braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
-     $scope.details[0].names.push(
+     $scope.groupJson={}
+     
+     /*$scope.details[0].names.push(
             {codeType: 0,
                 detailId: 100000036,
                 langCode: "CHI",
@@ -16,7 +18,8 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
                 pid: 4636,
                 seqNum: 3,
                 srcFlag: 0,
-                voiceFile: "Yuanjingshigaosu"},
+                voiceFile: "Yuanjingshigaosu"});
+     $scope.details[0].names.push(
                 {codeType: 0,
                 detailId: 1000000436,
                 langCode: "CHI",
@@ -27,14 +30,13 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
                 pid: 4636,
                 seqNum: 3,
                 srcFlag: 0,
-                voiceFile: "Yuanjingshigaosu"});
+                voiceFile: "Yuanjingshigaosu"});*/
      $scope.nameGroup = [];
      $scope.sortNameGroup = function(arr){
          arr.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
          });
         for (var i = 0; i <= arr.length - 1; i++) {
-            console.log(arr[i])
             var tempArr = [];
             if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
                 if($.inArray(arr[i],$scope.nameGroup) == -1){
@@ -53,6 +55,7 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         };
      }
      $scope.sortNameGroup($scope.details[0].names);
+     // console.log($scope.nameGroup)
      $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
          });
