@@ -192,6 +192,7 @@ html,body{
 .fm-left-top-a{
     color: white;
     padding: 15px;
+    cursor: pointer;
 }
 
 .fm-left-center{
