@@ -97,6 +97,7 @@
                 "fastmap/mapApi/layer/Layer.js",
                 "fastmap/mapApi/layer/WholeLayer.js",
                 "fastmap/mapApi/layer/MeshLayer.js",
+                "fastmap/mapApi/layer/LayerRender.js",
                 "fastmap/mapApi/layer/TileJSONLayer.js",
                 "fastmap/mapApi/layer/EditLayer.js",
                 "fastmap/mapApi/layer/GridLayer.js",
