@@ -559,20 +559,21 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     } else if (pItemId === "1407") {//高速分歧
+                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                            if(! $scope.$parent.$parent.panelFlag ) {
+                                $scope.$parent.$parent.panelFlag = true;
+                                $scope.$parent.$parent.objectFlag = true;
+                                $scope.$parent.$parent.outErrorArr[3]=false;
+                                $scope.$parent.$parent.outErrorArr[1]=true;
+                            }
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        });
+
                         $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
-                            $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                if(! $scope.$parent.$parent.panelFlag ) {
-                                    $scope.$parent.$parent.panelFlag = true;
-                                    $scope.$parent.$parent.objectFlag = true;
-                                    $scope.$parent.$parent.outErrorArr[3]=false;
-                                    $scope.$parent.$parent.outErrorArr[1]=true;
-                                }
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                            });
+
                         });
-                        objCtrl.setCurrentObject("RDRESTRICTION",data.brID);
-                        map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
+
                     } else if (pItemId === "1510") {//桥1510
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";

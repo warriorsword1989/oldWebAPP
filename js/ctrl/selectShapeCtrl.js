@@ -289,7 +289,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         if (data.rowkey === "undefined") {
                             return;
                         }
-
                         switch (data.s_sourceType) {
 
                             case "2001"://测线
@@ -387,19 +386,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 }
                                 break;
                             case "1407":
-                                /*$ocLazyLoad.load("ctrl/rdBanchCtrl").then(function () {
-                                 $scope.$parent.$parent.objectEditURL = "js/tepl/rdBranchTep.html";
-                                 $ocLazyLoad.load('ctrl/sceneHightSpeedDiverTeplCtrl').then(function () {
-                                 $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHightSpeedDiverTepl.html";
-                                 });
-                                 });*/
                                 $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/sceneAllTipsTepl.html";
                                     $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
                                     });
                                 });
-                                console.log(data.brID)
                                 objCtrl.setCurrentObject(data.brID);
                                 break;
                             case "1510"://1510
