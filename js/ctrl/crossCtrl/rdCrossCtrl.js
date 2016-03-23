@@ -28,9 +28,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     if (objCtrl.data) {
         $scope.initializeRdCrossData();
     }
-    objCtrl.updateRdCross=function() {
-        $scope.initializeRdCrossData();
-    };
     $scope.refreshData = function () {
         Application.functions.getRdObjectById(parseInt($scope.rdCrossData.pid), "RDCROSS", function (data) {
             objCtrl.setCurrentObject("RDCROSS", data.data);
@@ -153,23 +150,8 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
 
     $scope.cancel=function(){
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-            eventController.off(eventController.eventTypes.DELETEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-            eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
-        }
-    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeRdCrossData);
 });
