@@ -150,6 +150,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                         $scope.objectEditURL = 'js/tepl/blankTepl.html';
                                         $scope.showLoading = false;
                                         $(".output-console").show();
+                                        $('#fm-leftContainer').show();
                                     });
                                 });
                             }
