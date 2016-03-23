@@ -183,6 +183,48 @@ html,body{
     color: #fff;
 }
 
+
+
+#fm-leftContainer  {
+    background-color: #222;
+}
+
+.fm-left-top-a{
+    color: white;
+    padding: 15px;
+}
+
+.fm-left-center{
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0;
+    margin-top:20px;
+}
+
+.fm-left-center a{
+     color: white;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+ }
+
+.fm-left-center div{
+    padding:15px;
+ }
+.fm-left-center div.selected{
+    background-color: #313131;
+}
+
+.fm-left-bottom{
+    bottom: 0px;
+    position: absolute;
+}
+.fm-left-bottom div{
+    cursor: pointer;
+    padding: 15px;
+}
+
+
 /**************************************nnade***************************************************/
 
 .fm-panel{
