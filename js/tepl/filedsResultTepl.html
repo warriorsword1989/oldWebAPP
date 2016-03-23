@@ -338,13 +338,13 @@
         </div>
         <div id="fm-dataList-btnGroup" class="btn-group btn-group-justified" style="margin-top: 10px;" role="group" aria-label="...">
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-xs active"><i class="glyphicon glyphicon-th-large"></i> <a href="#allTaskers" data-toggle="tab" ng-click="changeList([1,3])" style="font-size: 10px;text-decoration: none;font-weight:bold">全 部</a></button>
+                <button type="button" class="btn btn-xs active"  ng-click="changeList([1,3])"><i class="glyphicon glyphicon-th-large"></i> <a href="#allTaskers" data-toggle="tab" style="font-size: 10px;text-decoration: none;font-weight:bold">全 部</a></button>
             </div>
             <div class="btn-group" role="group" style="border-left: 1px solid #404040;border-right: 1px solid #404040">
-                <button type="button" class="btn btn-xs"><i class="glyphicon glyphicon-list-alt"></i> <a href="#pendingTaskers" data-toggle="tab" ng-click="changeList([1])" style="font-size: 10px;text-decoration: none;font-weight:bold">待 处 理</a></button>
+                <button type="button" class="btn btn-xs"  ng-click="changeList([1])"><i class="glyphicon glyphicon-list-alt"></i> <a href="#pendingTaskers" data-toggle="tab" style="font-size: 10px;text-decoration: none;font-weight:bold">待 处 理</a></button>
             </div>
             <div class="btn-group" role="group">
-                <button type="button" class="btn btn-xs"><i class="glyphicon glyphicon-th-list"></i> <a href="#solvedTaskers" data-toggle="tab" ng-click="changeList([3])" style="font-size: 10px;text-decoration: none;font-weight:bold">已 处 理</a></button>
+                <button type="button" class="btn btn-xs"  ng-click="changeList([3])"><i class="glyphicon glyphicon-th-list"></i> <a href="#solvedTaskers" data-toggle="tab" style="font-size: 10px;text-decoration: none;font-weight:bold">已 处 理</a></button>
             </div>
         </div>
     </div>
