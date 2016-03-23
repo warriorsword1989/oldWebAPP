@@ -111,6 +111,16 @@ function keyEvent(ocLazyLoad, scope) {
                             };
                             data.data.log.push(sinfo);
                             info = data.data.log;
+
+                            Application.functions.getRdObjectById(data.data.pid,"RDLINK",function(data){
+                                objEditCtrl.setCurrentObject("RDLINK",data.data);
+                                if (objEditCtrl.updateObject !== "") {
+                                    objEditCtrl.updateObject();
+                                }
+                                ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
+                                    scope.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                                })
+                            });
                         } else {
                             info = [{
                                 "op": data.errcode,
