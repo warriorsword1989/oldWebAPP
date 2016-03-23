@@ -85,33 +85,26 @@
 
 </style>
 <div ng-controller="conditionSpeedController" id="conditionSpeedDiv">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div style="color:#FFF;">
-                <a ng-click="addSpeedLimit()" style="cursor: pointer;color:#FFF;">增加限速</a>
-            </div>
-        </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" ng-repeat="conItem in speedLimitsData" ng-if="conItem.speedType===3">
+    <ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===3">
         <li class="list-group-item">
             <div><label class="control-label">限速类型</label></div>
             <div class="inline">
-                <select ng-model="conItem.speedType"
+                <select ng-model="oridiData.speedType"
                         ng-options="value.id as value.label for value in speedTypeOption">
                     <option>--</option>
                 </select>
-                <span id="minusSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
-                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor:pointer;"
-                         ng-click="minusSpeedlimit($index)"  ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>
-                 <span class="glyphicon glyphicon-remove-sign"
-                       style="float: left;color: darkgray;left: 0px;display:none;margin-top: 5px;position: absolute"
-                       ng-click="changeSpeedAndDirect(roadlinkData.direct,conItem.rowid)"></span>
+                <!--<span id="minusSpan{{$index}}" class="glyphicon glyphicon-remove-sign"-->
+                         <!--style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor:pointer;"-->
+                         <!--ng-click="minusSpeedlimit($index)"  ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)"></span>-->
+                 <!--<span class="glyphicon glyphicon-remove-sign"-->
+                       <!--style="float: left;color: darkgray;left: 0px;display:none;margin-top: 5px;position: absolute"-->
+                       <!--ng-click="changeSpeedAndDirect(roadlinkData.direct,oridiData.rowid)"></span>-->
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">限速条件</label></div>
             <div class="inline">
-                <select ng-model="conItem.speedDependent"
+                <select ng-model="oridiData.speedDependent"
                         ng-options="value.id as value.label for value in speedDependentOption">
                     <option>--</option>
 
@@ -122,8 +115,8 @@
             <div><label class="control-label">顺向速度</label></div>
             <div class="inline">
                 <input type="text"
-                       placeholder="0530" id="{{conItem.rowid}}fromSpeedLimit"
-                       ng-model="conItem.fromSpeedLimit">
+                       placeholder="0530" id="{{oridiData.rowid}}fromSpeedLimit"
+                       ng-model="oridiData.fromSpeedLimit">
             </div>
         </li>
         <li class="list-group-item">
@@ -131,7 +124,7 @@
             <div class="inline">
                 <input type="text"
                        placeholder="0530" id="{{item.rowid}}toSpeedLimit"
-                       ng-model="conItem.toSpeedLimit">
+                       ng-model="oridiData.toSpeedLimit">
             </div>
         </li>
         <li class="list-group-item">
@@ -156,7 +149,7 @@
             <div><label class="control-label">时间段</label></div>
             <div class="inline">
                 <input type="text"
-                       ng-model="conItem.timeDomain">
+                       ng-model="oridiData.timeDomain">
             </div>
         </li>
     </ul>

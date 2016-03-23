@@ -33,7 +33,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":43,"label":"路口挂接修改"}
     ];
 
-
     $scope.fromOfWayOption=[
         {"id":0,"label":"未调查","isCheck":false},
         {"id":1,"label":"无属性","isCheck":false},
@@ -80,26 +79,18 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 }
             }
         }
-
-
         var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
             map: map,
             highLightFeature: "linksOfnode",
             initFlag: true
         });
         highLightLayer.pushHighLightLayers(highLightLink);
-
         highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
-
     };
 
     if(objectEditCtrl.data) {
         $scope.initializeNodeData();
     }
-    objectEditCtrl.nodeObjRefresh=function() {
-        $scope.initializeNodeData();
-};
-
 
     $scope.showPopover=function(){
         if(!$scope.$parent.$parent.suspendFlag) {
@@ -194,51 +185,45 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         });
     }
 
-    $scope.delete=function(){
+    $scope.delete = function () {
         var pid = parseInt($scope.rdNodeData.pid);
         var param =
         {
-            "command":"DELETE",
-            "type":"RDNODE",
-            "projectId":Application.projectid,
-            "objId":pid
+            "command": "DELETE",
+            "type": "RDNODE",
+            "projectId": Application.projectid,
+            "objId": pid
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             rdLink.redraw();
-            var info=[];
-            if (data.errcode==0) {
-                var sinfo={
-                    "op":"删除RDNODE成功",
-                    "type":"",
+            var info = [];
+            if (data.errcode == 0) {
+                var sinfo = {
+                    "op": "删除RDNODE成功",
+                    "type": "",
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-                info=data.data.log;
-            }else{
-                info=[{
-                    "op":data.errcode,
-                    "type":data.errmsg,
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
                     "pid": data.errid
                 }];
                 swal("删除失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
-            if(outPutCtrl.updateOutPuts!=="") {
+            if (outPutCtrl.updateOutPuts !== "") {
                 outPutCtrl.updateOutPuts();
             }
         })
-    }
+    };
     $scope.cancel=function(){
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    //eventController.off(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeNodeData);
 })

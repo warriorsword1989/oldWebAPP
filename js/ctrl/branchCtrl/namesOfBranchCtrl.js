@@ -154,7 +154,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     ];
     /*分歧类型*/
     $scope.branchTypeOptions=[
-        {"id": 0, "label": "高亮分歧(无名称)"},
+        {"id": 0, "label": "高速分歧(无名称)"},
         {"id": 1, "label": "方面分歧"},
         {"id": 2, "label": "IC分歧"},
         {"id": 3, "label": "3D分歧"},
@@ -453,13 +453,8 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.cancel = function(){
         $scope.getObjectById(false);
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initDiver);
 })

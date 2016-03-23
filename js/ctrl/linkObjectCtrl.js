@@ -26,9 +26,9 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         });
         //随着地图的变化 高亮的线不变
         if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
-            var linksarr = [];
+            var linksArr = [];
             for(var item in $scope.dataTipsData.f_array){
-                linksarr.push($scope.dataTipsData.f_array[item].id);
+                linksArr.push($scope.dataTipsData.f_array[item].id);
             }
             var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                 map: map,
@@ -37,7 +37,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 linksArr: linksarr
             });
             highLightLayer.pushHighLightLayers(highLightLink);
-            highLightLink.drawLinksOfCrossForInit(linksarr,[],[]);
+            highLightLink.drawLinksOfCrossForInit(linksArr,[],[]);
         }else{
             var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                 map: map,
@@ -48,17 +48,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             highLightLayer.pushHighLightLayers(highLightLink);
             highLightLink.drawOfLinkForInit();
         }
-
-
     };
     //初始化controller调用
     if (objectCtrl.data) {
         $scope.initializeLinkData();
     }
-    //不是初始化时,初始化需要显示的数据
-    objectCtrl.updateObject = function () {
-        $scope.initializeLinkData();
-    };
     //获取某个模块的信息
     $scope.changeModule = function (url,ind) {
 
@@ -69,7 +63,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             }else{
                 $(this).removeClass("selected");
             }
-
         })
 
         $scope.$parent.$parent.suspendFlag = false;
@@ -97,6 +90,14 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         } else if (url == "otherModule") {
             $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/otherTepl.html";
+            });
+        }else if (url == "nameModule") {//道路名
+            $ocLazyLoad.load('ctrl/linkCtrl/rdNameCtrl').then(function () {
+                $scope.currentURL = "js/tepl/linkObjTepl/rdNameTepl.html";
+            });
+        }else if (url == "speedModule") {//限速
+            $ocLazyLoad.load('ctrl/linkCtrl/speedCtrl').then(function () {
+                $scope.currentURL = "js/tepl/linkObjTepl/speedTepl.html";
             });
         }
     }
@@ -129,11 +130,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         };
         var editLayer = layerCtrl.getLayerById('edit');
         layerCtrl.pushLayerFront('edit');
-        var sobj = shapeCtrl.shapeEditorResult;
+        var sObj = shapeCtrl.shapeEditorResult;
         editLayer.drawGeometry =  marker;
         editLayer.draw( marker, editLayer);
-        sobj.setOriginalGeometry( marker);
-        sobj.setFinalGeometry(marker);
+        sObj.setOriginalGeometry( marker);
+        sObj.setFinalGeometry(marker);
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
@@ -189,14 +190,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             "projectId": Application.projectid,
             "data": objectCtrl.changedProperty
         };
-        //var objLength = 0;
-        //for(var key in objectCtrl.changedProperty){
-        //    objLength++;
-        //}
-        ////if(objLength == 3){
-        ////    swal("操作失败", '没有修改内容', "error");
-        ////    return;
-        ////}
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
             //objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
@@ -216,12 +209,12 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     $(editLayer.options._div).unbind();
                 }
                 swal("操作成功",'保存成功！', "success");
-                var sinfo={
+                var sInfo={
                     "op":"修改道路link成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
 
             } else {
@@ -237,7 +230,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 outputCtrl.updateOutPuts();
             }
         })
-
     };
     $scope.delete = function () {
         var objId = parseInt($scope.linkData.pid);
@@ -283,7 +275,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     outputCtrl.updateOutPuts();
                 }
             }
-
         })
     }
 
@@ -312,9 +303,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     }
     $scope.cancel=function(){
     }
-    $scope.changeEvent.disposePublicEvent();
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeLinkData);
 }]);

@@ -13,6 +13,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         L.setOptions(this, options);
 
         ///this.geometry = data["geometry"];
+        this.geoLiveType = "RDLINK";
         this.setAttributeData(data);
     },
 
@@ -189,6 +190,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         data["multiDigitized"] = this.multiDigitized;
         data["developState"] = this.developState;
         data["imiCode"] = this.imiCode;
+        data["geoLiveType"] = this.geoLiveType;
 
         return data;
     },
@@ -249,6 +251,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         data["centerDivider"] = this.centerDivider;
         data["parkingFlag"] = this.parkingFlag;
         data["memo"] = this.memo;
+        data["geoLiveType"] = this.geoLiveType;
         data["reserved"] = this.reserved;
 
         var forms = [];
