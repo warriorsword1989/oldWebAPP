@@ -48,6 +48,13 @@
         color: #ffffff;
         background-color: #0099FF
     }
+    .info-option-item{
+        padding: 5px;
+        cursor: pointer;
+        color: #fff;
+        transition:all 0.5s;
+        margin-right: -10px; 
+    }
     .d-name{
         float: left;
         width: 30%;
@@ -100,6 +107,7 @@
         padding: 10px;
         margin-top: 10px;
         border-radius: 3px;
+        padding-top: 0;
     }
 </style>
 <div id="braNameDiv" class="detail-info-box" ng-controller="BraNameCtrl">
@@ -113,10 +121,11 @@
                 名称组
                 <span ng-bind="item[0].nameGroupid" style="line-height: 2.5;"></span>
                 <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
-                <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item[0],1)" title="下移" ng-if="$index!=details[0].names.length-1"></span>
-                <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item[0],2)" title="上移" ng-if="$index!=0"></span>
+                <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=details[0].names.length-1"></span>
+                <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
             </div>
             <div class="name-group-item" ng-repeat="nameObj in item">
+                <span class="info-option-item info-remove-ico pull-right" ng-click="removeNameItem(nameObj)"> × </span>
                 <div class="line line-dashed b-b line-lg">
                     <div class="d-group">
                         <div class="d-name">名称组号：</div>

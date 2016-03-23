@@ -14,7 +14,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.divergenceIds = divergenceIds;
     $scope.diverId = divergenceIds.pid;
     $scope.diverObj = {};
-    console.log(objCtrl)
     /*默认显示第一个分歧信息*/
     if(!objCtrl.data){
         return;
@@ -219,7 +218,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
-    console.log(dObj.details)
             /*模式图信息条数*/
             if(dObj.details.length > 0){
                 $scope.arrowFlag = dObj.details[0].arrowFlag;
