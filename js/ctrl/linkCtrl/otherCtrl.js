@@ -5,7 +5,7 @@
 var otherApp = angular.module("mapApp", ['oc.lazyLoad']);
 otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
-    $scope.roadlinkData = $scope.linkData;
+    $scope.roadlinkData = objectEditCtrl.data;
     $scope.speedTypeOption = [
         {"id": 0, "label": "普通"},
         {"id": 1, "label": "指示牌"},
@@ -84,6 +84,7 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
                 }
             }
         }
+        initOrig($scope.newFromOfWRoadDate,$scope.fromOfWayOption,"vehicleExpressiondiv");
     }
     if(objectEditCtrl.data) {
         $scope.initOtherData();
@@ -115,6 +116,13 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
             $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html";
         })
     };
+
+    $scope.showPopover=function(){
+        initdiv('vehicleExpressiondiv');
+        $('#vehicleExpressiondiv').popover('show');
+
+    }
+
     //修改道路形态
     $scope.addFormOfWay = function() {
         if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
