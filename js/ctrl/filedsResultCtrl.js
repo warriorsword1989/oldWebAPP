@@ -28,12 +28,13 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             v.flag = false;
                             $scope.showAll = false;
                             delete $scope.tipsObj[v.id] ;
-                            var tips = Object.keys($scope.tipsObj);
-                            $scope.workPoint.requestType = tips;
-                            $scope.gpsLine.requestType = tips;
-                            $scope.workPoint.redraw();
-                            $scope.gpsLine.redraw();
+
                         });
+                        var tips = Object.keys($scope.tipsObj);
+                        $scope.workPoint.requestType = tips;
+                        $scope.gpsLine.requestType = tips;
+                        $scope.workPoint.redraw();
+                        $scope.gpsLine.redraw();
                     }else{
                         $.each($scope.items,function(i,v){
                             v.flag = true;
