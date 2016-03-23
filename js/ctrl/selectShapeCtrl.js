@@ -58,13 +58,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 }
                                 $ocLazyLoad.load(propertyCtrl).then(function () {
                                     $scope.$parent.$parent.objectEditURL = propertyTepl;
-
                                 });
                             });
                         }
                     }
-
-
                 } else if (stage === 3) {
                     if (data.t_lifecycle === 3) {
                         if (data.f) {
@@ -119,7 +116,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             layerCtrl.pushLayerFront('edit');
             //layerCtrl.pushLayerFront('referenceLine');
 
-
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
@@ -139,13 +135,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 $scope.data = data;
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
-                    if (!$scope.$parent.$parent.panelFlag) {
-                        $scope.$parent.$parent.panelFlag = true;
-                        $scope.$parent.$parent.objectFlag = true;
-                        $scope.$parent.$parent.outErrorArr[3] = false;
-                        $scope.$parent.$parent.outErrorArr[1] = true;
-                    }
-
                     if (data.errcode === -1) {
                         return;
                     }
@@ -175,12 +164,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                     })
                 })
-
             })
-
-
         }
-
         else if (type === "node") {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             $scope.$parent.$parent.dataTipsURL = "";//清除弹出的datatips面板
@@ -200,13 +185,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             //清除link层的所有监听事件
             //rdLink.clearAllEventListeners()
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                if (!$scope.$parent.$parent.panelFlag) {
-                    $scope.$parent.$parent.panelFlag = true;
-                    $scope.$parent.$parent.objectFlag = true;
-                    $scope.$parent.$parent.outErrorArr[3] = false;
-                    $scope.$parent.$parent.outErrorArr[1] = true;
-                }
-
                 $scope.data = data;
                 Application.functions.getLinksbyNodeId(JSON.stringify({
                     projectId: Application.projectid,
@@ -256,16 +234,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                 $scope.data = data;
                 $scope.tips = data.tips;
                 Application.functions.getRdObjectById(data.id, data.optype, function (data) {
-                    if (!$scope.$parent.$parent.panelFlag) {
-                        $scope.$parent.$parent.panelFlag = true;
-                        $scope.$parent.$parent.objectFlag = true;
-                        $scope.$parent.$parent.outErrorArr[3] = false;
-                        $scope.$parent.$parent.outErrorArr[1] = true;
-                    }
                     objCtrl.setCurrentObject($scope.data.optype,data.data);
                     tooltipsCtrl.onRemoveTooltip();
                     switch ($scope.data.optype) {
-
                         case 'RDRESTRICTION':
                             $ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
                                 if ($scope.tips === 0) {
@@ -296,11 +267,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                             });
                             break;
                     }
-
-
                 }, data.detailid)
-
-
             })
         }
         else if (type === "tips") {
@@ -486,17 +453,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                     $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                                 });
                                 break;
-
                         }
 
                         if (selectCtrl.updateTipsCtrl !== "") {
                             selectCtrl.updateTipsCtrl();
                         }
-
-
                         $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
-
-
                     })
                 }
             )
@@ -526,18 +488,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                     $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                         $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
                     });
-
                 })
-
-
             })
-
         }
 
         function saveOrEsc(event) {
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
         };
-
     };
 }])
