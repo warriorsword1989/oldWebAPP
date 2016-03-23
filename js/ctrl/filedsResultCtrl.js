@@ -20,77 +20,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
-            /*全选、反选*/
-            $scope.showAllLayers = function (type) {
-                if (type == 1) {
-                    if ($scope.showAll) {
-                        $.each($scope.items, function (i, v) {
-                            v.flag = false;
-                            $scope.showAll = false;
-                            delete $scope.tipsObj[v.id];
-
-                        });
-                        var tips = Object.keys($scope.tipsObj);
-                        $scope.workPoint.requestType = tips;
-                        $scope.gpsLine.requestType = tips;
-                        $scope.workPoint.redraw();
-                        $scope.gpsLine.redraw();
-                    } else {
-                        $.each($scope.items, function (i, v) {
-                            v.flag = true;
-                            $scope.showAll = true;
-                            $scope.changeList([1, 3]);
-                        });
-                    }
-                } else if (type == 2) {
-                    if ($scope.showAllPre) {
-                        $.each($scope.items, function (i, v) {
-                            v.flag = false;
-                            $scope.showAllPre = false;
-                            delete $scope.tipsObj[v.id];
-                            var tips = Object.keys($scope.tipsObj);
-                            $scope.workPoint.requestType = tips;
-                            $scope.gpsLine.requestType = tips;
-                            $scope.workPoint.redraw();
-                            $scope.gpsLine.redraw();
-                        });
-                    } else {
-                        $.each($scope.items, function (i, v) {
-                            v.flag = true;
-                            $scope.showAllPre = true;
-                            $scope.changeList([1]);
-                        });
-                    }
-                } else {
-                    if ($scope.showAllYet) {
-                        $.each($scope.items, function (i, v) {
-                            v.flag = false;
-                            $scope.showAllYet = false;
-                            delete $scope.tipsObj[v.id];
-                            var tips = Object.keys($scope.tipsObj);
-                            $scope.workPoint.requestType = tips;
-                            $scope.gpsLine.requestType = tips;
-                            $scope.workPoint.redraw();
-                            $scope.gpsLine.redraw();
-                        });
-                    } else {
-                        $.each($scope.items, function (i, v) {
-                            v.flag = true;
-                            $scope.showAllYet = true;
-                            $scope.changeList([3]);
-                        });
-                    }
-                }
-            }
             /*清除图层*/
             $scope.clearLayer = function(v){
                 v.flag = false;
                 delete $scope.tipsObj[v.id] ;
-                var tips = Object.keys($scope.tipsObj);
+                /*var tips = Object.keys($scope.tipsObj);
                 $scope.workPoint.requestType = tips;
                 $scope.gpsLine.requestType = tips;
                 $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
+                $scope.gpsLine.redraw();*/
+                console.log(map)
             }
             /*全选、反选事件*/
             $scope.showAllLayers = function(typeName,typeArr){
