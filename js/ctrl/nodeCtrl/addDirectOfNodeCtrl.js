@@ -10,7 +10,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
 
     }
     $scope.initializeSelNodeData=function() {
-        $scope.rdNodeData=objectEditCtrl.data.data;
+        $scope.rdNodeData=objectEditCtrl.data;
         $scope.rdNodepid=
         $scope.fromOfWayOption=[
             {"id":0,"label":"未调查","isCheck":false},
@@ -53,7 +53,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
         $scope.initializeSelNodeData();
     }
 
-    if(objectEditCtrl.data.data) {
+    if(objectEditCtrl.data) {
         $scope.initializeSelNodeData();
     }
 

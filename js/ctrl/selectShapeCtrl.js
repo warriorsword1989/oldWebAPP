@@ -336,7 +336,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                         $scope.$parent.$parent.objectEditURL = "js/tepl/namesOfBranch.html";
                                     });
                                 });
-                                console.log(data.brID)
                                 objCtrl.setCurrentObject(data.brID);
                                 break;
                             case "1510"://1510
