@@ -150,7 +150,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
 
     $scope.cancel=function(){
     }
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

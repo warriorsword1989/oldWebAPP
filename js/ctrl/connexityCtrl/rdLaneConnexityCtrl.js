@@ -239,44 +239,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
-        })
-        map.currentTool = new fastmap.uikit.SelectPath(
-            {
-                map: map,
-                currentEditLayer: rdLink,
-                linksFlag: false,
-                shapeEditor: shapeCtrl
-            });
-        map.currentTool.enable();
-        if ($scope.showInfoFlag) {
-            eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-                //删除以前高亮的进入线和退出线
-                if (highLightLayer.highLightLayersArr.length !== 0) {
-                    highLightLayer.removeHighLightLayers();
-                }
-                linksObj = {};
-                for(var i= 0,len=$scope.lanesData["topos"].length;i<len;i++) {
-                    var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-                    var lenOfInfo = (16 - arrOfDecimal.length);
-                    if (lenOfInfo === index) {
-                        objCtrl.data.topos[i].outLinkPid = data.id;
-                        linksObj["outLink"] = data.id;
-                    }
-                }
-
-                //高亮进入线和退出线
-                linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
-                var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "links",
-                    linksObj: linksObj
-                })
-                highLightLinks.drawOfLinksForInit();
-                highLightLayer.pushHighLightLayers(highLightLinks);
-
-            });
-        }
-
+        });
     };
     //增加车道
     $scope.addLane = function () {
@@ -523,7 +486,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
     $scope.cancel=function(){
     }
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

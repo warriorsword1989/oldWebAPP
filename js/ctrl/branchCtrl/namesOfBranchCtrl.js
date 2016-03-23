@@ -372,7 +372,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         param.command = "UPDATE";
         param.projectId = Application.projectid;
         param.data = objCtrl.changedProperty;
-    console.log(objCtrl.changedProperty)
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;

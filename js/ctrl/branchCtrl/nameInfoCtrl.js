@@ -6,12 +6,14 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
      $scope.nameGroup = [];
+     /*根据nameGroupid排序*/
+     $scope.details[0].names.sort(function(a,b){
+        return b.nameGroupid >= a.nameGroupid;
+     });
+     /*重组源数据用新建变量nameGroup显示*/
      $scope.sortNameGroup = function(arr){
-         arr.sort(function(a,b){
-            return b.nameGroupid >= a.nameGroupid;
-         });
+        $scope.nameGroup = [];
         for (var i = 0; i <= arr.length - 1; i++) {
-            console.log(arr[i])
             var tempArr = [];
             if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
                 if($.inArray(arr[i],$scope.nameGroup) == -1){
@@ -30,6 +32,7 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         };
      }
      $scope.sortNameGroup($scope.details[0].names);
+     // console.log($scope.nameGroup)
      $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
             return b.nameGroupid >= a.nameGroupid;
          });
@@ -116,28 +119,29 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     }
     /*上移或者下移*/
     $scope.changeOrder = function(item,type){
-        if(type == 1){  //下移
-            $.each($scope.nameGroup,function(i,v){
-                $.each(v,function(m,n){
-                    console.log(n,n.nameGroupid == item.nameGroupid-1)
-                    if(n.nameGroupid == item.nameGroupid-1){
-                        n.nameGroupid += 1;
-                    }  
-                })
+        if(type == 1){
+            $.each($scope.details[0].names,function(i,v){
+                if(v.nameGroupid == item[0].nameGroupid-1){
+                    v.nameGroupid += 1;
+                }  
             });
-            item.nameGroupid -= 1;
-        }else{  //上移
-            $.each($scope.nameGroup,function(i,v){
-                $.each(v,function(m,n){
-                    console.log(n,n.nameGroupid == item.nameGroupid+ 1)
-                    if(n.nameGroupid == item.nameGroupid+1){
-                        n.nameGroupid -= 1;
-                    }  
-                })
+            for(var i=0;i<item.length;i++){
+                item[i].nameGroupid -= 1;
+            }
+        }else{
+            $.each($scope.details[0].names,function(i,v){
+                if(v.nameGroupid == item[0].nameGroupid+1){
+                    v.nameGroupid -= 1;
+                }  
             });
-            item.nameGroupid += 1;
+            for(var i=0;i<item.length;i++){
+                item[i].nameGroupid+= 1;
+            }
         }
-        // $scope.sortNameGroup($scope.details[0].names);
+         $scope.details[0].names.sort(function(a,b){
+            return b.nameGroupid >= a.nameGroupid;
+         });
+        $scope.sortNameGroup($scope.details[0].names);
     }
     /*删除名称信息*/
     $scope.removeNameInfo = function(item){
@@ -148,6 +152,14 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
                 $scope.nameGroup.splice(i,1);
             }
         });
+        /*由于names的长度是变化的，所以在循环前赋值给一个变量*/
+        var tempLength = $scope.details[0].names.length;
+        for(var i = 0;i<tempLength;i++){
+            if($scope.details[0].names[i] && $scope.details[0].names[i].nameGroupid == item.nameGroupid){
+                $scope.details[0].names.splice(i,1);
+                i -= 1;
+            }
+        }
         $.each($scope.nameGroup,function(i,v){
             $.each(v,function(m,n){
                 if(n){
@@ -163,29 +175,40 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
                 } 
             })
         });
-        // $scope.details[0].names.length = nameLength;
+    }
+    /*删除名称组下的名称信息*/
+    $scope.removeNameItem = function(item){
+        var tempLength = $scope.details[0].names.length;
+        var groupNum = 0;
+        /*统计该组下有多少个名称信息*/
+        for(var i=0;i<tempLength;i++){
+            if($scope.details[0].names[i] && $scope.details[0].names[i].nameGroupid == item.nameGroupid){
+                groupNum++;
+            }
+        }
+        for(var i = 0;i<tempLength;i++){
+            if($scope.details[0].names[i] && $scope.details[0].names[i].pid == item.pid){
+                $scope.details[0].names.splice(i,1);
+                if(groupNum == 1){
+                    for(var j=0;j<tempLength-1;j++){
+                        if($scope.details[0].names[j].nameGroupid > item.nameGroupid){
+                            $scope.details[0].names[j].nameGroupid -= 1;
+                        }
+                    }
+                }
+            }
+        }
+        $scope.sortNameGroup($scope.details[0].names);
     }
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
         var protoArr = $scope.details[0].names;
-        /*var newArr = {};
-        newArr.codeType = 0;
-        newArr.detailId = 0;
-        newArr.langCode = $scope.languageCode[0].code;
-        newArr.name = '';
-        newArr.nameClass = 0;
-        newArr.nameGroupid = protoArr.length + 1;
-        newArr.phonetic = '';
-        newArr.pid = 0;
-        newArr.voiceFile = '';
-        newArr.srcFlag = 0;
-        newArr.seqNum = 0;
-        protoArr.push(newArr);*/
-        $scope.sortNameGroup($scope.details[0].names);
-        var newName = fastmap.dataApi.rdBranchName({
+        var newName = fastmap.dataApi.rdbranchname({
             "langCode":$scope.languageCode[0].code,
-            "nameGroupid":protoArr.length + 1
+            "nameGroupid":protoArr[0].nameGroupid + 1,
+            "seqNum":protoArr[0].nameGroupid + 1
         });
         protoArr.unshift(newName);
+        $scope.sortNameGroup(protoArr);
     }
 });

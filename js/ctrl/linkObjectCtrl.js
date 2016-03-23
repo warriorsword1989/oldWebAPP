@@ -34,7 +34,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 map: map,
                 highLightFeature: "link",
                 initFlag: true,
-                linksArr: linksarr
+                linksArr: linksArr
             });
             highLightLayer.pushHighLightLayers(highLightLink);
             highLightLink.drawLinksOfCrossForInit(linksArr,[],[]);
