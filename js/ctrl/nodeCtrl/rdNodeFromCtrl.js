@@ -116,7 +116,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         objectEditCtrl.selectNodeRefresh();
     }
 
-
     $scope.saveroadtype=function(){
         $scope.rdNodeData.forms.unshift({
             formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
@@ -221,6 +220,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         })
     };
     $scope.cancel=function(){
+
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
