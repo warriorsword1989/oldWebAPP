@@ -11,7 +11,7 @@
     .list-group-item {
         position: relative;
         display: block;
-        padding: 1px 15px;
+        padding: 1px 5px;
         margin-bottom: -1px;
         /*border: 1px solid #ddd;*/
         border: 0;
@@ -20,15 +20,16 @@
     #zoneProperDiv {
         opacity: 1;
         width: 100%;
+        font-size: 12px;
     }
 
     #zoneProperDiv ul {
         list-style: none;
         overflow: hidden;
-        width: 97%;
-        float: left;
+        width: 100%;
         margin: 5px;
         border-radius: 4px;
+
     }
 
     #zoneProperDiv ul > li {
@@ -183,9 +184,35 @@
             </div>
         </li>
     </ul>
-    <ul class="list-group list-group-lg m-b-none" >
-        <li class="list-group-item" ng-repeat="item in zoneData.zones">
-            <div  ng-click="showZoneWin(item)"><label class="control-label">0530{{item.regionId}}</label></div>
+    <ul class="list-group list-group-lg m-b-none" ng-repeat="item in zoneData.zones">
+        <li class="list-group-item">
+            <div><label class="control-label">区划号码</label></div>
+            <div class="inline">
+                <input type="number"  placeholder="0" ng-model="item.regionId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">Zone类型</label></div>
+            <div class="inline">
+                <select  ng-model="item.type" ng-options="value.id as value.label for value in typeoption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">Link左右</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="sideRadio" value="0"
+                           ng-model="item.side">
+                    左
+                </label>
+                <label>
+                    <input type="radio" name="sideRadio" value="1"
+                           ng-model="item.side">
+                    右
+                </label>
+            </div>
         </li>
     </ul>
 </div>

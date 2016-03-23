@@ -5,29 +5,6 @@ var braName = angular.module("mapApp", ['oc.lazyLoad']);
 braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
-     $scope.details[0].names.push(
-            {codeType: 0,
-                detailId: 100000036,
-                langCode: "CHI",
-                name: "测试",
-                nameClass: 0,
-                nameGroupid: 3,
-                phonetic: "Yuan Jing Shi Gao Su",
-                pid: 4636,
-                seqNum: 3,
-                srcFlag: 0,
-                voiceFile: "Yuanjingshigaosu"},
-                {codeType: 0,
-                detailId: 1000000436,
-                langCode: "CHI",
-                name: "测试",
-                nameClass: 0,
-                nameGroupid: 3,
-                phonetic: "Yuan Jing dShi Gao Su",
-                pid: 4636,
-                seqNum: 3,
-                srcFlag: 0,
-                voiceFile: "Yuanjingshigaosu"});
      $scope.nameGroup = [];
      $scope.sortNameGroup = function(arr){
          arr.sort(function(a,b){

@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCH";
         this.setAttributeData(data);
     },
 
@@ -77,6 +78,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         data["nodePid"] = this.nodePid;
         data["outLinkPid"] = this.outLinkPid;
         data["relationshipType"] = this.relationshipType;
+        data["geoLiveType"] = this.geoLiveType;
         data["realimages"] = [];
         for (var i = 0; i < this.realimages.length; i++) {
             data["realimages"].push(this.realimages[i].getIntegrate());
@@ -121,6 +123,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         data["inLinkPid"] = this.inLinkPid;
         data["nodePid"] = this.nodePid;
         data["outLinkPid"] = this.outLinkPid;
+        data["geoLiveType"] = this.geoLiveType;
         data["relationshipType"] = this.relationshipType;
         data["realimages"] = [];
         for (var i = 0; i < this.realimages.length; i++) {

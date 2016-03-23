@@ -3,7 +3,7 @@
  */
 var dataTipsApp = angular.module("lazymodule", []);
 dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $ocLazyLoad) {
-    var selectCtrl = new fastmap.uikit.SelectController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();

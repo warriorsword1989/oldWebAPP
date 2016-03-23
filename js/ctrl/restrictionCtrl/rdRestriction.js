@@ -401,7 +401,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         })
-        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+        if ($scope.$parent.$parent.rowkeyOfDataTips) {
             var stageParam = {
                 "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
                 "stage": 3,

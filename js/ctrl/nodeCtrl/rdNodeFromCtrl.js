@@ -93,12 +93,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
 
     };
 
-    if(objectEditCtrl.data) {
-        $scope.initializeNodeData();
-    }
-    objectEditCtrl.nodeObjRefresh=function() {
-        $scope.initializeNodeData();
-};
 
 
     $scope.showPopover=function(){
@@ -246,9 +240,10 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
         }
     }
-    //eventController.off(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+
+    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE,$scope.initializeNodeData)
 
 })

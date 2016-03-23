@@ -3,7 +3,7 @@
     .list-group-item {
         position: relative;
         display: block;
-        padding: 1px 15px;
+        padding: 1px 5px;
         margin-bottom: -1px;
         /*border: 1px solid #ddd;*/
         border: 0;
@@ -17,8 +17,7 @@
     #basicDiv ul {
         list-style: none;
         overflow: hidden;
-        width: 97%;
-        float: left;
+        width: 100%;
         margin: 5px;
         border-radius: 4px;
     }
@@ -66,6 +65,9 @@
         color: #F3F6FA;
         font-weight: normal;
     }
+    #basicDiv ul > li > div > label>input[type="radio"] {
+        margin-top: 3px
+    }
 
     .inline {
         display: inline-block !important;
@@ -79,12 +81,40 @@
 
     .radio {
         margin-bottom: 0px;
-        margin-top: 0px;
+        margin-top: 4px;
     }
 
+    .checkboxli {
+        /*background-color: #e4e4e4;*/
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+        color: #fff;
+    }
+
+    .popover {
+        width: 100%;
+    }
+
+    .popover-content {
+        overflow-y: auto;
+        height: 200px;
+    }
 
 </style>
 <div id="basicDiv" ng-controller="basicController" >
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div  class="inline" style="text-align: left;width: 120px;">
+                <a  style="cursor: pointer;color:#FFF;">基础属性</a>
+            </div>
+        </li>
+    </ul>
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div>
@@ -163,12 +193,25 @@
                 </select>
             </div>
         </li>
-        <li class="list-group-item">
-            <div><label class="control-label">道路名</label></div>
-            <div class="inline">
-                <span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>
-
-            </div>
-        </li>
-    </ul>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路名</label></div>-->
+            <!--<div class="inline">-->
+                <!--<span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>-->
+            <!--</div>-->
+        <!--</li>-->
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div  class="inline" style="text-align: left;width: 120px;">
+                    <a ng-click="showOther()" style="cursor: pointer;color:#FFF;">附加属性</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div  class="inline" style="text-align: left;width: 120px;" >
+                    <a ng-click="showZone()" style="cursor: pointer;color:#FFF;">zone属性</a>
+                </div>
+            </li>
+        </ul>
 </div>

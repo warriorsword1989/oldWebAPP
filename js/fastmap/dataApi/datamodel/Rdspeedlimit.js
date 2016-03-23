@@ -4,6 +4,7 @@
 fastmap.dataApi.rdSpeedLimit = fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDSPEEDLIMIT";
         this.setAttributeData(data);
     },
 
@@ -54,6 +55,7 @@ fastmap.dataApi.rdSpeedLimit = fastmap.dataApi.rdRestriction.extend({
         data["timeDescript"] = this.timeDescript;
         data["geometry"] = this.geometry;
         data["laneSpeedValue"] = this.laneSpeedValue;
+        data["geoLiveType"]  = this.geoLiveType;
 
         return data;
     },
@@ -81,6 +83,7 @@ fastmap.dataApi.rdSpeedLimit = fastmap.dataApi.rdRestriction.extend({
         data["timeDescript"] = this.timeDescript;
         data["geometry"] = this.geometry;
         data["laneSpeedValue"] = this.laneSpeedValue;
+        data["geoLiveType"]  = this.geoLiveType;
 
         return data;
     }

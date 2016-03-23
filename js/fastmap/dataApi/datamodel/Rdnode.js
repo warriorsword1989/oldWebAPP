@@ -14,6 +14,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data) {
         this.id = data["nodePid"];
         this.geometry = data["geometry"];
+        this.geoLiveType = "RDNODE";
         this.setAttributeData(data);
     },
 
@@ -51,6 +52,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["reserved"]  = this.reserved;
         data["forms"]=this.forms;
         data["meshes"]=this.meshes;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -73,6 +75,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["reserved"]  = this.reserved;
         data["forms"]=this.forms;
         data["meshes"]=this.meshes;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
