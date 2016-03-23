@@ -86,11 +86,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.clearLayer = function(v){
                 v.flag = false;
                 delete $scope.tipsObj[v.id] ;
-                var tips = Object.keys($scope.tipsObj);
+                /*var tips = Object.keys($scope.tipsObj);
                 $scope.workPoint.requestType = tips;
                 $scope.gpsLine.requestType = tips;
                 $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
+                $scope.gpsLine.redraw();*/
+                console.log(map)
             }
             /*全选、反选事件*/
             $scope.showAllLayers = function(typeName,typeArr){
