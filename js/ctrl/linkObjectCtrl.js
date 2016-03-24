@@ -217,7 +217,10 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 };
                 data.data.log.push(sInfo);
                 for(var i=0; i<data.data.log.length-1;i++){
-                    data.data.log[i].rowId=$scope.linkData.pid;
+                    if(data.data.log[i].rowId){
+                        data.data.log[i].rowId=$scope.linkData.pid;
+                    }
+
                 }
 
                 info=data.data.log;

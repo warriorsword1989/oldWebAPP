@@ -145,13 +145,59 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
         },100);
     }
 
+    $scope.checkViche=function(){
+        $scope.applicArray = getEndArray();
+        var newArray=[];
+        var result="";
+        for(var j=0;j<$scope.applicArray.length;j++){
+            newArray.push($scope.applicArray[j].id);
+        }
+        for(var i=31;i>=0;i--){
+            if(i==31){
+                if($scope.checkValue){
+                    result+="1";//允许
+                }else{
+                    result+="0";//禁止
+                }
+            }else{
+                if($.inArray(i, newArray)!=-1){
+                    result+="1";
+                }else{
+                    result+="0";
+                }
+            }
+
+        }
+
+        $scope.oridiData.vehicle=parseInt(bin2dec(result));
+    }
+
     $scope.applicArray = getEndArray();
     $scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
         console.log(newValue);
-        //for(var i=0;i<newValue.length;i++){
-        //    var newF=fastmap.dataApi.linkform({"linkPid":objectEditCtrl.data.pid,"formOfWay":newValue[i].id});
-        //    $scope.roadlinkData.forms[i]=newF;
-        //}
+        var newArray=[];
+        var result="";
+        for(var j=0;j<newValue.length;j++){
+            newArray.push(newValue[j].id);
+        }
+        for(var i=31;i>=0;i--){
+            if(i==31){
+                if($scope.checkValue){
+                    result+="1";//允许
+                }else{
+                    result+="0";//禁止
+                }
+            }else{
+                if($.inArray(i, newArray)!=-1){
+                    result+="1";
+                }else{
+                    result+="0";
+                }
+            }
+
+        }
+
+        $scope.oridiData.vehicle=parseInt(bin2dec(result));
     })
 
 })
