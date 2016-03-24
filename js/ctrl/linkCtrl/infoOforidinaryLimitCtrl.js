@@ -78,13 +78,7 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
         {"id": 27, "label": "槽罐车"},
         {"id": 28, "label": "残疾人车"}
     ];
-    for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
-        if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
-            $scope.oridiData = $scope.linkData.limits[i];
-            $scope.limitNum = i;
-        }
 
-    }
     $scope.showvehicle=function(vehicle){
         var towbin=dec2bin(vehicle);
 
@@ -112,13 +106,22 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
         //    $scope.linkLimitData.limits[sitem].vehicle=getEndArray();
         //});
     }
+    for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
+        if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
+            $scope.oridiData = $scope.linkData.limits[i];
+            $scope.limitNum = i;
+            $scope.showvehicle($scope.linkData.limits[i].vehicle);
+        }
+
+    }
+
 
     $scope.showPopover=function(ind,vehicle){
         initdiv('vehicleExpressiondiv');
         $('#vehicleExpressiondiv').popover('show');
 
     }
-    $scope.showvehicle("2147483655");
+
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
@@ -141,4 +144,14 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
             $scope.$apply();
         },100);
     }
+
+    $scope.applicArray = getEndArray();
+    $scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
+        console.log(newValue);
+        //for(var i=0;i<newValue.length;i++){
+        //    var newF=fastmap.dataApi.linkform({"linkPid":objectEditCtrl.data.pid,"formOfWay":newValue[i].id});
+        //    $scope.roadlinkData.forms[i]=newF;
+        //}
+    })
+
 })

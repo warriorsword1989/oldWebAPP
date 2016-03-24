@@ -199,6 +199,20 @@
                 <!--<span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>-->
             <!--</div>-->
         <!--</li>-->
+        <li class="list-group-item">
+            <div><label class="control-label">道路形态</label></div>
+            <div class="inline">
+                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+            </div>
+
+        </li>
+        <li>
+            <div id="fromOfWRoaddiv" style="width:260px;" >
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                      {{fromitem.label}}
+                </div>
+            </div>
+        </li>
         </ul>
         <ul class="list-group list-group-lg m-b-none">
             <li class="list-group-item">
