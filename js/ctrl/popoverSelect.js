@@ -62,7 +62,7 @@ function  initOrig(origArray,vehicleOptions,ul){
 
     //下拉框方法
     $("#"+ul).popover({
-        //trigger: 'click',
+        trigger: 'click',
         placement: 'bottom', //top, bottom, left or right
         html: 'true',
         content:function(){ return ContentMethod(origArray,vehicleOptions)}
