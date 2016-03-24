@@ -19,9 +19,10 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
     },
 
     setAttributeData:function(data){
-        this.pid = data["pid"] || "";
+        this.nodePid = data["nodePid"] || "";
         this.formOfWay = data["formOfWay"] || 1;
         this.auxiFlag = data["auxiFlag"] || 0;
+        this.rowId = data["rowId"] || "";
     },
 
     /**
@@ -32,9 +33,10 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["pid"] = this.pid;
+        data["nodePid"] = this.nodePid;
         data["formOfWay"] = this.formOfWay;
         data["auxiFlag"]  = this.auxiFlag;
+        data["rowId"] = this.rowId;
         return data;
     },
 
@@ -46,9 +48,10 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["pid"] = this.pid;
+        data["nodePid"] = this.nodePid;
         data["formOfWay"] = this.formOfWay;
         data["auxiFlag"]  = this.auxiFlag;
+        data["rowId"] = this.rowId;
         return data;
     }
 });

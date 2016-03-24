@@ -68,6 +68,7 @@
                 "fastmap/dataApi/datamodel/RdlinkWalkStair.js",
                 "fastmap/dataApi/datamodel/RdlinkZone.js",
                 "fastmap/dataApi/datamodel/Rdnode.js",
+                "fastmap/dataApi/datamodel/Rdnodeform.js",
                 "fastmap/dataApi/datamodel/RdRestriction.js",
                 "fastmap/dataApi/datamodel/RdrestrictionDetail.js",
                 "fastmap/dataApi/datamodel/Rdcross.js",
