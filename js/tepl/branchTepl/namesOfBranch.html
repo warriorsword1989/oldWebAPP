@@ -274,7 +274,7 @@
                 <div class="d-name">关系类型：</div>
                 <div class="d-value">
                     <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                      <label ng-class="{'btn-primary':item.code==relationCode,'btn-default':item.code!=relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
+                      <label ng-class="{'btn-primary':item.code==diverObj.details[0].relationCode,'btn-default':item.code!=diverObj.details[0].relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
                         <input type="radio" name="relationType" ng-model="diverObj.relationshipType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
@@ -283,13 +283,13 @@
             <div class="d-group">
                 <div class="d-name">分歧类型：</div>
                 <div class="d-value">
-                    <select class="rounded d-input"  ng-model="branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                    <select class="rounded d-input"  ng-model="diverObj.details[0].branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="arrowCode" ng-keydown="showPicSelect()">
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()">
                     <div class="pic-show">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -320,20 +320,20 @@
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-bind="patternCode"></div>
+                    <div ng-bind="diverObj.details[0].patternCode"></div>
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">出口编号：</div>
                 <div class="d-value">
-                    <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="exitNum">
+                    <input type="text" class="d-input rounded" placeholder="出口编号" ng-model="diverObj.details[0].exitNum">
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">箭头标志：</div>
                 <div class="d-value">
                     <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                      <label ng-class="{'btn-primary':item.code==arrowFlag,'btn-default':item.code!=arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
+                      <label ng-class="{'btn-primary':item.code==diverObj.details[0].arrowFlag,'btn-default':item.code!=diverObj.details[0].arrowFlag,'btn btn-sm arrow-pic-flag':true}" ng-repeat="item in arrowPicFlag" ng-click="switchArrowType(item.code)">
                         <input type="radio" name="arrowPicFlag" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
@@ -342,27 +342,27 @@
             <div class="d-group">
                 <div class="d-name">设施类型：</div>
                 <div class="d-value">
-                    <select class="rounded d-input"  ng-model="estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
+                    <select class="rounded d-input"  ng-model="diverObj.details[0].estabType" ng-options="value.id as value.label for value in estabTypeOptions" ></select>
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">名称种别：</div>
                 <div class="d-value">
-                    <select class="d-input" ng-model="nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
+                    <select class="d-input" ng-model="diverObj.details[0].nameKind" ng-options="value.id as value.label for value in nameKindOptions" >
                     </select>
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">声音方向：</div>
                 <div class="d-value">
-                    <select class="d-input" ng-model="voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
+                    <select class="d-input" ng-model="diverObj.details[0].voiceDir" ng-options="value.id as value.label for value in voiceDirOptions" >
                     </select>
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">向导代码：</div>
                 <div class="d-value">
-                    <select class="d-input" ng-model="guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
+                    <select class="d-input" ng-model="diverObj.details[0].guideCode" ng-options="value.id as value.label for value in guideCodeOptions" >
                     </select>
                 </div> 
             </div>
