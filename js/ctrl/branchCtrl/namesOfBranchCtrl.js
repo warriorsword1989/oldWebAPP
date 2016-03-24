@@ -33,7 +33,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        objCtrl.setOriginalData(divergenceIds);
+        objCtrl.setOriginalData(divergenceIds.getIntegrate());
     }
     $scope.setOriginalDataFunc();
     /*点击关系类型*/
@@ -303,6 +303,8 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         if(! $scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
+        console.log($scope.divergenceIds);
+        $scope.setOriginalDataFunc();
         if(type == 0){  //  名称
             $ocLazyLoad.load('ctrl/branchCtrl/nameInfoCtrl').then(function () {
                 $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/nameInfoTepl.html";
@@ -346,26 +348,31 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             swal("操作失败", "请输入属性值！", "error");
             return false;
         }
+       /* console.log($scope.diverObj)
         newObjData = $scope.clone($scope.diverObj);
         newObjData.relationshipType = $scope.relationCode;
         newObjData.pid = parseInt($scope.diverId);
         if(newObjData.details.length == 0){
             newObjData.details.push({});
         }
-        newObjData.details[0].branchType = $scope.branchType;
-        newObjData.details[0].exitNum = $scope.exitNum;
-        newObjData.details[0].estabType = $scope.estabType;
-        newObjData.details[0].nameKind = $scope.nameKind;
-        newObjData.details[0].voiceDir = $scope.voiceDir;
-        newObjData.details[0].guideCode = $scope.guideCode;
-        newObjData.details[0].arrowFlag = $scope.arrowFlag;
-        newObjData.details[0].arrowCode = $scope.arrowCode;
-        newObjData.details[0].patternCode = $scope.patternCode;
-        newObjData.details[0].branchPid = $scope.branchPid;
+        var detailTemp = {
+            branchType:$scope.branchType,
+            exitNum:$scope.exitNum,
+            estabType:$scope.estabType,
+            nameKind:$scope.nameKind,
+            voiceDir:$scope.voiceDir,
+            guideCode:$scope.guideCode,
+            arrowFlag:$scope.arrowFlag,
+            arrowCode:$scope.arrowCode,
+            patternCode:$scope.patternCode,
+            branchPid:$scope.branchPid,
+        }
+        newObjData.details[0] = detailTemp;
         if(newObjData.details[0].names){
             newObjData.details[0].names = $scope.diverObj.details[0].names.reverse();
         }
         objCtrl.setCurrentObject('RDBRANCH',newObjData);
+        console.log(newObjData)*/
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
@@ -452,6 +459,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     /*取消属性编辑*/
     $scope.cancel = function(){
         $scope.getObjectById(false);
+        if($scope.$parent.$parent.suspendFlag){
+            $scope.$parent.$parent.suspendFlag = false;
+        }
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
