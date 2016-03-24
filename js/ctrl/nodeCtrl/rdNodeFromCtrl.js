@@ -98,14 +98,15 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     objectEditCtrl.nodeObjRefresh=function(flag) {
         $scope.initialForms();
     };
+    $scope.loadJsAndCtrl=function(obj) {
+        $scope.$emit('transitJsAndCtrl', obj);
+    };
     $scope.showPopover=function(){
-        if(!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/nodeCtrl/addDirectOfNodeCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/nodeTepl/addDitrectOfNodeTepl.html";
-        })
+        var obj = {
+            "propertyCtrl":'ctrl/nodeCtrl/addDirectOfNodeCtrl',
+            "propertyHtml":'js/tepl/nodeTepl/addDitrectOfNodeTepl.html'
+        };
+        $scope.loadJsAndCtrl(obj);
     }
 
     $scope.delFrom=function(item){

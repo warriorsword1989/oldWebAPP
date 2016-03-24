@@ -100,12 +100,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
     $scope.showAddDirectTepl = function () {
-        if (!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
+        var addObj = {
+            "propertyCtrl": 'ctrl/restrictionCtrl/addDirectOfRestrictionCtrl',
+            "propertyHtml": 'js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html'
         }
-        $ocLazyLoad.load('ctrl/restrictionCtrl/addDirectOfRestrictionCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html";
-        })
+        $scope.$emit("transitJsAndCtrl", addObj);
     };
 
     var towbin = dec2bin(6);

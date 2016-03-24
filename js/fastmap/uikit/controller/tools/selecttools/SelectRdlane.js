@@ -121,10 +121,10 @@ fastmap.uikit.SelectRdlane = (function () {
                                             newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact][0] + '.svg'};
                                         } else {
                                             if (laneObjArr[fact].indexOf("[") > -1) {
-                                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
+                                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(1, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact].indexOf("<") > -1) {
-                                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
+                                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
                                                 newStyle = {src: './css/1301/1301_0_' + laneObjArr[fact] + '.svg'};
@@ -184,10 +184,10 @@ fastmap.uikit.SelectRdlane = (function () {
                                             newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact][0] + '.svg'};
                                         } else {
                                             if (laneObjArr[fact].indexOf("[") > -1) {
-                                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
+                                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(1, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact].indexOf("<") > -1) {
-                                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneObjArr[fact].length - 2, 1) + '.svg'};
+                                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneObjArr[fact].indexOf("<")+1, 1) + '.svg'};
 
                                             } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
                                                 newStyle = {src: './css/1301/1301_0_' + laneObjArr[fact] + '.svg'};

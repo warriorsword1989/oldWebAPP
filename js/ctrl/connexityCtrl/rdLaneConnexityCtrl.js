@@ -27,15 +27,15 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             arr = data.split("");
             if (index === 0) {
                 $scope.showNormalData.unshift({"flag":arr[1].toString(),"type":2});
-                if(arr[4]) {
-                    $scope.showTransitData.unshift({"flag":arr[4].toString(),"type":1});
+                if(arr[3]) {
+                    $scope.showTransitData.unshift({"flag":arr[3].toString(),"type":1});
                 }else{
                     $scope.showTransitData.unshift({"flag":"test","type":1});
                 }
             } else {
                 $scope.showNormalData.push({"flag":arr[1].toString(),"type":2});
-                if(arr[4]) {
-                    $scope.showTransitData.push({"flag":arr[4].toString(),"type":1});
+                if(arr[3]) {
+                    $scope.showTransitData.push({"flag":arr[3].toString(),"type":1});
                 }else{
                     $scope.showTransitData.push({"flag":"test","type":1});
                 }
@@ -108,7 +108,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         for (var j = 0, lenJ = $scope.lanesArr.length; j < lenJ; j++) {
             if (j === 0 || j === lenJ - 1) {
                 if (reg.test($scope.lanesArr[j])) {
-                    $scope.getTransitData($scope.lanesArr[j]);
+                    if($scope.lanesArr[j].indexOf("[")!==-1) {
+                        $scope.getAdditionalLane(j, $scope.lanesArr[j]);
+                    }else{
+                        $scope.getTransitData($scope.lanesArr[j]);
+                    }
+
                 } else {
                     $scope.getAdditionalLane(j, $scope.lanesArr[j]);
                 }
@@ -172,13 +177,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.lanesData["selectNum"] = index;
             $scope.selectNum = index;
             $scope.changeItem = item;
-            $scope.$parent.$parent.suspendObjURL = "";
-            if (!$scope.$parent.$parent.suspendFlag) {
-                $scope.$parent.$parent.suspendFlag = true;
-            }
-            $ocLazyLoad.load('ctrl/connexityCtrl/changeDirectOfConnexityCtrl').then(function () {
-                $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/changeDirectOfConnexityTepl.html";
-            })
+            var changedDirectObj = {
+                "propertyCtrl":'ctrl/connexityCtrl/changeDirectOfConnexityCtrl',
+                "propertyHtml":'js/tepl/connexityTepl/changeDirectOfConnexityTepl.html'
+            };
+            $scope.$emit("transitJsAndCtrl", changedDirectObj);
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
@@ -232,14 +235,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.changeFlag = false;
         $scope.showInfoFlag = true;
         $scope.changeItem = item;
-        if (!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
+
         $scope.lanesData["index"] = index;
-        $scope.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
-        });
+        var showInfoObj = {
+            "propertyCtrl":'ctrl/connexityCtrl/showInfoOfConnexityCtrl',
+            "propertyHtml":'js/tepl/connexityTepl/showInfoConnexityTepl.html'
+        };
+        $scope.$emit("transitJsAndCtrl", showInfoObj);
     };
     //增加车道
     $scope.addLane = function () {
@@ -249,16 +251,14 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
        }else{
            index = $scope.lanesArr.length-1;
        }
-        if (!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
         $scope.addFlag = true;
         $scope.changeFlag = false;
         $scope.showInfoFlag = false;
-        $scope.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/connexityCtrl/addDirectOfConnexityCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/addDirectOfConnexityTepl.html";
-        })
+        var addDirectObj = {
+            "propertyCtrl":'ctrl/connexityCtrl/addDirectOfConnexityCtrl',
+            "propertyHtml":'js/tepl/connexityTepl/addDirectOfConnexityTepl.html'
+        };
+        $scope.$emit("transitJsAndCtrl", addDirectObj);
         layerCtrl.pushLayerFront('edit');
         map.currentTool = new fastmap.uikit.SelectPath(
             {
@@ -348,14 +348,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         if(item!=="test") {
             $scope.lanesData["selectNum"] = index;
             $scope.lanesData["transitFlag"] = true;
-            $scope.$parent.$parent.suspendObjURL = "";
-
-            if (!$scope.$parent.$parent.suspendFlag) {
-                $scope.$parent.$parent.suspendFlag = true;
-            }
-            $ocLazyLoad.load('ctrl/connexityCtrl/changeDirectOfConnexityCtrl').then(function () {
-                $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/changeDirectOfConnexityTepl.html";
-            })
+            var changedTransitObj = {
+                "propertyCtrl":'ctrl/connexityCtrl/changeDirectOfConnexityCtrl',
+                "propertyHtml":'js/tepl/connexityTepl/changeDirectOfConnexityTepl.html'
+            };
+            $scope.$emit("transitJsAndCtrl", changedTransitObj);
         }
 
     };
@@ -380,10 +377,10 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     $scope.lanesData["topos"][k]["busLaneInfo"] = $scope.lanesData["topos"][k]["inLaneInfo"];
                 }
             }
-            $scope.$parent.$parent.suspendObjURL = "";
-            $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
-                $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
-            })
+            //$scope.$parent.$parent.suspendObjURL = "";
+            //$ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
+            //    $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
+            //})
 
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
