@@ -211,11 +211,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
 
     }
 
-    $scope.$on("Ctr1NameChange", function (event, msg) {
-        console.log("parent", msg);
-        $scope.$broadcast("Ctr1NameChangeFromParrent", msg);
-    });
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
