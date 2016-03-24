@@ -81,10 +81,10 @@ errorCheckModule.controller('errorCheckController', function ($scope,$timeout) {
                             var style = rdLink.styleFor(feature, color);
 
                             var geom = feature.geometry.coordinates;
-                            if (id !== undefined && feature.properties.id === id) {
+                            if (id !== undefined && parseInt(feature.properties.id) === id) {
                                 rdLink._drawLineString(ctx, geom, true, {
                                     size: 2,
-                                    color: '#F63428'
+                                    color: '#ccff99'
                                 }, {
                                     color: '#F63428',
                                     radius: 3

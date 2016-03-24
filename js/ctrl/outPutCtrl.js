@@ -34,6 +34,9 @@ outPutModule.controller('outPutController', function ($scope, $timeout) {
 
     //index 1表示是pid  2表示rowid
     $scope.showInMap=function(index,type,id){
+        if (highLightLayer.highLightLayersArr.length !== 0) {
+            highLightLayer.removeHighLightLayers();
+        }
         if(type.indexOf("RDLINK")>=0){
             Application.functions.getRdObjectById(id, "RDLINK", function (d) {
                 if (d.errcode === -1) {
@@ -74,7 +77,7 @@ outPutModule.controller('outPutController', function ($scope, $timeout) {
                             var style = rdLink.styleFor(feature, color);
 
                             var geom = feature.geometry.coordinates;
-                            if (id !== undefined && feature.properties.id === id) {
+                            if (id !== undefined && parseInt(feature.properties.id) === id) {
                                 rdLink._drawLineString(ctx, geom, true, {
                                     size: 2,
                                     color: '#F63428'
