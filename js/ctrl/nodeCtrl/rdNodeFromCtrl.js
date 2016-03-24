@@ -97,14 +97,12 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         }
         $scope.initializeNodeData();
     };
+    $scope.loadJsAndCtrl=function() {
+        $scope.$emit('transitJsAndCtrl', 'parent');
+    };
     $scope.showPopover=function(){
-        if(!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/nodeCtrl/addDirectOfNodeCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/nodeTepl/addDitrectOfNodeTepl.html";
-        })
+        $scope.loadJsAndCtrl();
+
     }
 
     $scope.delFrom=function(item){
