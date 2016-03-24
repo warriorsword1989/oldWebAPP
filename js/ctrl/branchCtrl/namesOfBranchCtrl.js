@@ -365,7 +365,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         if(newObjData.details[0].names){
             newObjData.details[0].names = $scope.diverObj.details[0].names.reverse();
         }
-        objCtrl.setCurrentObject(newObjData);
+        objCtrl.setCurrentObject('RDBRANCH',newObjData);
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
