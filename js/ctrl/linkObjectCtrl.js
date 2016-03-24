@@ -192,7 +192,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
-            //objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
             if (data.errcode==0) {
                 rdLink.redraw();
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
