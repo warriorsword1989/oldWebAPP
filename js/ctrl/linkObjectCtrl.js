@@ -18,6 +18,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     $scope.brigeIndex=0;
     //改变模块的背景
     $scope.initializeLinkData = function () {
+        $("#fm-link-tabControl a").removeClass("selected");
+        $("#fm-link-tabControl a:first").addClass("selected");
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
@@ -192,7 +194,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
-            //objectCtrl.setOriginalData($.extend(true, {}, $scope.linkData));
             if (data.errcode==0) {
                 rdLink.redraw();
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
@@ -215,6 +216,10 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     "pid": ""
                 };
                 data.data.log.push(sInfo);
+                for(var i=0; i<data.data.log.length-1;i++){
+                    data.data.log[i].rowId=$scope.linkData.pid;
+                }
+
                 info=data.data.log;
 
             } else {

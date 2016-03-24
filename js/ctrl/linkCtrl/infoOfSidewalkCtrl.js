@@ -5,6 +5,13 @@ var sidewalkApp = angular.module("mapApp", []);
 sidewalkApp.controller("sidewalkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.sidewalkData = objCtrl.data.sidewalks;
+    $scope.linkData = objCtrl.data;
+
+    for(var i= 0,len=$scope.sidewalkData.length;i<len;i++) {
+        if($scope.sidewalkData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
+            $scope.oridiData = $scope.sidewalkData[i];
+        }
+    }
     $scope.dividerTypeoptions=[
         {"id": 0, "label":"未调查"},
         {"id": 1, "label":"高度差隔离(马路涯)"},

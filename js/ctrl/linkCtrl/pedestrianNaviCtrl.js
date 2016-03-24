@@ -23,22 +23,55 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         {"id": 3, "label":"划线隔离"},
         {"id": 4, "label":"无隔离"}
     ];
-   $scope.showSidewalk=function() {
+   $scope.showSidewalk=function(sidewalkItem) {
        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
        }
        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+       $scope.naviData["sidewalkRowId"]=sidewalkItem.rowId;
        $ocLazyLoad.load('ctrl/linkCtrl/infoOfSidewalkCtrl').then(function () {
            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfsidewalkTepl.html";
        })
   };
-   $scope.showWalkstair=function() {
+   $scope.showWalkstair=function(walkstairItem) {
        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
        }
        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+       $scope.naviData["walkstairRowId"]=walkstairItem.rowId;
        $ocLazyLoad.load('ctrl/linkCtrl/infoOfWalkstairCtrl').then(function () {
            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfWalkstairTepl.html";
        })
    };
+
+    $scope.minusSidewalk=function(id) {
+        $scope.naviData.sidewalks.splice(id, 1);
+    };
+    $scope.addSidewalk = function () {
+        var newSidewalk = fastmap.dataApi.linksidewalk({"linkPid":$scope.naviData.pid});
+        $scope.naviData.sidewalks.unshift(newSidewalk);
+    };
+    $scope.addWalkstair = function () {
+        var newWalkstair = fastmap.dataApi.linkwalkstair({"linkPid":$scope.naviData.pid});
+        $scope.naviData.walkstairs.unshift(newWalkstair);
+    };
+    $scope.minusWalkstair=function(id) {
+        $scope.naviData.walkstairs.splice(id, 1);
+    };
+
+    $scope.changeColor=function(ind,ord){
+        if(ord==1){
+            $("#SidewalkSpan"+ind).css("color","#FFF");
+        }else{
+            $("#WalkstairSpan"+ind).css("color","#FFF");
+        }
+
+    }
+    $scope.backColor=function(ind,ord){
+        if(ord==1){
+            $("#SidewalkSpan"+ind).css("color","darkgray");
+        }else{
+            $("#WalkstairSpan"+ind).css("color","darkgray");
+        }
+    }
 })

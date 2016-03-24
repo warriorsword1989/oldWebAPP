@@ -65,7 +65,19 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":2,"label":"路上点"}
     ];
     $scope.initializeNodeData=function() {
-        $scope.rdNodeData=objectEditCtrl.data
+        $scope.rdNodeData=objectEditCtrl.data;
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        $scope.initialForms();
+        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "linksOfnode",
+            initFlag: true
+        });
+        highLightLayer.pushHighLightLayers(highLightLink);
+        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
+    };
+
+    $scope.initialForms = function(){
         if($scope.rdNodeData.forms.length>0){
             $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
             $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
@@ -78,24 +90,13 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 }
             }
         }
-        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "linksOfnode",
-            initFlag: true
-        });
-        highLightLayer.pushHighLightLayers(highLightLink);
-        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
-    };
+    }
 
     if(objectEditCtrl.data) {
-        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.initializeNodeData();
     }
     objectEditCtrl.nodeObjRefresh=function(flag) {
-        if(flag) {
-            objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-        }
-        $scope.initializeNodeData();
+        $scope.initialForms();
     };
     $scope.loadJsAndCtrl=function() {
         $scope.$emit('transitJsAndCtrl', 'parent');
@@ -207,6 +208,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     $scope.cancel=function(){
 
     }
+
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

@@ -76,7 +76,7 @@
     </ul>
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="limitItem in linkLimitData.limits" >
-            <div ng-repeat="typeItem in typeOptions|filter:limitItem.type " ng-click="showOrdinaryInfo(limitItem)" style="cursor: pointer;"><label class="control-label" style="cursor: pointer;">{{typeItem.label}}</label></div>
+            <div ng-repeat="typeItem in typeOptions|filter:limitItem.type " ng-click="showOrdinaryInfo(limitItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{typeItem.label}}</label></div>
         </li>
     </ul>
     <ul class="list-group list-group-lg m-b-none">
@@ -88,7 +88,7 @@
     </ul>
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="truckItem in linkLimitData.limitTrucks">
-            <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;"><label class="control-label" style="cursor: pointer;">{{dirItem.label}}</label></div>
+            <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{dirItem.label}}</label></div>
         </li>
     </ul>
 

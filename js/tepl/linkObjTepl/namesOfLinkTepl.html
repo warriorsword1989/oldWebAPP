@@ -87,7 +87,7 @@
         padding-left: 4px;
         padding-top: 6px;
         padding-bottom: 7px;
-        background-color: #fff;
+        /*background-color: #fff;*/
         display: none;
         box-shadow: 4px 4px 7px 0px #777;
         min-width: 100%;
@@ -102,7 +102,7 @@
     .img-well {
         float: left;
         padding: 3px;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
         margin: 4px;
         cursor: pointer;
     }
@@ -114,6 +114,7 @@
 
     .num-well {
         margin-left: 5px;
+        color:white;
     }
 
     .pic-show-btn {
@@ -122,10 +123,9 @@
 
     .option-hide {
         position: absolute;
-        right: -10px;
-        background-color: #fff;
-        border-radius: 50%;
-        top: -13px;
+        right: 18px;
+        top: 2px;
+        color: white;
     }
 
     .pic-loading {
@@ -144,11 +144,21 @@
     }
 
     .img-describe {
-        background-color: #777;
+        /*background-color: #777;*/
         color: #fff;
         font-size: 11px;
         text-align: center;
     }
+
+    .glyphicon.glyphicon-search{
+        color:#FFF;
+        cursor: pointer;
+    }
+
+    .glyphicon.glyphicon-search:hover{
+        color:rgba(255,255,255,0.5);
+    }
+
 </style>
 <div ng-controller="namesOfLinkController" id="namesOfLinkDiv">
     <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
@@ -173,10 +183,7 @@
         <li class="list-group-item" id="name" style="display: none">
             <div class="pic-show">
                 <div class="option-hide">
-                    <button type="button" class="close" aria-label="Close"
-                            ng-click="hidePicSelect($event)">
-                        <span aria-hidden="true" class="glyphicon glyphicon-remove-sign"></span>
-                    </button>
+                        <span aria-hidden="true" class="glyphicon glyphicon-remove-sign" ng-click="hidePicSelect($event)"></span>
                 </div>
                 <div class="pic-show-well">
                     <div class="img-well" ng-repeat="nitem in pictures"
@@ -197,12 +204,12 @@
                 </div>
                 <div class="pic-show-btn pull-right">
                     <div class="pull-right btn-group">
-                        <button class="btn btn-default btn-xs pic-pre"
-                                ng-click="picPre()" disabled>
-                        </button>
-                        <button class="btn btn-default btn-xs pic-next"
-                                ng-click="picNext()">
-                        </button>
+                        <a  style="color: #fff;" class="btn  btn-xs pic-pre"
+                                ng-click="picPre()" disabled><<
+                        </a>
+                        <a style="color: #fff;" class="btn btn-xs pic-next"
+                                ng-click="picNext()">>>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -221,8 +221,15 @@
             <div class="inline ">
                 <input type="text" ng-model="speedLimitData.linkPid">
             </div>
-
-
+        </li>
+        <li class="list-group-item" style="padding:7px;">
+            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{speedLimitData.timeDomain}}' style="width:100%;padding: 5px;"></div>
+        </li>
+        <li class="list-group-item">
+            <div><label>文字说明</label></div>
+            <div class="inline ">
+                <input type="text" ng-model="speedLimitData.timeDescript">
+            </div>
         </li>
 
     </ul>

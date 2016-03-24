@@ -471,18 +471,17 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             if(! $scope.$parent.$parent.panelFlag ) {
                                 $scope.$parent.$parent.panelFlag = true;
-                                $scope.$parent.$parent.objectFlag = true;
                                 $scope.$parent.$parent.outErrorArr[3]=false;
                                 $scope.$parent.$parent.outErrorArr[1]=true;
                             }
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-
-                        $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
-
-                        });
-
+                        if(data.brId.length != 0){
+                            $scope.$parent.$parent.objectFlag = true;
+                            $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                            });
+                        }
                     } else if (pItemId === "1510") {//桥1510
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
