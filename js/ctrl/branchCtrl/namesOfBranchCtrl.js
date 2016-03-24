@@ -154,7 +154,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     ];
     /*分歧类型*/
     $scope.branchTypeOptions=[
-        {"id": 0, "label": "高亮分歧(无名称)"},
+        {"id": 0, "label": "高速分歧(无名称)"},
         {"id": 1, "label": "方面分歧"},
         {"id": 2, "label": "IC分歧"},
         {"id": 3, "label": "3D分歧"},
@@ -218,7 +218,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             }
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
-    console.log(dObj.details)
             /*模式图信息条数*/
             if(dObj.details.length > 0){
                 $scope.arrowFlag = dObj.details[0].arrowFlag;
@@ -373,7 +372,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         param.command = "UPDATE";
         param.projectId = Application.projectid;
         param.data = objCtrl.changedProperty;
-    console.log(objCtrl.changedProperty)
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;
@@ -455,23 +453,8 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.cancel = function(){
         $scope.getObjectById(false);
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
-        }
-    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initDiver);
 })

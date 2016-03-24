@@ -239,44 +239,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.$parent.$parent.suspendObjURL = "";
         $ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
             $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
-        })
-        map.currentTool = new fastmap.uikit.SelectPath(
-            {
-                map: map,
-                currentEditLayer: rdLink,
-                linksFlag: false,
-                shapeEditor: shapeCtrl
-            });
-        map.currentTool.enable();
-        if ($scope.showInfoFlag) {
-            eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-                //删除以前高亮的进入线和退出线
-                if (highLightLayer.highLightLayersArr.length !== 0) {
-                    highLightLayer.removeHighLightLayers();
-                }
-                linksObj = {};
-                for(var i= 0,len=$scope.lanesData["topos"].length;i<len;i++) {
-                    var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][i]["inLaneInfo"]);
-                    var lenOfInfo = (16 - arrOfDecimal.length);
-                    if (lenOfInfo === index) {
-                        objCtrl.data.topos[i].outLinkPid = data.id;
-                        linksObj["outLink"] = data.id;
-                    }
-                }
-
-                //高亮进入线和退出线
-                linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
-                var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "links",
-                    linksObj: linksObj
-                })
-                highLightLinks.drawOfLinksForInit();
-                highLightLayer.pushHighLightLayers(highLightLinks);
-
-            });
-        }
-
+        });
     };
     //增加车道
     $scope.addLane = function () {
@@ -523,24 +486,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
     $scope.cancel=function(){
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
-        }
-    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
 });
 

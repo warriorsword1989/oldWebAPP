@@ -29,14 +29,9 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.data = {};
                 this.originalData = null;
                 this.updateObject = "";
-                this.rdrestrictionObject="";
-                this.rdLaneObject="";
                 this.tipsUpdateObject="";
-                this.updateRdCross = "";
-                this.rdSpeedLimitObject = "";
                 this.nodeObjRefresh = "";
                 this.selectNodeRefresh="";
-                this.refreshBranch = "";
                 this.refreshInfo = "";
             },
             /**
@@ -69,7 +64,6 @@ fastmap.uikit.ObjectEditController = (function () {
                             this.data.linepids = options.linepids;
                             this.data.nodeid = options.nodeid;
                         }
-
                         break;
                     case "RDLINK":
                         this.data =  fastmap.dataApi.rdlink(obj);
@@ -94,7 +88,12 @@ fastmap.uikit.ObjectEditController = (function () {
                         break;
                 }
 
-
+                if(!this.originalData||(this.originalData.geoLiveType != this.data.geoLiveType)){
+                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURETYPECHANGE,{"originalData":this.originalData,"currentData":this.data});
+                }
+                if(!this.originalData||(this.originalData.pid != this.data.pid)){
+                    this.eventController.fire(this.eventController.eventTypes.SELECTEDFEATURECHANGE,{"originalData":this.originalData,"currentData":this.data});
+                }
             },
             /**
              *

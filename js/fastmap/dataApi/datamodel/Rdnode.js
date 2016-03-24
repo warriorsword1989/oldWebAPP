@@ -14,6 +14,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data) {
         this.id = data["nodePid"];
         this.geometry = data["geometry"];
+        this.geoLiveType = "RDNODE";
         this.setAttributeData(data);
     },
 
@@ -28,8 +29,12 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         this.srcFlag = data["srcFlag"] || 6;
         this.digitalLevel = data["digitalLevel"] || 0;
         this.reserved = data["reserved"] || "";
-        this.forms=data["forms"];
+        this.forms = [];
 
+        for(var i=0;i<data["forms"].length;i++){
+            var form = fastmap.dataApi.rdnodeform(data["forms"][i]);
+            this.forms.push(form);
+        }
     },
 
     /**
@@ -51,6 +56,12 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["reserved"]  = this.reserved;
         data["forms"]=this.forms;
         data["meshes"]=this.meshes;
+        data["geoLiveType"] = this.geoLiveType;
+        data["forms"] = [];
+
+        for(var i=0;i<this.forms.length;i++){
+            data["forms"].push(this.forms[i].getIntegrate());
+        }
         return data;
     },
 
@@ -73,6 +84,12 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         data["reserved"]  = this.reserved;
         data["forms"]=this.forms;
         data["meshes"]=this.meshes;
+        data["geoLiveType"] = this.geoLiveType;
+        data["forms"] = [];
+
+        for(var i=0;i<this.forms.length;i++){
+            data["forms"].push(this.forms[i].getIntegrate());
+        }
         return data;
     }
 });

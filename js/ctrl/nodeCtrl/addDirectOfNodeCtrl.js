@@ -4,13 +4,11 @@
 var addDirectOfRest = angular.module("myApp", []);
 addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
-    var layerCtrl = fastmap.uikit.LayerController();
     $scope.closeWin= function () {
 
     }
     $scope.initializeSelNodeData=function() {
-        $scope.rdNodeData=objectEditCtrl.data.data;
+        $scope.rdNodeData=objectEditCtrl.data;
         $scope.rdNodepid=
         $scope.fromOfWayOption=[
             {"id":0,"label":"未调查","isCheck":false},
@@ -48,12 +46,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
             }
         }
     }
-
-    objectEditCtrl.selectNodeRefresh=function(){
-        $scope.initializeSelNodeData();
-    }
-
-    if(objectEditCtrl.data.data) {
+    if(objectEditCtrl.data) {
         $scope.initializeSelNodeData();
     }
 
@@ -63,7 +56,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
         obj.auxiFlag=0;
         obj.formOfWay=item.id;
         $scope.rdNodeData.forms.push(obj);
-        objectEditCtrl.nodeObjRefresh();
+        objectEditCtrl.nodeObjRefresh(false);
     }
     
     $scope.remove= function (item) {
@@ -73,7 +66,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
                 $scope.rdNodeData.forms.splice(p,1);
             }
         }
-        objectEditCtrl.nodeObjRefresh();
+        objectEditCtrl.nodeObjRefresh(false);
     }
 
 })

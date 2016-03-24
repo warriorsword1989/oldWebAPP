@@ -34,7 +34,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 map: map,
                 highLightFeature: "link",
                 initFlag: true,
-                linksArr: linksarr
+                linksArr: linksArr
             });
             highLightLayer.pushHighLightLayers(highLightLink);
             highLightLink.drawLinksOfCrossForInit(linksArr,[],[]);
@@ -48,17 +48,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             highLightLayer.pushHighLightLayers(highLightLink);
             highLightLink.drawOfLinkForInit();
         }
-
-
     };
     //初始化controller调用
     if (objectCtrl.data) {
         $scope.initializeLinkData();
     }
-    //不是初始化时,初始化需要显示的数据
-    objectCtrl.updateObject = function () {
-        $scope.initializeLinkData();
-    };
     //获取某个模块的信息
     $scope.changeModule = function (url,ind) {
 
@@ -69,7 +63,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             }else{
                 $(this).removeClass("selected");
             }
-
         })
 
         $scope.$parent.$parent.suspendFlag = false;
@@ -237,7 +230,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 outputCtrl.updateOutPuts();
             }
         })
-
     };
     $scope.delete = function () {
         var objId = parseInt($scope.linkData.pid);
@@ -283,7 +275,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     outputCtrl.updateOutPuts();
                 }
             }
-
         })
     }
 
@@ -312,23 +303,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     }
     $scope.cancel=function(){
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
-        }
-    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeLinkData);
 }]);

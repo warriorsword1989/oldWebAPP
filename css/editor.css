@@ -189,6 +189,16 @@ html,body{
     background-color: #222;
 }
 
+#fm-leftContainer a{
+    color:#FFF;
+    text-decoration: none;
+}
+
+#fm-leftContainer a:hover{
+    color:rgba(255,255,255,0.5);
+}
+
+
 .fm-left-top-a{
     color: white;
     padding: 15px;
@@ -203,7 +213,7 @@ html,body{
 }
 
 .fm-left-center a{
-     color: white;
+    color: white;
     cursor: pointer;
     position: relative;
     text-decoration: none;
@@ -220,6 +230,7 @@ html,body{
     bottom: 0px;
     position: absolute;
 }
+
 .fm-left-bottom div{
     cursor: pointer;
     padding: 15px;

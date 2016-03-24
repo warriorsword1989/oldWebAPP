@@ -9,14 +9,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
             $scope.gpsLine = layerCtrl.getLayerById("gpsLine");
             $scope.eventController = fastmap.uikit.EventController();
-            $scope.showOrHideId= "";
+            $scope.showOrHideId = "";
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
             $scope.tipsObj = {};
             $scope.showAll = true;
             $scope.showAllPre = true;
             $scope.showAllYet = true;
-            $("#fm-dataList-btnGroup button").click(function(){
+            $("#fm-dataList-btnGroup button").click(function () {
                 $("#fm-dataList-btnGroup button").removeClass("active");
                 $(this).addClass("active");
             })
@@ -24,11 +24,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             $scope.clearLayer = function(v){
                 v.flag = false;
                 delete $scope.tipsObj[v.id] ;
-                var tips = Object.keys($scope.tipsObj);
-                $scope.workPoint.requestType = tips;
-                $scope.gpsLine.requestType = tips;
-                $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
             }
             /*全选、反选事件*/
             $scope.showAllLayers = function(typeName,typeArr){
@@ -36,6 +31,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $.each($scope.items,function(i,v){
                         $scope.clearLayer(v);
                     });
+                    $scope.workPoint.requestType = [0];
+                    $scope.gpsLine.requestType = [0];
+                    $scope.workPoint.redraw();
+                    $scope.gpsLine.redraw();
                     $scope[typeName] = false;
                 }else{
                     $.each($scope.items,function(i,v){
@@ -430,30 +429,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         var speedLimitId = data.id;
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
                     } else if (pItemId === "1201") {//道路种别
-                        Application.functions.getRdObjectById(data.f.id, "RDLINK", function (d) {
-                            $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
-                                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                if (d.errcode === -1) {
-                                   $timeout(function(){
-                                        $.showPoiMsg(d.errmsg,e);
-                                        $scope.$apply();
-                                    })
-                                    return;
-                                } else {
-                                    $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                        if(! $scope.$parent.$parent.panelFlag ) {
-                                            $scope.$parent.$parent.panelFlag = true;
-                                            $scope.$parent.$parent.objectFlag = true;
-                                            $scope.$parent.$parent.outErrorArr[3]=false;
-                                            $scope.$parent.$parent.outErrorArr[1]=true;
-                                        }
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
-                                        objCtrl.setCurrentObject("RDLINK", d.data);
-                                    });
-                                }
-                            });
-                        });
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/linkObjectCtrl", "js/tepl/linkObjTepl/linkObjectTepl.html");
                     } else if (pItemId === "1203") {//道路方向
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
@@ -559,20 +536,21 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
 
                     } else if (pItemId === "1407") {//高速分歧
+                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
+                            if(! $scope.$parent.$parent.panelFlag ) {
+                                $scope.$parent.$parent.panelFlag = true;
+                                $scope.$parent.$parent.objectFlag = true;
+                                $scope.$parent.$parent.outErrorArr[3]=false;
+                                $scope.$parent.$parent.outErrorArr[1]=true;
+                            }
+                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                        });
+
                         $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
                             $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
-                            $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                if(! $scope.$parent.$parent.panelFlag ) {
-                                    $scope.$parent.$parent.panelFlag = true;
-                                    $scope.$parent.$parent.objectFlag = true;
-                                    $scope.$parent.$parent.outErrorArr[3]=false;
-                                    $scope.$parent.$parent.outErrorArr[1]=true;
-                                }
-                                $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                            });
+
                         });
-                        objCtrl.setCurrentObject("RDRESTRICTION",data.brID);
-                        map.panTo({lat: data.g_location.coordinates[1], lon: data.g_location.coordinates[0]});
+
                     } else if (pItemId === "1510") {//桥1510
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
