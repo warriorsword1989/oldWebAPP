@@ -205,8 +205,8 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
         var protoArr = $scope.details[0].names;
         var newName = fastmap.dataApi.rdbranchname({
             "langCode":$scope.languageCode[0].code,
-            "nameGroupid":protoArr[0].nameGroupid + 1,
-            "seqNum":protoArr[0].nameGroupid + 1
+            "nameGroupid":protoArr.length>0?protoArr[0].nameGroupid + 1:1,
+            "seqNum":protoArr.length>0?protoArr[0].nameGroupid + 1:1
         });
         protoArr.unshift(newName);
         $scope.sortNameGroup(protoArr);
