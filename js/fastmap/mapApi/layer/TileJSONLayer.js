@@ -1078,10 +1078,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         newLaneStyle = {src: './css/1301/1301_2_' + laneArr[lane][0] + '.svg'};
                                     } else {
                                         if (laneArr[lane].indexOf("[") > -1) {
-                                            newLaneStyle = {src: './css/1301/1301_2_' + laneArr[lane].substr(laneArr[lane].length - 2, 1) + '.svg'};
+                                            newLaneStyle = {src: './css/1301/1301_2_' + laneArr[lane].substr(1, 1) + '.svg'};
 
                                         } else if (laneArr[lane].indexOf("<") > -1) {
-                                            newLaneStyle = {src: './css/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].length - 2, 1) + '.svg'};
+                                            newLaneStyle = {src: './css/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
 
                                         } else if (laneArr[lane]&&laneArr[lane] != "9") {
 
@@ -1101,10 +1101,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     newLaneStyle = {src: './css/1301/1301_2_' + laneObj[0] + '.svg'};
                                 } else {
                                     if (laneObj.indexOf("[") > -1) {
-                                        newLaneStyle = {src: './css/1301/1301_2_' + laneObj.substr(laneObj.length - 2, 1) + '.svg'};
+                                        newLaneStyle = {src: './css/1301/1301_2_' + laneObj.substr(1, 1) + '.svg'};
 
                                     } else if (laneObj.indexOf("<") > -1) {
-                                        newLaneStyle = {src: './css/1301/1301_1_' + laneObj.substr(laneObj.length - 2, 1) + '.svg'};
+                                        newLaneStyle = {src: './css/1301/1301_1_' + laneObj.substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
 
                                     } else if (laneObj&&laneObj != "9") {
                                         newLaneStyle = {src: './css/1301/1301_0_' + laneObj + '.svg'};

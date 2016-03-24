@@ -116,11 +116,4 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
             return item.auxiFlag === 3;
         }
     };
-    //$scope.applicArray = getEndArray();
-    //$scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
-    //    for(var i=0;i<newValue.length;i++){
-    //        var newF=fastmap.dataApi.linkform({"linkPid":objectEditCtrl.data.pid,"formOfWay":newValue[i].id});
-    //        $scope.roadlinkData.forms[i]=newF;
-    //    }
-    //})
 });

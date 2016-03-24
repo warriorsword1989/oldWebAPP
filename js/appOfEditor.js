@@ -7,9 +7,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     var eventController = fastmap.uikit.EventController();
     var highLightLayer = fastmap.uikit.HighLightController();
     dragF('toolsDiv');
-    //dragF('toolsDiv1');
-    //dragF("popToolBar");
-    //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.suspendObjURL = "";
@@ -104,10 +101,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
 
         $scope.suspendFlag = false;
     };
-
-    $scope.$on("dataTipsToParent", function (event, data) {
-        $scope.$broadcast("dataTipsToChild", data);
-    });
     //登录时
     keyEvent($ocLazyLoad, $scope);
     $scope.zoom = [];
@@ -212,31 +205,33 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
 
         }
     };
-    $scope.getCheckDateAndCount = function () {
-        var params = {
-            "projectId": Application.projectid,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckCount(JSON.stringify(params), function (data) {
-            if (data.errcode == 0) {
-                $scope.checkTotalPage = Math.ceil(data.data / 5);
-                $scope.checkTotal = data.data;
-            }
-        });
-        var params = {
+    $scope.getCheckDate = function () {
+        var param = {
             "projectId": Application.projectid,
             "pageNum": $scope.itemsByPage,
             "pageSize": 5,
             "meshes": $scope.meshesId
         };
-        Application.functions.getCheckDatas(JSON.stringify(params), function (data) {
+        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
                 $scope.rowCollection = data.data;
-                //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
                 $scope.goPaging();
                 $scope.$apply();
             }
         });
+    }
+    $scope.getCheckDateAndCount = function () {
+        var paramsOfCounts = {
+            "projectId": Application.projectid,
+            "meshes": $scope.meshesId
+        };
+        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
+            if (data.errcode == 0) {
+                $scope.checkTotalPage = Math.ceil(data.data / 5);
+                $scope.checkTotal = data.data;
+            }
+        });
+        $scope.getCheckDate();
     }
     $scope.isTipsPanel = 1;
 //改变左侧栏中的显示内容
@@ -260,21 +255,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
     };
 
-    $scope.getCheckDate = function () {
-        var param = {
-            "projectId": Application.projectid,
-            "pageNum": $scope.itemsByPage,
-            "pageSize": 5,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
-            if (data.errcode == 0) {
-                $scope.rowCollection = data.data;
-                $scope.goPaging();
-                $scope.$apply();
-            }
-        });
-    }
+
 
     /*箭头图代码点击下一页*/
     $scope.picNext = function () {
@@ -315,16 +296,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             output.updateOutPuts();
         }
     };
-
-    $scope.showStop = function () {
-        //禁止滚动
-        //map.scrollWheelZoom=false;
-        this.scrollWheelZoom = false;
-    }
-    $scope.showStart = function () {
-        //可以滚动
-        this.scrollWheelZoom = true;
-    }
     $scope.showOrHide = function () {
         var modifyToolsDiv = $("#modifyToolsDiv");
         if ($scope.toolsFlag) {
@@ -385,6 +356,16 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
         $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
     };
+    $scope.controlProperty=function(event,data) {
+        if(!$scope.suspendFlag) {
+            $scope.suspendFlag = true;
+        }
+        $scope.suspendObjURL = "";
+        $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
+            $scope.suspendObjURL = data["propertyHtml"];
+        })
+    };
+    $scope.$on("transitJsAndCtrl",$scope.controlProperty)
 
 }]);
 

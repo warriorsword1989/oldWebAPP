@@ -147,25 +147,20 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
 
 
     $scope.showNames=function() {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        var showNameObj={
+            "propertyCtrl":'ctrl/linkCtrl/namesOfLinkCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/namesOfLinkTepl.html'
         }
-
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/linkCtrl/namesOfLinkCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/namesOfLinkTepl.html";
-        })
+        $scope.$emit("transitJsAndCtrl", showNameObj);
     };
 
     //修改道路形态
     $scope.addFormOfWay = function() {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        var addFormOfWayObj={
+            "propertyCtrl":'ctrl/linkCtrl/infoOfformOfWayCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/infoOfformOfWayTepl.html'
         }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfformOfWayCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfformOfWayTepl.html";
-        })
+        $scope.$emit("transitJsAndCtrl", addFormOfWayObj);
     };
     //过滤条件
     $scope.flag = 0;
@@ -190,35 +185,27 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         {"id":3,"label":"GCZone"}
     ];
     $scope.showZoneWin=function(item){
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["oridiRowId"] = item.rowId;
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfZoneCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfZoneTepl.html";
-        })
+        var showZoneWinObj={
+            "propertyCtrl":'ctrl/linkCtrl/infoOfZoneCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/infoOfZoneTepl.html'
+        }
+        $scope.$emit("transitJsAndCtrl", showZoneWinObj);
     }
 
     $scope.showZone=function(item){
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        var showZoneObj={
+            "propertyCtrl":'ctrl/linkCtrl/zonePeopertyCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/zonePeopertyTepl.html'
         }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-
-        $ocLazyLoad.load('ctrl/linkCtrl/zonePeopertyCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/zonePeopertyTepl.html";
-        });
+        $scope.$emit("transitJsAndCtrl", showZoneObj);
     }
     $scope.showOther=function(){
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        var showOtherObj={
+            "propertyCtrl":'ctrl/linkCtrl/otherCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/otherTepl.html'
         }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-
-        $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/otherTepl.html";
-        });
+        $scope.$emit("transitJsAndCtrl", showOtherObj);
     }
 
 

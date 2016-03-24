@@ -24,9 +24,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             if (data.t_lifecycle === 2) {
                 Application.functions.getRdObjectById(propertyId, type, function (data) {
                     objCtrl.setCurrentObject(type,data.data);
-                    if (objCtrl.tipsUpdateObject !== "") {
-                        objCtrl.tipsUpdateObject();
-                    }
                     $ocLazyLoad.load(propertyCtrl).then(function () {
                         if (!$scope.$parent.$parent.panelFlag) {
                             $scope.$parent.$parent.panelFlag = true;
@@ -42,9 +39,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                     if (data.s_sourceType === "1201") {
                         Application.functions.getRdObjectById(propertyId, type, function (data) {
                             objCtrl.setCurrentObject(type,data.data);
-                            if (objCtrl.tipsUpdateObject !== "") {
-                                objCtrl.tipsUpdateObject();
-                            }
                             $ocLazyLoad.load(propertyCtrl).then(function () {
                                 $scope.$parent.$parent.objectEditURL = propertyTepl;
                             });
@@ -53,9 +47,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         if (data.t_lifecycle === 1) {
                             Application.functions.getRdObjectById(propertyId, type, function (data) {
                                 objCtrl.setCurrentObject(type,data.data);
-                                if (objCtrl.tipsUpdateObject !== "") {
-                                    objCtrl.tipsUpdateObject();
-                                }
                                 $ocLazyLoad.load(propertyCtrl).then(function () {
                                     $scope.$parent.$parent.objectEditURL = propertyTepl;
                                 });
@@ -67,9 +58,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         if (data.f) {
                             Application.functions.getRdObjectById(propertyId, type, function (data) {
                                 objCtrl.setCurrentObject(type,data.data);
-                                if (objCtrl.tipsUpdateObject !== "") {
-                                    objCtrl.tipsUpdateObject();
-                                }
                                 $ocLazyLoad.load(propertyCtrl).then(function () {
                                     $scope.$parent.$parent.objectEditURL = propertyTepl;
 
@@ -114,8 +102,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             $scope.$parent.$parent.changeBtnClass(num);
 
             layerCtrl.pushLayerFront('edit');
-            //layerCtrl.pushLayerFront('referenceLine');
-
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
@@ -182,8 +168,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             $scope.$parent.$parent.objectEditURL = "";
             $scope.toolTipText = '请选择node！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
-            //清除link层的所有监听事件
-            //rdLink.clearAllEventListeners()
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
                 $scope.data = data;
                 Application.functions.getLinksbyNodeId(JSON.stringify({
@@ -329,7 +313,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                             case "1302"://交限
                                 $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                                 break;
-                            case "1407":
+                            case "1407"://分歧
                                 $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
                                     $scope.$parent.$parent.objectEditURL = "js/tepl/sceneAllTipsTepl.html";
                                     $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
@@ -417,7 +401,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         $scope.$parent.$parent.panelFlag = true;
                         $scope.$parent.$parent.objectFlag = true;
                     }
-                    objCtrl.setCurrentObject(data.data);
+                    objCtrl.setCurrentObject("RDCROSS",data.data);
                     tooltipsCtrl.onRemoveTooltip();
                     $ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                         $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
@@ -425,7 +409,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                 })
             })
         }
-
+        $scope.loadJsAndCtrl=function() {
+            $scope.$emit('transitJsAndCtrl', 'parent');
+        };
         function saveOrEsc(event) {
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");

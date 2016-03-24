@@ -54,14 +54,14 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         $scope.rdCrossData.names.splice(id, 1);
     }
 
-    $scope.changeColor=function(ind,ord){
-        $("#crossnameSpan"+ind).css("color","#FFF");
+    $scope.changeColor=function(index){
+        $("#crossnameSpan"+index).css("color","#FFF");
     }
-    $scope.backColor=function(ind,ord){
-        $("#crossnameSpan"+ind).css("color","darkgray");
+    $scope.backColor=function(index){
+        $("#crossnameSpan"+index).css("color","darkgray");
     }
 
-    $scope.$parent.$parent.save = function () {
+    $scope.save = function () {
         objCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -69,10 +69,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
-
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
