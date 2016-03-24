@@ -533,9 +533,10 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     }
     /*点击选择日期*/
     $scope.dateSelect = function(e){
+        var dateTimeWell = $(e.target).parents('.date-well').parent();
         $('body').append($(e.target).parents(".date-well").find(".datetip"));
         if($('body .datetip:last').css('display') == 'none'){
-            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':'600px'});
+            $(".datetip").css({'top':($(e.target).offset().top-100)+'px','right':(dateTimeWell.attr('data-type')==1)?'300px':'600px'});
             $('body .datetip:last').show();
         }else{
             $('body .datetip:last').hide();
