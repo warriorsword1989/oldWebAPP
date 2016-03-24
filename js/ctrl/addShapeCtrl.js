@@ -274,10 +274,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data, options = {};
                     if (linksArr.length === 0) {
-                        linksArr = data["crossLinks"];
-                        nodesArr = data["crossNodes"];
+                        linksArr = data["links"];
+                        nodesArr = data["nodes"];
                     } else {
-                        highLightLink.drawLinksOfCrossForInit([], []);
+                        //highLightLink.drawLinksOfCrossForInit([], []);
                         if (data['nodes'].length === 1) {
                             if ($scope.containsNode(nodesArr, data["nodes"][0])) {
                                 linksArr = $scope.arrToReduce(linksArr, data["links"]);
