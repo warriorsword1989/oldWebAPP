@@ -35,7 +35,7 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 resetPage();
                 map.currentTool.disable();
-                //map.currentTool = null;
+                map._container.style.cursor = '';
 
 
                 $(layerCtrl.getLayerById('edit').options._div).unbind();
