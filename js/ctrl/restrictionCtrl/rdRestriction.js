@@ -242,20 +242,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $scope.rdRestrictData.restricInfo.length = 0;
         $scope.rdRestrictData.restricInfo = restrictInfoArr.join(",");
     };
-    //增加时间段
-    $scope.addTime = function () {
-        $scope.rdRestrictData.time.unshift({startTime: "", endTime: ""});
-    }
-    //删除时间段
-    $scope.minusTime = function (id) {
-        $scope.rdRestrictData.time.splice(id, 1);
-    };
     $timeout(function () {
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
-            var tmpStr = (!$scope.rdRestrictData.time) ? '' : $scope.rdRestrictData.time;
-            // var tmpStr = '[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
+            var tmpStr = (!$scope.rdSubRestrictData) ? '' : $scope.rdRestrictData.time;
             $scope.fmdateTimer(tmpStr);
         });
     })
@@ -263,16 +254,20 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
             $scope.codeOutput = data;
+            if($scope.rdSubRestrictData["conditions"][0].timeDomain) {
+                $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
+            }
+
         });
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
+            $scope.rdSubRestrictData["conditions"][0] = str;
             $scope.$apply();
         }, 100);
     }
     //修改属性
     $scope.save = function () {
-        var index = $(".show-tips.active").attr('data-index');
         //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
         var resultStr = "";
         if ($scope.checkValue) {
@@ -290,7 +285,6 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         }
         resultStr += re31sult.split("").reverse().join("");//倒序后的后31位加上第一位
         $scope.rdRestrictData.vehicleExpression = bin2dec(resultStr);
-        $scope.rdRestrictData.details[index].timeDomain = $scope.codeOutput;
         objectEditCtrl.save();
         if (objectEditCtrl.changedProperty) {
             if(objectEditCtrl.changedProperty.details) {
