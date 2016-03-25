@@ -200,5 +200,26 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         })
     }
 
+    $scope.showZone=function(item){
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+
+        $ocLazyLoad.load('ctrl/linkCtrl/zonePeopertyCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/zonePeopertyTepl.html";
+        });
+    }
+    $scope.showOther=function(){
+        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
+            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+        }
+        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
+
+        $ocLazyLoad.load('ctrl/linkCtrl/otherCtrl').then(function () {
+            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/otherTepl.html";
+        });
+    }
+
 
 })

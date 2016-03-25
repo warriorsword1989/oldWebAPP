@@ -2,20 +2,9 @@
  * Created by wangtun on 2016/3/14.
  */
 fastmap.dataApi.rdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
-    pid: null,
-    inLinkPid: null,
-    nodePid: null,
-    laneInfo: "",
-    conflictFlag: 0,
-    kgFlag: 0,
-    laneNum: 0,
-    leftExtend: 0,
-    rightExtend: 0,
-    srcFlag: 0,
-    topos: [],
-
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType  = "RDLANECONNEXITY";
         this.setAttributeData(data);
     },
 
@@ -49,6 +38,7 @@ fastmap.dataApi.rdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
         data["leftExtend"] = this.leftExtend;
         data["rightExtend"] = this.rightExtend;
         data["srcFlag"] = this.srcFlag;
+        data["geoLiveType"] = this.geoLiveType;
         data["topos"] = [];
         for (var i = 0; i < this.topos.length; i++) {
             data["topos"].push(this.topos[i].getIntegrate())
@@ -69,6 +59,7 @@ fastmap.dataApi.rdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
         data["leftExtend"] = this.leftExtend;
         data["rightExtend"] = this.rightExtend;
         data["srcFlag"] = this.srcFlag;
+        data["geoLiveType"] = this.geoLiveType;
         data["topos"] = [];
         for (var i = 0; i < this.topos.length; i++) {
             data["topos"].push(this.topos[i].getIntegrate())

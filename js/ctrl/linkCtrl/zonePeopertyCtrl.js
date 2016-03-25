@@ -3,7 +3,8 @@
  */
 var zonePeopertyApp = angular.module("lazymodule", []);
 zonePeopertyApp.controller("zonePeopertyController",function($scope,$timeout,$ocLazyLoad) {
-    $scope.zoneData =  $scope.linkData;
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.zoneData =  objCtrl.data;
     $scope.typeoption=[
         {"id":0,"label":"未分类"},
         {"id":1,"label":"AOIZone"},

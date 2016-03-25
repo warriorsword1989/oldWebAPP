@@ -121,7 +121,23 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                                 }
                                 newGeom[0] = (parseInt(geom[0]));
                                 newGeom[1] = (parseInt(geom[1]));
-                                this.currentEditLayer._drawImgRoute(ctx, newGeom, speedFlagstyle, jttype, true, route);
+                                //this.currentEditLayer._drawImgRoute(ctx, newGeom, speedFlagstyle, jttype, true, route);
+                                this.currentEditLayer._drawImg({
+                                    ctx:ctx,
+                                    geo:newGeom,
+                                    style:speedFlagstyle,
+                                    boolPixelCrs:true
+
+                                })
+                                //绘制箭头
+                                this.currentEditLayer._drawImg({
+                                    ctx:ctx,
+                                    geo:newGeom,
+                                    style:jttype,
+                                    boolPixelCrs:true,
+                                    rotate:route,
+                                    drawx:5
+                                })
                             }
 
                         }
@@ -162,9 +178,15 @@ fastmap.uikit.SelectSpeedLimit = (function () {
 
                                     newGeom[0] = (parseInt(geom[0]));
                                     newGeom[1] = (parseInt(geom[1]) + 23 / 2);
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
+                                    //this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
 
+                                    this.currentEditLayer._drawImg({
+                                        ctx:ctx,
+                                        geo:newGeom,
+                                        style:newStyle,
+                                        boolPixelCrs:true
 
+                                    })
                                 }
 
 

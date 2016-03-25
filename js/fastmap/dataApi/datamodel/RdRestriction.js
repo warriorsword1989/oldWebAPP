@@ -15,6 +15,7 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
             throw "对象没有对应pid"
         }
         this.geoemtry = data["geometry"];
+        this.geoLiveType = "RDRESTRICTION" ;
         this.setAttributeData(data);
     },
 
@@ -47,6 +48,7 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
         data["inLinkPid"] = this.inLinkPid;
         data["restricInfo"] = this.restricInfo;
         data["kgFlag"] = this.kgFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -61,6 +63,7 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
         data["pid"] = this.pid;
         data["inLinkPid"] = this.inLinkPid;
         data["restricInfo"] = this.restricInfo;
+        data["geoLiveType"] = this.geoLiveType;
         data["kgFlag"] = this.kgFlag;
 
         var details = [];

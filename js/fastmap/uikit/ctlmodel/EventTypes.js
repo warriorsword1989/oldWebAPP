@@ -30,8 +30,15 @@ L.Mixin.EventTypes={
     STARTSHAPEEDITRESULTFEEDBACK:'startshapeeditresultfeedback',
     ABORTSHAPEEDITRESULTFEEDBACK:'abortshapeeditresultfeedback',
     STOPSHAPEEDITRESULTFEEDBACK:'stoptshapeeditresultfeedback',
-    SAVEPROPERTY:'saveproperty',
-    DELETEPROPERTY:'deleteproperty',
-    CANCELEVENT:'cancelevent'
+
+    SELECTBYATTRIBUTE:"selectByAttribute",//属性选择事件
+
+    SAVEPROPERTY:'saveproperty',//属性面板保存事件
+    DELETEPROPERTY:'deleteproperty',//属性面板删除事件
+    CANCELEVENT:'cancelevent',//属性面板撤销事件
+
+    SELECTEDFEATURETYPECHANGE:'selectedfeaturechange',//objectcontroller选择要素类型变化事件
+    SELECTEDFEATURECHANGE:'selectedfeaturechange'//objectcontroller选择要素(pid)变化事件
+
 
 }

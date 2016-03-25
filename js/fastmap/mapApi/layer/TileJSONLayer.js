@@ -377,9 +377,25 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     if (theory > 0) {
                                         newGeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
                                         newGeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
-                                        this._drawlaneImgRoute(ctx, newGeom, newStyle, boolPixelCrs,route);
+                                        //this._drawlaneImgRoute(ctx, newGeom, newStyle, boolPixelCrs,route);
+                                        //this._drawlaneImgRoute(ctx, newGeom, newStyle, boolPixelCrs,route);
+
+                                        this._drawImg({
+                                            ctx:ctx,
+                                            geo:newGeom,
+                                            style:newStyle,
+                                            boolPixelCrs:boolPixelCrs,
+                                            rotate:route
+                                        });
                                     } else {
-                                        this._drawlaneImgRoute(ctx, geom, newStyle, boolPixelCrs,route);
+
+                                        this._drawImg({
+                                            ctx:ctx,
+                                            geo:geom,
+                                            style:newStyle,
+                                            boolPixelCrs:boolPixelCrs,
+                                            rotate:route
+                                        });
                                     }
                                 }
                             } else {
@@ -403,9 +419,24 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     if (fact > 0) {
                                         newGeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                         newGeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                        this._drawlaneImgRoute(ctx, newGeom, newStyle, boolPixelCrs,route);
+
+
+
+                                        this._drawImg( {
+                                            ctx:ctx,
+                                            geo:newGeom,
+                                            style:newStyle,
+                                            boolPixelCrs:boolPixelCrs,
+                                            rotate:route
+                                        });
                                     } else {
-                                        this._drawlaneImgRoute(ctx, geom, newStyle, boolPixelCrs,route);
+                                        this._drawImg( {
+                                            ctx:ctx,
+                                            geo:geom,
+                                            style:newStyle,
+                                            boolPixelCrs:boolPixelCrs,
+                                            rotate:route
+                                        });
                                     }
 
                                 }
@@ -420,24 +451,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                         if (divergeObj) {
                             var that = this;
-                            $.each(divergeObj, function (i, v) {
-                                var poiX = feature.geometry.coordinates[0][0];
-                                var poiY = feature.geometry.coordinates[1][0];
-                                var newStyle = './css/divergence/' + v.type + '.png';
+                            for(var key in divergeObj){
+                                var newStyle = {src:'./css/divergence/' + divergeObj[key].type + '.png'};
                                 var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                if (v.type == 0) {
-                                    that._loadImg(newStyle, function (img) {
-                                        var g = ctx.canvas.getContext('2d');
-                                        g.save();
-                                        g.translate(poiX, poiY);
-                                        g.rotate(divergeRoute);
-                                        g.drawImage(img, i * 30, 0);
-                                        g.restore();
-                                    });
-                                }
-
-
-                            });
+                                that._drawImg( {
+                                    ctx:ctx,
+                                    geo:[feature.geometry.coordinates[0][0],feature.geometry.coordinates[1][0]],
+                                    style:newStyle,
+                                    boolPixelCrs:boolPixelCrs,
+                                    rotate:divergeRoute
+                                });
+                            }
                         }
                     } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标
                         if (feature.properties.speedlimitcondition === undefined) {
@@ -468,7 +492,22 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 jtType = {src: './css/1101/1101_0_0_s.svg'};
                             }
                         }
-                        this._drawImgRoute(ctx, geom, speedFlagStyle, jtType, boolPixelCrs, speedLimitRoute);
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:speedFlagStyle,
+                            boolPixelCrs:boolPixelCrs
+
+                        })
+                        //绘制箭头
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:jtType,
+                            boolPixelCrs:boolPixelCrs,
+                            rotate:speedLimitRoute,
+                            drawx:5
+                        })
 
 
                     } else if (this.options.type === 'rdCrossPoint') {
@@ -476,9 +515,23 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             followImg = {src: './css/rdcross/111.png'};
                         for (var rd = 0, rdLen = geom.length; rd < rdLen; rd++) {
                             if (rd === 0) {
-                                this._drawRdCross(ctx, geom[rd][0], masterImg, boolPixelCrs);
+                                this._drawImg({
+                                    ctx:ctx,
+                                    geo:geom[rd][0],
+                                    style:masterImg,
+                                    boolPixelCrs:boolPixelCrs
+
+                                });
+
                             } else {
-                                this._drawRdCross(ctx, geom[rd][0], followImg, boolPixelCrs);
+                                this._drawImg({
+                                    ctx:ctx,
+                                    geo:geom[rd][0],
+                                    style:followImg,
+                                    boolPixelCrs:boolPixelCrs
+
+                                });
+
                             }
                         }
                     } else if (this.options.type === 'rdlaneconnexityPoint') {
@@ -512,12 +565,28 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     if (lane > 0) {
                                         newLaneGeom[0] = parseInt(geom[0]) + lane * 10*Math.cos(laneRoute);
                                         newLaneGeom[1] = parseInt(geom[1])+ lane * 10*Math.sin(laneRoute);
-                                        this._drawlaneImgRoute(ctx, newLaneGeom, newLaneStyle, boolPixelCrs, laneRoute);
+                                        this._drawImg({
+                                            ctx:ctx,
+                                            geo:newLaneGeom,
+                                            style:newLaneStyle,
+                                            boolPixelCrs:boolPixelCrs,
+                                            rotate:laneRoute
+                                        });
                                     } else {
-                                        this._drawlaneImgRoute(ctx, geom, newLaneStyle, boolPixelCrs, laneRoute);
+
+                                        this._drawImg({
+                                            ctx:ctx,
+                                            geo:geom,
+                                            style:newLaneStyle,
+                                            boolPixelCrs:boolPixelCrs,
+                                            rotate:laneRoute
+                                        });
+
+
                                     }
                                 }
-                            } else {
+                            }
+                            else {
                                 if (laneObj.constructor === Array) {
                                     newLaneStyle = {src: './css/1301/1301_2_' + laneObj[0] + '.svg'};
                                 } else {
@@ -531,14 +600,65 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         newLaneStyle = {src: './css/1301/1301_0_' + laneObj + '.svg'};
                                     }
                                 }
-                                this._drawlaneImgRoute(ctx, geom, newLaneStyle, boolPixelCrs, laneRoute);
+                                //this._drawlaneImgRoute(ctx, geom, newLaneStyle, boolPixelCrs, laneRoute);
+                                this._drawImg({
+                                    ctx:ctx,
+                                    geo:geom,
+                                    style:newLaneStyle,
+                                    boolPixelCrs:boolPixelCrs,
+                                    rotate:laneRoute
+                                });
                             }
                         }
 
                     }else if(feature.properties.kind){  //种别
-                        this._drawImg(ctx, geom, style, boolPixelCrs,feature.properties);
+                        //this._drawImg(ctx, geom, style, boolPixelCrs,feature.properties);
+                        if(feature.properties.type == '1201'){
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:'css/tips/kind/K'+feature.properties.kind+'.svg'},
+                                boolPixelCrs:boolPixelCrs,
+                                fillStyle:{
+                                    lineColor:'rgb(4, 187, 245)',
+                                    fillColor:'rgba(4, 187, 245, 0.2)',
+                                    lineWidth:1,
+                                    width:30,
+                                    height:15,
+                                    dx:0,
+                                    dy:7.5
+                                }
+
+                            });
+                        }else if(feature.properties.type == '1203'){
+
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
+                                boolPixelCrs:boolPixelCrs,
+                                fillStyle:{
+                                    lineColor:'rgb(4, 187, 245)',
+                                    fillColor:'rgba(4, 187, 245, 0.2)',
+                                    lineWidth:1,
+                                    width:20,
+                                    height:20,
+                                    dx:5,
+                                    dy:5
+
+                                }
+                            });
+                        }
                     } else {
-                        this._drawImg(ctx, geom, style, boolPixelCrs);
+                        //this._drawImg(ctx, geom, style, boolPixelCrs);
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:style,
+                            boolPixelCrs:boolPixelCrs,
+                            drawx:-30,
+                            drawy:-30
+                        });
                     }
 
                     break;

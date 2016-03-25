@@ -11,14 +11,13 @@
     #otherDiv {
         opacity: 1;
         width: 100%;
-
+        font-size: 12px;
     }
 
     #otherDiv ul {
         list-style: none;
         overflow: hidden;
-        width: 97%;
-        float: left;
+        width: 100%;
         margin: 5px;
         border-radius: 4px;
     }
@@ -158,16 +157,16 @@
         margin-right: 5px;
         margin-top: 5px;
         padding: 0 5px;
-        color: #fff;
     }
 
     .popover {
         width: 100%;
+        position: relative;
     }
 
     .popover-content {
         overflow-y: auto;
-        height: 200px;
+        height: 150px;
     }
 </style>
 <div id="otherDiv" ng-controller="otherController">
@@ -317,17 +316,29 @@
                 <!--</select>-->
             </div>
         </li>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路形态</label></div>-->
+            <!--<div class="inline">-->
+                <!--<label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>-->
+            <!--</div>-->
+
+        <!--</li>-->
+        <!--<li>-->
+            <!--<div id="fromOfWRoaddiv" style="width:260px;" >-->
+                <!--<div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">-->
+                    <!--{{fromitem.label}}-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</li>-->
+
         <li class="list-group-item">
             <div><label class="control-label">道路形态</label></div>
-            <div class="inline">
-                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
-            </div>
-
-        </li>
-        <li>
-            <div id="fromOfWRoaddiv" style="width:260px;" >
-                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
-                    {{fromitem.label}}
+            <div class="inline" >
+                <!--<input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-model="checkValue">允许-->
+                <a   ng-click="showPopover()" style="cursor: pointer;">添加</a>
+                <div  id="vehicleExpressiondiv"
+                      style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;overflow-y:auto;word-break: break-all;word-wrap: break-word;"
+                      tabindex="0" role="button" data-toggle="popover"  title="道路形态">
                 </div>
             </div>
         </li>

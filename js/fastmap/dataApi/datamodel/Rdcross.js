@@ -4,6 +4,7 @@
 fastmap.dataApi.rdCross = fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDCROSS";
         this.setAttributeData(data);
     },
 
@@ -42,6 +43,7 @@ fastmap.dataApi.rdCross = fastmap.dataApi.rdRestriction.extend({
         data["type"] = this.type;
         data["signal"] = this.signal;
         data["electroeye"] = this.electroeye;
+        data["geoLiveType"] = this.geoLiveType;
         data["kgflag"] = this.kgflag;
         data["links"] = [];
         for (var i = 0, len = this.data["links"].length; i < len; i++) {
@@ -67,6 +69,7 @@ fastmap.dataApi.rdCross = fastmap.dataApi.rdRestriction.extend({
         data["type"] = this.type;
         data["signal"] = this.signal;
         data["electroeye"] = this.electroeye;
+        data["geoLiveType"] = this.geoLiveType;
         data["kgflag"] = this.kgflag;
         data["links"] = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
