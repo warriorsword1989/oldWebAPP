@@ -244,7 +244,6 @@ function keyEvent(ocLazyLoad, scope) {
                         point = feature.point;
                     if (link) {
                         if (link.flag) {
-                            console.log(link.angle);
                             var directOfLink = {
                                 "objStatus": "UPDATE",
                                 "pid": link.pid,
@@ -257,10 +256,10 @@ function keyEvent(ocLazyLoad, scope) {
                                 "data": directOfLink
                             };
                             Application.functions.saveLinkGeometry(JSON.stringify(paramOfDirect), function (data) {
-                                objEditCtrl.data.data["direct"] = link.orientation;
-                                if (objEditCtrl.updateObject !== "") {
-                                    objEditCtrl.updateObject();
-                                }
+                                objEditCtrl.data["direct"] = link.orientation;
+                                objEditCtrl.setOriginalData(null);
+                                objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
+                                scope.$apply();
                             });
                             resetPage();
                             return;
