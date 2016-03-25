@@ -35,7 +35,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
             map: map,
             highLightFeature: "links",
-            linksObj: linksObj
+            linksObj: linksObj,
+            initFlag: false
         });
         var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
             map: map,
@@ -100,12 +101,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         {"id": 31, "label": "标志位,禁止/允许(0/1)"}
     ];
     $scope.showAddDirectTepl = function () {
-        if (!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
+        var addObj = {
+            "propertyCtrl": 'ctrl/restrictionCtrl/addDirectOfRestrictionCtrl',
+            "propertyHtml": 'js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html'
         }
-        $ocLazyLoad.load('ctrl/restrictionCtrl/addDirectOfRestrictionCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html";
-        })
+        $scope.$emit("transitJsAndCtrl", addObj);
     };
 
     var towbin = dec2bin(6);
@@ -467,23 +467,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         });
 
     };
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,lenI=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<lenI;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
-        }
-    }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
 });

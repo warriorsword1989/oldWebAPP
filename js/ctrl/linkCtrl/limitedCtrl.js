@@ -39,10 +39,7 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         {"id": 25, "label": "装有防雪链的车"},
         {"id": 26, "label": "邮政车"},
         {"id": 27, "label": "槽罐车"},
-        {"id": 28, "label": "残疾人车"},
-        /*{"id": 29, "label": "预留"},
-        {"id": 30, "label": "预留"},
-        {"id": 31, "label": "标志位,禁止/允许(0/1)"}*/
+        {"id": 28, "label": "残疾人车"}
     ];
 
 
@@ -84,33 +81,24 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         {"id": 9, "label": "不应用"}
     ];
     $scope.showOrdinaryInfo=function(item) {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["oridiRowId"] = item.rowId;
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOforidinaryLimitCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOforidinaryLimitTepl.html";
-        })
+        var showOrdinaryObj={
+            "propertyCtrl":'ctrl/linkCtrl/infoOforidinaryLimitCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/infoOforidinaryLimitTepl.html'
+        }
+        $scope.$emit("transitJsAndCtrl", showOrdinaryObj);
     };
     $scope.showTrcukInfo=function(item) {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["truckRowId"] = item.rowId;
-        $scope.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/linkCtrl/infoTruckLimitCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOftruckLimitTepl.html";
-        })
+        var showTrcukObj={
+            "propertyCtrl":'ctrl/linkCtrl/infoTruckLimitCtrl',
+            "propertyHtml":'js/tepl/linkObjTepl/infoOftruckLimitTepl.html'
+        }
+        $scope.$emit("transitJsAndCtrl", showTrcukObj);
     };
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
-            /*if($scope.linkLimitData.limitTrucks.length == 0)
-                $scope.linkLimitData.limitTrucks.push({timeDomain:''});
-            if($scope.linkLimitData.limits.length == 0)
-                $scope.linkLimitData.limits.push({timeDomain:''});*/
             /*查询数据库取出时间字符串*/
             $.each($scope.linkLimitData.limits,function(i,v){
                 $scope.fmdateTimer(v.timeDomain);
@@ -142,10 +130,6 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
     $scope.addLimit=function() {
         var newLimit = fastmap.dataApi.linklimit({"linkPid":$scope.linkLimitData.pid});
         $scope.linkLimitData.limits.unshift(newLimit);
-
-        //setTimeout(function() {
-        //    $scope.showvehicle($scope.linkLimitData.limits[$scope.linkLimitData.limits.length - 1].vehicle, $scope.linkLimitData.limits.length - 1);
-        //});
     };
     $scope.slideShow = function(target){
         $("#popularLimitedDiv").collapse('hide');

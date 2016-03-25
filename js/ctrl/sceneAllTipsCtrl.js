@@ -3,7 +3,7 @@
  */
 var dataTipsApp = angular.module("lazymodule", []);
 dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $ocLazyLoad) {
-    var selectCtrl = new fastmap.uikit.SelectController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
@@ -182,7 +182,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 /*退出*/
                 $scope.sceneExit = [];
                 $.each($scope.dataTipsData.o_array,function(i,v){
-                    $scope.sceneExit.push(v.out.id);
+                    if(v.out){
+                        $scope.sceneExit.push(v.out.id);
+                    }
                 });
                 break;
             case "1510"://桥

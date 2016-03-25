@@ -96,43 +96,12 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         $("#difGroupIdText").val("");
     }
 
-    //显示普通限速
-    $scope.showOridinarySpeed = function () {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfOridinarySpeedCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoiOfOridinarySpeedTepl.html";
-        })
-    };
-    //显示条件限速
-    $scope.showConditionSpeed=function() {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfConditionSpeedCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html";
-        })
-    };
 
     $scope.showPopover=function(){
         initdiv('vehicleExpressiondiv');
         $('#vehicleExpressiondiv').popover('show');
 
     }
-
-    //修改道路形态
-    $scope.addFormOfWay = function() {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfformOfWayCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfformOfWayTepl.html";
-        })
-    };
     //过滤条件
     $scope.flag = 0;
     $scope.auxiFilter=function(item) {
@@ -146,7 +115,5 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
             $scope.flag = 0;
             return item.auxiFlag === 3;
         }
-
-
     };
 });

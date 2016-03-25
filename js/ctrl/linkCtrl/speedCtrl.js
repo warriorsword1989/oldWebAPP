@@ -46,26 +46,22 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
 
     //普通限速
     $scope.showOridinarySpeedInfo= function (item) {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["oridiRowId"] = item.rowId;
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfOridinarySpeedCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoiOfOridinarySpeedTepl.html";
-        })
+        var oridinarySpeedObj = {
+            "propertyCtrl": 'ctrl/linkCtrl/infoOfOridinarySpeedCtrl',
+            "propertyHtml": 'js/tepl/linkObjTepl/infoiOfOridinarySpeedTepl.html'
+        }
+        $scope.$emit("transitJsAndCtrl", oridinarySpeedObj);
     }
 
     //条件限速
-    $scope.showspeedlimitInfo= function (citem) {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+    $scope.showspeedlimitInfo= function (cItem) {
+        $scope.linkData["oridiRowId"] = cItem.rowId;
+        var speedlimitInfoObj = {
+            "propertyCtrl": 'ctrl/linkCtrl/infoOfConditionSpeedCtrl',
+            "propertyHtml": 'js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html'
         }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $scope.linkData["oridiRowId"] = citem.rowId;
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfConditionSpeedCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html";
-        })
+        $scope.$emit("transitJsAndCtrl", speedlimitInfoObj);
     }
 
 

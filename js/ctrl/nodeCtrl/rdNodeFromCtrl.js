@@ -33,7 +33,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":43,"label":"路口挂接修改"}
     ];
 
-
     $scope.fromOfWayOption=[
         {"id":0,"label":"未调查","isCheck":false},
         {"id":1,"label":"无属性","isCheck":false},
@@ -66,8 +65,19 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":2,"label":"路上点"}
     ];
     $scope.initializeNodeData=function() {
-        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdNodeData=objectEditCtrl.data;
+        objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        $scope.initialForms();
+        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "linksOfnode",
+            initFlag: true
+        });
+        highLightLayer.pushHighLightLayers(highLightLink);
+        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
+    };
+
+    $scope.initialForms = function(){
         if($scope.rdNodeData.forms.length>0){
             $scope.auxiFlag=$scope.rdNodeData.forms[0].auxiFlag;
             $scope.formOfWay=$scope.rdNodeData.forms[0].formOfWay;
@@ -80,28 +90,23 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 }
             }
         }
+    }
 
-
-        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "linksOfnode",
-            initFlag: true
-        });
-        highLightLayer.pushHighLightLayers(highLightLink);
-
-        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
-
+    if(objectEditCtrl.data) {
+        $scope.initializeNodeData();
+    }
+    objectEditCtrl.nodeObjRefresh=function(flag) {
+        $scope.initialForms();
     };
-
-
-
+    $scope.loadJsAndCtrl=function(obj) {
+        $scope.$emit('transitJsAndCtrl', obj);
+    };
     $scope.showPopover=function(){
-        if(!$scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
-        $ocLazyLoad.load('ctrl/nodeCtrl/addDirectOfNodeCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/nodeTepl/addDitrectOfNodeTepl.html";
-        })
+        var obj = {
+            "propertyCtrl":'ctrl/nodeCtrl/addDirectOfNodeCtrl',
+            "propertyHtml":'js/tepl/nodeTepl/addDitrectOfNodeTepl.html'
+        };
+        $scope.loadJsAndCtrl(obj);
     }
 
     $scope.delFrom=function(item){
@@ -118,26 +123,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         }
         objectEditCtrl.selectNodeRefresh();
     }
-
-
-    $scope.saveroadtype=function(){
-        $scope.rdNodeData.forms.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            linkPid:$scope.rdNodeData.pid
-        })
-
-        $scope.newFromOfWRoadDate.unshift({
-            formOfWay: parseInt($("#roadtypename").find("option:selected").val()),
-            name: $("#roadtypename").find("option:selected").text()
-        });
-        $('#myModal').modal('hide');
-    }
-
-    $scope.deleteroadtype=function(){
-        $scope.newFromOfWRoadDate.splice(type, 1);
-        $scope.roadlinkData.forms.splice(type, 1);
-    }
-
     $scope.save = function () {
         objectEditCtrl.save();
         var param = {
@@ -224,26 +209,11 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         })
     };
     $scope.cancel=function(){
+
     }
-    if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-        for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-        for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
-        }
-    }
-    if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-        for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-            eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
-        }
-    }
+
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-
-    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE,$scope.initializeNodeData)
-
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeNodeData);
 })

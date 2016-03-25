@@ -36,68 +36,27 @@
     }
 
     .tip-left {
-        /*float: left;*/
-        /*clear: right;*/
-        /*height: 100%;*/
         width: 95%;
-        /*overflow-y: auto;*/
-        /*overflow-x: hidden;*/
         padding: 10px 0px 10px 10px ;
     }
 
     .right {
-
         float: left;
-
         width: 90%;
-        /*background-color: #FFFFFF;*/
         margin-left: 15px;
-        /*border: 1px solid #eeeeee;*/
-        /*border-radius: 4px;*/
         margin-top: 15px;
 
     }
-
     .both {
         width: 95%;
         margin-top: 5px;
         padding-left: 10px;
 
     }
-
-    .footer {
-        height: 10%;
-        margin: 0 auto;
-        width: 100%;
-        clear: both;
-
-    }
-
     #sceneRoadTipsDiv {
         width: 350px;
         height: 330px;
     }
-
-    .line-dashed {
-        background-color: transparent;
-        border-style: dashed !important;
-        border-width: 0;
-    }
-
-    .b-b {
-        border-bottom: 1px solid #dee5e7;
-    }
-
-    .line-lg {
-        margin-top: 3px;
-        margin-bottom: 3px;
-    }
-
-    .pull-in {
-        margin-left: 0px;
-        margin-right: -15px;
-    }
-
     .form-horizontal .control-label {
         text-align: center;
     }
@@ -138,28 +97,6 @@
     .img-well-tips>div>img{
         border:none;
     }
-    .show-img {
-        width: 60px;
-        height: 49px;
-    }
-
-    .show-img-normal-tips {
-        /*width: 20px;*/
-        /*height: 15px;*/
-    }
-
-    .show-img-transit-tips {
-        /*width: 20px;*/
-        /*height: 15px;*/
-    }
-
-    .img-describe-tips {
-        background-color: #777;
-        color: #fff;
-        font-size: 11px;
-        text-align: center;
-    }
-
     #tipsBtnsDiv>div>button{
         width:78px;
         background-color: rgba(255,255,255,0.3);
@@ -347,10 +284,10 @@
                                 <div class="pic-show-well-normal-tips">
                                     <div class="img-well-tips" ng-repeat="gItem in dataTipsData.info" ng-if="dataTipsData.info.length!==0">
                                         <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext!=1">
-                                            <img ng-src="./css/laneinfo/arw/{{gItem.arwG}}.png" >
+                                            <img ng-src="./css/1301/1301_0_{{gItem.arwG}}.svg" >
                                         </div>
                                         <div ng-if="(gItem.arwG!==null||gItem.arwG!=='')&&gItem.arwG!=9&&gItem.arwG!=null&&gItem.ext==1">
-                                            <img ng-src="./css/laneinfo/arw/{{gItem.arwG}}{{gItem.arwG}}{{gItem.arwG}}.png" >
+                                            <img ng-src="./css/1301/1301_2_{{gItem.arwG}}.svg" >
                                         </div>
                                     </div>
                                 </div>
@@ -360,17 +297,12 @@
                             <div class="pic-show-tips">
                                 <div class="pic-show-well-transit-tips">
                                     <div class="img-well-tips" ng-repeat="bItem in dataTipsData.info">
-                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB==null" style="border:none;">
-                                            <img ng-if="bItem.arwB==null"  style="border:0;visibility: hidden;">
-
+                                        <div style="height: 30px;width:30px;border:none;visibility: hidden;" ng-if="bItem.arwB==null||bItem.arwB==''">
+                                            <img   style="border:0;visibility: hidden;">
                                         </div>
                                         <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null&&bItem.ext!=1">
-                                            <img ng-if="bItem.arwB!=null"  ng-src="./css/laneinfo/arwB/{{bItem.arwB}}.png">
+                                            <img ng-if="bItem.arwB!=null"  ng-src="./css/1301/1301_1_{{bItem.arwB}}.svg">
                                         </div>
-                                        <div ng-if="(bItem.arwB!==null||bItem.arwB!=='')&&bItem.arwB!=9&&bItem.arwB!=null&&bItem.ext==1">
-                                            <img ng-if="bItem.arwB!=null"  ng-src="./css/laneinfo/arwB/{{bItem.arwB}}{{bItem.arwB}}{{bItem.arwB}}.png">
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -669,7 +601,7 @@
                     </button>
                 </div>
                 <div class="col-sm-4" >
-                    <button type="button" class="btn btn-xs " ng-hide="allTipsType==2001||allTipsType==1201">
+                    <button type="button" class="btn btn-xs ">
                         <a href="#" data-toggle="tab" ng-click="upBridgeStatus(nArrayData[0],$event)" style="font-size: 10px;"><i class="glyphicon glyphicon-saved"></i> 改 状 态</a>
                     </button>
                 </div>

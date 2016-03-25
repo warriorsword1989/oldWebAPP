@@ -157,13 +157,26 @@
                 </label>
             </div>
         </li>
+        <!--<li class="list-group-item">-->
+            <!--<div>-->
+                <!--<label class="control-label">路口名称</label>-->
+            <!--</div>-->
+            <!--<div class="inline">-->
+                <!--<span>(<a ng-click="showNames()" ng-if="rdCrossData!=undefined" style="cursor: pointer">{{rdCrossData.names.length}}</a>)个</span>-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div>
-                <label class="control-label">路口名称</label>
+            <div style="width: 120px;">
+                <a ng-click="addRdCrossName()" style="cursor: pointer;color:#FFF;">路口名称（共<span ng-if="rdCrossData.names!=undefined">{{rdCrossData.names.length}}</span>条）</a>
             </div>
-            <div class="inline">
-                <span>(<a ng-click="showNames()" ng-if="rdCrossData!=undefined" style="cursor: pointer">{{rdCrossData.names.length}}</a>)个</span>
-
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item" ng-repeat="cItem in rdCrossData.names">
+            <div ng-click="showCrossNames(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.nameId}}</label>
+                <span id="crossnameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minuscrossName($index)"></span>
             </div>
         </li>
     </ul>

@@ -82,32 +82,21 @@
 
 </style>
 <div id="namesOfCrossDiv" ng-controller="namesController">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div>
-                <a ng-click="addrdCrossName()" style="cursor: pointer">添加名称</a>
-            </div>
-            <span class="pull-right" style="color: #fff;" ng-bind="names.length"></span>
-        </li>
-    </ul>
-    <ul ng-repeat="nameItem in names" class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+    <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
 
         <li class="list-group-item">
             <div><label class="control-label">名称号码</label></div>
-            <div class="inline"><input type="text" ng-model="nameItem.nameId" disabled/>
-                   <span class="glyphicon glyphicon-remove-sign"
-                         style="float: right;color: darkgray;right: 3px;margin-top: 7px;position: absolute;cursor: pointer"
-                         ng-click="minusrdCrossName($index)"></span>
+            <div class="inline"><input type="text" ng-model="oridiData.nameId" disabled/>
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">名称组号</label></div>
-            <div class="inline"><input type="text" ng-model="nameItem.nameGroupid" disabled/></div>
+            <div class="inline"><input type="text" ng-model="oridiData.nameGroupid" disabled/></div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">代码语言</label></div>
             <div class="inline">
-                <select  ng-model="nameItem.langCode"
+                <select  ng-model="oridiData.langCode"
                         ng-options="value.id as value.label for value in langCodeOptions">
                 </select>
             </div>
@@ -117,22 +106,22 @@
                 <label class="control-label">名称内容</label>
             </div>
             <div class="inline">
-                <input type="text" ng-model="nameItem.name" ng-blur="diverName(nameItem.nameGroupid,nameItem.name)">
+                <input type="text" ng-model="oridiData.name" ng-blur="diverName(oridiData.nameGroupid,oridiData.name)">
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">名称发音</label></div>
-            <div class="inline"><input type="text" ng-model="nameItem.phonetic"></div>
+            <div class="inline"><input type="text" ng-model="oridiData.phonetic"></div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">名称来源</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="originOfName{{$index}}" value=0 ng-model="nameItem.srcFlag">
+                    <input type="radio" name="originOfName{{$index}}" value=0 ng-model="oridiData.srcFlag">
                     未定义
                 </label>
                 <label>
-                    <input type="radio" name="originOfName{{$index}}" value=1 ng-model="nameItem.srcFlag">
+                    <input type="radio" name="originOfName{{$index}}" value=1 ng-model="oridiData.srcFlag">
                     翻译
                 </label>
             </div>

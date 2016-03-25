@@ -6,10 +6,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.showLoading = true;
     var eventController = fastmap.uikit.EventController();
     var highLightLayer = fastmap.uikit.HighLightController();
+    var objectCtrl = fastmap.uikit.ObjectEditController();
     dragF('toolsDiv');
-    //dragF('toolsDiv1');
-    //dragF("popToolBar");
-    //dragF1('popoverTips', 'parentId');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
     $scope.suspendObjURL = "";
@@ -28,6 +26,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             if ($scope.suspendFlag) {
                 $scope.suspendFlag = false;
             }
+            objectCtrl.setOriginalData(null);
             highLightLayer.removeHighLightLayers();
             eventController.fire(eventController.eventTypes.DELETEPROPERTY, {"data": "test"})
         },data.errmsg, "error");
@@ -39,6 +38,39 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         $scope.objectEditURL = "";
         eventController.fire(eventController.eventTypes.CANCELEVENT, {"data": "test"})
     };//取消
+
+    //响应选择要素类型变化事件
+    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE, function(){
+        if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+            for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
+            }
+        }
+        if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+            for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+                eventController.off(eventController.eventTypes.DELETEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+            }
+        }
+        if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+                eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
+            }
+        }
+
+        if(eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE]) {
+            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE].length;k<lenK;k++) {
+                eventController.off(eventController.eventTypes.SELECTEDFEATURECHANGE, eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE][k]);
+            }
+        }
+
+        if (!$scope.panelFlag) {
+            $scope.panelFlag = true;
+            $scope.objectFlag = true;
+            $scope.outErrorArr[3] = false;
+            $scope.outErrorArr[1] = true;
+        }
+    });
+
     $scope.rowkeyOfDataTips = "";
     $scope.updateDataTips = "";
     $scope.outFlag = false;//是否可监听
@@ -71,10 +103,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
 
         $scope.suspendFlag = false;
     };
-
-    $scope.$on("dataTipsToParent", function (event, data) {
-        $scope.$broadcast("dataTipsToChild", data);
-    });
     //登录时
     keyEvent($ocLazyLoad, $scope);
     $scope.zoom = [];
@@ -116,7 +144,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
                                         $scope.objectEditURL = 'js/tepl/blankTepl.html';
                                         $scope.showLoading = false;
-                                        $(".output-console").show();
+                                        $(".output-console").fadeIn();
+                                        $('#fm-leftContainer').fadeIn();
+                                        $(".fm-panel-layersURL").fadeIn();
                                     });
                                 });
                             }
@@ -177,31 +207,33 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
 
         }
     };
-    $scope.getCheckDateAndCount = function () {
-        var params = {
-            "projectId": Application.projectid,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckCount(JSON.stringify(params), function (data) {
-            if (data.errcode == 0) {
-                $scope.checkTotalPage = Math.ceil(data.data / 5);
-                $scope.checkTotal = data.data;
-            }
-        });
-        var params = {
+    $scope.getCheckDate = function () {
+        var param = {
             "projectId": Application.projectid,
             "pageNum": $scope.itemsByPage,
             "pageSize": 5,
             "meshes": $scope.meshesId
         };
-        Application.functions.getCheckDatas(JSON.stringify(params), function (data) {
+        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
                 $scope.rowCollection = data.data;
-                //$scope.rowCollection=[{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222},{"ruleId":111,"situation":111,"rank":111,"targets":33,"information":222}];
                 $scope.goPaging();
                 $scope.$apply();
             }
         });
+    }
+    $scope.getCheckDateAndCount = function () {
+        var paramsOfCounts = {
+            "projectId": Application.projectid,
+            "meshes": $scope.meshesId
+        };
+        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
+            if (data.errcode == 0) {
+                $scope.checkTotalPage = Math.ceil(data.data / 5);
+                $scope.checkTotal = data.data;
+            }
+        });
+        $scope.getCheckDate();
     }
     $scope.isTipsPanel = 1;
 //改变左侧栏中的显示内容
@@ -225,21 +257,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
     };
 
-    $scope.getCheckDate = function () {
-        var param = {
-            "projectId": Application.projectid,
-            "pageNum": $scope.itemsByPage,
-            "pageSize": 5,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
-            if (data.errcode == 0) {
-                $scope.rowCollection = data.data;
-                $scope.goPaging();
-                $scope.$apply();
-            }
-        });
-    }
+
 
     /*箭头图代码点击下一页*/
     $scope.picNext = function () {
@@ -280,16 +298,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             output.updateOutPuts();
         }
     };
-
-    $scope.showStop = function () {
-        //禁止滚动
-        //map.scrollWheelZoom=false;
-        this.scrollWheelZoom = false;
-    }
-    $scope.showStart = function () {
-        //可以滚动
-        this.scrollWheelZoom = true;
-    }
     $scope.showOrHide = function () {
         var modifyToolsDiv = $("#modifyToolsDiv");
         if ($scope.toolsFlag) {
@@ -350,6 +358,16 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
         $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
     };
+    $scope.controlProperty=function(event,data) {
+        if(!$scope.suspendFlag) {
+            $scope.suspendFlag = true;
+        }
+        $scope.suspendObjURL = "";
+        $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
+            $scope.suspendObjURL = data["propertyHtml"];
+        })
+    };
+    $scope.$on("transitJsAndCtrl",$scope.controlProperty)
 
 }]);
 

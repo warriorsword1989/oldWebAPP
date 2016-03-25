@@ -134,12 +134,69 @@
 
     .popover {
         width: 100%;
+        background-color: #555;
     }
-
     .popover-content {
         overflow-y: auto;
         height: 150px;
+        padding: 9px 10px;
+        color: white;
+        font-size: 12px;
     }
+    .popover-content::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background: transparent;
+    }
+    .popover-content::-webkit-scrollbar:hover {
+        background: transparent;
+    }
+    .popover-content::-webkit-scrollbar-track {
+        background: none;
+    }
+    .popover-content::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,.18);
+        border-color: transparent;
+        width: 6px;
+        border-radius: 3px;
+    }
+    .popover-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(0,0,0,.25);
+    }
+    .popover-content::-webkit-scrollbar-track:hover {
+        background: transparent;
+    }
+    .dark .popover-content::-webkit-scrollbar,
+    .dark.popover-content::-webkit-scrollbar {
+        width: 6px;
+        background: transparent;
+    }
+    .dark .popover-content::-webkit-scrollbar-thumb,
+    .dark.popover-content::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,.18);
+        border-color: transparent;
+    }
+    .dark .popover-content::-webkit-scrollbar-thumb:hover,
+    .dark.popover-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,.25);
+    }
+    .dark .popover-content::-webkit-scrollbar:hover,
+    .dark.popover-content::-webkit-scrollbar:hover {
+        background: transparent;
+    }
+    .dark .rounded-toggle {
+        background: rgba(0,0,0,.25);
+    }
+    .popover-title{
+        padding: 8px 14px;
+        margin: 0;
+        font-size: 12px;
+        background-color: #555;
+        border-bottom: 1px solid #ebebeb;
+        border-radius: 5px 5px 0 0;
+        color: white;
+    }
+
 </style>
 <div ng-controller="oridinaryLimitController" id="oridinaryLimitDiv" style="font-size: 12px">
     <ul class="list-group list-group-lg m-b-none">
@@ -219,10 +276,10 @@
         <li class="list-group-item">
             <div><label class="control-label">车辆类型</label></div>
             <div class="inline" >
-                <!--<input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-model="checkValue">允许-->
-                <a   ng-click="showPopover($index,item.vehicle)">添加</a>
+                <div><a style="cursor: pointer;"  ng-click="showPopover($index,item.vehicle)">添加</a><input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-click="checkViche()" ng-model="checkValue">允许</div>
+
                 <div  id="vehicleExpressiondiv"
-                      style="list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;overflow-y:auto;word-break: break-all;word-wrap: break-word;"
+                      style="min-width:60px; min-heigth:60px;list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;overflow-y:auto;word-break: break-all;word-wrap: break-word;"
                       tabindex="0" role="button" data-toggle="popover"  title="车辆类型">
                 </div>
             </div>

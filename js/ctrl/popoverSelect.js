@@ -76,6 +76,7 @@ function  initOrig(origArray,vehicleOptions,ul){
         }
         applicArray=origArray;
     }
+
 }
 
 function initdiv(ul){

@@ -43,25 +43,21 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeo
 
 
     $scope.showRticsInfo= function (item) {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
         $scope.linkData["oridiRowId"] = item.rowId;
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfRealTimeRticsCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeRticsTepl.html";
-        })
+        var showRticsInfoObj = {
+            "propertyCtrl": 'ctrl/linkCtrl/infoOfRealTimeRticsCtrl',
+            "propertyHtml": 'js/tepl/linkObjTepl/infoOfRealTimeRticsTepl.html'
+        }
+        $scope.$emit("transitJsAndCtrl", showRticsInfoObj);
     }
 
-    $scope.showCarInfo= function (citem) {
-        if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+    $scope.showCarInfo= function (cItem) {
+        $scope.linkData["oridiRowId"] = cItem.rowId;
+        var showCarInfoObj = {
+            "propertyCtrl": 'ctrl/linkCtrl/infoOfRealTimeCarCtrl',
+            "propertyHtml": 'js/tepl/linkObjTepl/infoOfRealTimeCarTepl.html'
         }
-        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-        $scope.linkData["oridiRowId"] = citem.rowId;
-        $ocLazyLoad.load('ctrl/linkCtrl/infoOfRealTimeCarCtrl').then(function () {
-            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfRealTimeCarTepl.html";
-        })
+        $scope.$emit("transitJsAndCtrl", showCarInfoObj);
     }
 
 

@@ -3149,7 +3149,7 @@ L.TileLayer.Canvas = L.TileLayer.extend({
 	_loadTile: function (tile, tilePoint) {
 		tile._layer = this;
 		tile._tilePoint = tilePoint;
-        tile.id=tilePoint.x+"_"+tilePoint.y;
+        tile.name=tilePoint.x+"_"+tilePoint.y;
 
 		this._redrawTile(tile);
 

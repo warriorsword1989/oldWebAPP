@@ -65,7 +65,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                 if(data[item].geometry.coordinates.length <= 2){
                     if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                         id = data[item].properties.id;
-                        this.eventController.on(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0})
+                        this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0})
 
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
@@ -85,7 +85,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     for(var i=0;i<temp.length;i++){
                         if (this._TouchesPoint(temp[i], x, y, 27)) {
                             id = data[item].properties.id;
-                            this.eventController.on(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0})
+                            this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0})
                             if (this.redrawTiles.length != 0) {
                                 this._cleanHeight();
                             }
