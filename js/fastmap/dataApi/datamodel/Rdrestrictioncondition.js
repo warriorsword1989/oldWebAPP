@@ -11,8 +11,6 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        this.geoemtry = data["geometry"];
-
         this.setAttributeData(data);
     },
 

@@ -260,6 +260,10 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
+            if($scope.rdSubRestrictData["conditions"].length===0) {
+                var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
+                $scope.rdSubRestrictData["conditions"].push(condition);
+            }
             $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
             $scope.$apply();
         }, 100);
