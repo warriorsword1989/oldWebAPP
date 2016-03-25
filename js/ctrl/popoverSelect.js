@@ -7,7 +7,7 @@ function getCheck(ind,names){
         remove(ind,names);
     }else{
         applicArray.unshift({id:ind,label:names});
-        var li =  '<li id="'+ind+'" class="checkboxli">'+names+'<a onclick="remove('+(applicArray[applicArray.length-1].id)+',\''+names+'\')">X</a></li>';
+        var li =  '<li id="'+ind+'" class="checkboxli">'+names+'<a style="cursor:pointer;" onclick="remove('+(ind)+',\''+names+'\')">X</a></li>';
         $("#"+applicUL).append(li);
     }
 }
