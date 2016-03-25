@@ -174,19 +174,62 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                                 var restrictObj = feature.properties.speedlimitcondition;
                                 if (restrictObj !== undefined) {
 
-                                    newStyle = {src: './css/speedLimit/selected/selected.png'};
+                                    var speedFlagstyle = null, jttype = null;
+                                    var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
+                                    var resArray = restrictObj.split("|");
+                                    var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
+                                    var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
+                                    var speedValue = resArray[2] / 10;//限速值
+                                    if (gaptureFlag === 1) {//理论判断，限速开始和结束都为蓝色
+                                        if (speedFlag === 1) {//解除限速
+                                            speedFlagstyle = {src: './css/1101/1101_1_1_' + speedValue + '.svg'};
+                                            jttype = {src: './css/1101/1101_1_1_e.svg'};
+                                        } else {
+                                            speedFlagstyle = {src: './css/1101/1101_1_0_' + speedValue + '.svg'};
+                                            jttype = {src: './css/1101/1101_1_0_s.svg'};
+                                        }
 
+                                    } else {//现场采集，限速开始为红色，结束为黑色
+                                        if (speedFlag === 1) {//解除限速
+                                            speedFlagstyle = {src: './css/1101/1101_0_1_' + speedValue + '.svg'};
+                                            jttype = {src: './css/1101/1101_0_1_e.svg'};
+                                        } else {
+                                            speedFlagstyle = {src: './css/1101/1101_0_0_' + speedValue + '.svg'};
+                                            jttype = {src: './css/1101/1101_0_0_s.svg'};
+                                        }
+                                    }
                                     newGeom[0] = (parseInt(geom[0]));
-                                    newGeom[1] = (parseInt(geom[1]) + 23 / 2);
-                                    //this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-
+                                    newGeom[1] = (parseInt(geom[1]));
+                                    //this.currentEditLayer._drawImgRoute(ctx, newGeom, speedFlagstyle, jttype, true, route);
                                     this.currentEditLayer._drawImg({
                                         ctx:ctx,
                                         geo:newGeom,
-                                        style:newStyle,
+                                        style:speedFlagstyle,
                                         boolPixelCrs:true
+                                        ,
+                                        fillStyle:{
+                                            lineColor:'rgb(4, 187, 245)',
+                                            fillColor:'rgba(4, 187, 245, 0.5)',
+                                            lineWidth:1,
+                                            width:30,
+                                            height:30,
+                                            dx:0,
+                                            dy:0
 
+                                        }
                                     })
+                                    //绘制箭头
+                                    this.currentEditLayer._drawImg({
+                                        ctx:ctx,
+                                        geo:newGeom,
+                                        style:jttype,
+                                        boolPixelCrs:true,
+                                        rotate:route,
+                                        drawx:5
+                                    })
+
+
+
                                 }
 
 

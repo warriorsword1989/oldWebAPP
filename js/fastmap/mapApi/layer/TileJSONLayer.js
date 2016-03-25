@@ -507,6 +507,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             boolPixelCrs:boolPixelCrs,
                             rotate:speedLimitRoute,
                             drawx:5
+
                         })
 
 
@@ -520,7 +521,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     geo:geom[rd][0],
                                     style:masterImg,
                                     boolPixelCrs:boolPixelCrs
-
+                                
                                 });
 
                             } else {
@@ -570,7 +571,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                             geo:newLaneGeom,
                                             style:newLaneStyle,
                                             boolPixelCrs:boolPixelCrs,
-                                            rotate:laneRoute
+                                            rotate:laneRoute,
+                                            scalex:2/3,
+                                            scaley:2/3
                                         });
                                     } else {
 
@@ -579,7 +582,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                             geo:geom,
                                             style:newLaneStyle,
                                             boolPixelCrs:boolPixelCrs,
-                                            rotate:laneRoute
+                                            rotate:laneRoute,
+                                            scalex:2/3,
+                                            scaley:2/3
                                         });
 
 
@@ -606,7 +611,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     geo:geom,
                                     style:newLaneStyle,
                                     boolPixelCrs:boolPixelCrs,
-                                    rotate:laneRoute
+                                    rotate:laneRoute,
+                                    scalex:2/3,
+                                    scaley:2/3
                                 });
                             }
                         }

@@ -79,8 +79,10 @@ fastmap.mapApi.LayerRender = {
 
         image.src = style.src;
         image.onload = function () {
-            var drawx = options.drawx?options.drawx:-image.width/2;
-            var drawy = options.drawy?options.drawy:-image.height/2;
+            var scalex = options.scalex?options.scalex:1;
+            var scaley = options.scaley?options.scaley:1;
+            var drawx = options.drawx?options.drawx:-image.width*scalex/2;
+            var drawy = options.drawy?options.drawy:-image.height*scalex/2;
             g.save();
             g.translate(p.x, p.y);
             if(options.fillStyle){
@@ -96,7 +98,8 @@ fastmap.mapApi.LayerRender = {
             if(rotate){
                 g.rotate(rotate);//旋转度数
             }
-            g.drawImage(image, drawx, drawy);
+
+            g.drawImage(image, drawx, drawy,image.width*scalex,image.height*scaley);
             g.restore();
         }
     },
