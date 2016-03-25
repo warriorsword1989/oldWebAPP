@@ -114,7 +114,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             $scope.toolTipText = '请选择线！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             rdLink.options.selectType = 'link';
-            $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
             //清除link层的所有监听事件
             //rdLink.clearAllEventListeners()

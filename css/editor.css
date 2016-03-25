@@ -724,3 +724,8 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
 #fullPicBtn:hover{
     color: #555;
 }
+
+
+.tooltip{
+    position: fixed;
+}
