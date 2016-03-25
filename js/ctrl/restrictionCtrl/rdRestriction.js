@@ -35,7 +35,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
             map: map,
             highLightFeature: "links",
-            linksObj: linksObj
+            linksObj: linksObj,
+            initFlag: false
         });
         var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
             map: map,

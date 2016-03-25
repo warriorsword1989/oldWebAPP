@@ -4,26 +4,27 @@
 var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
 namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var divergenceIds = null,newObjData = {}, linksOfRestric = {};
+    var newObjData = {}, linksOfRestric = {};
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
-    divergenceIds = objCtrl.data;
-    $scope.divergenceIds = divergenceIds;
-    $scope.diverId = divergenceIds.pid;
+    $scope.divergenceIds = objCtrl.data;
+    $scope.diverId = $scope.divergenceIds.pid;
     $scope.diverObj = {};
     /*默认显示第一个分歧信息*/
-    if(!objCtrl.data){
-        return;
+    $scope.diverId = $scope.divergenceIds.pid;
+    $scope.initializeData = function () {
+        $scope.divergenceIds = objCtrl.data;
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     }
-    $scope.diverId = divergenceIds.pid;
-
+    if(objCtrl.data){
+        $scope.initializeData();
+    }
     objCtrl.updateRdBranch=function() {
-        divergenceIds = objCtrl.data;
-        $scope.divergenceIds = divergenceIds;
-        $scope.diverId = divergenceIds.pid;
+        $scope.divergenceIds = objCtrl.data;
+        $scope.diverId = $scope.divergenceIds.pid;
         $scope.diverObj = {};
         $scope.getObjectById(true)
     };
@@ -33,16 +34,16 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         $('.diverRadio:first').triggerHandler('click');
     });
     $scope.setOriginalDataFunc = function(){
-        objCtrl.setOriginalData(divergenceIds.getIntegrate());
+        objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
     }
     $scope.setOriginalDataFunc();
     /*点击关系类型*/
     $scope.switchRelType = function(code){
-        $scope.relationCode = code;
+        $scope.diverObj.details[0].relationCode = code;
     }
     /*点击箭头图标志*/
     $scope.switchArrowType = function(code){
-        $scope.arrowFlag = code;
+        $scope.diverObj.details[0].arrowFlag = code;
     }
     /*根据id获取箭头图图片*/
     $scope.getArrowPic = function(id){
@@ -78,7 +79,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         }
         $scope.picPageNum = $scope.picNowNum - 1;
         var params = {
-            "name":$scope.arrowCode,
+            "name":$scope.diverObj.details[0].arrowCode,
             "pageNum":$scope.picPageNum,
             "pageSize":6
         };
@@ -101,16 +102,16 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     /*输入箭头图代码显示选择图片界面*/
     $scope.showPicSelect = function(){
         $timeout(function(){
-            if($.trim($scope.arrowCode).length > 0){
-                $scope.patternCode = '8'+$.trim($scope.arrowCode).substr(1);
+            if($.trim($scope.diverObj.details[0].arrowCode).length > 0){
+                $scope.diverObj.details[0].patternCode = '8'+$.trim($scope.diverObj.details[0].arrowCode).substr(1);
             }
             $scope.picNowNum = 1;
             $scope.getPicsDate();
-            $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
+            $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
             $("#picMapImg").attr('src',$scope.arrowMapShow);
-            $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
-            $("#picMapDesc").text($scope.arrowCode);
-            if($.trim($scope.arrowCode) == ''){
+            $("#picModalImg").attr('src',$scope.getArrowPic($scope.diverObj.details[0].patternCode));
+            $("#picMapDesc").text($scope.diverObj.details[0].arrowCode);
+            if($.trim($scope.diverObj.details[0].arrowCode) == ''){
                 $('.pic-show').hide();
             }else{
                 $('.pic-show').show();
@@ -135,10 +136,10 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*点击选中的图片*/
     $scope.selectPicCode = function(code,url){
-        $scope.arrowCode = code;
-        $scope.patternCode = '8'+$.trim($scope.arrowCode).substr(1);
+        $scope.diverObj.details[0].arrowCode = code;
+        $scope.diverObj.details[0].patternCode = '8'+$.trim($scope.diverObj.details[0].arrowCode).substr(1);
         $("#picMapImg").attr('src',url);
-        $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
+        $("#picModalImg").attr('src',$scope.getArrowPic($scope.diverObj.details[0].patternCode));
         $("#picMapDesc").text(code);
         $('.pic-show').hide();
         $scope.changeArrowPosition();
@@ -208,7 +209,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
 
         /*经过线*/
         if(dObj){
-            $scope.relationCode = dObj.relationshipType;
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
             linksOfRestric["outLink"] = $scope.diverObj.outLinkPid+'';
             var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
@@ -220,30 +220,12 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             highLightLayer.pushHighLightLayers(highLightLinks);
             /*模式图信息条数*/
             if(dObj.details.length > 0){
-                $scope.arrowFlag = dObj.details[0].arrowFlag;
-                /*分歧类型*/
-                $scope.branchType = dObj.details[0].branchType;
-                /*出口编号*/
-                $scope.exitNum = dObj.details[0].exitNum;
-                /*设施类型*/
-                $scope.estabType = dObj.details[0].estabType;
-                /*名称种别*/
-                $scope.nameKind = dObj.details[0].nameKind;
-                /*声音方向*/
-                $scope.voiceDir = dObj.details[0].voiceDir;
-                /*向导代码*/
-                $scope.guideCode = dObj.details[0].guideCode;
-                /*模式图*/
-                /*箭头图代码*/
-                $scope.arrowCode = dObj.details[0].arrowCode;
-                /*底图代码*/
-                $scope.patternCode = dObj.details[0].patternCode;
-                if($scope.arrowCode) {
-                    $scope.arrowMapShow = $scope.getArrowPic($scope.arrowCode);
+                if($scope.diverObj.details[0].arrowCode) {
+                    $scope.arrowMapShow = $scope.getArrowPic($scope.diverObj.details[0].arrowCode);
                 }
                 $("#picMapImg").attr('src',$scope.arrowMapShow);
-                $("#picModalImg").attr('src',$scope.getArrowPic($scope.patternCode));
-                $("#picMapDesc").text($scope.arrowCode);
+                $("#picModalImg").attr('src',$scope.getArrowPic($scope.diverObj.details[0].patternCode));
+                $("#picMapDesc").text($scope.diverObj.details[0].arrowCode);
                 /*分歧号码*/
                 $scope.branchPid = dObj.details[0].branchPid;
                 // $(".detail-well").show();
@@ -304,7 +286,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             $scope.$parent.$parent.suspendFlag = true;
         }
         console.log($scope.divergenceIds);
-        $scope.setOriginalDataFunc();
+        objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
         if(type == 0){  //  名称
             $ocLazyLoad.load('ctrl/branchCtrl/nameInfoCtrl').then(function () {
                 $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/nameInfoTepl.html";
@@ -320,14 +302,16 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.getObjectById = function(type){
          //箭头图
          if(type){
-            $scope.diverObj = divergenceIds;
+            $scope.diverObj = $scope.divergenceIds;
+            $scope.initializeData();
             $scope.initDiver();
          }else{
-            Application.functions.getRdObjectById(divergenceIds.pid,"RDBRANCH", function (data) {
+            Application.functions.getRdObjectById($scope.divergenceIds.pid,"RDBRANCH", function (data) {
                 if(data.errcode == 0){
                     $scope.diverObj = data.data;
                     objCtrl.setCurrentObject($scope.diverObj);
                     $scope.initDiver();
+                    $scope.initializeData();
                     $scope.$apply();
                 }else{
                     $scope.$apply();
@@ -373,6 +357,8 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         }
         objCtrl.setCurrentObject('RDBRANCH',newObjData);
         console.log(newObjData)*/
+        // objCtrl.setCurrentObject('RDBRANCH',$scope.diverObj);
+        console.log(objCtrl)
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
