@@ -352,6 +352,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                             weekCode = shortArr[1].substr('1');
                         }
                         detail = '每个' + $scope.weekTranslate(weekCode) + '的' + _time.substr(0,_time.length-2);
+                    }else if(weeks_arr[0].indexOf('y') > -1){
+                        detail = _time;
                     }else{
                         detail = '每天的 ' + _time;        //如果是固定时间——每天的...
                     }
