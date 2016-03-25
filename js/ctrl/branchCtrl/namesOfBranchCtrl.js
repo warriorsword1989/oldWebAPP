@@ -18,7 +18,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     if(objCtrl.data){
         $scope.initializeData();
-        console.log(objCtrl.data)
     }
     objCtrl.updateRdBranch=function() {
         $scope.divergenceIds = objCtrl.data;
@@ -28,12 +27,11 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     };
 
     $scope.setOriginalDataFunc = function(){
-        objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     }
-    $scope.setOriginalDataFunc();
     /*点击关系类型*/
     $scope.switchRelType = function(code){
-        $scope.diverObj.details[0].relationCode = code;
+        $scope.diverObj.relationshipType = code;
     }
     /*点击箭头图标志*/
     $scope.switchArrowType = function(code){
@@ -280,7 +278,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         if(! $scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
-        console.log($scope.divergenceIds.details[0].names);
         objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
         $scope.$parent.$parent.suspendObjURL = "";
         if(type == 0){  //  名称
@@ -328,40 +325,12 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             swal("操作失败", "请输入属性值！", "error");
             return false;
         }
-       /* console.log($scope.diverObj)
-        newObjData = $scope.clone($scope.diverObj);
-        newObjData.relationshipType = $scope.relationCode;
-        newObjData.pid = parseInt($scope.diverId);
-        if(newObjData.details.length == 0){
-            newObjData.details.push({});
-        }
-        var detailTemp = {
-            branchType:$scope.branchType,
-            exitNum:$scope.exitNum,
-            estabType:$scope.estabType,
-            nameKind:$scope.nameKind,
-            voiceDir:$scope.voiceDir,
-            guideCode:$scope.guideCode,
-            arrowFlag:$scope.arrowFlag,
-            arrowCode:$scope.arrowCode,
-            patternCode:$scope.patternCode,
-            branchPid:$scope.branchPid,
-        }
-        newObjData.details[0] = detailTemp;
-        if(newObjData.details[0].names){
-            newObjData.details[0].names = $scope.diverObj.details[0].names.reverse();
-        }
-        objCtrl.setCurrentObject('RDBRANCH',newObjData);
-        console.log(newObjData)*/
-        // objCtrl.setCurrentObject('RDBRANCH',$scope.diverObj);
-        console.log(objCtrl.data.details[0])
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
         param.projectId = Application.projectid;
         param.data = objCtrl.changedProperty;
-    console.log(objCtrl.changedProperty)
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;

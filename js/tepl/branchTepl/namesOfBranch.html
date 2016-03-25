@@ -274,8 +274,8 @@
                 <div class="d-name">关系类型：</div>
                 <div class="d-value">
                     <div class="btn-group d-radio-btn" data-toggle="buttons" style="z-index:0">
-                      <label ng-class="{'btn-primary':item.code==diverObj.details[0].relationCode,'btn-default':item.code!=diverObj.details[0].relationCode,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
-                        <input type="radio" name="relationType" ng-model="diverObj.details[0].relationCode" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
+                      <label ng-class="{'btn-primary':item.code==diverObj.relationshipType,'btn-default':item.code!=diverObj.relationshipType,'btn btn-sm relation-type':true}" ng-repeat="item in relationType" ng-click="switchRelType(item.code)">
+                        <input type="radio" name="relationType" value="{{item.code}}" autocomplete="off" data-relation-type="{{item.code}}">{{item.label}}
                       </label>
                     </div>
                 </div> 
