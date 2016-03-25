@@ -175,10 +175,8 @@
             </label>
             </div>
         </li>
-        <li class="list-group-item" ng-if="rdSubRestrictData.type==='2'">
-            <div class="form-group">
-                <div ng-include="dateURL"></div>
-            </div>
+        <li class="list-group-item" style="padding:7px;" ng-if="rdSubRestrictData.type==='2'||rdSubRestrictData.type===2">
+            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{rdSubRestrictData["conditions"][0]["timeDomain"]}}' style="width:100%;padding: 5px;"></div>
         </li>
 
     </ul>

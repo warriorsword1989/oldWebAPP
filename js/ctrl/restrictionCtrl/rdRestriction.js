@@ -254,15 +254,13 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
             $scope.codeOutput = data;
-            if($scope.rdSubRestrictData["conditions"][0].timeDomain) {
-                $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
-            }
+            $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
 
         });
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
-            $scope.rdSubRestrictData["conditions"][0] = str;
+            $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
             $scope.$apply();
         }, 100);
     }

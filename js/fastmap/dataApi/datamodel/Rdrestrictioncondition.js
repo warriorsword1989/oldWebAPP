@@ -11,10 +11,6 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        if(!attributes["detailId"]){
-            throw "对象没有对应detailId"
-        }
-
         this.geoemtry = data["geometry"];
 
         this.setAttributeData(data);
@@ -24,6 +20,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
 
         this.detailId = data["detailId"] || null;
         this.timeDomain = data["timeDomain"] || null;
+        this.rowId = data["rowId"] || "";
         this.vehicle = data["vehicle"] || 0;
         this.resTrailer = data["resTrailer"] || 0;
         this.resWeigh = data["resWeigh"] || 0;
@@ -41,6 +38,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     getSnapShot:function() {
         var data = {};
         data["detailId"] = this.detailId;
+        data["rowId"] = this.rowId;
         data["timeDomain"] = this.timeDomain;
         data["vehicle"] = this.vehicle;
         data["resTrailer"]  = this.resTrailer;
@@ -60,6 +58,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     getIntegrate:function() {
         var data = {};
         data["detailId"] = this.detailId;
+        data["rowId"] = this.rowId;
         data["timeDomain"] = this.timeDomain;
         data["vehicle"] = this.vehicle;
         data["resTrailer"]  = this.resTrailer;

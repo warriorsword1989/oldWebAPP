@@ -51,4 +51,13 @@ walkstairApp.controller("walkstairController",function($scope) {
     $scope.backColor=function(ind){
         $("#walkstairSpan"+ind).css("color","darkgray");
     }
+    $scope.stairFlagFun=function(item) {
+        item.stairFlag = parseInt(item.stairFlag);
+    };
+    $scope.workDirFun=function(item) {
+        item.workDir = parseInt(item.workDir);
+    };
+    $scope.captureFlagFun=function(item) {
+        item.captureFlag = parseInt( item.captureFlag );
+    };
 });
