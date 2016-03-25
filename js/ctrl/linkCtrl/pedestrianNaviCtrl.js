@@ -28,7 +28,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
        }
        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-       $scope.naviData["sidewalkRowId"]=sidewalkItem.rowId;
+       $scope.naviData["oridiRowId"]=sidewalkItem.rowId;
        $ocLazyLoad.load('ctrl/linkCtrl/infoOfSidewalkCtrl').then(function () {
            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfsidewalkTepl.html";
        })
@@ -38,7 +38,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
            $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
        }
        $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-       $scope.naviData["walkstairRowId"]=walkstairItem.rowId;
+       $scope.naviData["oridiRowId"]=walkstairItem.rowId;
        $ocLazyLoad.load('ctrl/linkCtrl/infoOfWalkstairCtrl').then(function () {
            $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfWalkstairTepl.html";
        })

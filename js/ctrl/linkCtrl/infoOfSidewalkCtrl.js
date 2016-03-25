@@ -30,17 +30,6 @@ sidewalkApp.controller("sidewalkController",function($scope) {
         {"id": 7, "label":"右侧+左侧+中间"},
         {"id": 8, "label":"混合"}
     ];
-    $scope.addSideWalk=function(){
-        $scope.sidewalkData.unshift({
-            captureFlag: 1,
-            dividerType: 0,
-            linkPid: 0,
-            processFlag: 0,
-            rowId: "",
-            sidewalkLoc: 2,
-            workDir: 1
-        });
-    }
     $scope.minusSideWalk = function (id) {
         $scope.sidewalkData.splice(id, 1);
     };
