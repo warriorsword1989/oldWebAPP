@@ -70,10 +70,10 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
             /*查询数据库取出时间字符串*/
-            var tmpStr = $scope.speedLimitData.timeDomain;//'[[(h7m40)(h8m0)]+[(h11m30)(h12m0)]+[(h13m40)(h14m0)]+[(h17m40)(h18m0)]+[(h9m45)(h10m5)]+[(h11m45)(h12m5)]+[(h14m45)(h15m5)]+[[(M6d1)(M8d31)]*[(h0m0)(h5m0)]]+[[(M1d1)(M2d28)]*[(h0m0)(h6m0)]]+[[(M12d1)(M12d31)]*[(h0m0)(h6m0)]]+[[(M1d1)(M2d28)]*[(h23m0)(h23m59)]]+[[(M12d1)(M12d31)]*[(h23m0)(h23m59)]]]';
+            var tmpStr = $scope.speedLimitData.timeDomain;
             $scope.fmdateTimer(tmpStr);
         });
-    })
+    });
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
