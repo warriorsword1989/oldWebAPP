@@ -11,28 +11,22 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
     $scope.divergenceIds = objCtrl.data;
-    $scope.diverId = $scope.divergenceIds.pid;
-    $scope.diverObj = {};
-    /*默认显示第一个分歧信息*/
-    $scope.diverId = $scope.divergenceIds.pid;
     $scope.initializeData = function () {
         $scope.divergenceIds = objCtrl.data;
+        $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     }
     if(objCtrl.data){
         $scope.initializeData();
+        console.log(objCtrl.data)
     }
     objCtrl.updateRdBranch=function() {
         $scope.divergenceIds = objCtrl.data;
-        $scope.diverId = $scope.divergenceIds.pid;
         $scope.diverObj = {};
-        $scope.getObjectById(true)
+        $scope.getObjectById(true);
+        $scope.initializeData();
     };
 
-
-    $timeout(function(){
-        $('.diverRadio:first').triggerHandler('click');
-    });
     $scope.setOriginalDataFunc = function(){
         objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
     }
@@ -205,8 +199,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     ];
     /*初始化信息显示*/
     $scope.initDiver = function(){
+        $scope.initializeData();
         var dObj = $scope.diverObj;
-
+        $scope.$parent.$parent.suspendFlag = false;
         /*经过线*/
         if(dObj){
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
@@ -285,8 +280,9 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         if(! $scope.$parent.$parent.suspendFlag) {
             $scope.$parent.$parent.suspendFlag = true;
         }
-        console.log($scope.divergenceIds);
+        console.log($scope.divergenceIds.details[0].names);
         objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
+        $scope.$parent.$parent.suspendObjURL = "";
         if(type == 0){  //  名称
             $ocLazyLoad.load('ctrl/branchCtrl/nameInfoCtrl').then(function () {
                 $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/nameInfoTepl.html";
@@ -358,13 +354,14 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         objCtrl.setCurrentObject('RDBRANCH',newObjData);
         console.log(newObjData)*/
         // objCtrl.setCurrentObject('RDBRANCH',$scope.diverObj);
-        console.log(objCtrl)
+        console.log(objCtrl.data.details[0])
         objCtrl.save();
         var param = {};
         param.type = "RDBRANCH";
         param.command = "UPDATE";
         param.projectId = Application.projectid;
         param.data = objCtrl.changedProperty;
+    console.log(objCtrl.changedProperty)
         /*解决linkPid报错*/
         if(param.data.details){
             delete param.data.details[0].linkPid;

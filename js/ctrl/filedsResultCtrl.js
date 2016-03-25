@@ -48,7 +48,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
-                        // console.log(data)
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
@@ -539,7 +538,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                        console.log(data)
                         if(data.brId){
                             if(data.brId.length != 0){
                                 $scope.$parent.$parent.objectFlag = true;
