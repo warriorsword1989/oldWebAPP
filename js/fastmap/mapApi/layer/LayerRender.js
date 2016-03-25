@@ -33,26 +33,6 @@ fastmap.mapApi.LayerRender = {
         g.restore();
     },
 
-    _drawRdCross: function (ctx, geom, imgsrc, boolPixelCrs) {
-        if (!imgsrc) {
-            return;
-        }
-        var p = null;
-        if (boolPixelCrs) {
-            p = {x: geom[0], y: geom[1]}
-        } else {
-            p = this._tilePoint(ctx, imgsrc);
-        }
-        var c = ctx.canvas;
-        var g = c.getContext('2d');
-        this._loadImg(imgsrc.src, function (img) {
-            g.save();
-            g.translate(p.x, p.y);
-            g.drawImage(img, -img.width / 2, -img.height / 2);
-            g.restore();
-        })
-    },
-
 
     /***
      *
@@ -93,8 +73,6 @@ fastmap.mapApi.LayerRender = {
                 g.strokeRect(drawx+options.fillStyle.dx,drawy+options.fillStyle.dy,options.fillStyle.width,options.fillStyle.height);  //填充边框 x y坐标 宽 高
             }
 
-
-
             if(rotate){
                 g.rotate(rotate);//旋转度数
             }
@@ -103,191 +81,10 @@ fastmap.mapApi.LayerRender = {
             g.restore();
         }
     },
-    /***
-     * 绘制图片
-     * @param ctx
-     * @param geom
-     * @param imgsrc
-     * @param boolPixelCrs
-     * @private
-     */
-    //_drawImg: function (ctx, geom, imgsrc, boolPixelCrs,property) {
-    //    var p = null;
-    //    if (boolPixelCrs) {
-    //        p = {x: geom[0], y: geom[1]}
-    //    } else {
-    //        p = this._tilePoint(ctx, imgsrc);
-    //    }
-    //    var c = ctx.canvas;
-    //    var g = c.getContext('2d');
-    //    var image = new Image();
-    //    if(!property || !property.kind){
-    //        if (!imgsrc) {
-    //            return;
-    //        }
-    //        image.src = imgsrc.src;
-    //        image.onload = function () {
-    //            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-    //            if(geom.length <=2){
-    //                g.save();
-    //                g.translate(p.x, p.y);
-    //                g.drawImage(image, -image.width / 2, -image.height);
-    //                g.restore();
-    //            }else{  //  如果传的坐标不止两组，如桥
-    //                $.each(geom,function(i,v){
-    //                    if(i == 0 || i == geom.length-1){
-    //                        $.each(v,function(m,n){
-    //                            g.save();
-    //                            g.translate(n[0], n[1]);
-    //                            g.drawImage(image, -image.width / 2, -image.height);
-    //                            g.restore();
-    //                        });
-    //                    }
-    //                });
-    //            }
-    //        };
-    //    }else{  //如果是种别，需分情况显示
-    //        if(property.type == '1201'){
-    //            this._drawKindSvg(image,g,property,p.x,p.y);
-    //        }else if(property.type == '1203'){
-    //            this._drawRoadDirec(image,g,property,p.x,p.y);
-    //        }
-    //    }
-    //},
-    _drawRoadDirec:function(img,g,property,x,y){
-        if(property.srctype == 3){
-            g.strokeStyle = "rgb(4, 187, 245)";  //边框颜色
-            g.fillStyle = 'rgba(4, 187, 245, 0.2)';
-        }else{
-            g.strokeStyle = "#F50404";  //边框颜色
-            g.fillStyle="rgba(245, 4, 4, 0.2)";  //填充的颜色
-        }
-        if(property.direc == 2){
-            img.src = 'css/tips/road/1.svg';
-        }else{
-            img.src = 'css/tips/road/2.svg';
-        }
-        g.linewidth=1;  //边框宽
-        g.fillRect(x-10,y-25,20,20);  //填充颜色 x y坐标 宽 高
-        g.strokeRect(x-10,y-25,20,20);  //填充边框 x y坐标 宽 高
-        img.onload = function () {
-            g.save();
-            g.translate(x, y);
-            g.rotate(property.kind *Math.PI/180);//旋转度数
-            g.drawImage(img, -img.width / 2, -img.height);
-            g.restore();
-        }
-    },
-    _drawKindSvg:function(img,g,property,x,y){     //种别svg绘制
-        if(property.srctype == 3){
-            g.strokeStyle = "rgb(4, 187, 245)";  //边框颜色
-            g.fillStyle = 'rgba(4, 187, 245, 0.2)';
-        }else{
-            g.strokeStyle = "#F50404";  //边框颜色
-            g.fillStyle="rgba(245, 4, 4, 0.2)";  //填充的颜色
-        }
-        g.linewidth=1;  //边框宽
-        g.fillRect(x-15,y-22,30,15);  //填充颜色 x y坐标 宽 高
-        g.strokeRect(x-15,y-22,30,15);  //填充边框 x y坐标 宽 高
-        img.src = 'css/tips/kind/K'+property.kind+'.svg';
-        this._loadImg(img.src, function (img) {
-            g.save();
-            g.translate(x, y);
-            g.drawImage(img, -img.width / 2, -img.height);
-            g.restore();
-        });
-    },
-    _drawImgRoute: function (ctx, geom, imgsrc, arrorSrc, boolPixelCrs, rount) {
-        if (!imgsrc.src) {
-            return;
-        }
-        var p = null;
-        if (boolPixelCrs) {
-            p = {x: geom[0], y: geom[1]}
-        } else {
-            p = this._tilePoint(ctx, imgsrc);
-        }
-        var c = ctx.canvas;
-        var g = c.getContext('2d');
-        var image = new Image(),
-            arrorImg = new Image();
-        image.src = imgsrc.src;
-        arrorImg.src = arrorSrc.src;
-        var xpos = parseInt(geom[0]);
-        var ypos = parseInt(geom[1]);
-        image.onload = function () {
-            g.save();
-            g.translate(p.x, p.y);
-            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            g.drawImage(image, -image.width / 2, -image.height / 2);
-            g.restore();
-        };
-        arrorImg.onload = function () {
-            g.save();
-            g.translate(p.x, p.y);
-            g.rotate(rount);//旋转度数
-            g.drawImage(arrorImg, 5, -arrorImg.height / 2);
-            g.restore();
-        }
-    },
-    _drawlaneImgRoute: function (ctx, geom, imgsrc, boolPixelCrs, rount) {
-        if (!imgsrc.src) {
-            return;
-        }
-        var p = null;
-        if (boolPixelCrs) {
-            p = {x: geom[0], y: geom[1]}
-        } else {
-            p = this._tilePoint(ctx, imgsrc);
-        }
-        var c = ctx.canvas;
-        var g = c.getContext('2d');
-        var image = new Image();
-        image.src = imgsrc.src;
-        image.onload = function () {
-            g.save();
-            g.translate(p.x, p.y);
-            g.rotate(rount);//旋转度数
-            g.drawImage(image, -image.width / 2, -image.height / 2);
-            g.restore();
-        };
-    },
-    _drawlaneImgbound: function (ctx, geom, imgsrc, boolPixelCrs, rount) {
-        if (!imgsrc.src) {
-            return;
-        }
-        var p = null;
-        if (boolPixelCrs) {
-            p = {x: geom[0], y: geom[1]}
-        } else {
-            p = this._tilePoint(ctx, imgsrc);
-        }
-        var c = ctx.canvas;
-        var g = c.getContext('2d');
-        var image = new Image(),
-            arrorImg = new Image();
 
-        image.src = imgsrc.src;
-        image.onload = function () {
-            g.save();
-            g.translate(p.x, p.y);
-            g.rotate(rount);//旋转度数
-            //以Canvas画布上的坐标(10,10)为起始点，绘制图像
-            var proj = [{x:-image.width / 2,y:-image.height / 2},{x:image.width / 2,y:-image.height / 2},{x:image.width / 2,y:image.height / 2},{x:-image.width / 2,y:image.height / 2},{x:-image.width / 2,y:-image.height / 2}];
-            g.strokeStyle = '#7FFFD4';
-            g.beginPath();
-            for (var j = 0; j < proj.length; j++) {
-                var method = (j === 0 ? 'move' : 'line') + 'To';
-                g[method](proj[j].x, proj[j].y);
-            }
-            g.stroke();
-
-            g.restore();
-        };
-    },
     _drawText: function (ctx, geom, name) {
         geom = this._clip(ctx, geom);
-        //var startPoint = null;
+
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.font = "10px Courier New";

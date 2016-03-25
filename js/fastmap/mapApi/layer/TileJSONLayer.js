@@ -521,7 +521,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     geo:geom[rd][0],
                                     style:masterImg,
                                     boolPixelCrs:boolPixelCrs
-                                
+
                                 });
 
                             } else {
