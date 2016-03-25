@@ -35,7 +35,7 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 resetPage();
                 map.currentTool.disable();
-                //map.currentTool = null;
+                map._container.style.cursor = '';
 
 
                 $(layerCtrl.getLayerById('edit').options._div).unbind();
@@ -112,8 +112,8 @@ function keyEvent(ocLazyLoad, scope) {
                             data.data.log.push(sinfo);
                             info = data.data.log;
 
-                            Application.functions.getRdObjectById(data.data.pid,"RDLINK",function(data){
-                                objEditCtrl.setCurrentObject("RDLINK",data.data);
+                            Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
+                                objEditCtrl.setCurrentObject("RDLINK", data.data);
                                 if (objEditCtrl.updateObject !== "") {
                                     objEditCtrl.updateObject();
                                 }
@@ -166,7 +166,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                     scope.objectFlag = true;
                                 }
-                                objEditCtrl.setCurrentObject("RDRESTRICTION",data.data);
+                                objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
                                 if (objEditCtrl.updateObject !== "") {
                                     objEditCtrl.updateObject();
                                 }
@@ -197,7 +197,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
 
                     }
-                    if(breakPoint == null){
+                    if (breakPoint == null) {
                         shapeCtrl.stopEditing();
                         resetPage();
                         return;
@@ -244,7 +244,6 @@ function keyEvent(ocLazyLoad, scope) {
                         point = feature.point;
                     if (link) {
                         if (link.flag) {
-                            console.log(link.angle);
                             var directOfLink = {
                                 "objStatus": "UPDATE",
                                 "pid": link.pid,
@@ -257,10 +256,10 @@ function keyEvent(ocLazyLoad, scope) {
                                 "data": directOfLink
                             };
                             Application.functions.saveLinkGeometry(JSON.stringify(paramOfDirect), function (data) {
-                                objEditCtrl.data.data["direct"] = link.orientation;
-                                if (objEditCtrl.updateObject !== "") {
-                                    objEditCtrl.updateObject();
-                                }
+                                objEditCtrl.data["direct"] = link.orientation;
+                                objEditCtrl.setOriginalData(null);
+                                objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
+                                scope.$apply();
                             });
                             resetPage();
                             return;
@@ -336,7 +335,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 scope.panelFlag = true;
                                 scope.objectFlag = true;
                             }
-                            objEditCtrl.setCurrentObject("RDSPEEDLIMIT",data.data);
+                            objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
                             ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
                                 scope.objectEditURL = "js/tepl/speedLimitTepl.html";
                             });
@@ -353,17 +352,17 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         var snapObj = selectCtrl.getSnapObj();
                         //var nodePid = null;
-                        var interLinks =(snapObj&&snapObj.interLinks.length!=0)?snapObj.interLinks: [];
-                        var interNodes = (snapObj&&snapObj.interNodes.length!=0)?snapObj.interNodes: [];
+                        var interLinks = (snapObj && snapObj.interLinks.length != 0) ? snapObj.interLinks : [];
+                        var interNodes = (snapObj && snapObj.interNodes.length != 0) ? snapObj.interNodes : [];
                         var param = {
                             "command": "REPAIR",
                             "type": "RDLINK",
                             "projectId": Application.projectid,
-                            "objId":parseInt(selectCtrl.selectedFeatures.id),
+                            "objId": parseInt(selectCtrl.selectedFeatures.id),
                             "data": {
                                 "geometry": {"type": "LineString", "coordinates": coordinate},
-                                "interLinks":interLinks,
-                                "interNodes":interNodes
+                                "interLinks": interLinks,
+                                "interNodes": interNodes
                             }
                         }
                         //结束编辑状态
@@ -507,14 +506,14 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                     scope.objectFlag = true;
                                 }
-                                objEditCtrl.setCurrentObject("RDBRANCH",data.data);
+                                objEditCtrl.setCurrentObject("RDBRANCH", data.data);
                                 if (objEditCtrl.updateObject !== "") {
                                     objEditCtrl.updateObject();
                                 }
                                 ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
                                     scope.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
                                 })
-                            },data.data.pid)
+                            }, data.data.pid)
                         } else {
                             info = [{
                                 "op": data.errcode,
@@ -542,14 +541,12 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-
                         if (data.errcode === -1) {
                             info = [{
                                 "op": data.errcode,
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
-
                             outPutCtrl.pushOutput(info);
                             if (outPutCtrl.updateOutPuts !== "") {
                                 outPutCtrl.updateOutPuts();
@@ -557,22 +554,13 @@ function keyEvent(ocLazyLoad, scope) {
                             return;
                         }
                         var info = null;
-
-                        if (data.errcode == 0) {
-                            var sinfo = {
-                                "op": "创建RDCROSS成功",
-                                "type": "",
-                                "pid": ""
-                            };
-                            data.data.log.push(sinfo);
-                            info = data.data.log;
-                        } else {
-                            info = [{
-                                "op": data.errcode,
-                                "type": data.errmsg,
-                                "pid": data.errid
-                            }];
-                        }
+                        var sinfo = {
+                            "op": "创建RDCROSS成功",
+                            "type": "",
+                            "pid": ""
+                        };
+                        data.data.log.push(sinfo);
+                        info = data.data.log;
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -583,19 +571,19 @@ function keyEvent(ocLazyLoad, scope) {
                                 scope.panelFlag = true;
                                 scope.objectFlag = true;
                             }
-                            objEditCtrl.setCurrentObject("RDCROSS",data.data);
+                            objEditCtrl.setCurrentObject("RDCROSS", data.data);
                             ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
                                 scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
                             });
                         });
                     })
-                }else if(shapeCtrl.editType === "rdlaneConnexity") {
-                    var laneData = objEditCtrl.data["inLaneInfoArr"],
-                        laneInfo = objEditCtrl.data["laneConnexity"];
-                        laneStr="";
-                    if(laneData.length===0) {
+                } else if (shapeCtrl.editType === "rdlaneConnexity") {
+                    var laneData = objEditCtrl.originalData["inLaneInfoArr"],
+                        laneInfo = objEditCtrl.originalData["laneConnexity"];
+                   var  laneStr = "";
+                    if (laneData.length === 0) {
                         laneStr = laneData[0];
-                    }else{
+                    } else {
                         laneStr = laneData.join(",");
                     }
                     laneInfo["laneInfo"] = laneStr;
@@ -606,34 +594,42 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": laneInfo
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        var info = [];
                         if (data.errcode === -1) {
-                            checkCtrl.setCheckResult(data);
+                            info = [{
+                                "op": data.errcode,
+                                "type": data.errmsg,
+                                "pid": data.errid
+                            }];
+                            outPutCtrl.pushOutput(info);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
+                            swal("操作失败", data.errmsg, "error");
                             return;
                         }
-                        var info = [];
-                        if (data.data) {
-                            $.each(data.data.log, function (i, item) {
-                                if (item.pid) {
-                                    info.push(item.op + item.type + "(pid:" + item.pid + ")");
-                                } else {
-                                    info.push(item.op + item.type + "(rowId:" + item.rowId + ")");
-                                }
-                            });
-                        } else {
-                            info.push(data.errmsg + data.errid);
-                        }
+                        var sinfo = {
+                            "op": "创建车信成功",
+                            "type": "",
+                            "pid": ""
+                        };
+                        data.data.log.push(sinfo);
+                        info = data.data.log;
+                        resetPage();
                         outPutCtrl.pushOutput(info);
-                        var pid = data.data.log[0].pid;
-                        checkCtrl.setCheckResult(data);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        objEditCtrl.setOriginalData(null);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
                         rdlaneconnexity.redraw();
-                        if(scope.suspendFlag) {
+                        if (scope.suspendFlag) {
                             scope.suspendFlag = false;
                         }
                         Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
-                            objEditCtrl.setCurrentObject("RDLANECONNEXITY",data.data);
+                            objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
                             ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
                                 scope.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
                             });

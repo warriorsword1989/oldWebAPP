@@ -4,7 +4,7 @@
 var showDirectApp = angular.module("mapApp", []);
 showDirectApp.controller("showDirectOfConnexity",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    $scope.showData = objCtrl.data;
+    $scope.showData = objCtrl.originalData;
     $scope.laneConnexityData = [
         {flag: "a", log: "直"},
         {flag: "b", log: "左"},

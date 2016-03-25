@@ -160,26 +160,25 @@
         <li class="list-group-item">
             <div><label class="control-label">限制类型</label></div>
             <div class="radio inline">
-                <label>
+                <label ng-click="changeLimitType(0);">
                     <input type="radio" name="researchOrLimited" value=0 ng-model="rdSubRestrictData.type">
-                    未查
+                    未调查
 
                 </label>
-                <label>
+                <label ng-click="changeLimitType(1);">
                     <input type="radio" name="researchOrLimited" value=1 ng-model="rdSubRestrictData.type">
-                    禁入
+                    禁入驶入
 
-                </label><label>
-                <input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type" title="时间段禁止">
-               禁止
-            </label>
+                </label>
+                <label ng-click="changeLimitType(2);">
+                    <input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type" title="时间段禁止">
+                   时间段禁止
+                </label>
             </div>
         </li>
-        <!--<li class="list-group-item">-->
-            <!--<div class="form-group">-->
-                <!--<div ng-include="dateURL"></div>-->
-            <!--</div>-->
-        <!--</li>-->
+        <li class="list-group-item" style="padding:7px;" ng-if="rdSubRestrictData.type==='2'||rdSubRestrictData.type===2">
+            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{rdSubRestrictData["conditions"][0]["timeDomain"]}}' style="width:100%;padding: 5px;"></div>
+        </li>
 
     </ul>
 

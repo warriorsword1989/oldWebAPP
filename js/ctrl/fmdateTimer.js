@@ -276,7 +276,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         weeks_arr.reverse();
                     }
                 }
-                if(weeks_arr.length > 1 && weeks_arr[0].indexOf(')(h') > -1){
+                if(weeks_arr.length > 1 && weeks_arr[0].indexOf(')(h') > -1 && weeks_arr[0].indexOf('{d') == -1 && weeks_arr[1].indexOf('{d') == -1){
                     weeksStr = $scope.arrEmpty(weeks_arr[1].split('t'));    //星期数组去空
                     dateTme = weeks_arr[0];
                 // }else if(weeks_arr.length > 1 && weeks_arr[0].indexOf(')(y') > -1){      //持续——日，例如 [(y2015M07d16h14m34)(y2015M12d30h16m36)]
@@ -288,15 +288,14 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         weeksStr.push($scope.arrEmpty(dateArr).join(''));
                     }else if(weeks_arr[0].split('')[0] == 'M'){     //月份拆分
                         dateMonth = weeks_arr[0].split(')(');
-                    }else if(weeks_arr[0].indexOf('){d') > -1){     //持续——周——连续天数{d4}
+                    }else if(weeks_arr.length > 1 && (weeks_arr[0].indexOf('){d') > -1 || weeks_arr[1].indexOf('){d') > -1)){     //持续——周——连续天数{d4}
                         weeks_arr[0] = weeks_arr[0].substr(1,weeks_arr[0].length-2);
-                        tempDays = weeks_arr[0].split(')]*[(');
                     }else{
                         weeksStr = $scope.arrEmpty(weeks_arr[0].split('t'));
                     }   //星期数组去空
                 }
                 mutiDate = weeksStr.join('').split('][');
-                if(weeksStr.length >= 1 && mutiDate.length == 1){
+                if(weeksStr.length >= 1 && mutiDate.length == 1 && mutiDate[0].indexOf('y') == -1 && mutiDate[0].indexOf('{d') == -1){
                     $.each(weeksStr,function(m,n){
                         if(n){
                             if(m == weeksStr.length-1){
@@ -326,7 +325,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                             _time = _time + ' 到 ' + $scope.timeAnalyze(v);
                         }
                     });
-                    if(weeks_arr[0].split('')[0] == '(' && weeks_arr[0].split('')[weeks_arr[0].split('').length-1] == ')'){     //如果是持续时间 从...
+                    if(weeks_arr[0].split('')[0] == '(' && weeks_arr[0].split('')[weeks_arr[0].split('').length-1] == ')' && weeks_arr[0].indexof(']*[') > -1){     //如果是持续时间 从...
                         detail = '从' + _time;
                         if(weeks_arr[0].indexOf(')(M') > -1){   //(M12d1)(M12d31)]*[(h23m0)(h23m59)
                             var temp = weeks_arr[0].substr(1,weeks_arr[0].length-2);
@@ -353,6 +352,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                             weekCode = shortArr[1].substr('1');
                         }
                         detail = '每个' + $scope.weekTranslate(weekCode) + '的' + _time.substr(0,_time.length-2);
+                    }else if(weeks_arr[0].indexOf('y') > -1){
+                        detail = _time;
                     }else{
                         detail = '每天的 ' + _time;        //如果是固定时间——每天的...
                     }
@@ -377,22 +378,22 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         }
                     });
                     detail = '从' + _time;
-                }else if(tempDays.length > 1){  //{d4}的情况
+                }else if(weeks_arr[0].indexOf('{d') > -1 || weeks_arr[1].indexOf('{d') > -1){   //{d4}的情况
                     var temp;
-                    if(tempDays[0].indexOf('){d') > -1){
-                        temp = tempDays[0].split('){')
+                    if(weeks_arr[0].indexOf('){d') > -1){
+                        temp = weeks_arr[0].split('){')
                         detail = '每个星期中'+
                             $scope.weekTranslate(temp[0].split('t')[1])+'的'+
-                            $scope.timeAnalyze(tempDays[1].split(')(')[0])+'到'+
+                            $scope.timeAnalyze(weeks_arr[1].split(')(')[0])+'到'+
                             $scope.weekTranslate(parseInt(temp[0].split('t')[1])+parseInt(temp[1].split('d')[1])+'')+'的'+
-                            $scope.timeAnalyze(tempDays[1].split(')(')[1]);
+                            $scope.timeAnalyze(weeks_arr[1].split(')(')[1]);
                     }else{
-                        temp = tempDays[1].split('){');
+                        temp = weeks_arr[1].split('){');
                         detail = '每个星期中'+
                             $scope.weekTranslate(temp[0].split('t')[1])+'的'+
-                            $scope.timeAnalyze(tempDays[0].split(')(')[0])+'到'+
+                            $scope.timeAnalyze(weeks_arr[0].split(')(')[0])+'到'+
                             $scope.weekTranslate(parseInt(temp[0].split('t')[1])+parseInt(temp[1].split('d')[1])+'')+'的'+
-                            $scope.timeAnalyze(tempDays[0].split(')(')[1]);
+                            $scope.timeAnalyze(weeks_arr[0].split(')(')[1]);
                     }
                 }
                 if(dateMonth.length > 1){       //不跨年的月份

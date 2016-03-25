@@ -11,8 +11,6 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-
-        ///this.geometry = data["geometry"];
         this.geoLiveType = "RDLINK";
         this.setAttributeData(data);
     },
@@ -25,6 +23,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
      */
     setAttributeData: function (data) {
         this.pid = data["pid"] || null;
+        this.geometry = data["geometry"]||null;
         this.sNodePid = data["sNodePid"] || null;
         this.eNodePid = data["eNodePid"] || null;
         this.kind = data["kind"] || 7;
@@ -49,7 +48,6 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         this.isViaduct = data["isViaduct"] || 0;
         this.leftRegionId = data["leftRegionId"] || 0;
         this.rightRegionId = data["rightRegionId"] || 0;
-        this.geometry = data["geoemtry"] || null;
         this.length = data["length"] || 0;
         this.meshId = data["meshId"] || 0;
         this.onewayMark = data["onewayMark"] || 0;
@@ -182,6 +180,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         data["pid"] = this.pid;
         data["sNodePid"] = this.sNodePid;
         data["eNodePid"] = this.eNodePid;
+        data["geometry"] = this.geometry;
         data["kind"] = this.kind;
         data["direct"] = this.direct;
         data["appInfo"] = this.appInfo;
@@ -228,7 +227,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         data["isViaduct"] = this.isViaduct;
         data["leftRegionId"] = this.leftRegionId;
         data["rightRegionId"] = this.rightRegionId;
-        data["geoemtry"] = this.geometry;
+        data["geometry"] = this.geometry;
         data["length"] = this.length;
         data["meshId"] = this.meshId;
         data["onewayMark"] = this.onewayMark;

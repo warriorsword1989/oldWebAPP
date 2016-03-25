@@ -71,6 +71,7 @@
                 "fastmap/dataApi/datamodel/Rdnodeform.js",
                 "fastmap/dataApi/datamodel/RdRestriction.js",
                 "fastmap/dataApi/datamodel/RdrestrictionDetail.js",
+                "fastmap/dataApi/datamodel/Rdrestrictioncondition.js",
                 "fastmap/dataApi/datamodel/Rdcross.js",
                 "fastmap/dataApi/datamodel/Rdcrosslink.js",
                 "fastmap/dataApi/datamodel/Rdcrossname.js",
