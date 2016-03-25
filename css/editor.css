@@ -724,8 +724,24 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
 #fullPicBtn:hover{
     color: #555;
 }
+/***************************关闭弹框样式*********************************/
 
+#tkclosediv>button{
+    width:78px;
+    background-color: rgba(255,255,255,0.3);
+    margin-top: 5px;
+    margin-left: 5px;
+}
 
-.tooltip{
-    position: fixed;
+#tkclosediv>button:hover{
+    background-color: rgba(255,255,255,0.7);
+}
+
+#tkclosediv>button:hover>a {
+    color:rgba(0,0,0,0.5);
+}
+#tkclosediv>button>a{
+    color:#FFF;
+    text-decoration: none;
+    cursor: pointer;
 }
