@@ -276,7 +276,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.linkData = null;
                 var editorLayer = layerCtrl.getLayerById("edit")
                 editorLayer.clear();
-                $scope.$parent.$parent.objectEditURL = "";
             } else {
                 outputCtrl.pushOutput(info);
                 if (outputCtrl.updateOutPuts !== "") {

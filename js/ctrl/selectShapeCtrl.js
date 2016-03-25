@@ -116,8 +116,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             rdLink.options.selectType = 'link';
             $scope.$parent.$parent.objectEditURL = "";
             rdLink.options.editable = true;
-            //清除link层的所有监听事件
-            //rdLink.clearAllEventListeners()
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 $scope.data = data;
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
@@ -140,9 +138,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         point: $scope.data.point
                     });
                     objCtrl.setCurrentObject("RDLINK",data.data);
-                    if (objCtrl.updateObject !== "") {
-                        objCtrl.updateObject();
-                    }
                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                         if ($scope.$parent.$parent.suspendFlag) {
                             $scope.$parent.$parent.suspendFlag = false;
