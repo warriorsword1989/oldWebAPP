@@ -133,9 +133,30 @@ fastmap.uikit.SelectRdlane = (function () {
                                         if (fact > 0) {
                                             newGeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
                                             newGeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true, route);
+                                            this.currentEditLayer._drawImg(
+                                            {
+                                                ctx:ctx,
+                                                geo:newGeom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route,
+                                                scalex:2/3,
+                                                scaley:2/3
+
+                                            })
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true, route);
+                                            this.currentEditLayer._drawImg(
+                                                {
+                                                    ctx:ctx,
+                                                    geo:geom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route,
+                                                    scalex:2/3,
+                                                    scaley:2/3
+                                                })
                                         }
                                     }
                                 }
@@ -196,11 +217,53 @@ fastmap.uikit.SelectRdlane = (function () {
                                         if (fact > 0) {
                                             newGeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
                                             newGeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true, route);
-                                            this.currentEditLayer._drawlaneImgbound(ctx, newGeom, newStyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgbound(ctx, newGeom, newStyle, true, route);
+                                            this.currentEditLayer._drawImg(
+                                                {
+                                                    ctx:ctx,
+                                                    geo:newGeom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route,
+                                                    fillStyle:{
+                                                        lineColor:'rgb(4, 187, 245)',
+                                                        fillColor:'rgba(4, 187, 245, 0)',
+                                                        lineWidth:1,
+                                                        width:20,
+                                                        height:10,
+                                                        dx:0,
+                                                        dy:5
+
+                                                    }
+                                                    ,
+                                                    scalex:2/3,
+                                                    scaley:2/3
+                                                })
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true, route);
-                                            this.currentEditLayer._drawlaneImgbound(ctx, geom, newStyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true, route);
+                                            //this.currentEditLayer._drawlaneImgbound(ctx, geom, newStyle, true, route);
+                                            this.currentEditLayer._drawImg(
+                                                {
+                                                    ctx:ctx,
+                                                    geo:geom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route,
+                                                    fillStyle:{
+                                                        lineColor:'rgb(4, 187, 245)',
+                                                        fillColor:'rgba(4, 187, 245, 0)',
+                                                        lineWidth:1,
+                                                        width:20,
+                                                        height:10,
+                                                        dx:0,
+                                                        dy:5
+
+                                                    }
+                                                    ,
+                                                    scalex:2/3,
+                                                    scaley:2/3
+                                                })
                                         }
                                     }
                                 }
