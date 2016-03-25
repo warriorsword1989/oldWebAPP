@@ -53,9 +53,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     } else {//已处理
                         style = {src: './css/tips/selected/processed.png'};
                     }
-                    this.layer._drawImg(ctx, geom, style, true,feature.properties);
+                    this.layer._drawImg(ctx, geom, style, true, feature.properties);
                 }
-                
+
             }
         }
         this.initFlag = true;
@@ -86,7 +86,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 } else {//已处理
                     style = {src: './css/tips/selected/processed.png'};
                 }
-                this.layer._drawImg(ctx, geom, style, true,feature.properties);
+                this.layer._drawImg(ctx, geom, style, true, feature.properties);
             }
         }
 
@@ -197,7 +197,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                     radius: 3
                                 }, feature.properties);
                             }
-
                         }
 
                     }
@@ -239,7 +238,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     var geom = feature.geometry.coordinates;
                     if (this.linkPid !== undefined && feature.properties.id === this.linkPid) {
                         this.layer._drawLineString(ctx, geom, true, {
-                            size:3,
+                            size: 3,
                             color: '#00F5FF'
                         }, {
                             color: '#00F5FF',
@@ -285,7 +284,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 var geom = feature.geometry.coordinates;
                 if (this.linkPid !== undefined && feature.properties.id === this.linkPid) {
                     this.layer._drawLineString(ctx, geom, true, {
-                        size:3,
+                        size: 3,
                         color: '#00F5FF'
                     }, {
                         color: '#00F5FF',
@@ -308,16 +307,17 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      *初始化路口的线高亮
      * @param linksArr
      * @param nodesArr
+     * @param nodeArr
      */
-    drawLinksOfCrossForInit: function (linksArr, nodesArr,nodeArr) {
+    drawLinksOfCrossForInit: function (linksArr, nodesArr, nodeArr) {
         this.linksArr = linksArr,
             this.nodesArr = nodesArr;
         var linkObj = {}, nodeObj = {}, nodeStyle;
         for (var k = 0, lenK = this.linksArr.length; k < lenK; k++) {
-            linkObj[this.linksArr[k]] = true;
+            linkObj[this.linksArr[k].toString()] = true;
         }
         for (var j = 0, lenJ = nodesArr.length; j < lenJ; j++) {
-            nodeObj[this.nodesArr[j]] = true;
+            nodeObj[this.nodesArr[j].toString()] = true;
         }
         for (var index in this.tiles) {
             this.tiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
@@ -337,33 +337,36 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     }
 
                     var style = this.layer.styleFor(feature, color);
-
                     var geom = feature.geometry.coordinates;
                     if (linkObj[feature.properties.id]) {
-                        if (nodeObj[feature.properties.enode] || nodeObj[feature.properties.snode]) {
-                            nodeStyle = {
-                                color: '#FFFF00',
-                                radius: 4
-                            }
-                        } else {
-                            nodeStyle = {
-                                color: 'rgba(105,105,105,1)',
-                                radius: 3
-                            }
-
-                        }
+                        nodeStyle = {
+                            color: 'rgba(105,105,105,1)',
+                            radius: 3
+                        };
                         this.layer._drawLineString(ctx, geom, true, {
                             size: 2,
                             color: '#F63428'
                         }, nodeStyle, feature.properties);
-
-                        if(nodeArr &&feature.properties.snode == nodeArr[0]){
-                            this.layer._drawPoint(ctx,geom[0][0], {
+                        if (nodesArr.length > 0) {
+                            if (nodeObj[feature.properties.enode]) {
+                                this.layer._drawPoint(ctx, geom[geom.length - 1][0], {
+                                    color: 'blue',
+                                    radius: 4
+                                }, true);
+                            } else if (nodeObj[feature.properties.snode]) {
+                                this.layer._drawPoint(ctx, geom[0][0], {
+                                    color: 'blue',
+                                    radius: 4
+                                }, true);
+                            }
+                        }
+                        if (nodeArr && feature.properties.snode == nodeArr[0]) {
+                            this.layer._drawPoint(ctx, geom[0][0], {
                                 color: 'blue',
                                 radius: 4
                             }, true);
-                        }else if(nodeArr &&feature.properties.enode == nodeArr[0]){
-                            this.layer._drawPoint(ctx, geom[geom.length-1][0], {
+                        } else if (nodeArr && feature.properties.enode == nodeArr[0]) {
+                            this.layer._drawPoint(ctx, geom[geom.length - 1][0], {
                                 color: 'blue',
                                 radius: 4
                             }, true);
@@ -416,22 +419,27 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
                 var geom = feature.geometry.coordinates;
                 if (linkObj[feature.properties.id]) {
-                    if (nodeObj[feature.properties.enode] || nodeObj[feature.properties.snode]) {
-                        nodeStyle = {
-                            color: '#FFFF00',
-                            radius: 4
-                        }
-                    } else {
-                        nodeStyle = {
-                            color: 'rgba(105,105,105,1)',
-                            radius: 3
-                        }
-
-                    }
+                    nodeStyle = {
+                        color: 'rgba(105,105,105,1)',
+                        radius: 3
+                    };
                     this.layer._drawLineString(ctx, geom, true, {
                         size: 2,
                         color: '#F63428'
                     }, nodeStyle, feature.properties);
+                    if (this.nodesArr.length > 0) {
+                        if (nodeObj[feature.properties.enode]) {
+                            this.layer._drawPoint(ctx, geom[geom.length - 1][0], {
+                                color: 'blue',
+                                radius: 4
+                            }, true);
+                        } else if (nodeObj[feature.properties.snode]) {
+                            this.layer._drawPoint(ctx, geom[0][0], {
+                                color: 'blue',
+                                radius: 4
+                            }, true);
+                        }
+                    }
                 } else {
                     this.layer._drawLineString(ctx, geom, true, style, {
                         color: 'rgba(105,105,105,1)',
@@ -450,7 +458,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawRestrict: function (tile, zoom) {
         var data = tile.data;
-        tile.options.context.getContext('2d').clearRect(0, 0, 256, 256);
+        //tile.options.context.getContext('2d').clearRect(0, 0, 256, 256);
         var ctx = {
             canvas: tile.options.context,
             tile: tile.options.context._tilePoint,
@@ -562,7 +570,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         } else {//已处理
                             styleForDataTips = {src: './css/tips/normal/processed.png'};
                         }
-                        this.layer._drawImg(ctx, geom, styleForDataTips, true,feature.properties);
+                        this.layer._drawImg(ctx, geom, styleForDataTips, true, feature.properties);
                     }
 
                 }

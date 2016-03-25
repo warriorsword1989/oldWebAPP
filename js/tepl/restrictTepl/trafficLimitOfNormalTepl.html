@@ -176,8 +176,13 @@
                 </label>
             </div>
         </li>
+<<<<<<< HEAD
         <li class="list-group-item" style="padding:7px;">
             <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{speedLimitData.timeDomain}}' style="width:100%;padding: 5px;"></div>
+=======
+        <li class="list-group-item" style="padding:7px;" ng-if="rdSubRestrictData.type==='2'||rdSubRestrictData.type===2">
+            <div ng-include="dateURL" class="muti-date" data-type="1" date-str='{{rdSubRestrictData["conditions"][0]["timeDomain"]}}' style="width:100%;padding: 5px;"></div>
+>>>>>>> url/master
         </li>
 
     </ul>

@@ -147,22 +147,32 @@
                 </label>
             </div>
         </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div>
-                <label class="control-label">人行便道</label>
-            </div>
-            <div class="inline">
-                <span>(<a ng-click="showSidewalk()" ng-if="naviData!=undefined" style="cursor: pointer">{{naviData.sidewalks.length}}</a>)个</span>
-
+            <div style="width:120px;">
+                <a ng-click="addSidewalk()" style="cursor: pointer;color: #ffffff;">人行便道 共{{naviData.sidewalks.length}}个</a>
             </div>
         </li>
-        <li class="list-group-item">
-            <div>
-                <label class="control-label">人行阶梯</label>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
+            <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
+                <span id="SidewalkSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusSidewalk($index)"></span>
             </div>
-            <div class="inline">
-                <span>(<a ng-click="showWalkstair()" ng-if="naviData!=undefined" style="cursor: pointer">{{naviData.walkstairs.length}}</a>)个</span>
-
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div style="width:120px;">
+                <a ng-click="addWalkstair()" style="cursor: pointer;color: #ffffff;">人行阶梯 共（{{naviData.walkstairs.length}})个</a>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item" ng-repeat="walkstairsItem in naviData.walkstairs">
+            <div ng-click="showWalkstair(walkstairsItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
+                <span id="WalkstairSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusWalkstair($index)"></span>
             </div>
         </li>
     </ul>

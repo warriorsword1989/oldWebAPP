@@ -463,77 +463,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     } else if (pItemId === "1301") {//车信
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        var connexityId = data.id;
-                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, connexityId, "ctrl/connexityCtrl/rdLaneConnexityCtrl", "js/tepl/connexityTepl/rdLaneConnexityTepl.html");
+                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl,  data.id, "ctrl/connexityCtrl/rdLaneConnexityCtrl", "js/tepl/connexityTepl/rdLaneConnexityTepl.html");
                     } else if (pItemId === "1302") {//交限
-                        if (data.t_lifecycle === 1) {
-                            var tracInfoArr = data.t_trackInfo, trackInfoFlag = false;
-
-                            for (var trackNum = 0, trackLen = tracInfoArr.length; trackNum < trackLen; trackNum++) {
-                                if (tracInfoArr[trackNum].stage === 3) {
-                                    trackInfoFlag = true;
-                                    break;
-                                }
-                            }
-                            if (trackInfoFlag) {
-                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                    $scope.$parent.$parent.objectEditURL = "";
-                                });
-                            } else {
-                                Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
-                                    objCtrl.setCurrentObject("RDLANECONNEXITY",data.data);
-                                    if (objCtrl.updateObject !== "") {
-                                        objCtrl.updateObject();
-                                    }
-                                    $ocLazyLoad.load("ctrl/restrictionCtrl/rdRestriction").then(function () {
-                                        if(! $scope.$parent.$parent.panelFlag ) {
-                                            $scope.$parent.$parent.panelFlag = true;
-                                            $scope.$parent.$parent.objectFlag = true;
-                                            $scope.$parent.$parent.outErrorArr[3]=false;
-                                            $scope.$parent.$parent.outErrorArr[1]=true;
-                                        }
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
-                                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                        });
-                                    });
-                                })
-                            }
-                        } else {
-                            if (data.id === undefined) {
-                                $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneTipsTepl.html";
-                                    $scope.$parent.$parent.objectEditURL = "";
-                                });
-                            } else {
-                                Application.functions.getRdObjectById(data.id, "RDRESTRICTION", function (data) {
-                                    if(data.errcode===-1){
-                                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                        });
-                                        return;
-                                    }
-                                    objCtrl.setCurrentObject("RDRESTRICTION",data.data);
-                                    if (objCtrl.updateObject !== "") {
-                                        objCtrl.updateObject();
-                                    }
-                                    $ocLazyLoad.load("ctrl/restrictionCtrl/rdRestriction").then(function () {
-                                        if(! $scope.$parent.$parent.panelFlag ) {
-                                            $scope.$parent.$parent.panelFlag = true;
-                                            $scope.$parent.$parent.objectFlag = true;
-                                            $scope.$parent.$parent.outErrorArr[3]=false;
-                                            $scope.$parent.$parent.outErrorArr[1]=true;
-                                        }
-                                        $scope.$parent.$parent.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
-                                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
-                                        });
-                                    });
-                                })
-                            }
-                        }
-
+                        $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl,  data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                     } else if (pItemId === "1407") {//高速分歧
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
@@ -585,14 +517,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                                 points.push(point);
                             }
-                            // map.panTo({lat: (data.gSLoc.coordinates[1]+data.gELoc.coordinates[1])/2, lon: (data.gELoc.coordinates[0]+data.gSLoc.coordinates[0])/2});
                             map.panTo({lat: points[0].y, lon: points[0].x});
                             var line = fastmap.mapApi.lineString(points);
                             selectCtrl.onSelected({geometry: line, id: data.f_array[0].id});
                             objCtrl.setCurrentObject("RDLINK", d.data);
-                            if (objCtrl.updateObject !== "") {
-                                objCtrl.updateObject();
-                            }
                             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                 if(! $scope.$parent.$parent.panelFlag ) {
                                     $scope.$parent.$parent.panelFlag = true;
@@ -624,9 +552,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 var line = fastmap.mapApi.lineString(points);
                                 selectCtrl.onSelected({geometry: line, id: $scope.dataId});
                                 objCtrl.setCurrentObject("RDLINK",data.data);
-                                if (objCtrl.updateObject !== "") {
-                                    objCtrl.updateObject();
-                                }
                                 $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                                     if(! $scope.$parent.$parent.panelFlag ) {
                                         $scope.$parent.$parent.panelFlag = true;
@@ -719,9 +644,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 return;
                             }
                             objCtrl.setCurrentObject(type,data.data);
-                            if (objCtrl.tipsUpdateObject !== "") {
-                                objCtrl.tipsUpdateObject();
-                            }
                             $ocLazyLoad.load(propertyCtrl).then(function () {
                                 if(!$scope.$parent.$parent.panelFlag ) {
                                     $scope.$parent.$parent.panelFlag = true;
@@ -741,9 +663,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         return;
                                     }
                                     objCtrl.setCurrentObject(type,data.data);
-                                    if (objCtrl.tipsUpdateObject !== "") {
-                                        objCtrl.tipsUpdateObject();
-                                    }
                                     $ocLazyLoad.load(propertyCtrl).then(function () {
                                         if(!$scope.$parent.$parent.panelFlag ) {
                                             $scope.$parent.$parent.panelFlag = true;
@@ -762,9 +681,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         return;
                                     }
                                     objCtrl.setCurrentObject(type,data.data);
-                                    if (objCtrl.tipsUpdateObject !== "") {
-                                        objCtrl.tipsUpdateObject();
-                                    }
                                     $ocLazyLoad.load(propertyCtrl).then(function () {
                                         if(!$scope.$parent.$parent.panelFlag ) {
                                             $scope.$parent.$parent.panelFlag = true;

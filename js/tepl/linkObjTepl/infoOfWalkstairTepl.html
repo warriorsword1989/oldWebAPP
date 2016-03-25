@@ -85,40 +85,29 @@
 
 </style>
 <div ng-controller="walkstairController" id="walkstairDiv">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div style="width: 100px;">
-                <a ng-click="addStairWalk()" style="cursor: pointer;color:#FFF;">添加人行阶梯</a>
-            </div>
-        </li>
-    </ul>
-    <ul ng-repeat="walkItem in walkstairData" class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
+    <ul class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
 
         <li class="list-group-item">
             <div><label class="control-label">位置关系</label></div>
             <div class="inline">
-                <select  ng-model="walkItem.stairLoc" ng-options="value.id as value.label for value in walkstairLocoptions">
+                <select  ng-model="oridiData.stairLoc" ng-options="value.id as value.label for value in walkstairLocoptions">
                     <option>--</option>
                 </select>
-                   <span id="walkstairSpan{{$index}}" class="glyphicon glyphicon-remove-sign"
-                         style="float: right;color: darkgray;right: 0px;margin-top: 5px;position: absolute;cursor: pointer;"
-                         ng-click="minusStairWalk($index)" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)">
-                   </span>
             </div>
         </li>
         <li class="list-group-item">
             <div><label class="control-label">升降标识</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="stairFlagRadio" value=0 ng-model="walkItem.stairFlag">
+                    <input type="radio" name="stairFlagRadio" value=0 ng-model="oridiData.stairFlag" ng-click="stairFlagFun(oridiData)">
                     未调查
                 </label>
                 <label>
-                    <input type="radio" name="stairFlagRadio" value=1 ng-model="walkItem.stairFlag">
+                    <input type="radio" name="stairFlagRadio" value=1 ng-model="oridiData.stairFlag" ng-click="stairFlagFun(oridiData)">
                     上坡
                 </label>
                 <label>
-                    <input type="radio" name="stairFlagRadio" value=2 ng-model="walkItem.stairFlag">
+                    <input type="radio" name="stairFlagRadio" value=2 ng-model="oridiData.stairFlag" ng-click="stairFlagFun(oridiData)">
                     下坡
                 </label>
             </div>
@@ -127,15 +116,15 @@
             <div><label class="control-label">作业方向</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="workDirRadio" value=0 ng-model="walkItem.workDir">
+                    <input type="radio" name="workDirRadio" value=0 ng-model="oridiData.workDir" ng-click="workDirFun(oridiData)">
                     未调查
                 </label>
                 <label>
-                    <input type="radio" name="workDirRadio" value=1 ng-model="walkItem.workDir">
+                    <input type="radio" name="workDirRadio" value=1 ng-model="oridiData.workDir" ng-click="workDirFun(oridiData)">
                     顺
                 </label>
                 <label>
-                    <input type="radio" name="workDirRadio" value=2 ng-model="walkItem.workDir">
+                    <input type="radio" name="workDirRadio" value=2 ng-model="oridiData.workDir" ng-click="workDirFun(oridiData)">
                     逆
                 </label>
             </div>
@@ -144,11 +133,11 @@
             <div><label class="control-label">采集标识</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="captureFlagRadio" value=0 ng-model="walkItem.captureFlag">
+                    <input type="radio" name="captureFlagRadio" value=0 ng-model="oridiData.captureFlag" ng-click="captureFlagFun(oridiData)">
                     未采集
                 </label>
                 <label>
-                    <input type="radio" name="captureFlagRadio" value=1 ng-model="walkItem.captureFlag">
+                    <input type="radio" name="captureFlagRadio" value=1 ng-model="oridiData.captureFlag" ng-click="captureFlagFun(oridiData)">
                     外业确认
                 </label>
             </div>

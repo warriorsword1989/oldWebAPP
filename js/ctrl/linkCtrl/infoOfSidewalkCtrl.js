@@ -5,6 +5,13 @@ var sidewalkApp = angular.module("mapApp", []);
 sidewalkApp.controller("sidewalkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.sidewalkData = objCtrl.data.sidewalks;
+    $scope.linkData = objCtrl.data;
+
+    for(var i= 0,len=$scope.sidewalkData.length;i<len;i++) {
+        if($scope.sidewalkData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
+            $scope.oridiData = $scope.sidewalkData[i];
+        }
+    }
     $scope.dividerTypeoptions=[
         {"id": 0, "label":"未调查"},
         {"id": 1, "label":"高度差隔离(马路涯)"},
@@ -23,17 +30,6 @@ sidewalkApp.controller("sidewalkController",function($scope) {
         {"id": 7, "label":"右侧+左侧+中间"},
         {"id": 8, "label":"混合"}
     ];
-    $scope.addSideWalk=function(){
-        $scope.sidewalkData.unshift({
-            captureFlag: 1,
-            dividerType: 0,
-            linkPid: 0,
-            processFlag: 0,
-            rowId: "",
-            sidewalkLoc: 2,
-            workDir: 1
-        });
-    }
     $scope.minusSideWalk = function (id) {
         $scope.sidewalkData.splice(id, 1);
     };

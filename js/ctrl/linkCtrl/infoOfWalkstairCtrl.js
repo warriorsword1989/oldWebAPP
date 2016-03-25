@@ -5,6 +5,13 @@ var walkstairApp = angular.module("mapApp", []);
 walkstairApp.controller("walkstairController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.walkstairData = objCtrl.data.walkstairs;
+    $scope.linkData = objCtrl.data;
+
+    for(var i= 0,len=$scope.walkstairData.length;i<len;i++) {
+        if($scope.walkstairData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
+            $scope.oridiData = $scope.walkstairData[i];
+        }
+    }
     $scope.walkstairLocoptions=[
         {"id": 0, "label":"无"},
         {"id": 1, "label":"右侧"},
@@ -44,4 +51,13 @@ walkstairApp.controller("walkstairController",function($scope) {
     $scope.backColor=function(ind){
         $("#walkstairSpan"+ind).css("color","darkgray");
     }
+    $scope.stairFlagFun=function(item) {
+        item.stairFlag = parseInt(item.stairFlag);
+    };
+    $scope.workDirFun=function(item) {
+        item.workDir = parseInt(item.workDir);
+    };
+    $scope.captureFlagFun=function(item) {
+        item.captureFlag = parseInt( item.captureFlag );
+    };
 });

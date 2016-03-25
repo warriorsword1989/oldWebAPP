@@ -10,7 +10,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.inLaneInfoArr = [];
-    $scope.directData = objCtrl.data;
+    $scope.directData = objCtrl.originalData;
     var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     $scope.laneConnexity = {};
     $scope.clickFlag = true;

@@ -274,10 +274,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data, options = {};
                     if (linksArr.length === 0) {
-                        linksArr = data["crossLinks"];
-                        nodesArr = data["crossNodes"];
+                        linksArr = data["links"];
+                        nodesArr = data["nodes"];
                     } else {
-                        highLightLink.drawLinksOfCrossForInit([], []);
+                        //highLightLink.drawLinksOfCrossForInit([], []);
                         if (data['nodes'].length === 1) {
                             if ($scope.containsNode(nodesArr, data["nodes"][0])) {
                                 linksArr = $scope.arrToReduce(linksArr, data["links"]);
@@ -317,7 +317,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
                 $scope.$parent.$parent.objectEditURL = "";
-                objCtrl.setCurrentObject(obj);
+                objCtrl.setOriginalData(obj);
                 $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
                     $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
 

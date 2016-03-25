@@ -7,7 +7,7 @@ function getCheck(ind,names){
         remove(ind,names);
     }else{
         applicArray.unshift({id:ind,label:names});
-        var li =  '<li id="'+ind+'" class="checkboxli">'+names+'<a onclick="remove('+(applicArray[applicArray.length-1].id)+',\''+names+'\')">X</a></li>';
+        var li =  '<li id="'+ind+'" class="checkboxli">'+names+'<a style="cursor:pointer;" onclick="remove('+(ind)+',\''+names+'\')">X</a></li>';
         $("#"+applicUL).append(li);
     }
 }
@@ -62,7 +62,7 @@ function  initOrig(origArray,vehicleOptions,ul){
 
     //下拉框方法
     $("#"+ul).popover({
-        //trigger: 'click',
+        trigger: 'click',
         placement: 'bottom', //top, bottom, left or right
         html: 'true',
         content:function(){ return ContentMethod(origArray,vehicleOptions)}
