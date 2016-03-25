@@ -539,19 +539,28 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
                             $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
                         });
-                        if(data.brId.length != 0){
-                            $scope.$parent.$parent.objectFlag = true;
-                            $scope.$parent.$parent.panelFlag = true;
-                            $scope.$parent.$parent.outErrorArr[3]=false;
-                            $scope.$parent.$parent.outErrorArr[1]=true;
-                            $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
-                            });
+                        console.log(data)
+                        if(data.brId){
+                            if(data.brId.length != 0){
+                                $scope.$parent.$parent.objectFlag = true;
+                                $scope.$parent.$parent.panelFlag = true;
+                                $scope.$parent.$parent.outErrorArr[3]=false;
+                                $scope.$parent.$parent.outErrorArr[1]=true;
+                                $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
+                                    $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                                });
+                            }else{
+                                $scope.$parent.$parent.objectFlag = false;
+                                $scope.$parent.$parent.panelFlag = false;
+                                $scope.$parent.$parent.outErrorArr[3]=true;
+                                $scope.$parent.$parent.outErrorArr[1]=false;
+                            }
                         }else{
-                            $scope.$parent.$parent.objectFlag = false;
-                            $scope.$parent.$parent.panelFlag = false;
-                            $scope.$parent.$parent.outErrorArr[3]=true;
-                            $scope.$parent.$parent.outErrorArr[1]=false;
+                            $timeout(function(){
+                                $.showPoiMsg('brId为空',e);
+                                $scope.$apply();
+                            });
+                            return;
                         }
                     } else if (pItemId === "1510") {//桥1510
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
