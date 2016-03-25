@@ -6,6 +6,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.showLoading = true;
     var eventController = fastmap.uikit.EventController();
     var highLightLayer = fastmap.uikit.HighLightController();
+    var objectCtrl = fastmap.uikit.ObjectEditController();
     dragF('toolsDiv');
     $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
     $scope.objectEditURL = "";//属性栏的ng-include地址
@@ -25,6 +26,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             if ($scope.suspendFlag) {
                 $scope.suspendFlag = false;
             }
+            objectCtrl.setOriginalData(null);
             highLightLayer.removeHighLightLayers();
             eventController.fire(eventController.eventTypes.DELETEPROPERTY, {"data": "test"})
         },data.errmsg, "error");
@@ -46,12 +48,12 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
         if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
             for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+                eventController.off(eventController.eventTypes.DELETEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
             }
         }
         if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
             for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
+                eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
             }
         }
 
