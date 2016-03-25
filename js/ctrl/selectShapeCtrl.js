@@ -410,5 +410,23 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
         };
+
+        $scope.getDataCallback=function(selectedData,type){
+            Application.functions.getRdObjectById(selectedData.id, type, function (data) {
+                switch (type){
+                    case "RDLINK":
+                        break;
+
+                    case "":
+                        break;
+                    case "":
+                        break;
+                    case "":
+                        break;
+                    case "":
+                        break;
+                }
+            })
+        }
     };
 }])
