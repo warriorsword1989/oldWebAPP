@@ -18,6 +18,34 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
     }
+    /*时间控件*/
+    $scope.fmdateTimer = function (str) {
+        $scope.$on('get-date', function (event, data) {
+            $scope.codeOutput = data;
+            $scope.rdRestrictData.time = data;
+        });
+        $timeout(function () {
+            $scope.$broadcast('set-code', str);
+            $scope.codeOutput = str;
+            $scope.rdRestrictData.time = str;
+            $scope.$apply();
+        }, 100);
+    }
+    /*改变限制类型判断时间控件*/
+    $scope.changeLimitType = function(type){
+        if(type == 2){
+            $timeout(function(){
+                $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+                    $scope.dateURL = 'js/tepl/fmdateTimer.html';
+                    /*查询数据库取出时间字符串*/
+                    var tmpStr = $scope.rdRestrictData.time;
+                    $scope.fmdateTimer(tmpStr);
+                });
+            });
+        }else{
+            $scope.dateURL = '';
+        }
+    }
     //初始化数据
     $scope.initializeData = function () {
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
@@ -56,6 +84,10 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         })
         //初始化交限中的第一个禁止方向的信息
         $scope.rdSubRestrictData = objectEditCtrl.data.details[0];
+        /*如果默认限制类型为时间段禁止，显示时间段控件*/
+        if($scope.rdSubRestrictData.type == 2){
+            $scope.changeLimitType(2);
+        }
     };
 
 
