@@ -162,9 +162,23 @@ function init(options) {
                                         if (theory > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:newGeom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route
+                                            })
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:geom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route
+                                            })
                                         }
                                     }
                                 } else {
@@ -187,9 +201,23 @@ function init(options) {
                                         if (fact > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:newGeom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route
+                                            })
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:geom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route
+                                            })
                                         }
                                     }
                                 }
@@ -235,13 +263,47 @@ function init(options) {
                             if (restrictObj !== undefined) {
                                 if (restrictObj.constructor === Array) {
                                     for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                        newStyle = {src: './css/limit/selected/' + restrictObj[theory] + restrictObj[theory] + '.png'};
+                                        newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
                                         if (theory > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:newGeom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route,
+                                                fillStyle:{
+                                                    lineColor:'rgb(4, 187, 245)',
+                                                    fillColor:'rgba(4, 187, 245, 0.5)',
+                                                    lineWidth:1,
+                                                    width:20,
+                                                    height:20,
+                                                    dx:0,
+                                                    dy:0
+
+                                                }
+                                            })
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:geom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route,
+                                                fillStyle:{
+                                                    lineColor:'rgb(4, 187, 245)',
+                                                    fillColor:'rgba(4, 187, 245, 0.5)',
+                                                    lineWidth:1,
+                                                    width:20,
+                                                    height:20,
+                                                    dx:0,
+                                                    dy:0
+
+                                                }
+                                            })
                                         }
 
                                     }
@@ -250,22 +312,58 @@ function init(options) {
                                     for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                         if (restrictArr[fact].constructor === Array) {
-                                            newStyle = {src: './css/limit/selected/' + restrictArr[fact][0] + restrictArr[fact][0] + '.png'};
+                                            newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
+
                                         } else {
                                             if (restrictArr[fact].indexOf("[") > -1) {
                                                 restrictArr[fact] = restrictArr[fact].replace("[", "");
                                                 restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                                newStyle = {src: './css/limit/selected/' + restrictArr[fact] + restrictArr[fact] + '.png'};
+                                                newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
                                             } else {
-                                                newStyle = {src: './css/limit/selected/' + restrictArr[fact] + '.png'};
+                                                newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
                                             }
+
                                         }
                                         if (fact > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:newGeom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route,
+                                                fillStyle:{
+                                                    lineColor:'rgb(4, 187, 245)',
+                                                    fillColor:'rgba(4, 187, 245, 0.5)',
+                                                    lineWidth:1,
+                                                    width:20,
+                                                    height:20,
+                                                    dx:0,
+                                                    dy:0
+
+                                                }
+                                            })
                                         } else {
-                                            this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+                                            this.currentEditLayer._drawImg({
+                                                ctx:ctx,
+                                                geo:geom,
+                                                style:newStyle,
+                                                boolPixelCrs:true,
+                                                rotate:route,
+                                                fillStyle:{
+                                                    lineColor:'rgb(4, 187, 245)',
+                                                    fillColor:'rgba(4, 187, 245, 0.5)',
+                                                    lineWidth:1,
+                                                    width:20,
+                                                    height:20,
+                                                    dx:0,
+                                                    dy:0
+
+                                                }
+                                            })
                                         }
 
                                     }

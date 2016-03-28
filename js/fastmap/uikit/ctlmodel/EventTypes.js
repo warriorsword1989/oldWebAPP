@@ -40,4 +40,5 @@ L.Mixin.EventTypes={
     SELECTEDFEATURETYPECHANGE:'selectedfeaturetypechange',//objectcontroller选择要素类型变化事件
     SELECTEDFEATURECHANGE:'selectedfeaturechange'//objectcontroller选择要素(pid)变化事件
 
+
 }
