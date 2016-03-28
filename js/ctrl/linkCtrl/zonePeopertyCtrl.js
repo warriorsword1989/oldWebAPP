@@ -14,10 +14,11 @@ zonePeopertyApp.controller("zonePeopertyController", function ($scope, $timeout,
     $scope.showZoneWin = function (item) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showZoneWinObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/linkCtrl/infoOfZoneCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoOfZoneTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showZoneWinObj);
+        $scope.$emit("transitCtrlAndTmpl", showZoneWinObj);
     }
 
 })

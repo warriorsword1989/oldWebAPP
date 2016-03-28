@@ -279,14 +279,14 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
             $scope.$parent.$parent.suspendFlag = true;
         }
         objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
-        $scope.$parent.$parent.suspendObjURL = "";
+        $scope.$parent.$parent.subAttrTplContainer = "";
         if(type == 0){  //  名称
             $ocLazyLoad.load('ctrl/branchCtrl/nameInfoCtrl').then(function () {
-                $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/nameInfoTepl.html";
+                $scope.$parent.$parent.subAttrTplContainer = "js/tepl/branchTepl/nameInfoTepl.html";
             });
         }else{  //经过线
             $ocLazyLoad.load('ctrl/branchCtrl/passlineCtrl').then(function () {
-                $scope.$parent.$parent.suspendObjURL = "js/tepl/branchTepl/passlineTepl.html";
+                $scope.$parent.$parent.subAttrTplContainer = "js/tepl/branchTepl/passlineTepl.html";
             });
         }
         $scope.changeArrowPosition();
@@ -397,7 +397,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                         $scope.$parent.$parent.panelFlag = false;
                         $scope.$parent.$parent.objectFlag = false;
                     }
-                    $scope.$parent.$parent.objectEditURL = "";
+                    $scope.$parent.$parent.attrTplContainer = "";
                     rdBranch.redraw();
                 }else{
                     $timeout(function(){

@@ -1,9 +1,9 @@
 ﻿var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('generalController', ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     dragF('toolsDiv');
-    $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
-    $scope.objectEditURL = "";//属性栏的ng-include地址
-    $scope.suspendObjURL = "";
+    $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
+    $scope.attrTplContainer = "";//属性栏的ng-include地址
+    $scope.subAttrTplContainer = "";
     $scope.save = "";//保存方法
     $scope.delete = "";//删除方法
     $scope.cancel = "";//取消
