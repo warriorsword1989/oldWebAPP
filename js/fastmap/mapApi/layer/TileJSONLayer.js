@@ -1002,7 +1002,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             $.each(divergeObj, function (i, v) {
                                 var poiX = feature.geometry.coordinates[0][0];
                                 var poiY = feature.geometry.coordinates[1][0];
-                                var newStyle = './css/divergence/' + v.type + '.png';
+                                var newStyle = './css/divergence/' + v.type + '.svg';
                                 var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
                                 if (v.type == 0) {
                                     that._loadImg(newStyle, function (img) {
