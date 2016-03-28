@@ -117,25 +117,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             rdLink.options.editable = true;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 $scope.data = data;
+                selectCtrl.onSelected({
+                    point:data.point
+                });
                 Application.functions.getRdObjectById(data.id, "RDLINK", function (data) {
                     if (data.errcode === -1) {
                         return;
                     }
-
-                    var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
-                    for (var i = 0, len = linkArr.length; i < len; i++) {
-                        var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                        points.push(point);
-                    }
-                    var line = fastmap.mapApi.lineString(points);
-                    selectCtrl.onSelected({
-                        geometry: line,
-                        id: $scope.data.id,
-                        direct: data.data.direct,
-                        snode: data.data.sNodePid,
-                        enode: data.data.eNodePid,
-                        point: $scope.data.point
-                    });
                     objCtrl.setCurrentObject("RDLINK",data.data);
                     $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                         if ($scope.$parent.$parent.suspendFlag) {
@@ -163,38 +151,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             $scope.toolTipText = '请选择node！';
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                $scope.data = data;
-                Application.functions.getLinksbyNodeId(JSON.stringify({
-                    projectId: Application.projectid,
-                    type: 'RDLINK',
-                    data: {nodePid: data.id}
-                }), function (data) {
-                    if (data.errcode === -1) {
-                        return;
-                    }
-                    var lines = [];
-                    var linepids = [];
-                    for (var index in data.data) {
-                        var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
-                        for (var i = 0, len = linkArr.length; i < len; i++) {
-                            var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
-                            points.push(point);
-                        }
-                        lines.push(fastmap.mapApi.lineString(points));
-                        linepids.push(data.data[index].pid);
-                    }
-
-                    var multipolyline = fastmap.mapApi.multiPolyline(lines);
-
-                    selectCtrl.onSelected({geometry: multipolyline, id: $scope.data.id});
-
-                    Application.functions.getRdObjectById($scope.data.id, "RDNODE", function (data) {
-                        objCtrl.setCurrentObject("RDNODE", data.data, {"linepids": linepids, "nodeid": $scope.data.id});
-                        $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/nodeTepl/rdNodeFromTepl.html";
-                        })
-                    });
-                })
+                Application.functions.getRdObjectById(data.id, "RDNODE", function (data) {
+                    objCtrl.setCurrentObject("RDNODE", data.data);
+                    $ocLazyLoad.load('ctrl/nodeCtrl/rdNodeFromCtrl').then(function () {
+                        $scope.$parent.$parent.objectEditURL = "js/tepl/nodeTepl/rdNodeFromTepl.html";
+                    })
+                });
             });
         }
         else if (type === "relation") {
@@ -388,8 +350,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
             eventController.on(eventController.eventTypes.GETCROSSNODEID, function (data) {
                 $scope.data = data;
-                $scope.tips = data.tips;
-                Application.functions.getRdObjectById(data.id, "RDCROSS", function (data) {
+                Application.functions.getRdObjectById( $scope.data.id, "RDCROSS", function (data) {
                     $scope.$parent.$parent.objectEditURL = "";
                     if (!$scope.$parent.$parent.panelFlag) {
                         $scope.$parent.$parent.panelFlag = true;
@@ -403,9 +364,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                 })
             })
         }
-        $scope.loadJsAndCtrl=function() {
-            $scope.$emit('transitJsAndCtrl', 'parent');
-        };
         function saveOrEsc(event) {
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
