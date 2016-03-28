@@ -101,22 +101,17 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
-
                         var info = null;
                         if (data.errcode == 0) {
-                            var sinfo = {
+                            var sInfo = {
                                 "op": "创建道路link成功",
                                 "type": "",
                                 "pid": ""
                             };
-                            data.data.log.push(sinfo);
+                            data.data.log.push(sInfo);
                             info = data.data.log;
-
                             Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
                                 objEditCtrl.setCurrentObject("RDLINK", data.data);
-                                if (objEditCtrl.updateObject !== "") {
-                                    objEditCtrl.updateObject();
-                                }
                                 ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
                                     scope.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                 })
@@ -127,6 +122,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         resetPage(info);
                         outPutCtrl.pushOutput(info);
@@ -143,13 +139,10 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfRestrict), function (data) {
-
-
                         checkCtrl.setCheckResult(data);
                         //清空上一次的操作
                         map.currentTool.cleanHeight();
                         map.currentTool.disable();
-
                         var info = null;
                         if (data.errcode == 0) {
                             var sinfo = {
@@ -167,9 +160,6 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
-                                if (objEditCtrl.updateObject !== "") {
-                                    objEditCtrl.updateObject();
-                                }
                                 ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
                                     scope.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
                                 })
@@ -180,14 +170,13 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
                         toolTipsCtrl.onRemoveTooltip();
-
-
                     });
                 } else if (shapeCtrl.editType === "pathBreak") {
                     var breakPoint = null;
@@ -229,6 +218,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         resetPage();
                         outPutCtrl.pushOutput(info);
@@ -256,10 +246,28 @@ function keyEvent(ocLazyLoad, scope) {
                                 "data": directOfLink
                             };
                             Application.functions.saveLinkGeometry(JSON.stringify(paramOfDirect), function (data) {
-                                objEditCtrl.data["direct"] = link.orientation;
-                                objEditCtrl.setOriginalData(null);
-                                objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
-                                scope.$apply();
+                                var info = [];
+                                if (data.errcode === 0) {
+                                    var sinfo = {
+                                        "op": "创建RDSPEEDLIMIT成功",
+                                        "type": "",
+                                        "pid": ""
+                                    };
+                                    data.data.log.push(sinfo);
+                                    info = data.data.log;
+                                    objEditCtrl.data["direct"] = link.orientation;
+                                    objEditCtrl.setOriginalData(null);
+                                    objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
+                                    scope.$apply();
+
+                                } else {
+                                    var info = [{
+                                        "op": data.errcode,
+                                        "type": data.errmsg,
+                                        "pid": data.errid
+                                    }];
+                                    swal("操作失败", data.errmsg, "error");
+                                }
                             });
                             resetPage();
                             return;
@@ -293,23 +301,20 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(parameter), function (data) {
                         var info = null;
-                        if (data.errcode === -1) {
-                            info = [{
-                                "op": data.errcode,
-                                "type": data.errmsg,
-                                "pid": data.errid
-                            }];
-                            outPutCtrl.pushOutput(info);
-                            if (outPutCtrl.updateOutPuts !== "") {
-                                outPutCtrl.updateOutPuts();
-                            }
-                            return;
-                        }
-
                         selectCtrl.selectedFeatures = null;
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
 
                         if (data.errcode == 0) {
+                            Application.functions.getRdObjectById(data.data.pid, "RDSPEEDLIMIT", function (data) {
+                                if (!scope.panelFlag) {
+                                    scope.panelFlag = true;
+                                    scope.objectFlag = true;
+                                }
+                                objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
+                                ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
+                                    scope.objectEditURL = "js/tepl/speedLimitTepl.html";
+                                });
+                            });
                             var sinfo = {
                                 "op": "创建RDSPEEDLIMIT成功",
                                 "type": "",
@@ -323,6 +328,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         speedlimitlayer.redraw();
                         resetPage();
@@ -330,16 +336,7 @@ function keyEvent(ocLazyLoad, scope) {
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
-                        Application.functions.getRdObjectById(data.data.pid, "RDSPEEDLIMIT", function (data) {
-                            if (!scope.panelFlag) {
-                                scope.panelFlag = true;
-                                scope.objectFlag = true;
-                            }
-                            objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
-                            ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                                scope.objectEditURL = "js/tepl/speedLimitTepl.html";
-                            });
-                        });
+
                     })
 
                 } else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
@@ -383,6 +380,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     "type": data.errmsg,
                                     "pid": data.errid
                                 }];
+                                swal("操作失败", data.errmsg, "error");
                             }
                             resetPage();
                             outPutCtrl.pushOutput(info);
@@ -405,19 +403,6 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
                         var info = null;
-                        if (data.errcode === -1) {
-                            info = [{
-                                "op": data.errcode,
-                                "type": data.errmsg,
-                                "pid": data.errid
-                            }];
-
-                            outPutCtrl.pushOutput(info);
-                            if (outPutCtrl.updateOutPuts !== "") {
-                                outPutCtrl.updateOutPuts();
-                            }
-                            return;
-                        }
                         if (data.errcode == 0) {
                             var sinfo = {
                                 "op": "移动link成功",
@@ -432,6 +417,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         resetPage();
                         outPutCtrl.pushOutput(info);
@@ -469,6 +455,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         resetPage();
                         outPutCtrl.pushOutput(info);
@@ -520,6 +507,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
+                            swal("操作失败", data.errmsg, "error");
                         }
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
@@ -541,46 +529,47 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        var info = null;
                         if (data.errcode === -1) {
                             info = [{
                                 "op": data.errcode,
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
-                            outPutCtrl.pushOutput(info);
-                            if (outPutCtrl.updateOutPuts !== "") {
-                                outPutCtrl.updateOutPuts();
-                            }
-                            return;
+                            swal("操作失败", data.errmsg, "error");
+                        } else {
+                            Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                                if (!scope.panelFlag) {
+                                    scope.panelFlag = true;
+                                    scope.objectFlag = true;
+                                }
+                                objEditCtrl.setCurrentObject("RDCROSS", data.data);
+                                ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
+                                    scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
+                                });
+                            });
+                            var sInfo = {
+                                "op": "创建RDCROSS成功",
+                                "type": "",
+                                "pid": ""
+                            };
+                            data.data.log.push(sInfo);
+                            info = data.data.log;
                         }
-                        var info = null;
-                        var sinfo = {
-                            "op": "创建RDCROSS成功",
-                            "type": "",
-                            "pid": ""
-                        };
-                        data.data.log.push(sinfo);
-                        info = data.data.log;
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
-                        Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
-                            if (!scope.panelFlag) {
-                                scope.panelFlag = true;
-                                scope.objectFlag = true;
-                            }
-                            objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                            ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
-                                scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
-                            });
-                        });
+
                     })
                 } else if (shapeCtrl.editType === "rdlaneConnexity") {
+                    //清空上一次的操作
+                    map.currentTool.cleanHeight();
+                    map.currentTool.disable();
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["laneConnexity"];
-                   var  laneStr = "";
+                    var laneStr = "";
                     if (laneData.length === 0) {
                         laneStr = laneData[0];
                     } else {
@@ -601,39 +590,34 @@ function keyEvent(ocLazyLoad, scope) {
                                 "type": data.errmsg,
                                 "pid": data.errid
                             }];
-                            outPutCtrl.pushOutput(info);
-                            if (outPutCtrl.updateOutPuts !== "") {
-                                outPutCtrl.updateOutPuts();
-                            }
                             swal("操作失败", data.errmsg, "error");
-                            return;
+                        } else {
+                            objEditCtrl.setOriginalData(null);
+                            rdlaneconnexity.redraw();
+                            if (scope.suspendFlag) {
+                                scope.suspendFlag = false;
+                            }
+                            Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
+                                objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
+                                ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
+                                    scope.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
+                                });
+                            });
+                            var sinfo = {
+                                "op": "创建车信成功",
+                                "type": "",
+                                "pid": ""
+                            };
+                            data.data.log.push(sinfo);
+                            info = data.data.log;
                         }
-                        var sinfo = {
-                            "op": "创建车信成功",
-                            "type": "",
-                            "pid": ""
-                        };
-                        data.data.log.push(sinfo);
-                        info = data.data.log;
                         resetPage();
                         outPutCtrl.pushOutput(info);
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
-                        objEditCtrl.setOriginalData(null);
-                        //清空上一次的操作
-                        map.currentTool.cleanHeight();
-                        map.currentTool.disable();
-                        rdlaneconnexity.redraw();
-                        if (scope.suspendFlag) {
-                            scope.suspendFlag = false;
-                        }
-                        Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
-                            objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
-                            ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
-                                scope.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
-                            });
-                        });
+
+
                     })
 
                 }

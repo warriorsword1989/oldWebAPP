@@ -82,13 +82,54 @@ fastmap.uikit.HighLightController = (function () {
                                     radius: 3
                                 }, feature.properties);
                             } else if (featureOfHigh === "dataTips") {
-                                var styleForDataTips;
-                                if (feature.properties.srctype == "1") {//未处理
-                                    styleForDataTips = {src: './css/tips/normal/pending.png'};
-                                } else {//已处理
-                                    styleForDataTips = {src: './css/tips/normal/processed.png'};
+                                if(feature.properties.kind){  //种别
+
+                                    if(feature.properties.type == '1201'){
+                                        layer._drawImg({
+                                            ctx:ctx,
+                                            geo:geom,
+                                            style:{src:'css/tips/kind/K'+feature.properties.kind+'.svg'},
+                                            boolPixelCrs:true,
+                                            fillStyle:{
+                                                lineColor:'rgb(4, 187, 245)',
+                                                fillColor:'rgba(4, 187, 245, 0.2)',
+                                                lineWidth:1,
+                                                width:30,
+                                                height:15,
+                                                dx:0,
+                                                dy:7.5
+                                            }
+
+                                        });
+                                    }else if(feature.properties.type == '1203'){
+
+                                        layer._drawImg({
+                                            ctx:ctx,
+                                            geo:geom,
+                                            style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
+                                            boolPixelCrs:true,
+                                            fillStyle:{
+                                                lineColor:'rgb(4, 187, 245)',
+                                                fillColor:'rgba(4, 187, 245, 0.2)',
+                                                lineWidth:1,
+                                                width:20,
+                                                height:20,
+                                                dx:5,
+                                                dy:5
+
+                                            }
+                                        });
+                                    }
+                                } else {
+
+                                    layer._drawImg({
+                                        ctx:ctx,
+                                        geo:geom,
+                                        style:style,
+                                        boolPixelCrs:true
+
+                                    });
                                 }
-                                layer._drawImg(ctx, geom, styleForDataTips, true,feature.properties);
                             }
 
 

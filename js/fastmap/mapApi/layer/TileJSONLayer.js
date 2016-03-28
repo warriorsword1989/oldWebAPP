@@ -377,9 +377,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     if (theory > 0) {
                                         newGeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
                                         newGeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
-                                        //this._drawlaneImgRoute(ctx, newGeom, newStyle, boolPixelCrs,route);
-                                        //this._drawlaneImgRoute(ctx, newGeom, newStyle, boolPixelCrs,route);
-
                                         this._drawImg({
                                             ctx:ctx,
                                             geo:newGeom,
