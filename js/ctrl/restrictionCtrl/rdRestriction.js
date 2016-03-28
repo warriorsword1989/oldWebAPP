@@ -329,6 +329,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             }
 
         }
+        $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
+            delete v.pid;
+        })
         var param = {
             "command": "UPDATE",
             "type": "RDRESTRICTION",
@@ -349,12 +352,14 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 data.data.log.push(sinfo);
                 info = data.data.log;
                 rdRestriction.redraw();
+                swal("操作成功",'更新成功', "success");
             } else {
                 info = [{
                     "op": data.errcode,
                     "type": data.errmsg,
                     "pid": data.errid
                 }];
+                swal("操作失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
