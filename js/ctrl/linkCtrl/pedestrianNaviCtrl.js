@@ -4,6 +4,7 @@
 var pedestrianNaviApp = angular.module("lazymodule", ['oc.lazyLoad']);
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyLoad) {
     $scope.naviData =  $scope.linkData;
+    $scope.walkFlag = 0;
     $scope.sidewalkLocoptions=[
         {"id": 0, "label":"无"},
         {"id": 1, "label":"右侧"},
@@ -24,36 +25,34 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         {"id": 4, "label":"无隔离"}
     ];
    $scope.showSidewalk=function(sidewalkItem) {
-       if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-           $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+       $scope.linkData["oridiRowId"] = sidewalkItem.rowId;
+       var showSidewalkObj = {
+           "propertyCtrl": 'ctrl/linkCtrl/infoOfSidewalkCtrl',
+           "propertyHtml": 'js/tepl/linkObjTepl/infoOfsidewalkTepl.html'
        }
-       $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-       $scope.naviData["oridiRowId"]=sidewalkItem.rowId;
-       $ocLazyLoad.load('ctrl/linkCtrl/infoOfSidewalkCtrl').then(function () {
-           $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfsidewalkTepl.html";
-       })
+       $scope.$emit("transitJsAndCtrl", showSidewalkObj);
   };
    $scope.showWalkstair=function(walkstairItem) {
-       if(! $scope.$parent.$parent.$parent.$parent.suspendFlag) {
-           $scope.$parent.$parent.$parent.$parent.suspendFlag = true;
+       $scope.linkData["oridiRowId"] = walkstairItem.rowId;
+       var showSidewalkObj = {
+           "propertyCtrl": 'ctrl/linkCtrl/infoOfWalkstairCtrl',
+           "propertyHtml": 'js/tepl/linkObjTepl/infoOfWalkstairTepl.html'
        }
-       $scope.$parent.$parent.$parent.$parent.suspendObjURL = "";
-       $scope.naviData["oridiRowId"]=walkstairItem.rowId;
-       $ocLazyLoad.load('ctrl/linkCtrl/infoOfWalkstairCtrl').then(function () {
-           $scope.$parent.$parent.$parent.$parent.suspendObjURL = "js/tepl/linkObjTepl/infoOfWalkstairTepl.html";
-       })
+       $scope.$emit("transitJsAndCtrl", showSidewalkObj);
    };
 
     $scope.minusSidewalk=function(id) {
         $scope.naviData.sidewalks.splice(id, 1);
     };
     $scope.addSidewalk = function () {
-        var newSidewalk = fastmap.dataApi.linksidewalk({"linkPid":$scope.naviData.pid});
+        var newSidewalk = fastmap.dataApi.linksidewalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.sidewalks.unshift(newSidewalk);
+        $scope.walkFlag++;
     };
     $scope.addWalkstair = function () {
-        var newWalkstair = fastmap.dataApi.linkwalkstair({"linkPid":$scope.naviData.pid});
+        var newWalkstair = fastmap.dataApi.linkwalkstair({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.walkstairs.unshift(newWalkstair);
+        $scope.walkFlag++;
     };
     $scope.minusWalkstair=function(id) {
         $scope.naviData.walkstairs.splice(id, 1);

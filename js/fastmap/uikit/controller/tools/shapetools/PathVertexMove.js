@@ -136,24 +136,24 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
                 if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes )){
                 if(this.snapHandler.snapIndex == 0){
 
-                    this.interNodes.push({pid:parseInt(this.snapHandler.properties.snode),nodePid:nodePid});
+                    this.snapHandler.interNodes.push({pid:parseInt(this.snapHandler.properties.snode),nodePid:nodePid});
                 }else{
-                    this.interNodes.push({pid:parseInt(this.snapHandler.properties.enode),nodePid:nodePid});
+                    this.snapHandler.interNodes.push({pid:parseInt(this.snapHandler.properties.enode),nodePid:nodePid});
                 }
                 }
 
 
             }else{
                 if(this.interLinks.length ==0 || !this.contains({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid},this.interLinks )){
-                    this.interLinks.push({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid});
+                    this.snapHandler.interLinks.push({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid});
                 }
 
 
             }
 
             if(nodePid == null){
-                this.interNodes = [];
-                this.interLinks = [];
+                this.snapHandler.interNodes = [];
+                this.snapHandler.interLinks = [];
             }
         }
     },

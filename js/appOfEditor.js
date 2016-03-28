@@ -365,6 +365,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         $scope.suspendObjURL = "";
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
             $scope.suspendObjURL = data["propertyHtml"];
+            if(data["callback"]){
+                data["callback"];
+            }
         })
     };
     $scope.$on("transitJsAndCtrl",$scope.controlProperty)

@@ -39,4 +39,7 @@ sidewalkApp.controller("sidewalkController",function($scope) {
     $scope.backColor=function(ind){
         $("#sideWalkSpan"+ind).css("color","darkgray");
     }
+    $scope.changeStrToInt=function(item) {
+        $scope.oridiData[item] = parseInt($scope.oridiData[item]);
+    };
 })

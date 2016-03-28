@@ -146,53 +146,15 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        //this.currentEditLayer.fire("getNodeId")
+
     }
     ,
 
-    /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
+    /***
      *清除高亮
      */
     _cleanHeight: function () {
 
-        for (var index in this.redrawTiles) {
-            var data = this.redrawTiles[index].data;
-            this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
-            var ctx = {
-                canvas: this.redrawTiles[index].options.context,
-                tile: this.redrawTiles[index].options.context._tilePoint,
-                zoom: this._map.getZoom()
-            }
-            if (data.hasOwnProperty("features")) {
-                for (var i = 0; i < data.features.length; i++) {
-                    var feature = data.features[i];
-                    if (feature.properties.restrictioninfo === undefined) {
-                        return;
-                    }
-                    var newStyle = "", newGeom = [];
-                    var restrictObj = feature.properties.restrictioninfo;
-                    var geom = feature.geometry.coordinates;
-                    if (restrictObj !== undefined) {
-
-                            var restrictArr = restrictObj.split(",");
-                            for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-
-                                if (fact > 0) {
-                                    newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                                    newGeom[1] = (parseInt(geom[1]));
-                                    this.currentEditLayer._drawImg(ctx, newGeom, newStyle, true);
-                                } else {
-                                    this.currentEditLayer._drawImg(ctx, geom, newStyle, true);
-                                }
-                            }
-
-
-                    }
-
-                }
-            }
-        }
     }
     ,
 
