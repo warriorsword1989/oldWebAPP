@@ -10,6 +10,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
+    var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric});
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
         $scope.divergenceIds = objCtrl.data;
@@ -204,7 +205,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         if(dObj){
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
             linksOfRestric["outLink"] = $scope.diverObj.outLinkPid+'';
-            var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,{map:map,highLightFeature:"links",linksObj:linksOfRestric})
             //清除地图上的高亮的feature
             if (highLightLayer.highLightLayersArr.length !== 0) {
                 highLightLayer.removeHighLightLayers();
