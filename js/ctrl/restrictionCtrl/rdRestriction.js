@@ -292,6 +292,10 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             $scope.codeOutput = str;
+            if($scope.rdSubRestrictData["conditions"].length===0) {
+                var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
+                $scope.rdSubRestrictData["conditions"].push(condition);
+            }
             $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
             $scope.$apply();
         }, 100);
@@ -324,6 +328,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             }
 
         }
+        $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
+            delete v.pid;
+        })
         var param = {
             "command": "UPDATE",
             "type": "RDRESTRICTION",
@@ -344,12 +351,14 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 data.data.log.push(sinfo);
                 info = data.data.log;
                 rdRestriction.redraw();
+                swal("操作成功",'更新成功', "success");
             } else {
                 info = [{
                     "op": data.errcode,
                     "type": data.errmsg,
                     "pid": data.errid
                 }];
+                swal("操作失败", data.errmsg, "error");
             }
             outPutCtrl.pushOutput(info);
             if (outPutCtrl.updateOutPuts !== "") {
