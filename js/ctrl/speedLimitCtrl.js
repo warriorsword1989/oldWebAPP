@@ -6,26 +6,34 @@
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
+    var highLightLayer = fastmap.uikit.HighLightController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById('speedlimit');
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var rdLink = layerCtrl.getLayerById("referenceLine");
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
+        //删除以前高亮的进入线和退出线
+        if (highLightLayer.highLightLayersArr.length !== 0) {
+            highLightLayer.removeHighLightLayers();
+        }
+        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+            map: map,
+            highLightFeature: "link",
+            initFlag: true,
+            linkPid: $scope.speedLimitData.linkPid.toString()
+        });
+        highLightLayer.pushHighLightLayers(highLightLink);
+        highLightLink.drawOfLinkForInit();
     }
     if(objectEditCtrl.data){
         $scope.initializeData();
     }
-    //调用的方法
-    objectEditCtrl.rdSpeedLimitObject=function(){
-
-        $scope.initializeData();
-    }
-    $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
-    objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     $scope.speedTypeOptions = [
         {"id": 0, "label": "普通"},
         {"id": 1, "label": "指示牌"},
@@ -198,5 +206,6 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
 
 });

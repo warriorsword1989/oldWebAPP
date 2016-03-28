@@ -37,6 +37,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        this._map.on('tap', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
@@ -46,6 +47,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
+        this._map.off('tap', this.onMouseDown, this);
     },
 
     onMouseMove:function(event){
@@ -73,6 +75,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
+
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
             var pixels = null;
             if(this.snapHandler.snaped == false){

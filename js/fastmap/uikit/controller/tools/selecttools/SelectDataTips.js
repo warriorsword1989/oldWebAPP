@@ -122,7 +122,6 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     },
     cleanHeight: function () {
         this._cleanHeight();
-        //this.currentEditLayer.fire("getNodeId")
     },
 
     /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
@@ -148,8 +147,55 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     var style = this.currentEditLayer.styleFor(feature, color);
 
                     var geom = feature.geometry.coordinates;
-                    this.currentEditLayer._drawImg(ctx, geom, style, true,feature.properties);
 
+                    if(feature.properties.kind){  //种别
+
+                        if(feature.properties.type == '1201'){
+                            this.currentEditLayer._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:'css/tips/kind/K'+feature.properties.kind+'.svg'},
+                                boolPixelCrs:true,
+                                fillStyle:{
+                                    lineColor:'rgb(4, 187, 245)',
+                                    fillColor:'rgba(4, 187, 245, 0.2)',
+                                    lineWidth:1,
+                                    width:30,
+                                    height:15,
+                                    dx:0,
+                                    dy:7.5
+                                }
+
+                            });
+                        }else if(feature.properties.type == '1203'){
+
+                            this.currentEditLayer._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
+                                boolPixelCrs:true,
+                                fillStyle:{
+                                    lineColor:'rgb(4, 187, 245)',
+                                    fillColor:'rgba(4, 187, 245, 0.2)',
+                                    lineWidth:1,
+                                    width:20,
+                                    height:20,
+                                    dx:5,
+                                    dy:5
+
+                                }
+                            });
+                        }
+                    } else {
+
+                        this.currentEditLayer._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:style,
+                            boolPixelCrs:true
+
+                        });
+                    }
                 }
             }
 
@@ -186,7 +232,59 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                     }else{//已处理
                         style= {src:'./css/tips/selected/processed.png'};
                     }
-                    this.currentEditLayer._drawImg(ctx, geom, style, true,feature.properties);
+
+
+                    if(feature.properties.kind){  //种别
+
+                        if(feature.properties.type == '1201'){
+                            this.currentEditLayer._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:'css/tips/kind/K'+feature.properties.kind+'.svg'},
+                                boolPixelCrs:true,
+                                fillStyle:{
+                                    lineColor:'rgb(4, 187, 245)',
+                                    fillColor:'rgba(4, 187, 245, 0.2)',
+                                    lineWidth:1,
+                                    width:30,
+                                    height:15,
+                                    dx:0,
+                                    dy:7.5
+                                }
+
+                            });
+                        }else if(feature.properties.type == '1203'){
+
+                            this.currentEditLayer._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
+                                boolPixelCrs:true,
+                                fillStyle:{
+                                    lineColor:'rgb(4, 187, 245)',
+                                    fillColor:'rgba(4, 187, 245, 0.5)',
+                                    lineWidth:1,
+                                    width:20,
+                                    height:20,
+                                    dx:5,
+                                    dy:5
+
+                                }
+                            });
+                        }
+                    } else {
+
+                        this.currentEditLayer._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:style,
+                            boolPixelCrs:true
+
+                        });
+                    }
+
+
+
                 }
 
             }

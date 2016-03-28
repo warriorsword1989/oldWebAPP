@@ -99,10 +99,29 @@ fastmap.uikit.SelectRdCross = (function () {
                                 var masterImg = {src: './css/rdcross/11.png'},
                                     followImg = {src: './css/rdcross/111.png'};
                                 for (var rd = 0, rdLen = geom.length; rd < rdLen; rd++) {
+                                    //if (rd === 0) {
+                                    //    this.currentEditLayer._drawRdCross(ctx, geom[rd][0], masterImg, true);
+                                    //} else {
+                                    //    this.currentEditLayer._drawRdCross(ctx, geom[rd][0], followImg, true);
+                                    //}
                                     if (rd === 0) {
-                                        this.currentEditLayer._drawRdCross(ctx, geom[rd][0], masterImg, true);
+                                        this.currentEditLayer._drawImg({
+                                            ctx:ctx,
+                                            geo:geom[rd][0],
+                                            style:masterImg,
+                                            boolPixelCrs:true
+
+                                        });
+
                                     } else {
-                                        this.currentEditLayer._drawRdCross(ctx, geom[rd][0], followImg, true);
+                                        this.currentEditLayer._drawImg({
+                                            ctx:ctx,
+                                            geo:geom[rd][0],
+                                            style:followImg,
+                                            boolPixelCrs:true
+
+                                        });
+
                                     }
                                 }
                             }
@@ -140,15 +159,20 @@ fastmap.uikit.SelectRdCross = (function () {
                                 var restrictObj = feature.properties.rdcrosscondition;
                                 if (restrictObj !== undefined) {
 
-                                    var restrictArr = restrictObj.split(",");
-
                                     newStyle = {src: './css/rdcross/selected/1.png'};
 
 
                                     for (var j in data[key].geometry.coordinates) {
                                         var geo = data[key].geometry.coordinates[j][0];
                                         //geo[1] = geo[1] + 5;
-                                        this.currentEditLayer._drawRdCross(ctx, geo, newStyle, true);
+                                        //this.currentEditLayer._drawRdCross(ctx, geo, newStyle, true);
+                                        this.currentEditLayer._drawImg({
+                                            ctx:ctx,
+                                            geo:geo,
+                                            style:newStyle,
+                                            boolPixelCrs:true
+
+                                        })
                                     }
 
 
