@@ -8,10 +8,11 @@ basicApp.controller("nameController", function ($scope, $ocLazyLoad) {
     $scope.showNames = function (nameItem) {
         $scope.linkData["oridiRowId"] = nameItem.rowId;
         var showNamesObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/linkCtrl/namesOfLinkCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/namesOfLinkTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showNamesObj);
+        $scope.$emit("transitCtrlAndTmpl", showNamesObj);
     };
 
     $scope.addRdName = function () {

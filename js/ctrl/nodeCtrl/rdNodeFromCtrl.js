@@ -125,14 +125,15 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.initialForms();
     };
     $scope.loadJsAndCtrl=function(obj) {
-        $scope.$emit('transitJsAndCtrl', obj);
+        $scope.$emit('transitCtrlAndTmpl', obj);
     };
     $scope.showPopover=function(){
-        var obj = {
+        var showPopoverObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/nodeCtrl/addDirectOfNodeCtrl',
             "propertyHtml":'js/tepl/nodeTepl/addDitrectOfNodeTepl.html'
         };
-        $scope.loadJsAndCtrl(obj);
+        $scope.loadJsAndCtrl(showPopoverObj);
     }
 
     $scope.delFrom=function(item){

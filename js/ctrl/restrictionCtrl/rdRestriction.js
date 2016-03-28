@@ -134,10 +134,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     ];
     $scope.showAddDirectTepl = function () {
         var addObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/restrictionCtrl/addDirectOfRestrictionCtrl',
             "propertyHtml": 'js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", addObj);
+        $scope.$emit("transitCtrlAndTmpl", addObj);
     };
 
     var towbin = dec2bin(6);
@@ -460,7 +461,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                     outPutCtrl.updateOutPuts();
                 }
                 $scope.$parent.$parent.rowkeyOfDataTips = undefined;
-                $scope.$parent.$parent.objectEditURL = "";
+                $scope.$parent.$parent.attrTplContainer = "";
             })
         }
     }

@@ -405,13 +405,13 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                }
 
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
-                if ($scope.$parent.$parent.dataTipsURL) {
-                    $scope.$parent.$parent.dataTipsURL = "";
+                if ($scope.$parent.$parent.tipsTplContainer) {
+                    $scope.$parent.$parent.tipsTplContainer = "";
                 }
-                if ($scope.$parent.$parent.objectEditURL) {
-                    $scope.$parent.$parent.objectEditURL = "";
+                if ($scope.$parent.$parent.attrTplContainer) {
+                    $scope.$parent.$parent.attrTplContainer = "";
                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = 'js/tepl/blankTepl.html';})
+                        $scope.$parent.$parent.attrTplContainer = 'js/tepl/blankTepl.html';})
 
                 }
 
@@ -432,7 +432,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, speedLimitId, "ctrl/linkObjectCtrl", "js/tepl/linkObjTepl/linkObjectTepl.html");
                     } else if (pItemId === "1203") {//道路方向
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                         });
                         if (data.f.type == 1) {
                             $scope.dataId = data.f.id;
@@ -450,7 +450,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     objCtrl.updateObject();
                                 }
                                 $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                                    $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                     if(! $scope.$parent.$parent.panelFlag ) {
                                         $scope.$parent.$parent.panelFlag = true;
                                         $scope.$parent.$parent.objectFlag = true;
@@ -468,7 +468,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl,  data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                     } else if (pItemId === "1407") {//高速分歧
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                         });
                         if(data.brId){
                             if(data.brId.length != 0){
@@ -477,7 +477,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $scope.$parent.$parent.outErrorArr[3]=false;
                                 $scope.$parent.$parent.outErrorArr[1]=true;
                                 $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                                    $scope.$parent.$parent.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
                                 });
                             }else{
                                 $scope.$parent.$parent.objectFlag = false;
@@ -494,7 +494,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                     } else if (pItemId === "1510") {//桥1510
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                         });
                         $scope.$parent.$parent.brigeLinkArray = data.f_array;
                         if(!data.f_array.length){
@@ -528,7 +528,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     $scope.$parent.$parent.outErrorArr[3]=false;
                                     $scope.$parent.$parent.outErrorArr[1]=true;
                                 }
-                                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                                $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
                             });
                         });
 
@@ -536,7 +536,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                         });
                         if (data.f_array.length > 0) {
                             Application.functions.getRdObjectById(data.f_array[0].id, "RDLINK", function (data) {
@@ -559,7 +559,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         $scope.$parent.$parent.outErrorArr[3]=false;
                                         $scope.$parent.$parent.outErrorArr[1]=true;
                                     }
-                                    $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjectTepl.html";
+                                    $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjectTepl.html";
                                 });
                             });
                         }
@@ -567,7 +567,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     } else if (pItemId === "1704") {//交叉路口
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                             if (data.f.id) {
                                 var obj = {"nodePid": parseInt(data.f.id)};
                                 var param = {
@@ -591,7 +591,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                                 $scope.$parent.$parent.outErrorArr[3]=false;
                                                 $scope.$parent.$parent.outErrorArr[1]=true;
                                             }
-                                            $scope.$parent.$parent.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
+                                            $scope.$parent.$parent.attrTplContainer = "js/tepl/crossTepl/rdCrossTepl.html";
 
                                         });
                                     }
@@ -602,12 +602,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
 
                     } else if (pItemId === "1801") {//挂接
-                        $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneHangingTepl.html";
+                        $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneHangingTepl.html";
                     } else if (pItemId === "1901") {//道路名
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19);
 
                         $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                         });
 
 
@@ -637,7 +637,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTepl) {
                 $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                    $scope.$parent.$parent.dataTipsURL = "js/tepl/sceneAllTipsTepl.html";
+                    $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
                     if (data.t_lifecycle === 2) {
                         Application.functions.getRdObjectById(propertyId, type, function (data) {
                             if(data.errcode===-1){
@@ -649,7 +649,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     $scope.$parent.$parent.panelFlag = true;
                                     $scope.$parent.$parent.objectFlag = true;
                                 }
-                                $scope.$parent.$parent.objectEditURL = propertyTepl;
+                                $scope.$parent.$parent.attrTplContainer = propertyTepl;
 
                             });
                         });
@@ -668,7 +668,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             $scope.$parent.$parent.panelFlag = true;
                                             $scope.$parent.$parent.objectFlag = true;
                                         }
-                                        $scope.$parent.$parent.objectEditURL = propertyTepl;
+                                        $scope.$parent.$parent.attrTplContainer = propertyTepl;
 
                                     });
                                 });
@@ -686,10 +686,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             $scope.$parent.$parent.panelFlag = true;
                                             $scope.$parent.$parent.objectFlag = true;
                                         }
-                                        if($scope.$parent.$parent.dataTipsURLFlag) {
-                                            $scope.$parent.$parent.dataTipsURLFlag = false;
+                                        if($scope.$parent.$parent.tipsTplContainerFlag) {
+                                            $scope.$parent.$parent.tipsTplContainerFlag = false;
                                         }
-                                        $scope.$parent.$parent.objectEditURL = propertyTepl;
+                                        $scope.$parent.$parent.attrTplContainer = propertyTepl;
 
                                     });
                                 });

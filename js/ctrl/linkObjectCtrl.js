@@ -84,7 +84,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         })
 
         $scope.$parent.$parent.suspendFlag = false;
-        $scope.$parent.$parent.suspendObjURL = "";
+        $scope.$parent.$parent.subAttrTplContainer = "";
         if (url === "basicModule") {
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
@@ -321,7 +321,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 objectCtrl.updateObject();
             }
             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
             });
         });
     }
