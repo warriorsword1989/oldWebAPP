@@ -18,8 +18,8 @@
                 "<div class='time'><div class='time-prev'></div>"+
                 "<div class='ti_tx'></div><div class='time-next'></div></div>"+
                 "<div class='mins'><div class='time-prev'></div><div class='mi_tx'></div>"+
-                "<div class='time-next'></div></div><div class='date-now'>当前时间</div>"+
-                "<div class='date-empty'>清空</div></div>");
+                "<div class='time-next'></div></div><div class='date-empty'>清空</div>"+
+                "<div class='close-btn'>关闭</div></div>");
             var ele_next = $(this).next(".timepicker_wrap");
             var ele_next_all_child = ele_next.find("div");
             ele_next.css({
@@ -66,7 +66,7 @@
             function set_date() {
                 var d = new Date();
                 var ti = d.getHours();
-                var mi = d.getMinutes();
+                var mi = '0';
                 if (24 < ti) {
                     ti -= 24;
                 }
@@ -76,9 +76,9 @@
                     ele_next.find(".ti_tx").text(ti);
                 }
                 if (mi < 10) {
-                    ele_next.find(".mi_tx").text("0" + mi)
+                    ele_next.find(".mi_tx").text("0" + mi);
                 } else {
-                    ele_next.find(".mi_tx").text(mi)
+                    ele_next.find(".mi_tx").text(mi);
                 }
             }
             var cur_next = ele_next.find(".time-next");
@@ -97,15 +97,15 @@
                     cur_time = parseInt(cur_time);
                     if (cur_ele.attr("class") == "time-next") {
                         if (cur_time == 23) {
-                            ele_next.find("." + cur_cli + " .ti_tx").text("00")
+                            ele_next.find("." + cur_cli + " .ti_tx").text("00");
                             cur_time = '00';
                         } else {
                             cur_time++;
                             if (cur_time < 10) {
-                                ele_next.find("." + cur_cli + " .ti_tx").text("0" + cur_time)
+                                ele_next.find("." + cur_cli + " .ti_tx").text("0" + cur_time);
                                 cur_time = '0' + cur_time;
                             } else {
-                                ele_next.find("." + cur_cli + " .ti_tx").text(cur_time)
+                                ele_next.find("." + cur_cli + " .ti_tx").text(cur_time);
                             }
                         }
                     } else {
@@ -115,43 +115,43 @@
                         } else {
                             cur_time--;
                             if (cur_time < 10) {
-                                ele_next.find("." + cur_cli + " .ti_tx").text("0" + cur_time)
+                                ele_next.find("." + cur_cli + " .ti_tx").text("0" + cur_time);
                                 cur_time = '0' + cur_time;
                             } else {
-                                ele_next.find("." + cur_cli + " .ti_tx").text(cur_time)
+                                ele_next.find("." + cur_cli + " .ti_tx").text(cur_time);
                             }
                         }
                     }
                     scope[model] = cur_time + ':' + cur_mins;
                 } else if (cur_ele.parent().attr("class") == "mins") {
                     cur_cli = "mins";
-                    ele_en = 59;
+                    ele_en = 30;
                     cur_mins = ele_next.find("." + cur_cli + " .mi_tx").text();
                     cur_mins = parseInt(cur_mins);
                     if (cur_ele.attr("class") == "time-next") {
-                        if (cur_mins == 59) {
-                            ele_next.find("." + cur_cli + " .mi_tx").text("00")
+                        if (cur_mins == 30) {
+                            ele_next.find("." + cur_cli + " .mi_tx").text("00");
                             cur_mins = '00';
                         } else {
-                            cur_mins++;
+                            cur_mins += 30;
                             if (cur_mins < 10) {
-                                ele_next.find("." + cur_cli + " .mi_tx").text("0" + cur_mins)
+                                ele_next.find("." + cur_cli + " .mi_tx").text("0" + cur_mins);
                                 cur_mins = '0' + cur_mins;
                             } else {
-                                ele_next.find("." + cur_cli + " .mi_tx").text(cur_mins)
+                                ele_next.find("." + cur_cli + " .mi_tx").text(cur_mins);
                             }
                         }
                     } else {
                         if (cur_mins == 0) {
-                            ele_next.find("." + cur_cli + " .mi_tx").text(59)
-                            cur_mins = 59;
+                            ele_next.find("." + cur_cli + " .mi_tx").text(30);
+                            cur_mins = 30;
                         } else {
-                            cur_mins--;
+                            cur_mins -=30;
                             if (cur_mins < 10) {
-                                ele_next.find("." + cur_cli + " .mi_tx").text("0" + cur_mins)
+                                ele_next.find("." + cur_cli + " .mi_tx").text("0" + cur_mins);
                                 cur_mins = '0' + cur_mins;
                             } else {
-                                ele_next.find("." + cur_cli + " .mi_tx").text(cur_mins)
+                                ele_next.find("." + cur_cli + " .mi_tx").text(cur_mins);
                             }
                         }
                     }
@@ -160,18 +160,9 @@
                 scope.$apply();
             })
             /*点击当前时间*/
-            var _nowDate = ele_next.find(".date-now");
+            var _nowDate = ele_next.find(".close-btn");
             /*改变时间*/
             _nowDate.on("click",function(){
-                cur_time = new Date().getHours();
-                cur_mins = new Date().getMinutes();
-                if(cur_time < 10)
-                    cur_time = '0' + cur_time;
-                if(cur_mins < 10)
-                    cur_mins = '0' + cur_mins;
-                scope[model] = cur_time + ':' + cur_mins;
-                set_date();
-                scope.$apply();
                 ele_next.fadeOut();
             });
             /*点击清空*/
@@ -186,6 +177,6 @@
                 _emptyFlag = true;
                 ele_next.fadeOut();
             });
-        })
-    }
+        });
+    };
 } (jQuery));
