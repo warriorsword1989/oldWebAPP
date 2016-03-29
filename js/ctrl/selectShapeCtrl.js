@@ -60,19 +60,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         if (typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
         }
-        if ($scope.$parent.$parent.panelFlag) {
-            $scope.$parent.$parent.panelFlag = false;
-        }
-        if (!$scope.$parent.$parent.outErrorArr[3]) {
-            $scope.$parent.$parent.outErrorArr[0] = false;
-            $scope.$parent.$parent.outErrorArr[1] = false;
-            $scope.$parent.$parent.outErrorArr[2] = false;
-            $scope.$parent.$parent.outErrorArr[3] = true;
-            $scope.$parent.$parent.outErrorUrlFlag = false;
-        }
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
+        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
         $("#popoverTips").hide();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         $scope.$parent.$parent.attrTplContainer = "";

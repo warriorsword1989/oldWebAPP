@@ -11,6 +11,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
+    $scope.eventController = fastmap.uikit.EventController();
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -25,10 +26,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
 
     //初始化DataTips相关数据
-    $scope.initializeDataTips = function () {
+    $scope.initializeDataTips = function (data) {
         $scope.photoTipsData = [];
         $scope.photos = [];
-        $scope.dataTipsData = selectCtrl.rowKey;
+        $scope.dataTipsData = data;//selectCtrl.rowKey;
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
         var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
@@ -296,7 +297,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
     if (selectCtrl.rowKey) {
         //dataTips的初始化数据
-        $scope.initializeDataTips();
+        $scope.initializeDataTips(selectCtrl.rowKey);
 
     }
     selectCtrl.updateTipsCtrl = function () {
@@ -341,17 +342,21 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $("#fullScalePic").hide();
     }
     /*图片切换*/
-    $scope.$parent.$parent.switchPic = function(type){
-        if(type == 0){
-            if($scope.photoId-1 >=0){
-                $scope.openOrigin($scope.photoId-1);
+    $scope.$parent.$parent.switchPic = function (type) {
+        if (type == 0) {
+            if ($scope.photoId - 1 >= 0) {
+                $scope.openOrigin($scope.photoId - 1);
             }
-        }else{
-            if($scope.photoId+2 <= $scope.photoNum){
-                $scope.openOrigin($scope.photoId+1);
+        } else {
+            if ($scope.photoId + 2 <= $scope.photoNum) {
+                $scope.openOrigin($scope.photoId + 1);
             }
         }
-    }
+    };
+    $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
+        $scope.initializeDataTips(event.feather);
+        $scope.$apply();
+    })
     $scope.createRestrictByTips=function() {
         var info = null;
         Application.functions.getRdObjectById($scope.dataTipsData.in.id, "RDLINK", function (data) {
@@ -432,6 +437,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         });
 
     };
+
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;

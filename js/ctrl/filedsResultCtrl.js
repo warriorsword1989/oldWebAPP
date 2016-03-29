@@ -265,19 +265,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage, event) {
                 event.stopPropagation();
-                if ($scope.$parent.$parent.panelFlag) {
-                    $scope.$parent.$parent.panelFlag = false;
-                }
-                if (!$scope.$parent.$parent.outErrorArr[3]) {
-                    $scope.$parent.$parent.outErrorArr[0] = false;
-                    $scope.$parent.$parent.outErrorArr[1] = false;
-                    $scope.$parent.$parent.outErrorArr[2] = false;
-                    $scope.$parent.$parent.outErrorArr[3] = true;
-                    $scope.$parent.$parent.outErrorUrlFlag = !$scope.$parent.$parent.outErrorUrlFlag;
-                }
-                if ($scope.$parent.$parent.suspendFlag) {
-                    $scope.$parent.$parent.suspendFlag = false;
-                }
+                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
                 if ($scope.showOrHideId !== "") {
                     if ($("#" + $scope.showOrHideId).hasClass("selected")) {
                         $("#" + $scope.showOrHideId).removeClass("selected");
@@ -400,9 +388,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
 
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
-                if ($scope.$parent.$parent.tipsTplContainer) {
-                    $scope.$parent.$parent.tipsTplContainer = "";
-                }
                 if ($scope.$parent.$parent.attrTplContainer) {
                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
                         $scope.$parent.$parent.attrTplContainer = 'js/tepl/blankTepl.html';
@@ -448,17 +433,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         });
                         if (data.brId) {
                             if (data.brId.length != 0) {
-                                $scope.$parent.$parent.objectFlag = true;
-                                $scope.$parent.$parent.panelFlag = true;
-                                $scope.$parent.$parent.outErrorArr[3] = false;
-                                $scope.$parent.$parent.outErrorArr[1] = true;
-                                $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
-                                    $scope.$parent.$parent.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
-                                });
+                                var branchObj = {
+                                    "loadType":"subAttrTplContainer",
+                                    "propertyCtrl":'ctrl/branchCtrl/namesOfBranchCtrl',
+                                    "propertyHtml":'js/tepl/branchTepl/namesOfBranch.html'
+                                };
+                                $scope.$emit("transitCtrlAndTpl", branchObj);
                             } else {
-                                $scope.$parent.$parent.panelFlag = false;
-                                $scope.$parent.$parent.outErrorArr[3] = true;
-                                $scope.$parent.$parent.outErrorArr[1] = false;
+                                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false})
                             }
                         } else {
                             $timeout(function () {
@@ -603,22 +585,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTpl);
                                     }
                                 }
-                                if ($scope.$parent.$parent.panelFlag) {
-                                    $scope.$parent.$parent.panelFlag = false;
-                                    $scope.$parent.$parent.objectFlag = false;
-                                }
+                                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false})
                             } else if (stage.stage === 3) {
                                 if (data.t_lifecycle === 3) {
                                     $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
                                 } else {
-                                    if ($scope.$parent.$parent.panelFlag) {
-                                        $scope.$parent.$parent.panelFlag = false;
-                                    }
+                                    $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false})
                                 }
                             } else {
-                                if ($scope.$parent.$parent.panelFlag) {
-                                    $scope.$parent.$parent.panelFlag = false;
-                                }
+                                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false})
                             }
                         }
                     }

@@ -492,9 +492,6 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDBRANCH", data.data);
-                                if (objEditCtrl.updateObject !== "") {
-                                    objEditCtrl.updateObject();
-                                }
                                 ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
                                     scope.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
                                 })

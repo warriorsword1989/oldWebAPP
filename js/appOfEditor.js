@@ -17,15 +17,21 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     };//保存方法
     $scope.delete = function () {
         //删除后清除高亮并赋给默认模版
-        swal({"title":"操作确认","text":"是否要删除当前要素?","showCancelButton":true,"cancelButtonText":"取消","confirmButtonText":"确定"},function () {
+        swal({
+            "title": "操作确认",
+            "text": "是否要删除当前要素?",
+            "showCancelButton": true,
+            "cancelButtonText": "取消",
+            "confirmButtonText": "确定"
+        }, function () {
             $scope.panelFlag = false;
             $scope.attrTplContainerSwitch(false);
             $scope.subAttrTplContainerSwitch(false);
-            $scope.attrTplContainer =  'js/tepl/blankTepl.html';
+            $scope.attrTplContainer = 'js/tepl/blankTepl.html';
             objectCtrl.setOriginalData(null);
             highLightLayer.removeHighLightLayers();
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
-        },data.errmsg, "error");
+        }, data.errmsg, "error");
 
     };//删除方法
     $scope.cancel = function () {
@@ -34,25 +40,25 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     };//取消
 
     //响应选择要素类型变化事件
-    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE, function(){
-        if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-            for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE, function () {
+        if (eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+            for (var i = 0, len = eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length; i < len; i++) {
                 eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
             }
         }
-        if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-            for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+        if (eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+            for (var j = 0, lenJ = eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length; j < lenJ; j++) {
                 eventController.off(eventController.eventTypes.DELETEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
             }
         }
-        if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+        if (eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+            for (var k = 0, lenK = eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length; k < lenK; k++) {
                 eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
             }
         }
 
-        if(eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE]) {
-            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE].length;k<lenK;k++) {
+        if (eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE]) {
+            for (var k = 0, lenK = eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE].length; k < lenK; k++) {
                 eventController.off(eventController.eventTypes.SELECTEDFEATURECHANGE, eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE][k]);
             }
         }
@@ -242,7 +248,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     };
 
 
-
     /*箭头图代码点击下一页*/
     $scope.picNext = function () {
         $scope.itemsByPage += 1;
@@ -286,70 +291,77 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.changeWidthOfPanel = function () {
         $scope.panelFlag = !$scope.panelFlag;
         if ($scope.panelFlag) {
-            $scope.outErrorArr[3]=true;
-            $scope.outErrorArr[2]=false;
+            $scope.outErrorArr[3] = true;
+            $scope.outErrorArr[2] = false;
         }
         else {
-            $scope.outErrorArr[2]=true;
-            $scope.outErrorArr[3]=false;
+            $scope.outErrorArr[2] = true;
+            $scope.outErrorArr[3] = false;
         }
     };
     $scope.changeOutOrErrorStyle = function () {
-        $scope.outErrorArr[0]=!$scope.outErrorArr[0];
-        $scope.outErrorArr[1]=!$scope.outErrorArr[0];
+        $scope.outErrorArr[0] = !$scope.outErrorArr[0];
+        $scope.outErrorArr[1] = !$scope.outErrorArr[0];
         $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
     };
 
     //属性栏开关逻辑控制
-    $scope.attrTplContainerSwitch=function(flag){
+    $scope.attrTplContainerSwitch = function (flag) {
         $scope.panelFlag = flag;
         $scope.objectFlag = flag;
         if ($scope.panelFlag) {
-            $scope.outErrorArr[3]=true;
-            $scope.outErrorArr[2]=false;
+            $scope.outErrorArr[3] = true;
+            $scope.outErrorArr[2] = false;
         }
         else {
-            $scope.outErrorArr[2]=true;
-            $scope.outErrorArr[3]=false;
+            $scope.outErrorArr[2] = true;
+            $scope.outErrorArr[3] = false;
         }
     }
 
     //次属性开关逻辑控制
-    $scope.subAttrTplContainerSwitch=function(flag){
+    $scope.subAttrTplContainerSwitch = function (flag) {
         $scope.suspendFlag = flag;
     }
 
     //output开关逻辑控制
-    $scope.outputContainerSwitch = function(flag){
-        $scope.outErrorArr[0]=flag;
-        $scope.outErrorArr[1]=!$scope.outErrorArr[0];
+    $scope.outputContainerSwitch = function (flag) {
+        $scope.outErrorArr[0] = flag;
+        $scope.outErrorArr[1] = !$scope.outErrorArr[0];
     }
 
     //tips开关逻辑控制
-    $scope.tipsTplContainerSwitch = function(flag){
+    $scope.tipsTplContainerSwitch = function (flag) {
 
     }
 
-    $scope.controlProperty=function(event,data) {
-        if(data["loadType"]==="subAttrTplContainer") {
+    $scope.controlProperty = function (event, data) {
+        if (data["loadType"] === "subAttrTplContainer") {
             $scope.subAttrTplContainerSwitch(true);
             $scope.subAttrTplContainer = "";
-        }else if(data["loadType"]==="attrTplContainer"){
+        } else if (data["loadType"] === "attrTplContainer") {
             if (!$scope.panelFlag) {
                 $scope.attrTplContainerSwitch(true);
             }
-        }  else if(data["loadType"]==="tipsTplContainer") {
+        } else if (data["loadType"] === "tipsTplContainer") {
 
         }
 
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
             $scope[data["loadType"]] = data["propertyHtml"];
-            if(data["callback"]){
+            if (data["callback"]) {
                 data["callback"]();
             }
         })
     };
-    $scope.$on("transitCtrlAndTpl",$scope.controlProperty)
+    $scope.$on("transitCtrlAndTpl", $scope.controlProperty);
+    $scope.$on("SWITCHCONTAINERSTATE", function (event, data) {
+        if (data.hasOwnProperty("attrContainerTpl")) {
+            $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+            $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+        }
+    });
 
 }]);
 

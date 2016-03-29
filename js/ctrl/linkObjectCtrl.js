@@ -83,8 +83,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             }
         })
 
-        $scope.$parent.$parent.suspendFlag = false;
-        $scope.$parent.$parent.subAttrTplContainer = "";
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         if (url === "basicModule") {
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
