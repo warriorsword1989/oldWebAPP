@@ -316,10 +316,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
-                $scope.$parent.$parent.objectEditURL = "";
-                objCtrl.setCurrentObject(obj);
+                $scope.$parent.$parent.attrTplContainer = "";
+                objCtrl.setOriginalData(obj);
                 $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
-                    $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
+                    $scope.$parent.$parent.attrTplContainer = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
 
                 });
             } else if (type === "node") {

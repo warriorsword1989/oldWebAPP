@@ -10,7 +10,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.inLaneInfoArr = [];
-    $scope.directData = objCtrl.data;
+    $scope.directData = objCtrl.originalData;
     var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     $scope.laneConnexity = {};
     $scope.clickFlag = true;
@@ -20,9 +20,9 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         $scope.$parent.$parent.suspendFlag = true;
     }
 
-    $scope.$parent.$parent.suspendObjURL = "";
+    $scope.$parent.$parent.subAttrTplContainer = "";
     $ocLazyLoad.load('ctrl/connexityCtrl/addConnexityCtrl/directOfConnexityCtrl').then(function () {
-        $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/addConnexityTepl/directOfConnexityTepl.html";
+        $scope.$parent.$parent.subAttrTplContainer = "js/tepl/connexityTepl/addConnexityTepl/directOfConnexityTepl.html";
     })
 
     //增加公交车道方向(单击)

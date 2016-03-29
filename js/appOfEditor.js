@@ -6,10 +6,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.showLoading = true;
     var eventController = fastmap.uikit.EventController();
     var highLightLayer = fastmap.uikit.HighLightController();
+    var objectCtrl = fastmap.uikit.ObjectEditController();
     dragF('toolsDiv');
-    $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
-    $scope.objectEditURL = "";//属性栏的ng-include地址
-    $scope.suspendObjURL = "";
+    $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
+    $scope.attrTplContainer = "";//属性栏的ng-include地址
+    $scope.subAttrTplContainer = "";
     $scope.save = function () {
         if ($scope.suspendFlag) {
             $scope.suspendFlag = false;
@@ -21,10 +22,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         swal({"title":"操作确认","text":"是否要删除当前要素?","showCancelButton":true,"cancelButtonText":"取消","confirmButtonText":"确定"},function () {
             $scope.panelFlag = false;
             $scope.objectFlag = false;
-            $scope.objectEditURL =  'js/tepl/blankTepl.html';
+            $scope.attrTplContainer =  'js/tepl/blankTepl.html';
             if ($scope.suspendFlag) {
                 $scope.suspendFlag = false;
             }
+            objectCtrl.setOriginalData(null);
             highLightLayer.removeHighLightLayers();
             eventController.fire(eventController.eventTypes.DELETEPROPERTY, {"data": "test"})
         },data.errmsg, "error");
@@ -33,7 +35,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.cancel = function () {
         $scope.panelFlag = false;
         $scope.objectFlag = false;
-        $scope.objectEditURL = "";
+        $scope.attrTplContainer = "";
         eventController.fire(eventController.eventTypes.CANCELEVENT, {"data": "test"})
     };//取消
 
@@ -46,12 +48,12 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
         if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
             for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
-                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
+                eventController.off(eventController.eventTypes.DELETEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
             }
         }
         if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
             for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
-                eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
+                eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
             }
         }
 
@@ -78,7 +80,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.arrowFlag = true;//属性面板折叠按钮状态
     $scope.objectFlag = false;
     $scope.outErrorUrlFlag = false;
-    $scope.dataTipsURLFlag = true;//点击tips列表 判断右侧属性栏是否弹出
+    $scope.tipsTplContainerFlag = true;//点击tips列表 判断右侧属性栏是否弹出
     $scope.suspendFlag = false;
     $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
     $scope.changeBtnClass = function (id) {
@@ -140,7 +142,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                 $ocLazyLoad.load('ctrl/addShapeCtrl').then(function () {
                                     $scope.addShapeURL = 'js/tepl/addShapeTepl.html';
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
-                                        $scope.objectEditURL = 'js/tepl/blankTepl.html';
+                                        $scope.attrTplContainer = 'js/tepl/blankTepl.html';
                                         $scope.showLoading = false;
                                         $(".output-console").fadeIn();
                                         $('#fm-leftContainer').fadeIn();
@@ -357,15 +359,27 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
     };
     $scope.controlProperty=function(event,data) {
-        if(!$scope.suspendFlag) {
-            $scope.suspendFlag = true;
+
+        if(data["loadType"]==="subAttrTplContainer") {
+            if(!$scope.suspendFlag) {
+                $scope.suspendFlag = true;
+            }
+            $scope.subAttrTplContainer = "";
+        }else if(data["loadType"]==="attrTplContainer"){
+            if (!$scope.panelFlag) {
+                $scope.panelFlag = true;
+                $scope.objectFlag = true;
+            }
         }
-        $scope.suspendObjURL = "";
+
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
-            $scope.suspendObjURL = data["propertyHtml"];
+            $scope[data["loadType"]] = data["propertyHtml"];
+            if(data["callback"]){
+                data["callback"];
+            }
         })
     };
-    $scope.$on("transitJsAndCtrl",$scope.controlProperty)
+    $scope.$on("transitCtrlAndTmpl",$scope.controlProperty)
 
 }]);
 

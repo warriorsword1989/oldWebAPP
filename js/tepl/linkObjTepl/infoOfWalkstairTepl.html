@@ -99,15 +99,15 @@
             <div><label class="control-label">升降标识</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="stairFlagRadio" value=0 ng-model="oridiData.stairFlag">
+                    <input type="radio" name="stairFlagRadio" value=0 ng-model="oridiData.stairFlag" ng-click="stairFlagFun(oridiData)">
                     未调查
                 </label>
                 <label>
-                    <input type="radio" name="stairFlagRadio" value=1 ng-model="oridiData.stairFlag">
+                    <input type="radio" name="stairFlagRadio" value=1 ng-model="oridiData.stairFlag" ng-click="stairFlagFun(oridiData)">
                     上坡
                 </label>
                 <label>
-                    <input type="radio" name="stairFlagRadio" value=2 ng-model="oridiData.stairFlag">
+                    <input type="radio" name="stairFlagRadio" value=2 ng-model="oridiData.stairFlag" ng-click="stairFlagFun(oridiData)">
                     下坡
                 </label>
             </div>
@@ -116,15 +116,15 @@
             <div><label class="control-label">作业方向</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="workDirRadio" value=0 ng-model="oridiData.workDir">
+                    <input type="radio" name="workDirRadio" value=0 ng-model="oridiData.workDir" ng-click="workDirFun(oridiData)">
                     未调查
                 </label>
                 <label>
-                    <input type="radio" name="workDirRadio" value=1 ng-model="oridiData.workDir">
+                    <input type="radio" name="workDirRadio" value=1 ng-model="oridiData.workDir" ng-click="workDirFun(oridiData)">
                     顺
                 </label>
                 <label>
-                    <input type="radio" name="workDirRadio" value=2 ng-model="oridiData.workDir">
+                    <input type="radio" name="workDirRadio" value=2 ng-model="oridiData.workDir" ng-click="workDirFun(oridiData)">
                     逆
                 </label>
             </div>
@@ -133,11 +133,11 @@
             <div><label class="control-label">采集标识</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
-                    <input type="radio" name="captureFlagRadio" value=0 ng-model="oridiData.captureFlag">
+                    <input type="radio" name="captureFlagRadio" value=0 ng-model="oridiData.captureFlag" ng-click="captureFlagFun(oridiData)">
                     未采集
                 </label>
                 <label>
-                    <input type="radio" name="captureFlagRadio" value=1 ng-model="oridiData.captureFlag">
+                    <input type="radio" name="captureFlagRadio" value=1 ng-model="oridiData.captureFlag" ng-click="captureFlagFun(oridiData)">
                     外业确认
                 </label>
             </div>

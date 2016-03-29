@@ -11,9 +11,9 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var outputCtrl = fastmap.uikit.OutPutController({});
-    var selectCtrl = new fastmap.uikit.SelectController();
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
+    var selectCtrl = fastmap.uikit.SelectController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
     //改变模块的背景
@@ -50,6 +50,22 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             highLightLayer.pushHighLightLayers(highLightLink);
             highLightLink.drawOfLinkForInit();
         }
+
+        var linkArr =$scope.linkData.geometry.coordinates, points = [];
+        for (var i = 0, len = linkArr.length; i < len; i++) {
+            var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+            points.push(pointOfLine);
+        }
+        var pointOfSelect = selectCtrl.selectedFeatures["point"];
+        var line = fastmap.mapApi.lineString(points);
+        selectCtrl.onSelected({
+            geometry: line,
+            id: $scope.linkData.pid,
+            direct: $scope.linkData.direct,
+            snode: $scope.linkData.sNodePid,
+            enode: $scope.linkData.eNodePid,
+            point: pointOfSelect
+        });
     };
     //初始化controller调用
     if (objectCtrl.data) {
@@ -68,7 +84,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         })
 
         $scope.$parent.$parent.suspendFlag = false;
-        $scope.$parent.$parent.suspendObjURL = "";
+        $scope.$parent.$parent.subAttrTplContainer = "";
         if (url === "basicModule") {
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
@@ -114,6 +130,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
 
     };
     $scope.changeDirect = function (direct) {
+
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
         var containerPoint;
@@ -276,7 +293,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.linkData = null;
                 var editorLayer = layerCtrl.getLayerById("edit")
                 editorLayer.clear();
-                $scope.$parent.$parent.objectEditURL = "";
             } else {
                 outputCtrl.pushOutput(info);
                 if (outputCtrl.updateOutPuts !== "") {
@@ -305,7 +321,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 objectCtrl.updateObject();
             }
             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
             });
         });
     }

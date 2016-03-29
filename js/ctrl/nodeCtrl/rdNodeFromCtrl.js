@@ -10,6 +10,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var rdLink = layerCtrl.getLayerById("referenceLine");
     var highLightLayer = fastmap.uikit.HighLightController();
     var eventController = fastmap.uikit.EventController();
+    var selectCtrl = fastmap.uikit.SelectController();
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
@@ -67,14 +68,39 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     $scope.initializeNodeData=function() {
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-        $scope.initialForms();
-        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "linksOfnode",
-            initFlag: true
+        Application.functions.getLinksbyNodeId(JSON.stringify({
+            projectId: Application.projectid,
+            type: 'RDLINK',
+            data: {"nodePid":  $scope.rdNodeData.pid}
+        }), function (data) {
+            if (data.errcode === -1) {
+                return;
+            }
+            var lines = [];
+            $scope.linepids = [];
+            for (var index in data.data) {
+                var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                    points.push(point);
+                }
+                lines.push(fastmap.mapApi.lineString(points));
+                $scope.linepids.push(data.data[index].pid);
+            }
+
+            var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
+
+            selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.rdNodeData.pid});
+            $scope.initialForms();
+            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                map: map,
+                highLightFeature: "linksOfnode",
+                initFlag: true
+            });
+            highLightLayer.pushHighLightLayers(highLightLink);
+            highLightLink.drawLinksOfCrossForInit($scope.linepids, [],[$scope.rdNodeData.pid]);
         });
-        highLightLayer.pushHighLightLayers(highLightLink);
-        highLightLink.drawLinksOfCrossForInit( objectEditCtrl.data.linepids, [],[objectEditCtrl.data.nodeid]);
+
     };
 
     $scope.initialForms = function(){
@@ -99,14 +125,15 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.initialForms();
     };
     $scope.loadJsAndCtrl=function(obj) {
-        $scope.$emit('transitJsAndCtrl', obj);
+        $scope.$emit('transitCtrlAndTmpl', obj);
     };
     $scope.showPopover=function(){
-        var obj = {
+        var showPopoverObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/nodeCtrl/addDirectOfNodeCtrl',
             "propertyHtml":'js/tepl/nodeTepl/addDitrectOfNodeTepl.html'
         };
-        $scope.loadJsAndCtrl(obj);
+        $scope.loadJsAndCtrl(showPopoverObj);
     }
 
     $scope.delFrom=function(item){
