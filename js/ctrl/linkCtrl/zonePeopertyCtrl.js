@@ -18,7 +18,7 @@ zonePeopertyApp.controller("zonePeopertyController", function ($scope, $timeout,
             "propertyCtrl": 'ctrl/linkCtrl/infoOfZoneCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoOfZoneTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", showZoneWinObj);
+        $scope.$emit("transitCtrlAndTpl", showZoneWinObj);
     }
 
 })

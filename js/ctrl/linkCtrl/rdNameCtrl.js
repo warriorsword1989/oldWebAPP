@@ -12,7 +12,7 @@ basicApp.controller("nameController", function ($scope, $ocLazyLoad) {
             "propertyCtrl": 'ctrl/linkCtrl/namesOfLinkCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/namesOfLinkTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", showNamesObj);
+        $scope.$emit("transitCtrlAndTpl", showNamesObj);
     };
 
     $scope.addRdName = function () {

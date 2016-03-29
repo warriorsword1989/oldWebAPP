@@ -40,7 +40,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             "propertyCtrl":'ctrl/crossCtrl/namesOfCrossCtrl',
             "propertyHtml":'js/tepl/crossTepl/namesOfCross.html'
         };
-        $scope.$emit("transitCtrlAndTmpl", crossNamesObj);
+        $scope.$emit("transitCtrlAndTpl", crossNamesObj);
         $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
     };
 

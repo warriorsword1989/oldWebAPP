@@ -182,7 +182,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 "propertyCtrl":'ctrl/connexityCtrl/changeDirectOfConnexityCtrl',
                 "propertyHtml":'js/tepl/connexityTepl/changeDirectOfConnexityTepl.html'
             };
-            $scope.$emit("transitCtrlAndTmpl", changedDirectObj);
+            $scope.$emit("transitCtrlAndTpl", changedDirectObj);
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
@@ -243,7 +243,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "propertyCtrl":'ctrl/connexityCtrl/showInfoOfConnexityCtrl',
             "propertyHtml":'js/tepl/connexityTepl/showInfoConnexityTepl.html'
         };
-        $scope.$emit("transitCtrlAndTmpl", showInfoObj);
+        $scope.$emit("transitCtrlAndTpl", showInfoObj);
     };
     //增加车道
     $scope.addLane = function () {
@@ -261,7 +261,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "propertyCtrl":'ctrl/connexityCtrl/addDirectOfConnexityCtrl',
             "propertyHtml":'js/tepl/connexityTepl/addDirectOfConnexityTepl.html'
         };
-        $scope.$emit("transitCtrlAndTmpl", addDirectObj);
+        $scope.$emit("transitCtrlAndTpl", addDirectObj);
         layerCtrl.pushLayerFront('edit');
         map.currentTool = new fastmap.uikit.SelectPath(
             {
@@ -356,7 +356,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 "propertyCtrl":'ctrl/connexityCtrl/changeDirectOfConnexityCtrl',
                 "propertyHtml":'js/tepl/connexityTepl/changeDirectOfConnexityTepl.html'
             };
-            $scope.$emit("transitCtrlAndTmpl", changedTransitObj);
+            $scope.$emit("transitCtrlAndTpl", changedTransitObj);
         }
 
     };

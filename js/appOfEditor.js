@@ -369,17 +369,21 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             if (!$scope.panelFlag) {
                 $scope.panelFlag = true;
                 $scope.objectFlag = true;
+                $scope.outErrorArr[3]=false;
+                $scope.outErrorArr[1]=true;
             }
+        }  else if(data["loadType"]==="tipsTplContainer") {
+
         }
 
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
             $scope[data["loadType"]] = data["propertyHtml"];
             if(data["callback"]){
-                data["callback"];
+                data["callback"]();
             }
         })
     };
-    $scope.$on("transitCtrlAndTmpl",$scope.controlProperty)
+    $scope.$on("transitCtrlAndTpl",$scope.controlProperty)
 
 }]);
 

@@ -557,18 +557,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         workPoint.redraw();
                     $scope.showContent = "外业新增";
                     $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
-                        if (d.errcode === -1) {
-                            return;
-                        }
-                        objCtrl.setCurrentObject(d);
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
-                        }
-                        $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                            $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjectTepl.html";
-                        })
-                    });*/
                     var sinfo={
                         "op":"状态修改成功",
                         "type":"",
