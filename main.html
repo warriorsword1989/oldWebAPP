@@ -79,7 +79,7 @@
                                 </div>
                             <div id="popoverTips" style="position:relative;display:none;z-index:4;">
                                 <div>
-                                    <div ng-include="dataTipsURL"></div>
+                                    <div ng-include="tipsTplContainer"></div>
                                 </div>
                             </div>
 
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div ui-layout-container size="15%">
-                <div ng-include="objectEditURL" style="margin-bottom: 30px; "></div>
+                <div ng-include="attrTplContainer" style="margin-bottom: 30px; "></div>
                 <div style="width: 100%;margin:auto;position: fixed;bottom: 0px; background-color: #f8f8f8;border-color: #e7e7e7; height: 40px;">
                     <div class="btn-group" >
                         <button type="button" class="btn btn-default" ng-click="save()">保存</button>

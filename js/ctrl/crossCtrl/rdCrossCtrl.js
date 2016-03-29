@@ -35,14 +35,13 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         })
     };
     $scope.showCrossNames=function(nameItem) {
-        if(! $scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.suspendObjURL = "";
+        var crossNamesObj = {
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl":'ctrl/crossCtrl/namesOfCrossCtrl',
+            "propertyHtml":'js/tepl/crossTepl/namesOfCross.html'
+        };
+        $scope.$emit("transitCtrlAndTmpl", crossNamesObj);
         $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
-        $ocLazyLoad.load('ctrl/crossCtrl/namesOfCrossCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/crossTepl/namesOfCross.html";
-        })
     };
 
     $scope.addRdCrossName = function () {
@@ -138,7 +137,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             if (data.errcode==0) {
                 rdcross.redraw();
                 $scope.rdCrossData = null;
-                $scope.$parent.$parent.objectEditURL = "";
+                $scope.$parent.$parent.attrTplContainer = "";
                 var sinfo={
                     "op":"删除RDCROSS成功",
                     "type":"",

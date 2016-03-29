@@ -566,7 +566,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                             objCtrl.updateObject();
                         }
                         $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                            $scope.$parent.$parent.objectEditURL = "js/tepl/linkObjectTepl.html";
+                            $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjectTepl.html";
                         })
                     });*/
                     var sinfo={

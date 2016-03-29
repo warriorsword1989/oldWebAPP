@@ -212,7 +212,7 @@ dataTipsApp.controller("sceneTipsController", function ($scope,$timeout) {
                         objCtrl.updateObject();
                     }
                     $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
-                        $scope.$parent.$parent.objectEditURL = "js/tepl/trafficLimitOfNormalTepl.html";
+                        $scope.$parent.$parent.attrTplContainer = "js/tepl/trafficLimitOfNormalTepl.html";
                         if ($scope.$parent.$parent.updateLinkData !== "") {
                             $scope.$parent.$parent.updateLinkData(data.data);
                         }

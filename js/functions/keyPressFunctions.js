@@ -113,7 +113,7 @@ function keyEvent(ocLazyLoad, scope) {
                             Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
                                 objEditCtrl.setCurrentObject("RDLINK", data.data);
                                 ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                                    scope.objectEditURL = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                                    scope.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
                                 })
                             });
                         } else {
@@ -161,7 +161,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 }
                                 objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
                                 ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
-                                    scope.objectEditURL = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
+                                    scope.attrTplContainer = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
                                 })
                             })
                         } else {
@@ -312,7 +312,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 }
                                 objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
                                 ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                                    scope.objectEditURL = "js/tepl/speedLimitTepl.html";
+                                    scope.attrTplContainer = "js/tepl/speedLimitTepl.html";
                                 });
                             });
                             var sinfo = {
@@ -498,7 +498,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     objEditCtrl.updateObject();
                                 }
                                 ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
-                                    scope.objectEditURL = "js/tepl/branchTepl/namesOfBranch.html";
+                                    scope.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
                                 })
                             }, data.data.pid)
                         } else {
@@ -545,7 +545,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 }
                                 objEditCtrl.setCurrentObject("RDCROSS", data.data);
                                 ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
-                                    scope.objectEditURL = "js/tepl/crossTepl/rdCrossTepl.html";
+                                    scope.attrTplContainer = "js/tepl/crossTepl/rdCrossTepl.html";
                                 });
                             });
                             var sInfo = {
@@ -600,7 +600,7 @@ function keyEvent(ocLazyLoad, scope) {
                             Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
                                 objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
                                 ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
-                                    scope.objectEditURL = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
+                                    scope.attrTplContainer = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
                                 });
                             });
                             var sinfo = {

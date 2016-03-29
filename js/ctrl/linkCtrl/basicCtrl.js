@@ -148,19 +148,21 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
 
     $scope.showNames=function() {
         var showNameObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/namesOfLinkCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/namesOfLinkTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showNameObj);
+        $scope.$emit("transitCtrlAndTmpl", showNameObj);
     };
 
     //修改道路形态
     $scope.addFormOfWay = function() {
         var addFormOfWayObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/infoOfformOfWayCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/infoOfformOfWayTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", addFormOfWayObj);
+        $scope.$emit("transitCtrlAndTmpl", addFormOfWayObj);
     };
     //过滤条件
     $scope.flag = 0;
@@ -187,25 +189,28 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     $scope.showZoneWin=function(item){
         $scope.linkData["oridiRowId"] = item.rowId;
         var showZoneWinObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/infoOfZoneCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/infoOfZoneTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showZoneWinObj);
+        $scope.$emit("transitCtrlAndTmpl", showZoneWinObj);
     }
 
     $scope.showZone=function(item){
         var showZoneObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/zonePeopertyCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/zonePeopertyTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showZoneObj);
+        $scope.$emit("transitCtrlAndTmpl", showZoneObj);
     }
     $scope.showOther=function(){
         var showOtherObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/otherCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/otherTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showOtherObj);
+        $scope.$emit("transitCtrlAndTmpl", showOtherObj);
     }
 
 
