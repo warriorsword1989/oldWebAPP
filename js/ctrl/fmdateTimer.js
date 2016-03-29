@@ -295,7 +295,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                     }   //星期数组去空
                 }
                 mutiDate = weeksStr.join('').split('][');
-                if(weeksStr.length >= 1 && mutiDate.length == 1 && mutiDate[0].indexOf('y') == -1 && mutiDate[0].indexOf('{d') == -1){
+                if(weeksStr.length >= 1 && weeksStr[0].indexOf(')(')==-1 && mutiDate.length == 1 && mutiDate[0].indexOf('y') == -1 && mutiDate[0].indexOf('{d') == -1){
                     $.each(weeksStr,function(m,n){
                         if(n){
                             if(m == weeksStr.length-1){
@@ -316,7 +316,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         });
                         detail = detail + '的 ' + _time;     //每个星期的周几的几点到几点
                     }
-                }else if(weeksStr.length == 1 && mutiDate.length == 1){
+                }else if((weeksStr.length == 1 && mutiDate.length == 1) || weeks_arr[0].indexOf('M') > -1){
                     var _time = '';
                     $.each(weeksStr.join('').split(')('),function(i,v){     //选择固定 时间（只选择时间）
                         if(i == 0){
@@ -325,7 +325,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                             _time = _time + ' 到 ' + $scope.timeAnalyze(v);
                         }
                     });
-                    if(weeks_arr[0].split('')[0] == '(' && weeks_arr[0].split('')[weeks_arr[0].split('').length-1] == ')' && weeks_arr[0].indexof(']*[') > -1){     //如果是持续时间 从...
+                    if(weeks_arr[0].split('')[0] == '(' && weeks_arr[0].split('')[weeks_arr[0].split('').length-1] == ')' && weeks_arr[0].indexOf(']*[') > -1){     //如果是持续时间 从...
                         detail = '从' + _time;
                         if(weeks_arr[0].indexOf(')(M') > -1){   //(M12d1)(M12d31)]*[(h23m0)(h23m59)
                             var temp = weeks_arr[0].substr(1,weeks_arr[0].length-2);
