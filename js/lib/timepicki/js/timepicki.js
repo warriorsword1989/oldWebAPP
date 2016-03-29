@@ -27,7 +27,7 @@
                 // "left": ele_lef + "px"
             });
             var cur_time = new Date().getHours();
-            var cur_mins = new Date().getMinutes();
+            var cur_mins = '00';
             $(document).on("click",
             function(event) {
                 if (!$(event.target).is(ele_next)) {
@@ -171,7 +171,7 @@
             /*清空*/
             _emptyDate.on("click",function(){
                 cur_time = new Date().getHours();
-                cur_mins = new Date().getMinutes();
+                cur_mins = '00';
                 scope[model] = '';
                 scope.$apply();
                 _emptyFlag = true;
