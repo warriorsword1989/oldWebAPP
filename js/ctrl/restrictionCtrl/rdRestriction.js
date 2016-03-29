@@ -6,6 +6,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
+    var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
@@ -69,13 +70,13 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
             map: map,
             highLightFeature: "restrict",
-            restrictId: $scope.rdRestrictData.pid,
+            restrictId: $scope.rdRestrictData.pid.toString(),
             initFlag: true
         });
 
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
-        //highLightLayer.pushHighLightLayers(highLightRestriction);
+        highLightLayer.pushHighLightLayers(highLightRestriction);
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
                 limitPicArr.push(v.timeDomain);
@@ -138,7 +139,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "propertyCtrl": 'ctrl/restrictionCtrl/addDirectOfRestrictionCtrl',
             "propertyHtml": 'js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", addObj);
+        $scope.$emit("transitCtrlAndTpl", addObj);
     };
 
     var towbin = dec2bin(6);
@@ -338,9 +339,6 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {
@@ -366,9 +364,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         });
-        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+        if (selectCtrl.rowkey.rowkey !== undefined) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
 
@@ -395,7 +393,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                selectCtrl.rowkey.rowkey  = undefined;
             })
         }
     };
@@ -435,9 +433,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         })
-        if ($scope.$parent.$parent.rowkeyOfDataTips) {
+        if (selectCtrl.rowkey.rowkey) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
 
@@ -465,8 +463,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
-                $scope.$parent.$parent.attrTplContainer = "";
+                selectCtrl.rowkey.rowkey = undefined;
             })
         }
     }

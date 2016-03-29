@@ -200,7 +200,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.initDiver = function(){
         $scope.initializeData();
         var dObj = $scope.diverObj;
-        $scope.$parent.$parent.suspendFlag = false;
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         /*经过线*/
         if(dObj){
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
@@ -275,9 +275,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*展示详细信息*/
     $scope.showDetail=function(type) {
-        if(! $scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":true})
         objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
         $scope.$parent.$parent.subAttrTplContainer = "";
         if(type == 0){  //  名称
@@ -348,14 +346,29 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
             var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
+            var info=null;
             if(data.errcode == 0){
                 $scope.setOriginalDataFunc();
                 objCtrl.setOriginalData(param.data);
                 swal("操作成功", "高速分歧属性值修改成功！", "success");
-                outPutCtrl.pushOutput(data.errmsg);
+                var sinfo = {
+                    "op": "修改RDBRANCH成功",
+                    "type": "",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info = data.data.log;
             }else{
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
+                    "pid": data.errid
+                }];
                 swal("操作失败", "问题原因："+data.errmsg, "error");
-                outPutCtrl.pushOutput(data.errmsg);
+            }
+            outPutCtrl.pushOutput(info);
+            if (outPutCtrl.updateOutPuts !== "") {
+                outPutCtrl.updateOutPuts();
             }
         });
     }
@@ -393,11 +406,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                         swal("删除成功", "分歧数据删除成功！", "success");
                     },500)
                     outPutCtrl.pushOutput(data.errmsg);
-                    if($scope.$parent.$parent.panelFlag ) {
-                        $scope.$parent.$parent.panelFlag = false;
-                        $scope.$parent.$parent.objectFlag = false;
-                    }
-                    $scope.$parent.$parent.attrTplContainer = "";
                     rdBranch.redraw();
                 }else{
                     $timeout(function(){
@@ -411,9 +419,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     /*取消属性编辑*/
     $scope.cancel = function(){
         $scope.getObjectById(false);
-        if($scope.$parent.$parent.suspendFlag){
-            $scope.$parent.$parent.suspendFlag = false;
-        }
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);

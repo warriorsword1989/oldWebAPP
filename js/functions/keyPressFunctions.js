@@ -157,7 +157,6 @@ function keyEvent(ocLazyLoad, scope) {
                             Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                                 if (!scope.panelFlag) {
                                     scope.panelFlag = true;
-                                    scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
                                 ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
@@ -491,12 +490,8 @@ function keyEvent(ocLazyLoad, scope) {
                             Application.functions.getRdObjectById("", "RDBRANCH", function (data) {
                                 if (!scope.panelFlag) {
                                     scope.panelFlag = true;
-                                    scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDBRANCH", data.data);
-                                if (objEditCtrl.updateObject !== "") {
-                                    objEditCtrl.updateObject();
-                                }
                                 ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
                                     scope.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
                                 })

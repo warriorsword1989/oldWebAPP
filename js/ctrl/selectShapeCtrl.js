@@ -14,34 +14,33 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
-    var editlayer = layerCtrl.getLayerById('edit');
+    var editLayer = layerCtrl.getLayerById('edit');
     $scope.toolTipText = "";
 
-    $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTepl) {
-        $scope.$parent.$parent.attrTplContainer = "";
-        var ctrlAndTmplParams={
+    $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
+        var ctrlAndTplParams={
             loadType:'tipsTplContainer',
             propertyCtrl:"ctrl/sceneAllTipsCtrl",
             propertyHtml:"js/tepl/sceneAllTipsTepl.html",
             callback:function(){
-                if (data.t_lifecycle === 2) { //修改 ??
-                    $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTepl);
+                if (data.t_lifecycle === 2) { //外业修改
+                    $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTpl);
                 }
-                else{//新增或删除
+                else{//3新增或1删除
                     var stageLen = data.t_trackInfo.length;
                     var stage = parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
-                    if (stage === 1) { // ？？？
+                    if (stage === 1) { // 未作业
                         if (data.s_sourceType === "1201") {
-                            $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTepl);
+                            $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTpl);
                         } else {
                             if (data.t_lifecycle === 1) {
-                                $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTepl);
+                                $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTpl);
                             }
                         }
-                    }else if (stage === 3) {  // ???
+                    }else if (stage === 3) {  //已作业
                         if (data.t_lifecycle === 3) {
                             if (data.f) {
-                                $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTepl);
+                                $scope.getFeatDataCallback(data,propertyId,type,propertyCtrl,propertyTpl);
                             }
                         }
                     }
@@ -49,7 +48,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             }
         }
         //先load Tips面板和控制器
-        $scope.$emit("transitCtrlAndTmpl", ctrlAndTmplParams);
+        $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
     }
     $scope.selectShape = function (type, num) {
         if (highLightLayer.highLightLayersArr.length !== 0) {
@@ -61,20 +60,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         if (typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
         }
-        if ($scope.$parent.$parent.panelFlag) {
-            $scope.$parent.$parent.panelFlag = false;
-            $scope.$parent.$parent.objectFlag = false;
-        }
-        if (!$scope.$parent.$parent.outErrorArr[3]) {
-            $scope.$parent.$parent.outErrorArr[0] = false;
-            $scope.$parent.$parent.outErrorArr[1] = false;
-            $scope.$parent.$parent.outErrorArr[2] = false;
-            $scope.$parent.$parent.outErrorArr[3] = true;
-            $scope.$parent.$parent.outErrorUrlFlag = false;
-        }
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
+        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
         $("#popoverTips").hide();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         $scope.$parent.$parent.attrTplContainer = "";
@@ -119,7 +105,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
 
-            editlayer.bringToBack();
+            editLayer.bringToBack();
             $scope.toolTipText = '请选择关系！';
             eventController.on(eventController.eventTypes.GETRELATIONID, function (data) {
                 $scope.data = data;
@@ -183,7 +169,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "ctrl/speedLimitCtrl", "js/tepl/speedLimitTepl.html");
                                 break;
                             case "1203"://道路方向
-                                var ctrlAndTmplParam={
+                                var ctrlAndTplOfDirect={
                                     "loadType":"tipsTplContainer",
                                     "propertyCtrl":"ctrl/sceneAllTipsCtrl",
                                     "propertyHtml":"js/tepl/sceneAllTipsTepl.html",
@@ -193,11 +179,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                         }
                                     }
                                 }
-                                $scope.$emit("transitCtrlAndTmpl", ctrlAndTmplParam);
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                                 break;
                             case "1201"://种别
-                                var categoriesId = data.f.id;//id获取方式需要data.f.id
-                                $scope.showTipsOrProperty(data, "RDLINK", objCtrl, categoriesId,  "ctrl/linkObjectCtrl", "js/tepl/linkObjTepl/linkObjectTepl.html");
+                                $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id,  "ctrl/linkObjectCtrl", "js/tepl/linkObjTepl/linkObjectTepl.html");
                                 break;
                             case "1301"://车信
                                 $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "ctrl/connexityCtrl/rdLaneConnexityCtrl", "js/tepl/connexityTepl/rdLaneConnexityTepl.html");
@@ -226,12 +211,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                         }
                                     }
                                 }
-                                $scope.$emit("transitCtrlAndTmpl", ctrlAndTmplOfBridge);
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTmplOfBridge);
                                 break;
                             case "1604"://区域内道路
                                 break;
                             case  "1704"://交叉路口
-                                var ctrlAndTmplOfCross={
+                                var ctrlAndTplOfCross={
                                     "loadType":"tipsTplContainer",
                                     "propertyCtrl":"ctrl/sceneAllTipsCtrl",
                                     "propertyHtml":"js/tepl/sceneAllTipsTepl.html",
@@ -244,34 +229,33 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                                 "data": obj
                                             }
                                             Application.functions.getByCondition(JSON.stringify(param), function (data) {
-                                                var crossCtrlAndTmpl={
+                                                var crossCtrlAndTpl={
                                                     propertyCtrl:"ctrl/crossCtrl/rdCrossCtrl",
                                                     propertyHtml:"js/tepl/crossTepl/rdCrossTepl.html",
                                                 }
                                                 objCtrl.setCurrentObject(data.data[0]);
-                                                $scope.$emit("transitCtrlAndTmpl", crossCtrlAndTmpl);
+                                                $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                                             });
                                         }
                                     }
                                 }
-                                $scope.$emit("transitCtrlAndTmpl", ctrlAndTmplOfCross);
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
                                 break;
                             case "1803"://挂接
                                 break;
                             case "1901"://道路名
-                                var ctrlAndTmplOfName= {
+                                var ctrlAndTplOfName= {
                                     "loadType":"tipsTplContainer",
                                     "propertyCtrl": "ctrl/sceneAllTipsCtrl",
                                     "propertyHtml": "js/tepl/sceneAllTipsTepl.html"
                                 }
-                                $scope.$emit("transitCtrlAndTmpl", ctrlAndTmplOfName);
+                                $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
                                 break;
                         }
 
                         if (selectCtrl.updateTipsCtrl !== "") {
                             selectCtrl.updateTipsCtrl();
                         }
-                        $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
                     })
                 }
             )
@@ -290,7 +274,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
 
-    $scope.getFeatDataCallback=function(selectedData,id,type,ctrl,tmpl){
+    $scope.getFeatDataCallback=function(selectedData,id,type,ctrl,tpl){
         Application.functions.getRdObjectById(id, type, function (data) {
             if(data.errcode === -1){
                 return;
@@ -300,9 +284,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             var options = {
                 "loadType":'attrTplContainer',
                 "propertyCtrl": ctrl,
-                "propertyHtml": tmpl
+                "propertyHtml": tpl
             }
-            $scope.$emit("transitCtrlAndTmpl", options);
+            $scope.$emit("transitCtrlAndTpl", options);
         },selectedData.detailid);
     }
 }])

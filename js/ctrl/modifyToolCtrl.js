@@ -15,20 +15,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
     $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
-        if($scope.$parent.$parent.panelFlag) {
-            $scope.$parent.$parent.panelFlag = false;
-            $scope.$parent.$parent.objectFlag = false;
-        }
-        if(!$scope.$parent.$parent.outErrorArr[3]) {
-            $scope.$parent.$parent.outErrorArr[0]=false;
-            $scope.$parent.$parent.outErrorArr[1]=false;
-            $scope.$parent.$parent.outErrorArr[2]=false;
-            $scope.$parent.$parent.outErrorArr[3]=true;
-            $scope.$parent.$parent.outErrorUrlFlag = false;
-        }
-        if($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
+        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
         $("#popoverTips").hide();
         if (shapeCtrl.getCurrentTool()['options']) {
             shapeCtrl.stopEditing();

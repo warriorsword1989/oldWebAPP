@@ -29,10 +29,8 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.data = {};
                 this.originalData = null;
                 this.updateObject = "";
-                this.tipsUpdateObject="";
                 this.nodeObjRefresh = "";
                 this.selectNodeRefresh="";
-                this.refreshInfo = "";
             },
             /**
              * 保存需要编辑的元素的原数据
