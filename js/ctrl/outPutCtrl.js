@@ -11,6 +11,7 @@ outPutModule.controller('outPutController', function ($scope) {
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
+    var selectCtrl = fastmap.uikit.SelectController();
     output.updateOutPuts = function () {
         var outValue = output.outPuts;
         var info = [];
@@ -39,28 +40,7 @@ outPutModule.controller('outPutController', function ($scope) {
             highLightLayer.removeHighLightLayers();
         }
         if (type.indexOf("RDLINK") >= 0) {
-            Application.functions.getRdObjectById(id, "RDLINK", function (d) {
-                if (d.errcode === -1) {
-                    return;
-                }
-                //随着地图的变化 高亮的线不变
-                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "link",
-                    initFlag: false,
-                    linkPid: id.toString()
-                });
-                highLightLayer.pushHighLightLayers(highLightLink);
-                highLightLink.drawOfLinkForInit();
-                var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
-                for (var i = 0, len = linkArr.length; i < len; i++) {
-                    var point = L.latLng(linkArr[i][1], linkArr[i][0]);
-                    points.push(point);
-                }
-                var line = new L.polyline(points);
-                var bounds = line.getBounds();
-                map.fitBounds(bounds, {"maxZoom": 19});
-            })
+            $scope.OutDrawLink(id,"RDLINK");
         } else if (type.indexOf("RDRESTRICTION") >= 0) {
             var linksObj = {};//存放需要高亮的进入线和退出线的id
             var limitPicArr = [];
@@ -94,19 +74,92 @@ outPutModule.controller('outPutController', function ($scope) {
                         limitPicArr.push('');
                 })
             })
-        } else {
-            layerCtrl.pushLayerFront("workPoint");
-            Application.functions.getTipsResult(id, function (data) {
-                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
-                var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
+        } else if(type.indexOf("RDCROSS") >= 0){
+            Application.functions.getRdObjectById(id, "RDCROSS", function (d) {
+                if (d.errcode === -1) {
+                    return;
+                }
+                var options = {},linkArr=[],nodeArr=[];
+                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
-                    highLightFeature: "dataTips",
-                    dataTips: data.rowkey
+                    highLightFeature: "linksOfCross",
+                    initFlag: true
                 });
-                highLightDataTips.drawTipsForInit();
-                highLightLayer.pushHighLightLayers(highLightDataTips);
+                highLightLayer.pushHighLightLayers(highLightLink);
+                for(var a in d.data.links){
+                    linkArr.push(d.data.links[a].linkPid);
+                }
+                for(var m in d.data.nodes){
+                    nodeArr.push(d.data.nodes[m].nodePid);
+                }
+                highLightLink.drawLinksOfCrossForInit(linkArr,nodeArr);
+                $scope.OutDrawLink(linkArr[0],"RDLINK");
+            })
+        }else if(type.indexOf("RDLANECONNEXITY") >= 0){//车信
+            var linksObj = {};//存放需要高亮的进入线和退出线的id
+            Application.functions.getRdObjectById(id, "RDLANECONNEXITY", function (d) {
+                linksObj["inLink"] = d.data.inLinkPid.toString();
+                for (var i = 0, len = (d.data.topos).length; i < len; i++) {
+                    linksObj["outLink" + i] = d.data.topos[i].outLinkPid.toString();
+                }
+                var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
+                    map: map,
+                    highLightFeature: "links",
+                    linksObj: linksObj
+                })
+                highLightLinks.drawOfLinksForInit();
+                highLightLayer.pushHighLightLayers(highLightLinks);
+                $scope.OutDrawLink(d.data.inLinkPid,"RDLINK");
+            });
+        }else if(type.indexOf("RDBRANCH") >= 0){//分歧
+            var linksOfRestric={};
+            Application.functions.getRdObjectById(id, "RDBRANCH", function (d) {
+                linksOfRestric["inLink"] = d.data.inLinkPid + '';
+                linksOfRestric["outLink"] = d.data.outLinkPid + '';
+
+                var highLightLinks=new fastmap.uikit.HighLightRender(rdLink,
+                    {
+                        map:map,
+                        highLightFeature:"links",
+                        linksObj:linksOfRestric
+                    });
+                highLightLinks.drawOfLinksForInit();
+                highLightLayer.pushHighLightLayers(highLightLinks);
+                $scope.OutDrawLink(d.data.inLinkPid,"RDLINK");
+            });
+        }else if(type.indexOf("RDSPEEDLIMIT") >= 0){//限速
+            Application.functions.getRdObjectById(id, "RDSPEEDLIMIT", function (d) {
+                $scope.OutDrawLink(d.data.linkPid,"RDLINK");
             });
         }
     }
+
+    $scope.OutDrawLink=function(id,type){
+        Application.functions.getRdObjectById(id, type, function (d) {
+            if (d.errcode === -1) {
+                return;
+            }
+            var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
+            for (var i = 0, len = linkArr.length; i < len; i++) {
+                var point = L.latLng(linkArr[i][1], linkArr[i][0]);
+                points.push(point);
+            }
+            var line = new L.polyline(points);
+            var bounds = line.getBounds();
+            map.fitBounds(bounds, {"maxZoom": 19});
+            //随着地图的变化 高亮的线不变
+            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                map: map,
+                highLightFeature: "link",
+                initFlag: true,
+                linkPid: id.toString()
+            });
+            highLightLayer.pushHighLightLayers(highLightLink);
+            highLightLink.drawOfLinkForInit();
+
+        })
+    }
+
+
 
 });

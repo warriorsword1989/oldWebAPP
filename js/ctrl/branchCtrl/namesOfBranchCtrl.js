@@ -348,14 +348,29 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
         Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
             var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
+            var info=null;
             if(data.errcode == 0){
                 $scope.setOriginalDataFunc();
                 objCtrl.setOriginalData(param.data);
                 swal("操作成功", "高速分歧属性值修改成功！", "success");
-                outPutCtrl.pushOutput(data.errmsg);
+                var sinfo = {
+                    "op": "修改RDBRANCH成功",
+                    "type": "",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info = data.data.log;
             }else{
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
+                    "pid": data.errid
+                }];
                 swal("操作失败", "问题原因："+data.errmsg, "error");
-                outPutCtrl.pushOutput(data.errmsg);
+            }
+            outPutCtrl.pushOutput(info);
+            if (outPutCtrl.updateOutPuts !== "") {
+                outPutCtrl.updateOutPuts();
             }
         });
     }
