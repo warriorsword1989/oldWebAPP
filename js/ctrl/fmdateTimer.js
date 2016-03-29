@@ -378,7 +378,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                         }
                     });
                     detail = '从' + _time;
-                }else if(weeks_arr[0].indexOf('{d') > -1 || weeks_arr[1].indexOf('{d') > -1){   //{d4}的情况
+                }else if((weeks_arr[0] && weeks_arr[0].indexOf('{d') > -1) || (weeks_arr[1] && weeks_arr[1].indexOf('{d') > -1)){   //{d4}的情况
                     var temp;
                     if(weeks_arr[0].indexOf('){d') > -1){
                         temp = weeks_arr[0].split('){')
