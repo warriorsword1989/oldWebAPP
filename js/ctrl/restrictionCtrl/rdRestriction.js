@@ -338,9 +338,6 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {

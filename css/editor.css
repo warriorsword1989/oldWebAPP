@@ -278,17 +278,6 @@ html,body{
     background: url("img/arrow-right.png");
 }
 
-.fm-panel-object-jz{
-    overflow-y: auto;
-    position:absolute;
-    height: 100%;
-    padding-bottom: 30px;
-    background-color: #404040;
-    opacity: 0.95;
-    font-size: 12px;
-    width:0px;
-}
-
 .fm-panel-sm a.fm-panel-controlArrowLeftAndRight>span{
     background: url("img/arrow-left.png");
 }
@@ -320,13 +309,7 @@ a.fm-panel-controlArrowLeftAndRight>span{
     top:0px;
     left:0px;
 }
-.fm-panel-arrow-jy{
-    width:15px;
-    height: 100%;
-    position:absolute;
-    top:0px;
-    left:0px;
-}
+
 .ui-splitbar{
     background: #404040 !important;
     opacity: .9;
@@ -354,14 +337,26 @@ a.fm-panel-controlArrowLeftAndRight>span{
     display: none;
 }
 /*********************fm-error***************************/
-.fm-out-error{
+.fm-outputContainer{
     width: 100%;
-    padding-right: 290px;
     padding-top: 15px;
-    height: 250px;
     position:absolute;
     bottom: 0px;
+}
 
+.fm-outputContainer-expandHeight{
+    height: 250px;
+}
+
+.fm-outputContainer-collapseHeight{
+    height: 15px;
+}
+.fm-outputContainer-expandWidth{
+    padding-right: 0px;
+}
+
+.fm-outputContainer-collapseWidth{
+    padding-right: 290px;
 }
 
 a.fm-panel-controlArrowUpAndDown{
@@ -379,42 +374,11 @@ a.fm-panel-controlArrowUpAndDown>span{
     height: 10px;
 }
 
-div.fm-out-error a.fm-panel-controlArrowUpAndDown>span{
-    background: url("img/arrow-down.png") no-repeat;
-}
-.fm-out-error-sx{
-    width: 100%;
-    padding-right: 290px;
-    padding-top: 40px;
-    height: 0px;
-    position:absolute;
-    bottom: 0px;
-}
-.fm-out-error-sx a.fm-panel-controlArrowUpAndDown>span{
-    background: url("img/arrow-up.png") no-repeat;
-}
-.fm-out-error-xl{
-    width: 100%;
-    padding-right: 0px;
-    padding-top: 15px;
-    height: 250px;
-    position:absolute;
-    bottom: 0px;
-}
-.fm-out-error-xl a.fm-panel-controlArrowUpAndDown>span{
+div.fm-outputContainer-expandHeight a.fm-panel-controlArrowUpAndDown>span{
     background: url("img/arrow-down.png") no-repeat;
 }
 
-.fm-out-error-xl-sx{
-    width: 100%;
-    padding-right: 0px;
-    padding-top: 15px;
-    height: 15px;
-    position:absolute;
-    bottom: 0px;
-}
-
-div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
+div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
     background: url("img/arrow-up.png") no-repeat;
 }
 .fm-error-num-well{
@@ -744,4 +708,36 @@ div.fm-out-error-xl-sx a.fm-panel-controlArrowUpAndDown>span{
     color:#FFF;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+
+.customTooltip{
+    display: inline;
+    position: fixed;
+}
+
+.customTooltip:hover:after{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(title);
+    left: 20%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 98;
+    width: 220px;
+}
+
+.customTooltip:hover:before{
+    border: solid;
+    border-color: rgba(0,0,0,.8);
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
 }

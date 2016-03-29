@@ -267,7 +267,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 event.stopPropagation();
                 if ($scope.$parent.$parent.panelFlag) {
                     $scope.$parent.$parent.panelFlag = false;
-                    $scope.$parent.$parent.objectFlag = false;
                 }
                 if (!$scope.$parent.$parent.outErrorArr[3]) {
                     $scope.$parent.$parent.outErrorArr[0] = false;
@@ -458,7 +457,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     $scope.$parent.$parent.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
                                 });
                             } else {
-                                $scope.$parent.$parent.objectFlag = false;
                                 $scope.$parent.$parent.panelFlag = false;
                                 $scope.$parent.$parent.outErrorArr[3] = true;
                                 $scope.$parent.$parent.outErrorArr[1] = false;
@@ -528,7 +526,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
 
                     } else if (pItemId === "1801") {//挂接
-                        $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneHangingTepl.html";
                     } else if (pItemId === "1901") {//道路名
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19);
 
@@ -617,13 +614,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 } else {
                                     if ($scope.$parent.$parent.panelFlag) {
                                         $scope.$parent.$parent.panelFlag = false;
-                                        $scope.$parent.$parent.objectFlag = false;
                                     }
                                 }
                             } else {
                                 if ($scope.$parent.$parent.panelFlag) {
                                     $scope.$parent.$parent.panelFlag = false;
-                                    $scope.$parent.$parent.objectFlag = false;
                                 }
                             }
                         }

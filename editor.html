@@ -59,14 +59,14 @@
                 </div>
 
                 <div ng-class="{false:'fm-panel-sm',true:'fm-panel'}[panelFlag]" style="overflow: hidden;">
-                    <div ng-class="{true:'fm-panel-arrow',false:'fm-panel-arrow-jy'}[arrowFlag]" class="output-console" style="display: none">
+                    <div class="output-console fm-panel-arrow" style="display: none">
                         <a class="fm-panel-controlArrowLeftAndRight" ng-click="changeWidthOfPanel()" href="#"
                            style="position: absolute;top: 50%;margin-top: -20px;cursor: pointer;">
                             <span></span>
                         </a>
                     </div>
                     <div style="padding-left: 15px;height: 100%;">
-                        <div ng-include="attrTplContainer" class="scroll-styled" ng-class="{true:'fm-panel-object',false:'fm-panel-object-jz'}[objectFlag]">
+                        <div ng-include="attrTplContainer" class="scroll-styled fm-panel-object">
                         </div>
                         <div style="width: 290px;bottom: 0px;position:absolute;border-color: #e7e7e7;z-index:10 ">
                             <div id="fm-attrOption-btnGroup" class="btn-group btn-group-justified output-console" style="margin-top: 10px;display: none;" role="group" aria-label="...">
@@ -86,7 +86,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="output-console" ng-class="{'fm-out-error':outErrorArr[0],'fm-out-error-sx':outErrorArr[1],'fm-out-error-xl':outErrorArr[2],'fm-out-error-xl-sx':outErrorArr[3]}" style="overflow: hidden;display: none;">
+
+                <div class="output-console fm-outputContainer" ng-class="{'fm-outputContainer-expandHeight':outErrorArr[0],'fm-outputContainer-collapseHeight':outErrorArr[1],'fm-outputContainer-expandWidth':outErrorArr[2],'fm-outputContainer-collapseWidth':outErrorArr[3]}"  style="overflow: hidden;display: none;">
                     <div style="text-align: center;margin-top: -15px;width: 100%;cursor: pointer;height: 15px;">
                         <a class="fm-panel-controlArrowUpAndDown" ng-click="changeOutOrErrorStyle()"><span></span></a>
                     </div>

@@ -16,14 +16,13 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     $scope.clickFlag = true;
     $scope.excitLineArr = [];
 
-    if(! $scope.$parent.$parent.suspendFlag) {
-        $scope.$parent.$parent.suspendFlag = true;
-    }
 
-    $scope.$parent.$parent.subAttrTplContainer = "";
-    $ocLazyLoad.load('ctrl/connexityCtrl/addConnexityCtrl/directOfConnexityCtrl').then(function () {
-        $scope.$parent.$parent.subAttrTplContainer = "js/tepl/connexityTepl/addConnexityTepl/directOfConnexityTepl.html";
-    })
+    var changedDirectObj = {
+        "loadType":"subAttrTplContainer",
+        "propertyCtrl":'ctrl/connexityCtrl/addConnexityCtrl/directOfConnexityCtrl',
+        "propertyHtml":'js/tepl/connexityTepl/addConnexityTepl/directOfConnexityTepl.html'
+    };
+    $scope.$emit("transitCtrlAndTpl", changedDirectObj);
 
     //增加公交车道方向(单击)
     $scope.addTransitData=function(item,index) {

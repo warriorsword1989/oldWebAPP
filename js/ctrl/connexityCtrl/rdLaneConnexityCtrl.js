@@ -381,11 +381,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     $scope.lanesData["topos"][k]["busLaneInfo"] = $scope.lanesData["topos"][k]["inLaneInfo"];
                 }
             }
-            //$scope.$parent.$parent.subAttrTplContainer = "";
-            //$ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
-            //    $scope.$parent.$parent.subAttrTplContainer = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
-            //})
-
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
@@ -417,9 +412,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -462,7 +454,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             if (data.errcode == 0) {
                 rdConnexity.redraw();
                 $scope.rdCrossData = null;
-                $scope.$parent.$parent.attrTplContainer = "";
                 var sinfo = {
                     "op": "删除车信成功",
                     "type": "",

@@ -137,7 +137,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             if (data.errcode==0) {
                 rdcross.redraw();
                 $scope.rdCrossData = null;
-                $scope.$parent.$parent.attrTplContainer = "";
                 var sinfo={
                     "op":"删除RDCROSS成功",
                     "type":"",

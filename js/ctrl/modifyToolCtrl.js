@@ -17,7 +17,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
         event.stopPropagation();
         if($scope.$parent.$parent.panelFlag) {
             $scope.$parent.$parent.panelFlag = false;
-            $scope.$parent.$parent.objectFlag = false;
         }
         if(!$scope.$parent.$parent.outErrorArr[3]) {
             $scope.$parent.$parent.outErrorArr[0]=false;

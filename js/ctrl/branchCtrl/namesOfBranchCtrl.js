@@ -395,7 +395,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                     outPutCtrl.pushOutput(data.errmsg);
                     if($scope.$parent.$parent.panelFlag ) {
                         $scope.$parent.$parent.panelFlag = false;
-                        $scope.$parent.$parent.objectFlag = false;
                     }
                     $scope.$parent.$parent.attrTplContainer = "";
                     rdBranch.redraw();
