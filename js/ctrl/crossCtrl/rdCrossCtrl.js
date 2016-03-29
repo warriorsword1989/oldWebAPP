@@ -10,6 +10,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdcross = layerCtrl.getLayerById('rdcross');
     var eventController = fastmap.uikit.EventController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
         map: map,
         highLightFeature: "linksOfCross",
@@ -71,9 +72,9 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
-                if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+                if (selectCtrl.rowkey.rowkey) {
                     var stageParam = {
-                        "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                        "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,
                         "handler": 0
 
@@ -99,7 +100,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
-                        $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                        selectCtrl.rowkey.rowkey = undefined;
                     })
                 }
                 var sinfo={
