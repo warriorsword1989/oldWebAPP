@@ -69,13 +69,13 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
             map: map,
             highLightFeature: "restrict",
-            restrictId: $scope.rdRestrictData.pid,
+            restrictId: $scope.rdRestrictData.pid.toString(),
             initFlag: true
         });
 
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
-        //highLightLayer.pushHighLightLayers(highLightRestriction);
+        highLightLayer.pushHighLightLayers(highLightRestriction);
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
                 limitPicArr.push(v.timeDomain);
@@ -138,7 +138,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "propertyCtrl": 'ctrl/restrictionCtrl/addDirectOfRestrictionCtrl',
             "propertyHtml": 'js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", addObj);
+        $scope.$emit("transitCtrlAndTpl", addObj);
     };
 
     var towbin = dec2bin(6);
