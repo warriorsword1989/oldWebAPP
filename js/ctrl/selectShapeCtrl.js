@@ -14,7 +14,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
-    var editlayer = layerCtrl.getLayerById('edit');
+    var editLayer = layerCtrl.getLayerById('edit');
     $scope.toolTipText = "";
 
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
@@ -118,7 +118,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             map.currentTool = new fastmap.uikit.SelectRelation({map: map});
             map.currentTool.enable();
 
-            editlayer.bringToBack();
+            editLayer.bringToBack();
             $scope.toolTipText = '请选择关系！';
             eventController.on(eventController.eventTypes.GETRELATIONID, function (data) {
                 $scope.data = data;
@@ -269,7 +269,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                         if (selectCtrl.updateTipsCtrl !== "") {
                             selectCtrl.updateTipsCtrl();
                         }
-                        $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
                     })
                 }
             )

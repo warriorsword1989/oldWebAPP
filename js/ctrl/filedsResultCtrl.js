@@ -417,7 +417,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     if (data.rowkey === "undefined") {
                         return;
                     }
-                    $scope.$parent.$parent.rowkeyOfDataTips = data.rowkey;
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);

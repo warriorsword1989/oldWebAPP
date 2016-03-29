@@ -6,6 +6,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
+    var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
@@ -366,9 +367,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         });
-        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+        if (selectCtrl.rowkey.rowkey !== undefined) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
 
@@ -395,7 +396,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                selectCtrl.rowkey.rowkey  = undefined;
             })
         }
     };
@@ -435,9 +436,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         })
-        if ($scope.$parent.$parent.rowkeyOfDataTips) {
+        if (selectCtrl.rowkey.rowkey) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
 
@@ -465,8 +466,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
-                $scope.$parent.$parent.attrTplContainer = "";
+                selectCtrl.rowkey.rowkey = undefined;
             })
         }
     }
