@@ -428,27 +428,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     } else if (pItemId === "1302") {//交限
                         $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                     } else if (pItemId === "1407") {//高速分歧
-                        $ocLazyLoad.load('ctrl/sceneAllTipsCtrl').then(function () {
-                            $scope.$parent.$parent.tipsTplContainer = "js/tepl/sceneAllTipsTepl.html";
-                        });
-                        if (data.brId) {
-                            if (data.brId.length != 0) {
-                                var branchObj = {
-                                    "loadType":"subAttrTplContainer",
-                                    "propertyCtrl":'ctrl/branchCtrl/namesOfBranchCtrl',
-                                    "propertyHtml":'js/tepl/branchTepl/namesOfBranch.html'
-                                };
-                                $scope.$emit("transitCtrlAndTpl", branchObj);
-                            } else {
-                                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false})
-                            }
-                        } else {
-                            $timeout(function () {
-                                $.showPoiMsg('brId为空', e);
-                                $scope.$apply();
-                            });
-                            return;
-                        }
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "ctrl/branchCtrl/namesOfBranchCtrl", "js/tepl/branchTepl/namesOfBranch.html");
                     } else if (pItemId === "1510") {//桥1510
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",

@@ -191,7 +191,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                                 break;
                             case "1407"://分歧
-                                $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.pid, "ctrl/branchCtrl/namesOfBranchCtrl", "js/tepl/namesOfBranch.html");
+                                $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "ctrl/branchCtrl/namesOfBranchCtrl", "js/tepl/branchTepl/namesOfBranch.html");
                                 break;
                             case "1510"://桥
                                 var ctrlAndTmplOfBridge={
