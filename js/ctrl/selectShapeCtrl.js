@@ -156,7 +156,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             eventController.on(eventController.eventTypes.GETTIPSID, function (data) {
                     $scope.data = data;
                     $("#popoverTips").css("display", "block");
-                    Application.functions.getTipsResult($scope.data .id, function (data) {
+                    Application.functions.getTipsResult($scope.data.id, function (data) {
                         if (data.rowkey === "undefined") {
                             return;
                         }
