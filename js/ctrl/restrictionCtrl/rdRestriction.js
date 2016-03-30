@@ -208,6 +208,36 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         })
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
+
+        //显示时间
+        $timeout(function () {
+            $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+                $scope.dateURL = 'js/tepl/fmdateTimer.html';
+                $timeout(function(){
+                    if($scope.rdSubRestrictData["conditions"][0]) {
+                        $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
+                        $scope.$broadcast('set-code',$scope.rdSubRestrictData["conditions"][0].timeDomain);
+                        $scope.$apply();
+                    }
+                });
+            });
+        })
+        /*时间控件*/
+        $scope.fmdateTimer = function (str) {
+            $scope.$on('get-date', function (event, data) {
+                $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
+
+            });
+            $timeout(function () {
+                $scope.$broadcast('set-code', str);
+                if($scope.rdSubRestrictData["conditions"].length===0) {
+                    var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
+                    $scope.rdSubRestrictData["conditions"].push(condition);
+                }
+                $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
+                $scope.$apply();
+            }, 100);
+        }
     };
     //修改退出线
     $scope.changeOutLink = function (item) {
@@ -280,9 +310,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
             $timeout(function(){
-                $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
-                $scope.$broadcast('set-code',$scope.rdSubRestrictData["conditions"][0].timeDomain);
-                $scope.$apply();
+                if($scope.rdSubRestrictData["conditions"][0]) {
+                    $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
+                    $scope.$broadcast('set-code',$scope.rdSubRestrictData["conditions"][0].timeDomain);
+                    $scope.$apply();
+                }
             });
         });
     })
@@ -364,7 +396,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         });
-        if (selectCtrl.rowkey && selectCtrl.rowkey.rowkey !== undefined) {
+        if (selectCtrl.rowkey && selectCtrl.rowkey.rowkey) {
             var stageParam = {
                 "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,

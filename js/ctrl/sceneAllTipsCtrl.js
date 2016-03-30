@@ -195,6 +195,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
+                $scope.zoneRoadState = [
+                    {"type":0,"state":"不应用"},
+                    {"type":1,"state":"删除"},
+                    {"type":2,"state":"修改"},
+                    {"type":3,"state":"新增"},
+                ];
                 break;
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;

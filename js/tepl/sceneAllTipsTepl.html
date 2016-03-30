@@ -457,10 +457,10 @@
                         </div>
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">挂接号:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">属性状态:</label>
 
                             <div class="col-sm-7" style="padding: 4px">
-                                <span class="label "></span>
+                                <span class="label " ng-repeat="zoneState in zoneRoadState|filter:{'type':dataTipsData.t_command}" ng-bind="zoneState.state"></span>
                             </div>
                         </div>
                     </form>
