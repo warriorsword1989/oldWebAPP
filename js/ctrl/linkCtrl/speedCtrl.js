@@ -48,20 +48,22 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
     $scope.showOridinarySpeedInfo= function (item) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var oridinarySpeedObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/linkCtrl/infoOfOridinarySpeedCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoiOfOridinarySpeedTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", oridinarySpeedObj);
+        $scope.$emit("transitCtrlAndTpl", oridinarySpeedObj);
     }
 
     //条件限速
     $scope.showspeedlimitInfo= function (cItem) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
         var speedlimitInfoObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/linkCtrl/infoOfConditionSpeedCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", speedlimitInfoObj);
+        $scope.$emit("transitCtrlAndTpl", speedlimitInfoObj);
     }
 
 

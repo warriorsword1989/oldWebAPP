@@ -45,19 +45,21 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeo
     $scope.showRticsInfo= function (item) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showRticsInfoObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/linkCtrl/infoOfRealTimeRticsCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoOfRealTimeRticsTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showRticsInfoObj);
+        $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
     }
 
     $scope.showCarInfo= function (cItem) {
         $scope.linkData["oridiRowId"] = cItem.rowId;
         var showCarInfoObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/linkCtrl/infoOfRealTimeCarCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoOfRealTimeCarTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showCarInfoObj);
+        $scope.$emit("transitCtrlAndTpl", showCarInfoObj);
     }
 
 

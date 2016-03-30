@@ -83,18 +83,20 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
     $scope.showOrdinaryInfo=function(item) {
         $scope.linkData["oridiRowId"] = item.rowId;
         var showOrdinaryObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/infoOforidinaryLimitCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/infoOforidinaryLimitTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showOrdinaryObj);
+        $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
     };
     $scope.showTrcukInfo=function(item) {
         $scope.linkData["truckRowId"] = item.rowId;
         var showTrcukObj={
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/linkCtrl/infoTruckLimitCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/infoOftruckLimitTepl.html'
         }
-        $scope.$emit("transitJsAndCtrl", showTrcukObj);
+        $scope.$emit("transitCtrlAndTpl", showTrcukObj);
     };
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {

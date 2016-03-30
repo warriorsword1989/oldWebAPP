@@ -26,7 +26,6 @@ fastmap.uikit.SelectController=(function() {
                 L.setOptions(this, options);
                 this.selectedFeatures = null;
                 this.updateTipsCtrl = "";
-                this.updateKindTips = "";
                 this.snapObj= null;
                 var eventController = fastmap.uikit.EventController();
                 eventController.on(eventController.eventTypes.SELECTBYATTRIBUTE, this.OnSelectByAttribute,this);

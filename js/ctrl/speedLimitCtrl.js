@@ -152,7 +152,6 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             speedLimit.redraw();
             $scope.speedLimitData = null;
             $scope.speedLimitGeometryData = null;
-            $scope.$parent.$parent.objectEditURL = "";
             var info = null;
             if (data.errcode == 0) {
                 var sinfo = {

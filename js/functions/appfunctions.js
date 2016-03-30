@@ -141,13 +141,6 @@ Application.functions.getNamePronunciation=function(param,func) {
         });
 };
 
-Application.functions.getLinksbyNodeId = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByCondition?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-}
-
 /***
  * 保存node移动
  * @param param

@@ -449,15 +449,18 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (divergeObj) {
                             var that = this;
                             for(var key in divergeObj){
-                                var newStyle = {src:'./css/divergence/' + divergeObj[key].type + '.png'};
-                                var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                that._drawImg( {
-                                    ctx:ctx,
-                                    geo:[feature.geometry.coordinates[0][0],feature.geometry.coordinates[1][0]],
-                                    style:newStyle,
-                                    boolPixelCrs:boolPixelCrs,
-                                    rotate:divergeRoute
-                                });
+                                /*之所以判断由于目前没有1.svg和2.svg*/
+                                if(divergeObj[key].type == 0){
+                                    var newStyle = {src:'./css/divergence/' + divergeObj[key].type + '.svg'};
+                                    var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
+                                    that._drawImg( {
+                                        ctx:ctx,
+                                        geo:[feature.geometry.coordinates[0][0],feature.geometry.coordinates[1][0]],
+                                        style:newStyle,
+                                        boolPixelCrs:boolPixelCrs,
+                                        rotate:divergeRoute
+                                    });
+                                }
                             }
                         }
                     } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标
@@ -506,8 +509,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             drawx:5
 
                         })
-
-
                     } else if (this.options.type === 'rdCrossPoint') {
                         var masterImg = {src: './css/rdcross/11.png'},
                             followImg = {src: './css/rdcross/111.png'};

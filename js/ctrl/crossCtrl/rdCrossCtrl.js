@@ -10,6 +10,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdcross = layerCtrl.getLayerById('rdcross');
     var eventController = fastmap.uikit.EventController();
+    var selectCtrl = fastmap.uikit.SelectController();
     var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
         map: map,
         highLightFeature: "linksOfCross",
@@ -35,18 +36,17 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         })
     };
     $scope.showCrossNames=function(nameItem) {
-        if(! $scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
-        $scope.$parent.$parent.suspendObjURL = "";
+        var crossNamesObj = {
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl":'ctrl/crossCtrl/namesOfCrossCtrl',
+            "propertyHtml":'js/tepl/crossTepl/namesOfCross.html'
+        };
+        $scope.$emit("transitCtrlAndTpl", crossNamesObj);
         $scope.rdCrossData["oridiRowId"]=nameItem.rowId;
-        $ocLazyLoad.load('ctrl/crossCtrl/namesOfCrossCtrl').then(function () {
-            $scope.$parent.$parent.suspendObjURL = "js/tepl/crossTepl/namesOfCross.html";
-        })
     };
 
     $scope.addRdCrossName = function () {
-        var newName = fastmap.dataApi.rdcrossname({"linkPid": $scope.rdCrossData.pid});
+        var newName = fastmap.dataApi.rdcrossname({"linkPid": $scope.rdCrossData.pid,"name":"路口名"});
         $scope.rdCrossData.names.unshift(newName)
     };
 
@@ -72,9 +72,9 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
-                if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+                if (selectCtrl.rowkey.rowkey) {
                     var stageParam = {
-                        "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                        "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,
                         "handler": 0
 
@@ -100,7 +100,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                         if (outPutCtrl.updateOutPuts !== "") {
                             outPutCtrl.updateOutPuts();
                         }
-                        $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                        selectCtrl.rowkey.rowkey = undefined;
                     })
                 }
                 var sinfo={
@@ -138,7 +138,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             if (data.errcode==0) {
                 rdcross.redraw();
                 $scope.rdCrossData = null;
-                $scope.$parent.$parent.objectEditURL = "";
                 var sinfo={
                     "op":"删除RDCROSS成功",
                     "type":"",

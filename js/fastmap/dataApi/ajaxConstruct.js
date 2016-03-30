@@ -3,7 +3,7 @@
  * Class ajaxConstruct
  */
 fastmap.dataApi.ajaxConstruct = function (url, func) {
-    var eventController = fastmap.uikit.EventController();
+
     if (document.getElementById) {
         var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
         if (window.XDomainRequest) {
@@ -17,8 +17,9 @@ fastmap.dataApi.ajaxConstruct = function (url, func) {
                 var d = 0;
                 var el;
                 if (x.xdomain || x.status == 200) {
-                    if(url.match(/\/edit\?$/).length >0){
-                        eventController.fire('editAjaxCompleted');
+                    if(url.match(/\/edit\?/)!=null && url.match(/\/edit\?/).length >0){
+                        var eventController = fastmap.uikit.EventController();
+                        eventController.fire('editAjaxCompleted',{});
                     }
                     if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
                         if (window.JSON) {

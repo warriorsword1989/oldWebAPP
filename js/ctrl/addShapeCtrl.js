@@ -76,22 +76,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         }
         $scope.addShape = function (type, num, event) {
 
-            if (event)
+            if (event) {
                 event.stopPropagation();
-            if($scope.$parent.$parent.panelFlag) {
-                $scope.$parent.$parent.panelFlag = false;
-                $scope.$parent.$parent.objectFlag = false;
             }
-            if(!$scope.$parent.$parent.outErrorArr[3]) {
-                $scope.$parent.$parent.outErrorArr[0]=false;
-                $scope.$parent.$parent.outErrorArr[1]=false;
-                $scope.$parent.$parent.outErrorArr[2]=false;
-                $scope.$parent.$parent.outErrorArr[3]=true;
-                $scope.$parent.$parent.outErrorUrlFlag = false;
-            }
-            if($scope.$parent.$parent.suspendFlag) {
-                $scope.$parent.$parent.suspendFlag = false;
-            }
+            $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
             $("#popoverTips").hide();
             $scope.initCurrentTool();
             editlayer.clear();
@@ -307,21 +295,19 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                if(! $scope.$parent.$parent.panelFlag ) {
-                    $scope.$parent.$parent.panelFlag = true;
-                    $scope.$parent.$parent.objectFlag = true;
-                }
+                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":true})
                 var obj = {};
                 obj["showTransitData"]=[]
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
-                $scope.$parent.$parent.objectEditURL = "";
                 objCtrl.setOriginalData(obj);
-                $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
-                    $scope.$parent.$parent.objectEditURL = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
-
-                });
+                var addLaneObj = {
+                    "loadType":"attrTplContainer",
+                    "propertyCtrl": 'ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl',
+                    "propertyHtml": 'js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html'
+                }
+                $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "node") {
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {

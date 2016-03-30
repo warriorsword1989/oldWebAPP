@@ -22,6 +22,7 @@ fastmap.uikit.CheckResultController=(function() {
              * @param {Object}options
              */
             initialize: function (options) {
+               this.eventController = fastmap.uikit.EventController();
                 this.options = options || {};
                 L.setOptions(this, options);
                 this.updateCheck = "";
@@ -45,6 +46,7 @@ fastmap.uikit.CheckResultController=(function() {
                  * @param obj
                  */
             setCheckResult:function(obj) {
+                this.eventController.fire(this.eventController.eventTypes.CHEKCRESULT, {errorCheckData:obj },this);
                 this.errorCheckData = obj;
             },
             /***

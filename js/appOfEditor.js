@@ -7,81 +7,75 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     var eventController = fastmap.uikit.EventController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
-    dragF('toolsDiv');
-    $scope.dataTipsURL = "";//左上角弹出框的ng-include地址
-    $scope.objectEditURL = "";//属性栏的ng-include地址
-    $scope.suspendObjURL = "";
+    var output = fastmap.uikit.OutPutController();
+    $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
+    $scope.attrTplContainer = "";//属性栏的ng-include地址
+    $scope.subAttrTplContainer = "";
+    $scope.errorCheckTab = "";//检查刷新ng-include地址
     $scope.save = function () {
-        if ($scope.suspendFlag) {
-            $scope.suspendFlag = false;
-        }
-        eventController.fire(eventController.eventTypes.SAVEPROPERTY, {"data": "test"})
+        $scope.subAttrTplContainerSwitch(false);
+        eventController.fire(eventController.eventTypes.SAVEPROPERTY)
     };//保存方法
     $scope.delete = function () {
         //删除后清除高亮并赋给默认模版
-        swal({"title":"操作确认","text":"是否要删除当前要素?","showCancelButton":true,"cancelButtonText":"取消","confirmButtonText":"确定"},function () {
+        swal({
+            "title": "操作确认",
+            "text": "是否要删除当前要素?",
+            "showCancelButton": true,
+            "cancelButtonText": "取消",
+            "confirmButtonText": "确定"
+        }, function () {
             $scope.panelFlag = false;
-            $scope.objectFlag = false;
-            $scope.objectEditURL =  'js/tepl/blankTepl.html';
-            if ($scope.suspendFlag) {
-                $scope.suspendFlag = false;
-            }
+            $scope.attrTplContainerSwitch(false);
+            $scope.subAttrTplContainerSwitch(false);
+            $scope.attrTplContainer = 'js/tepl/blankTepl.html';
             objectCtrl.setOriginalData(null);
             highLightLayer.removeHighLightLayers();
-            eventController.fire(eventController.eventTypes.DELETEPROPERTY, {"data": "test"})
-        },data.errmsg, "error");
+            eventController.fire(eventController.eventTypes.DELETEPROPERTY)
+        }, data.errmsg, "error");
 
     };//删除方法
     $scope.cancel = function () {
-        $scope.panelFlag = false;
-        $scope.objectFlag = false;
-        $scope.objectEditURL = "";
-        eventController.fire(eventController.eventTypes.CANCELEVENT, {"data": "test"})
+        $scope.attrTplContainer = "";
+        eventController.fire(eventController.eventTypes.CANCELEVENT)
     };//取消
 
     //响应选择要素类型变化事件
-    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE, function(){
-        if(eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
-            for(var i= 0,len=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;i<len;i++) {
+    eventController.on(eventController.eventTypes.SELECTEDFEATURETYPECHANGE, function () {
+        if (eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY]) {
+            for (var i = 0, len = eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length; i < len; i++) {
                 eventController.off(eventController.eventTypes.SAVEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY][i]);
             }
         }
-        if(eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
-            for(var j= 0,lenJ=eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length;j<lenJ;j++) {
+        if (eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY]) {
+            for (var j = 0, lenJ = eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY].length; j < lenJ; j++) {
                 eventController.off(eventController.eventTypes.DELETEPROPERTY, eventController.eventTypesMap[eventController.eventTypes.DELETEPROPERTY][j]);
             }
         }
-        if(eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
-            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length;k<lenK;k++) {
+        if (eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT]) {
+            for (var k = 0, lenK = eventController.eventTypesMap[eventController.eventTypes.SAVEPROPERTY].length; k < lenK; k++) {
                 eventController.off(eventController.eventTypes.CANCELEVENT, eventController.eventTypesMap[eventController.eventTypes.CANCELEVENT][k]);
             }
         }
 
-        if(eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE]) {
-            for(var k= 0,lenK=eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE].length;k<lenK;k++) {
+        if (eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE]) {
+            for (var k = 0, lenK = eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE].length; k < lenK; k++) {
                 eventController.off(eventController.eventTypes.SELECTEDFEATURECHANGE, eventController.eventTypesMap[eventController.eventTypes.SELECTEDFEATURECHANGE][k]);
             }
         }
 
+        //如果选择的要素类型发生变化，需要把属性框弹出来
         if (!$scope.panelFlag) {
-            $scope.panelFlag = true;
-            $scope.objectFlag = true;
-            $scope.outErrorArr[3] = false;
-            $scope.outErrorArr[1] = true;
+            $scope.attrTplContainerSwitch(true);
         }
     });
 
     $scope.rowkeyOfDataTips = "";
-    $scope.updateDataTips = "";
-    $scope.outFlag = false;//是否可监听
-    $scope.toolsFlag = true;
     $scope.panelFlag = false;//panelFlag属性面板状态
-    $scope.outErrorArr = [false, false, false, true];
-    $scope.arrowFlag = true;//属性面板折叠按钮状态
-    $scope.objectFlag = false;
+    $scope.outErrorArr = [false, true, true, false];//输出框样式控制
+    $scope.suspendFlag = false;//次属性框显隐控制
     $scope.outErrorUrlFlag = false;
-    $scope.dataTipsURLFlag = true;//点击tips列表 判断右侧属性栏是否弹出
-    $scope.suspendFlag = false;
+    $scope.tipsTplContainerFlag = true;//点击tips列表 判断右侧属性栏是否弹出
     $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
     $scope.changeBtnClass = function (id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
@@ -101,38 +95,14 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             });
         }
 
-        $scope.suspendFlag = false;
+        $scope.subAttrTplContainerSwitch(false);
     };
     //登录时
     keyEvent($ocLazyLoad, $scope);
-    $scope.zoom = [];
     $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
         $scope.outputTab = 'js/tepl/outputTepl.html';
         appInit();
-        for (var i = map.getMinZoom(); i <= map.getMaxZoom(); i++) {
-            $scope.zoom.push(i);
-        }
-        $scope.removeZoomClass = function () {
-            $.each($(".zoom-btn"), function (m, n) {
-                $(n).prop('disabled', false).removeClass('btn-primary');
-            })
-        }
-        $scope.changeZoom = function (i, e) {
-            $scope.removeZoomClass();
-            map.setZoom(i);
-            $('#nowZoom').text(i);
-            $(e.target).prop('disabled', true).addClass('btn-primary');
-        }
-        $('#nowZoom').text(map.getZoom());
-        /*当比例尺改变时*/
-        map.on('zoomend', function () {
-            $('#nowZoom').text(map.getZoom());
-            $scope.removeZoomClass();
-            $(".zoom-btn[data-zoom-size=" + map.getZoom() + "]").prop('disabled', true).addClass('btn-primary');
-        })
-        $scope.disZoom = map.getZoom();
         $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-
                 $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
                         $scope.modifyToolURL = 'js/tepl/modifyToolTepl.html';
@@ -142,7 +112,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                 $ocLazyLoad.load('ctrl/addShapeCtrl').then(function () {
                                     $scope.addShapeURL = 'js/tepl/addShapeTepl.html';
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
-                                        $scope.objectEditURL = 'js/tepl/blankTepl.html';
+                                        $scope.attrTplContainer = 'js/tepl/blankTepl.html';
                                         $scope.showLoading = false;
                                         $(".output-console").fadeIn();
                                         $('#fm-leftContainer').fadeIn();
@@ -156,7 +126,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             }
         );
     });
-    var output = fastmap.uikit.OutPutController();
     $scope.itemsByPage = 1;
     $scope.checkTotalPage = 0;
     $scope.checkTotal = 0;
@@ -172,6 +141,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#fm-outPut-inspectDiv").show();
             $("#fm-error-wrongDiv").hide();
             $scope.rowCollection = [];
+
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
@@ -183,58 +153,17 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#errorClear").hide();
             $("#immediatelyCheck").show();
             $("#fm-outPut-inspectDiv").hide();
-            $("#fm-error-checkErrorLi").hide();
             $("#fm-error-wrongDiv").show();
-            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
-                }
-            );
-
-
-        } else if (tab === "getCheck") {
             $("#fm-error-checkErrorLi").show();
-            //if( $scope.itemsByPage==1){
-            $scope.rowCollection = [];
-            $scope.itemsByPage = 1;
-            $scope.getCheckDateAndCount();
-            //}
-            $("#fm-error-wrongDiv").show();
-            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
-                }
-            );
+            $ocLazyLoad.load('ctrl/errorPageCtrl').then(function () {
+                $scope.errorCheckPage = 'js/tepl/errorPageTepl.html'
+            });
 
 
         }
+
     };
-    $scope.getCheckDate = function () {
-        var param = {
-            "projectId": Application.projectid,
-            "pageNum": $scope.itemsByPage,
-            "pageSize": 5,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
-            if (data.errcode == 0) {
-                $scope.rowCollection = data.data;
-                $scope.goPaging();
-                $scope.$apply();
-            }
-        });
-    }
-    $scope.getCheckDateAndCount = function () {
-        var paramsOfCounts = {
-            "projectId": Application.projectid,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
-            if (data.errcode == 0) {
-                $scope.checkTotalPage = Math.ceil(data.data / 5);
-                $scope.checkTotal = data.data;
-            }
-        });
-        $scope.getCheckDate();
-    }
+
     $scope.isTipsPanel = 1;
 //改变左侧栏中的显示内容
     $scope.changeLeftDisplay = function (id) {
@@ -257,40 +186,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
     };
 
-
-
-    /*箭头图代码点击下一页*/
-    $scope.picNext = function () {
-        $scope.itemsByPage += 1;
-        $scope.getCheckDate();
-    }
-    /*箭头图代码点击上一页*/
-    $scope.picPre = function () {
-        $scope.itemsByPage -= 1;
-        $scope.getCheckDate();
-    }
-
-    /*点击翻页*/
-    $scope.goPaging = function () {
-        if ($scope.itemsByPage == 1) {
-            if ($scope.checkTotalPage == 0 || $scope.checkTotalPage == 1) {
-                $(".pic-next").prop('disabled', 'disabled');
-            } else {
-                $(".pic-next").prop('disabled', false);
-            }
-            $(".pic-pre").prop('disabled', 'disabled');
-        } else {
-            if ($scope.checkTotalPage - $scope.itemsByPage == 0) {
-                $(".pic-next").prop('disabled', 'disabled');
-            } else {
-                $(".pic-next").prop('disabled', false);
-            }
-            $(".pic-pre").prop('disabled', false);
-        }
-        $scope.$apply();
-    }
-
-
     $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();
         output.clear();
@@ -298,79 +193,85 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             output.updateOutPuts();
         }
     };
-    $scope.showOrHide = function () {
-        var modifyToolsDiv = $("#modifyToolsDiv");
-        if ($scope.toolsFlag) {
-
-            modifyToolsDiv.animate({width: '400px', opacity: '0.8'}, "slow");
-            modifyToolsDiv.css("display", "block");
-        } else {
-
-            modifyToolsDiv.animate({width: '0px', opacity: '0.8'}, "slow");
-            modifyToolsDiv.css("display", "none");
-        }
-        $scope.toolsFlag = !$scope.toolsFlag;
-    }
     //改变右侧的宽度
     $scope.changeWidthOfPanel = function () {
         $scope.panelFlag = !$scope.panelFlag;
-        $scope.arrowFlag = !$scope.arrowFlag;
-        $scope.objectFlag = !$scope.objectFlag;
         if ($scope.panelFlag) {
-            if ($scope.outErrorArr[2]) {
-                $scope.outErrorArr[2] = false;
-                $scope.outErrorArr[0] = true;
-            }
-            if ($scope.outErrorArr[3]) {
-                $scope.outErrorArr[3] = false;
-                $scope.outErrorArr[1] = true;
-            }
+            $scope.outErrorArr[3] = true;
+            $scope.outErrorArr[2] = false;
         }
         else {
-            if ($scope.outErrorArr[1]) {
-                $scope.outErrorArr[3] = true;
-                $scope.outErrorArr[1] = false;
-            }
-            if ($scope.outErrorArr[0]) {
-                $scope.outErrorArr[2] = true;
-                $scope.outErrorArr[0] = false;
-            }
+            $scope.outErrorArr[2] = true;
+            $scope.outErrorArr[3] = false;
         }
     };
     $scope.changeOutOrErrorStyle = function () {
-
-        if ($scope.outErrorArr[0] === true || $scope.outErrorArr[1] === true) {
-            $scope.outErrorArr[0] = !$scope.outErrorArr[0];
-            $scope.outErrorArr[1] = !$scope.outErrorArr[1];
-        } else if ($scope.outErrorArr[2] === true) {
-            $scope.outErrorArr[2] = !$scope.outErrorArr[2];
-            $scope.outErrorArr[3] = !$scope.outErrorArr[3];
-        } else if ($scope.outErrorArr[3] === true) {
-            if ($scope.panelFlag) {
-                $scope.outErrorArr[3] = false;
-                $scope.outErrorArr[2] = false;
-                $scope.outErrorArr[0] = true;
-            } else {
-                $scope.outErrorArr[2] = !$scope.outErrorArr[2];
-                $scope.outErrorArr[3] = !$scope.outErrorArr[3];
-            }
-
-        }
+        $scope.outErrorArr[0] = !$scope.outErrorArr[0];
+        $scope.outErrorArr[1] = !$scope.outErrorArr[0];
         $scope.outErrorUrlFlag = !$scope.outErrorUrlFlag;
     };
-    $scope.controlProperty=function(event,data) {
-        if(!$scope.suspendFlag) {
-            $scope.suspendFlag = true;
+
+    //属性栏开关逻辑控制
+    $scope.attrTplContainerSwitch = function (flag) {
+        $scope.panelFlag = flag;
+        $scope.objectFlag = flag;
+        if ($scope.panelFlag) {
+            $scope.outErrorArr[3] = true;
+            $scope.outErrorArr[2] = false;
         }
-        $scope.suspendObjURL = "";
+        else {
+            $scope.outErrorArr[2] = true;
+            $scope.outErrorArr[3] = false;
+        }
+    }
+
+    //次属性开关逻辑控制
+    $scope.subAttrTplContainerSwitch = function (flag) {
+        $scope.suspendFlag = flag;
+    }
+
+    //output开关逻辑控制
+    $scope.outputContainerSwitch = function (flag) {
+        $scope.outErrorArr[0] = flag;
+        $scope.outErrorArr[1] = !$scope.outErrorArr[0];
+    }
+
+    //tips开关逻辑控制
+    $scope.tipsTplContainerSwitch = function (flag) {
+
+    }
+
+    $scope.controlProperty = function (event, data) {
+        if (data["loadType"] === "subAttrTplContainer") {
+            $scope.subAttrTplContainerSwitch(true);
+            $scope.subAttrTplContainer = "";
+        } else if (data["loadType"] === "attrTplContainer") {
+            if (!$scope.panelFlag) {
+                $scope.attrTplContainerSwitch(true);
+            }
+        } else if (data["loadType"] === "tipsTplContainer") {
+
+        }
+
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
-            $scope.suspendObjURL = data["propertyHtml"];
+            $scope[data["loadType"]] = data["propertyHtml"];
+            if (data["callback"]) {
+                data["callback"]();
+            }
         })
     };
-    $scope.$on("transitJsAndCtrl",$scope.controlProperty)
+    $scope.$on("transitCtrlAndTpl", $scope.controlProperty);
+    $scope.$on("SWITCHCONTAINERSTATE", function (event, data) {
+        if (data.hasOwnProperty("attrContainerTpl")) {
+            $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+        } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+            $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+        }
+    });
 
 }]);
 
+var map = null;
 function appInit() {
     map = L.map('map', {
         attributionControl: false,
@@ -400,71 +301,5 @@ function appInit() {
     }
 }
 
-var map = null;
-function dragF(id) {
-    var $dragDiv = $('#' + id),
-        $parentDiv = $('#map');
-    var $drag = $dragDiv.find('button');
-    $drag.on({
-        mousedown: function (e) {
-            e.preventDefault();
-            var t = $dragDiv.offset(),
-                o = e.pageX - t.left,
-                i = e.pageY - t.top;
-            var df = e.target.id;
-            if (df !== "map") {
-                $dragDiv.on("mousemove.drag", function (e) {
-                    map.dragging.disable();
-                    e.stopPropagation();
-                    var sunTop = e.pageY - i,
-                        sunLeft = e.pageX - o;
-                    if (sunTop > $parentDiv.offset().top && sunTop + $dragDiv.height() < $parentDiv.offset().top + $parentDiv.height() && sunLeft > $parentDiv.offset().left && sunLeft + $dragDiv.width() < $parentDiv.offset().left + $parentDiv.width()) {
-                        $dragDiv.offset({
-                            top: e.pageY - i,
-                            left: e.pageX - o
-                        })
-                    }
-                })
-            }
-        },
-        mouseup: function () {
-            map.dragging.enable();
-            $dragDiv.unbind("mousemove.drag");
-        }
-    });
-}
-function dragF1(id, pId) {
-    var $dragDiv = $('#' + id),
-        $parentDiv = $('#' + pId);
-    var $drag = $dragDiv.find('div');
-    $drag.on({
-        mousedown: function (e) {
-            e.preventDefault();
-
-            var t = $dragDiv.offset(),
-                o = e.pageX - t.left,
-                i = e.pageY - t.top;
-            var df = e.target.id;
-            if (df !== "pId") {
-                $dragDiv.on("mousemove.drag", function (e) {
-                    map.dragging.disable();
-                    e.stopPropagation();
-                    var sunTop = e.pageY - i,
-                        sunLeft = e.pageX - o;
-                    if (sunTop > $parentDiv.offset().top && sunTop + $dragDiv.height() < $parentDiv.offset().top + $parentDiv.height() && sunLeft > $parentDiv.offset().left && sunLeft + $dragDiv.width() < $parentDiv.offset().left + $parentDiv.width()) {
-                        $dragDiv.offset({
-                            top: e.pageY - i,
-                            left: e.pageX - o
-                        })
-                    }
-                })
-            }
-        },
-        mouseup: function () {
-            map.dragging.enable();
-            $dragDiv.unbind("mousemove.drag");
-        }
-    });
-}
 
 

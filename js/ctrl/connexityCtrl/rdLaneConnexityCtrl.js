@@ -188,10 +188,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.selectNum = index;
             $scope.changeItem = item;
             var changedDirectObj = {
+                "loadType":"subAttrTplContainer",
                 "propertyCtrl":'ctrl/connexityCtrl/changeDirectOfConnexityCtrl',
                 "propertyHtml":'js/tepl/connexityTepl/changeDirectOfConnexityTepl.html'
             };
-            $scope.$emit("transitJsAndCtrl", changedDirectObj);
+            $scope.$emit("transitCtrlAndTpl", changedDirectObj);
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
                     map: map,
@@ -249,10 +250,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
         $scope.lanesData["index"] = index;
         var showInfoObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/connexityCtrl/showInfoOfConnexityCtrl',
             "propertyHtml":'js/tepl/connexityTepl/showInfoConnexityTepl.html'
         };
-        $scope.$emit("transitJsAndCtrl", showInfoObj);
+        $scope.$emit("transitCtrlAndTpl", showInfoObj);
     };
     //增加车道
     $scope.addLane = function () {
@@ -266,10 +268,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.changeFlag = false;
         $scope.showInfoFlag = false;
         var addDirectObj = {
+            "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/connexityCtrl/addDirectOfConnexityCtrl',
             "propertyHtml":'js/tepl/connexityTepl/addDirectOfConnexityTepl.html'
         };
-        $scope.$emit("transitJsAndCtrl", addDirectObj);
+        $scope.$emit("transitCtrlAndTpl", addDirectObj);
         layerCtrl.pushLayerFront('edit');
         map.currentTool = new fastmap.uikit.SelectPath(
             {
@@ -360,10 +363,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             $scope.lanesData["selectNum"] = index;
             $scope.lanesData["transitFlag"] = true;
             var changedTransitObj = {
+                "loadType":"subAttrTplContainer",
                 "propertyCtrl":'ctrl/connexityCtrl/changeDirectOfConnexityCtrl',
                 "propertyHtml":'js/tepl/connexityTepl/changeDirectOfConnexityTepl.html'
             };
-            $scope.$emit("transitJsAndCtrl", changedTransitObj);
+            $scope.$emit("transitCtrlAndTpl", changedTransitObj);
         }
 
     };
@@ -388,11 +392,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     $scope.lanesData["topos"][k]["busLaneInfo"] = $scope.lanesData["topos"][k]["inLaneInfo"];
                 }
             }
-            //$scope.$parent.$parent.suspendObjURL = "";
-            //$ocLazyLoad.load('ctrl/connexityCtrl/showInfoOfConnexityCtrl').then(function () {
-            //    $scope.$parent.$parent.suspendObjURL = "js/tepl/connexityTepl/showInfoConnexityTepl.html";
-            //})
-
             $scope.$apply();
         } else if (event.keyCode === 17) {//ctrl键 附加车道
             if ($scope.selectNum === 0 || $scope.selectNum === ($scope.lanesArr.length - 1)) {
@@ -424,9 +423,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -469,7 +465,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             if (data.errcode == 0) {
                 rdConnexity.redraw();
                 $scope.rdCrossData = null;
-                $scope.$parent.$parent.objectEditURL = "";
                 var sinfo = {
                     "op": "删除车信成功",
                     "type": "",

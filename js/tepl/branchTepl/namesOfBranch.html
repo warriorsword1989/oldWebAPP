@@ -230,6 +230,9 @@
         width: 100%;
         text-align: center;
     }
+    .show-val{
+        color: #fff;
+    }
 </style>
 <div id="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
    <!--<div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;color: #fff;">-->
@@ -320,7 +323,7 @@
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-bind="diverObj.details[0].patternCode"></div>
+                    <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
                 </div> 
             </div>
             <div class="d-group">

@@ -56,8 +56,9 @@ fastmap.uikit.ToolTipsController=(function() {
             },
             onMoveTooltip:function(event){
                 this.toolsdiv.style.display = "block";
-                this.toolsdiv.style.marginLeft = event.originalEvent.clientX-10+ 'px';
-                this.toolsdiv.style.marginTop = event.originalEvent.clientY +20+ 'px';
+                this.toolsdiv.style.backgroundColor = "red";
+                this.toolsdiv.style.marginLeft = event.originalEvent.clientX+10+ 'px';
+                this.toolsdiv.style.marginTop = event.originalEvent.clientY -10+ 'px';
                 this.toolsdiv.style.position = "fixed";
                 this._map.on('click', this.onClickTooltip,this);
                 this._map.on('mouseout', this.onMoveOutTooltip,this);
@@ -95,6 +96,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 var tools=L.DomUtil.get(this._divid);
                 this._map.on('mousemove', this.onMoveTooltip,this);
                 tools.style.display = 'block';
+                tools.style.backgroundColor = "red";
                 tools.innerHTML=tooltip;
                 this.toolsdiv=tools;
                 this.orginStyle=tools.style.cssText;

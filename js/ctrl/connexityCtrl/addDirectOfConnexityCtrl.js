@@ -180,9 +180,7 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
         }
 
         objCtrl.rdLaneObject(false);
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
-        }
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
     };
     $scope.selectLaneInfo = function (item, index) {
         $scope.item = item;
