@@ -31,7 +31,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
            "propertyCtrl": 'ctrl/linkCtrl/infoOfSidewalkCtrl',
            "propertyHtml": 'js/tepl/linkObjTepl/infoOfsidewalkTepl.html'
        }
-       $scope.$emit("transitCtrlAndTmpl", showSidewalkObj);
+       $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
   };
    $scope.showWalkstair=function(walkstairItem) {
        $scope.linkData["oridiRowId"] = walkstairItem.rowId;
@@ -40,7 +40,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
            "propertyCtrl": 'ctrl/linkCtrl/infoOfWalkstairCtrl',
            "propertyHtml": 'js/tepl/linkObjTepl/infoOfWalkstairTepl.html'
        }
-       $scope.$emit("transitCtrlAndTmpl", showSidewalkObj);
+       $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
    };
 
     $scope.minusSidewalk=function(id) {

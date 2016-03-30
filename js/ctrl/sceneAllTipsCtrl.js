@@ -11,6 +11,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var workPoint = layerCtrl.getLayerById("workPoint");
+    $scope.eventController = fastmap.uikit.EventController();
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -25,10 +26,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
 
     //初始化DataTips相关数据
-    $scope.initializeDataTips = function () {
+    $scope.initializeDataTips = function (data) {
         $scope.photoTipsData = [];
         $scope.photos = [];
-        $scope.dataTipsData = selectCtrl.rowKey;
+        $scope.dataTipsData = data;//selectCtrl.rowKey;
+        $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
         var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
             map: map,
@@ -135,7 +137,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1301"://车信
                 $scope.oarrayData = $scope.dataTipsData.o_array;
                 for (var i in $scope.oarrayData) {
-                    //.d_array[$index].out[$index].id
                     for (var j in $scope.oarrayData[i].d_array) {
                         for (var m in $scope.oarrayData[i].d_array[j].out) {
                             $scope.outIdS.push({id: $scope.oarrayData[i].d_array[j].out[m].id});
@@ -145,6 +146,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1302":
                 //高亮
+                $scope.restrictOutLinks = [];
                 var detailsOfHigh = $scope.dataTipsData.o_array, linksObj = {};
                 linksObj["inLink"] = $scope.dataTipsData.in.id;
                 for (var hiNum = 0, hiLen = detailsOfHigh.length; hiNum < hiLen; hiNum++) {
@@ -153,7 +155,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
 
                             linksObj["outLink" + outNum] = outLinksOfHigh[outNum].id;
-
+                            $scope.restrictOutLinks.push(outLinksOfHigh[outNum].id);
                         }
                     }
 
@@ -193,6 +195,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
+                $scope.zoneRoadState = [
+                    {"type":0,"state":"不应用"},
+                    {"type":1,"state":"删除"},
+                    {"type":2,"state":"修改"},
+                    {"type":3,"state":"新增"},
+                ];
                 break;
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
@@ -295,10 +303,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     };
     if (selectCtrl.rowKey) {
         //dataTips的初始化数据
-        $scope.initializeDataTips();
+        $scope.initializeDataTips(selectCtrl.rowKey);
 
-    } else {
-        $scope.rdSubTipsData = [];
     }
     selectCtrl.updateTipsCtrl = function () {
         $scope.initializeDataTips();
@@ -342,17 +348,102 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $("#fullScalePic").hide();
     }
     /*图片切换*/
-    $scope.$parent.$parent.switchPic = function(type){
-        if(type == 0){
-            if($scope.photoId-1 >=0){
-                $scope.openOrigin($scope.photoId-1);
+    $scope.$parent.$parent.switchPic = function (type) {
+        if (type == 0) {
+            if ($scope.photoId - 1 >= 0) {
+                $scope.openOrigin($scope.photoId - 1);
             }
-        }else{
-            if($scope.photoId+2 <= $scope.photoNum){
-                $scope.openOrigin($scope.photoId+1);
+        } else {
+            if ($scope.photoId + 2 <= $scope.photoNum) {
+                $scope.openOrigin($scope.photoId + 1);
             }
         }
-    }
+    };
+    $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
+        $scope.initializeDataTips(event.feather);
+        $scope.$apply();
+    })
+    $scope.createRestrictByTips=function() {
+        var info = null;
+        Application.functions.getRdObjectById($scope.dataTipsData.in.id, "RDLINK", function (data) {
+            var restrictObj = {};
+            restrictObj["inLinkPid"] = parseInt($scope.dataTipsData.in.id);
+            var dataTipsGeo = $scope.dataTipsData.g_location.coordinates;
+            var outLinkPids = [];
+            for (var outNum = 0, outLen = $scope.dataTipsData.o_array.length; outNum < outLen; outNum++) {
+                var outLinks = $scope.dataTipsData.o_array[outNum].out;
+                if (!outLinks) {
+                    alert("没有退出线，请手动建立交限");
+                    return;
+                }
+                for (var outLinksN = 0, outLinksL = outLinks.length; outLinksN < outLinksL; outLinksN++) {
+                    outLinkPids.push(parseInt(outLinks[outLinksN].id));
+                }
+            }
+            restrictObj["outLinkPids"] = outLinkPids;
+            var inLinkGeo = data.data.geometry.coordinates, inNode;
+            if (data.data.direct === 1) {
+                var dataTipsToStart = Math.abs(dataTipsGeo[0] - inLinkGeo[0][0]) + Math.abs(dataTipsGeo[1] - inLinkGeo[0][1]);
+                var dataTipsToEnd = Math.abs(dataTipsGeo[0] - inLinkGeo[inLinkGeo.length - 1][0]) + Math.abs(dataTipsGeo[1] - inLinkGeo[inLinkGeo.length - 1][1]);
+                if (dataTipsToStart - dataTipsToEnd) {
+                    inNode = parseInt(data.data.eNodePid)
+                } else {
+                    inNode = parseInt(data.data.sNodePid);
+                }
+            } else {
+
+                if (data.data.direct === 2) {
+                    inNode = parseInt(data.data.eNodePid);
+                } else if (data.data.direct === 3) {
+                    inNode = parseInt(data.data.sNodePid);
+                }
+
+            }
+            ;
+            restrictObj["nodePid"] = inNode;
+            var param = {
+                "command": "CREATE",
+                "type": "RDRESTRICTION",
+                "projectId": Application.projectid,
+                "data": restrictObj
+            };
+            Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                if (data.errcode === -1) {
+                    info = [{
+                        "op": data.errcode,
+                        "type": data.errmsg,
+                        "pid": data.errid
+                    }];
+                    outPutCtrl.pushOutput(info);
+                    if (outPutCtrl.updateOutPuts !== "") {
+                        outPutCtrl.updateOutPuts();
+                    }
+                    return;
+                }
+                var pid = data.data.log[0].pid;
+                restrictLayer.redraw();//交限图层刷新
+                workPoint.redraw();//dataTip图层刷新
+                //修改状态
+                var stageParam = {
+                    "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                    "stage": 3,
+                    "handler": 0
+
+                }
+                $scope.upBridgeStatus();
+                Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
+                    objCtrl.setCurrentObject("RDRESTRICTION", data.data);
+                    $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
+                        $scope.$parent.$parent.attrTplContainer = "js/tepl/trafficLimitOfNormalTepl.html";
+
+                    })
+                })
+
+            });
+        });
+
+    };
+
     /*转换*/
     $scope.transBridge = function (e) {
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
@@ -391,12 +482,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     if(data.errcode == 0){
                         if(workPoint)
                         workPoint.redraw();
-                        var sinfo={
+                        var sInfo={
                             "op":"测线转换操作成功",
                             "type":"",
                             "pid": ""
                         };
-                        data.data.log.push(sinfo);
+                        data.data.log.push(sInfo);
                         info=data.data.log;
                         rdLink.redraw();
                         swal("操作成功", "测线转换操作成功！", "success");
@@ -415,8 +506,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-
-
             });
         } else if ($scope.dataTipsData.s_sourceType === "1201") {
             var info=null;
@@ -438,17 +527,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     if (data.errcode == 0) {
                         objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
-                        }
                         restrictLayer.redraw();
                         workPoint.redraw();
-                        var sinfo={
+                        var sInfo={
                             "op":"种别转换操作成功",
                             "type":"",
                             "pid": ""
                         };
-                        data.data.log.push(sinfo);
+                        data.data.log.push(sInfo);
                         info=data.data.log;
                         swal("操作成功", "种别转换操作成功！", "success");
                     } else {
@@ -470,75 +556,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 outPutCtrl.updateOutPuts();
             }
         }else if ($scope.dataTipsData.s_sourceType === "1302") {
-            var outLink = "", details = [], detailsOfTips = [];
-            //$scope.$parent.$parent.rdRestrictData.inLinkPid = this.dataTipsData.in.id;
-            var rdRestrictData = objCtrl.data;
-            details = this.dataTipsData.o_array;
-            for (var i = 0, len = details.length; i < len; i++) {
-                var outLinks = details[i].out, outLinkObj = {};
-                if (outLinks) {
-                    for (var j = 0, lenJ = outLinks.length; j < lenJ; j++) {
-                        outLinkObj.conditions = [];
-                        outLinkObj.outLinkPid = outLinks[j].id;
-                        outLinkObj.flag = details[i].flag;
-                        outLinkObj.relationshipType = 0;
-                        outLinkObj.restricInfo = details[i].oInfo;
-                        outLinkObj.type = outLinks[j].type;
-                        if (details[i].vt === 1) {
-                            var cArr = details[i].c_array;
-                            for (var k = 0, lenk = cArr.length; k < lenk; k++) {
-                                var cObj = {};
-                                cObj.resAxleCount = cArr[k].aCt;
-                                cObj.resAxleLoad = cArr[k].aLd;
-                                cObj.resOut = cArr[k].rOt;
-                                cObj.resTrailer = cArr[k].tra;
-                                cObj.resWeigh = cArr[k].w;
-                                cObj.timeDomain = cArr[k].time;
-                                cObj.vehicle = 4;
-                                outLinkObj.conditions.push(cObj);
-                            }
-                        }
-                    }
-                } else {
-                    outLinkObj.conditions = [];
-                    outLinkObj.outLinkPid = "无退出线";
-                    outLinkObj.flag = details[i].flag;
-                    outLinkObj.relationshipType = 0;
-                    outLinkObj.restricInfo = details[i].oInfo;
-                    outLinkObj.type = outLinks[j].type;
-                    if (details[i].vt === 1) {
-                        var cArr = details[i].c_array;
-                        for (var k = 0, lenk = cArr.length; k < lenk; k++) {
-                            var cObj = {};
-                            cObj.resAxleCount = cArr[k].aCt;
-                            cObj.resAxleLoad = cArr[k].aLd;
-                            cObj.resOut = cArr[k].rOt;
-                            cObj.resTrailer = cArr[k].tra;
-                            cObj.resWeigh = cArr[k].w;
-                            cObj.timeDomain = cArr[k].time;
-                            cObj.vehicle = 4;
-                            outLinkObj.conditions.push(cObj);
-                        }
-                    }
-                }
-
-                detailsOfTips.push(outLinkObj);
-
-            }
-            rdRestrictData.details = detailsOfTips;
-            rdRestrictData.stage = 3;
-            objCtrl.setCurrentObject(rdRestrictData);
-            if (objCtrl.updateObject !== "") {
-                objCtrl.updateObject();
-            }
+            $scope.createRestrictByTips()
         }
 
 
     };
     $scope.upBridgeStatus = function (pid,e) {
-        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+        if ($scope.rowkey!== undefined) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey":$scope.rowkey,
                 "stage": 3,
                 "handler": 0
             }
@@ -557,24 +583,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         workPoint.redraw();
                     $scope.showContent = "外业新增";
                     $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                    /*Application.functions.getRdObjectById(pid,"RDLINK", function (d) {
-                        if (d.errcode === -1) {
-                            return;
-                        }
-                        objCtrl.setCurrentObject(d);
-                        if (objCtrl.updateObject !== "") {
-                            objCtrl.updateObject();
-                        }
-                        $ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                            $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjectTepl.html";
-                        })
-                    });*/
-                    var sinfo={
+                    var sInfo={
                         "op":"状态修改成功",
                         "type":"",
                         "pid": ""
                     };
-                    data.data.log.push(sinfo);
+                    data.data.log.push(sInfo);
                     info=data.data.log;
                     swal("操作成功", "状态修改成功！", "success");
                 } else {
@@ -590,7 +604,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                $scope.rowkey = undefined;
             })
         }
     }

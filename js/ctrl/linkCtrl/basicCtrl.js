@@ -152,7 +152,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             "propertyCtrl":'ctrl/linkCtrl/namesOfLinkCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/namesOfLinkTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", showNameObj);
+        $scope.$emit("transitCtrlAndTpl", showNameObj);
     };
 
     //修改道路形态
@@ -162,7 +162,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             "propertyCtrl":'ctrl/linkCtrl/infoOfformOfWayCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/infoOfformOfWayTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", addFormOfWayObj);
+        $scope.$emit("transitCtrlAndTpl", addFormOfWayObj);
     };
     //过滤条件
     $scope.flag = 0;
@@ -193,7 +193,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             "propertyCtrl":'ctrl/linkCtrl/infoOfZoneCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/infoOfZoneTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", showZoneWinObj);
+        $scope.$emit("transitCtrlAndTpl", showZoneWinObj);
     }
 
     $scope.showZone=function(item){
@@ -202,7 +202,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             "propertyCtrl":'ctrl/linkCtrl/zonePeopertyCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/zonePeopertyTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", showZoneObj);
+        $scope.$emit("transitCtrlAndTpl", showZoneObj);
     }
     $scope.showOther=function(){
         var showOtherObj={
@@ -210,7 +210,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
             "propertyCtrl":'ctrl/linkCtrl/otherCtrl',
             "propertyHtml":'js/tepl/linkObjTepl/otherTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", showOtherObj);
+        $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
 
 

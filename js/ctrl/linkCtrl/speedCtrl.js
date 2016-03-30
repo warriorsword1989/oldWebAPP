@@ -52,7 +52,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
             "propertyCtrl": 'ctrl/linkCtrl/infoOfOridinarySpeedCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoiOfOridinarySpeedTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", oridinarySpeedObj);
+        $scope.$emit("transitCtrlAndTpl", oridinarySpeedObj);
     }
 
     //条件限速
@@ -63,7 +63,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
             "propertyCtrl": 'ctrl/linkCtrl/infoOfConditionSpeedCtrl',
             "propertyHtml": 'js/tepl/linkObjTepl/infoOfConditionSpeedTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", speedlimitInfoObj);
+        $scope.$emit("transitCtrlAndTpl", speedlimitInfoObj);
     }
 
 

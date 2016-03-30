@@ -125,7 +125,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.initialForms();
     };
     $scope.loadJsAndCtrl=function(obj) {
-        $scope.$emit('transitCtrlAndTmpl', obj);
+        $scope.$emit('transitCtrlAndTpl', obj);
     };
     $scope.showPopover=function(){
         var showPopoverObj = {

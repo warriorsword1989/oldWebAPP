@@ -200,7 +200,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     $scope.initDiver = function(){
         $scope.initializeData();
         var dObj = $scope.diverObj;
-        $scope.$parent.$parent.suspendFlag = false;
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         /*经过线*/
         if(dObj){
             linksOfRestric["inLink"] = $scope.diverObj.inLinkPid+'';
@@ -275,9 +275,7 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*展示详细信息*/
     $scope.showDetail=function(type) {
-        if(! $scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = true;
-        }
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":true})
         objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
         $scope.$parent.$parent.subAttrTplContainer = "";
         if(type == 0){  //  名称
@@ -408,11 +406,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
                         swal("删除成功", "分歧数据删除成功！", "success");
                     },500)
                     outPutCtrl.pushOutput(data.errmsg);
-                    if($scope.$parent.$parent.panelFlag ) {
-                        $scope.$parent.$parent.panelFlag = false;
-                        $scope.$parent.$parent.objectFlag = false;
-                    }
-                    $scope.$parent.$parent.attrTplContainer = "";
                     rdBranch.redraw();
                 }else{
                     $timeout(function(){
@@ -426,9 +419,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     /*取消属性编辑*/
     $scope.cancel = function(){
         $scope.getObjectById(false);
-        if($scope.$parent.$parent.suspendFlag){
-            $scope.$parent.$parent.suspendFlag = false;
-        }
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);

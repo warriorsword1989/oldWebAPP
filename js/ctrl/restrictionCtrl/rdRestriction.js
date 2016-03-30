@@ -6,6 +6,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
+    var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
@@ -69,13 +70,13 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
             map: map,
             highLightFeature: "restrict",
-            restrictId: $scope.rdRestrictData.pid,
+            restrictId: $scope.rdRestrictData.pid.toString(),
             initFlag: true
         });
 
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
-        //highLightLayer.pushHighLightLayers(highLightRestriction);
+        highLightLayer.pushHighLightLayers(highLightRestriction);
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
                 limitPicArr.push(v.timeDomain);
@@ -138,7 +139,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "propertyCtrl": 'ctrl/restrictionCtrl/addDirectOfRestrictionCtrl',
             "propertyHtml": 'js/tepl/restrictTepl/addDitrectOfRestrictionTepl.html'
         }
-        $scope.$emit("transitCtrlAndTmpl", addObj);
+        $scope.$emit("transitCtrlAndTpl", addObj);
     };
 
     var towbin = dec2bin(6);
@@ -207,6 +208,36 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         })
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
+
+        //显示时间
+        $timeout(function () {
+            $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+                $scope.dateURL = 'js/tepl/fmdateTimer.html';
+                $timeout(function(){
+                    if($scope.rdSubRestrictData["conditions"][0]) {
+                        $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
+                        $scope.$broadcast('set-code',$scope.rdSubRestrictData["conditions"][0].timeDomain);
+                        $scope.$apply();
+                    }
+                });
+            });
+        })
+        /*时间控件*/
+        $scope.fmdateTimer = function (str) {
+            $scope.$on('get-date', function (event, data) {
+                $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
+
+            });
+            $timeout(function () {
+                $scope.$broadcast('set-code', str);
+                if($scope.rdSubRestrictData["conditions"].length===0) {
+                    var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
+                    $scope.rdSubRestrictData["conditions"].push(condition);
+                }
+                $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
+                $scope.$apply();
+            }, 100);
+        }
     };
     //修改退出线
     $scope.changeOutLink = function (item) {
@@ -278,21 +309,23 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     $timeout(function () {
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
-            /*查询数据库取出时间字符串*/
-            var tmpStr = (!$scope.rdSubRestrictData) ? '' : $scope.rdRestrictData.time;
-            $scope.fmdateTimer(tmpStr);
+            $timeout(function(){
+                if($scope.rdSubRestrictData["conditions"][0]) {
+                    $scope.fmdateTimer($scope.rdSubRestrictData["conditions"][0].timeDomain);
+                    $scope.$broadcast('set-code',$scope.rdSubRestrictData["conditions"][0].timeDomain);
+                    $scope.$apply();
+                }
+            });
         });
     })
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
-            $scope.codeOutput = data;
             $scope.rdSubRestrictData["conditions"][0].timeDomain = data;
 
         });
         $timeout(function () {
             $scope.$broadcast('set-code', str);
-            $scope.codeOutput = str;
             if($scope.rdSubRestrictData["conditions"].length===0) {
                 var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
                 $scope.rdSubRestrictData["conditions"].push(condition);
@@ -328,18 +361,15 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 })
             }
 
+            $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
+                delete v.pid;
+            })
         }
-        $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
-            delete v.pid;
-        })
         var param = {
             "command": "UPDATE",
             "type": "RDRESTRICTION",
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
-        }
-        if ($scope.$parent.$parent.suspendFlag) {
-            $scope.$parent.$parent.suspendFlag = false;
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
@@ -366,9 +396,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         });
-        if ($scope.$parent.$parent.rowkeyOfDataTips !== undefined) {
+        if (selectCtrl.rowkey && selectCtrl.rowkey.rowkey) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
 
@@ -395,7 +425,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
+                selectCtrl.rowkey.rowkey  = undefined;
             })
         }
     };
@@ -435,9 +465,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         })
-        if ($scope.$parent.$parent.rowkeyOfDataTips) {
+        if (selectCtrl.rowkey.rowkey) {
             var stageParam = {
-                "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
+                "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
                 "handler": 0
 
@@ -465,8 +495,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 if (outPutCtrl.updateOutPuts !== "") {
                     outPutCtrl.updateOutPuts();
                 }
-                $scope.$parent.$parent.rowkeyOfDataTips = undefined;
-                $scope.$parent.$parent.attrTplContainer = "";
+                selectCtrl.rowkey.rowkey = undefined;
             })
         }
     }

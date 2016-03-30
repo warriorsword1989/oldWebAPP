@@ -23,7 +23,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
+        $scope.currentURL = "";
         $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
+            if(objectCtrl.updateObject) {
+                objectCtrl.updateObject();
+            }
             $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
         });
         //随着地图的变化 高亮的线不变
@@ -83,8 +87,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             }
         })
 
-        $scope.$parent.$parent.suspendFlag = false;
-        $scope.$parent.$parent.subAttrTplContainer = "";
+        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         if (url === "basicModule") {
             $ocLazyLoad.load('ctrl/linkCtrl/basicCtrl').then(function () {
                 $scope.currentURL = "js/tepl/linkObjTepl/basicTepl.html";
@@ -308,18 +311,15 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             if (data.errcode === -1) {
                 return;
             }
-            var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
+            var linkArr = data.data.geometry.coordinates,points = [];
             for (var i = 0, len = linkArr.length; i < len; i++) {
                 var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                 points.push(point);
             }
             map.panTo({lat: points[0].y, lon: points[0].x});
             var line = fastmap.mapApi.lineString(points);
-            selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-            objectCtrl.setCurrentObject(data);
-            if (objectCtrl.updateObject !== "") {
-                objectCtrl.updateObject();
-            }
+            selectCtrl.onSelected({geometry: line, id: data.data.pid});
+            objectCtrl.setCurrentObject("RDLINK",data.data);
             $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
                 $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
             });
