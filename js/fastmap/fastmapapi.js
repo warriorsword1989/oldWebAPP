@@ -80,7 +80,7 @@
                 "fastmap/dataApi/datamodel/Rdlanetopology.js",
                 "fastmap/dataApi/datamodel/Rdlanevia.js",
                 "fastmap/dataApi/datamodel/Rdspeedlimit.js",
-                "fastmap/dataApi/ajaxConstruct.js",
+
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
                 "fastmap/mapApi/geometry/Collection.js",
@@ -155,7 +155,8 @@
                 "fastmap/uikit/ctlmodel/DataTip.js",
                 "fastmap/uikit/ctlmodel/FeatCode.js",
                 "fastmap/uikit/ctlmodel/OutPut.js",
-                "fastmap/uikit/ctlmodel/ToolTip.js"
+                "fastmap/uikit/ctlmodel/ToolTip.js",
+                "fastmap/dataApi/ajaxConstruct.js"
             ]; // etc.
         }
 

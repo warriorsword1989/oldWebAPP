@@ -174,6 +174,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                                 geo:geom,
                                 style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
                                 boolPixelCrs:true,
+                                rotate:feature.properties.kind*(Math.PI / 180),
                                 fillStyle:{
                                     lineColor:'rgb(4, 187, 245)',
                                     fillColor:'rgba(4, 187, 245, 0.2)',
@@ -193,7 +194,9 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                             geo:geom,
                             style:style,
                             boolPixelCrs:true
-
+                            ,
+                            drawx:-30,
+                            drawy:-30
                         });
                     }
                 }
@@ -260,6 +263,7 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                                 geo:geom,
                                 style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
                                 boolPixelCrs:true,
+                                rotate:feature.properties.kind*(Math.PI / 180),
                                 fillStyle:{
                                     lineColor:'rgb(4, 187, 245)',
                                     fillColor:'rgba(4, 187, 245, 0.5)',
@@ -279,7 +283,9 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                             geo:geom,
                             style:style,
                             boolPixelCrs:true
-
+                            ,
+                            drawx:-30,
+                            drawy:-30
                         });
                     }
 

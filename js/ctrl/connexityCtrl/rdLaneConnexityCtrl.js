@@ -105,6 +105,16 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
 
+        var highLightLane = new fastmap.uikit.HighLightRender(rdConnexity, {
+            map: map,
+            highLightFeature: "lane",
+            laneId: $scope.lanesData.pid,
+            initFlag: true
+        });
+
+
+        highLightLayer.pushHighLightLayers(highLightLane);
+
         for (var j = 0, lenJ = $scope.lanesArr.length; j < lenJ; j++) {
             if (j === 0 || j === lenJ - 1) {
                 if (reg.test($scope.lanesArr[j])) {
@@ -216,6 +226,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     })
                     highLightLinks.drawOfLinksForInit();
                     highLightLayer.pushHighLightLayers(highLightLinks);
+
 
                 });
             }
