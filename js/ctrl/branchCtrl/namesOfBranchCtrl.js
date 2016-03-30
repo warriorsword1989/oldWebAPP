@@ -275,19 +275,20 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
     }
     /*展示详细信息*/
     $scope.showDetail=function(type) {
-        $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":true})
-        objCtrl.setOriginalData($scope.divergenceIds.getIntegrate());
-        $scope.$parent.$parent.subAttrTplContainer = "";
-        if(type == 0){  //  名称
-            $ocLazyLoad.load('ctrl/branchCtrl/nameInfoCtrl').then(function () {
-                $scope.$parent.$parent.subAttrTplContainer = "js/tepl/branchTepl/nameInfoTepl.html";
-            });
+        var tempCtr = '',tempTepl = '';
+        if(type == 0){  //名称信息
+            tempCtr = 'ctrl/branchCtrl/nameInfoCtrl';
+            tempTepl = 'js/tepl/branchTepl/nameInfoTepl.html';
         }else{  //经过线
-            $ocLazyLoad.load('ctrl/branchCtrl/passlineCtrl').then(function () {
-                $scope.$parent.$parent.subAttrTplContainer = "js/tepl/branchTepl/passlineTepl.html";
-            });
+            tempCtr = 'ctrl/branchCtrl/passlineCtrl';
+            tempTepl = 'js/tepl/branchTepl/passlineTepl.html';
         }
-        $scope.changeArrowPosition();
+        var detailInfo = {
+            "loadType":"subAttrTplContainer",
+            "propertyCtrl":tempCtr,
+            "propertyHtml":tempTepl
+        };
+        $scope.$emit("transitCtrlAndTpl", detailInfo);
     };
 
     $scope.getObjectById = function(type){
