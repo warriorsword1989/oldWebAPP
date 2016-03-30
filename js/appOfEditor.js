@@ -115,7 +115,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                         $scope.showLoading = false;
                                         $(".output-console").fadeIn();
                                         $('#fm-leftContainer').fadeIn();
-                                        $("#leftWell").fadeIn();
                                         $(".fm-panel-layersURL").fadeIn();
                                     });
                                 });
