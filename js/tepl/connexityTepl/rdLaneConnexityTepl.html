@@ -91,7 +91,7 @@
     }
     .lanePic{
         cursor: pointer;
-        width: 30px;
+        width: 25px;
         margin-bottom: 10px;
         transition: all 0.5s;
     }
@@ -115,7 +115,7 @@
             <div style="width: 100%;text-align: right;margin-bottom: 10px;"> <span style="float:right;font-size: 14px;color: #FFF;" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
             <div style="display: inline-block"  ng-repeat="item in showNormalData track by $index" ng-if="showNormalData.length!==0">
                 <div >
-                    <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
+                    <span style="  float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:-5px;color: #fff;cursor: pointer;" class="glyphicon glyphicon-remove-sign" ng-click="minusLane($index)"></span>
                     <img    class="lanePic" ng-if="item.type===0"
                             ng-click="showLanesInfo(item,$index,$event)"
                             ng-mousedown="changeDirect(item,$event,$index)"
@@ -138,14 +138,16 @@
                           ng-click="minusTransitData(items,$index)"></span>
                        <span ng-if="items==='test'" style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;color: #fff;cursor: pointer;"
                                ></span>
-                    <img ng-if="items.flag!=='test'"
+                    <img
+                         class="lanePic"
+                         ng-if="items.flag!=='test'"
                          ng-click="changeTransit(items,$index)"
                          ng-src="./css/1301/1301_1_{{items.flag}}.svg"
                          title="{{items}}">
-                    <img ng-if="items.flag==='test'"
+                    <img
+                         ng-if="items.flag==='test'"
                          ng-click="changeTransit(items,$index)"
-                         ng-src="./css/1301/1301_1_test.svg"
-                         >
+                         ng-src="./css/1301/1301_1_test.svg">
                 </div>
             </div>
 
