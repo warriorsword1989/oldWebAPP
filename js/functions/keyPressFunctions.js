@@ -258,7 +258,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     objEditCtrl.setOriginalData(null);
                                     objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
                                     scope.$apply();
-
+                                    rdLink.redraw();
                                 } else {
                                      info = [{
                                         "op": data.errcode,
