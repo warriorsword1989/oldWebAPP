@@ -114,6 +114,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
                                         $scope.attrTplContainer = 'js/tepl/blankTepl.html';
                                         $scope.showLoading = false;
+                                        $("#blackWell").fadeIn();
                                         $(".output-console").fadeIn();
                                         $('#fm-leftContainer').fadeIn();
                                         $(".fm-panel-layersURL").fadeIn();
