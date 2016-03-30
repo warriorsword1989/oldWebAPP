@@ -191,13 +191,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                                 break;
                             case "1407"://分歧
-                                $ocLazyLoad.load("ctrl/sceneAllTipsCtrl").then(function () {
-                                    $scope.$parent.$parent.attrTplContainer = "js/tepl/sceneAllTipsTepl.html";
-                                    $ocLazyLoad.load("ctrl/branchCtrl/namesOfBranchCtrl").then(function () {
-                                        $scope.$parent.$parent.attrTplContainer = "js/tepl/namesOfBranch.html";
-                                    });
-                                });
-                                objCtrl.setCurrentObject(data.brID);
+                                $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.pid, "ctrl/branchCtrl/namesOfBranchCtrl", "js/tepl/namesOfBranch.html");
                                 break;
                             case "1510"://桥
                                 var ctrlAndTmplOfBridge={

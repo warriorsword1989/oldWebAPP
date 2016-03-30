@@ -41,13 +41,13 @@
 	height: 10px;
 	z-index: 3;
 }
-.date-now{
+.close-btn{
     float: left;
     text-align: center;
     background-color: #3399FF;
     color: #fff;
     margin-bottom: -10px;
-    margin-left: -10px;
+    margin-right: -10px;
     margin-top: 10px;
     transition: all 0.5s;
 	-moz-transition:all 0.5s; /* Firefox 4 */
@@ -55,9 +55,9 @@
 	-o-transition:all 0.5s; /* Opera */
     cursor: pointer;
     width: 90px;
-    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
-.date-now:hover{
+.close-btn:hover{
 	background-color: #3366FF;
     color: #fff;
 }
@@ -68,14 +68,14 @@
     color: #fff;
     margin-bottom: -10px;
     margin-top: 10px;
-    margin-right: -10px;
+    margin-left: -10px;
     transition: all 0.5s;
 	-moz-transition:all 0.5s; /* Firefox 4 */
 	-webkit-transition:all 0.5s; /* Safari and Chrome */
 	-o-transition:all 0.5s; /* Opera */
     cursor: pointer;
     width: 90px;
-    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 .date-empty:hover{
 	background-color: #CC0000;

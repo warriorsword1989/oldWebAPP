@@ -38,7 +38,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }else if(type==="pathVertexReMove") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('deleteDot');
-                    tooltipsCtrl.setCurrentTooltip('开始删除形状点！');
+                    tooltipsCtrl.setCurrentTooltip('删除此形状点！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                     return;
@@ -46,7 +46,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }else if(type==="pathVertexMove") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('moveDot');
-                    tooltipsCtrl.setCurrentTooltip('开始移动形状点！');
+                    tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
                 }else{
                     tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
                     return;
