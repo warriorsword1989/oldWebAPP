@@ -313,11 +313,6 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
          }
     }
     $scope.getObjectById(true);
-    /*关闭详细信息面板，移动箭头图位置*/
-    $scope.$parent.$parent.changeSuspendShow = function(){
-        $scope.$parent.$parent.suspendFlag = false;
-        $scope.changeArrowPosition();
-    }
     /*保存分歧数据*/
     $scope.save = function () {
         if(!$scope.diverObj){
