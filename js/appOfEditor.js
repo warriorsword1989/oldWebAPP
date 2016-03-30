@@ -178,8 +178,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#fm-outPut-inspectDiv").hide();
             $("#fm-error-wrongDiv").show();
             $("#fm-error-checkErrorLi").show();
-            $ocLazyLoad.load('ctrl/errorPage').then(function () {
-                $scope.errorCheckPage = 'js/tepl/errorPage.html'
+            $ocLazyLoad.load('ctrl/errorPageCtrl').then(function () {
+                $scope.errorCheckPage = 'js/tepl/errorPageTepl.html'
             });
 
 
