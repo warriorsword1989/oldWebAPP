@@ -68,7 +68,6 @@ fastmap.uikit.SelectSpeedLimit = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-                //this._map.fire("getNodeId")
             }
             ,
 
@@ -79,7 +78,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
 
                 for (var index in this.redrawTiles) {
                     var data = this.redrawTiles[index].data;
-                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+                    //this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
                     var ctx = {
                         canvas: this.redrawTiles[index].options.context,
                         tile: this.redrawTiles[index].options.context._tilePoint
@@ -121,7 +120,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                                 }
                                 newGeom[0] = (parseInt(geom[0]));
                                 newGeom[1] = (parseInt(geom[1]));
-                                //this.currentEditLayer._drawImgRoute(ctx, newGeom, speedFlagstyle, jttype, true, route);
+
                                 this.currentEditLayer._drawImg({
                                     ctx:ctx,
                                     geo:newGeom,
@@ -200,7 +199,7 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                                     }
                                     newGeom[0] = (parseInt(geom[0]));
                                     newGeom[1] = (parseInt(geom[1]));
-                                    //this.currentEditLayer._drawImgRoute(ctx, newGeom, speedFlagstyle, jttype, true, route);
+
                                     this.currentEditLayer._drawImg({
                                         ctx:ctx,
                                         geo:newGeom,

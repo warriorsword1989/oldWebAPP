@@ -4,6 +4,7 @@
 var errorCheckModule = angular.module('lazymodule', ['smart-table']);
 errorCheckModule.controller('errorCheckPageController', function ($scope, $timeout) {
     var checkResultC=fastmap.uikit.CheckResultController();
+    var eventController = fastmap.uikit.EventController();
     //获取检查错误
     $scope.getCheckDate = function () {
         var param = {
@@ -26,6 +27,9 @@ errorCheckModule.controller('errorCheckPageController', function ($scope, $timeo
             }
         });
     }
+
+    //刷新检查输出结果
+
     $scope.getCheckDateAndCount = function () {
         var paramsOfCounts = {
             "projectId": Application.projectid,
@@ -39,6 +43,9 @@ errorCheckModule.controller('errorCheckPageController', function ($scope, $timeo
         });
         $scope.getCheckDate();
     }
+
+    eventController.on('editAjaxCompleted',$scope.getCheckDateAndCount);
+
     if($scope.itemsByPage===1){
         $scope.getCheckDateAndCount();
     }

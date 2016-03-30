@@ -668,6 +668,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 geo:geom,
                                 style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
                                 boolPixelCrs:boolPixelCrs,
+                                rotate:feature.properties.kind*(Math.PI / 180),
                                 fillStyle:{
                                     lineColor:'rgb(4, 187, 245)',
                                     fillColor:'rgba(4, 187, 245, 0.2)',
@@ -681,7 +682,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             });
                         }
                     } else {
-                        //this._drawImg(ctx, geom, style, boolPixelCrs);
+
                         this._drawImg({
                             ctx:ctx,
                             geo:geom,
