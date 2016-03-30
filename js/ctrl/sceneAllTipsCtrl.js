@@ -9,7 +9,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var highLightLayer = fastmap.uikit.HighLightController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var restrictLayer = layerCtrl.getLayerById("referencePoint");
+    var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
 
     var gpsLine = layerCtrl.getLayerById("gpsLine");
@@ -607,13 +607,24 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         workPoint.redraw();
                     $scope.showContent = "外业新增";
                     $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
-                    var sInfo={
-                        "op":"状态修改成功",
-                        "type":"",
-                        "pid": ""
-                    };
-                    data.data.log.push(sInfo);
-                    info=data.data.log;
+                    if(data.data){
+                        var sInfo={
+                            "op":"状态修改成功",
+                            "type":"",
+                            "pid": ""
+                        };
+                        data.data.log.push(sInfo);
+                        info=data.data.log;
+                    }else{
+                        var sInfo=[{
+                            "op":"状态修改成功",
+                            "type":"",
+                            "pid": ""
+                        }];
+                        data.data=sInfo;
+                        info=data.data;
+                    }
+
                     swal("操作成功", "状态修改成功！", "success");
                 } else {
                     info=[{
