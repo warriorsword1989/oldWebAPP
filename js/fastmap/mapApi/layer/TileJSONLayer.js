@@ -509,8 +509,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             drawx:5
 
                         })
-
-
                     } else if (this.options.type === 'rdCrossPoint') {
                         var masterImg = {src: './css/rdcross/11.png'},
                             followImg = {src: './css/rdcross/111.png'};
