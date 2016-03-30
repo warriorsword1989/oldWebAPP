@@ -75,7 +75,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
-        //highLightLayer.pushHighLightLayers(highLightRestriction);
+        highLightLayer.pushHighLightLayers(highLightRestriction);
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
                 limitPicArr.push(v.timeDomain);
