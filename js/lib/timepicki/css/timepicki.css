@@ -44,7 +44,7 @@
 .close-btn{
     float: left;
     text-align: center;
-    background-color: #3399FF;
+    background-color: #7F7F7F;
     color: #fff;
     margin-bottom: -10px;
     margin-right: -10px;
@@ -58,13 +58,13 @@
     border-bottom-right-radius: 3px;
 }
 .close-btn:hover{
-	background-color: #3366FF;
-    color: #fff;
+	background-color: rgba(255,255,255,0.7);
+    color: #333;
 }
 .date-empty{
     float: left;
     text-align: center;
-    background-color: #FF0000;
+    background-color: #7F7F7F;
     color: #fff;
     margin-bottom: -10px;
     margin-top: 10px;
@@ -74,10 +74,11 @@
 	-webkit-transition:all 0.5s; /* Safari and Chrome */
 	-o-transition:all 0.5s; /* Opera */
     cursor: pointer;
-    width: 90px;
+    width: 89px;
+    margin-right: 1px;
     border-bottom-left-radius: 3px;
 }
 .date-empty:hover{
-	background-color: #CC0000;
-    color: #fff;
+	background-color: rgba(255,255,255,0.7);
+    color: #333;
 }
