@@ -129,7 +129,6 @@ fastmap.uikit.SelectRdBranch = (function () {
                                 }
                                 newGeom[0] = (parseInt(geom[0]));
                                 newGeom[1] = (parseInt(geom[1]));
-                                //this.currentEditLayer._drawImgRoute(ctx, newGeom, speedFlagstyle, jttype, true, route);
                                 this.currentEditLayer._drawImg({
                                     ctx:ctx,
                                     geo:newGeom,
