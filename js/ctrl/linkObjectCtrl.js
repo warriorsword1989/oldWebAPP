@@ -124,21 +124,22 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     }
     $scope.angleOfLink=function(pointA,pointB) {
         var PI = Math.PI,angle;
-       if(pointA.x-pointB.x===0) {
+       if((pointA.x-pointB.x)===0) {
            angle = PI / 2;
        }else{
-           angle = Math.atan((pointA.y - pointB.y) / (pointA.y - pointB.y));
+           angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
        }
         return angle;
 
     };
     $scope.changeDirect = function (direct) {
-
+        map.currentTool.disable();
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
         var containerPoint;
+        var endNum = parseInt($scope.linkData.geometry.coordinates.length / 2);
         var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
-        var pointVertex= {x:$scope.linkData.geometry.coordinates[1][0], y:$scope.linkData.geometry.coordinates[1][1]};
+        var pointVertex= {x:$scope.linkData.geometry.coordinates[endNum][0], y:$scope.linkData.geometry.coordinates[endNum][1]};
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);

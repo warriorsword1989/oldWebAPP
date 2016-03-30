@@ -301,12 +301,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
-                $scope.$parent.$parent.attrTplContainer = "";
                 objCtrl.setOriginalData(obj);
-                $ocLazyLoad.load("ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl").then(function () {
-                    $scope.$parent.$parent.attrTplContainer = "js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html";
-
-                });
+                var addLaneObj = {
+                    "loadType":"attrTplContainer",
+                    "propertyCtrl": 'ctrl/connexityCtrl/addConnexityCtrl/addLaneconnexityCtrl',
+                    "propertyHtml": 'js/tepl/connexityTepl/addConnexityTepl/addLaneconnexityTepl.html'
+                }
+                $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "node") {
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {

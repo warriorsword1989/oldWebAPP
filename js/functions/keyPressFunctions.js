@@ -248,7 +248,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 var info = [];
                                 if (data.errcode === 0) {
                                     var sinfo = {
-                                        "op": "创建RDSPEEDLIMIT成功",
+                                        "op": "修改link道路方向成功",
                                         "type": "",
                                         "pid": ""
                                     };
@@ -260,12 +260,16 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.$apply();
 
                                 } else {
-                                    var info = [{
+                                     info = [{
                                         "op": data.errcode,
                                         "type": data.errmsg,
                                         "pid": data.errid
                                     }];
                                     swal("操作失败", data.errmsg, "error");
+                                }
+                                outPutCtrl.pushOutput(info);
+                                if (outPutCtrl.updateOutPuts !== "") {
+                                    outPutCtrl.updateOutPuts();
                                 }
                             });
                             resetPage();
@@ -347,7 +351,6 @@ function keyEvent(ocLazyLoad, scope) {
                             coordinate.push([link.components[index].x, link.components[index].y]);
                         }
                         var snapObj = selectCtrl.getSnapObj();
-                        //var nodePid = null;
                         var interLinks = (snapObj && snapObj.interLinks.length != 0) ? snapObj.interLinks : [];
                         var interNodes = (snapObj && snapObj.interNodes.length != 0) ? snapObj.interNodes : [];
                         var param = {
