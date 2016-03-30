@@ -11,7 +11,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
     $scope.attrTplContainer = "";//属性栏的ng-include地址
     $scope.subAttrTplContainer = "";
-    $scope.errorCheckTab="";//检查刷新ng-include地址
+    $scope.errorCheckTab = "";//检查刷新ng-include地址
     $scope.save = function () {
         $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.SAVEPROPERTY)

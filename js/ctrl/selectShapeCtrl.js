@@ -98,7 +98,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             map.currentTool.enable();
             $scope.toolTipText = '请选择node！';
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                $scope.getFeatDataCallback(data,data.id,"RDLINK",'ctrl/nodeCtrl/rdNodeFromCtrl',"js/tepl/nodeTepl/rdNodeFromTepl.html");
+                $scope.getFeatDataCallback(data,data.id,"RDNODE",'ctrl/nodeCtrl/rdNodeFromCtrl',"js/tepl/nodeTepl/rdNodeFromTepl.html");
             });
         }
         else if (type === "relation") {

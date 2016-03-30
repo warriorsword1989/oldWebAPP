@@ -67,7 +67,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
                     highLightFeature: "link",
-                    initFlag: false,
+                    initFlag: true,
                     linkPid: id.toString()
                 });
                 highLightLayer.pushHighLightLayers(highLightLink);
