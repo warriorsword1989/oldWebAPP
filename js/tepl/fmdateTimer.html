@@ -35,6 +35,7 @@
         width: 270px;
         display: none;
         padding: 10px;
+        padding-bottom: 0;
         margin-top: 10px;
         /*border: 1px solid #FFF;*/
         box-shadow: 1px 1px 10px 0 #080808;
@@ -83,6 +84,7 @@
         border: 1px solid #ddd;
         padding: 10px 5px;
         border-radius: 3px;
+        background-color: #494949;
     }
 
     .date-well {
@@ -116,16 +118,19 @@
     }
 
     .remove-date-list {
-        color: #FF0000;
+        color: #ddd;
         cursor: pointer;
         font-size: 19px;
+        margin-right: 4px;
+    }
+    .remove-date-list:hover {
+        color: #fff;
     }
 
-    /* .btn-option{
-        margin-top:50px;
-        padding-left: 100px;
-        padding-right: 100px; 
-    } */
+     .btn-option{
+        width: 271px;
+        margin-left: -10px;
+    } 
     .select-time {
         background-color: #333 !important;
         border-radius: 0;
@@ -228,7 +233,6 @@
     }
 
     .date-msg, .date-suc-msg {
-        margin-top: 10px;
         margin-bottom: 0px;
         padding: 3px 20px;
         border-radius: 0;
@@ -258,15 +262,79 @@
 
     .date-btn {
         font-size: 12px;
-        border: 1px solid #fff;
+        border-right: 1px solid #555;
+        border-left: 1px solid #555;
+        border-top: 0;
+        border-bottom: 0;
         height: 25px;
         padding-top: 3px;
         width: 50%;
+        background-color: #7F7F7F;
+        color: #fff;
         border-radius: 0;
     }
+    .date-btn:hover{
+        background-color: rgba(255,255,255,0.7);
+        color: #333
+    }
+    .date-btn:first-child{
+        border-left: 0 !important;
+    }
+    .date-btn:last-child{
+        border-right: 0 !important;
+    }
     .week-group{
-        background-color: #333;
+        background-color: #5D5D5D;
+        color: rgba(255,255,255,.5);
+        border: 0;
+        margin: 5px;
+        width: 12% !important;
+    }
+    .week-group:hover{
+        color: #FFF !important;
+        background-color: rgba(255,255,255,0.25);
+    }
+    .week-group.active{
+        color: #FFF !important;
+        background-color: hsla(0,0%,20%,1) !important;
+        box-shadow: inset 0px 5px 7px rgba(0, 0, 0, .625);
+    }
+    .week-group:first-child{
+        border-top-left-radius: 3px !important;
+        border-bottom-left-radius:3px !important;
+    }
+    .week-group:last-child{
+        border-top-right-radius: 3px !important;
+        border-bottom-right-radius:3px !important;
+    }
+    .cur-time{
+        background-color: #5D5D5D !important;
+        color: rgba(255,255,255,.5) !important;
+        border: 0;
+        margin: 5px;
+        width: 31%;
+        font-size: 12px;
+    }
+    .cur-time:hover{
+        color: #FFF !important;
+        background-color: rgba(255,255,255,0.25);
+    }
+    .cur-time.active{
+        color: #FFF !important;
+        background-color: hsla(0,0%,20%,1) !important;
+        box-shadow: inset 0px 5px 7px rgba(0, 0, 0, .625);
+    }
+    .cur-time:first-child{
+        border-top-left-radius: 3px !important;
+        border-bottom-left-radius:3px !important;
+    }
+    .cur-time:last-child{
+        border-top-right-radius: 3px !important;
+        border-bottom-right-radius:3px !important;
+    }
+    .radio-text{
         color: #FFF;
+        line-height: 1.5;
     }
     /* 选择日期 */
     .datepicker {
@@ -326,13 +394,17 @@
         </div>
         <div class="clearfix"></div>
         <div class="line line-date"></div>
-        <label class="radio-inline">
-            <input type="radio" name="timeType" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="timeType" time-type="continue-time" ng-click="timeType($event)"> 持续时间
-        </label>
-        <!-- begin 固定时间 -->
+        <div class="radio radio-inline">
+            <label class="radio-text">
+                <input type="radio" name="timeType" time-type="fix-time" ng-click="timeType($event)" checked> 固定时间
+            </label>
+        </div>
+        <div class="radio radio-inline">
+            <label class="radio-text">
+                <input type="radio" name="timeType" time-type="continue-time" ng-click="timeType($event)"> 持续时间
+            </label>
+        </div>
+                <!-- begin 固定时间 -->
         <div class="form-group fix-time time-slide-well">
             <div class="btn-group d-btn" data-toggle="buttons" style="width: 100%;">
                 <label class="btn btn-default week-group" ng-click="weekGroup($event)" check-code='{{week.code}}'
@@ -364,9 +436,9 @@
         <!-- begin 持续时间 -->
         <div class="form-group continue-time time-slide-well" style="display:none">
             <div class="btn-group full-width d-btn" data-toggle="buttons">
-                <label class="btn btn-default" ng-repeat="value in dwm.values"
+                <label class="btn btn-default cur-time" ng-repeat="value in dwm.values"
                        ng-class="{btn: true,'btn-default': true, active: value.code == dwm.selection.code}"
-                       ng-click="dwmType($event,value)" style="width:33%;font-size: 12px;">
+                       ng-click="dwmType($event,value)">
                     <input type="radio" name="week" ng-model="dwm.selection" ng-value="value" autocomplete="off"
                            dwm-type="dwm.selection" checked> {{value.value}}
                 </label>
@@ -467,9 +539,9 @@
                 <input type="checkbox" ng-model="vagueTime" value="z"> 模糊时间
             </label>
         </div>
-        <div class="btn-option btn-group" style="width:100%;">
+        <div class="btn-option btn-group">
             <button class="btn btn-default date-btn" type="button" ng-click="dateSelect($event)">关闭</button>
-            <button class="btn btn-primary date-btn" ng-click="dateSave($event)" type="button">
+            <button class="btn btn-default date-btn" ng-click="dateSave($event)" type="button">
                 <i class="glyphicon glyphicon-floppy-disk"></i> 保存
             </button>
         </div>
