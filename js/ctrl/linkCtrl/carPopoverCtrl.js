@@ -104,11 +104,11 @@ oridinaryInfoApp.controller("carController",function($scope) {
                     $scope.carData.splice(i,1);
                 }
             }
-
         }else{
             item.checked=true;
             $scope.carData.push(item);
         }
+        $scope.checkViche();
     }
 
     $scope.checkViche=function(){
