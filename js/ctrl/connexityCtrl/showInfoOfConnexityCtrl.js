@@ -261,6 +261,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             highLightLinks.drawOfLinksForInit();
             highLightLayer.pushHighLightLayers(highLightLinks);
 
+            //高亮车信
+
         });
     };
 })

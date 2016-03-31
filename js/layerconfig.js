@@ -205,8 +205,18 @@ Application.layersConfig =
                         for (var i = 0, len = item.g.length; i < len; i = i + 1) {
                             obj['geometry']['coordinates'].push([item.g[i]]);
                         }
+                        var id = '';
+                        for(var key in item.m.a){
+                            if(item.m.a[key].type ==0){
+                                //for(var obj in item.m.a[key].ids){
+                                id = item.m.a[key].ids[0].detailId;
+                                //}
+                            }
+                        }
+
+
                         obj['properties'] = {
-                            'id': item.i,
+                            'id': id,
                             "SpeedDivergencecondition": item.m.a,
                             "SpeedDivergenceinfo": item.m.b,
                             'SpeedDivergencerotate': item.m.c

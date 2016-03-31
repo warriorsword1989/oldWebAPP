@@ -162,7 +162,7 @@ function init(options) {
                                         if (theory > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:newGeom,
@@ -171,7 +171,7 @@ function init(options) {
                                                 rotate:route
                                             })
                                         } else {
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:geom,
@@ -201,7 +201,6 @@ function init(options) {
                                         if (fact > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:newGeom,
@@ -210,7 +209,6 @@ function init(options) {
                                                 rotate:route
                                             })
                                         } else {
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:geom,
@@ -267,7 +265,7 @@ function init(options) {
                                         if (theory > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:newGeom,
@@ -286,7 +284,7 @@ function init(options) {
                                                 }
                                             })
                                         } else {
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:geom,
@@ -327,7 +325,7 @@ function init(options) {
                                         if (fact > 0) {
                                             newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, newGeom, newStyle, true,route);
+
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:newGeom,
@@ -346,7 +344,7 @@ function init(options) {
                                                 }
                                             })
                                         } else {
-                                            //this.currentEditLayer._drawlaneImgRoute(ctx, geom, newStyle, true,route);
+
                                             this.currentEditLayer._drawImg({
                                                 ctx:ctx,
                                                 geo:geom,
