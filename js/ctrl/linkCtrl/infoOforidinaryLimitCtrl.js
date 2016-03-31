@@ -99,12 +99,15 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
             }
         }
         //初始化数据
-        initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv");
+       // initOrig(originArray,$scope.vehicleOptions,"vehicleExpressiondiv");
+
+
         //点击内容显示框时，关闭下拉，保存数据
         //$("#vehicleExpressiondiv"+sitem).click(function(){
         //    $("#vehicleExpressiondiv"+sitem).popover('hide');
         //    $scope.linkLimitData.limits[sitem].vehicle=getEndArray();
         //});
+
     }
     for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
         if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
@@ -117,14 +120,22 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
 
 
     $scope.showPopover=function(ind,vehicle){
-        initdiv('vehicleExpressiondiv');
-        $('#vehicleExpressiondiv').popover('show');
+        //initdiv('vehicleExpressiondiv');
+        //$('#vehicleExpressiondiv').popover('show');
+       // $(".popover-title").append("<button id='closeBut' onclick='javascript:closePopover()'>X</button>");
+    }
 
+    function closePopover(){
+       $('#vehicleExpressiondiv').popover('hide');
     }
 
     $timeout(function(){
+
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tepl/fmdateTimer.html';
+            $ocLazyLoad.load('ctrl/linkCtrl/carPopoverCtrl').then(function () {
+                $scope.carPopoverURL = 'js/tepl/linkObjTepl/carPopoverTepl.html';
+            });
             /*查询数据库取出时间字符串*/
             $timeout(function(){
                 $scope.fmdateTimer($scope.linkData.limits[$scope.limitNum].timeDomain);
@@ -172,32 +183,32 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
         $scope.oridiData.vehicle=parseInt(bin2dec(result));
     }
 
-    $scope.applicArray = getEndArray();
-    $scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
-        console.log(newValue);
-        var newArray=[];
-        var result="";
-        for(var j=0;j<newValue.length;j++){
-            newArray.push(newValue[j].id);
-        }
-        for(var i=31;i>=0;i--){
-            if(i==31){
-                if($scope.checkValue){
-                    result+="1";//允许
-                }else{
-                    result+="0";//禁止
-                }
-            }else{
-                if($.inArray(i, newArray)!=-1){
-                    result+="1";
-                }else{
-                    result+="0";
-                }
-            }
-
-        }
-
-        $scope.oridiData.vehicle=parseInt(bin2dec(result));
-    })
+    //$scope.applicArray = getEndArray();
+    //$scope.$watchCollection('applicArray',function(newValue,oldValue, scope){
+    //    console.log(newValue);
+    //    var newArray=[];
+    //    var result="";
+    //    for(var j=0;j<newValue.length;j++){
+    //        newArray.push(newValue[j].id);
+    //    }
+    //    for(var i=31;i>=0;i--){
+    //        if(i==31){
+    //            if($scope.checkValue){
+    //                result+="1";//允许
+    //            }else{
+    //                result+="0";//禁止
+    //            }
+    //        }else{
+    //            if($.inArray(i, newArray)!=-1){
+    //                result+="1";
+    //            }else{
+    //                result+="0";
+    //            }
+    //        }
+    //
+    //    }
+    //
+    //    $scope.oridiData.vehicle=parseInt(bin2dec(result));
+    //})
 
 })
