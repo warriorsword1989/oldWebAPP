@@ -392,7 +392,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
                         $scope.$parent.$parent.attrTplContainer = 'js/tepl/blankTepl.html';
                     })
-
                 }
 
                 $scope.$parent.$parent.tipsType = pItemId;

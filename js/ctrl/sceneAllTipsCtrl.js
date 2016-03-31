@@ -220,7 +220,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     initFlag: true,
                     linkPid: $scope.dataTipsData.rowkey.toString()
                 });
-                highLightLink.drawOfLinkForInit();
+                highLightroadNamesTips.drawOfLinkForInit();
                 highLightLayer.pushHighLightLayers(highLightroadNamesTips);
 
                 break;

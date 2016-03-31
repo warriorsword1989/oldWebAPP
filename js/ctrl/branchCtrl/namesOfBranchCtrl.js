@@ -376,47 +376,34 @@ namesOfBranch.controller("namesOfBranchCtrl",function($scope,$timeout,$ocLazyLoa
 
     /*删除pid*/
     $scope.delete = function(){
-        swal({
-            title: "确定操作吗？",
-            text: "你确定要删除此PID数据吗？",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: '删除',
-            cancelButtonText:'取消'
-        },
-        function(){
+        var param = {
+            "command":"DELETE",
+            "type":"RDBRANCHDETAIL",
+            "projectId":Application.projectid,
+            "objId":$scope.diverObj.details[0].pid
+        };
+        Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
+            var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
-            var param = {
-                "command":"DELETE",
-                "type":"RDBRANCHDETAIL",
-                "projectId":Application.projectid,
-                "objId":$scope.diverObj.details[0].pid
-            };
-            Application.functions.saveBranchInfo(JSON.stringify(param),function(data){
-                var outPutCtrl = fastmap.uikit.OutPutController();
-                $scope.$apply();
-                if(data.errcode == 0){
-                    if(highLightLayer.highLightLayersArr.length!==0) {
-                        highLightLayer.removeHighLightLayers();
-                    }
-                    $timeout(function(){
-                        swal("删除成功", "分歧数据删除成功！", "success");
-                    },500)
-                    outPutCtrl.pushOutput(data.errmsg);
-                    rdBranch.redraw();
-                }else{
-                    $timeout(function(){
-                        swal("删除失败", "问题原因："+data.errmsg, "error");
-                    })
-                    outPutCtrl.pushOutput(data.errmsg);
+            if(data.errcode == 0){
+                if(highLightLayer.highLightLayersArr.length!==0) {
+                    highLightLayer.removeHighLightLayers();
                 }
-            });
+                $timeout(function(){
+                    swal("删除成功", "分歧数据删除成功！", "success");
+                },500)
+                outPutCtrl.pushOutput(data.errmsg);
+                rdBranch.redraw();
+            }else{
+                $timeout(function(){
+                    swal("删除失败", "问题原因："+data.errmsg, "error");
+                })
+                outPutCtrl.pushOutput(data.errmsg);
+            }
         });
     }
     /*取消属性编辑*/
     $scope.cancel = function(){
-        $scope.getObjectById(false);
     }
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);

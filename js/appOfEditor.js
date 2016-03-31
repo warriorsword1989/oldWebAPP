@@ -37,6 +37,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     };//删除方法
     $scope.cancel = function () {
         $scope.attrTplContainer = "";
+        $scope.attrTplContainerSwitch(false);
+        $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.CANCELEVENT)
     };//取消
 
