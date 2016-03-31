@@ -571,7 +571,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 if (feature.properties.id == this.restrictId) {
 
                     var ctx = {
-                        canvas: tile.options.context,
+                        canvas: this.layer._tiles[tile.options.context.name.replace('_',':')],
                         tile: tile.options.context._tilePoint,
                         zoom: zoom
                     }
@@ -582,48 +582,45 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         var newStyle = "", newGeom = [];
                         var restrictObj = feature.properties.restrictioninfo;
                         if (restrictObj !== undefined) {
+                            console.log(this.layer)
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
+
                                     if (theory > 0) {
                                         newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
                                         newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
 
-                                        this.layer._drawImg({
+                                        this.layer._drawBackground({
                                             ctx:ctx,
                                             geo:newGeom,
-                                            style:newStyle,
+
                                             boolPixelCrs:true,
                                             rotate:route,
-                                            fillStyle:{
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                dx:0,
-                                                dy:0
+                                            lineColor:'rgb(4, 187, 245)',
+                                            fillColor:'rgba(4, 187, 245, 0.5)',
+                                            lineWidth:1,
+                                            width:20,
+                                            height:20,
+                                            drawx:-10,
+                                            drawy:-10
 
-                                            }
                                         })
                                     } else {
 
-                                        this.layer._drawImg({
+                                        this.layer._drawBackground({
                                             ctx:ctx,
                                             geo:geom,
-                                            style:newStyle,
+
                                             boolPixelCrs:true,
                                             rotate:route,
-                                            fillStyle:{
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                dx:0,
-                                                dy:0
+                                            lineColor:'rgb(4, 187, 245)',
+                                            fillColor:'rgba(4, 187, 245, 0.5)',
+                                            lineWidth:1,
+                                            width:20,
+                                            height:20,
+                                            drawx:-10,
+                                            drawy:-10
 
-                                            }
                                         })
                                     }
 
@@ -633,57 +630,55 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                     if (restrictArr[fact].constructor === Array) {
-                                        newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
+
 
                                     } else {
                                         if (restrictArr[fact].indexOf("[") > -1) {
                                             restrictArr[fact] = restrictArr[fact].replace("[", "");
                                             restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
+
                                         } else {
-                                            newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
+
                                         }
 
                                     }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                        newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                        newgeom[0] = parseInt(geom[0][0]) + fact * 16*Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1][0])+ fact * 16*Math.sin(route);
 
-                                        this.layer._drawImg({
+
+                                       this.layer._drawBackground({
                                             ctx:ctx,
-                                            geo:newGeom,
-                                            style:newStyle,
+                                            geo:newgeom,
+
                                             boolPixelCrs:true,
                                             rotate:route,
-                                            fillStyle:{
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                dx:0,
-                                                dy:0
+                                            lineColor:'rgb(4, 187, 245)',
+                                            fillColor:'rgba(4, 187, 245, 0.5)',
+                                            lineWidth:1,
+                                            width:20,
+                                            height:20,
+                                            drawx:-10,
+                                            drawy:-10
 
-                                            }
                                         })
                                     } else {
 
-                                        this.layer._drawImg({
+
+                                        this.layer._drawBackground({
                                             ctx:ctx,
                                             geo:geom,
-                                            style:newStyle,
+
                                             boolPixelCrs:true,
                                             rotate:route,
-                                            fillStyle:{
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                dx:0,
-                                                dy:0
+                                            lineColor:'rgb(4, 187, 245)',
+                                            fillColor:'rgba(4, 187, 245, 0.5)',
+                                            lineWidth:1,
+                                            width:20,
+                                            height:20,
+                                            drawx:-10,
+                                            drawy:-10
 
-                                            }
                                         })
                                     }
 
@@ -902,7 +897,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         }else if (this.highLightFeature === "lane") {
             this.drawLane(tile, zoom);
         }else if (this.highLightFeature === "speedlimit") {
-            //this.drawSpeedLimit(tile, zoom);
+            this.drawSpeedLimit(tile, zoom);
         }
     },
     _cleanHighLight: function () {

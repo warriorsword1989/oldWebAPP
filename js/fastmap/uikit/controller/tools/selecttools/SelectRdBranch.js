@@ -73,7 +73,7 @@ fastmap.uikit.SelectRdBranch = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-              
+
             }
             ,
 
