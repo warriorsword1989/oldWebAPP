@@ -9,8 +9,16 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
-    $scope.itemsByPage = 1;
+    var checkResultC=fastmap.uikit.CheckResultController();
+    var eventController = fastmap.uikit.EventController();
+   // $scope.itemsByPage = 1;
     $scope.initType = 0;
+
+
+    if(checkResultC.errorCheckData){
+        $scope.rowCollection=checkResultC.errorCheckData;
+    }
+
     $scope.initTypeOptions = [
         {"id": 0, "label": " 未修改"},
         {"id": 1, "label": " 例外"},
@@ -59,7 +67,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
                     highLightFeature: "link",
-                    initFlag: false,
+                    initFlag: true,
                     linkPid: id.toString()
                 });
                 highLightLayer.pushHighLightLayers(highLightLink);
@@ -114,4 +122,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
     }
 
 
+    eventController.on(eventController.eventTypes.CHEKCRESULT, function(event){
+        $scope.rowCollection=event.errorCheckData;
+    });
 });

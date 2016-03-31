@@ -361,9 +361,12 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 })
             }
 
-            $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
-                delete v.pid;
-            })
+            if(objectEditCtrl.changedProperty.details[0].conditions){
+                $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
+                    delete v.pid;
+                })
+            }
+
         }
         var param = {
             "command": "UPDATE",

@@ -11,6 +11,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
     $scope.attrTplContainer = "";//属性栏的ng-include地址
     $scope.subAttrTplContainer = "";
+    $scope.errorCheckTab = "";//检查刷新ng-include地址
     $scope.save = function () {
         $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.SAVEPROPERTY)
@@ -141,6 +142,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#fm-outPut-inspectDiv").show();
             $("#fm-error-wrongDiv").hide();
             $scope.rowCollection = [];
+
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
                 }
@@ -152,57 +154,17 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#errorClear").hide();
             $("#immediatelyCheck").show();
             $("#fm-outPut-inspectDiv").hide();
-            $("#fm-error-checkErrorLi").hide();
             $("#fm-error-wrongDiv").show();
-            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
-                }
-            );
-
-
-        } else if (tab === "getCheck") {
             $("#fm-error-checkErrorLi").show();
-            //if( $scope.itemsByPage==1){
-            $scope.rowCollection = [];
-            $scope.itemsByPage = 1;
-            $scope.getCheckDateAndCount();
-            //}
-            $("#fm-error-wrongDiv").show();
-            $ocLazyLoad.load('ctrl/errorCheckCtrl').then(function () {
-                    $scope.errorCheckTab = 'js/tepl/errorCheckTepl.html';
-                }
-            );
+            $ocLazyLoad.load('ctrl/errorPageCtrl').then(function () {
+                $scope.errorCheckPage = 'js/tepl/errorPageTepl.html'
+            });
+
+
         }
+
     };
-    //获取检查错误
-    $scope.getCheckDate = function () {
-        var param = {
-            "projectId": Application.projectid,
-            "pageNum": $scope.itemsByPage,
-            "pageSize": 5,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
-            if (data.errcode == 0) {
-                $scope.rowCollection = data.data;
-                $scope.goPaging();
-                $scope.$apply();
-            }
-        });
-    }
-    $scope.getCheckDateAndCount = function () {
-        var paramsOfCounts = {
-            "projectId": Application.projectid,
-            "meshes": $scope.meshesId
-        };
-        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
-            if (data.errcode == 0) {
-                $scope.checkTotalPage = Math.ceil(data.data / 5);
-                $scope.checkTotal = data.data;
-            }
-        });
-        $scope.getCheckDate();
-    }
+
     $scope.isTipsPanel = 1;
 //改变左侧栏中的显示内容
     $scope.changeLeftDisplay = function (id) {
@@ -224,39 +186,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             );
         }
     };
-
-
-    /*箭头图代码点击下一页*/
-    $scope.picNext = function () {
-        $scope.itemsByPage += 1;
-        $scope.getCheckDate();
-    }
-    /*箭头图代码点击上一页*/
-    $scope.picPre = function () {
-        $scope.itemsByPage -= 1;
-        $scope.getCheckDate();
-    }
-
-    /*点击翻页*/
-    $scope.goPaging = function () {
-        if ($scope.itemsByPage == 1) {
-            if ($scope.checkTotalPage == 0 || $scope.checkTotalPage == 1) {
-                $(".pic-next").prop('disabled', 'disabled');
-            } else {
-                $(".pic-next").prop('disabled', false);
-            }
-            $(".pic-pre").prop('disabled', 'disabled');
-        } else {
-            if ($scope.checkTotalPage - $scope.itemsByPage == 0) {
-                $(".pic-next").prop('disabled', 'disabled');
-            } else {
-                $(".pic-next").prop('disabled', false);
-            }
-            $(".pic-pre").prop('disabled', false);
-        }
-        $scope.$apply();
-    }
-
 
     $scope.empty = function () {
         var output = fastmap.uikit.OutPutController();

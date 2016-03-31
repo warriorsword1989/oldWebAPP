@@ -1,5 +1,5 @@
 /**
- * Created by liwanchong on 2015/12/22.
+ * Created by lwc on 2015/12/22.
  */
 fastmap.uikit.TransformDirection = L.Handler.extend({
     /***

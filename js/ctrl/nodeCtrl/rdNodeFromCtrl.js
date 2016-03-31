@@ -68,7 +68,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     $scope.initializeNodeData=function() {
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
-        Application.functions.getLinksbyNodeId(JSON.stringify({
+        Application.functions.getByCondition(JSON.stringify({
             projectId: Application.projectid,
             type: 'RDLINK',
             data: {"nodePid":  $scope.rdNodeData.pid}

@@ -49,8 +49,8 @@
                 </div>
                 <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
                     <div id="tkclosediv"  style="margin-top: -20px">
-                        <button type="button" class="btn btn-xs ">
-                            <a href="#" data-toggle="tab" ng-click="changeSuspendShow()" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
+                        <button  ng-click="changeSuspendShow()" type="button" class="btn btn-xs ">
+                            <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
                         </button>
                     </div>
 
@@ -103,25 +103,10 @@
                                     </div>
                                 </div>
                             </li>
-                            <li id="fm-error-checkErrorLi" style="width:60%;display: none;">
-                                <div class="fm-error-num-well">
-                                    共 <span class="pic-num" ng-bind="checkTotal">1</span> 项错误
-                                </div>
-                                <div class="fm-error-pull-right">
-                                    第 <span class="pic-num" ng-bind="itemsByPage">1</span> 页 |
-                                    共 <span class="pic-total" ng-bind="checkTotalPage">1</span> 页
-                                    <div class="fm-error pull-right btn-group" style="margin-left: 2px">
-                                        <button class="btn btn-default btn-xs pic-pre" ng-click="picPre()" disabled>
-                                            <<
-                                        </button>
-                                        <button class="btn btn-default btn-xs pic-next" ng-click="picNext()">
-                                            >>
-                                        </button>
-                                    </div>
-                                </div>
+                            <li id="fm-error-checkErrorLi" style="width:75%;display: none;">
+                                <div ng-include="errorCheckPage" style="height:100%;"></div>
                             </li>
                             <li style="float:right">
-                                <button id="immediatelyCheck" class="btn btn-xs" style="display: none;" ng-click="showTab('getCheck')"><i class="glyphicon glyphicon-refresh"></i> 刷新检查</button>
                                 <button id="errorClear" style=" width: 60px" ng-click="empty()" class="btn btn-xs"><i class="glyphicon glyphicon-ban-circle"></i> 清 空</button>
                             </li>
                         </ul>
