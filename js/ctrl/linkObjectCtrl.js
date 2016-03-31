@@ -321,9 +321,12 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             var line = fastmap.mapApi.lineString(points);
             selectCtrl.onSelected({geometry: line, id: data.data.pid});
             objectCtrl.setCurrentObject("RDLINK",data.data);
-            $ocLazyLoad.load("ctrl/linkObjectCtrl").then(function () {
-                $scope.$parent.$parent.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
-            });
+            var linkObj = {
+                "loadType":"attrTplContainer",
+                "propertyCtrl":"ctrl/linkObjectCtrl",
+                "propertyHtml":"js/tepl/linkObjTepl/linkObjectTepl.html"
+            };
+            $scope.$emit("transitCtrlAndTpl", linkObj);
         });
     }
     $scope.cancel=function(){

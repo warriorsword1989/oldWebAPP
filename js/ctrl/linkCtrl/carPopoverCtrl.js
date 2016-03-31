@@ -38,6 +38,11 @@ oridinaryInfoApp.controller("carController",function($scope) {
         {"id": 27, "label": "槽罐车","checked":false},
         {"id": 28, "label": "残疾人车","checked":false}
     ];
+    /*********如果窗口打开状态，窗口关闭*/
+    if($('body .datetip:last').show()){
+        $('body .datetip:last').hide()
+    }
+
     $scope.showvehicle=function(vehicle){
         var towbin=dec2bin(vehicle);
 
@@ -104,11 +109,11 @@ oridinaryInfoApp.controller("carController",function($scope) {
                     $scope.carData.splice(i,1);
                 }
             }
-
         }else{
             item.checked=true;
             $scope.carData.push(item);
         }
+        $scope.checkViche();
     }
 
     $scope.checkViche=function(){

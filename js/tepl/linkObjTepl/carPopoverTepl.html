@@ -410,12 +410,16 @@
         background: rgba(0,0,0,.25);
     }
 
+    #checkallow{
+        margin-top:3px;
+    }
+
 </style>
 <div class="date-well" ng-controller="carController">
     <div class="date-head">
         <h3 class="date-title pull-left">车辆类型</h3>
 
-        <div class="pull-right">
+        <div class="pull-right" style="display:inline-flex;">
             <a style="cursor: pointer;"  ng-click="showPopover($event)">添加</a>
             <input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-click="checkViche()" ng-model="checkValue">允许
         </div>

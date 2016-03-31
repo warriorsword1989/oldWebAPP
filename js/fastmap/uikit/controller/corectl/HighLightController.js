@@ -141,7 +141,7 @@ fastmap.uikit.HighLightController = (function () {
                                             if (theory > 0) {
                                                 newGeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
                                                 newGeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
-                                                this._drawImg({
+                                                layer._drawImg({
                                                     ctx:ctx,
                                                     geo:newGeom,
                                                     style:newStyle,
@@ -150,7 +150,7 @@ fastmap.uikit.HighLightController = (function () {
                                                 });
                                             } else {
 
-                                                this._drawImg({
+                                                layer._drawImg({
                                                     ctx:ctx,
                                                     geo:geom,
                                                     style:newStyle,
@@ -183,7 +183,7 @@ fastmap.uikit.HighLightController = (function () {
 
 
 
-                                                this._drawImg( {
+                                                layer._drawImg( {
                                                     ctx:ctx,
                                                     geo:newGeom,
                                                     style:newStyle,
@@ -191,7 +191,7 @@ fastmap.uikit.HighLightController = (function () {
                                                     rotate:route
                                                 });
                                             } else {
-                                                this._drawImg( {
+                                                layer._drawImg( {
                                                     ctx:ctx,
                                                     geo:geom,
                                                     style:newStyle,
