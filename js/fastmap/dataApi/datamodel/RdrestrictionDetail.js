@@ -11,17 +11,14 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
-        if(!data["pid"]){
-            throw "对象没有对应pid"
-        }
         this.setAttributeData(data);
     },
 
     setAttributeData:function(data){
 
-        this.pid = data["pid"] || null;
-        this.restricPid = data["restricPid"] || null;
-        this.outLinkPid = data["outLinkPid"] || null;
+        this.pid = data["pid"] || 0;
+        this.restricPid = data["restricPid"] || 0;
+        this.outLinkPid = data["outLinkPid"] || 0;
         this.flag = data["flag"] || 2;
         this.restricInfo = data["restricInfo"] ||0;
         this.type = data["type"] || 1;

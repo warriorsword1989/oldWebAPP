@@ -187,6 +187,7 @@ fastmap.uikit.HighLightController = (function () {
                 //}
 
 
+
             }
         });
         return new highLightController(options);

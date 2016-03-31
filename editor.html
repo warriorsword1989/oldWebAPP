@@ -49,8 +49,8 @@
                 </div>
                 <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
                     <div id="tkclosediv"  style="margin-top: -20px">
-                        <button type="button" class="btn btn-xs ">
-                            <a href="#" data-toggle="tab" ng-click="changeSuspendShow()" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
+                        <button  ng-click="changeSuspendShow()" type="button" class="btn btn-xs ">
+                            <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
                         </button>
                     </div>
 
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li id="fm-error-checkErrorLi" style="width:82%;display: none;">
+                            <li id="fm-error-checkErrorLi" style="width:75%;display: none;">
                                 <div ng-include="errorCheckPage" style="height:100%;"></div>
                             </li>
                             <li style="float:right">
@@ -130,31 +130,8 @@
     </div>
 </div>
 <div id='tooltip' class="tooltipclass"></div>
-<div id="dataTipsOriginModal" style="display:none">
-    <div class="modal-header">
-        <div class="pull-right" id="fullPicBtn" ng-click="showFullPic();" title="全屏">
-            <span class="glyphicon glyphicon-fullscreen"></span>
-        </div>
-        <button id="tipsImgClose" type="button" class="close"
-                data-dismiss="modal" aria-hidden="true" title="关闭">
-            &times;
-        </button>
-        <h4 class="modal-title" id="myModalLabel">
-            图片
-        </h4>
-    </div>
-    <div class="modal-body">
-        <div class="switch-left" ng-click="switchPic(0);">
-            <img src="css/img/left.png">
-        </div>
-        <div id="imgContainer"> 
-            <img id="dataTipsOriginImg" src=""/> 
-        </div>
-        <div class="switch-right" ng-click="switchPic(1);">
-            <img src="css/img/right.png">
-        </div>
-        <div id="imgPage">{{imgPageNow}}/{{imgAllPage}}</div>
-    </div>
+<div id="dataTipsOriginModal" style="display:none" >
+<div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
 </div>
 <div id="fullScalePic" ng-click="hideFullPic();"><img src=""></div>
 <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>

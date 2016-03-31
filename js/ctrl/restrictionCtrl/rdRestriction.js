@@ -67,15 +67,20 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             linksObj: linksObj,
             initFlag: false
         });
+
+
         var highLightRestriction = new fastmap.uikit.HighLightRender(hlayer, {
+
             map: map,
             highLightFeature: "restrict",
             restrictId: $scope.rdRestrictData.pid.toString(),
             initFlag: true
         });
 
+
         highLightLinks.drawOfLinksForInit();
         highLightLayer.pushHighLightLayers(highLightLinks);
+
 
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
@@ -193,9 +198,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $(e.target).addClass('active');
         $scope.rdSubRestrictData = item;
         //删除以前高亮的进入线和退出线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
+        //if (highLightLayer.highLightLayersArr.length !== 0) {
+        //    highLightLayer.removeHighLightLayers();
+        //}
         $scope.fmdateTimer(limitPicArr[$(e.target).attr('data-index')]);
         //高亮选择限制防线的进入线和退出线
         var linksOfRestric = {};
@@ -207,7 +212,16 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             linksObj: linksOfRestric
         })
         highLightLinks.drawOfLinksForInit();
+        var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
+            map: map,
+            highLightFeature: "restrict",
+            restrictId: $scope.rdRestrictData.pid.toString(),
+            initFlag: false
+        });
+        highLightRestriction.drawRestrictForInit();
+
         highLightLayer.pushHighLightLayers(highLightLinks);
+        highLightLayer.pushHighLightLayers(highLightRestriction);
 
         //显示时间
         $timeout(function () {
@@ -361,9 +375,12 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 })
             }
 
-            $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
-                delete v.pid;
-            })
+            if(objectEditCtrl.changedProperty.details[0].conditions){
+                $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
+                    delete v.pid;
+                })
+            }
+
         }
         var param = {
             "command": "UPDATE",

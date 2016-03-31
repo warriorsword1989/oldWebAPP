@@ -92,7 +92,6 @@ fastmap.uikit.SelectRdBranch = (function () {
                             var feature = data.features[i];
                             var type = feature.geometry.type;
                             var geom = feature.geometry.coordinates;
-
                             var ctx = {
                                 canvas: this.redrawTiles[index].options.context,
                                 tile: this.redrawTiles[index].options.context._tilePoint
@@ -106,7 +105,7 @@ fastmap.uikit.SelectRdBranch = (function () {
                                 var restrictObj = feature.properties.SpeedDivergencecondition;
                                 if (restrictObj !== undefined) {
 
-                                    newStyle = {src: './css/divergence/' + 0 + '.svg'}
+                                    newStyle = {src: './css/1407/' + 0 + '.svg'}
                                     newGeom[0] = (parseInt(geom[0]));
                                     newGeom[1] = (parseInt(geom[1]));
                                     var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
@@ -158,7 +157,7 @@ fastmap.uikit.SelectRdBranch = (function () {
                                 if (restrictObj !== undefined) {
 
                                     //newStyle = {src: './css/speedLimit/selected/selected.png'};
-                                    newStyle = {src: './css/divergence/' + 0 + '.svg'}
+                                    newStyle = {src: './css/1407/' + 0 + '.svg'}
                                     newGeom[0] = (parseInt(geom[0]));
                                     newGeom[1] = (parseInt(geom[1]));
                                     var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);

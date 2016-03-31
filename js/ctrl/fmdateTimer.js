@@ -17,6 +17,11 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     /*持续时间——周——开始时间*/
     wks.wEndSelection = wks.values[0];
 
+    /*********如果窗口打开状态，窗口关闭*/
+    if($('body .datetip:last').show()){
+        $('body .datetip:last').hide()
+    }
+
     /*日、周、月*/
     var dwm = $scope.dwm = {};
     dwm.values = [

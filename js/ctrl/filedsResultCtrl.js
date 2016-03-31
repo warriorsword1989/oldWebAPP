@@ -388,14 +388,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
 
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
-                if ($scope.$parent.$parent.attrTplContainer) {
-                    $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
-                        $scope.$parent.$parent.attrTplContainer = 'js/tepl/blankTepl.html';
-                    })
-
-                }
-
-                $scope.$parent.$parent.tipsType = pItemId;
+                //if ($scope.$parent.$parent.attrTplContainer) {
+                //    $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
+                //        $scope.$parent.$parent.attrTplContainer = 'js/tepl/blankTepl.html';
+                //    })
+                //}
+                //
                 $("#popoverTips").css("display", "block");
                 Application.functions.getTipsResult(item.i, function (data) {
                     if (data.rowkey === "undefined") {

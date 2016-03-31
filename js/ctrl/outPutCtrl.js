@@ -10,7 +10,7 @@ outPutModule.controller('outPutController', function ($scope) {
     var output = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
-    var restrictLayer = layerCtrl.getLayerById("referencePoint");
+    var restrictLayer = layerCtrl.getLayerById("restriction");
     var selectCtrl = fastmap.uikit.SelectController();
     output.updateOutPuts = function () {
         var outValue = output.outPuts;
@@ -44,8 +44,8 @@ outPutModule.controller('outPutController', function ($scope) {
         } else if (type.indexOf("RDRESTRICTION") >= 0) {
             var linksObj = {};//存放需要高亮的进入线和退出线的id
             var limitPicArr = [];
-            layerCtrl.pushLayerFront('referencePoint');
-            Application.functions.getRdObjectById(id, type, function (d) {
+            layerCtrl.pushLayerFront('restriction');
+            Application.functions.getRdObjectById(id, "RDRESTRICTION", function (d) {
                 objCtrl.setCurrentObject("RDRESTRICTION", d.data);
                 var highLightDataTips = new fastmap.uikit.HighLightRender(restrictLayer, {
                     map: map,
