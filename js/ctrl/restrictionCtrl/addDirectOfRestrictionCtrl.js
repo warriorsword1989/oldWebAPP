@@ -42,7 +42,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
             obj.flag = 1;
         }
 
-        obj.conditons = [];
+        obj.conditions = [];
         $scope.newLimited = obj;
 
     };
