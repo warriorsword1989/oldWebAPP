@@ -49,8 +49,8 @@
                 </div>
                 <div ng-class="{true:'suspend',false:'suspend_hide'}[suspendFlag]">
                     <div id="tkclosediv"  style="margin-top: -20px">
-                        <button type="button" class="btn btn-xs ">
-                            <a href="#" data-toggle="tab" ng-click="changeSuspendShow()" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
+                        <button  ng-click="changeSuspendShow()" type="button" class="btn btn-xs ">
+                            <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-remove-circle"></i> 关 闭</a>
                         </button>
                     </div>
 
@@ -65,7 +65,7 @@
                             <span></span>
                         </a>
                     </div>
-                    <div style="padding-left: 15px;height: 100%;">
+                    <div style="padding-left: 15px;height: 100%;display: none;" id="blackWell">
                         <div ng-include="attrTplContainer" class="scroll-styled fm-panel-object">
                         </div>
                         <div style="width: 290px;bottom: 0px;position:absolute;border-color: #e7e7e7;z-index:10 ">

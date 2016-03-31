@@ -98,7 +98,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             map.currentTool.enable();
             $scope.toolTipText = '请选择node！';
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                $scope.getFeatDataCallback(data,data.id,"RDLINK",'ctrl/nodeCtrl/rdNodeFromCtrl',"js/tepl/nodeTepl/rdNodeFromTepl.html");
+                $scope.getFeatDataCallback(data,data.id,"RDNODE",'ctrl/nodeCtrl/rdNodeFromCtrl',"js/tepl/nodeTepl/rdNodeFromTepl.html");
             });
         }
         else if (type === "relation") {
@@ -156,7 +156,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             eventController.on(eventController.eventTypes.GETTIPSID, function (data) {
                     $scope.data = data;
                     $("#popoverTips").css("display", "block");
-                    Application.functions.getTipsResult($scope.data .id, function (data) {
+                    Application.functions.getTipsResult($scope.data.id, function (data) {
                         if (data.rowkey === "undefined") {
                             return;
                         }
@@ -191,7 +191,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "ctrl/restrictionCtrl/rdRestriction", "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html");
                                 break;
                             case "1407"://分歧
-                                $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.pid, "ctrl/branchCtrl/namesOfBranchCtrl", "js/tepl/namesOfBranch.html");
+                                $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "ctrl/branchCtrl/namesOfBranchCtrl", "js/tepl/branchTepl/namesOfBranch.html");
                                 break;
                             case "1510"://桥
                                 var ctrlAndTmplOfBridge={

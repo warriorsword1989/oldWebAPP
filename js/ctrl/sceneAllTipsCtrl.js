@@ -11,7 +11,11 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
+
+    var gpsLine = layerCtrl.getLayerById("gpsLine");
+
     $scope.eventController = fastmap.uikit.EventController();
+
     //清除地图上的高亮的feature
     if (highLightLayer.highLightLayersArr.length !== 0) {
         highLightLayer.removeHighLightLayers();
@@ -209,6 +213,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1901":
                 $scope.nArrayData = $scope.dataTipsData.n_array;
+
+                var highLightroadNamesTips = new fastmap.uikit.HighLightRender(gpsLine, {
+                    map: map,
+                    highLightFeature: "link",
+                    initFlag: true,
+                    linkPid: $scope.dataTipsData.rowkey.toString()
+                });
+                highLightroadNamesTips.drawOfLinkForInit();
+                highLightLayer.pushHighLightLayers(highLightroadNamesTips);
+
                 break;
             case "2001":
                 /*种别*/
@@ -267,7 +281,17 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     /*车道数*/
                     $scope.carNumber = $scope.dataTipsData.ln;
                 }
+                var highLightgpsTips = new fastmap.uikit.HighLightRender(gpsLine, {
+                    map: map,
+                    highLightFeature: "link",
+                    initFlag: true,
+                    linkPid: $scope.dataTipsData.id.toString()
+                });
+
+                highLightLayer.pushHighLightLayers(highLightgpsTips);
                 break;
+
+
 
         }
 

@@ -11,7 +11,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
     $scope.attrTplContainer = "";//属性栏的ng-include地址
     $scope.subAttrTplContainer = "";
-    $scope.errorCheckTab="";//检查刷新ng-include地址
+    $scope.errorCheckTab = "";//检查刷新ng-include地址
     $scope.save = function () {
         $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.SAVEPROPERTY)
@@ -99,32 +99,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     };
     //登录时
     keyEvent($ocLazyLoad, $scope);
-    $scope.zoom = [];
     $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
         $scope.outputTab = 'js/tepl/outputTepl.html';
         appInit();
-        for (var i = map.getMinZoom(); i <= map.getMaxZoom(); i++) {
-            $scope.zoom.push(i);
-        }
-        $scope.removeZoomClass = function () {
-            $.each($(".zoom-btn"), function (m, n) {
-                $(n).prop('disabled', false).removeClass('btn-primary');
-            })
-        }
-        $scope.changeZoom = function (i, e) {
-            $scope.removeZoomClass();
-            map.setZoom(i);
-            $('#nowZoom').text(i);
-            $(e.target).prop('disabled', true).addClass('btn-primary');
-        }
-        $('#nowZoom').text(map.getZoom());
-        /*当比例尺改变时*/
-        map.on('zoomend', function () {
-            $('#nowZoom').text(map.getZoom());
-            $scope.removeZoomClass();
-            $(".zoom-btn[data-zoom-size=" + map.getZoom() + "]").prop('disabled', true).addClass('btn-primary');
-        })
-        $scope.disZoom = map.getZoom();
         $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
                 $scope.layersURL = 'js/tepl/filedsResultTepl.html';
                 $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
@@ -137,6 +114,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
                                         $scope.attrTplContainer = 'js/tepl/blankTepl.html';
                                         $scope.showLoading = false;
+                                        $("#blackWell").fadeIn();
                                         $(".output-console").fadeIn();
                                         $('#fm-leftContainer').fadeIn();
                                         $(".fm-panel-layersURL").fadeIn();

@@ -276,7 +276,12 @@
         <li class="list-group-item">
             <div><label class="control-label">车辆类型</label></div>
             <div class="inline" style="width:100%;">
-                <div style="text-align: center;"><a style="cursor: pointer;"  ng-click="showPopover($index,item.vehicle)">添加</a><input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-click="checkViche()" ng-model="checkValue">允许</div>
+                <div style="text-align: center;color: #FFF;" class="checkbox">
+                    <a style="cursor: pointer;"  ng-click="showPopover($index,item.vehicle)">添加</a>
+                    <label style="line-height: 1.5">
+                        <input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-click="checkViche()" ng-model="checkValue">允许
+                    </label>
+                </div>
 
                 <div  id="vehicleExpressiondiv"
                       style="min-width:60px; min-heigth:60px;list-style: none;border:1px solid #58666e; height:40%;float:left; width:100%;overflow-y:auto;word-break: break-all;word-wrap: break-word;"
