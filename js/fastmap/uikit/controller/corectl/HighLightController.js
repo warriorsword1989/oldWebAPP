@@ -130,6 +130,80 @@ fastmap.uikit.HighLightController = (function () {
 
                                     });
                                 }
+                            }else if(featureOfHigh === "restrict") {
+                                var newStyle = "",newGeom = [];
+                                var restrictObj = feature.properties.restrictioninfo;
+                                var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
+                                if (restrictObj) {
+                                    if (restrictObj.constructor === Array) {
+                                        for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
+                                            newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
+                                            if (theory > 0) {
+                                                newGeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
+                                                newGeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
+                                                layer._drawImg({
+                                                    ctx:ctx,
+                                                    geo:newGeom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route
+                                                });
+                                            } else {
+
+                                                layer._drawImg({
+                                                    ctx:ctx,
+                                                    geo:geom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route
+                                                });
+                                            }
+                                        }
+                                    } else {
+                                        var restrictArr = restrictObj.split(",");
+                                        for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
+
+                                            if (restrictArr[fact].constructor === Array) {
+                                                newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
+
+                                            } else {
+                                                if (restrictArr[fact].indexOf("[") > -1) {
+                                                    restrictArr[fact] = restrictArr[fact].replace("[", "");
+                                                    restrictArr[fact] = restrictArr[fact].replace("]", "");
+                                                    newStyle = {src: './css/1302/1302_2_' + restrictArr[fact] + '.svg'};
+
+                                                } else {
+                                                    newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
+
+                                                }
+                                            }
+                                            if (fact > 0) {
+                                                newGeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
+                                                newGeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+
+
+
+                                                layer._drawImg( {
+                                                    ctx:ctx,
+                                                    geo:newGeom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route
+                                                });
+                                            } else {
+                                                layer._drawImg( {
+                                                    ctx:ctx,
+                                                    geo:geom,
+                                                    style:newStyle,
+                                                    boolPixelCrs:true,
+                                                    rotate:route
+                                                });
+                                            }
+
+                                        }
+                                    }
+
+                                }
                             }
 
 

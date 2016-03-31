@@ -12,7 +12,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
 
     map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
-    $scope.modifyShapeClaArr = $scope.$parent.$parent.classArr;
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
         $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
@@ -21,7 +20,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             shapeCtrl.stopEditing();
         }
         var feature = null;
-        $scope.$parent.$parent.changeBtnClass(num);
+        $scope.changeBtnClass(num);
         map.currentTool.disable();
         if (shapeCtrl.shapeEditorResult) {
             if(tooltipsCtrl.getCurrentTooltip()){

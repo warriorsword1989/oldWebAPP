@@ -23,16 +23,21 @@ showDirectApp.controller("showDirectOfConnexity",function($scope) {
         {flag: "o", log: "空"}
     ];
     //增加普通车道方向(单击)
-    $scope.addNormalData = function (item, event) {
-        var obj = {"flag":"test" , "log": ""};
+    $scope.addNormalData = function (item) {
+        var transitObj = {"flag":"test" , "type": 1},
+          normalObj = {
+                "flag": item.flag,
+                "type": 0
+            };;
         if(  $scope.showData.showAdditionalData.length===0) {
-            $scope.showData.showNormalData.push(item);
-            $scope.showData.showTransitData.push(obj);
+
+            $scope.showData.showNormalData.push(normalObj);
+            $scope.showData.showTransitData.push(transitObj);
             $scope.showData.inLaneInfoArr.push(item.flag)
         }else{
-            var len =    $scope.showData.showNormalData.length;
-            $scope.showData.showNormalData.splice(len - 1, 0, item);
-            $scope.showData.showTransitData.splice(len - 1, 0, obj);
+            var len = $scope.showData.showNormalData.length;
+            $scope.showData.showNormalData.splice(len - 1, 0, normalObj);
+            $scope.showData.showTransitData.splice(len - 1, 0, transitObj);
             $scope.showData.inLaneInfoArr.splice(len - 1, 0, item.flag);
         }
 
@@ -42,16 +47,22 @@ showDirectApp.controller("showDirectOfConnexity",function($scope) {
     $scope.additionalData=function(event,item) {
         if(event.button===2) {
             event.preventDefault();
-            var transitObj = {"flag":"test" , "log": ""};
+            var transitObj = {"flag": "test", "type": 1},
+                normalObj = {
+                    "flag": item.flag,
+                    type: 0
+                },
+                additionObj = {
+                    "flag": item.flag,
+                    type: 2
+                };
+
             if($scope.showData.showAdditionalData.length===0) {
-                var obj = {},additionStr;
-                angular.extend(obj, item);
                 additionStr = "[" + item.flag + "]";
                 $scope.showData.inLaneInfoArr.push(additionStr);
-                obj["flag"] = obj.flag.toString()+obj.flag.toString()+obj.flag.toString();
-                $scope.showData.showNormalData.push(obj);
+                $scope.showData.showNormalData.push(additionObj);
                 $scope.showData.showTransitData.push(transitObj);
-                $scope.showData.showAdditionalData.push(obj);
+                $scope.showData.showAdditionalData.push(additionObj);
             }
         }
 
