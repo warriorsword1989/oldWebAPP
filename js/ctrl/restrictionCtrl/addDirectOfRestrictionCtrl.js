@@ -2,49 +2,41 @@
  * Created by liwanchong on 2016/2/29.
  */
 var addDirectOfRest = angular.module("myApp", []);
-addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout){
+addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.addDirectData = objCtrl.data;
     //初始化交限
     $scope.addLimitedData = [
-        {"id": 1,"flag":false},
-        {"id": 2,"flag":false},
-        {"id": 3,"flag":false},
-        {"id": 4,"flag":false},
-        {"id": 1,"flag":true},
-        {"id": 2,"flag":true},
-        {"id": 3,"flag":true},
-        {"id": 4,"flag":true}
+        {"id": 1, "flag": false},
+        {"id": 2, "flag": false},
+        {"id": 3, "flag": false},
+        {"id": 4, "flag": false},
+        {"id": 1, "flag": true},
+        {"id": 2, "flag": true},
+        {"id": 3, "flag": true},
+        {"id": 4, "flag": true}
 
     ];
-    $scope.removeImgActive = function(){
-        $.each($('.trafficPic'),function(i,v){
+    $scope.removeImgActive = function () {
+        $.each($('.trafficPic'), function (i, v) {
             $(v).find('img').removeClass('active');
         });
     }
     //选择弹出框中的交限
-    $scope.selectTip = function (item,e) {
+    $scope.selectTip = function (item, e) {
         /*选中高亮*/
         $scope.removeImgActive();
         $(e.target).addClass('active');
+        var flag;
         $scope.tipsId = item.id;
-        var obj = {};
-        obj.restricInfo = item.id;
-        obj.outLinkPid = 0; //$scope.rdLink.outPid;
-        obj.pid = 0;//featCodeCtrl.newObj.pid;
-        obj.relationshipType = 1;
-        obj.type = 1;
-        obj.restricPid = 0// featCodeCtrl.newObj.pid;
-        if(item.flag) {
-            obj.flag = 2;
+        if (item.flag) {
+            flag = 2;
 
-        }else{
-            obj.flag = 1;
+        } else {
+            flag = 1;
         }
-
-        obj.conditions = [];
-        $scope.newLimited = obj;
-
+        var newDirectObj = fastmap.dataApi.rdrestrictiondetail({"restricInfo": item.id, "flag": flag,"conditions":[]})
+        $scope.newLimited = newDirectObj;
     };
     //添加交限
     $scope.addTips = function () {
@@ -63,9 +55,9 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
                 return;
             }
             $scope.addDirectData.details.unshift($scope.newLimited);
-            if($scope.newLimited.type===1) {
+            if ($scope.newLimited.type === 1) {
                 $scope.addDirectData.restrictInfo += "," + $scope.newLimited.restricInfo;
-            }else{
+            } else {
                 var newDirect = ",[" + $scope.newLimited.restricInfo + "]";
                 $scope.addDirectData.restrictInfo += newDirect;
 
@@ -73,7 +65,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
 
             $scope.removeImgActive();
             $scope.newLimited = '';
-            $timeout(function(){
+            $timeout(function () {
                 $(".show-tips:first").trigger('click');
             })
         }

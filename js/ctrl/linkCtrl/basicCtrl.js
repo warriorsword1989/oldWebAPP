@@ -122,6 +122,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     ];
 
     $scope.initOtherData = function(){
+        $scope.linkData = objectEditCtrl.data;
         $scope.newFromOfWRoadDate = [];
         if($scope.linkData.forms.length>0){
             $scope.auxiFlag=$scope.linkData.forms[0].auxiFlag;
