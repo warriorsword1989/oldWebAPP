@@ -32,8 +32,6 @@ fastmap.dataApi.rdRestriction = fastmap.dataApi.GeoDataModel.extend({
                 this.details.push(detail);
             }
         }
-
-
     },
 
     /**
