@@ -105,6 +105,11 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
         //    $("#vehicleExpressiondiv"+sitem).popover('hide');
         //    $scope.linkLimitData.limits[sitem].vehicle=getEndArray();
         //});
+
+        $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
+            $scope.carPopoverURL = 'js/tepl/fmdateTimer.html';
+        });
+
     }
     for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
         if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
@@ -117,9 +122,14 @@ oridinaryInfoApp.controller("oridinaryLimitController",function($scope,$timeout,
 
 
     $scope.showPopover=function(ind,vehicle){
-        initdiv('vehicleExpressiondiv');
-        $('#vehicleExpressiondiv').popover('show');
+       // initdiv('vehicleExpressiondiv');
+        //$('#vehicleExpressiondiv').popover('show');
+       // $(".popover-title").append("<button id='closeBut' onclick='javascript:closePopover()'>X</button>");
 
+    }
+
+    function closePopover(){
+       $('#vehicleExpressiondiv').popover('hide');
     }
 
     $timeout(function(){
