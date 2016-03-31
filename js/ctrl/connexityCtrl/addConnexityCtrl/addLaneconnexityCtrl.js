@@ -27,11 +27,13 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     //增加公交车道方向(单击)
     $scope.addTransitData=function(item,index) {
 
-        var obj = {},transitStr="";
-        angular.extend(obj, item);
-        obj.flag = obj.flag.toString()+obj.flag.toString();
+        var obj = {},transitStr="",transitObj=null;
+        transitObj = {
+            "flag":item.flag,
+            "type":1
+        };
         transitStr = "<" + item.flag + ">";
-        $scope.directData.showTransitData[index]=obj;
+        $scope.directData.showTransitData[index]=transitObj;
         $scope.directData.inLaneInfoArr[index] += transitStr;
 
     };

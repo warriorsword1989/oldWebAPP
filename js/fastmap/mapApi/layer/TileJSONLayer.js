@@ -451,7 +451,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             for(var key in divergeObj){
                                 /*之所以判断由于目前没有1.svg和2.svg*/
                                 if(divergeObj[key].type == 0){
-                                    var newStyle = {src:'./css/divergence/' + divergeObj[key].type + '.svg'};
+                                    var newStyle = {src:'./css/1407/' + divergeObj[key].type + '.svg'};
                                     var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
                                     that._drawImg( {
                                         ctx:ctx,

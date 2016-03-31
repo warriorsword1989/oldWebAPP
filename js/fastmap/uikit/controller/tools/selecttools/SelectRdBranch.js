@@ -73,7 +73,7 @@ fastmap.uikit.SelectRdBranch = (function () {
             },
             cleanHeight: function () {
                 this._cleanHeight();
-                //this._map.fire("getNodeId")
+              
             }
             ,
 
@@ -84,79 +84,43 @@ fastmap.uikit.SelectRdBranch = (function () {
 
                 for (var index in this.redrawTiles) {
                     var data = this.redrawTiles[index].data;
-                    //this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
-                    var ctx = {
-                        canvas: this.redrawTiles[index].options.context,
-                        tile: this.redrawTiles[index].options.context._tilePoint
-                        //, zoom: this._map.getZoom()
-                    }
+                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+
                     if (data.hasOwnProperty("features")) {
                         for (var i = 0; i < data.features.length; i++) {
+
                             var feature = data.features[i];
-                            if (feature.properties.speedlimitcondition === undefined) {
-                                break;
-                            }
-                            var newStyle = "", newGeom = [];
-                            var restrictObj = feature.properties.speedlimitcondition;
+                            var type = feature.geometry.type;
                             var geom = feature.geometry.coordinates;
-                            if (restrictObj !== undefined) {
-
-                                var speedFlagstyle = null;
-                                var jttype = null;
-                                var restrictObj = feature.properties.speedlimitcondition;
-                                var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
-                                var resArray = restrictObj.split("|");
-                                var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
-                                var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
-                                var speedValue = resArray[2] / 10;//限速值
-                                if (gaptureFlag === 1) {//理论判断，限速开始和结束都为蓝色
-                                    if (speedFlag === 1) {//解除限速
-                                        speedFlagstyle = {src: './css/speedLimit/normal/llend_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/llend_gray.png'};
-                                    } else {
-                                        speedFlagstyle = {src: './css/speedLimit/normal/llstart_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/llstart_blue.png'};
-                                    }
-
-                                } else {//现场采集，限速开始为红色，结束为黑色
-                                    if (speedFlag === 1) {//解除限速
-                                        speedFlagstyle = {src: './css/speedLimit/normal/end_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/end_black.png'};
-                                    } else {
-                                        speedFlagstyle = {src: './css/speedLimit/normal/start_' + speedValue + '.png'};
-                                        jttype = {src: './css/speedLimit/normal/start_red.png'};
-                                    }
-                                }
-                                newGeom[0] = (parseInt(geom[0]));
-                                newGeom[1] = (parseInt(geom[1]));
-                                this.currentEditLayer._drawImg({
-                                    ctx:ctx,
-                                    geo:newGeom,
-                                    style:speedFlagstyle,
-                                    boolPixelCrs:true
-                                    ,
-                                    fillStyle:{
-                                        lineColor:'rgb(4, 187, 245)',
-                                        fillColor:'rgba(4, 187, 245, 0.5)',
-                                        lineWidth:1,
-                                        width:30,
-                                        height:30,
-                                        dx:0,
-                                        dy:0
-
-                                    }
-                                })
-                                //绘制箭头
-                                this.currentEditLayer._drawImg({
-                                    ctx:ctx,
-                                    geo:newGeom,
-                                    style:jttype,
-                                    boolPixelCrs:true,
-                                    rotate:route
-
-                                })
+                            var ctx = {
+                                canvas: this.redrawTiles[index].options.context,
+                                tile: this.redrawTiles[index].options.context._tilePoint
 
                             }
+
+                                if (feature.properties.SpeedDivergencecondition === undefined) {
+                                    break;
+                                }
+                                var newStyle = "", newGeom = [];
+                                var restrictObj = feature.properties.SpeedDivergencecondition;
+                                if (restrictObj !== undefined) {
+
+                                    newStyle = {src: './css/1407/' + 0 + '.svg'}
+                                    newGeom[0] = (parseInt(geom[0]));
+                                    newGeom[1] = (parseInt(geom[1]));
+                                    var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
+                                    this.currentEditLayer._drawImg({
+                                        ctx:ctx,
+                                        geo:newGeom,
+                                        style:newStyle,
+                                        boolPixelCrs:true,
+                                        rotate:divergeRoute
+
+
+                                    })
+
+                                }
+
 
                         }
                     }
@@ -182,33 +146,42 @@ fastmap.uikit.SelectRdBranch = (function () {
                             var ctx = {
                                 canvas: this.tiles[obj].options.context,
                                 tile: L.point(key.split(',')[0], key.split(',')[1])
-                                //, zoom: this._map.getZoom()
+
                             }
-                            if (type == "Point") {
-                                if (feature.properties.speedlimitcondition === undefined) {
+
+                                if (feature.properties.SpeedDivergencecondition === undefined) {
                                     break;
                                 }
                                 var newStyle = "", newGeom = [];
-                                var restrictObj = feature.properties.speedlimitcondition;
+                                var restrictObj = feature.properties.SpeedDivergencecondition;
                                 if (restrictObj !== undefined) {
 
-                                    newStyle = {src: './css/speedLimit/selected/selected.png'};
-
+                                    //newStyle = {src: './css/speedLimit/selected/selected.png'};
+                                    newStyle = {src: './css/1407/' + 0 + '.svg'}
                                     newGeom[0] = (parseInt(geom[0]));
-                                    newGeom[1] = (parseInt(geom[1]) + 23 / 2);
-
+                                    newGeom[1] = (parseInt(geom[1]));
+                                    var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
                                     this.currentEditLayer._drawImg({
                                         ctx:ctx,
                                         geo:newGeom,
                                         style:newStyle,
-                                        boolPixelCrs:true
+                                        boolPixelCrs:true,
+                                        rotate:divergeRoute,
+                                        fillStyle:{
+                                            lineColor:'rgb(4, 187, 245)',
+                                            fillColor:'rgba(4, 187, 245, 0.5)',
+                                            lineWidth:1,
+                                            width:30,
+                                            height:30,
+                                            dx:0,
+                                            dy:0
+
+                                        }
 
                                     })
 
                                 }
 
-
-                            }
                         }
                     }
                 }
