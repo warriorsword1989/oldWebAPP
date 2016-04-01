@@ -290,24 +290,17 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 highLightLayer.pushHighLightLayers(highLightgpsTips);
                 break;
-
-
-
         }
-
         //获取数据中的图片数组
         if (!$scope.photos) {
             $scope.photos = [];
         }
 
         $scope.photoTipsData = selectCtrl.rowKey.feedback.f_array;
-
-        $scope.photoNum = 0;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
                 $scope.photos.push(content);
-                $scope.photoNum++;
             } else if ($scope.photoTipsData[i].type === 3) {
                 $scope.remarksContent = $scope.photoTipsData[i].content;
             }
@@ -315,13 +308,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         }
         if ($scope.photos.length != 0 && $scope.photos.length < 4) {
             for (var a = $scope.photos.length; a < 4; a++) {
-                var imgs = "./css/img/noimg.png";
-                $scope.photos.push(imgs);
+                var img = "./css/img/noimg.png";
+                $scope.photos.push(img);
             }
         } else {
             for (var j = 0; j < 4; j++) {
-                var newimgs = "./css/img/noimg.png";
-                $scope.photos.push(newimgs);
+                var newImg= "./css/img/noimg.png";
+                $scope.photos.push(newImg);
             }
         }
     };
@@ -334,54 +327,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.initializeDataTips();
         $scope.$apply();
     };
-    $scope.openOrigin = function (id) {
-        if(selectCtrl.rowKey.feedback.f_array && id <= selectCtrl.rowKey.feedback.f_array.length-1){
-            $scope.photoId = id;
-            $("#dataTipsOriginModal").show();
-            $scope.openshotoorigin = selectCtrl.rowKey.feedback.f_array[id];
-            $scope.$parent.$parent.imgPageNow = id+1;
-            $scope.$parent.$parent.imgAllPage = $scope.photoNum;
-            var originImg = $("#dataTipsOriginImg");
-            originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            dataTipsOriginImg.onload = function(){
-                originImg.hide();
-                originImg.smartZoom('destroy'); 
-                if($(".zoomableContainer").length == 0){
-                    $("#dataTipsOriginModal").width(parseInt($("#mainContent").width())-244);
-                    originImg.smartZoom({'containerClass':'zoomableContainer'});
-                    /*$('#zoomInButton,#zoomOutButton').bind("click", function(e){
-                        var scaleToAdd = 0.8;
-                        if(e.target.id == 'zoomOutButton')
-                            scaleToAdd = -scaleToAdd;
-                        originImg.smartZoom('zoom', scaleToAdd);
-                    });*/
-                }
-                $("#dataTipsOriginModal").show();
-                originImg.show();
-            }
-            
-        }
-    }
-    /*tips图片全屏*/
-    $scope.$parent.$parent.showFullPic = function(){
-        $("#fullScalePic img").attr('src',$("#dataTipsOriginImg").attr('src'));
-        $("#fullScalePic").show();
-    }
-    /*隐藏tips图片*/
-    $scope.$parent.$parent.hideFullPic = function(){
-        $("#fullScalePic").hide();
-    }
-    /*图片切换*/
-    $scope.$parent.$parent.switchPic = function (type) {
-        if (type == 0) {
-            if ($scope.photoId - 1 >= 0) {
-                $scope.openOrigin($scope.photoId - 1);
-            }
-        } else {
-            if ($scope.photoId + 2 <= $scope.photoNum) {
-                $scope.openOrigin($scope.photoId + 1);
-            }
-        }
+    $scope.openOrigin=function(id) {
+        selectCtrl.rowKey["pictureId"] = id;
+        var openOriginObj = {
+            "loadType":"tipsPitureContainer",
+            "propertyCtrl":"ctrl/tipsPictureCtrl",
+            "propertyHtml":"js/tepl/tipsPictureTpl.html"
+        };
+        $scope.$emit("transitCtrlAndTpl", openOriginObj);
     };
     $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
         $scope.initializeDataTips(event.feather);
@@ -447,20 +400,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 var pid = data.data.log[0].pid;
                 restrictLayer.redraw();//交限图层刷新
                 workPoint.redraw();//dataTip图层刷新
-                //修改状态
-                var stageParam = {
-                    "rowkey": $scope.$parent.$parent.rowkeyOfDataTips,
-                    "stage": 3,
-                    "handler": 0
-
-                }
                 $scope.upBridgeStatus();
                 Application.functions.getRdObjectById(pid, "RDRESTRICTION", function (data) {
                     objCtrl.setCurrentObject("RDRESTRICTION", data.data);
-                    $ocLazyLoad.load('ctrl/objectEditCtrl').then(function () {
-                        $scope.$parent.$parent.attrTplContainer = "js/tepl/trafficLimitOfNormalTepl.html";
-
-                    })
+                    var restrictObj = {
+                        "loadType":"attrTplContainer",
+                        "propertyCtrl":"ctrl/restrictionCtrl/rdRestriction",
+                        "propertyHtml":"js/tepl/trafficLimitOfNormalTepl.html"
+                    };
+                    $scope.$emit("transitCtrlAndTpl", restrictObj);
                 })
 
             });
@@ -648,7 +596,3 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $("#popoverTips").css("display", "none");
     }
 });
-$("#tipsImgClose").click(function(){
-    $("#dataTipsOriginModal").hide();
-    $("#dataTipsOriginImg").hide();
-})

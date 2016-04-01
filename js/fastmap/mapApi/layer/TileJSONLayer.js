@@ -265,10 +265,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     },
     /***
      *
-     * @param {Object}func回调函数
-     * @param {String}url当前请求的url
+     * @param func func回调函数
+     * @param url url当前请求的url
      * @param {String}key 瓦片key
-     * @returns {XDomainRequest}
+     * @param {String}parse 瓦片key
+     * @returns parse {XDomainRequest}
      * @private
      */
     _ajaxLoader: function (func, url, key, parse) {
@@ -340,7 +341,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     },
     /***
      * 绘制要素
-     * @param {Object}data绘制的数据
+     * @param data data绘制的数据
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
@@ -367,20 +368,20 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (feature.properties.restrictioninfo === undefined) {
                             return;
                         }
-                        var newStyle = "",newGeom = [];
+                        var newStyleOfRestrict = "",newGeom = [];
                         var restrictObj = feature.properties.restrictioninfo;
                         var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                         if (restrictObj) {
                             if (restrictObj.constructor === Array) {
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
+                                    newStyleOfRestrict = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
                                     if (theory > 0) {
                                         newGeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
                                         newGeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
                                         this._drawImg({
                                             ctx:ctx,
                                             geo:newGeom,
-                                            style:newStyle,
+                                            style:newStyleOfRestrict,
                                             boolPixelCrs:boolPixelCrs,
                                             rotate:route
                                         });
@@ -389,7 +390,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         this._drawImg({
                                             ctx:ctx,
                                             geo:geom,
-                                            style:newStyle,
+                                            style:newStyleOfRestrict,
                                             boolPixelCrs:boolPixelCrs,
                                             rotate:route
                                         });
@@ -400,16 +401,16 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
 
                                     if (restrictArr[fact].constructor === Array) {
-                                        newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
+                                        newStyleOfRestrict = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
 
                                     } else {
                                         if (restrictArr[fact].indexOf("[") > -1) {
                                             restrictArr[fact] = restrictArr[fact].replace("[", "");
                                             restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyle = {src: './css/1302/1302_2_' + restrictArr[fact] + '.svg'};
+                                            newStyleOfRestrict = {src: './css/1302/1302_2_' + restrictArr[fact] + '.svg'};
 
                                         } else {
-                                            newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
+                                            newStyleOfRestrict = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
 
                                         }
                                     }
@@ -422,7 +423,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         this._drawImg( {
                                             ctx:ctx,
                                             geo:newGeom,
-                                            style:newStyle,
+                                            style:newStyleOfRestrict,
                                             boolPixelCrs:boolPixelCrs,
                                             rotate:route
                                         });
@@ -430,7 +431,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                         this._drawImg( {
                                             ctx:ctx,
                                             geo:geom,
-                                            style:newStyle,
+                                            style:newStyleOfRestrict,
                                             boolPixelCrs:boolPixelCrs,
                                             rotate:route
                                         });
@@ -451,12 +452,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             for(var key in divergeObj){
                                 /*之所以判断由于目前没有1.svg和2.svg*/
                                 if(divergeObj[key].type == 0){
-                                    var newStyle = {src:'./css/divergence/' + divergeObj[key].type + '.svg'};
+                                    var newStyleOfDiverge = {src:'./css/1407/' + divergeObj[key].type + '.svg'};
                                     var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
                                     that._drawImg( {
                                         ctx:ctx,
                                         geo:[feature.geometry.coordinates[0][0],feature.geometry.coordinates[1][0]],
-                                        style:newStyle,
+                                        style:newStyleOfDiverge,
                                         boolPixelCrs:boolPixelCrs,
                                         rotate:divergeRoute
                                     });

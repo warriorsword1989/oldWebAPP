@@ -82,6 +82,41 @@ fastmap.mapApi.LayerRender = {
         }
     },
 
+    _drawBackground:function(options){
+
+        var p = null;
+        var style = options.style;
+        if (options.boolPixelCrs) {
+            p = {x: options.geo[0], y: options.geo[1]}
+        } else {
+            p = this._tilePoint(options.ctx, options.geom);
+        }
+
+        var c = options.ctx.canvas;
+
+        var g = c.getContext('2d');
+        var rotate = options.rotate;
+            var scalex = options.scalex?options.scalex:1;
+            var scaley = options.scaley?options.scaley:1;
+            var drawx = options.drawx;
+            var drawy = options.drawy;
+            g.save();
+            g.translate(p.x, p.y);
+
+                g.strokeStyle = options.lineColor;  //边框颜色
+                g.fillStyle = options.fillColor;
+                g.linewidth=options.lineWidth;  //边框宽
+                g.fillRect(drawx,drawy,options.width,options.height);  //填充颜色 x y坐标 宽 高
+                g.strokeRect(drawx,drawy,options.width,options.height);  //填充边框 x y坐标 宽 高
+
+            if(rotate){
+                g.rotate(rotate);//旋转度数
+            }
+
+            g.restore();
+
+    },
+
     _drawText: function (ctx, geom, name) {
         geom = this._clip(ctx, geom);
 

@@ -15,7 +15,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var eventController = fastmap.uikit.EventController();
         var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
-        $scope.addShapeClaArr = $scope.$parent.$parent.classArr;
         //两点之间的距离
         $scope.distance = function (pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
@@ -90,13 +89,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
+            $scope.changeBtnClass(num);
             if (type === "restriction") {
                 shapeCtrl.setEditingType("restriction")
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                $scope.$parent.$parent.changeBtnClass(num);
                 tooltipsCtrl.setEditEventType('restriction');
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
@@ -125,7 +124,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                $scope.$parent.$parent.changeBtnClass(num);
+
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -147,7 +146,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                $scope.$parent.$parent.changeBtnClass(num);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -222,7 +220,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                $scope.$parent.$parent.changeBtnClass(num);
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
@@ -313,7 +310,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                $scope.$parent.$parent.changeBtnClass(num);
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());

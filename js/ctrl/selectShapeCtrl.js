@@ -3,7 +3,6 @@
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootScope', function ($scope, $ocLazyLoad,$rootScope) {
-    $scope.selectClaArr = $scope.$parent.$parent.classArr;
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -63,8 +62,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
         $("#popoverTips").hide();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-        $scope.$parent.$parent.attrTplContainer = "";
-        $scope.$parent.$parent.changeBtnClass(num);
+        $scope.changeBtnClass(num);
         if (type === "link") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(
