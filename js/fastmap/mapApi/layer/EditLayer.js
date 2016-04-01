@@ -1,6 +1,6 @@
 /**
  * Created by zhongxiaoming on 2015/10/19
- * Class EditLayer 可编辑图层
+ * Class EditLayer 可编辑层
  */
 fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
     /**
