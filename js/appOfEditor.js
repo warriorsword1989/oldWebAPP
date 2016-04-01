@@ -8,10 +8,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     var highLightLayer = fastmap.uikit.HighLightController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
-    $scope.tipsTplContainer = "";//左上角弹出框的ng-include地址
-    $scope.attrTplContainer = "";//属性栏的ng-include地址
-    $scope.subAttrTplContainer = "";
-    $scope.errorCheckTab = "";//检查刷新ng-include地址
     $scope.save = function () {
         $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.SAVEPROPERTY)
@@ -71,8 +67,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.attrTplContainerSwitch(true);
         }
     });
-
-    $scope.rowkeyOfDataTips = "";
     $scope.panelFlag = false;//panelFlag属性面板状态
     $scope.outErrorArr = [false, true, true, false];//输出框样式控制
     $scope.suspendFlag = false;//次属性框显隐控制
@@ -99,6 +93,10 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
 
         $scope.subAttrTplContainerSwitch(false);
     };
+    /*隐藏tips图片*/
+    $scope.hideFullPic = function () {
+        $("#fullScalePic").hide();
+    }
     //登录时
     keyEvent($ocLazyLoad, $scope);
     $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
@@ -129,11 +127,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             }
         );
     });
-    $scope.itemsByPage = 1;
-    $scope.checkTotalPage = 0;
-    $scope.checkTotal = 0;
-    $scope.meshesId = [605603, 0605603];
-    $scope.rowCollection = [];
     $scope.showTab = function (tab, ind) {
         if (tab === "outPut") {
             $("#liout").addClass("selected");
@@ -143,7 +136,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#fm-error-checkErrorLi").hide();
             $("#fm-outPut-inspectDiv").show();
             $("#fm-error-wrongDiv").hide();
-            $scope.rowCollection = [];
 
             $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
                     $scope.outputTab = 'js/tepl/outputTepl.html';
@@ -254,6 +246,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             }
         } else if (data["loadType"] === "tipsTplContainer") {
 
+        }else if(data["loadType"] === "tipsPitureContainer") {
+            if($scope[data["loadType"]]) {
+                $scope.$broadcast("TRANSITTIPSPICTURE",{})
+                return;
+            }
         }
 
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
@@ -281,6 +278,7 @@ function appInit() {
         doubleClickZoom: false,
         zoomControl: false
     }).setView([40.012834, 116.476293], 17);
+
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();
@@ -303,6 +301,7 @@ function appInit() {
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
 }
+
 
 
 

@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="js/lib/sweet-alert/css/sweet-alert.css">
     <link rel="stylesheet" type="text/css" href="js/lib/icheck-1.x/skins/all.css">
     <link rel="stylesheet" href="css/editor.css">
+    <link rel="stylesheet" href="css/toolbar.css">
     <script src="js/lib/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="js/fastmap/fastmapapi.js"></script>
 </head>
@@ -130,31 +131,8 @@
     </div>
 </div>
 <div id='tooltip' class="tooltipclass"></div>
-<div id="dataTipsOriginModal" style="display:none">
-    <div class="modal-header">
-        <div class="pull-right" id="fullPicBtn" ng-click="showFullPic();" title="全屏">
-            <span class="glyphicon glyphicon-fullscreen"></span>
-        </div>
-        <button id="tipsImgClose" type="button" class="close"
-                data-dismiss="modal" aria-hidden="true" title="关闭">
-            &times;
-        </button>
-        <h4 class="modal-title" id="myModalLabel">
-            图片
-        </h4>
-    </div>
-    <div class="modal-body">
-        <div class="switch-left" ng-click="switchPic(0);">
-            <img src="css/img/left.png">
-        </div>
-        <div id="imgContainer"> 
-            <img id="dataTipsOriginImg" src=""/> 
-        </div>
-        <div class="switch-right" ng-click="switchPic(1);">
-            <img src="css/img/right.png">
-        </div>
-        <div id="imgPage">{{imgPageNow}}/{{imgAllPage}}</div>
-    </div>
+<div id="dataTipsOriginModal" style="display:none" >
+<div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
 </div>
 <div id="fullScalePic" ng-click="hideFullPic();"><img src=""></div>
 <div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'js/tepl/svgLoading.html'"></div>
