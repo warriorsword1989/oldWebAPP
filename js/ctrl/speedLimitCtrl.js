@@ -13,6 +13,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
@@ -31,14 +32,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         highLightLayer.pushHighLightLayers(highLightLink);
         highLightLink.drawOfLinkForInit();
 
-        var highLightSpeedLimit = new fastmap.uikit.HighLightRender(speedLimit, {
+        var highLightSpeedLimit = new fastmap.uikit.HighLightRender(hLayer, {
             map: map,
             highLightFeature: "speedlimit",
             initFlag: true,
             speedLimitId:$scope.speedLimitData.pid
         });
-        highLightLayer.pushHighLightLayers(highLightSpeedLimit);
-        //highLightLink.drawSpeedLimit()
 
     }
     if(objectEditCtrl.data){

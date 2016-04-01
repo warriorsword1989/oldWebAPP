@@ -32,10 +32,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
             map: map,
             highLightFeature: "dataTips",
-            dataTips: $scope.dataTipsData.rowkey
+            dataTips: $scope.dataTipsData.rowkey,
+            initFlag:true
         });
-        highLightDataTips.drawTipsForInit();
-        highLightLayer.pushHighLightLayers(highLightDataTips);
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -164,13 +163,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 })
                 highLightLinks.drawOfLinksForInit();
                 highLightLayer.pushHighLightLayers(highLightLinks);
-                var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-                    map: map,
-                    highLightFeature: "dataTips",
-                    dataTips: $scope.dataTipsData.rowkey
-                });
-                highLightDataTips.drawTipsForInit();
-                highLightLayer.pushHighLightLayers(highLightDataTips);
                 break;
             case "1407":
                 /*进入*/
@@ -202,7 +194,25 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
                 break;
-            case "1803":
+            case "1803"://挂接
+                if($scope.dataTipsData.pcd){//有图片时，显示图片
+                    $scope.pcd=$scope.dataTipsData.pcd.substr(0,4);
+                }else{//无图片时获取经纬度，高亮
+                    $scope.garray=$scope.dataTipsData.g_array;
+                    if($scope.garray.geo.type=="Point"){
+
+                    }else if($scope.garray.geo.type=="Line"){
+                        var highLightroadNamesTips = new fastmap.uikit.HighLightRender(gpsLine, {
+                            map: map,
+                            highLightFeature: "link",
+                            initFlag: true,
+                            linkPid: $scope.dataTipsData.rowkey.toString()
+                        });
+                        highLightroadNamesTips.drawOfLinkForInit();
+                        highLightLayer.pushHighLightLayers(highLightroadNamesTips);
+                    }
+                }
+
                 break;
             case "1901":
                 $scope.nArrayData = $scope.dataTipsData.n_array;
@@ -315,10 +325,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         //dataTips的初始化数据
         $scope.initializeDataTips(selectCtrl.rowKey);
     }
-    selectCtrl.updateTipsCtrl = function () {
-        $scope.initializeDataTips();
-        $scope.$apply();
-    };
     $scope.openOrigin=function(id) {
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {

@@ -101,6 +101,9 @@ fastmap.mapApi.LayerRender = {
         var drawy = options.drawy;
         g.save();
         g.translate(p.x, p.y);
+        if (rotate) {
+            g.rotate(rotate);//旋转度数
+        }
 
         g.strokeStyle = options.lineColor;  //边框颜色
         g.fillStyle = options.fillColor;
@@ -108,9 +111,7 @@ fastmap.mapApi.LayerRender = {
         g.fillRect(drawx, drawy, options.width, options.height);  //填充颜色 x y坐标 宽 高
         g.strokeRect(drawx, drawy, options.width, options.height);  //填充边框 x y坐标 宽 高
 
-        if (rotate) {
-            g.rotate(rotate);//旋转度数
-        }
+
 
         g.restore();
 

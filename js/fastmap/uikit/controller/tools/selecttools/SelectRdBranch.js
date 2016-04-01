@@ -17,7 +17,7 @@ fastmap.uikit.SelectRdBranch = (function () {
                 this.options = options || {};
                 L.setOptions(this, options);
                 this._map = this.options.map;
-                this.currentEditLayer = this.options.currentEditLayer;
+                this.highlightLayer = this.options.highlightLayer;
                 this.eventController = fastmap.uikit.EventController();
                 this.tiles = this.options.tiles;
                 this.transform = new fastmap.mapApi.MecatorTranform();
@@ -29,14 +29,15 @@ fastmap.uikit.SelectRdBranch = (function () {
 
                 var id = null;
                 for (var item in data) {
-                    var speedlimitObj = data[item].properties.SpeedDivergencecondition;
-                    var geom = data[item].geometry.coordinates;
-                    var newGeom = [];
-                    if (speedlimitObj !== undefined) {
-
+                    var speedLimitObj = data[item].properties.SpeedDivergencecondition;
+                    if (speedLimitObj) {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             id = data[item].properties.SpeedDivergencecondition[0].ids[0].detailId;
-                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {detailid: id, tips: 0, optype: 'RDBRANCH'})
+                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                                detailid: id,
+                                tips: 0,
+                                optype: 'RDBRANCH'
+                            })
 
                             if (this.redrawTiles.length != 0) {
                                 this._cleanHeight();
@@ -49,8 +50,6 @@ fastmap.uikit.SelectRdBranch = (function () {
                     }
 
                 }
-
-
             },
 
             /***
@@ -82,48 +81,13 @@ fastmap.uikit.SelectRdBranch = (function () {
              */
             _cleanHeight: function () {
 
-                for (var index in this.redrawTiles) {
-                    var data = this.redrawTiles[index].data;
-                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
+                for (var index in this.highlightLayer._tiles) {
 
-                    if (data.hasOwnProperty("features")) {
-                        for (var i = 0; i < data.features.length; i++) {
+                    this.highlightLayer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
+                }
 
-                            var feature = data.features[i];
-                            var type = feature.geometry.type;
-                            var geom = feature.geometry.coordinates;
-                            var ctx = {
-                                canvas: this.redrawTiles[index].options.context,
-                                tile: this.redrawTiles[index].options.context._tilePoint
-
-                            }
-
-                                if (feature.properties.SpeedDivergencecondition === undefined) {
-                                    break;
-                                }
-                                var newStyle = "", newGeom = [];
-                                var restrictObj = feature.properties.SpeedDivergencecondition;
-                                if (restrictObj !== undefined) {
-
-                                    newStyle = {src: './css/1407/' + 0 + '.svg'}
-                                    newGeom[0] = (parseInt(geom[0]));
-                                    newGeom[1] = (parseInt(geom[1]));
-                                    var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                    this.currentEditLayer._drawImg({
-                                        ctx:ctx,
-                                        geo:newGeom,
-                                        style:newStyle,
-                                        boolPixelCrs:true,
-                                        rotate:divergeRoute
-
-
-                                    })
-
-                                }
-
-
-                        }
-                    }
+                for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length; i < len; i++) {
+                    this.eventController.off(this.eventController.eventTypes.TILEDRAWEND, this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND][i]);
                 }
             }
             ,
@@ -136,57 +100,40 @@ fastmap.uikit.SelectRdBranch = (function () {
                 this.redrawTiles = this.tiles;
                 for (var obj in this.tiles) {
                     var data = this.tiles[obj].data.features;
-
                     for (var key in data) {
-
                         var feature = data[key];
-                        var type = feature.geometry.type;
                         var geom = feature.geometry.coordinates;
                         if (data[key].properties.id == id) {
                             var ctx = {
-                                canvas: this.tiles[obj].options.context,
+                                canvas: this.highlightLayer._tiles[this.tiles[obj].options.context.name.replace('_', ":")],
                                 tile: L.point(key.split(',')[0], key.split(',')[1])
-
                             }
+                            if (feature.properties.SpeedDivergencecondition === undefined) {
+                                break;
+                            }
+                            var newGeom = [];
+                            newGeom[0] = (parseInt(geom[0]));
+                            newGeom[1] = (parseInt(geom[1]));
+                            var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
+                            this.highlightLayer._drawBackground({
+                                ctx: ctx,
+                                geo: newGeom,
+                                boolPixelCrs: true,
+                                rotate: divergeRoute,
+                                lineColor: 'rgb(4, 187, 245)',
+                                fillColor: 'rgba(4, 187, 245, 0.5)',
+                                lineWidth: 1,
+                                width: 30,
+                                height: 30,
+                                drawx: -15,
+                                drawy: -15
 
-                                if (feature.properties.SpeedDivergencecondition === undefined) {
-                                    break;
-                                }
-                                var newStyle = "", newGeom = [];
-                                var restrictObj = feature.properties.SpeedDivergencecondition;
-                                if (restrictObj !== undefined) {
-
-                                    //newStyle = {src: './css/speedLimit/selected/selected.png'};
-                                    newStyle = {src: './css/1407/' + 0 + '.svg'}
-                                    newGeom[0] = (parseInt(geom[0]));
-                                    newGeom[1] = (parseInt(geom[1]));
-                                    var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                    this.currentEditLayer._drawImg({
-                                        ctx:ctx,
-                                        geo:newGeom,
-                                        style:newStyle,
-                                        boolPixelCrs:true,
-                                        rotate:divergeRoute,
-                                        fillStyle:{
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0.5)',
-                                            lineWidth:1,
-                                            width:30,
-                                            height:30,
-                                            dx:0,
-                                            dy:0
-
-                                        }
-
-                                    })
-
-                                }
+                            })
 
                         }
+
                     }
                 }
-
-
             }
         })
         return new SelectRdBranch(options);
