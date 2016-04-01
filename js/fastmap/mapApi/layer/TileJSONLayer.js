@@ -726,6 +726,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 mouseOverColor: 'rgba(255,0,0,1)',
                                 clickColor: 'rgba(252,0,0,1)'
                             }
+                        }else if(feature.properties.kind ===1803){
+                            tipsStyle = {
+                                size: 2,
+                                color: '#336C0A',
+                                mouseOverColor: 'rgba(255,0,0,1)',
+                                clickColor: 'rgba(252,0,0,1)'
+                            }
                         }
                         this._drawLineString(ctx, geom, boolPixelCrs,
                             tipsStyle,
