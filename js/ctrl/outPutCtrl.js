@@ -41,7 +41,44 @@ outPutModule.controller('outPutController', function ($scope) {
         }
         if (type.indexOf("RDLINK") >= 0) {
             $scope.OutDrawLink(id,"RDLINK");
-        } else if (type.indexOf("RDRESTRICTION") >= 0) {
+        }else if(type.indexOf("RDNODE") >= 0){
+            Application.functions.getByCondition(JSON.stringify({
+                projectId: Application.projectid,
+                type: 'RDLINK',
+                data: {"nodePid":  id}
+            }), function (data) {
+                if (data.errcode === -1) {
+                    return;
+                }
+                var lines = [];
+                $scope.linepids = [];
+                for (var index in data.data) {
+                    var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [],points1=[];
+                    for (var i = 0, len = linkArr.length; i < len; i++) {
+                        var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                        points.push(point);
+                        var point1 = L.latLng(linkArr[i][1], linkArr[i][0]);
+                        points1.push(point1);
+                    }
+                    lines.push(fastmap.mapApi.lineString(points));
+                    $scope.linepids.push(data.data[index].pid);
+                }
+                var line = new L.polyline(points1);
+                var bounds = line.getBounds();
+                map.fitBounds(bounds, {"maxZoom": 19});
+                var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
+
+                selectCtrl.onSelected({geometry: multiPolyLine, id: id});
+                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                    map: map,
+                    highLightFeature: "linksOfnode",
+                    initFlag: true
+                });
+                highLightLayer.pushHighLightLayers(highLightLink);
+                highLightLink.drawLinksOfCrossForInit($scope.linepids, [],[id]);
+            })
+        }
+        else if (type.indexOf("RDRESTRICTION") >= 0) {
             var linksObj = {};//存放需要高亮的进入线和退出线的id
             var limitPicArr = [];
             layerCtrl.pushLayerFront('restriction');
@@ -93,7 +130,13 @@ outPutModule.controller('outPutController', function ($scope) {
                     nodeArr.push(d.data.nodes[m].nodePid);
                 }
                 highLightLink.drawLinksOfCrossForInit(linkArr,nodeArr);
-                $scope.OutDrawLink(linkArr[0],"RDLINK");
+                if(d.data.links.length==0){
+
+                }else{
+                    $scope.OutDrawLink(linkArr[0],"RDLINK");
+                }
+
+
             })
         }else if(type.indexOf("RDLANECONNEXITY") >= 0){//车信
             var linksObj = {};//存放需要高亮的进入线和退出线的id
