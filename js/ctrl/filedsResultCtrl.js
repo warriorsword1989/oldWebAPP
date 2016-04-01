@@ -485,7 +485,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
 
 
-                    } else if (pItemId === "1801") {//挂接
+                    } else if (pItemId === "1803") {//挂接
+                        console.log(data);
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var ctrlAndTplOfOfGJ= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl": "ctrl/sceneAllTipsCtrl",
+                            "propertyHtml": "js/tepl/sceneAllTipsTepl.html"
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
+
                     } else if (pItemId === "1901") {//道路名
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19);
 

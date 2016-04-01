@@ -209,7 +209,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1704"://交叉路口
                 $scope.fData = $scope.dataTipsData;
                 break;
-            case "1803":
+            case "1803"://挂接
+                $scope.pcd=$scope.dataTipsData.pcd;
                 break;
             case "1901":
                 $scope.nArrayData = $scope.dataTipsData.n_array;
