@@ -129,10 +129,11 @@ outPutModule.controller('outPutController', function ($scope) {
                 for(var m in d.data.nodes){
                     nodeArr.push(d.data.nodes[m].nodePid);
                 }
-                highLightLink.drawLinksOfCrossForInit(linkArr,nodeArr);
-                if(d.data.links.length==0){
 
+                if(d.data.links.length==0){
+                    highLightLink.drawLinksOfCrossForInit([], nodeArr);
                 }else{
+                    highLightLink.drawLinksOfCrossForInit(linkArr,nodeArr);
                     $scope.OutDrawLink(linkArr[0],"RDLINK");
                 }
 
