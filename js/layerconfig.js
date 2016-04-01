@@ -125,7 +125,7 @@ Application.layersConfig =
                 zIndex: 17,
                 restrictZoom: 10,
                 editable: false,
-                visible: false,
+                visible: true,
                 requestType: 'RDLINK',
                 showNodeLevel: 17
             }
@@ -235,7 +235,7 @@ Application.layersConfig =
                 type: 'Diverge',
                 zIndex: 10,
                 restrictZoom: 10,
-                visible: false,
+                visible: true,
                 requestType: 'RDBRANCH',
                 showNodeLevel: 17
             }
@@ -283,7 +283,7 @@ Application.layersConfig =
                 type: 'rdSpeedLimitPoint',
                 zIndex: 10,
                 restrictZoom: 10,
-                visible: false,
+                visible: true,
                 requestType: 'RDSPEEDLIMIT',
                 showNodeLevel: 17
             }
@@ -330,7 +330,7 @@ Application.layersConfig =
                 type: 'rdCrossPoint',
                 zIndex: 18,
                 restrictZoom: 10,
-                visible: false,
+                visible: true,
                 requestType: 'RDCROSS',
                 showNodeLevel: 17
             }
@@ -379,7 +379,7 @@ Application.layersConfig =
                 type: 'rdlaneconnexityPoint',
                 zIndex: 10,
                 restrictZoom: 10,
-                visible: false,
+                visible: true,
                 requestType: 'RDLANECONNEXITY',
                 showNodeLevel: 17
             }
