@@ -142,8 +142,8 @@ fastmap.uikit.SelectRdlane = (function () {
                                                     lineWidth: 1,
                                                     width: 20,
                                                     height: 10,
-                                                    drawx: 0,
-                                                    drawy: 5,
+                                                    drawx: -10,
+                                                    drawy: -5,
                                                     scalex: 2 / 3,
                                                     scaley: 2 / 3
                                                 })
@@ -160,8 +160,8 @@ fastmap.uikit.SelectRdlane = (function () {
                                                     lineWidth: 1,
                                                     width: 20,
                                                     height: 10,
-                                                    drawx: 0,
-                                                    drawy: 5,
+                                                    drawx: -10,
+                                                    drawy: -5,
                                                     scalex: 2 / 3,
                                                     scaley: 2 / 3
                                                 })

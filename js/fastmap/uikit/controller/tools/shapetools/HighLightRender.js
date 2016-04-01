@@ -705,8 +705,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                     lineWidth: 1,
                                     width: 20,
                                     height: 10,
-                                    drawx: 0,
-                                    drawy: 5,
+                                    drawx: -10,
+                                    drawy: -5,
                                     scalex: 2 / 3,
                                     scaley: 2 / 3
                                 })
@@ -722,8 +722,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                     lineWidth: 1,
                                     width: 20,
                                     height: 10,
-                                    drawx: 0,
-                                    drawy: 5,
+                                    drawx: -10,
+                                    drawy: -5,
                                     scalex: 2 / 3,
                                     scaley: 2 / 3
                                 })
@@ -838,8 +838,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         } else if (this.highLightFeature === "linksOfCross") {
             this.drawLinksOfCross(tile, zoom);
         } else if (this.highLightFeature === "lane") {
-            console.log(tile.url);
-            this.drawLane(tile, zoom);
+         if(e.layer.type==="rdlaneconnexityPoint") {
+             this.drawLane(tile, zoom);
+         }
         } else if (this.highLightFeature === "speedlimit") {
             this.drawSpeedLimit(tile, zoom);
         }
