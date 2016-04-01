@@ -72,7 +72,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
-                if (selectCtrl.rowkey.rowkey) {
+                if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,

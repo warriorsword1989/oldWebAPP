@@ -43,8 +43,14 @@
                 <span ng-if="row.rowId==null">{{row.rowId}}</span>
             </td>
             <td id="clickPidTd" ng-if="row.type!=''"  >
-                <span ng-if="row.pid!=null"  ng-click="showInMap(1,row.type,row.pid)">{{row.pid}}</span>
-                <span ng-if="row.rowId!=null"  ng-click="showInMap(2,row.type,row.rowId)">{{row.rowId}}</span>
+                <span ng-if="row.pid!=null&&row.childPid!=null&&row.childPid!=''"  ng-click="showInMap(1,row.type,row.pid)">
+                    {{row.pid}}({{row.childPid}})
+                </span>
+                <span ng-if="row.pid!=null&&(row.childPid==null||row.childPid=='')"  ng-click="showInMap(1,row.type,row.pid)">
+                    {{row.pid}}
+                </span>
+                <span ng-if="row.rowId!=null&&row.childPid!=null&&row.childPid!=''"  ng-click="showInMap(2,row.type,row.rowId)">{{row.rowId}}({{row.childPid}})</span>
+                <span ng-if="row.rowId!=null&&(row.childPid==null||row.childPid=='')"  ng-click="showInMap(2,row.type,row.rowId)">{{row.rowId}}</span>
             </td>
         </tr>
         </tbody>
