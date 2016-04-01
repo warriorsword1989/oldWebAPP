@@ -130,7 +130,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                     frs= new fastmap.uikit.SelectRestriction({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDLANECONNEXITY":
-                    frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdlane({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDSPEEDLIMIT":
                     frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
@@ -178,7 +178,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 frs = new fastmap.uikit.SelectRestriction({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDLANECONNEXITY":
-                                frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdlane({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDSPEEDLIMIT":
                                 frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
