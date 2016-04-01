@@ -22,13 +22,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     }
     $scope.outIdS = [];
 
-    $scope.testA = function (event) {
-        map.scrollWheelZoom = false;
-        //event.preventDefault();
-    };
-    $scope.testB = function (event) {
-    };
-
     //初始化DataTips相关数据
     $scope.initializeDataTips = function (data) {
         $scope.photoTipsData = [];
