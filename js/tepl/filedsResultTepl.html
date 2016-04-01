@@ -370,7 +370,7 @@
                         <ul ng-repeat="aItem in allSubItems">
                             <li ng-if="aItem.i!=''||aItem.i!=null||aItem.i!=' '"
                                 ng-click="showTab(aItem,$event,pItem.id,$index)" ng-class="{true:'selected'}[allStyleArr[$index]]">
-                                <i class="glyphicon glyphicon-copyright-mark"> </i> <label data-toggle="tooltip"  title="{{aItem.m.f|date:'yyyy-MM-dd HH:mm:ss'}}">{{aItem.m.e}}</label>
+                                <i class="glyphicon glyphicon-copyright-mark"> </i> <label data-toggle="tooltip"  title="{{aItem.m.f|date:'yyyy-MM-dd HH:mm:ss'}}">{{(aItem.m.e==''||aItem.m.e==null)?'未命名':aItem.m.e}}</label>
                             </li>
                         </ul>
                     </li>
