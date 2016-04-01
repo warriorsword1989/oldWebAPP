@@ -314,7 +314,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     if (selectCtrl.rowKey) {
         //dataTips的初始化数据
         $scope.initializeDataTips(selectCtrl.rowKey);
-
     }
     selectCtrl.updateTipsCtrl = function () {
         $scope.initializeDataTips();
