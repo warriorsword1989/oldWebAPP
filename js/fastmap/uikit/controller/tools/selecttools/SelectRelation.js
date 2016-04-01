@@ -25,7 +25,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.layerController = new fastmap.uikit.LayerController();
-
+        this.highlightLayer = this.layerController.getLayerById('highlightlayer');
         for(var item in this.editLayerIds){
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
@@ -65,16 +65,40 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
 
+    /***
+     * 获取鼠标点击周边所有瓦片
+     * @param layer
+     * @param tilePoint
+     * @returns {Array}
+     */
+    getRoundTile:function(layer, tilePoint){
+        var tiles = [];
+        for( var index in layer.tiles){
+            if(Math.abs(layer.tiles[index].options.context.name.split('_')[0] - tilePoint[0])<=1&&Math.abs(layer.tiles[index].options.context.name.split('_')[1] - tilePoint[1])<=1){
+                tiles.push(layer.tiles[index]);
+            }
+        }
+
+        return tiles;
+    },
+
     drawGeomCanvasHighlight: function (tilePoint, event) {
         this.overlays=[];
         var  frs = null;
         for(var layer in this.currentEditLayers){
 
-            this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer],tilePoint))
 
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 return;
             }
+
+            //
+            //this.tiles.push(   this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
+            //
+            //if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
+            //    return;
+            //}
 
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
@@ -103,7 +127,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             switch (this.overlays[0].layer.requestType) {
 
                 case'RDRESTRICTION':
-                    frs= new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs= new fastmap.uikit.SelectRestriction({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDLANECONNEXITY":
                     frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
@@ -151,7 +175,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         switch (e.target.id) {
 
                             case'RDRESTRICTION':
-                                frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRestriction({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDLANECONNEXITY":
                                 frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});

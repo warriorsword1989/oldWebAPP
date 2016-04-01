@@ -85,7 +85,7 @@ Application.layersConfig =
                 layername: '参考线数据',
                 id: 'referenceLine',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 5,
@@ -139,7 +139,7 @@ Application.layersConfig =
                 layername: '交限',
                 id: 'restriction',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -188,7 +188,7 @@ Application.layersConfig =
                 layername: '高速分歧',
                 id: 'highSpeedDivergence',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -247,7 +247,7 @@ Application.layersConfig =
                 layername: '限速',
                 id: 'speedlimit',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -295,7 +295,7 @@ Application.layersConfig =
                 layername: '路口',
                 id: 'rdcross',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -328,7 +328,7 @@ Application.layersConfig =
                 updateWhenIdle: true,
                 tileSize: 256,
                 type: 'rdCrossPoint',
-                zIndex: 13,
+                zIndex: 18,
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDCROSS',
@@ -342,7 +342,7 @@ Application.layersConfig =
                 layername: '车信',
                 id: 'rdlaneconnexity',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -396,7 +396,7 @@ Application.layersConfig =
                 layername: '外业线数据',
                 id: 'workLine',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 7,
@@ -446,7 +446,7 @@ Application.layersConfig =
                 layername: '外业点数据',
                 id: 'workPoint',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 8,
@@ -521,7 +521,7 @@ Application.layersConfig =
                 layername: '测线',
                 id: 'gpsLine',
                 maxZoom: 20,
-                hitDetection: true,
+
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 8,
@@ -568,6 +568,29 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
 
+        },{
+            url: '',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '选中高亮图层',
+                id: 'highlightlayer',
+                maxZoom: 20,
+
+                debug: false,
+                buffer: 8,
+                boolPixelCrs: true,
+                parse: function (data) {
+
+                },
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                tileSize: 256,
+                type: 'highlight',
+
+                zIndex: 18,
+                restrictZoom: 10,
+                visible: true
+            },
+            requestType: "uuuuu",
         }]
     }, {
         groupid: 'editlayer',
