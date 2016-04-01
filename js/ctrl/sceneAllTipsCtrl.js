@@ -39,10 +39,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
             map: map,
             highLightFeature: "dataTips",
-            dataTips: $scope.dataTipsData.rowkey
+            dataTips: $scope.dataTipsData.rowkey,
+            initFlag:true
         });
-        highLightDataTips.drawTipsForInit();
-        highLightLayer.pushHighLightLayers(highLightDataTips);
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -171,13 +170,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 })
                 highLightLinks.drawOfLinksForInit();
                 highLightLayer.pushHighLightLayers(highLightLinks);
-                var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-                    map: map,
-                    highLightFeature: "dataTips",
-                    dataTips: $scope.dataTipsData.rowkey
-                });
-                highLightDataTips.drawTipsForInit();
-                highLightLayer.pushHighLightLayers(highLightDataTips);
                 break;
             case "1407":
                 /*进入*/
@@ -323,10 +315,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.initializeDataTips(selectCtrl.rowKey);
 
     }
-    selectCtrl.updateTipsCtrl = function () {
-        $scope.initializeDataTips();
-        $scope.$apply();
-    };
     $scope.openOrigin=function(id) {
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
