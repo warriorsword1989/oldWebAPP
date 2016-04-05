@@ -248,6 +248,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
+
+                tooltipsCtrl.setEditEventType('rdCross');
+                tooltipsCtrl.setCurrentTooltip('请单击地图并拖动鼠标画框选择对象！');
                 var linksArr = [], nodesArr = [];
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
@@ -283,6 +286,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
                     selectCtrl.onSelected(options);
+
+                    tooltipsCtrl.setCurrentTooltip('请点击空格键保存！');
+
                 });
 
 

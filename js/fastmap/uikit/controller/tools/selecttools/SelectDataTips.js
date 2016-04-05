@@ -132,10 +132,12 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
 
             this.highLayer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
         }
-
-        for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length; i < len; i++) {
-            this.eventController.off(this.eventController.eventTypes.TILEDRAWEND, this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND][i]);
+        if(this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND] &&this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length>0){
+            for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length; i < len; i++) {
+                this.eventController.off(this.eventController.eventTypes.TILEDRAWEND, this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND][i]);
+            }
         }
+
     }
     ,
     /***
