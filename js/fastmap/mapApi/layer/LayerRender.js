@@ -39,7 +39,7 @@ fastmap.mapApi.LayerRender = {
      * @param options
      * @private
      */
-    _drawImg:function(options){
+    _drawImg: function (options) {
         var p = null;
         var style = options.style;
         if (options.boolPixelCrs) {
@@ -59,33 +59,32 @@ fastmap.mapApi.LayerRender = {
 
         image.src = style.src;
         image.onload = function () {
-            var scalex = options.scalex?options.scalex:1;
-            var scaley = options.scaley?options.scaley:1;
-            var drawx = options.drawx?options.drawx:-image.width*scalex/2;
-            var drawy = options.drawy?options.drawy:-image.height*scalex/2;
+            var scalex = options.scalex ? options.scalex : 1;
+            var scaley = options.scaley ? options.scaley : 1;
+            var drawx = options.drawx ? options.drawx : -image.width * scalex / 2;
+            var drawy = options.drawy ? options.drawy : -image.height * scalex / 2;
             g.save();
             g.translate(p.x, p.y);
-            if(options.fillStyle){
+            if (options.fillStyle) {
                 g.strokeStyle = options.fillStyle.lineColor;  //边框颜色
                 g.fillStyle = options.fillStyle.fillColor;
-                g.linewidth=options.fillStyle.lineWidth;  //边框宽
-                g.fillRect(drawx+options.fillStyle.dx,drawy+options.fillStyle.dy,options.fillStyle.width,options.fillStyle.height);  //填充颜色 x y坐标 宽 高
-                g.strokeRect(drawx+options.fillStyle.dx,drawy+options.fillStyle.dy,options.fillStyle.width,options.fillStyle.height);  //填充边框 x y坐标 宽 高
+                g.linewidth = options.fillStyle.lineWidth;  //边框宽
+                g.fillRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充颜色 x y坐标 宽 高
+                g.strokeRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充边框 x y坐标 宽 高
             }
 
-            if(rotate){
+            if (rotate) {
                 g.rotate(rotate);//旋转度数
             }
 
-            g.drawImage(image, drawx, drawy,image.width*scalex,image.height*scaley);
+            g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
             g.restore();
         }
     },
 
-    _drawBackground:function(options){
+    _drawBackground: function (options) {
 
         var p = null;
-        var style = options.style;
         if (options.boolPixelCrs) {
             p = {x: options.geo[0], y: options.geo[1]}
         } else {
@@ -96,24 +95,25 @@ fastmap.mapApi.LayerRender = {
 
         var g = c.getContext('2d');
         var rotate = options.rotate;
-            var scalex = options.scalex?options.scalex:1;
-            var scaley = options.scaley?options.scaley:1;
-            var drawx = options.drawx;
-            var drawy = options.drawy;
-            g.save();
-            g.translate(p.x, p.y);
+        var scalex = options.scalex ? options.scalex : 1;
+        var scaley = options.scaley ? options.scaley : 1;
+        var drawx = options.drawx;
+        var drawy = options.drawy;
+        g.save();
+        g.translate(p.x, p.y);
+        if (rotate) {
+            g.rotate(rotate);//旋转度数
+        }
 
-                g.strokeStyle = options.lineColor;  //边框颜色
-                g.fillStyle = options.fillColor;
-                g.linewidth=options.lineWidth;  //边框宽
-                g.fillRect(drawx,drawy,options.width,options.height);  //填充颜色 x y坐标 宽 高
-                g.strokeRect(drawx,drawy,options.width,options.height);  //填充边框 x y坐标 宽 高
+        g.strokeStyle = options.lineColor;  //边框颜色
+        g.fillStyle = options.fillColor;
+        g.linewidth = options.lineWidth;  //边框宽
+        g.fillRect(drawx, drawy, options.width, options.height);  //填充颜色 x y坐标 宽 高
+        g.strokeRect(drawx, drawy, options.width, options.height);  //填充边框 x y坐标 宽 高
 
-            if(rotate){
-                g.rotate(rotate);//旋转度数
-            }
 
-            g.restore();
+
+        g.restore();
 
     },
 
@@ -130,12 +130,12 @@ fastmap.mapApi.LayerRender = {
         if (geom.length === 2) {
             angle = this._rotateAngle(geom[0][0], geom[1][0]);
             lineLen = this.distance(geom[0][0], geom[1][0]);
-            if (nameLen < lineLen/2 && lineLen > 160) {
-                this._showTextOfAngle(g, 0, nameArr.length, name, angle, [(geom[0][0][0]+geom[1][0][0])/2,(geom[0][0][1]+geom[1][0][1])/2]);
+            if (nameLen < lineLen / 2 && lineLen > 160) {
+                this._showTextOfAngle(g, 0, nameArr.length, name, angle, [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2]);
             }
 
         } else {
-            var startPoint = geom[0][0], startPointForLen = geom[0][0],endPoint = geom[geom.length-1][0],
+            var startPoint = geom[0][0], startPointForLen = geom[0][0], endPoint = geom[geom.length - 1][0],
                 textLength = 0, startText = 0, textIndex = 0,
                 betPointsLen, realLineLen = 0, linkArrLen = geom.length;
             for (var m = 1; m < linkArrLen; m++) {
@@ -143,7 +143,7 @@ fastmap.mapApi.LayerRender = {
                 realLineLen += betPointsLen;
                 startPointForLen = geom[m][0];
             }
-            if (nameLen < realLineLen/2 && realLineLen > 50) {
+            if (nameLen < realLineLen / 2 && realLineLen > 50) {
                 startPoint = geom[2][0]
                 for (var linkFLag = 1; linkFLag < linkArrLen; linkFLag++) {
                     if (textLength < nameArr.length) {

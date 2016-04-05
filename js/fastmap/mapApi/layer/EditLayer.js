@@ -1,6 +1,6 @@
 /**
  * Created by zhongxiaoming on 2015/10/19
- * Class EditLayer 可编辑图层
+ * Class EditLayer 可编辑层
  */
 fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
     /**
@@ -276,7 +276,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if(type==="3") {
                 angleOfTran = angleOfTran + Math.PI;
             }
-            url = "./css/img/" + type + ".png";
+            url = "./css/img/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();

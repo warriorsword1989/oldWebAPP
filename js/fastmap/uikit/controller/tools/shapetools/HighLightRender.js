@@ -18,7 +18,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.linkPid = this.options.linkPid;//高亮link的id
         this.restrictId = this.options.restrictId;//高亮交限的id
         this.laneId = this.options.laneId;//高亮车信的id
-        this.speedLimitId = this.options.speedLimitId;
+        this.speedLimitId = this.options.speedLimitId;//限速高亮的id
+        this.branchDetailId = this.options.branchDetailId//分歧高亮的idd
+        this.rdCrossId = this.options.rdCrossId;//路口高亮的id
         this.initFlag = this.options.initFlag || false;//当地图变化时,才能激发this.draw()函数
         this.cleanHighLight = "";
         this.eventController = fastmap.uikit.EventController();
@@ -56,41 +58,41 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         style = {src: './css/tips/selected/processed.png'};
                     }
 
-                    if(feature.properties.kind){  //种别
+                    if (feature.properties.kind) {  //种别
 
-                        if(feature.properties.type == '1201'){
+                        if (feature.properties.type == '1201') {
                             this.layer._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:'css/tips/kind/K'+feature.properties.kind+'.svg'},
-                                boolPixelCrs:true,
-                                fillStyle:{
-                                    lineColor:'rgb(4, 187, 245)',
-                                    fillColor:'rgba(4, 187, 245, 0.2)',
-                                    lineWidth:1,
-                                    width:30,
-                                    height:15,
-                                    dx:0,
-                                    dy:7.5
+                                ctx: ctx,
+                                geo: geom,
+                                style: {src: 'css/tips/kind/K' + feature.properties.kind + '.svg'},
+                                boolPixelCrs: true,
+                                fillStyle: {
+                                    lineColor: 'rgb(4, 187, 245)',
+                                    fillColor: 'rgba(4, 187, 245, 0.2)',
+                                    lineWidth: 1,
+                                    width: 30,
+                                    height: 15,
+                                    dx: 0,
+                                    dy: 7.5
                                 }
 
                             });
-                        }else if(feature.properties.type == '1203'){
+                        } else if (feature.properties.type == '1203') {
 
                             this.layer._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
-                                boolPixelCrs:true,
-                                rotate:feature.properties.kind*(Math.PI / 180),
-                                fillStyle:{
-                                    lineColor:'rgb(4, 187, 245)',
-                                    fillColor:'rgba(4, 187, 245, 0.2)',
-                                    lineWidth:1,
-                                    width:20,
-                                    height:20,
-                                    dx:5,
-                                    dy:5
+                                ctx: ctx,
+                                geo: geom,
+                                style: {src: feature.properties.direc == 2 ? 'css/tips/road/1.svg' : 'css/tips/road/2.svg'},
+                                boolPixelCrs: true,
+                                rotate: feature.properties.kind * (Math.PI / 180),
+                                fillStyle: {
+                                    lineColor: 'rgb(4, 187, 245)',
+                                    fillColor: 'rgba(4, 187, 245, 0.2)',
+                                    lineWidth: 1,
+                                    width: 20,
+                                    height: 20,
+                                    dx: 5,
+                                    dy: 5
 
                                 }
                             });
@@ -98,12 +100,12 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     } else {
 
                         this.layer._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:style,
-                            boolPixelCrs:true,
-                            drawx:-30,
-                            drawy:-30
+                            ctx: ctx,
+                            geo: geom,
+                            style: style,
+                            boolPixelCrs: true,
+                            drawx: -30,
+                            drawy: -30
                         });
                     }
                 }
@@ -123,7 +125,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         for (var key in data) {
 
             var feature = data[key];
-            var type = feature.geometry.type;
             var geom = feature.geometry.coordinates;
             if (this.dataTipsId && data[key].properties.id == this.dataTipsId) {
 
@@ -132,61 +133,55 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     tile: L.point(key.split(',')[0], key.split(',')[1]),
                     zoom: zoom
                 }
-                var style = null;
-                if (feature.properties.srctype == "1") {//未处理
-                    style = {src: './css/tips/selected/pending.png'};
-                } else {//已处理
-                    style = {src: './css/tips/selected/processed.png'};
-                }
-
-                if(feature.properties.kind){  //种别
-
-                    if(feature.properties.type == '1201'){
-                        this.layer._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:{src:'css/tips/kind/K'+feature.properties.kind+'.svg'},
-                            boolPixelCrs:true,
-                            fillStyle:{
-                                lineColor:'rgb(4, 187, 245)',
-                                fillColor:'rgba(4, 187, 245, 0.2)',
-                                lineWidth:1,
-                                width:30,
-                                height:15,
-                                dx:0,
-                                dy:7.5
-                            }
+                if (feature.properties.kind) {  //种别
+                    var newGeom = [];
+                    newGeom[0] = (parseInt(geom[0]));
+                    newGeom[1] = (parseInt(geom[1]));
+                    if (feature.properties.type == '1201') {
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            boolPixelCrs: true,
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0.2)',
+                            lineWidth: 1,
+                            width: 40,
+                            height: 20,
+                            drawx: -20,
+                            drawy: -10
 
                         });
-                    }else if(feature.properties.type == '1203'){
+                    } else if (feature.properties.type == '1203') {
 
-                        this.layer._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:{src:feature.properties.direc == 2?'css/tips/road/1.svg':'css/tips/road/2.svg'},
-                            boolPixelCrs:true,
-                            rotate:feature.properties.kind*(Math.PI / 180),
-                            fillStyle:{
-                                lineColor:'rgb(4, 187, 245)',
-                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                lineWidth:1,
-                                width:20,
-                                height:20,
-                                dx:5,
-                                dy:5
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            boolPixelCrs: true,
+                            rotate: (feature.properties.kind-90) * (Math.PI / 180),
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                            lineWidth: 1,
+                            width: 40,
+                            height: 20,
+                            drawx: -20,
+                            drawy: -10
 
-                            }
                         });
                     }
                 } else {
 
-                    this.layer._drawImg({
-                        ctx:ctx,
-                        geo:geom,
-                        style:style,
-                        boolPixelCrs:true,
-                        drawx:-30,
-                        drawy:-30
+                    this.layer._drawBackground({
+                        ctx: ctx,
+                        geo: newGeom,
+                        style: style,
+                        boolPixelCrs: true,
+                        lineColor: 'rgb(4, 187, 245)',
+                        fillColor: 'rgba(4, 187, 245, 0.5)',
+                        lineWidth: 1,
+                        width: 40,
+                        height: 20,
+                        drawx: -35,
+                        drawy: -25
                     });
                 }
             }
@@ -560,7 +555,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawRestrict: function (tile, zoom) {
         var data = tile.data;
-
+        var ctx = {
+            canvas: this.layer._tiles[tile.options.context.name.replace("_", ":")],
+            tile: tile.options.context._tilePoint,
+            zoom: zoom
+        }
         if (data.hasOwnProperty("features")) {
             for (var i = 0, len = data.features.length; i < len; i++) {
                 var feature = data.features[i];
@@ -569,17 +568,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
                 var newgeom = [];
                 if (feature.properties.id == this.restrictId) {
-
-                    var ctx = {
-                        canvas: tile.options.context,
-                        tile: tile.options.context._tilePoint,
-                        zoom: zoom
-                    }
                     if (type == "Point") {
                         if (feature.properties.restrictioninfo === undefined) {
                             break;
                         }
-                        var newStyle = "", newGeom = [];
+                        var newGeom = [];
                         var restrictObj = feature.properties.restrictioninfo;
                         if (restrictObj !== undefined) {
                             console.log(this.layer)
@@ -587,39 +580,39 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
 
                                     if (theory > 0) {
-                                        newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                        newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                        newgeom[0] = parseInt(geom[0]) + theory * 16 * Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1]) + theory * 16 * Math.sin(route);
 
                                         this.layer._drawBackground({
-                                            ctx:ctx,
-                                            geo:newGeom,
+                                            ctx: ctx,
+                                            geo: newGeom,
 
-                                            boolPixelCrs:true,
-                                            rotate:route,
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0.5)',
-                                            lineWidth:1,
-                                            width:20,
-                                            height:20,
-                                            drawx:-10,
-                                            drawy:-10
+                                            boolPixelCrs: true,
+                                            rotate: route,
+                                            lineColor: 'rgb(4, 187, 245)',
+                                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                                            lineWidth: 1,
+                                            width: 20,
+                                            height: 20,
+                                            drawx: -10,
+                                            drawy: -10
 
                                         })
                                     } else {
 
                                         this.layer._drawBackground({
-                                            ctx:ctx,
-                                            geo:geom,
+                                            ctx: ctx,
+                                            geo: geom,
 
-                                            boolPixelCrs:true,
-                                            rotate:route,
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0.5)',
-                                            lineWidth:1,
-                                            width:20,
-                                            height:20,
-                                            drawx:-10,
-                                            drawy:-10
+                                            boolPixelCrs: true,
+                                            rotate: route,
+                                            lineColor: 'rgb(4, 187, 245)',
+                                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                                            lineWidth: 1,
+                                            width: 20,
+                                            height: 20,
+                                            drawx: -10,
+                                            drawy: -10
 
                                         })
                                     }
@@ -628,257 +621,238 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             } else {
                                 var restrictArr = restrictObj.split(",");
                                 for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                    if (restrictArr[fact].constructor === Array) {
-
-
-                                    } else {
-                                        if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-
-                                        } else {
-
-                                        }
-
-                                    }
                                     if (fact > 0) {
-                                        newgeom[0] = parseInt(geom[0][0]) + fact * 16*Math.cos(route);
-                                        newgeom[1] = parseInt(geom[1][0])+ fact * 16*Math.sin(route);
+                                        newgeom[0] = parseInt(geom[0][0]) + fact * 16 * Math.cos(route);
+                                        newgeom[1] = parseInt(geom[1][0]) + fact * 16 * Math.sin(route);
 
 
                                         this.layer._drawBackground({
-                                            ctx:ctx,
-                                            geo:newgeom,
+                                            ctx: ctx,
+                                            geo: newgeom,
 
-                                            boolPixelCrs:true,
-                                            rotate:route,
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0.5)',
-                                            lineWidth:1,
-                                            width:20,
-                                            height:20,
-                                            drawx:-10,
-                                            drawy:-10
+                                            boolPixelCrs: true,
+                                            rotate: route,
+                                            lineColor: 'rgb(4, 187, 245)',
+                                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                                            lineWidth: 1,
+                                            width: 20,
+                                            height: 20,
+                                            drawx: -10,
+                                            drawy: -10
 
                                         })
                                     } else {
 
 
                                         this.layer._drawBackground({
-                                            ctx:ctx,
-                                            geo:geom,
+                                            ctx: ctx,
+                                            geo: geom,
 
-                                            boolPixelCrs:true,
-                                            rotate:route,
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0.5)',
-                                            lineWidth:1,
-                                            width:20,
-                                            height:20,
-                                            drawx:-10,
-                                            drawy:-10
+                                            boolPixelCrs: true,
+                                            rotate: route,
+                                            lineColor: 'rgb(4, 187, 245)',
+                                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                                            lineWidth: 1,
+                                            width: 20,
+                                            height: 20,
+                                            drawx: -10,
+                                            drawy: -10
 
                                         })
                                     }
-
                                 }
                             }
-
                         }
-
-
                     }
                 }
-
             }
         }
-
-
-    }
-    ,
-    drawLane:function(tile, zoom){
+    },
+    drawLane: function (tile, zoom) {
         var data = tile.data;
-
+        var ctx = {
+            canvas: this.layer._tiles[tile.options.context.name.replace("_", ":")],
+            tile: tile.options.context._tilePoint,
+            zoom: zoom
+        }
         for (var i = 0, len = data.features.length; i < len; i++) {
             var feature = data.features[i];
-            var type = feature.geometry.type;
             var geom = feature.geometry.coordinates;
-            if (feature.properties.id == this.laneId ) {
-
-                var ctx = {
-                    canvas: tile.options.context,
-                    tile: tile.options.context._tilePoint,
-                    zoom: zoom
-                }
-                if (type == "Point") {
-                    if (feature.properties.laneconnexityinfo === undefined) {
-                        break;
-                    }
-                    var newStyle = null, newGeom = [];
-                    var laneObj = feature.properties.laneconnexityinfo;
-                    var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
-                    if (laneObj !== undefined) {
-
-                        var laneObjArr = laneObj.split(",");
-
-                        for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-
-                            if (laneObjArr[fact].indexOf("[") > -1) {
-                                newStyle = {src: './css/1301/1301_2_' + laneObjArr[fact].substr(1, 1) + '.svg'};
-
-                            } else if (laneObjArr[fact].indexOf("<") > -1) {
-                                newStyle = {src: './css/1301/1301_1_' + laneObjArr[fact].substr(laneObjArr[fact].indexOf("<")+1, 1) + '.svg'};
-
-                            } else if (laneObjArr[fact]&&laneObjArr[fact] != "9") {
-                                newStyle = {src: './css/1301/1301_0_' + laneObjArr[fact] + '.svg'};
-                            }
-
-                            if (fact > 0) {
-                                newGeom[0] = parseInt(geom[0]) + fact * 10*Math.cos(route);
-                                newGeom[1] = parseInt(geom[1])+ fact * 10*Math.sin(route);
-                                this.layer._drawImg(
-                                    {
-                                        ctx:ctx,
-                                        geo:newGeom,
-                                        style:newStyle,
-                                        boolPixelCrs:true,
-                                        rotate:route,
-                                        fillStyle:{
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0)',
-                                            lineWidth:1,
-                                            width:20,
-                                            height:10,
-                                            dx:0,
-                                            dy:5
-
-                                        }
-                                        ,
-                                        scalex:2/3,
-                                        scaley:2/3
-                                    })
-                            } else {
-
-                                this.layer._drawImg(
-                                    {
-                                        ctx:ctx,
-                                        geo:geom,
-                                        style:newStyle,
-                                        boolPixelCrs:true,
-                                        rotate:route,
-                                        fillStyle:{
-                                            lineColor:'rgb(4, 187, 245)',
-                                            fillColor:'rgba(4, 187, 245, 0)',
-                                            lineWidth:1,
-                                            width:20,
-                                            height:10,
-                                            dx:0,
-                                            dy:5
-
-                                        }
-                                        ,
-                                        scalex:2/3,
-                                        scaley:2/3
-                                    })
-                            }
+            if (feature.properties.id == this.laneId) {
+                var newGeom = [];
+                var laneObj = feature.properties.laneconnexityinfo;
+                var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
+                if (laneObj !== undefined) {
+                    console.log(this.layer);
+                    var laneObjArr = laneObj.split(",");
+                    for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
+                        if (fact > 0) {
+                            newGeom[0] = parseInt(geom[0]) + fact * 10 * Math.cos(route);
+                            newGeom[1] = parseInt(geom[1]) + fact * 10 * Math.sin(route);
+                            this.layer._drawBackground(
+                                {
+                                    ctx: ctx,
+                                    geo: newGeom,
+                                    boolPixelCrs: true,
+                                    rotate: route - (Math.PI / 2),
+                                    lineColor: 'rgb(4, 187, 245)',
+                                    fillColor: 'rgba(4, 187, 245, 0)',
+                                    lineWidth: 1,
+                                    width: 20,
+                                    height: 10,
+                                    drawx: -10,
+                                    drawy: -5,
+                                    scalex: 2 / 3,
+                                    scaley: 2 / 3
+                                })
+                        } else {
+                            this.layer._drawBackground(
+                                {
+                                    ctx: ctx,
+                                    geo: geom,
+                                    boolPixelCrs: true,
+                                    rotate: route - (Math.PI / 2),
+                                    lineColor: 'rgb(4, 187, 245)',
+                                    fillColor: 'rgba(4, 187, 245, 0)',
+                                    lineWidth: 1,
+                                    width: 20,
+                                    height: 10,
+                                    drawx: -10,
+                                    drawy: -5,
+                                    scalex: 2 / 3,
+                                    scaley: 2 / 3
+                                })
                         }
                     }
-
                 }
             }
         }
 
     },
-    drawSpeedLimit:function(tile, zoom){
-
-
+    drawSpeedLimit: function (tile, zoom) {
         var data = tile.data;
-
+        var ctx = {
+            canvas: this.layer._tiles[tile.options.context.name.replace("_", ":")],
+            tile: tile.options.context._tilePoint,
+            zoom: zoom
+        }
         for (var i = 0, len = data.features.length; i < len; i++) {
 
             var feature = data.features[i];
             var type = feature.geometry.type;
             var geom = feature.geometry.coordinates;
             if (feature.properties.id == this.speedLimitId) {
-                var ctx = {
-                    canvas: tile.options.context,
-                    tile: tile.options.context._tilePoint,
-                    zoom: zoom
-                }
                 if (type == "Point") {
                     if (feature.properties.speedlimitcondition === undefined) {
                         break;
                     }
-                    var newStyle = "", newGeom = [];
-                    var restrictObj = feature.properties.speedlimitcondition;
-                    if (restrictObj !== undefined) {
+                    var newGeom = [];
+                    var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
+                    newGeom[0] = (parseInt(geom[0]));
+                    newGeom[1] = (parseInt(geom[1]));
 
-                        var speedFlagstyle = null, jttype = null;
-                        var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
-                        var resArray = restrictObj.split("|");
-                        var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
-                        var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
-                        var speedValue = resArray[2] / 10;//限速值
-                        if (gaptureFlag === 1) {//理论判断，限速开始和结束都为蓝色
-                            if (speedFlag === 1) {//解除限速
-                                speedFlagstyle = {src: './css/1101/1101_1_1_' + speedValue + '.svg'};
-                                jttype = {src: './css/1101/1101_1_1_e.svg'};
-                            } else {
-                                speedFlagstyle = {src: './css/1101/1101_1_0_' + speedValue + '.svg'};
-                                jttype = {src: './css/1101/1101_1_0_s.svg'};
-                            }
-
-                        } else {//现场采集，限速开始为红色，结束为黑色
-                            if (speedFlag === 1) {//解除限速
-                                speedFlagstyle = {src: './css/1101/1101_0_1_' + speedValue + '.svg'};
-                                jttype = {src: './css/1101/1101_0_1_e.svg'};
-                            } else {
-                                speedFlagstyle = {src: './css/1101/1101_0_0_' + speedValue + '.svg'};
-                                jttype = {src: './css/1101/1101_0_0_s.svg'};
-                            }
-                        }
-                        newGeom[0] = (parseInt(geom[0]));
-                        newGeom[1] = (parseInt(geom[1]));
-
-                        this.layer._drawImg({
-                            ctx:ctx,
-                            geo:newGeom,
-                            style:speedFlagstyle,
-                            boolPixelCrs:true
-                            ,
-                            fillStyle:{
-                                lineColor:'rgb(4, 187, 245)',
-                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                lineWidth:1,
-                                width:30,
-                                height:30,
-                                dx:0,
-                                dy:0
-
-                            }
-                        })
-                        //绘制箭头
-                        this.layer._drawImg({
-                            ctx:ctx,
-                            geo:newGeom,
-                            style:jttype,
-                            boolPixelCrs:true,
-                            rotate:route,
-                            drawx:5
-                        })
-
-
-
-                    }
+                    this.layer._drawBackground({
+                        ctx: ctx,
+                        geo: newGeom,
+                        boolPixelCrs: true,
+                        lineColor: 'rgb(4, 187, 245)',
+                        fillColor: 'rgba(4, 187, 245, 0.5)',
+                        lineWidth: 1,
+                        width: 20,
+                        height: 20,
+                        drawx: -10,
+                        drawy: -10
+                    })
+                    //绘制箭头
+                    this.layer._drawBackground({
+                        ctx: ctx,
+                        geo: newGeom,
+                        boolPixelCrs: true,
+                        rotate: route,
+                        lineColor: 'rgb(4, 187, 245)',
+                        fillColor: 'rgba(4, 187, 245, 0.5)',
+                        lineWidth: 1,
+                        width: 20,
+                        height: 20,
+                        drawx: -10,
+                        drawy: -10
+                    })
 
 
                 }
             }
         }
 
-    }
-    ,
+    },
+    drawBranch: function (tile, zoom) {
+        var data = tile.data;
+        var ctx = {
+            canvas: this.layer._tiles[tile.options.context.name.replace("_", ":")],
+            tile: tile.options.context._tilePoint,
+            zoom: zoom
+        }
+        for (var i = 0, len = data.features.length; i < len; i++) {
+
+            var feature = data.features[i];
+            var geom = feature.geometry.coordinates;
+            if (feature.properties.id == this.branchDetailId) {
+                if (feature.properties.SpeedDivergencecondition === undefined) {
+                    break;
+                }
+                var newGeom = [];
+                newGeom[0] = (parseInt(geom[0]));
+                newGeom[1] = (parseInt(geom[1]));
+                var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
+                this.layer._drawBackground({
+                    ctx: ctx,
+                    geo: newGeom,
+                    boolPixelCrs: true,
+                    rotate: divergeRoute,
+                    lineColor: 'rgb(4, 187, 245)',
+                    fillColor: 'rgba(4, 187, 245, 0.5)',
+                    lineWidth: 1,
+                    width: 30,
+                    height: 30,
+                    drawx: -15,
+                    drawy: -15
+                })
+
+            }
+        }
+    },
+    drawCross: function (tile, zoom) {
+        var data = tile.data;
+        var ctx = {
+            canvas: this.layer._tiles[tile.options.context.name.replace("_", ":")],
+            tile: tile.options.context._tilePoint,
+            zoom: zoom
+        }
+        for (var i = 0, len = data.features.length; i < len; i++) {
+            var feature = data.features[i];
+            if (feature.properties.id == this.rdCrossId) {
+                if (feature.properties.rdcrosscondition === undefined) {
+                    break;
+                }
+                for (var j in feature.geometry.coordinates) {
+                    var geo = feature.geometry.coordinates[j][0];
+                    this.layer._drawBackground({
+                        ctx: ctx,
+                        geo: geo,
+                        boolPixelCrs: true,
+                        lineColor: 'rgb(4, 187, 245)',
+                        fillColor: 'rgba(4, 187, 245, 0.5)',
+                        lineWidth: 1,
+                        width: 20,
+                        height: 20,
+                        drawx: -10,
+                        drawy: -10
+
+                    })
+                }
+
+            }
+        }
+    },
     draw: function (e) {
         this.tiles = e.layer.tiles;
         var tile = this.tiles[e.id];
@@ -894,11 +868,20 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             this.drawRestrict(tile, zoom);
         } else if (this.highLightFeature === "linksOfCross") {
             this.drawLinksOfCross(tile, zoom);
-        }else if (this.highLightFeature === "lane") {
-            this.drawLane(tile, zoom);
-        }else if (this.highLightFeature === "speedlimit") {
+        } else if (this.highLightFeature === "lane") {
+            if (e.layer.type === "rdlaneconnexityPoint") {
+                this.drawLane(tile, zoom);
+            }
+        } else if (this.highLightFeature === "speedlimit") {
             this.drawSpeedLimit(tile, zoom);
+        } else if (this.highLightFeature === "branch") {
+            if (e.layer.type === "Diverge") {
+                this.drawBranch(tile, zoom);
+            }
+        } else if (this.highLightFeature === "rdcross") {
+            this.drawCross(tile, zoom);
         }
+
     },
     _cleanHighLight: function () {
         this.linksObj = undefined;

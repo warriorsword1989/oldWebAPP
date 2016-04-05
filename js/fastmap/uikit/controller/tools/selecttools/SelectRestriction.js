@@ -179,15 +179,13 @@ function init(options) {
 
                                 if (restrictObj.constructor === Array) {
                                     for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                        newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
                                         if (theory > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
+                                            newgeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
+                                            newgeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
 
                                             this.highlightLayer._drawBackground({
                                                 ctx:ctx,
                                                 geo:newGeom,
-                                                style:newStyle,
                                                 boolPixelCrs:true,
                                                 rotate:route,
                                                 lineColor:'rgb(4, 187, 245)',
@@ -221,17 +219,6 @@ function init(options) {
                                 }else{
                                     var restrictArr = restrictObj.split(",");
                                     for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-
-                                        if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
-                                        } else {
-                                            newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
-                                        }
-
-
                                         if (fact > 0) {
                                             newgeom[0] = parseInt(geom[0][0]) + fact * 16*Math.cos(route);
                                             newgeom[1] = parseInt(geom[1][0])+ fact * 16*Math.sin(route);
@@ -239,7 +226,6 @@ function init(options) {
                                             this.highlightLayer._drawBackground({
                                                 ctx:ctx,
                                                 geo:newgeom,
-                                                style:newStyle,
                                                 boolPixelCrs:true,
                                                 rotate:route,
                                                 lineColor:'rgb(4, 187, 245)',

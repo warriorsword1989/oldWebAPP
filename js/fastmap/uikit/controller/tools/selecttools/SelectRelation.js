@@ -92,14 +92,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 return;
             }
-
-            //
-            //this.tiles.push(   this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
-            //
-            //if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
-            //    return;
-            //}
-
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
@@ -130,36 +122,31 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                     frs= new fastmap.uikit.SelectRestriction({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDLANECONNEXITY":
-                    frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdlane({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDSPEEDLIMIT":
-                    frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectSpeedLimit({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDCROSS":
-                    frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdCross({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDBRANCH":
-                    frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdBranch({highlightLayer:this.highlightLayer,map:this._map});
                     break;
             }
             frs.tiles = this.tiles;
             frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
         }else if (this.overlays.length > 1){
             var html = '<ul id="layerpopup">';
-
-
-
             this.overlays = this.unique(this.overlays);
             for(var item in this.overlays){
                 html += '<li><a href="#" id="'+this.overlays[item].layer.options.requestType+'">'+this.overlays[item].layer.options.layername+'</a></li>';
             }
             html +='</ul>';
-
             this.popup
                 .setLatLng(event.latlng)
                 .setContent(html);
             var that = this;
-
             this._map.on('popupopen',function(){
                 document.getElementById('layerpopup').onclick=function(e){
                     if(e.target.tagName == 'A'){
@@ -178,16 +165,16 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 frs = new fastmap.uikit.SelectRestriction({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDLANECONNEXITY":
-                                frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdlane({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDSPEEDLIMIT":
-                                frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectSpeedLimit({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDCROSS":
-                                frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdCross({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDBRANCH":
-                                frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdBranch({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                         }
                         frs.tiles = that.tiles;
@@ -199,8 +186,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
         }
     },
-
-
      unique:function(arr) {
         var result = [], hash = {};
         for (var i = 0; i<arr.length; i++) {
