@@ -46,8 +46,7 @@
         width: 170px;
         border-radius: 4px;
         margin-top: 5px;
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
+        border: 1px ridge #FFFFFF;
         background-color: #333;
     }
 
@@ -105,25 +104,17 @@
         overflow-y: auto;
         height: 200px;
     }
-    .list-name{
-        color:#FFF;
-        margin:5px 0;
-    }
-    .list-line{
-        border-bottom: 1px solid rgb(140, 136, 136);
-        margin-left: -5px;
-        margin-right: -5px;
-    }
 
 </style>
 <div id="basicDiv" ng-controller="basicController" >
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div  class="list-name text-left">
-                基础属性
+            <div  class="inline" style="text-align: left;width: 120px;">
+                <a  style="cursor: pointer;color:#FFF;">基础属性</a>
             </div>
-            <div class="list-line"></div>
         </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div>
                 <label class="control-label">道路种别</label>

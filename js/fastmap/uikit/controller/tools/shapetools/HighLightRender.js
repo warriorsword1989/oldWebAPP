@@ -133,10 +133,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     tile: L.point(key.split(',')[0], key.split(',')[1]),
                     zoom: zoom
                 }
+                var newGeom = [];
+                newGeom[0] = (parseInt(geom[0]));
+                newGeom[1] = (parseInt(geom[1]));
                 if (feature.properties.kind) {  //种别
-                    var newGeom = [];
-                    newGeom[0] = (parseInt(geom[0]));
-                    newGeom[1] = (parseInt(geom[1]));
                     if (feature.properties.type == '1201') {
                         this.layer._drawBackground({
                             ctx: ctx,
@@ -173,7 +173,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     this.layer._drawBackground({
                         ctx: ctx,
                         geo: newGeom,
-                        style: style,
                         boolPixelCrs: true,
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.5)',
@@ -864,6 +863,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         }
         else if (this.highLightFeature === "link") {
             this.drawOfLink(tile, zoom);
+        } else if (this.highLightFeature === "linkOfGps") {
+            if (e.layer.type === "gpsLine") {
+                this.drawOfLink(tile, zoom);
+            }
+
         } else if (this.highLightFeature === "restrict") {
             this.drawRestrict(tile, zoom);
         } else if (this.highLightFeature === "linksOfCross") {

@@ -80,7 +80,7 @@
         margin: auto -10px;
     }
 
-    .slide-well {
+    .time-slide-well {
         border: 1px solid #ddd;
         padding: 10px 5px;
         border-radius: 3px;
@@ -419,7 +419,7 @@
     <div class="date-head">
         <h3 class="date-title pull-left">车辆类型</h3>
 
-        <div class="pull-right" style="display:inline-flex;color: #fff;">
+        <div class="pull-right" style="display:inline-flex;">
             <a style="cursor: pointer;"  ng-click="showPopover($event)">添加</a>
             <input  type="checkbox" id="checkallow" ng-checked="checkValue" ng-click="checkViche()" ng-model="checkValue">允许
         </div>
@@ -444,7 +444,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="line line-date"></div>
-        <div class="form-group fix-time slide-well" id="carDiv" >
+        <div class="form-group fix-time time-slide-well" id="carDiv" >
             <li ng-repeat="item in vehicleOptions" style=" list-style: none;color:#ffffff;">
             <input tabindex="1" style="float:right;margin-right: 10px" type="checkbox"
                    ng-checked="item.checked"
