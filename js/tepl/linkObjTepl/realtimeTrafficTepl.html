@@ -72,16 +72,23 @@
     .m-b-none {
         margin-bottom: 0 !important;
     }
+    .list-name{
+        margin: 5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid rgb(140, 136, 136);
+        margin-left: -15px;
+        margin-right: -15px;
+    }
 </style>
 <div id="realTimeDiv" ng-controller="realtimeTrafficController">
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div >
+            <div class="list-name">
                 <a ng-click="addIntRtic()" style="cursor: pointer;color:#FFF;">互联网RTIC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）</a>
             </div>
+            <div class="list-line"></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="item in rticData.intRtics">
             <div ng-click="showRticsInfo(item)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{item.code}}</label>
                 <span id="rticSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusIntRtic($index)"></span>
@@ -89,14 +96,13 @@
         </li>
     </ul>
 
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div >
+            <div class="list-name">
                 <a ng-click="addCarRtic()" style="cursor: pointer;color:#FFF;">车厂RTIC信息（共<span ng-if="linkData!=undefined">{{linkData.rtics.length}}</span>条）</a>
             </div>
+            <div class="list-line"></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="cItem in linkData.rtics">
             <div ng-click="showCarInfo(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.code}}</label>
                 <span id="carSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusCarRtic($index)"></span>

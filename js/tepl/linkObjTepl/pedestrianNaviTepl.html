@@ -75,6 +75,14 @@
         margin-bottom: 0px;
         margin-top: 4px;
     }
+    .list-name{
+        margin: 5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid rgb(140, 136, 136);
+        margin-left: -15px;
+        margin-right: -15px;
+    }
 
 </style>
 <div id="pedestrianDiv" ng-controller="pedestrianNaviController">
@@ -148,28 +156,26 @@
             </div>
         </li>
     </ul>
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div style="width:120px;">
+            <div style="width:120px;" class="list-name">
                 <a ng-click="addSidewalk()" style="cursor: pointer;color: #ffffff;">人行便道 共{{naviData.sidewalks.length}}个</a>
             </div>
+            <div class="list-line"></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
             <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
                 <span id="SidewalkSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusSidewalk($index)"></span>
             </div>
         </li>
     </ul>
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div style="width:120px;">
+            <div style="width:120px;" class="list-name">
                 <a ng-click="addWalkstair()" style="cursor: pointer;color: #ffffff;">人行阶梯 共（{{naviData.walkstairs.length}})个</a>
             </div>
+            <div class="list-line"></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="walkstairsItem in naviData.walkstairs">
             <div ng-click="showWalkstair(walkstairsItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
                 <span id="WalkstairSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusWalkstair($index)"></span>
