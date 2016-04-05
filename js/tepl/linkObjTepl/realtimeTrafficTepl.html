@@ -75,7 +75,7 @@
     .list-name{
         margin: 5px 0;
     }
-    .line{
+    .list-line{
         border-bottom: 1px solid rgb(140, 136, 136);
         margin-left: -15px;
         margin-right: -15px;
@@ -87,7 +87,7 @@
             <div class="list-name">
                 <a ng-click="addIntRtic()" style="cursor: pointer;color:#FFF;">互联网RTIC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）</a>
             </div>
-            <div class="line"></div>
+            <div class="list-line"></div>
         </li>
         <li class="list-group-item" ng-repeat="item in rticData.intRtics">
             <div ng-click="showRticsInfo(item)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{item.code}}</label>
@@ -101,7 +101,7 @@
             <div class="list-name">
                 <a ng-click="addCarRtic()" style="cursor: pointer;color:#FFF;">车厂RTIC信息（共<span ng-if="linkData!=undefined">{{linkData.rtics.length}}</span>条）</a>
             </div>
-            <div class="line"></div>
+            <div class="list-line"></div>
         </li>
         <li class="list-group-item" ng-repeat="cItem in linkData.rtics">
             <div ng-click="showCarInfo(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.code}}</label>
