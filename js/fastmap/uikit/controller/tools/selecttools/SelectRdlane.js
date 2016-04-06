@@ -136,16 +136,14 @@ fastmap.uikit.SelectRdlane = (function () {
                                                     ctx: ctx,
                                                     geo: newGeom,
                                                     boolPixelCrs: true,
-                                                    rotate: route,
+                                                    rotate: route-(Math.PI / 2),
                                                     lineColor: 'rgb(4, 187, 245)',
                                                     fillColor: 'rgba(4, 187, 245, 0)',
                                                     lineWidth: 1,
                                                     width: 20,
                                                     height: 10,
                                                     drawx: -10,
-                                                    drawy: -5,
-                                                    scalex: 2 / 3,
-                                                    scaley: 2 / 3
+                                                    drawy: -5
                                                 })
                                         } else {
 
@@ -154,16 +152,14 @@ fastmap.uikit.SelectRdlane = (function () {
                                                     ctx: ctx,
                                                     geo: geom,
                                                     boolPixelCrs: true,
-                                                    rotate: route,
+                                                    rotate: route-(Math.PI / 2),
                                                     lineColor: 'rgb(4, 187, 245)',
                                                     fillColor: 'rgba(4, 187, 245, 0)',
                                                     lineWidth: 1,
                                                     width: 20,
                                                     height: 10,
                                                     drawx: -10,
-                                                    drawy: -5,
-                                                    scalex: 2 / 3,
-                                                    scaley: 2 / 3
+                                                    drawy: -5
                                                 })
                                         }
                                     }
