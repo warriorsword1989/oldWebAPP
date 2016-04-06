@@ -72,16 +72,23 @@
     .m-b-none {
         margin-bottom: 0 !important;
     }
+    .list-name{
+        color:#FFF;
+        margin:5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid #9E9E9E;
+        margin: 0 -15px;
+    }
 </style>
 <div id="speedDiv" ng-controller="speedController">
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div >
+            <div class="list-name">
                 <a ng-click="addoridinarySpeed()" style="cursor: pointer;color:#FFF;">普通限速</a>
             </div>
+            <div class="list-line"></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="item in rticData.speedlimits">
             <div ng-if="item.speedType==0" ng-click="showOridinarySpeedInfo(item)" style="cursor: pointer;padding-left: 15px;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">普通</label>
                 <!--<span id="oridinarySpeedSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusoridinarySpeed($index)"></span>-->
@@ -89,14 +96,13 @@
         </li>
     </ul>
 
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div >
+            <div class="list-name">
                 <a ng-click="addspeedLimit()" style="cursor: pointer;color:#FFF;">条件限速</a>
             </div>
+            <div class="list-line"></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="cItem in linkData.speedlimits">
             <div ng-if="cItem.speedType==3" ng-click="showspeedlimitInfo(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index}}</label>
                 <span id="speedLimitSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusspeedLimit($index)"></span>

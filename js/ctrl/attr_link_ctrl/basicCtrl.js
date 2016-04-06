@@ -151,7 +151,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
         var showNameObj={
             "loadType":"subAttrTplContainer",
             "propertyCtrl":'ctrl/attr_link_ctrl/namesOfDetailCtrl',
-            "propertyHtml":'js/tepl/attr_link_tpl/namesOfDetailTpl.html'
+            "propertyHtml":'js/tpl/attr_link_tpl/namesOfDetailTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showNameObj);
     };
