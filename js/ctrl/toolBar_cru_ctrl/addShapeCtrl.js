@@ -89,16 +89,34 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+            if (typeof map.currentTool.cleanHeight === "function") {
+                map.currentTool.cleanHeight();
+            }
             $scope.changeBtnClass(num);
-            if (type === "restriction") {
-                shapeCtrl.setEditingType("restriction")
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
+            if(num!==7) {
+                if(!$scope.classArr[num]){
+                    map.currentTool.disable();
+                    map._container.style.cursor = '';
+                    return;
                 }
+            }
+
+
+            if (type === "restriction") {
+                if(map.currentTool.createRestrictFlag) {
+                    map.currentTool.disable();
+                    map.currentTool.createRestrictFlag = false;
+                    map._container.style.cursor = '';
+                    return;
+                }
+                shapeCtrl.setEditingType("restriction")
                 tooltipsCtrl.setEditEventType('restriction');
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
-                map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createRestrictFlag:true,
+                    currentEditLayer: rdLink});
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
@@ -120,11 +138,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             }
             else if (type === "link") {
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
-
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -139,7 +152,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "speedLimit") {
-
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.disable();
@@ -216,13 +228,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
             } else if (type === "rdBranch") {
                 shapeCtrl.setEditingType("rdBranch")
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
-                map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createBranchFlag:true,
+                    currentEditLayer: rdLink
+                });
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
@@ -243,11 +255,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 })
 
             } else if (type === "rdcross") {
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
                 var linksArr = [], nodesArr = [];
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
@@ -255,6 +262,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     highLightFeature: "linksOfCross",
                     initFlag: true
                 });
+                map.currentTool = shapeCtrl.getCurrentTool();
                 highLightLayer.pushHighLightLayers(highLightLink);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data, options = {};
@@ -262,7 +270,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         linksArr = data["links"];
                         nodesArr = data["nodes"];
                     } else {
-                        //highLightLink.drawLinksOfCrossForInit([], []);
                         if (data['nodes'].length === 1) {
                             if ($scope.containsNode(nodesArr, data["nodes"][0])) {
                                 linksArr = $scope.arrToReduce(linksArr, data["links"]);
@@ -287,11 +294,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             } else if (type === "laneConnexity") {
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
                 $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":true})
                 var obj = {};
                 obj["showTransitData"]=[]
@@ -306,10 +308,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
             } else if (type === "node") {
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
