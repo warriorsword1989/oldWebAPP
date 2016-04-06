@@ -14,13 +14,22 @@ modifyApp.controller("modifyToolController", function ($scope) {
     $scope.type = "";
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
-        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
+        $scope.$emit("SWITCHCONTAINERSTATE",
+            {
+                "attrContainerTpl":false,
+                "subAttrContainerTpl":false
+            })
         $("#popoverTips").hide();
         if (shapeCtrl.getCurrentTool()['options']) {
             shapeCtrl.stopEditing();
         }
         var feature = null;
         $scope.changeBtnClass(num);
+        if(!$scope.classArr[num]){
+            map.currentTool.disable();
+            map._container.style.cursor = '';
+            return;
+        }
         map.currentTool.disable();
         if (shapeCtrl.shapeEditorResult) {
             if(tooltipsCtrl.getCurrentTooltip()){
@@ -88,13 +97,12 @@ modifyApp.controller("modifyToolController", function ($scope) {
             }
             feature = selectCtrl.selectedFeatures.geometry;
 
-            //var editLyer = ly.getLayerById('edit');
             ly.pushLayerFront('edit');
-            var sobj = shapeCtrl.shapeEditorResult;
+            var sObj = shapeCtrl.shapeEditorResult;
             editLyer.drawGeometry = feature;
             editLyer.draw(feature, editLyer);
-            sobj.setOriginalGeometry(feature);
-            sobj.setFinalGeometry(feature);
+            sObj.setOriginalGeometry(feature);
+            sObj.setFinalGeometry(feature);
 
             shapeCtrl.setEditingType(type);
             shapeCtrl.startEditing();
@@ -108,7 +116,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
                 }
 
-            };
+            }
 
         }
 

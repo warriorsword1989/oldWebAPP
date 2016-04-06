@@ -35,6 +35,7 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 resetPage();
                 map.currentTool.disable();
+                map.currentTool.shapeEditor.editType = "";
                 map._container.style.cursor = '';
 
 
@@ -61,6 +62,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
+                map.currentTool.shapeEditor.editType = "";
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }

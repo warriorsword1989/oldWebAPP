@@ -27,7 +27,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     //增加公交车道方向(单击)
     $scope.addTransitData=function(item,index) {
 
-        var obj = {},transitStr="",transitObj=null;
+        var transitStr="",transitObj=null;
         transitObj = {
             "flag":item.flag,
             "type":1
@@ -64,7 +64,11 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     }
     tooltipsCtrl.setEditEventType('rdlaneConnexity');
     tooltipsCtrl.setCurrentTooltip('正要新建车信,先选择线！');
-    map.currentTool = new fastmap.uikit.SelectForRestriction({map: map, currentEditLayer: rdLink});
+    map.currentTool = new fastmap.uikit.SelectForRestriction({
+        map: map,
+        createLaneFlag:true,
+        currentEditLayer: rdLink
+    });
     map.currentTool.enable();
     $scope.excitLineArr = [];
     eventController.on(eventController.eventTypes.GETLINKID, function (data) {
