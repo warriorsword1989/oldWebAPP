@@ -182,7 +182,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     };
 
     $scope.empty = function () {
-        var output = fastmap.uikit.OutPutController();
         output.clear();
         if (output.updateOutPuts !== "") {
             output.updateOutPuts();

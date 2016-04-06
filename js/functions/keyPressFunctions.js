@@ -317,7 +317,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 }
                                 objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
                                 ocLazyLoad.load('ctrl/attr_speedLimit_ctrl/speedLimitCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tpl/speedLimitTpl.html";
+                                    scope.attrTplContainer = "js/tpl/attr_speedLimit_ctrl/speedLimitTpl.html";
                                 });
                             });
                             var sinfo = {
