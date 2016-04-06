@@ -72,17 +72,23 @@
     .m-b-none {
         margin-bottom: 0 !important;
     }
-
+    .list-name{
+        color:#FFF;
+        margin:5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid #9E9E9E;
+        margin: 0 -15px;
+    }
 </style>
 <div id="rdNameDiv" ng-controller="nameController" >
-    <ul class="list-group list-group-lg m-b-none">
+    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
-            <div >
+            <div class="list-name">
                 <a ng-click="addRdName()" style="cursor: pointer;color:#FFF;">道路名（共<span ng-if="linkData.names!=undefined">{{linkData.names.length}}</span>条）</a>
             </div>
+            <div class='list-line'></div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item" ng-repeat="cItem in linkData.names">
             <div ng-click="showNames(cItem)" style="cursor: pointer;">
                 <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
