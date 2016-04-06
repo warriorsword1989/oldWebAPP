@@ -29,7 +29,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
        var showSidewalkObj = {
            "loadType":"subAttrTplContainer",
            "propertyCtrl": 'ctrl/attr_link_ctrl/pedestrianNaviOfSidewalkCtrl',
-           "propertyHtml": 'js/tepl/attr_link_tpl/pedestrianNaviOfSideWalkTepl.html'
+           "propertyHtml": 'js/tpl/attr_link_tpl/pedestrianNaviOfSideWalkTepl.html'
        }
        $scope.$emit("transitCtrlAndTpl", showSidewalkObj);
   };

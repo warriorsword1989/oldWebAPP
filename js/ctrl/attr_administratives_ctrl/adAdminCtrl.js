@@ -8,9 +8,17 @@ adAdminZone.controller("adAdminController",function($scope) {
     var outPutCtrl = fastmap.uikit.OutPutController();
     var highLightLayer = fastmap.uikit.HighLightController();
 
+
     var test = {"regionId":1,"adminId":0,"extendId":0,"adminType":0,"capital":0,"population":0,
         "geometry":"56.66,77.98","linkPid":0,"side":0,"jisCode":0,"meshId":0,"editFlag":1,
-        "memo":"备注信息","names":[{"nameId":1,"regionId":1,"nameGroupid":1,"langCode":"CHI","nameClass":1,"name":"gfdr","phonetic":"","srcFlag":0},{"nameId":4,"regionId":1,"nameGroupid":3,"langCode":"CHI","nameClass":1,"name":"desafesdr","phonetic":"","srcFlag":0}]};
+        "memo":"备注信息","names":[
+            {
+                "nameId":1,"regionId":1,"nameGroupid":1,"langCode":"CHI","nameClass":1,"name":"gfdr","phonetic":"","srcFlag":0
+            },
+            {
+                "nameId":4,"regionId":1,"nameGroupid":2,"langCode":"CHI","nameClass":1,"name":"desafesdr","phonetic":"","srcFlag":0
+            }
+        ]};
 
     $scope.adminType = [
         {"id": 0, "label": "国家地区级"},
@@ -26,7 +34,7 @@ adAdminZone.controller("adAdminController",function($scope) {
         {"id": 6, "label": "城镇/街道"},
         {"id": 7, "label": "飞地"},
         {"id": 8, "label": "KDZone"},
-        {"id": 9, "label": "AOI"},
+        {"id": 9, "label": "AOI"}
     ];
     $scope.capital = [
         {"id": 0, "label": "未定义"},

@@ -20,7 +20,7 @@ truckLimitApp.controller("truckLimitInfoController",function($scope,$timeout,$oc
     }
     $timeout(function(){
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
-            $scope.dateURL = 'js/tepl/fmdateTimer.html';
+            $scope.dateURL = 'js/tpl/fmdateTimer.html';
             $timeout(function(){
                 $scope.fmdateTimer($scope.linkData.limitTrucks[$scope.limitNum].timeDomain);
                 $scope.$broadcast('set-code',$scope.linkData.limitTrucks[$scope.limitNum].timeDomain);

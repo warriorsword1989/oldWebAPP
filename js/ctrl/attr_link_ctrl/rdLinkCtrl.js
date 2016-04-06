@@ -101,7 +101,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
             });
         } else if (url === "limitedModule") {
-            $ocLazyLoad.load('ctrl/attr_link_ctrl/limitCtrl').then(function () {
+            $ocLazyLoad.load('ctrl/attr_link_ctrl/limitedCtrl').then(function () {
                 $scope.currentURL = "js/tpl/attr_link_tpl/limitTpl.html";
             });
         } else if (url == "nameModule") {//道路名

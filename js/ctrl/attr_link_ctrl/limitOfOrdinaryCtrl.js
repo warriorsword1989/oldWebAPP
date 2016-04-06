@@ -132,9 +132,9 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
     $timeout(function(){
 
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
-            $scope.dateURL = 'js/tepl/fmdateTimer.html';
+            $scope.dateURL = 'js/tpl/fmdateTimer.html';
             $ocLazyLoad.load('ctrl/attr_link_ctrl/carPopoverCtrl').then(function () {
-                $scope.carPopoverURL = 'js/tepl/attr_link_tpl/carPopoverTpl.html';
+                $scope.carPopoverURL = 'js/tpl/attr_link_tpl/carPopoverTpl.html';
             });
             /*查询数据库取出时间字符串*/
             $timeout(function(){

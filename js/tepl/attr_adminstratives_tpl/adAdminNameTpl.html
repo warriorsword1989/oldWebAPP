@@ -1,215 +1,179 @@
 <style>
-    .list-group-item {
-        position: relative;
-        display: block;
-        padding: 1px 15px;
-        margin-bottom: -1px;
-        /*border: 1px solid #ddd;*/
-        border: 0;
+    /* 公用详细信息样式 */
+    .detail-info-title{
+        color: #fff;
+        margin-bottom: 5px;
     }
-
-    #otherDiv {
-        opacity: 1;
-        width: 100%;
+    .detail-info-box{
+        border-radius: 3px;
+        border:1px solid #fff;
+        float: left;
         font-size: 12px;
-    }
-
-    #otherDiv ul {
-        list-style: none;
-        overflow: hidden;
+        padding: 8px;
         width: 100%;
-        margin: 5px;
-        border-radius: 4px;
-    }
-
-    #otherDiv ul > li {
         background-color: #555;
-        border-right: none;
-        border-left: none;
     }
-
-    #otherDiv ul > li > div > input[type='text'] {
-        color: #F3F6FA;
-        width: 170px;
-        margin-left: -3px;
-        padding-left: 5px;
-        border-radius: 4px;
-        margin-top: 5px;
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
-        background-color: #333;
+    .info-head-well{
+        margin-right: -15px;
+        margin-left: -15px;
+        border-bottom: 1px solid #ddd;
+        padding-left: 15px;
+        border-top-right-radius: 4px;
+        color: #fff;
+        border-top-left-radius: 4px;
     }
-
-    #otherDiv ul > li > div > select {
-        color: #F3F6FA;
-        margin-left: -3px;
-        width: 160px;
-        border-radius: 4px;
-        margin-top: 5px;
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
-        background-color: #333;
-    }
-
-    #otherDiv ul > li > div:first-child {
-        display: inline-block;
-        width: 80px;
-    }
-
-    #otherDiv ul > li > label {
-        color: #F3F6FA;
-        font-weight: normal;
-    }
-
-    #otherDiv ul > li > div > label {
-        color: #F3F6FA;
-        font-weight: normal;
-    }
-
-    .inline {
-        display: inline-block !important;
-        /*width: 70%;*/
-        text-align: left;
-    }
-
-    .m-b-none {
-        margin-bottom: 0 !important;
-    }
-
-    .radio {
-        margin-bottom: 0px;
+    .info-remove-ico{
+        height: 24px;
+        width: 24px;
+        text-align: center;
+        line-height: 1;
+        font-weight: bolder;
+        border-top-right-radius: 4px;
         margin-top: 0px;
     }
-
-    .checkboxThree {
-        width: 81px;
-        height: 25px;
-        background: #333;
-        margin: 10px 40px;
-
-        border-radius: 50px;
-        position: relative;
+    .info-remove-ico:hover{
+        background-color: #CC0000 !important;
+        color: #fff;
     }
-
-    .checkboxThree:before {
-        content: '是';
-        position: absolute;
-        top: 3px;
-        left: 6px;
-        height: 2px;
-        color: #26ca28;
-        font-size: 16px;
-    }
-
-    .checkboxThree input {
-        position: absolute;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
-
-    /**
-     * Create the text for the off position
-     */
-    .checkboxThree:after {
-        content: '否';
-        position: absolute;
-        top: 3px;
-        left: 50px;
-        height: 2px;
-        color: #ddd;
-        font-size: 16px;
-    }
-
-    .checkboxThree label {
-        display: block;
-        width: 32px;
-        height: 20px;
-        border-radius: 50px;
-
-        -webkit-transition: all .5s ease;
-        -moz-transition: all .5s ease;
-        -o-transition: all .5s ease;
-        -ms-transition: all .5s ease;
-        transition: all .5s ease;
+    .info-option{
+        /*background-color: #eee;*/
+        padding: 5px;
         cursor: pointer;
-        position: absolute;
-        top: 3px;
-        z-index: 5;
-        left: 3px;
-        background: #ddd;
+        color: #fff;
+        transition:all 0.5s;
+        margin-bottom: 10px;
     }
-
-    /**
-     * Create the checkbox event for the label
-     */
-    .checkboxThree input[type=checkbox]:checked + label {
-        left: 50px;
-        background: #26ca28;
+    .info-option:hover{
+        color: #ffffff;
+        background-color: #0099FF
     }
-
-    .checkboxli {
-        /*background-color: #e4e4e4;*/
-        border: 1px solid #aaa;
-        border-radius: 4px;
-        cursor: default;
+    .info-option-item{
+        padding: 5px;
+        cursor: pointer;
+        color: #fff;
+        transition:all 0.5s;
+        margin-right: -10px;
+    }
+    .d-name{
         float: left;
-        margin-left: 5px;
-        margin-right: 5px;
-        margin-top: 5px;
-        padding: 0 5px;
+        width: 30%;
+        text-align: right;
+        color: #fff;
     }
-
-    .popover {
+    .d-value{
+        float: left;
+        width: 69%;
+        color: #fff;
+    }
+    .d-input{
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
         width: 100%;
-        position: relative;
+        border-radius: 3px;
+        color: #fff;
     }
-
-    .popover-content {
-        overflow-y: auto;
-        height: 150px;
+    .d-group{
+        margin-top:3px;
+        float: left;
+        width: 100%;
+    }
+    .d-title{
+        float: left;
+    }
+    .d-radio-btn>label{
+        height: 20px !important;
+        line-height: 8px !important;
+        border: 1px solid #FFF !important;
+        padding-top: 4px;
+    }
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+    .info-well{
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+    }
+    .name-group-item{
+        margin-bottom: 10px;
+        border: 1px solid #fff;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 3px;
+        padding-top: 0;
     }
 </style>
-<div id="otherDiv" ng-controller="adAdminNameController">
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div><label class="control-label" >语言代码</label></div>
-            <div class="inline">
-                <select  ng-model="roadlinkData.tollInfo"
-                         ng-options="value.id as value.label for value in toolinfoOption">
-                    <option>--</option>
-                </select>
+<div id="otherDiv" ng-controller="adAdminNameController" class="detail-info-box">
+    <div class="detail-info-title">
+        名称信息（共 <span ng-bind="names.length">0</span> 条）
+        <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;font-size: 20px;cursor: pointer;color: #fff;" ng-click="nameInfoAdd()"></span>
+    </div>
+    <div id="loadPropertyDiv" class="panel-collapse col-sm-12">
+        <div class="info-well" id="nameInfo{{item[0].nameGroupid}}" ng-repeat="item in nameGroup | orderBy: 'nameGroupid'">
+            <div class="info-head-well">
+                名称组
+                <span ng-bind="item[0].nameGroupid" style="line-height: 2.5;"></span>
+                <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
+                <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=names.length-1"></span>
+                <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
             </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">名称内容</label></div>
-            <div class="inline">
-                <input type="text"  placeholder="0"
-                       ng-model="adAdminNameData.names[0].name">
+            <div class="name-group-item" ng-repeat="nameObj in item">
+                <span class="info-option-item info-remove-ico pull-right" ng-click="removeNameItem(nameObj)"> × </span>
+                <div class="line line-dashed b-b line-lg">
+                    <div class="d-group">
+                        <div class="d-name">名称组号：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input" ng-model="nameObj.nameGroupid" readonly>
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">语言代码：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="nameObj.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称内容：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input" placeholder="名称内容"
+                                   ng-model="nameObj.name" ng-blur="diverName(nameObj.nameGroupid,nameObj.name)">
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称发音：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input name-phonetic" placeholder="名称发音"
+                                   ng-model="nameObj.phonetic">
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称语音：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input name-voincefile" placeholder="名称语音"
+                                   ng-model="nameObj.voiceFile">
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称分类：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="nameObj.nameClass" ng-options="value.code as value.label for value in nameClassType" ></select>
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称来源：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="nameObj.srcFlag" ng-options="value.code as value.label for value in nameSource" ></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">名称发音</label></div>
-            <div class="inline">
-                <input type="text"  placeholder="0"
-                       ng-model="roadlinkData.systemId">
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label" >名称分类</label></div>
-            <div class="inline">
-                <select  ng-model="roadlinkData.tollInfo"
-                         ng-options="value.id as value.label for value in toolinfoOption">
-                    <option>--</option>
-                </select>
-            </div>
-        </li>
-        <li class="list-group-item">
-            <div><label class="control-label">名称来源</label></div>
-            <div class="inline">
-                <input type="text"  placeholder="0"
-                       ng-model="roadlinkData.systemId">
-            </div>
-        </li>
-    </ul>
+        </div>
+    </div>
 </div>
-
