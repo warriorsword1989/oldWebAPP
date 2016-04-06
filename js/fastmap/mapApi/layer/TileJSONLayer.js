@@ -643,6 +643,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
                         }
 
+                    }else if (this.options.type === 'rdrticPoint') {
+
+
+
                     }else if(feature.properties.kind){  //种别
 
                         if(feature.properties.type == '1201'){
@@ -798,6 +802,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "rdlaneconnexityPoint":
             case "rdCrossPoint":
             case "Diverge":
+            case "rdrticPoint"://互联网RTIC
                 if (this._map.getZoom() >= this.showNodeLevel) {
 
                     url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
