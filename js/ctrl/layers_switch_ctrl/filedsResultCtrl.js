@@ -399,7 +399,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             }else{
                                 $scope.allSubItems = data.data;
                             }*/
-
+                            $scope.allSubItems = data.data;
                             $scope.allStyleArr = [];
                             for (var i = 0, len = $scope.allSubItems.length; i < len; i++) {
                                 $scope.allStyleArr[i] = false;
