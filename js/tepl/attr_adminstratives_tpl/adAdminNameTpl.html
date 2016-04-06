@@ -1,0 +1,179 @@
+<style>
+    /* 公用详细信息样式 */
+    .detail-info-title{
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    .detail-info-box{
+        border-radius: 3px;
+        border:1px solid #fff;
+        float: left;
+        font-size: 12px;
+        padding: 8px;
+        width: 100%;
+        background-color: #555;
+    }
+    .info-head-well{
+        margin-right: -15px;
+        margin-left: -15px;
+        border-bottom: 1px solid #ddd;
+        padding-left: 15px;
+        border-top-right-radius: 4px;
+        color: #fff;
+        border-top-left-radius: 4px;
+    }
+    .info-remove-ico{
+        height: 24px;
+        width: 24px;
+        text-align: center;
+        line-height: 1;
+        font-weight: bolder;
+        border-top-right-radius: 4px;
+        margin-top: 0px;
+    }
+    .info-remove-ico:hover{
+        background-color: #CC0000 !important;
+        color: #fff;
+    }
+    .info-option{
+        /*background-color: #eee;*/
+        padding: 5px;
+        cursor: pointer;
+        color: #fff;
+        transition:all 0.5s;
+        margin-bottom: 10px;
+    }
+    .info-option:hover{
+        color: #ffffff;
+        background-color: #0099FF
+    }
+    .info-option-item{
+        padding: 5px;
+        cursor: pointer;
+        color: #fff;
+        transition:all 0.5s;
+        margin-right: -10px;
+    }
+    .d-name{
+        float: left;
+        width: 30%;
+        text-align: right;
+        color: #fff;
+    }
+    .d-value{
+        float: left;
+        width: 69%;
+        color: #fff;
+    }
+    .d-input{
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+        width: 100%;
+        border-radius: 3px;
+        color: #fff;
+    }
+    .d-group{
+        margin-top:3px;
+        float: left;
+        width: 100%;
+    }
+    .d-title{
+        float: left;
+    }
+    .d-radio-btn>label{
+        height: 20px !important;
+        line-height: 8px !important;
+        border: 1px solid #FFF !important;
+        padding-top: 4px;
+    }
+    .line-dashed {
+        background-color: transparent;
+        border-style: dashed !important;
+        border-width: 0;
+    }
+    .info-well{
+        border: 1px solid #ccc;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+    }
+    .name-group-item{
+        margin-bottom: 10px;
+        border: 1px solid #fff;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 3px;
+        padding-top: 0;
+    }
+</style>
+<div id="otherDiv" ng-controller="adAdminNameController" class="detail-info-box">
+    <div class="detail-info-title">
+        名称信息（共 <span ng-bind="names.length">0</span> 条）
+        <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;font-size: 20px;cursor: pointer;color: #fff;" ng-click="nameInfoAdd()"></span>
+    </div>
+    <div id="loadPropertyDiv" class="panel-collapse col-sm-12">
+        <div class="info-well" id="nameInfo{{item[0].nameGroupid}}" ng-repeat="item in nameGroup | orderBy: 'nameGroupid'">
+            <div class="info-head-well">
+                名称组
+                <span ng-bind="item[0].nameGroupid" style="line-height: 2.5;"></span>
+                <span class="info-option info-remove-ico pull-right" ng-click="removeNameInfo(item[0])"> × </span>
+                <span class="glyphicon glyphicon-menu-down info-option pull-right" ng-click="changeOrder(item,1)" title="下移" ng-if="$index!=names.length-1"></span>
+                <span class="glyphicon glyphicon-menu-up info-option pull-right" ng-click="changeOrder(item,2)" title="上移" ng-if="$index!=0"></span>
+            </div>
+            <div class="name-group-item" ng-repeat="nameObj in item">
+                <span class="info-option-item info-remove-ico pull-right" ng-click="removeNameItem(nameObj)"> × </span>
+                <div class="line line-dashed b-b line-lg">
+                    <div class="d-group">
+                        <div class="d-name">名称组号：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input" ng-model="nameObj.nameGroupid" readonly>
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">语言代码：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="nameObj.langCode" ng-options="value.code as value.name for value in languageCode" ></select>
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称内容：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input" placeholder="名称内容"
+                                   ng-model="nameObj.name" ng-blur="diverName(nameObj.nameGroupid,nameObj.name)">
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称发音：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input name-phonetic" placeholder="名称发音"
+                                   ng-model="nameObj.phonetic">
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称语音：</div>
+                        <div class="d-value">
+                            <input type="text" class="d-input name-voincefile" placeholder="名称语音"
+                                   ng-model="nameObj.voiceFile">
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称分类：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="nameObj.nameClass" ng-options="value.code as value.label for value in nameClassType" ></select>
+                        </div>
+                    </div>
+                    <div class="d-group">
+                        <div class="d-name">名称来源：</div>
+                        <div class="d-value">
+                            <select class="d-input"  ng-model="nameObj.srcFlag" ng-options="value.code as value.label for value in nameSource" ></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

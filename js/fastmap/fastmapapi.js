@@ -80,6 +80,9 @@
                 "fastmap/dataApi/datamodel/Rdlanetopology.js",
                 "fastmap/dataApi/datamodel/Rdlanevia.js",
                 "fastmap/dataApi/datamodel/Rdspeedlimit.js",
+                "fastmap/dataApi/datamodel/Adlink.js",
+                "fastmap/dataApi/datamodel/Adadminname.js",
+                "fastmap/dataApi/datamodel/Adadmin.js",
 
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",

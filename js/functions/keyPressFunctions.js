@@ -35,6 +35,7 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 resetPage();
                 map.currentTool.disable();
+                map.currentTool.shapeEditor.editType = "";
                 map._container.style.cursor = '';
 
 
@@ -61,6 +62,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
+                map.currentTool.shapeEditor.editType = "";
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
@@ -112,8 +114,8 @@ function keyEvent(ocLazyLoad, scope) {
                             info = data.data.log;
                             Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
                                 objEditCtrl.setCurrentObject("RDLINK", data.data);
-                                ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                                ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_link_tpl/rdLinkTpl.html";
                                 })
                             });
                         } else {
@@ -159,8 +161,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
-                                ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
-                                    scope.attrTplContainer = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
+                                ocLazyLoad.load('ctrl/attr_restriction_ctrl/rdRestriction').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
                                 })
                             })
                         } else {
@@ -314,8 +316,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
-                                ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/speedLimitTepl.html";
+                                ocLazyLoad.load('ctrl/attr_speedLimit_ctrl/speedLimitCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/speedLimitTpl.html";
                                 });
                             });
                             var sinfo = {
@@ -495,8 +497,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDBRANCH", data.data);
-                                ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
+                                ocLazyLoad.load('ctrl/attr_branch_ctrl/rdBranchCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_branch_Tpl/namesOfBranch.html";
                                 })
                             }, data.data.pid)
                         } else {
@@ -542,8 +544,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                                ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/crossTepl/rdCrossTepl.html";
+                                ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_cross_tpl/rdCrossTpl.html";
                                 });
                             });
                             var sInfo = {
@@ -597,8 +599,8 @@ function keyEvent(ocLazyLoad, scope) {
                             }
                             Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
                                 objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
-                                ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
-                                    scope.attrTplContainer = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
+                                ocLazyLoad.load("ctrl/attr_connexity_ctrl/rdLaneConnexityCtrl").then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_connexity_tpl/rdLaneConnexityTpl.html";
                                 });
                             });
                             var sinfo = {
