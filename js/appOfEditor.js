@@ -212,6 +212,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.outErrorArr[2] = false;
         }
         else {
+            $scope.attrTplContainer = "";
+            $scope.suspendFlag = false;
             $scope.outErrorArr[2] = true;
             $scope.outErrorArr[3] = false;
         }
