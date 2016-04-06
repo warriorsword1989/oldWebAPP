@@ -153,10 +153,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $ocLazyLoad.load('ctrl/log_show_ctrl/errorPageCtrl').then(function () {
                 $scope.errorCheckPage = 'js/tpl/log_show_tpl/errorPageTpl.html'
             });
-
-
         }
-
     };
 
     $scope.isTipsPanel = 1;
