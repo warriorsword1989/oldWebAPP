@@ -114,7 +114,7 @@
                 "fastmap/uikit/controller/corectl/SelectController.js",
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
-                "fastmap/uikit/controller/corectl/HighLightController.js",
+
                 "fastmap/uikit/controller/corectl/EventController.js",
                 //uikit/controller/tools/shapetools
 
@@ -149,6 +149,8 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectRelation.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdCross.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdBranch.js",
+
+                //"fastmap/uikit/controller/tools/L.floatMenuControl.js",
 
                 "fastmap/uikit/ctlmodel/CheckResult.js",
                 "fastmap/uikit/ctlmodel/ContentStyle.js",

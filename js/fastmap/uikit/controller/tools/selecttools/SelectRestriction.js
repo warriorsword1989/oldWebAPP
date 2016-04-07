@@ -43,22 +43,13 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
 
-                                    this._drawHeight(id);
                                     break;
                                 }
                             }
@@ -74,11 +65,6 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             } else {
@@ -86,11 +72,6 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             }
@@ -120,171 +101,8 @@ function init(options) {
             } else {
                 return 0;
             }
-        },
-        cleanHeight: function () {
-            this._cleanHeight();
-
         }
-        ,
 
-        /***
-     *清除高亮
-     */
-        _cleanHeight: function () {
-
-            for (var index in this.highlightLayer._tiles) {
-
-                this.highlightLayer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
-            }
-
-            for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length; i < len; i++) {
-                this.eventController.off(this.eventController.eventTypes.TILEDRAWEND, this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND][i]);
-            }
-
-        }
-        ,
-        /***
-         * 绘制高亮
-         * @param id
-         * @private
-         */
-        _drawHeight: function (id) {
-            this.redrawTiles = this.tiles;
-
-            for (var obj in this.tiles) {
-                if(!this.tiles[obj].data){
-                    return;
-                }
-                var data = this.tiles[obj].data.features;
-
-                for (var key in data) {
-
-                    var feature = data[key];
-                    var type = feature.geometry.type;
-                    var geom = feature.geometry.coordinates;
-                    var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
-                    var newgeom = [];
-                    if (data[key].properties.id == id) {
-                        var ctx = {
-                            canvas: this.highlightLayer._tiles[this.tiles[obj].options.context.name.replace('_',":")],
-                            tile: L.point(key.split(',')[0], key.split(',')[1])
-                        }
-                        if (type == "Point") {
-                            if (feature.properties.restrictioninfo === undefined) {
-                                break;
-                            }
-                            var newStyle = "", newGeom = [];
-                            var restrictObj = feature.properties.restrictioninfo;
-                            if (restrictObj !== undefined) {
-
-                                if (restrictObj.constructor === Array) {
-                                    for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                        newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
-                                        if (theory > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-
-                                            this.highlightLayer._drawBackground({
-                                                ctx:ctx,
-                                                geo:newGeom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                drawx:-10,
-                                                drawy:-10
-
-                                            })
-                                        } else {
-
-                                            this.highlightLayer._drawBackground({
-                                                ctx:ctx,
-                                                geo:geom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                drawx:-10,
-                                                drawy:-10
-
-                                            })
-                                        }
-                                    }
-                                }else{
-                                    var restrictArr = restrictObj.split(",");
-                                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-
-                                        if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
-                                        } else {
-                                            newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
-                                        }
-
-
-                                        if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0][0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1][0])+ fact * 16*Math.sin(route);
-
-                                            this.highlightLayer._drawBackground({
-                                                ctx:ctx,
-                                                geo:newgeom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                drawx:-10,
-                                                drawy:-10
-
-                                            })
-                                        } else {
-
-                                            this.highlightLayer._drawBackground({
-                                                ctx:ctx,
-                                                geo:geom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                lineColor:'rgb(4, 187, 245)',
-                                                fillColor:'rgba(4, 187, 245, 0.5)',
-                                                lineWidth:1,
-                                                width:20,
-                                                height:20,
-                                                drawx:-10,
-                                                drawy:-10
-
-                                            })
-                                        }
-
-                                    }
-                                }
-
-
-
-                            }
-
-
-                        }
-                    }
-                }
-            }
-
-
-        }
     }
 )
     return new SelectRestriction(options);

@@ -6,25 +6,39 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var highLightLayer = fastmap.uikit.HighLightController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdcross = layerCtrl.getLayerById('rdcross');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
-    var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-        map: map,
-        highLightFeature: "linksOfCross",
-        initFlag: true
-    });
-    highLightLayer.pushHighLightLayers(highLightLink);
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.initializeRdCrossData = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
-        var links = $scope.rdCrossData.links,linkArr=[];
+        var links = $scope.rdCrossData.links,highLightFeatures=[];
+
         for(var i= 0,len=links.length;i<len;i++) {
-            linkArr.push(links[i]["linkPid"]);
+            highLightFeatures.push({
+                id: links[i]["linkPid"].toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
+            })
+
         }
-        highLightLink.drawLinksOfCrossForInit( linkArr, []);
+        highLightFeatures.push({
+
+            id:$scope.rdCrossData.pid.toString(),
+            layerid:'rdcross',
+            type:'rdcross',
+            style:{}
+        })
+        var highLightRender = new fastmap.uikit.HighLightRender(hLayer, {
+            map: map,
+            highLightFeature: "linksOfCross",
+            initFlag: true
+        });
+        highLightRender.highLightFeatures = highLightFeatures;
+        highLightRender.drawHighlight();
+
     };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();
@@ -72,7 +86,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
-                if (selectCtrl.rowkey.rowkey) {
+                if (selectCtrl.rowkey) {
                     var stageParam = {
                         "rowkey": selectCtrl.rowkey.rowkey,
                         "stage": 3,

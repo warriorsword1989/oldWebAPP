@@ -52,36 +52,36 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         $scope.flag = 0;
-        //删除以前高亮的进入线和退出线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
-        //高亮进入线和退出线
-        linksObj["inLink"] = objectEditCtrl.data["inLinkPid"].toString();
+
+        var highLightFeatures = [];
+
+        highLightFeatures.push({
+            id:objectEditCtrl.data["inLinkPid"].toString(),
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
+        });
         for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
-            linksObj["outLink" + i] = objectEditCtrl.data.details[i].outLinkPid.toString();
+            highLightFeatures.push({
+                id:objectEditCtrl.data.details[i].outLinkPid.toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
+            });
+
         }
-        var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "links",
-            linksObj: linksObj,
-            initFlag: false
-        });
+        highLightFeatures.push({
+            id:$scope.rdRestrictData.pid.toString(),
+            layerid:'restriction',
+            type:'restriction',
+            style:{}
+        })
 
 
-        var highLightRestriction = new fastmap.uikit.HighLightRender(hlayer, {
+        var highLightRender = new fastmap.uikit.HighLightRender(hlayer);
 
-            map: map,
-            highLightFeature: "restrict",
-            restrictId: $scope.rdRestrictData.pid.toString(),
-            initFlag: true
-        });
-
-
-        highLightLinks.drawOfLinksForInit();
-        highLightLayer.pushHighLightLayers(highLightLinks);
-
-
+        highLightRender.highLightFeatures = highLightFeatures;
+        highLightRender.drawHighlight();
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
                 limitPicArr.push(v.timeDomain);
@@ -197,31 +197,33 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $scope.removeTipsActive();
         $(e.target).addClass('active');
         $scope.rdSubRestrictData = item;
-        //删除以前高亮的进入线和退出线
-        //if (highLightLayer.highLightLayersArr.length !== 0) {
-        //    highLightLayer.removeHighLightLayers();
-        //}
+
         $scope.fmdateTimer(limitPicArr[$(e.target).attr('data-index')]);
         //高亮选择限制防线的进入线和退出线
-        var linksOfRestric = {};
-        linksOfRestric["inLink"] = linksObj["inLink"];
-        linksOfRestric["outLink"] = item.outLinkPid.toString();
-        var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "links",
-            linksObj: linksOfRestric
-        })
-        highLightLinks.drawOfLinksForInit();
-        var highLightRestriction = new fastmap.uikit.HighLightRender(rdRestriction, {
-            map: map,
-            highLightFeature: "restrict",
-            restrictId: $scope.rdRestrictData.pid.toString(),
-            initFlag: false
-        });
-        highLightRestriction.drawRestrictForInit();
 
-        highLightLayer.pushHighLightLayers(highLightLinks);
-        highLightLayer.pushHighLightLayers(highLightRestriction);
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id:linksObj["inLink"],
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
+        })
+        highLightFeatures.push({
+            id:item.outLinkPid.toString(),
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
+        })
+
+        highLightFeatures.push({
+            id:item.outLinkPid.toString(),
+            layerid:'restriction',
+            type:'restriction',
+            style:{}
+        })
+        var highLightLinks = new fastmap.uikit.HighLightRender(hlayer);
+        highLightLinks.highLightFeatures = highLightFeatures;
+        highLightLinks.drawHighlight();
 
         //显示时间
         $timeout(function () {
@@ -261,20 +263,24 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             $scope.$apply(function () {
                 $scope.rdSubRestrictData.outLinkPid = data.id;
             });
-            var changedOutLink = {};
-            changedOutLink["inLink"] = linksObj["inLink"];
-            changedOutLink["outLink"] = data.id.toString();
-            //删除以前高亮的进入线和退出线
-            if (highLightLayer.highLightLayersArr.length !== 0) {
-                highLightLayer.removeHighLightLayers();
-            }
-            var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "links",
-                linksObj: changedOutLink
+
+            var highLightFeatures = [];
+            highLightFeatures.push({
+                id:linksObj["inLink"],
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
             })
-            highLightLinks.drawOfLinksForInit();
-            highLightLayer.pushHighLightLayers(highLightLinks);
+            highLightFeatures.push({
+                id:data.id.toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
+            })
+
+            var highLightLinks = new fastmap.uikit.HighLightRender(hlayer);
+            highLightLinks.highLightFeatures = highLightFeatures;
+            highLightLinks.drawHighlight();
         })
     };
 

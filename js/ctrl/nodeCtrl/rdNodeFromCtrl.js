@@ -8,9 +8,9 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
-    var highLightLayer = fastmap.uikit.HighLightController();
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.srcFlagOptions=[
         {"id": 1, "label": "1 施工图"},
         {"id": 2, "label": "2 高精度测量"},
@@ -68,6 +68,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     $scope.initializeNodeData=function() {
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
+        var highlightFeatures = [];
         Application.functions.getByCondition(JSON.stringify({
             projectId: Application.projectid,
             type: 'RDLINK',
@@ -86,19 +87,30 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 }
                 lines.push(fastmap.mapApi.lineString(points));
                 $scope.linepids.push(data.data[index].pid);
+                highlightFeatures.push({
+                    id:data.data[index].pid,
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
             }
 
             var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
 
             selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.rdNodeData.pid});
             $scope.initialForms();
-            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "linksOfnode",
-                initFlag: true
-            });
-            highLightLayer.pushHighLightLayers(highLightLink);
-            highLightLink.drawLinksOfCrossForInit($scope.linepids, [],[$scope.rdNodeData.pid]);
+
+
+            highlightFeatures.push({
+                id:$scope.rdNodeData.pid,
+                layerid:'referenceLine',
+                type:'node',
+                style:{}
+            })
+            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+            highLightLink.highLightFeatures =highlightFeatures;
+            highLightLink.drawHighlight();
+
         });
 
     };

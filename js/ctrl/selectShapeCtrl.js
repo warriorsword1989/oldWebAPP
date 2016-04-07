@@ -225,7 +225,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                                     propertyCtrl:"ctrl/crossCtrl/rdCrossCtrl",
                                                     propertyHtml:"js/tepl/crossTepl/rdCrossTepl.html",
                                                 }
-                                                objCtrl.setCurrentObject(data.data[0]);
+                                                objCtrl.setCurrentObject("RDCROSS",data.data[0]);
                                                 $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                                             });
                                         }
@@ -243,10 +243,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                                 }
                                 $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
                                 break;
-                        }
-
-                        if (selectCtrl.updateTipsCtrl !== "") {
-                            selectCtrl.updateTipsCtrl();
                         }
                     })
                 }
