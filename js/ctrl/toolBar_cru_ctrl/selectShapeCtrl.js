@@ -14,6 +14,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    $scope.flagId = 0;
     $scope.toolTipText = "";
 
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
@@ -63,6 +64,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         $("#popoverTips").hide();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         $scope.changeBtnClass(num);
+        if(!$scope.classArr[num]){
+            map.currentTool.disable();
+            map._container.style.cursor = '';
+            return;
+        }
+
         if (type === "link") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(
@@ -90,6 +97,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             rdLink.options.editable = true;
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
+                nodesFlag:true,
                 currentEditLayer: rdLink,
                 shapeEditor: shapeCtrl
             });
@@ -100,7 +108,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
             });
         }
         else if (type === "relation") {
-            map.currentTool = new fastmap.uikit.SelectRelation({map: map});
+            map.currentTool = new fastmap.uikit.SelectRelation({
+                map: map,
+                relationFlag:true
+            });
             map.currentTool.enable();
 
             editLayer.bringToBack();
@@ -147,7 +158,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         else if (type === "tips") {
             $scope.toolTipText = '请选择tips！';
             layerCtrl.pushLayerFront('workPoint');
-            map.currentTool = new fastmap.uikit.SelectDataTips({map: map, currentEditLayer: workPoint});
+            map.currentTool = new fastmap.uikit.SelectDataTips({
+                map: map,
+                dataTipsFlag:true,
+                currentEditLayer: workPoint
+            });
             map.currentTool.enable();
             workPoint.options.selectType = 'tips';
             workPoint.options.editable = true;
@@ -247,17 +262,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
                     })
                 }
             )
-        }
-        else if (type === "rdCross") {
-            layerCtrl.pushLayerFront('rdcross');
-            map.currentTool = new fastmap.uikit.SelectNode({map: map, currentEditLayer: rdCross});
-            map.currentTool.enable();
-            rdCross.options.selectType = 'relation';
-            rdCross.options.editable = true;
-            $scope.toolTipText = '请选择路口！';
-            eventController.on(eventController.eventTypes.GETCROSSNODEID, function (data) {
-                $scope.getFeatDataCallback(data,data.id,"RDCROSS",'ctrl/attr_cross_ctrl/rdCrossCtrl',"js/tpl/attr_cross_tpl/rdCrossTpl.html");
-            })
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };

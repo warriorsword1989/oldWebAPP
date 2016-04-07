@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/10.
  */
-var errorCheckModule = angular.module('lazymodule', ['smart-table']);
+var errorCheckModule = angular.module('lazymodule', []);
 errorCheckModule.controller('errorCheckController', function ($scope, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();

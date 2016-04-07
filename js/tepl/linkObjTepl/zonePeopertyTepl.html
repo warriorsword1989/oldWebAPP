@@ -1,0 +1,204 @@
+<style>
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
+
+    #zoneProperDiv {
+        opacity: 1;
+        width: 100%;
+        font-size: 12px;
+    }
+
+    #zoneProperDiv ul {
+        list-style: none;
+        overflow: hidden;
+        width: 100%;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #zoneProperDiv ul > li {
+        background-color: #555;
+
+    }
+
+    #zoneProperDiv ul > li > div > input {
+        color: #F3F6FA;
+        width: 170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+
+    #zoneProperDiv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width: 170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+
+    #zoneProperDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #zoneProperDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #zoneProperDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+</style>
+<div id="zoneProperDiv" ng-controller="zonePeopertyController">
+    <ul  class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">开发状态</label></div>
+            <div class="radio inline" style="text-align: left">
+                        <!--<div id="developStatediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="developStatebtn0" ng-click="checkdevelopState(0)" ng-model="zoneData.developState">非详细</button>-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="developStatebtn1" ng-click="checkdevelopState(1)" ng-model="zoneData.developState">详细</button>-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="developStatebtn2" ng-click="checkdevelopState(2)" ng-model="zoneData.developState">未验证</button>-->
+                        <!--</div>-->
+                <label>
+                    <input type="radio" name="developStateRadio" value="0" ng-model="zoneData.developState">
+                    非详细
+                </label>
+                <label>
+                    <input type="radio" name="developStateRadio" value="1" ng-model="zoneData.developState">
+                    详细
+                </label>
+                <label>
+                    <input type="radio" name="developStateRadio" value="2" ng-model="zoneData.developState">
+                    未验证
+                </label>
+            </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">城市道路</label></div>
+
+                <div class="radio inline" style="text-align: left">
+                        <!--<div id="urbandiv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="urbanbtn0" ng-click="checkurban(0)" ng-model="zoneData.urban">否</button>-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="urbanbtn1" ng-click="checkurban(1)" ng-model="zoneData.urban">是</button>-->
+                        <!--</div>-->
+                            <label>
+                                <input type="radio" name="urbanRadio" value="0" ng-model="zoneData.urban">
+                                否
+                            </label>
+                            <label>
+                                <input type="radio" name="urbanRadio" value="1" ng-model="zoneData.urban">
+                                是
+                            </label>
+                    </div>
+                </li>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-3 control-label">DICI城市类型</label>-->
+
+                    <!--<div class="col-sm-9">-->
+
+                        <!--<div id="diciTypediv" class="btn-group" style="border-radius: 10px;border: 1px solid #2aabd2;">-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px; width: 60px;height: 20px; font-size: 10px; padding: 0px;border: 0px;outline: none;" id="diciTypebtn0" ng-click="checkdiciType(0)" ng-model="zoneData.diciType">不应用</button>-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="diciTypebtn1" ng-click="checkdiciType(1)" ng-model="zoneData.diciType">全要素</button>-->
+                            <!--<button class="btn btn-default" style="border-radius: 15px;width: 60px;height: 20px;font-size: 10px;padding: 0px;border: 0px;outline: none;" id="diciTypebtn2" ng-click="checkdiciType(2)" ng-model="zoneData.diciType">简化版</button>-->
+                        <!--</div>-->
+
+                        <!--&lt;!&ndash;<div class="radio">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input type="radio" name="theoryOrActual" value="0" ng-model="zoneData.diciType">&ndash;&gt;-->
+                                <!--&lt;!&ndash;不应用&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input type="radio" name="theoryOrActual" value="1" ng-model="zoneData.diciType">&ndash;&gt;-->
+                                <!--&lt;!&ndash;全要素&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<label>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input type="radio" name="theoryOrActual" value="2" ng-model="zoneData.diciType">&ndash;&gt;-->
+                                <!--&lt;!&ndash;简化版&ndash;&gt;-->
+                            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="line line-dashed b-b line-lg pull-in"></div>-->
+        <li class="list-group-item">
+            <div><label class="control-label">左区划号码</label></div>
+
+            <div class="inline" style="text-align: left">
+                <input type="text" placeholder="0530" ng-model="zoneData.leftRegionId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">右区划号码</label></div>
+
+            <div class="inline" style="text-align: left">
+                  <input type="text" placeholder="0530" ng-model="zoneData.rightRegionId">
+            </div>
+        </li>
+     </ul>
+
+    <div style="width: 100%;padding-top: 3px;">
+        <ul class="list-group list-group-lg m-b-none" style="margin-top: 0px;" ng-repeat="item in zoneData.zones">
+            <li class="list-group-item">
+                <div><label class="control-label">区划号码</label></div>
+                <div class="inline">
+                    <input type="number"  placeholder="0" ng-model="item.regionId">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">Zone类型</label></div>
+                <div class="inline">
+                    <select  ng-model="item.type" ng-options="value.id as value.label for value in typeoption">
+                        <option>--</option>
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div><label class="control-label">Link左右</label></div>
+                <div class="radio inline" style="text-align: left">
+                    <label>
+                        <input type="radio" name="sideRadio" value="0"
+                               ng-model="item.side">
+                        左
+                    </label>
+                    <label>
+                        <input type="radio" name="sideRadio" value="1"
+                               ng-model="item.side">
+                        右
+                    </label>
+                </div>
+            </li>
+            <div class="line line-dashed b-b line-lg pull-in" style="height:2px;background-color:white;"></div>
+        </ul>
+
+    </div>
+
+</div>

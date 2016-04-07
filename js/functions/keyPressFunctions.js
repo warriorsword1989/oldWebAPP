@@ -35,6 +35,7 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 resetPage();
                 map.currentTool.disable();
+                map.currentTool.shapeEditor.editType = "";
                 map._container.style.cursor = '';
 
 
@@ -61,6 +62,7 @@ function keyEvent(ocLazyLoad, scope) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
+                map.currentTool.shapeEditor.editType = "";
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
@@ -315,7 +317,7 @@ function keyEvent(ocLazyLoad, scope) {
                                 }
                                 objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
                                 ocLazyLoad.load('ctrl/attr_speedLimit_ctrl/speedLimitCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tpl/speedLimitTpl.html";
+                                    scope.attrTplContainer = "js/tpl/attr_speedLimit_ctrl/speedLimitTpl.html";
                                 });
                             });
                             var sinfo = {
