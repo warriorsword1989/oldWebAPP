@@ -167,7 +167,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         } else if (id === "scenePanel") {
             $scope.isTipsPanel = 2;
             $ocLazyLoad.load('ctrl/layers_switch_ctrl/sceneLayersCtrl').then(function () {
-                $scope.layersURL = 'js/tpl/layers_switch_tpl/sceneLayers..html';
+                $scope.layersURL = 'js/tpl/layers_switch_tpl/sceneLayers.html';
             });
         } else if (id === "layerPanel") {
             $scope.isTipsPanel = 3;

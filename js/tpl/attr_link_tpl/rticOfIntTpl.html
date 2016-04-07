@@ -151,7 +151,7 @@
             <div><label class="control-label" >RTIC等级</label></div>
             <div class="inline">
                 <select  ng-model="oridiData.rank"
-                         ng-options="value.id as value.label for value in rankoption">
+                         ng-options="value.id as value.label for value in rankoption" ng-change="changeRank()">
                     <option>--</option>
                 </select>
             </div>

@@ -645,7 +645,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                     }else if (this.options.type === 'rdrticPoint') {
 
+                        if (feature.properties.laneconnexityinfo === undefined) {
+                            return;
+                        }
 
+                        var divergeObj = feature.properties;
 
                     }else if(feature.properties.kind){  //种别
 
