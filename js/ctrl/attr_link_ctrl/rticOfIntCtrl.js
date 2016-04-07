@@ -21,6 +21,18 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     for(var i= 0,len=$scope.realtimeData.intRtics.length;i<len;i++) {
         if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
             $scope.oridiData = $scope.realtimeData.intRtics[i];
+            $scope.rank= $scope.oridiData.rank;
+            if($scope.oridiData.rank==0){
+                alert("请选择RTIC等级");
+            }
+        }
+    }
+
+    $scope.changeRank=function(){
+        if($scope.oridiData.rank==0){
+            alert("请选择RTIC等级");
+        }else if($scope.rank!=1&&$scope.oridiData.rank==1){
+            alert("不能选择高速");
         }
     }
 
