@@ -12,7 +12,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
-    var hlayer = layerCtrl.getLayerById('highlightlayer');
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     var limitPicArr = [];
     //删除以前高亮的进入线和退出线
@@ -69,7 +69,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         });
 
 
-        var highLightRestriction = new fastmap.uikit.HighLightRender(hlayer, {
+        var highLightRestriction = new fastmap.uikit.HighLightRender(hLayer, {
 
             map: map,
             highLightFeature: "restrict",
@@ -482,7 +482,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 outPutCtrl.updateOutPuts();
             }
         })
-        if (selectCtrl.rowkey.rowkey) {
+        if (selectCtrl.rowkey) {
             var stageParam = {
                 "rowkey": selectCtrl.rowkey.rowkey,
                 "stage": 3,
