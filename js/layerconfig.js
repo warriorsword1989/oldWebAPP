@@ -639,7 +639,7 @@ Application.layersConfig =
                 restrictZoom: 10,
                 visible: true
             },
-            requestType: "uuuuu",
+            requestType: "uuuuu"
         }]
     }, {
         groupid: 'editlayer',

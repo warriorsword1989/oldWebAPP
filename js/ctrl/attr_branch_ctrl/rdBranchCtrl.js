@@ -204,26 +204,30 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         /*经过线*/
         if (dObj) {
-            linksOfRestric["inLink"] = $scope.diverObj.inLinkPid + '';
-            linksOfRestric["outLink"] = $scope.diverObj.outLinkPid + '';
-            //清除地图上的高亮的feature
-            if (highLightLayer.highLightLayersArr.length !== 0) {
-                highLightLayer.removeHighLightLayers();
-            }
-            var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "links",
-                linksObj: linksOfRestric
+
+            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+            highLightLink.highLightFeatures.push({
+
+                id:$scope.diverObj.inLinkPid.toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
+            });
+            highLightLink.highLightFeatures.push({
+
+                id:$scope.diverObj.outLinkPid.toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
             });
 
-            highLightLinks.drawOfLinksForInit();
-            highLightLayer.pushHighLightLayers(highLightLinks);
-            var highLightBranch = new fastmap.uikit.HighLightRender(hLayer, {
-                map: map,
-                highLightFeature: "branch",
-                initFlag: true,
-                branchDetailId:  $scope.diverObj.details[0].pid.toString()
+            highLightLink.highLightFeatures.push({
+                id:$scope.diverObj.details[0].pid.toString(),
+                layerid:'highSpeedDivergence',
+                type:'highSpeedDivergence',
+                style:{}
             });
+            highLightLink.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
                 if ($scope.diverObj.details[0].arrowCode) {
@@ -403,9 +407,10 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
             if (data.errcode == 0) {
-                if (highLightLayer.highLightLayersArr.length !== 0) {
-                    highLightLayer.removeHighLightLayers();
-                }
+                //if (highLightLayer.highLightLayersArr.length !== 0) {
+                //    highLightLayer.removeHighLightLayers();
+                //}
+                hLayer._cleanHightlight();
                 $timeout(function () {
                     swal("删除成功", "分歧数据删除成功！", "success");
                 }, 500)
