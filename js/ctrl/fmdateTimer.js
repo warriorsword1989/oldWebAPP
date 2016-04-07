@@ -143,6 +143,20 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $scope.dateString = data;
         }
     });
+    
+    /*判断功能按钮状态*/
+    $scope.$on('btn-control',function(event,data){
+       if(data){
+           var $emptyBtn = document.getElementsByClassName('data-empty')[0],
+               $addBtn = document.getElementsByClassName('data-add')[0],
+               $delBtns = document.getElementsByClassName('remove-date-list');
+           $emptyBtn.style.display = (data.empty == 'hide') ? "none" : "block";
+           $addBtn.style.display = (data.add == 'hide') ? "none" : "block";
+           for(var i=0;i<$delBtns.length;i++){
+               $scope.delBtnHide = (data.delete == 'hide') ? true : false;
+           }
+       }
+    });
     /*初始化字符串*/
     $scope.listInit();  
     /*根据星期 转换成中文*/
