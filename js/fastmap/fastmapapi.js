@@ -83,6 +83,8 @@
                 "fastmap/dataApi/datamodel/Adlink.js",
                 "fastmap/dataApi/datamodel/Adadminname.js",
                 "fastmap/dataApi/datamodel/Adadmin.js",
+                "fastmap/dataApi/datamodel/Rdgsc.js",
+                "fastmap/dataApi/datamodel/Rdgsclink.js",
 
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
