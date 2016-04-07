@@ -148,8 +148,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     $scope.$on('btn-control',function(event,data){
        if(data){
            var $emptyBtn = document.getElementsByClassName('data-empty')[0],
-               $addBtn = document.getElementsByClassName('data-add')[0],
-               $delBtns = document.getElementsByClassName('remove-date-list');
+               $addBtn = document.getElementsByClassName('data-add')[0];
            $emptyBtn.style.display = (data.empty == 'hide') ? "none" : "block";
            $addBtn.style.display = (data.add == 'hide') ? "none" : "block";
            $scope.delBtnHide = (data.delete == 'hide') ? true : false;
