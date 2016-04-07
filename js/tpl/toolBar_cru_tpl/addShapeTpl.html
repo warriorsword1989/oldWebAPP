@@ -38,6 +38,20 @@
     #fm-addShapContainer>button:focus{
         outline: none;
     }
+    .btn-shape{
+        color: #fff;
+        background-color: #7F7F7F;
+        border: 1px solid #494949;
+    }
+    .btn-shape:hover{
+        border: 1px solid #494949;
+    }
+    .shape-well{
+        min-width: 367px;
+        background-color: #494949;
+        text-align: center;
+        opacity: .9;
+    }
 </style>
 <div id="fm-addShapContainer" ng-controller="addShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
     <button type="button" class="btn addNode_{{classArr[5]}}" id="addNode" ng-click="addShape('node',5,$event)"
@@ -47,13 +61,15 @@
     <button type="button" class="btn addRelation_{{classArr[7]}} dropdown-toggle" id="addRelation"
             data-toggle="dropdown" title="新增关系">
     </button>
-    <ul class="dropdown-menu" role="menu" style="min-width: 252px;">
-        <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-default" ng-click="addShape('restriction',7,$event)">交限</button>
-            <button type="button" class="btn btn-default" ng-click="addShape('laneConnexity',7,$event)">车信</button>
-            <button type="button" class="btn btn-default" ng-click="addShape('rdBranch',7,$event)">高速分歧</button>
-            <button type="button" class="btn btn-default" ng-click="addShape('speedLimit',7,$event)">限速</button>
-            <button type="button" class="btn btn-default" ng-click="addShape('rdcross',7,$event)">路口</button>
+    <ul class="dropdown-menu shape-well" role="menu">
+        <div class="btn-group btn-group-sm" style="float: none;">
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('overpass',7,$event)">立交</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('3dBranch',7,$event)">3D分歧</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('restriction',7,$event)">交限</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('laneConnexity',7,$event)">车信</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('rdBranch',7,$event)">高速分歧</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('speedLimit',7,$event)">限速</button>
+            <button type="button" class="btn btn-default btn-shape" ng-click="addShape('rdcross',7,$event)">路口</button>
         </div>
 
 

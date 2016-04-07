@@ -18,6 +18,7 @@ rdGscApp.controller("rdGscController",function($scope) {
             }
         ]};
 
+    /*处理标识*/
     $scope.processFlag = [
         {"id": 0, "label": "无"},
         {"id": 1, "label": "人工赋值"},
