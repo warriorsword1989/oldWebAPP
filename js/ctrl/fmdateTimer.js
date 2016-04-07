@@ -147,10 +147,8 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
     /*判断功能按钮状态*/
     $scope.$on('btn-control',function(event,data){
        if(data){
-           var $emptyBtn = document.getElementsByClassName('data-empty')[0],
-               $addBtn = document.getElementsByClassName('data-add')[0];
-           $emptyBtn.style.display = (data.empty == 'hide') ? "none" : "block";
-           $addBtn.style.display = (data.add == 'hide') ? "none" : "block";
+           $scope.emptyBtnHide = (data.empty == 'hide') ? true : false;
+           $scope.addBtnHide = (data.add == 'hide') ? true : false;
            $scope.delBtnHide = (data.delete == 'hide') ? true : false;
        }
     });

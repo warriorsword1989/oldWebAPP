@@ -323,7 +323,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             } else if (type === 'overpass'){
-                shapeCtrl.setEditingType("overpass")
+                shapeCtrl.setEditingType("overpass");
                 map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
@@ -331,7 +331,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setEditEventType('overpass');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 var linksArr = [], nodesArr = [];
-                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
+                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"});
                 var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
                     highLightFeature: "linksOfCross",
@@ -344,7 +344,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         linksArr = data["links"];
                         nodesArr = data["nodes"];
                     } else {
-                        //highLightLink.drawLinksOfCrossForInit([], []);
                         if (data['nodes'].length === 1) {
                             if ($scope.containsNode(nodesArr, data["nodes"][0])) {
                                 linksArr = $scope.arrToReduce(linksArr, data["links"]);
