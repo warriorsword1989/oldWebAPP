@@ -143,6 +143,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $scope.dateString = data;
         }
     });
+    
     /*判断功能按钮状态*/
     $scope.$on('btn-control',function(event,data){
        if(data){
