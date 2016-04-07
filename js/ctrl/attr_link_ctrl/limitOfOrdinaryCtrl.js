@@ -127,11 +127,9 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                 }
                 if($scope.linkData.limits[i].type==8||$scope.linkData.limits[i].type==9){//当
                     $scope.$broadcast('btn-control',{'empty':'hide','add':'hide','delete':'hide'});
-                    $scope.$apply();
                 }
                 else{
                     $scope.$broadcast('btn-control',{'empty':'show','add':'show','delete':'show'});
-                    $scope.$apply();
                 }
 
                 if($scope.linkData.limits[i].type==3){  //赋值方式逻辑处理

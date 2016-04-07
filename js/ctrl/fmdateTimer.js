@@ -143,7 +143,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $scope.dateString = data;
         }
     });
-    
+
     /*判断功能按钮状态*/
     $scope.$on('btn-control',function(event,data){
        if(data){
@@ -152,9 +152,7 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
                $delBtns = document.getElementsByClassName('remove-date-list');
            $emptyBtn.style.display = (data.empty == 'hide') ? "none" : "block";
            $addBtn.style.display = (data.add == 'hide') ? "none" : "block";
-           for(var i=0;i<$delBtns.length;i++){
-               $scope.delBtnHide = (data.delete == 'hide') ? true : false;
-           }
+           $scope.delBtnHide = (data.delete == 'hide') ? true : false;
        }
     });
     /*初始化字符串*/
