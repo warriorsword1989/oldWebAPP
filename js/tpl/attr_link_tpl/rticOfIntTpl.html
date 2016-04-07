@@ -143,8 +143,8 @@
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div><label class="control-label">RTIC代码</label></div>
-            <div class="inline"><input style="width:148px;" type="text" ng-model="oridiData.code" readonly/>
-                    <span class="glyphicon glyphicon-plus" style="cursor: pointer;margin-left: 3px;color:#FFF;"></span>
+            <div class="inline"><input style="width:148px;" type="text" ng-model="oridiData.code"/>
+                    <span ng-click="addRticCode()"  class="glyphicon glyphicon-plus" style="cursor: pointer;margin-left: 3px;color:#FFF;"></span>
             </div>
         </li>
         <li class="list-group-item">
@@ -160,7 +160,7 @@
             <div><label class="control-label" >RTIC方向</label></div>
             <div class="inline">
                 <select  ng-model="oridiData.rticDr"
-                         ng-options="value.id as value.label for value in rticDroption">
+                         ng-options="value.id as value.label for value in rticDroption" ng-change="changeDirect(oridiData.rticDr)">
                     <option>--</option>
                 </select>
             </div>

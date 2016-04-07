@@ -19,17 +19,33 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     //改变模块的背景
     $scope.initializeLinkData = function () {
         $("#fm-link-tabControl a").removeClass("selected");
-        $("#fm-link-tabControl a:first").addClass("selected");
+
+        //for (var layer in layerCtrl.layers) {
+                if (layerCtrl.layers[10].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[10].options.visible) {
+                    $("#fm-link-tabControl a:eq(4)").addClass("selected");
+                    $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
+                        if(objectCtrl.updateObject) {
+                            objectCtrl.updateObject();
+                        }
+                        $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
+                    });
+                    swal("", "请选择方向", "");
+                }else{
+                    $("#fm-link-tabControl a:first").addClass("selected");
+                    $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
+                        if(objectCtrl.updateObject) {
+                            objectCtrl.updateObject();
+                        }
+                        $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
+                    });
+                }
+        //}
+
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
         $scope.currentURL = "";
-        $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
-            if(objectCtrl.updateObject) {
-                objectCtrl.updateObject();
-            }
-            $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
-        });
+
         //随着地图的变化 高亮的线不变
         if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
             var linksArr = [];
