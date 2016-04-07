@@ -1,0 +1,189 @@
+<style>
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 5px;
+        margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
+
+    #basicDiv {
+        opacity: 1;
+        width: 100%;
+    }
+
+    #basicDiv ul {
+        list-style: none;
+        overflow: hidden;
+        width: 100%;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #basicDiv ul > li {
+        background-color: #555;
+        border-right: none;
+        border-left: none;
+    }
+
+    #basicDiv ul > li > div > input {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #basicDiv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width: 170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+
+    #basicDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #basicDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #basicDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+    #basicDiv ul > li > div > label>input[type="radio"] {
+        margin-top: 3px
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 170px;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 4px;
+    }
+
+    .checkboxli {
+        /*background-color: #e4e4e4;*/
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+        color: #fff;
+    }
+
+    .popover {
+        width: 100%;
+    }
+
+    .popover-content {
+        overflow-y: auto;
+        height: 200px;
+    }
+    .list-name{
+        color:#FFF;
+        margin:5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid #9E9E9E;
+        margin: 0 -5px;
+    }
+</style>
+<div id="basicDiv" ng-controller="rdGscController" >
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    立交
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{reGscData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div  class="list-name text-left">
+                基础属性
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">处理标识</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="reGscData.processFlag"
+                         ng-options="value.id as value.label for value in processFlag">
+                </select>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" ng-repeat="item in reGscData.links ">
+        <li class="list-group-item">
+            <div><label class="control-label">组成link{{$index+1}}</label></div>
+            <div class="inline"><input type="text" ng-model="item.linkPid"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">高度层次</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="item.zlevel"
+                         ng-options="value.id as value.label for value in zlevel">
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">起终点标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio"  value=0 ng-model="item.startEnd">
+                    形状点
+                </label>
+                <label>
+                    <input type="radio"  value=1 ng-model="item.startEnd">
+                    起点
+                </label>
+                <label>
+                    <input type="radio"  value=2 ng-model="item.startEnd">
+                    终点
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">要素类型</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="item.tableName"
+                         ng-options="value.id as value.label for value in tableName">
+                </select>
+            </div>
+        </li>
+    </ul>
+</div>

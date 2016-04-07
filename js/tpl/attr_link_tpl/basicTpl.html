@@ -1,0 +1,236 @@
+<style>
+
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 5px;
+        margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
+
+    #basicDiv {
+        opacity: 1;
+        width: 100%;
+    }
+
+    #basicDiv ul {
+        list-style: none;
+        overflow: hidden;
+        width: 100%;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #basicDiv ul > li {
+        background-color: #555;
+        border-right: none;
+        border-left: none;
+    }
+
+    #basicDiv ul > li > div > input {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #basicDiv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width: 170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+
+    #basicDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #basicDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #basicDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+    #basicDiv ul > li > div > label>input[type="radio"] {
+        margin-top: 3px
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 170px;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 4px;
+    }
+
+    .checkboxli {
+        /*background-color: #e4e4e4;*/
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+        color: #fff;
+    }
+
+    .popover {
+        width: 100%;
+    }
+
+    .popover-content {
+        overflow-y: auto;
+        height: 200px;
+    }
+    .list-name{
+        color:#FFF;
+        margin:5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid #9E9E9E;
+        margin: 0 -5px;
+    }
+</style>
+<div id="basicDiv" ng-controller="basicController" >
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div  class="list-name text-left">
+                基础属性
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">道路种别</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.kind"
+                        ng-options="value.id as value.label for value in kindOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">道路方向</label></div>
+            <div class="inline"><input type="text" ng-model="linkData.direct" ng-focus="changeDirect(linkData.direct)"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">车道数</label></div>
+            <div class="inline">
+                <label for="LaneNum" style="margin-left: -3px;">总</label>
+                <input id="LaneNum" type="text" style="width: 30px" ng-model="linkData.laneNum"
+                       ng-change="addLeftAdditionalLane($event)"/>
+                <label for="leftLaneNum">左</label>
+                <input id="leftLaneNum" type="text" style="width: 30px" ng-model="linkData.laneLeft"
+                       ng-change="addLeftAdditionalLane($event)"/>
+                <label for="rightLneNum">右</label>
+                <input id="rightLneNum" type="text" style="width: 30px" ng-model="linkData.laneRight"/>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">车道等级</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.laneClass"
+                        ng-options="value.id as value.label for value in laneClassOptions">
+                    <option value="0">--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">上下分离</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="multiDigitized" value=0 ng-model="linkData.multiDigitized">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="multiDigitized" value=1 ng-model="linkData.multiDigitized">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">IMI代码</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.imiCode"
+                        ng-options="value.id as value.label for value in imiCodeOptions">
+                    <option>--</option>
+
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div>
+                <label class="control-label">功能等级</label>
+            </div>
+            <div class="inline">
+                <select  ng-model="linkData.functionClass"
+                        ng-options="value.id as value.label for value in functionClassOptions">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <!--<li class="list-group-item">-->
+            <!--<div><label class="control-label">道路名</label></div>-->
+            <!--<div class="inline">-->
+                <!--<span>(<a ng-click="showNames()" ng-if="linkData!=undefined" style="cursor: pointer;" >{{linkData.names.length}}</a>)个</span>-->
+            <!--</div>-->
+        <!--</li>-->
+        <li class="list-group-item">
+            <div><label class="control-label">道路形态</label></div>
+            <div class="inline">
+                <label ng-click="addFormOfWay()" style="cursor: pointer">编辑</label>
+            </div>
+
+        </li>
+        <li>
+            <div id="fromOfWRoaddiv" style="width:260px;" >
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                      {{fromitem.label}}
+                </div>
+            </div>
+        </li>
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div  class="inline" style="text-align: left;width: 120px;">
+                    <a ng-click="showOther()" style="cursor: pointer;color:#FFF;">附加属性</a>
+                </div>
+            </li>
+        </ul>
+        <ul class="list-group list-group-lg m-b-none">
+            <li class="list-group-item">
+                <div  class="inline" style="text-align: left;width: 120px;" >
+                    <a ng-click="showZone()" style="cursor: pointer;color:#FFF;">zone属性</a>
+                </div>
+            </li>
+        </ul>
+</div>

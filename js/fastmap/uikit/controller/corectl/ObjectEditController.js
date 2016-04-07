@@ -81,6 +81,9 @@ fastmap.uikit.ObjectEditController = (function () {
                     case "RDBRANCH":
                         this.data = fastmap.dataApi.rdbranch(obj);
                         break;
+                    case "ADLINK":
+                        this.data = fastmap.dataApi.adLink(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;

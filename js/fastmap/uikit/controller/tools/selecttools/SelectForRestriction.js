@@ -23,7 +23,6 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         this._map = this.options.map;
 
         this.currentEditLayer = this.options.currentEditLayer;
-
         this.eventController = fastmap.uikit.EventController();
         this.tiles = this.currentEditLayer.tiles;
 

@@ -24,7 +24,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.panelFlag = false;
             $scope.attrTplContainerSwitch(false);
             $scope.subAttrTplContainerSwitch(false);
-            $scope.attrTplContainer = 'js/tepl/blankTepl.html';
+            $scope.attrTplContainer = 'js/tpl/blankTpl.html';
             objectCtrl.setOriginalData(null);
             highLightLayer.removeHighLightLayers();
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
@@ -99,20 +99,20 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     }
     //登录时
     keyEvent($ocLazyLoad, $scope);
-    $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
-        $scope.outputTab = 'js/tepl/outputTepl.html';
+    $ocLazyLoad.load('ctrl/log_show_ctrl/outPutCtrl').then(function () {
+        $scope.outputTab = 'js/tpl/log_show_tpl/outputTpl.html';
         appInit();
-        $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-                $scope.layersURL = 'js/tepl/filedsResultTepl.html';
-                $ocLazyLoad.load('ctrl/modifyToolCtrl').then(function () {
-                        $scope.modifyToolURL = 'js/tepl/modifyToolTepl.html';
-                        $scope.layersURL = 'js/tepl/filedsResultTepl.html';
-                        $ocLazyLoad.load('ctrl/selectShapeCtrl').then(function () {
-                                $scope.selectShapeURL = 'js/tepl/selectShapeTepl.html';
-                                $ocLazyLoad.load('ctrl/addShapeCtrl').then(function () {
-                                    $scope.addShapeURL = 'js/tepl/addShapeTepl.html';
+        $ocLazyLoad.load('ctrl/layers_switch_ctrl/filedsResultCtrl').then(function () {
+                $scope.layersURL = 'js/tpl/layers_switch_tpl/fieldsResult.html';
+                $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/modifyToolCtrl').then(function () {
+                        $scope.modifyToolURL = 'js/tpl/toolBar_cru_tpl/modifyToolTpl.html';
+                        $scope.layersURL = 'js/tpl/layers_switch_tpl/fieldsResult.html';
+                        $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
+                                $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectShapeTpl.html';
+                                $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addShapeCtrl').then(function () {
+                                    $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addShapeTpl.html';
                                     $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
-                                        $scope.attrTplContainer = 'js/tepl/blankTepl.html';
+                                        $scope.attrTplContainer = 'js/tpl/blankTpl.html';
                                         $scope.showLoading = false;
                                         $("#blackWell").fadeIn();
                                         $(".output-console").fadeIn();
@@ -137,8 +137,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#fm-outPut-inspectDiv").show();
             $("#fm-error-wrongDiv").hide();
 
-            $ocLazyLoad.load('ctrl/outPutCtrl').then(function () {
-                    $scope.outputTab = 'js/tepl/outputTepl.html';
+            $ocLazyLoad.load('ctrl/log_show_ctrl/outPutCtrl').then(function () {
+                    $scope.outputTab = 'js/tpl/log_show_tpl/outputTpl.html';
                 }
             );
 
@@ -150,13 +150,10 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $("#fm-outPut-inspectDiv").hide();
             $("#fm-error-wrongDiv").show();
             $("#fm-error-checkErrorLi").show();
-            $ocLazyLoad.load('ctrl/errorPageCtrl').then(function () {
-                $scope.errorCheckPage = 'js/tepl/errorPageTepl.html'
+            $ocLazyLoad.load('ctrl/log_show_ctrl/errorPageCtrl').then(function () {
+                $scope.errorCheckPage = 'js/tpl/log_show_tpl/errorPageTpl.html'
             });
-
-
         }
-
     };
 
     $scope.isTipsPanel = 1;
@@ -164,25 +161,24 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.changeLeftDisplay = function (id) {
         if (id === "tipsPanel") {
             $scope.isTipsPanel = 1;
-            $ocLazyLoad.load('ctrl/filedsResultCtrl').then(function () {
-                $scope.layersURL = 'js/tepl/filedsResultTepl.html';
+            $ocLazyLoad.load('ctrl/layers_switch_ctrl/filedsResultCtrl').then(function () {
+                $scope.layersURL = 'js/tpl/layers_switch_tpl/fieldsResult.html';
             });
         } else if (id === "scenePanel") {
             $scope.isTipsPanel = 2;
-            $ocLazyLoad.load('ctrl/sceneLayersCtrl').then(function () {
-                $scope.layersURL = 'js/tepl/sceneLayers.html';
+            $ocLazyLoad.load('ctrl/layers_switch_ctrl/sceneLayersCtrl').then(function () {
+                $scope.layersURL = 'js/tpl/layers_switch_tpl/sceneLayers.html';
             });
         } else if (id === "layerPanel") {
             $scope.isTipsPanel = 3;
-            $ocLazyLoad.load('ctrl/referenceLayersCtrl').then(function () {
-                    $scope.layersURL = 'js/tepl/referenceLayersTepl.html';
+            $ocLazyLoad.load('ctrl/layers_switch_ctrl/referenceLayersCtrl').then(function () {
+                    $scope.layersURL = 'js/tpl/layers_switch_tpl/referenceLayers.html';
                 }
             );
         }
     };
 
     $scope.empty = function () {
-        var output = fastmap.uikit.OutPutController();
         output.clear();
         if (output.updateOutPuts !== "") {
             output.updateOutPuts();
@@ -215,6 +211,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.outErrorArr[2] = false;
         }
         else {
+            $scope.attrTplContainer = "";
+            $scope.suspendFlag = false;
             $scope.outErrorArr[2] = true;
             $scope.outErrorArr[3] = false;
         }
