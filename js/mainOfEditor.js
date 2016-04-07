@@ -10,13 +10,9 @@ requirejs.config({
         'bootstrap':'lib/bootstrap-3.3.5/js/bootstrap',
         'angular': 'lib/angularjs/1.4.4/angular',
         'leaflet':'lib/leaflet-0.7.3/leaflet-src',
-        'select2':'lib/select2/4.0.0/js/select2',
-        'iCheckBox':'lib/icheck-1.x/icheck',
         'fastmap':"fastmap/fastmapapi",
-        'lodash':'lib/lodash/lodash',
-        'test': 'appOfEditor',
+        'appMain': 'appOfEditor',
         'ngLayout': 'lib/ui-layout/ui-layout',
-        'smart-table':'lib/smart-table/smart-table',
         'ocLazyLoad': 'lib/ocLazyLoad/ocLazyLoad.require',
         'applicationfuns':'functions/appfunctions',
         'keyPressFunctions':'functions/keyPressFunctions',
@@ -31,10 +27,8 @@ requirejs.config({
     shim: {
         'bootstrap':['jquery'],
         'angular': ['jquery'],
-        'select2':['jquery'],
         'ocLazyLoad': ['angular'],
         'ngLayout': ['angular'],
-        'smart-table':['angular'],
         'layers':['application'],
         'applicationfuns':['application'],
         'keyPressFunctions':['jquery','applicationfuns'],
@@ -42,16 +36,15 @@ requirejs.config({
         'bootstrapDatepicker':['jquery','bootstrap'],
         'bootstrapDatepickerCN':['bootstrapDatepicker'],
         'timepicki':['jquery','angular'],
-        'iCheckBox':['jquery'],
         'sweet-alert':['jquery'],
         'poi-msg':['jquery'],
         'e-smart-zoom':['jquery'],
-        'test': ['ocLazyLoad','ngLayout','smart-table','bootstrap','select2', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','iCheckBox','sweet-alert','poi-msg','e-smart-zoom']
+        'appMain': ['ocLazyLoad','ngLayout','bootstrap', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom']
     }
 });
 
 // Start the main app logic.
-requirejs(['test'], function() {
+requirejs(['appMain'], function() {
     angular.bootstrap(document.body, ['mapApp']);
 });
 

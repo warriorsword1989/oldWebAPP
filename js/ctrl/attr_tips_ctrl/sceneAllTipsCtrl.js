@@ -196,7 +196,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1803"://挂接
                 if($scope.dataTipsData.pcd){//有图片时，显示图片
-                    $scope.pcd=$scope.dataTipsData.pcd.substr(0,4);
+                    $scope.pcd="./css/hook/"+$scope.dataTipsData.pcd.substr(0,4)+".svg";
+                    //$scope.pcd="./css/hook/2081.svg";
                 }else{//无图片时获取经纬度，高亮
                     $scope.garray=$scope.dataTipsData.g_array;
                     if($scope.garray.geo.type=="Point"){
