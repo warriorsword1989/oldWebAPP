@@ -48,6 +48,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
+                   /* transArr.push({1514:3});
+                    transArr.push({1501:5});
+                    transArr.push({1403:4});*/
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
@@ -137,6 +140,35 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                     objArr.total = obj[item];
                                     $scope.tipsObj["2001"] = true;
                                     break;
+                                case "1514":
+                                    objArr.name = "施工";
+                                    objArr.id = "1514";
+                                    objArr.flag = true;
+                                    objArr.total = obj[item];
+                                    $scope.tipsObj["1514"] = true;
+                                    break ;
+                                case "1501":
+                                    objArr.name = "上下线分离";
+                                    objArr.id = "1501";
+                                    objArr.flag = true;
+                                    objArr.total = obj[item];
+                                    $scope.tipsObj["1501"] = true;
+                                    break;
+                                case "1403":
+                                    objArr.name = "3D";
+                                    objArr.id = "1403";
+                                    objArr.flag = true;
+                                    objArr.total = obj[item];
+                                    $scope.tipsObj["1403"] = true;
+                                    break ;
+                                case "1801":
+                                    objArr.name = "立交";
+                                    objArr.id = "1801";
+                                    objArr.flag = true;
+                                    objArr.total = obj[item];
+                                    $scope.tipsObj["1801"] = true;
+                                    break;
+
                             }
                             arr.push(objArr);
                         }
@@ -251,6 +283,34 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                         objArr.total = obj[item];
                                         $scope.tipsObj["2001"] = true;
                                         break;
+                                    case "1514":
+                                        objArr.name = "施工";
+                                        objArr.id = "1514";
+                                        objArr.flag = true;
+                                        objArr.total = obj[item];
+                                        $scope.tipsObj["1514"] = true;
+                                        break ;
+                                    case "1501":
+                                        objArr.name = "上下线分离";
+                                        objArr.id = "1501";
+                                        objArr.flag = true;
+                                        objArr.total = obj[item];
+                                        $scope.tipsObj["1501"] = true;
+                                        break;
+                                    case "1403":
+                                        objArr.name = "3D";
+                                        objArr.id = "1403";
+                                        objArr.flag = true;
+                                        objArr.total = obj[item];
+                                        $scope.tipsObj["1403"] = true;
+                                        break ;
+                                    case "1801":
+                                        objArr.name = "立交";
+                                        objArr.id = "1801";
+                                        objArr.flag = true;
+                                        objArr.total = obj[item];
+                                        $scope.tipsObj["1801"] = true;
+                                        break;
                                 }
                                 arr.push(objArr);
                             }
@@ -322,6 +382,23 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $("#" + $scope.showOrHideId).addClass("selected")
                                 $("#" + $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
+                           /* if(item.id=="1514"){
+                                var obj = {
+                                    constructionArrayLink:[{"m":{"e":"12"}},{"m":{"e":"123"}}]
+                                };
+                                $scope.allSubItems = [{"m":{"e":"12"}},{"m":{"e":"123"}}];
+                            }else{
+                                $scope.allSubItems = data.data;
+                            }
+                            if(item.id=="1501"){
+                                $scope.allSubItems = [{"m":{"e":"test"}},{"m":{"e":"test1"}}];
+                            }else{
+                                $scope.allSubItems = data.data;
+                            }  if(item.id=="1403"){
+                                $scope.allSubItems = [{"m":{"e":"test123"}},{"m":{"e":"test133"}}];
+                            }else{
+                                $scope.allSubItems = data.data;
+                            }*/
                             $scope.allSubItems = data.data;
                             $scope.allStyleArr = [];
                             for (var i = 0, len = $scope.allSubItems.length; i < len; i++) {
@@ -393,6 +470,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     if (data.rowkey === "undefined") {
                         return;
                     }
+                  /*  if (data.rowkey === "undefined") {
+                       data={
+                           s_sourceType:"1403",
+                           sceneEnty:2324343,
+                           schemaNo:24343,
+                           t_lifecycle :3
+
+                       }
+                    }*/
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
@@ -504,6 +590,41 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/attr_link_ctrl/rdLinkCtrl", "js/tpl/attr_link_tpl/rdLinkTpl.html");
 
+                    }else if(pItemId==="1514") {//施工
+                        var ctrlAndTplOfConstruction= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"js/tpl/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f_array.length != 0) {
+                                    $scope.brigeLinkArray = data.f_array;
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","ctrl/attr_link_ctrl/rdLinkCtrl","js/tpl/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
+                    }
+                    else if(pItemId==="1501") {//上下线分离
+                        var ctrlAndTplOfUpAndLower= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"js/tpl/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                if (data.f_array.length != 0) {
+                                    $scope.brigeLinkArray = data.f_array;
+                                    $scope.getFeatDataCallback(data,data.f_array[0].id,"RDLINK","ctrl/attr_link_ctrl/rdLinkCtrl","js/tpl/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndLower);
+                    }
+                    else if(pItemId==="1403") {//3D
+                        var ctrlAndTplOfD= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"js/tpl/attr_tips_tpl/sceneAllTipsTpl.html",
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     }
                 })
             };
