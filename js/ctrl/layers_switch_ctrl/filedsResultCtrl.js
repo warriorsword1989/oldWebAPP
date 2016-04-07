@@ -48,9 +48,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
-                   /* transArr.push({1514:3});
+                  /*  transArr.push({1514:3});
                     transArr.push({1501:5});
-                    transArr.push({1403:4});*/
+                    transArr.push({1403:4});
+                    transArr.push({1801:1});*/
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
@@ -398,8 +399,12 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $scope.allSubItems = [{"m":{"e":"test123"}},{"m":{"e":"test133"}}];
                             }else{
                                 $scope.allSubItems = data.data;
+                            } if(item.id=="1801"){
+                                $scope.allSubItems = [{"m":{"e":"wewwe"}},{"m":{"e":"eeeeee"}}];
+                            }else{
+                                $scope.allSubItems = data.data;
                             }*/
-
+                            $scope.allSubItems = data.data;
                             $scope.allStyleArr = [];
                             for (var i = 0, len = $scope.allSubItems.length; i < len; i++) {
                                 $scope.allStyleArr[i] = false;
@@ -470,13 +475,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     if (data.rowkey === "undefined") {
                         return;
                     }
-                  /*  if (data.rowkey === "undefined") {
+                  /* if (data.rowkey === "undefined") {
                        data={
-                           s_sourceType:"1403",
-                           sceneEnty:2324343,
-                           schemaNo:24343,
-                           t_lifecycle :3
-
+                           s_sourceType:"1801",
+                           t_lifecycle:2
                        }
                     }*/
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
@@ -625,6 +627,13 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             "propertyHtml":"js/tpl/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
+                    } else if(pItemId==="1801") {//立交
+                        var ctrlAndTplOfOverPass= {
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"js/tpl/attr_tips_tpl/sceneAllTipsTpl.html",
+                        }
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOverPass);
                     }
                 })
             };

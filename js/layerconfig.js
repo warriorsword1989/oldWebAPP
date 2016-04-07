@@ -385,7 +385,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url: 'http://192.168.4.130/FosEngineWeb/display/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '互联网RTIC',
@@ -410,9 +410,10 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            'laneconnexitycondition': item.m.a,
-                            'laneconnexityinfo': item.m.b,
-                            'laneconnexityrotate': item.m.c
+                            'forwardInformation': item.m.a,//顺向信息
+                            'forwardLevel': item.m.b,//顺向等级
+                            'reverseInformation': item.m.c,//逆向信息
+                            'reverseLevel': item.m.d//逆向等级
 
                         }
                         geojson['features'].push(obj);

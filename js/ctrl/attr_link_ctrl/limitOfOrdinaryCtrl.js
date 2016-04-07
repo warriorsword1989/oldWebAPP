@@ -10,7 +10,7 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
         {"id": 1, "label": "可以通行"},
         {"id": 2, "label": "不可通行"},
         {"id": 3, "label": "未供用"},
-        {"id": 5, "label": "计划"},
+        {"id": 5, "label": "计划"}
     ];
     $scope.typeOptions = [
         {"id": 0, "label": "道路维修中"},
@@ -115,9 +115,37 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
             $scope.limitNum = i;
             $scope.showvehicle($scope.linkData.limits[i].vehicle);
         }
-
     }
 
+
+    $scope.limitTypeChange=function(){
+        for(var i= 0,len=$scope.linkData.limits.length;i<len;i++) {
+            if($scope.linkData.limits[i]["rowId"]===$scope.linkData["oridiRowId"]) {
+                $scope.linkData.limits[i].limitDir = 9;//切换限制类型时候，默认是不应用
+                if($scope.linkData.limits[i].type!=6){//如果限制类型不为6时，收费类型都默认为不应用
+                    $scope.linkData.limits[i].tollType = 9;
+                }
+                if($scope.linkData.limits[i].type==8||$scope.linkData.limits[i].type==9){//当
+                    $scope.$broadcast('btn-control',{'empty':'hide','add':'hide','delete':'hide'});
+                    $scope.$apply();
+                }
+                else{
+                    $scope.$broadcast('btn-control',{'empty':'show','add':'show','delete':'show'});
+                    $scope.$apply();
+                }
+
+                if($scope.linkData.limits[i].type==3){  //赋值方式逻辑处理
+                    $scope.linkData.limits[i].processFlag = 2;
+                }
+                else if($scope.linkData.limits[i].type==0||$scope.linkData.limits[i].type==1||$scope.linkData.limits[i].type==2||$scope.linkData.limits[i].type==4||$scope.linkData.limits[i].type==5||$scope.linkData.limits[i].type==6||$scope.linkData.limits[i].type==7){
+                    $scope.linkData.limits[i].processFlag = 0;
+                }
+                if($scope.linkData.limits[i].type==0||$scope.linkData.limits[i].type==4){ //录入时间
+                    $scope.linkData.limits[i].inputTime = new Date().toLocaleString();
+                }
+            }
+        }
+    }
 
     $scope.showPopover=function(ind,vehicle){
         //initdiv('vehicleExpressiondiv');
@@ -130,7 +158,6 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
     }
 
     $timeout(function(){
-
         $ocLazyLoad.load('ctrl/fmdateTimer').then(function () {
             $scope.dateURL = 'js/tpl/fmdateTimer.html';
             $ocLazyLoad.load('ctrl/attr_link_ctrl/carPopoverCtrl').then(function () {
@@ -140,6 +167,9 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
             $timeout(function(){
                 $scope.fmdateTimer($scope.linkData.limits[$scope.limitNum].timeDomain);
                 $scope.$broadcast('set-code',$scope.linkData.limits[$scope.limitNum].timeDomain);
+                if($scope.oridiData.type==8||$scope.oridiData.type==9){
+                    $scope.$broadcast('btn-control',{'empty':'hide','add':'hide','delete':'hide'});
+                }
                 $scope.$apply();
             },100);
         });
