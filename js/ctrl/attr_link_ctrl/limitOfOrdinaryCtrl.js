@@ -126,12 +126,16 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                     $scope.linkData.limits[i].tollType = 9;
                 }
                 if($scope.linkData.limits[i].type==8||$scope.linkData.limits[i].type==9){//当
-                    $scope.$broadcast('btn-control',{'empty':'hide','add':'hide','delete':'hide'});
-                    $scope.$apply();
+                    $timeout(function() {
+                        $scope.$broadcast('btn-control', {'empty': 'hide', 'add': 'hide', 'delete': 'hide'});
+                        $scope.$apply();
+                    },100);
                 }
                 else{
-                    $scope.$broadcast('btn-control',{'empty':'show','add':'show','delete':'show'});
-                    $scope.$apply();
+                    $timeout(function() {
+                        $scope.$broadcast('btn-control', {'empty': 'show', 'add': 'show', 'delete': 'show'});
+                        $scope.$apply();
+                    },100);
                 }
 
                 if($scope.linkData.limits[i].type==3){  //赋值方式逻辑处理
