@@ -294,13 +294,28 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 highLightLayer.pushHighLightLayers(highLightgpsTips);
                 break;
+            case "1514"://施工
+                $scope.constructionArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case "1501"://上下线分离
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
+                break;
+            case "1403"://3D
+                /*进入*/
+                $scope.sceneEnty = $scope.dataTipsData.sceneEnty;
+                /*模式图号*/
+                $scope.schemaNo = $scope.dataTipsData.schemaNo;
+                break;
+            case "1801"://立交
+                break;
+
         }
         //获取数据中的图片数组
         if (!$scope.photos) {
             $scope.photos = [];
         }
 
-        $scope.photoTipsData =  $scope.dataTipsData.feedback.f_array;
+        //$scope.photoTipsData =  $scope.dataTipsData.feedback.f_array;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
