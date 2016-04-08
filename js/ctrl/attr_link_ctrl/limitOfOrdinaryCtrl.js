@@ -125,6 +125,14 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                 if($scope.linkData.limits[i].type!=6){//如果限制类型不为6时，收费类型都默认为不应用
                     $scope.linkData.limits[i].tollType = 9;
                 }
+                else{
+                    for(var j= 0,oriLen=objCtrl.originalData.limits.length;j<oriLen;i++){
+                        if(objCtrl.originalData.limits[j]["rowId"]===$scope.linkData["oridiRowId"]){
+                            $scope.linkData.limits[i].tollType = objCtrl.originalData.limits[j].tollType;
+                            break;
+                        }
+                    }
+                }
                 if($scope.linkData.limits[i].type==8||$scope.linkData.limits[i].type==9){//当
                     $timeout(function() {
                         $scope.$broadcast('btn-control', {'empty': 'hide', 'add': 'hide', 'delete': 'hide'});
@@ -147,6 +155,15 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                 if($scope.linkData.limits[i].type==0||$scope.linkData.limits[i].type==4){ //录入时间
                     $scope.linkData.limits[i].inputTime = new Date().toLocaleString();
                 }
+                else{
+                    for(var k= 0,oriLen=objCtrl.originalData.limits.length;k<oriLen;k++){
+                        if(objCtrl.originalData.limits[k]["rowId"]===$scope.linkData["oridiRowId"]){
+                            $scope.linkData.limits[i].inputTime = objCtrl.originalData.limits[k].inputTime;
+                            break;
+                        }
+                    }
+                }
+                break;
             }
         }
     }

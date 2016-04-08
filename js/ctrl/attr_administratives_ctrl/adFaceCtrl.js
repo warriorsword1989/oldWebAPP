@@ -5,8 +5,6 @@ var adFaceApp = angular.module("lazymodule", []);
 adFaceApp.controller("adFaceController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
-    var highLightLayer = fastmap.uikit.HighLightController();
 
     var test = {"regionId":3468,"meshId":33,"area":2344.565,"perimeter":234.56,"facePid":467052};
 
