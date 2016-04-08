@@ -414,7 +414,6 @@ Application.layersConfig =
                             'forwardLevel': item.m.b,//顺向等级
                             'reverseInformation': item.m.c,//逆向信息
                             'reverseLevel': item.m.d//逆向等级
-
                         }
                         geojson['features'].push(obj);
                     });
@@ -427,9 +426,9 @@ Application.layersConfig =
                 updateWhenIdle: true,
                 tileSize: 256,
                 type: 'rdrticPoint',
-                zIndex: 10,
+                zIndex: 11,
                 restrictZoom: 10,
-                visible: true,
+                visible: false,
                 requestType: 'RDLINKINTRTIC',
                 showNodeLevel: 17
             }
@@ -640,7 +639,7 @@ Application.layersConfig =
                 restrictZoom: 10,
                 visible: true
             },
-            requestType: "uuuuu",
+            requestType: "uuuuu"
         }]
     }, {
         groupid: 'editlayer',

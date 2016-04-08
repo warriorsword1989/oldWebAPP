@@ -5,12 +5,13 @@ var errorCheckModule = angular.module('lazymodule', []);
 errorCheckModule.controller('errorCheckController', function ($scope, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
     var checkResultC=fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
+
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
    // $scope.itemsByPage = 1;
     $scope.initType = 0;
 
@@ -63,42 +64,50 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 var bounds = line.getBounds();
                 map.fitBounds(bounds, {"maxZoom": 19});
 
-                //随着地图的变化 高亮的线不变
-                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "link",
-                    initFlag: true,
-                    linkPid: id.toString()
+                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+                highLightLink.highLightFeatures.push({
+                    id:id.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
                 });
-                highLightLayer.pushHighLightLayers(highLightLink);
+                highLightLink.drawHighlight();
+
             })
         } else if (type == "RDRESTRICTION") {
-            var linksObj = {};//存放需要高亮的进入线和退出线的id
+
             var limitPicArr = [];
             layerCtrl.pushLayerFront('referencePoint');
             Application.functions.getRdObjectById(id, type, function (d) {
                 objCtrl.setCurrentObject("RDRESTRICTION", d.data);
-                var highLightDataTips = new fastmap.uikit.HighLightRender(restrictLayer, {
-                    map: map,
-                    highLightFeature: "restriction",
-                    restrictId: d.data.pid.toString(),
-                    initFlag: true
-                });
 
                 ////高亮进入线和退出线
-                linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
+                var hightlightFeatures = [];
+                hightlightFeatures.push({
+                    id: d.data.pid.toString(),
+                    layerid:'restriction',
+                    type:'restriction',
+                    style:{}
+                })
+                hightlightFeatures.push({
+                    id: objCtrl.data["inLinkPid"].toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
+
                 for (var i = 0, len = (objCtrl.data.details).length; i < len; i++) {
-                    linksObj["outLink" + i] = objCtrl.data.details[i].outLinkPid.toString();
-                }
-                var highLightLinks = new fastmap.uikit.HighLightRender(rdLink,
-                    {
-                        map: map,
-                        highLightFeature: "links",
-                        linksObj: linksObj,
-                        initFlag: false
+
+                    hightlightFeatures.push({
+                        id: objCtrl.data.details[i].outLinkPid.toString(),
+                        layerid:'referenceLine',
+                        type:'line',
+                        style:{}
                     })
-                highLightLinks.drawOfLinksForInit();
-                highLightLayer.pushHighLightLayers(highLightLinks);
+                }
+                var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
+                highLightLinks.drawHighlight();
+
                 $.each(objCtrl.data.details, function (i, v) {
                     if (v)
                         limitPicArr.push(v.timeDomain);
@@ -109,14 +118,16 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
         } else {
             layerCtrl.pushLayerFront("workPoint");
             Application.functions.getTipsResult(id, function (data) {
-                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20)
-                var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-                    map: map,
-                    highLightFeature: "dataTips",
-                    dataTips: data.rowkey
+                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+
+                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+                highLightLink.highLightFeatures.push({
+                    id:data.rowkey,
+                    layerid:'workPoint',
+                    type:'workPoint',
+                    style:{}
                 });
-                highLightDataTips.drawTipsForInit();
-                highLightLayer.pushHighLightLayers(highLightDataTips);
+                highLightLink.drawHighlight();
             });
         }
     }

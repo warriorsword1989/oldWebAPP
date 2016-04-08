@@ -446,7 +446,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             return;
                         }
                         var divergeObj = feature.properties.SpeedDivergencecondition;
-
                         if (divergeObj) {
                             var that = this;
                             for(var key in divergeObj){
@@ -643,16 +642,14 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
                         }
 
-                    }else if (this.options.type === 'rdrticPoint') {
+                    }else if (this.options.type === 'rdRticPoint') {
 
-                        if (feature.properties.laneconnexityinfo === undefined) {
-                            return;
-                        }
-
-                        var divergeObj = feature.properties;
+                        this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
 
                     }else if(feature.properties.kind){  //种别
-
+                        if(feature.properties.type == '1514') {
+                            console.log(feature);
+                        }
                         if(feature.properties.type == '1201'){
                             this._drawImg({
                                 ctx:ctx,
@@ -708,7 +705,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             drawx:-30,
                             drawy:-30
                         });
-                    }else {
+                    } else {
                         this._drawImg({
                             ctx:ctx,
                             geo:geom,

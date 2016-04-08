@@ -124,6 +124,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'MultiPolyline':
                 drawMultiPolyline(currentGeo.coordinates,{color: 'red', width: 2},self);
                 break;
+            case 'intRticMarker':
+                drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false,self);
+                break;
         }
 
         function drawCross(geom, style, boolPixelCrs,self) {
@@ -277,6 +280,34 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 angleOfTran = angleOfTran + Math.PI;
             }
             url = "./css/img/" + type + ".svg";
+            var g = self._ctx;
+            loadImg(url, function (img) {
+                g.save();
+                g.translate(p.x, p.y);
+                g.rotate(angleOfTran);
+                g.drawImage(img, 0, 0);
+                g.restore();
+                currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
+                self.eventController.fire(self.eventController.eventTypes.DIRECTEVENT,{"geometry":currentGeo})
+            })
+
+        }
+
+        function drawRticMarker(geom, type, angle, boolPixelCrs,self) {
+            var url, p = null,angleOfTran=angle,that=this;
+            if (!geom) {
+                return;
+            }
+
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p =this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+            if(type==="2") {
+                angleOfTran = angleOfTran + Math.PI;
+            }
+            url = "./css/intRtic/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();

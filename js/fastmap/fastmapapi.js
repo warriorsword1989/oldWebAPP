@@ -121,7 +121,7 @@
                 "fastmap/uikit/controller/corectl/SelectController.js",
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
-                "fastmap/uikit/controller/corectl/HighLightController.js",
+
                 "fastmap/uikit/controller/corectl/EventController.js",
                 //uikit/controller/tools/shapetools
 

@@ -5,7 +5,6 @@ var myApp = angular.module("mapApp", ['oc.lazyLoad']);
 myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
     var editLayer = layerCtrl.getLayerById('edit');
@@ -14,45 +13,66 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
     //改变模块的背景
     $scope.initializeLinkData = function () {
         $("#fm-link-tabControl a").removeClass("selected");
-        $("#fm-link-tabControl a:first").addClass("selected");
+
+        //for (var layer in layerCtrl.layers) {
+                if (layerCtrl.layers[10].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[10].options.visible) {
+                    $("#fm-link-tabControl a:eq(4)").addClass("selected");
+                    $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
+                        if(objectCtrl.updateObject) {
+                            objectCtrl.updateObject();
+                        }
+                        $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
+                    });
+                    swal("", "请选择方向", "");
+                }else{
+                    $("#fm-link-tabControl a:first").addClass("selected");
+                    $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
+                        if(objectCtrl.updateObject) {
+                            objectCtrl.updateObject();
+                        }
+                        $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
+                    });
+                }
+        //}
+
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
         $scope.linkData = objectCtrl.data;
         $scope.currentURL = "";
-        $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
-            if(objectCtrl.updateObject) {
-                objectCtrl.updateObject();
-            }
-            $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
-        });
+
         //随着地图的变化 高亮的线不变
         if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
             var linksArr = [];
+            var highLightFeatures = [];
             for(var item in $scope.dataTipsData.f_array){
                 linksArr.push($scope.dataTipsData.f_array[item].id);
+                highLightFeatures.push({
+                    id:$scope.dataTipsData.f_array[item].id,
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
             }
-            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "link",
-                initFlag: true,
-                linksArr: linksArr
-            });
-            highLightLayer.pushHighLightLayers(highLightLink);
-            highLightLink.drawLinksOfCrossForInit(linksArr,[],[]);
+
+            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+            highLightLink.highLightFeatures = highLightFeatures;
+            highLightLink.drawHighlight();
         }else{
-            var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "link",
-                initFlag: true,
-                linkPid: $scope.linkData.pid.toString()
+
+            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+            highLightLink.highLightFeatures.push({
+                id:$scope.linkData.pid.toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
             });
-            highLightLayer.pushHighLightLayers(highLightLink);
-            highLightLink.drawOfLinkForInit();
+            highLightLink.drawHighlight();
         }
 
         var linkArr =$scope.linkData.geometry.coordinates, points = [];
