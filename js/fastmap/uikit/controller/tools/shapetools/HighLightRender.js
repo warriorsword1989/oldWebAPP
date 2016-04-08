@@ -434,6 +434,21 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
                     var style = this.layer.styleFor(feature, color);
                     var geom = feature.geometry.coordinates;
+                    if (nodesArr.length > 0) {
+                        if (nodeObj[feature.properties.enode]) {
+                            console.log(feature.properties.enode);
+                            this.layer._drawPoint(ctx, geom[geom.length - 1][0], {
+                                color: 'blue',
+                                radius: 4
+                            }, true);
+                        } else if (nodeObj[feature.properties.snode]) {
+                            console.log(feature.properties.snode);
+                            this.layer._drawPoint(ctx, geom[0][0], {
+                                color: 'blue',
+                                radius: 4
+                            }, true);
+                        }
+                    }
                     if (linkObj[feature.properties.id]) {
                         nodeStyle = {
                             color: 'rgba(105,105,105,1)',
@@ -443,19 +458,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             size: 2,
                             color: '#F63428'
                         }, nodeStyle, feature.properties);
-                        if (nodesArr.length > 0) {
-                            if (nodeObj[feature.properties.enode]) {
-                                this.layer._drawPoint(ctx, geom[geom.length - 1][0], {
-                                    color: 'blue',
-                                    radius: 4
-                                }, true);
-                            } else if (nodeObj[feature.properties.snode]) {
-                                this.layer._drawPoint(ctx, geom[0][0], {
-                                    color: 'blue',
-                                    radius: 4
-                                }, true);
-                            }
-                        }
+
                         if (nodeArr && feature.properties.snode == nodeArr[0]) {
                             this.layer._drawPoint(ctx, geom[0][0], {
                                 color: 'blue',
