@@ -602,7 +602,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                             scaley:2/3
                                         });
                                     } else {
-
                                         this._drawImg({
                                             ctx:ctx,
                                             geo:geom,
@@ -612,13 +611,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                             scalex:2/3,
                                             scaley:2/3
                                         });
-
-
                                     }
                                 }
                             }
                             else {
-
                                 if (laneObj.indexOf("[") > -1) {
                                     newLaneStyle = {src: './css/1301/1301_2_' + laneObj.substr(1, 1) + '.svg'};
 
@@ -628,8 +624,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 } else if (laneObj&&laneObj != "9") {
                                     newLaneStyle = {src: './css/1301/1301_0_' + laneObj + '.svg'};
                                 }
-
-
                                 this._drawImg({
                                     ctx:ctx,
                                     geo:geom,
@@ -647,9 +641,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
 
                     }else if(feature.properties.kind){  //种别
-                        if(feature.properties.type == '1514') {
-                            console.log(feature);
-                        }
                         if(feature.properties.type == '1201'){
                             this._drawImg({
                                 ctx:ctx,

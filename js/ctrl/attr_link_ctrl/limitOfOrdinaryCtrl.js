@@ -126,6 +126,7 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                     $scope.linkData.limits[i].tollType = 9;
                 }
                 else{
+                    //如果切换类型后，不需要赋默认值的，需要回到原来的值
                     for(var j= 0,oriLen=objCtrl.originalData.limits.length;j<oriLen;i++){
                         if(objCtrl.originalData.limits[j]["rowId"]===$scope.linkData["oridiRowId"]){
                             $scope.linkData.limits[i].tollType = objCtrl.originalData.limits[j].tollType;
@@ -156,6 +157,7 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
                     $scope.linkData.limits[i].inputTime = new Date().toLocaleString();
                 }
                 else{
+                    //如果切换类型后，不需要赋默认值的，需要回到原来的值
                     for(var k= 0,oriLen=objCtrl.originalData.limits.length;k<oriLen;k++){
                         if(objCtrl.originalData.limits[k]["rowId"]===$scope.linkData["oridiRowId"]){
                             $scope.linkData.limits[i].inputTime = objCtrl.originalData.limits[k].inputTime;
