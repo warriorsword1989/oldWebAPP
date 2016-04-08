@@ -314,76 +314,6 @@ fastmap.mapApi.LayerRender = {
             }
         }
     },
-    /***
-     * _drawArrow绘制方向箭头
-     * @param {Object}ctx
-     * @param {Number}direct 绘制方向
-     * @param {Array}data 点数组
-     * @private
-     */
-    _drawIntRticArrow: function (ctx, direct, data,colors) {
-        ctx.linewidth = 2;
-        ctx.fillStyle = colors;
-        if (direct == 0 || direct == 1) {
-            return;
-        }
-
-        ctx.beginPath();
-        var point1,point2;
-        if(direct===2){
-             point1 = data[data.length-1][0];
-             point2 = data[data.length-1][1];
-        }else if(direct===3){
-            point1 = data[0][0];
-            point2 = data[0][1];
-        }
-        var distance = this.distance(point1, point2);
-        if (distance < 30) {
-            return;
-        }
-        ctx.save();
-        //var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
-        var centerPoint = L.point( point2.x, point2.y);
-        ctx.translate(centerPoint.x, centerPoint.y);
-        //先计算向量与y轴负方向向量(0,-1)的夹角
-
-
-        var ang = 0;
-        if (point1.y - point2.y == 0) {
-            if (point1.x - point2.x > 0) {
-                ang = Math.PI / -2;
-            }
-            else {
-                ang = Math.PI / 2;
-            }
-        }
-        else {
-            ang = (point1.x - point2.x) / (point1.y - point2.y);
-            ang = Math.atan(ang);
-        }
-        if (point2.y - point1.y >= 0) {
-            if (direct == 2) {
-                ctx.rotate(-ang);
-            } else if (direct == 3) {
-                ctx.rotate(-ang + Math.PI);
-            }
-        } else {
-            if (direct == 2) {
-                ctx.rotate(Math.PI - ang); //加个180度，反过来
-            } else if (direct == 3) {
-                ctx.rotate(-ang);
-            }
-        }
-        ctx.lineTo(-6, -9);
-        ctx.lineTo(0, 1);
-        ctx.lineTo(6, -9);
-        ctx.stroke();
-        ctx.fill(); //箭头是个封闭图形
-        ctx.closePath();
-        ctx.restore();   //恢复到堆的上一个状态，其实这里没什么用。
-
-
-    },
     /**
      * 画区域内的道路
      * @param ctx
@@ -581,14 +511,12 @@ fastmap.mapApi.LayerRender = {
             reversecolor="#FF1493";//粉色
         }
         if(properties.forwardLevel&&properties.reverseLevel){
-            if (direct == null || typeof(direct) == "undefined" || direct == "") {
-            } else {
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     this._drawIntRticArrow(g, 2, arrowlist,stolecolor);
                     this._drawIntRticArrow(g, 3, arrowlist,reversecolor);
-                    //this._drawText(ctx, geom, properties.forwardInformation);
+                    this._drawIntRticText(ctx, geom, properties.forwardInformation+"上",2);
+                    this._drawIntRticText(ctx, geom, properties.reverseInformation+"下",3);
                 }
-            }
         }else{
             if(properties.forwardLevel){
                 direct=2;//顺方向
@@ -600,18 +528,89 @@ fastmap.mapApi.LayerRender = {
             } else {
                 if (this._map.getZoom() >= this.showNodeLevel) {
                     this._drawIntRticArrow(g, direct, arrowlist,(direct==2?stolecolor:reversecolor));
-                    this._drawIntRticText(ctx, geom, (direct==2?properties.forwardInformation+"上":properties.reverseInformation+"下"));
+                    if(direct===2){
+                        this._drawIntRticText(ctx, geom, properties.forwardInformation+"上",2);
+                    }
+                    if(direct===3){
+                        this._drawIntRticText(ctx, geom, properties.reverseInformation+"下",3);
+                    }
+
                 }
             }
         }
+    },
+    /***
+     * _drawArrow绘制方向箭头
+     * @param {Object}ctx
+     * @param {Number}direct 绘制方向
+     * @param {Array}data 点数组
+     * @private
+     */
+    _drawIntRticArrow: function (ctx, direct, data,colors) {
+        ctx.linewidth = 2;
+        ctx.fillStyle = colors;
+        if (direct == 0 || direct == 1) {
+            return;
+        }
 
+        ctx.beginPath();
+        var point1,point2;
+        if(direct===2){
+            point1 = data[data.length-1][0];
+            point2 = data[data.length-1][1];
+        }else if(direct===3){
+            point1 = data[0][0];
+            point2 = data[0][1];
+        }
+        var distance = this.distance(point1, point2);
+        if (distance < 30) {
+            return;
+        }
+        ctx.save();
+        //var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+        var centerPoint = L.point( point2.x, point2.y);
+        ctx.translate(centerPoint.x, centerPoint.y);
+        //先计算向量与y轴负方向向量(0,-1)的夹角
+
+
+        var ang = 0;
+        if (point1.y - point2.y == 0) {
+            if (point1.x - point2.x > 0) {
+                ang = Math.PI / -2;
+            }
+            else {
+                ang = Math.PI / 2;
+            }
+        }
+        else {
+            ang = (point1.x - point2.x) / (point1.y - point2.y);
+            ang = Math.atan(ang);
+        }
+        if (point2.y - point1.y >= 0) {
+            if (direct == 2) {
+                ctx.rotate(-ang);
+            } else if (direct == 3) {
+                ctx.rotate(-ang + Math.PI);
+            }
+        } else {
+            if (direct == 2) {
+                ctx.rotate(Math.PI - ang); //加个180度，反过来
+            } else if (direct == 3) {
+                ctx.rotate(-ang);
+            }
+        }
+        ctx.lineTo(-6, -9);
+        ctx.lineTo(0, 1);
+        ctx.lineTo(6, -9);
+        ctx.stroke();
+        ctx.fill(); //箭头是个封闭图形
+        ctx.closePath();
+        ctx.restore();   //恢复到堆的上一个状态，其实这里没什么用。
 
 
     },
-
-    _drawIntRticText: function (ctx, geom, name) {
+    _drawIntRticText: function (ctx, geom, name,direct) {
         geom = this._clip(ctx, geom);
-
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.font = "10px Courier New";
@@ -623,7 +622,7 @@ fastmap.mapApi.LayerRender = {
             angle = this._rotateAngle(geom[0][0], geom[1][0]);
             lineLen = this.distance(geom[0][0], geom[1][0]);
             if (nameLen < lineLen / 2 && lineLen > 160) {
-                this._showTextOfAngle(g, 0, nameArr.length, name, angle, [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2]);
+                this._showIntRticTextOfAngle(g, 0, nameArr.length, name, angle, [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2],direct);
             }
 
         } else {
@@ -643,7 +642,7 @@ fastmap.mapApi.LayerRender = {
                         angle = this._rotateAngle(startPoint, geom[linkFLag][0]);
                         if (betPointsLen > 10) {
                             textIndex = parseInt(betPointsLen / 10);
-                            this._showTextOfAngle(g, 0, nameArr.length, name, angle, startPoint);
+                            this._showIntRticTextOfAngle(g, 0, nameArr.length, name, angle, startPoint,direct);
                             break;
                         } else {
                             startPoint = geom[linkFLag][0];
@@ -654,5 +653,42 @@ fastmap.mapApi.LayerRender = {
                 }
             }
         }
+    },
+    _showIntRticTextOfAngle: function (ctx, start, end, name, angle, textGeom,direct) {
+        var nameArr = name.split(""), PI = Math.PI;
+        if (angle === 0) {
+            if(direct===2) {
+                ctx.fillText(name, textGeom[0], textGeom[1] - 10);
+            }else{
+                ctx.fillText(name, textGeom[0], textGeom[1] + 13);
+            }
+            ctx.save();
+        } else if ((angle < PI && angle > 2 * (PI / 5))) {
+            if(direct===2){
+                for (var l = start; l < end; l++) {
+                    ctx.fillText(nameArr[l], textGeom[0]-8 , textGeom[1] +l * 14);
+                    ctx.save();
+                }
+            }else{
+                for (var i = start; i < end; i++) {
+                    ctx.fillText(nameArr[i], textGeom[0]+8 , textGeom[1] +i * 14);
+                    ctx.save();
+                }
+            }
+
+        } else {
+            var showName = name.substr(start, end);
+            ctx.save();
+            if(direct===2) {
+                ctx.translate(textGeom[0], textGeom[1]-10);
+            }else{
+                ctx.translate(textGeom[0], textGeom[1]+13);
+            }
+            ctx.rotate(angle);
+            ctx.fillText(showName, 0, 0);
+            ctx.restore();
+
+        }
+
     }
 }

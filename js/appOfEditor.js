@@ -5,7 +5,7 @@ var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
     $scope.showLoading = true;
     var eventController = fastmap.uikit.EventController();
-    var highLightLayer = fastmap.uikit.HighLightController();
+   // var highLightLayer = fastmap.uikit.HighLightController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
     $scope.save = function () {
@@ -278,7 +278,7 @@ function appInit() {
     }).setView([40.012834, 116.476293], 17);
 
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
-    var highLightLayer = new fastmap.uikit.HighLightController({});
+    //var highLightLayer = new fastmap.uikit.HighLightController({});
     var selectCtrl = new fastmap.uikit.SelectController();
     var outPutCtrl = new fastmap.uikit.OutPutController();
     var objCtrl = new fastmap.uikit.ObjectEditController({});
