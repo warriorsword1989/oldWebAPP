@@ -83,6 +83,9 @@
                 "fastmap/dataApi/datamodel/Adlink.js",
                 "fastmap/dataApi/datamodel/Adadminname.js",
                 "fastmap/dataApi/datamodel/Adadmin.js",
+                "fastmap/dataApi/datamodel/Rdgsc.js",
+                "fastmap/dataApi/datamodel/Rdgsclink.js",
+                "fastmap/dataApi/datamodel/Adface.js",
 
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
@@ -117,7 +120,7 @@
                 "fastmap/uikit/controller/corectl/SelectController.js",
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
-                "fastmap/uikit/controller/corectl/HighLightController.js",
+
                 "fastmap/uikit/controller/corectl/EventController.js",
                 //uikit/controller/tools/shapetools
 

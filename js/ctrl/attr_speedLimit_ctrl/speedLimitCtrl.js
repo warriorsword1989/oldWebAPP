@@ -1,43 +1,37 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-//var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-//var selectApp = angular.module("speedLimitApp",[]);
+
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById('speedlimit');
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var rdLink = layerCtrl.getLayerById("referenceLine");
     var hLayer = layerCtrl.getLayerById('highlightlayer');
 
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
-        //删除以前高亮的进入线和退出线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
-        var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "link",
-            initFlag: true,
-            linkPid: $scope.speedLimitData.linkPid.toString()
-        });
-        highLightLayer.pushHighLightLayers(highLightLink);
-        highLightLink.drawOfLinkForInit();
 
-        var highLightSpeedLimit = new fastmap.uikit.HighLightRender(hLayer, {
-            map: map,
-            highLightFeature: "speedlimit",
-            initFlag: true,
-            speedLimitId:$scope.speedLimitData.pid
+        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+        highLightLink.highLightFeatures.push({
+
+            id:$scope.speedLimitData.linkPid.toString(),
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
         });
+        highLightLink.highLightFeatures.push({
+            id:$scope.speedLimitData.pid,
+            layerid:'speedlimit',
+            type:'speedlimit',
+            style:{}
+        })
+        highLightLink.drawHighlight();
 
     }
     if(objectEditCtrl.data){
