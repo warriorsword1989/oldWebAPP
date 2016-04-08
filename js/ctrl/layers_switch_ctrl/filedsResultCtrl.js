@@ -587,7 +587,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/attr_link_ctrl/rdLinkCtrl", "js/tpl/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
-                        /*map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);*/
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
