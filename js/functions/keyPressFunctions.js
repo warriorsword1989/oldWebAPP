@@ -26,13 +26,7 @@ function keyEvent(ocLazyLoad, scope) {
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
-            var highCtrl = fastmap.uikit.HighLightController();
             if (event.keyCode == 27) {
-
-
-                if (highCtrl.highLightLayersArr.length !== 0) {
-                    highCtrl.removeHighLightLayers();
-                }
                 resetPage();
                 map.currentTool.disable();
                 map.currentTool.shapeEditor.editType = "";
@@ -62,7 +56,6 @@ function keyEvent(ocLazyLoad, scope) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
-                map.currentTool.shapeEditor.editType = "";
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }

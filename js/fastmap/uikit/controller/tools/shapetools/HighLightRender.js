@@ -212,7 +212,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawRestrict: function (id, feature, ctx) {
 
-
         var type = feature.geometry.type;
         var geom = feature.geometry.coordinates;
         var route = (feature.properties.restrictionrotate) * (Math.PI / 180);

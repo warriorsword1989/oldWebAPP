@@ -5,8 +5,6 @@ var adAdminZone = angular.module("lazymodule", []);
 adAdminZone.controller("adAdminController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
-    var highLightLayer = fastmap.uikit.HighLightController();
 
 
     var test = {"regionId":1,"adminId":0,"extendId":0,"adminType":0,"capital":0,"population":0,

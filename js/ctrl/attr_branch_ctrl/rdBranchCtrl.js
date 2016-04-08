@@ -4,10 +4,7 @@
 var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
 namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var newObjData = {}, linksOfRestric = {};
     var layerCtrl = fastmap.uikit.LayerController();
-    var highLightLayer = fastmap.uikit.HighLightController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
     var hLayer = layerCtrl.getLayerById('highlightlayer');
