@@ -33,10 +33,7 @@ fastmap.uikit.SelectRdCross = (function () {
                                     tips: 0,
                                     optype: 'RDCROSS'
                                 })
-                                if (this.redrawTiles.length != 0) {
-                                    this._cleanHeight();
-                                }
-                                this._drawHeight(id);
+
                                 break;
                             }
                         }
@@ -65,70 +62,8 @@ fastmap.uikit.SelectRdCross = (function () {
                 } else {
                     return 0;
                 }
-            },
-            cleanHeight: function () {
-                this._cleanHeight();
             }
-            ,
 
-            /***
-             *清除高亮
-             */
-            _cleanHeight: function () {
-                for (var index in this.highlightLayer._tiles) {
-
-                    this.highlightLayer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
-                }
-
-                for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length; i < len; i++) {
-                    this.eventController.off(this.eventController.eventTypes.TILEDRAWEND, this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND][i]);
-                }
-            }
-            ,
-            /***
-             * 绘制高亮
-             * @param id
-             * @private
-             */
-            _drawHeight: function (id) {
-                this.redrawTiles = this.tiles;
-                for (var obj in this.tiles) {
-                    var data = this.tiles[obj].data.features;
-
-                    for (var key in data) {
-
-                        var feature = data[key];
-                        var type = feature.geometry.type;
-                        if (feature.properties.id == id) {
-                            var ctx = {
-                                canvas: this.highlightLayer._tiles[this.tiles[obj].options.context.name.replace('_', ":")],
-                                tile: L.point(key.split(',')[0], key.split(',')[1])
-                            }
-                            if (type == "Point") {
-                                if (feature.properties.rdcrosscondition === undefined) {
-                                    break;
-                                }
-                                for (var j in feature.geometry.coordinates) {
-                                    var geo = feature.geometry.coordinates[j][0];
-                                    this.highlightLayer._drawBackground({
-                                        ctx: ctx,
-                                        geo: geo,
-                                        boolPixelCrs: true,
-                                        lineColor: 'rgb(4, 187, 245)',
-                                        fillColor: 'rgba(4, 187, 245, 0.5)',
-                                        lineWidth: 1,
-                                        width: 20,
-                                        height: 20,
-                                        drawx: -10,
-                                        drawy: -10
-
-                                    })
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         })
         return new SelectRdCross(options);
     }

@@ -257,12 +257,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === "rdcross") {
                 var linksArr = [], nodesArr = [];
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
-                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "linksOfCross",
-                    initFlag: true
-                });
-                map.currentTool = shapeCtrl.getCurrentTool();
+
+                var highLightLink = new fastmap.uikit.HighLightRender(rdLink);
+
                 highLightLayer.pushHighLightLayers(highLightLink);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data, options = {};

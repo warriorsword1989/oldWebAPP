@@ -37,11 +37,6 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                                 optype: 'RDSPEEDLIMIT'
                             })
 
-                            if (this.redrawTiles.length != 0) {
-                                this._cleanHeight();
-                            }
-
-                            this._drawHeight(id);
                             break;
                         }
 
@@ -69,90 +64,8 @@ fastmap.uikit.SelectSpeedLimit = (function () {
                 } else {
                     return 0;
                 }
-            },
-            cleanHeight: function () {
-                this._cleanHeight();
             }
-            ,
 
-            /***
-             *清除高亮
-             */
-            _cleanHeight: function () {
-
-                for (var index in this.highlightLayer._tiles) {
-
-                    this.highlightLayer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
-                }
-
-                for (var i = 0, len = this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND].length; i < len; i++) {
-                    this.eventController.off(this.eventController.eventTypes.TILEDRAWEND, this.eventController.eventTypesMap[this.eventController.eventTypes.TILEDRAWEND][i]);
-                }
-            }
-            ,
-            /***
-             * 绘制高亮
-             * @param id
-             * @private
-             */
-            _drawHeight: function (id) {
-                this.redrawTiles = this.tiles;
-                for (var obj in this.tiles) {
-                    var data = this.tiles[obj].data.features;
-
-                    for (var key in data) {
-
-                        var feature = data[key];
-                        var type = feature.geometry.type;
-                        var geom = feature.geometry.coordinates;
-                        if (data[key].properties.id == id) {
-                            var ctx = {
-                                canvas: this.highlightLayer._tiles[this.tiles[obj].options.context.name.replace('_', ":")],
-                                tile: L.point(key.split(',')[0], key.split(',')[1])
-                            }
-                            if (type == "Point") {
-                                if (feature.properties.speedlimitcondition === undefined) {
-                                    break;
-                                }
-                                var newGeom = [];
-                                var route = (feature.properties.rdSpeedLimitrotate - 90) * (Math.PI / 180);
-                                newGeom[0] = (parseInt(geom[0]));
-                                newGeom[1] = (parseInt(geom[1]));
-
-                                this.highlightLayer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newGeom,
-                                    boolPixelCrs: true,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-
-                                })
-                                //绘制箭头
-                                this.highlightLayer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newGeom,
-                                    boolPixelCrs: true,
-                                    rotate: route,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-                                })
-                            }
-
-
-                        }
-                    }
-                }
-            }
         })
         return new SelectSpeedLimit(options);
     }
