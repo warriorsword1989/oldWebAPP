@@ -475,12 +475,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     if (data.rowkey === "undefined") {
                         return;
                     }
-                  /* if (data.rowkey === "undefined") {
-                       data={
-                           s_sourceType:"1801",
-                           t_lifecycle:2
-                       }
-                    }*/
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
@@ -593,6 +587,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "ctrl/attr_link_ctrl/rdLinkCtrl", "js/tpl/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
+                        /*map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);*/
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -607,6 +602,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                     }
                     else if(pItemId==="1501") {//上下线分离
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -621,13 +617,16 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfUpAndLower);
                     }
                     else if(pItemId==="1403") {//3D
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfD= {
+
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml":"js/tpl/attr_tips_tpl/sceneAllTipsTpl.html",
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1801") {//立交
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
                         var ctrlAndTplOfOverPass= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
