@@ -57,6 +57,15 @@
         font-weight: normal;
     }
 
+    #traffiLimitedDiv ul > li >i{
+        color:#FFF;
+        cursor: pointer;
+    }
+
+    #traffiLimitedDiv ul > li >i:hover{
+        color:rgba(255,255,255,0.5);
+    }
+
     #traffiLimitedDiv ul > li > div > label {
         color: #F3F6FA;
         font-weight: normal;
@@ -83,6 +92,7 @@
         </li>
         <li class="list-group-item" ng-repeat="limitItem in linkLimitData.limits" >
             <div ng-repeat="typeItem in typeOptions|filter:limitItem.type " ng-click="showOrdinaryInfo(limitItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{typeItem.label}}</label></div>
+            <i class="glyphicon glyphicon-remove-circle" ng-click="minusLimit($index)"></i>
         </li>
     </ul>
     <ul class="list-group list-group-lg m-b-none" >
@@ -94,6 +104,7 @@
         </li>
         <li class="list-group-item" ng-repeat="truckItem in linkLimitData.limitTrucks">
             <div ng-repeat="dirItem in limitDirOptions|filter:truckItem.limitDir " ng-click="showTrcukInfo(truckItem)" style="cursor: pointer;padding-left: 15px;"><label class="control-label" style="cursor: pointer;">{{dirItem.label}}</label></div>
+            <i class="glyphicon glyphicon-remove-circle"  ng-click="minusLimit($index)"></i>
         </li>
     </ul>
 

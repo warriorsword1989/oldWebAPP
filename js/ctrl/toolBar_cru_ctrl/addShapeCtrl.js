@@ -5,15 +5,13 @@ var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
 addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
-        var editlayer = layerCtrl.getLayerById('edit');
+        var editLayer = layerCtrl.getLayerById('edit');
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-        var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
-        var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         //两点之间的距离
         $scope.distance = function (pointA, pointB) {
@@ -139,8 +137,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             $("#popoverTips").hide();
-            editlayer.clear();
-            editlayer.bringToBack();
+            editLayer.clear();
+            editLayer.bringToBack();
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             rdLink.clearAllEventListeners()
@@ -162,12 +160,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             if (type === "restriction") {
-                if (map.currentTool.createRestrictFlag) {
-                    map.currentTool.disable();
-                    map.currentTool.createRestrictFlag = false;
-                    map._container.style.cursor = '';
-                    return;
-                }
                 shapeCtrl.setEditingType("restriction")
                 tooltipsCtrl.setEditEventType('restriction');
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
@@ -265,7 +257,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     orientation: "2",
                                     pointForDirect: point
                                 };
-                                var editLayer = layerCtrl.getLayerById('edit');
                                 layerCtrl.pushLayerFront('edit');
                                 var sObj = shapeCtrl.shapeEditorResult;
                                 editLayer.drawGeometry = marker;
@@ -320,13 +311,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     layer: rdLink,
                     type: "rectangle"
                 })
-                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "linksOfCross",
-                    initFlag: true
-                });
+                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
-                highLightLayer.pushHighLightLayers(highLightLink);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data;
                     if (nodesArr.length === 0) {
@@ -398,6 +384,50 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+            } else if (type === 'overpass'){
+                shapeCtrl.setEditingType("overpass");
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                if (typeof map.currentTool.cleanHeight === "function") {
+                    map.currentTool.cleanHeight();
+                }
+                tooltipsCtrl.setEditEventType('overpass');
+                tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
+                var overpassLinksArr = [], overpassNodesArr = [];
+                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"});
+                var highLightOverpass = new fastmap.uikit.HighLightRender(rdLink, {
+                    map: map,
+                    highLightFeature: "linksOfCross",
+                    initFlag: true
+                });
+                eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
+                    var data = event.data, options = {};
+                    if (linksArr.length === 0) {
+                        linksArr = data["links"];
+                        nodesArr = data["nodes"];
+                    } else {
+                        if (data['nodes'].length === 1) {
+                            if ($scope.containsNode(nodesArr, data["nodes"][0])) {
+                                linksArr = $scope.arrToReduce(linksArr, data["links"]);
+                                nodesArr = $scope.arrToReduce(nodesArr, data["nodes"]);
+                            } else {
+                                linksArr = linksArr.concat(data["links"]);
+                                nodesArr = nodesArr.concat(data["nodes"]);
+                            }
+
+                        } else {
+                            linksArr.length = 0;
+                            nodesArr.length = 0;
+                            linksArr = data["crossLinks"];
+                            nodesArr = data["crossNodes"];
+                        }
+                    }
+
+                    highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
+                    options = {"nodePids": nodesArr, "linkPids": linksArr};
+                    selectCtrl.onSelected(options);
+                });
+            } else if (type === '3dBranch'){
+
             }
         }
 

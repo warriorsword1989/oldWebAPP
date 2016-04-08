@@ -6,20 +6,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
 
     var gpsLine = layerCtrl.getLayerById("gpsLine");
-
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.eventController = fastmap.uikit.EventController();
-
-    //清除地图上的高亮的feature
-    if (highLightLayer.highLightLayersArr.length !== 0) {
-        highLightLayer.removeHighLightLayers();
-    }
     $scope.outIdS = [];
 
     //初始化DataTips相关数据
@@ -29,12 +23,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.dataTipsData = data;//selectCtrl.rowKey;
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
-        var highLightDataTips = new fastmap.uikit.HighLightRender(workPoint, {
-            map: map,
-            highLightFeature: "dataTips",
-            dataTips: $scope.dataTipsData.rowkey,
-            initFlag:true
+        var highLightFeatures = [];
+        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+
+        highLightFeatures.push({
+            id:$scope.dataTipsData.rowkey,
+            layerid:'workPoint',
+            type:'workPoint',
+            style:{}
         });
+
         //显示状态
         if ($scope.dataTipsData) {
             switch ($scope.dataTipsData.t_lifecycle) {
@@ -143,26 +141,30 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1302":
                 //高亮
                 $scope.restrictOutLinks = [];
-                var detailsOfHigh = $scope.dataTipsData.o_array, linksObj = {};
-                linksObj["inLink"] = $scope.dataTipsData.in.id;
+                var detailsOfHigh = $scope.dataTipsData.o_array;
+                //linksObj["inLink"] = $scope.dataTipsData.in.id;
+                highLightFeatures.push({
+                    id:$scope.dataTipsData.in.id,
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                });
                 for (var hiNum = 0, hiLen = detailsOfHigh.length; hiNum < hiLen; hiNum++) {
                     var outLinksOfHigh = detailsOfHigh[hiNum].out;
                     if (outLinksOfHigh !== undefined) {
                         for (var outNum = 0, outLen = outLinksOfHigh.length; outNum < outLen; outNum++) {
 
-                            linksObj["outLink" + outNum] = outLinksOfHigh[outNum].id;
-                            $scope.restrictOutLinks.push(outLinksOfHigh[outNum].id);
+                            highLightFeatures.push({
+                                id:outLinksOfHigh[outNum].id,
+                                layerid:'referenceLine',
+                                type:'line',
+                                style:{}
+                            });
                         }
                     }
 
                 }
-                var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                    map: map,
-                    highLightFeature: "links",
-                    linksObj: linksObj
-                })
-                highLightLinks.drawOfLinksForInit();
-                highLightLayer.pushHighLightLayers(highLightLinks);
+
                 break;
             case "1407":
                 /*进入*/
@@ -180,7 +182,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1510"://桥
                 $scope.brigeArrayLink = $scope.dataTipsData.f_array;
-                // console.log($scope.brigeArrayLink)
+
                 break;
             case "1604"://区域内道路
                 $scope.fData = $scope.dataTipsData.f_array;
@@ -203,14 +205,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     if($scope.garray.geo.type=="Point"){
 
                     }else if($scope.garray.geo.type=="Line"){
-                        var highLightroadNamesTips = new fastmap.uikit.HighLightRender(gpsLine, {
-                            map: map,
-                            highLightFeature: "link",
-                            initFlag: true,
-                            linkPid: $scope.dataTipsData.rowkey.toString()
+
+                        highLightFeatures.push({
+                            id:$scope.dataTipsData.rowkey.toString(),
+                            layerid:'referenceLine',
+                            type:'line',
+                            style:{}
                         });
-                        highLightroadNamesTips.drawOfLinkForInit();
-                        highLightLayer.pushHighLightLayers(highLightroadNamesTips);
                     }
                 }
 
@@ -218,14 +219,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1901":
                 $scope.nArrayData = $scope.dataTipsData.n_array;
 
-                var highLightroadNamesTips = new fastmap.uikit.HighLightRender(gpsLine, {
-                    map: map,
-                    highLightFeature: "linkOfGps",
-                    initFlag: true,
-                    linkPid: $scope.dataTipsData.rowkey.toString()
+                highLightFeatures.push({
+                    id:$scope.dataTipsData.rowkey.toString(),
+                    layerid:'gpsLine',
+                    type:'gpsLine',
+                    style:{}
+
                 });
-                highLightroadNamesTips.drawOfLinkForInit();
-                highLightLayer.pushHighLightLayers(highLightroadNamesTips);
 
                 break;
             case "2001":
@@ -285,14 +285,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     /*车道数*/
                     $scope.carNumber = $scope.dataTipsData.ln;
                 }
-                var highLightgpsTips = new fastmap.uikit.HighLightRender(gpsLine, {
-                    map: map,
-                    highLightFeature: "link",
-                    initFlag: true,
-                    linkPid: $scope.dataTipsData.id.toString()
-                });
 
-                highLightLayer.pushHighLightLayers(highLightgpsTips);
+                highLightFeatures.push({
+
+                    id:$scope.dataTipsData.id.toString(),
+                    layerid:'gpsLine',
+                    type:'gpsLine',
+                    style:{}
+                });
                 break;
             case "1514"://施工
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
@@ -310,6 +310,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
 
         }
+        highLightLink.highLightFeatures = highLightFeatures;
+        highLightLink.drawHighlight();
         //获取数据中的图片数组
         if (!$scope.photos) {
             $scope.photos = [];

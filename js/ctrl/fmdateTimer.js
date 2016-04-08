@@ -143,6 +143,15 @@ angular.module("lazymodule", []).controller('DateCtrl', ['$scope','$timeout','$c
             $scope.dateString = data;
         }
     });
+
+    /*判断功能按钮状态*/
+    $scope.$on('btn-control',function(event,data){
+       if(data){
+           $scope.emptyBtnHide = (data.empty == 'hide') ? true : false;
+           $scope.addBtnHide = (data.add == 'hide') ? true : false;
+           $scope.delBtnHide = (data.delete == 'hide') ? true : false;
+       }
+    });
     /*初始化字符串*/
     $scope.listInit();  
     /*根据星期 转换成中文*/
