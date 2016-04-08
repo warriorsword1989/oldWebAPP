@@ -111,8 +111,10 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                                 $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectShapeTpl.html';
                                 $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addShapeCtrl').then(function () {
                                     $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addShapeTpl.html';
-                                    $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
-                                        $scope.attrTplContainer = 'js/tpl/blankTpl.html';
+                                    $ocLazyLoad.load('ctrl/attr_rdgsc_ctrl/rdGscCtrl').then(function () {
+                                        $scope.attrTplContainer = 'js/tpl/attr_gsc_tpl/rdGscTpl.html';
+//                                    $ocLazyLoad.load('ctrl/blankCtrl').then(function () {
+//                                        $scope.attrTplContainer = 'js/tpl/blankTpl.html';
                                         $scope.showLoading = false;
                                         $("#blackWell").fadeIn();
                                         $(".output-console").fadeIn();
