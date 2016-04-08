@@ -579,7 +579,7 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t === 2001||item.t===1901||item.t===1510||item.t===1803) {
+                        if (item.t === 2001||item.t===1901||item.t===1510||item.t===1803||item.t===1514) {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};
