@@ -5,7 +5,10 @@ var app = angular.module('mapApp', ['oc.lazyLoad', 'ui.layout']);
 app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
     $scope.showLoading = true;
     var eventController = fastmap.uikit.EventController();
+<<<<<<< HEAD
    // var highLightLayer = fastmap.uikit.HighLightController();
+=======
+>>>>>>> eb140c4949f315d6d887c500729214794c0e0381
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
     $scope.save = function () {
@@ -26,7 +29,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.subAttrTplContainerSwitch(false);
             $scope.attrTplContainer = 'js/tpl/blankTpl.html';
             objectCtrl.setOriginalData(null);
-            highLightLayer.removeHighLightLayers();
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
         }, data.errmsg, "error");
 
@@ -278,7 +280,10 @@ function appInit() {
     }).setView([40.012834, 116.476293], 17);
 
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
+<<<<<<< HEAD
     //var highLightLayer = new fastmap.uikit.HighLightController({});
+=======
+>>>>>>> eb140c4949f315d6d887c500729214794c0e0381
     var selectCtrl = new fastmap.uikit.SelectController();
     var outPutCtrl = new fastmap.uikit.OutPutController();
     var objCtrl = new fastmap.uikit.ObjectEditController({});

@@ -51,7 +51,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
 
         //随着地图的变化 高亮的线不变
         if($scope.dataTipsData && $scope.dataTipsData.f_array && $scope.dataTipsData.f_array.length > 0){
-            //var linksArr = [];
+            var linksArr = [];
             var highLightFeatures = [];
             for(var item in $scope.dataTipsData.f_array){
                 linksArr.push($scope.dataTipsData.f_array[item].id);

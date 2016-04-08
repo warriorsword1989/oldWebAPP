@@ -8,17 +8,12 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     objectEditCtrl.setOriginalData($.extend(true, {}, objectEditCtrl.data));
     var selectCtrl = fastmap.uikit.SelectController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
     var linksObj = {};//存放需要高亮的进入线和退出线的id
+    var hLayer = layerCtrl.getLayerById("highlightlayer");
     var limitPicArr = [];
-    //删除以前高亮的进入线和退出线
-    if (highLightLayer.highLightLayersArr.length !== 0) {
-        highLightLayer.removeHighLightLayers();
-    }
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
         $scope.$on('get-date', function (event, data) {
@@ -79,7 +74,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         })
 
 
-        var highLightRender = new fastmap.uikit.HighLightRender(hlayer);
+        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
 
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
@@ -525,33 +520,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     }
     //取消操作
     $scope.cancel = function () {
-        $timeout(function () {
-            $(".data-empty").trigger('click');
-            $scope.$apply();
-        })
-        Application.functions.getRdObjectById($scope.rdRestrictData.pid, "RDRESTRICTION", function (data) {
-            $scope.rdRestrictData = data.data;
-            $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
-            if (highLightLayer.highLightLayersArr.length !== 0) {
-                highLightLayer.removeHighLightLayers();
-            }
-            //高亮进入线和退出线
-            linksObj["inLink"] = $scope.rdRestrictData["inLinkPid"].toString();
-            for (var i = 0, len = ($scope.rdRestrictData.details).length; i < len; i++) {
-                linksObj["outLink" + i] = $scope.rdRestrictData.details[i].outLinkPid.toString();
-            }
-            var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "links",
-                linksObj: linksObj
-            })
-            highLightLinks.drawOfLinksForInit();
-            highLightLayer.pushHighLightLayers(highLightLinks);
 
-            //初始化交限中的第一个禁止方向的信息
-            $scope.rdSubRestrictData = $scope.rdRestrictData.details[0];
-            $scope.$apply();
-        });
 
     };
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);

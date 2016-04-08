@@ -6,8 +6,6 @@ var rdGscApp = angular.module("lazymodule", []);
 rdGscApp.controller("rdGscController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
-    var highLightLayer = fastmap.uikit.HighLightController();
 
     var test = {"pid":66666, "geometry":"56.66,77.98","processFlag":1,"links":[
             {

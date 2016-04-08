@@ -6,7 +6,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
+<<<<<<< HEAD
    // var highLightLayer = fastmap.uikit.HighLightController();
+=======
+>>>>>>> eb140c4949f315d6d887c500729214794c0e0381
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
@@ -51,9 +54,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
     }
     $scope.selectShape = function (type, num) {
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
