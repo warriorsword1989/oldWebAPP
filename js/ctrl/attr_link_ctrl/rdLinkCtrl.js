@@ -35,7 +35,13 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     });
                     swal("", "请选择方向", "");
                 }else{
-                    $scope.modelArray[0]=true;
+                    for(var i=0;i<$scope.modelArray.length;i++){
+                        if(i==0){
+                            $scope.modelArray[i]=true;
+                        }else{
+                            $scope.modelArray[i]=false;
+                        }
+                    }
                     $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
                         if(objectCtrl.updateObject) {
                             objectCtrl.updateObject();
@@ -102,7 +108,13 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     $scope.changeModule = function (url,ind) {
 
         for(var i=0;i<$scope.modelArray.length;i++){
-            if(ind==i){
+            if(ind==i&&ind==4){
+                layerCtrl.layers[10].options.visible=true;
+                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                $scope.modelArray[i]=true;
+            }else if(ind==i){
+                layerCtrl.layers[10].options.visible=false;
+                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
                 $scope.modelArray[i]=true;
             }else{
                 $scope.modelArray[i]=false;
