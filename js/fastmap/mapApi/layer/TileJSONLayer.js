@@ -521,7 +521,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     boolPixelCrs:boolPixelCrs
 
                                 });
-
                             } else {
                                 this._drawImg({
                                     ctx:ctx,
@@ -530,15 +529,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     boolPixelCrs:boolPixelCrs
 
                                 });
-
                             }
                         }
                     } else if (this.options.type === 'rdlaneconnexityPoint') {
                         if (feature.properties.laneconnexityinfo === undefined) {
                             return;
                         }
-                        var newLaneStyle = "",newLaneGeom = [];
-                        var busLaneStyle = "";busLaneGeom = [];
+                        var newLaneStyle = "", newLaneGeom = [];
+                        var busLaneStyle = "";
+                        busLaneGeom = [];
                         var laneObj = feature.properties.laneconnexityinfo;
                         var laneRoute = (feature.properties.laneconnexityrotate) * (Math.PI / 180);
                         if (isNaN(laneRoute)) {
@@ -549,107 +548,95 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 var laneArr = laneObj.split(",");
                                 for (var lane = 0, laneNum = laneArr.length; lane < laneNum; lane++) {
 
-                                        if (laneArr[lane].indexOf("[") > -1) {
-                                            newLaneStyle = {src: './css/1301/1301_2_' + laneArr[lane].substr(1, 1) + '.svg'};
+                                    if (laneArr[lane].indexOf("[") > -1) {
+                                        newLaneStyle = {src: './css/1301/1301_2_' + laneArr[lane].substr(1, 1) + '.svg'};
 
-                                            if (laneArr[lane].indexOf("<") > -1) {
-                                                busLaneStyle = {src: './css/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
-                                                busLaneGeom[0] = parseInt(geom[0]) + lane * 10*Math.cos(laneRoute)-20*Math.sin(laneRoute);
-                                                busLaneGeom[1] = parseInt(geom[1]) + lane * 10*Math.sin(laneRoute) +20*Math.cos(laneRoute);
-
-                                                this._drawImg({
-                                                    ctx:ctx,
-                                                    geo:busLaneGeom,
-                                                    style:busLaneStyle,
-                                                    boolPixelCrs:boolPixelCrs,
-                                                    rotate:laneRoute,
-                                                    scalex:2/3,
-                                                    scaley:2/3
-                                                });
-                                            }
-
-                                        } else if (laneArr[lane].indexOf("<") > -1) {
-                                            newLaneStyle = {src: './css/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
-                                            busLaneStyle = {src: './css/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
-                                            busLaneGeom[0] = parseInt(geom[0]) + lane * 10*Math.cos(laneRoute)-20*Math.sin(laneRoute);
-                                            busLaneGeom[1] = parseInt(geom[1]) + lane * 10*Math.sin(laneRoute) +20*Math.cos(laneRoute);
+                                        if (laneArr[lane].indexOf("<") > -1) {
+                                            busLaneStyle = {src: './css/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
+                                            busLaneGeom[0] = parseInt(geom[0]) + lane * 10 * Math.cos(laneRoute) - 20 * Math.sin(laneRoute);
+                                            busLaneGeom[1] = parseInt(geom[1]) + lane * 10 * Math.sin(laneRoute) + 20 * Math.cos(laneRoute);
 
                                             this._drawImg({
-                                                ctx:ctx,
-                                                geo:busLaneGeom,
-                                                style:busLaneStyle,
-                                                boolPixelCrs:boolPixelCrs,
-                                                rotate:laneRoute,
-                                                scalex:2/3,
-                                                scaley:2/3
+                                                ctx: ctx,
+                                                geo: busLaneGeom,
+                                                style: busLaneStyle,
+                                                boolPixelCrs: boolPixelCrs,
+                                                rotate: laneRoute,
+                                                scalex: 2 / 3,
+                                                scaley: 2 / 3
                                             });
-
-                                        } else if (laneArr[lane]&&laneArr[lane] != "9") {
-
-                                            newLaneStyle = {src: './css/1301/1301_0_' + laneArr[lane] + '.svg'};
                                         }
 
-                                    if (lane > 0) {
-                                        newLaneGeom[0] = parseInt(geom[0]) + lane * 10*Math.cos(laneRoute);
-                                        newLaneGeom[1] = parseInt(geom[1])+ lane * 10*Math.sin(laneRoute);
+                                    } else if (laneArr[lane].indexOf("<") > -1) {
+                                        newLaneStyle = {src: './css/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
+                                        busLaneStyle = {src: './css/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
+                                        busLaneGeom[0] = parseInt(geom[0]) + lane * 10 * Math.cos(laneRoute) - 20 * Math.sin(laneRoute);
+                                        busLaneGeom[1] = parseInt(geom[1]) + lane * 10 * Math.sin(laneRoute) + 20 * Math.cos(laneRoute);
+
                                         this._drawImg({
-                                            ctx:ctx,
-                                            geo:newLaneGeom,
-                                            style:newLaneStyle,
-                                            boolPixelCrs:boolPixelCrs,
-                                            rotate:laneRoute,
-                                            scalex:2/3,
-                                            scaley:2/3
+                                            ctx: ctx,
+                                            geo: busLaneGeom,
+                                            style: busLaneStyle,
+                                            boolPixelCrs: boolPixelCrs,
+                                            rotate: laneRoute,
+                                            scalex: 2 / 3,
+                                            scaley: 2 / 3
+                                        });
+
+                                    } else if (laneArr[lane] && laneArr[lane] != "9") {
+
+                                        newLaneStyle = {src: './css/1301/1301_0_' + laneArr[lane] + '.svg'};
+                                    }
+
+                                    if (lane > 0) {
+                                        newLaneGeom[0] = parseInt(geom[0]) + lane * 10 * Math.cos(laneRoute);
+                                        newLaneGeom[1] = parseInt(geom[1]) + lane * 10 * Math.sin(laneRoute);
+                                        this._drawImg({
+                                            ctx: ctx,
+                                            geo: newLaneGeom,
+                                            style: newLaneStyle,
+                                            boolPixelCrs: boolPixelCrs,
+                                            rotate: laneRoute,
+                                            scalex: 2 / 3,
+                                            scaley: 2 / 3
                                         });
                                     } else {
-
                                         this._drawImg({
-                                            ctx:ctx,
-                                            geo:geom,
-                                            style:newLaneStyle,
-                                            boolPixelCrs:boolPixelCrs,
-                                            rotate:laneRoute,
-                                            scalex:2/3,
-                                            scaley:2/3
+                                            ctx: ctx,
+                                            geo: geom,
+                                            style: newLaneStyle,
+                                            boolPixelCrs: boolPixelCrs,
+                                            rotate: laneRoute,
+                                            scalex: 2 / 3,
+                                            scaley: 2 / 3
                                         });
-
-
                                     }
                                 }
                             }
                             else {
-
                                 if (laneObj.indexOf("[") > -1) {
                                     newLaneStyle = {src: './css/1301/1301_2_' + laneObj.substr(1, 1) + '.svg'};
 
                                 } else if (laneObj.indexOf("<") > -1) {
-                                    newLaneStyle = {src: './css/1301/1301_1_' + laneObj.substr(laneArr[lane].indexOf("<")+1, 1) + '.svg'};
+                                    newLaneStyle = {src: './css/1301/1301_1_' + laneObj.substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
 
-                                } else if (laneObj&&laneObj != "9") {
+                                } else if (laneObj && laneObj != "9") {
                                     newLaneStyle = {src: './css/1301/1301_0_' + laneObj + '.svg'};
                                 }
-
-
                                 this._drawImg({
-                                    ctx:ctx,
-                                    geo:geom,
-                                    style:newLaneStyle,
-                                    boolPixelCrs:boolPixelCrs,
-                                    rotate:laneRoute,
-                                    scalex:2/3,
-                                    scaley:2/3
+                                    ctx: ctx,
+                                    geo: geom,
+                                    style: newLaneStyle,
+                                    boolPixelCrs: boolPixelCrs,
+                                    rotate: laneRoute,
+                                    scalex: 2 / 3,
+                                    scaley: 2 / 3
                                 });
                             }
                         }
-
                     }else if (this.options.type === 'rdrticPoint') {
-
                         this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
-
                     }else if(feature.properties.kind){  //种别
-                        if(feature.properties.type == '1514') {
-                            console.log(feature);
-                        }
                         if(feature.properties.type == '1201'){
                             this._drawImg({
                                 ctx:ctx,
@@ -665,7 +652,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     dx:0,
                                     dy:7.5
                                 }
-
                             });
                         }else if(feature.properties.type == '1203'){
 
@@ -687,10 +673,25 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 }
                             });
                         }
+                    }else if(feature.properties.type == '1403'){
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:{src:'css/tips/3D/3D.svg'},
+                            boolPixelCrs:boolPixelCrs,
+                            drawx:-30,
+                            drawy:-30
+                        });
+                    } else if(feature.properties.type == '1514'){
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:{src:'css/tips/construction/1.svg'},
+                            boolPixelCrs:boolPixelCrs,
+                            drawx:-30,
+                            drawy:-30
+                        });
                     } else {
-                        if(feature.properties.type == '1514') {
-                            console.log(feature);
-                        }
                         this._drawImg({
                             ctx:ctx,
                             geo:geom,
@@ -740,6 +741,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 mouseOverColor: 'rgba(255,0,0,1)',
                                 clickColor: 'rgba(252,0,0,1)'
                             }
+                        }else if(feature.properties.kind ===1514){
+                            tipsStyle = {
+                                size: 2,
+                                color: '#336C0A',
+                                mouseOverColor: 'rgba(255,0,0,1)',
+                                clickColor: 'rgba(252,0,0,1)'
+                            }
                         }
                         this._drawLineString(ctx, geom, boolPixelCrs,
                             tipsStyle,
@@ -753,8 +761,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             radius: 3
                         }, feature.properties);
                     }
-
-
                     break;
 
                 case 'MultiLineString':

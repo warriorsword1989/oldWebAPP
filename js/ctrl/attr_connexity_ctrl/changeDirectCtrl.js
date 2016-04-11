@@ -4,10 +4,8 @@
 var directConnexityApp = angular.module("mapApp", []);
 directConnexityApp.controller("directOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var highLightLayer = fastmap.uikit.HighLightController();
-    var linksObj = {};//存放需要高亮的进入线和退出线的id
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -77,27 +75,28 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
     };
     $scope.laneInfo = objCtrl.data;
     if($scope.laneInfo["selectNum"]!==undefined) {
-        //删除以前高亮的进入线和退出线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
-        linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id: objCtrl.data["inLinkPid"].toString(),
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
+        })
         for (var i = 0, len = $scope.laneInfo["topos"].length; i < len; i++) {
             var arrOfDecimal = $scope.decimalToArr($scope.laneInfo["topos"][i]["inLaneInfo"]);
             var lenOfInfo =(16- arrOfDecimal.length);
             if (lenOfInfo=== $scope.laneInfo["index"]) {
-                linksObj["outLink" + $scope.flagNum] = $scope.laneInfo["topos"][i].outLinkPid.toString();
-                $scope.flagNum++;
+                highLightFeatures.push({
+                    id:$scope.laneInfo["topos"][i].outLinkPid.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
             }
-
         }
-        var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "links",
-            linksObj: linksObj
-        })
-        highLightLinks.drawOfLinksForInit();
-        highLightLayer.pushHighLightLayers(highLightLinks);
+        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
+        highLightLinks.highLightFeatures = highLightFeatures;
+        highLightLinks.drawHighlight();
     }
     $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
 
