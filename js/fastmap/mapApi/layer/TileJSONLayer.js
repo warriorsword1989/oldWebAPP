@@ -642,7 +642,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
                         }
 
-                    }else if (this.options.type === 'rdRticPoint') {
+                    }else if (this.options.type === 'rdrticPoint') {
 
                         this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
 

@@ -591,6 +591,7 @@ fastmap.mapApi.LayerRender = {
                 ctx.rotate(-ang);
             } else if (direct == 3) {
                 ctx.rotate(-ang + Math.PI);
+
             }
         } else {
             if (direct == 2) {
