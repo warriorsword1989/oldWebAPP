@@ -46,14 +46,14 @@
         </form>
     </div>
     <div id="fm-link-tabControl" class="btn-group" role="group" aria-label="...">
-        <a title="基础属性" class="btn glyphicon glyphicon-star selected"  ng-click="changeModule('basicModule',0)"></a>
-        <a title="道路名" class="btn glyphicon glyphicon-tag" ng-click="changeModule('nameModule',1)"></a>
-        <a title="限速" class="btn glyphicon glyphicon-dashboard" ng-click="changeModule('speedModule',2)"></a>
-        <a title="限制信息" class="btn glyphicon glyphicon-ban-circle" ng-click="changeModule('limitedModule',3)"></a>
-        <a title="实时交通" class="btn glyphicon glyphicon-road" ng-click="changeModule('realtimeModule',4)"></a>
-        <a title="行人导航" class="btn glyphicon glyphicon-send" ng-click="changeModule('paginationModule',5)"></a>
+        <a title="基础属性" ng-class="{'btn glyphicon glyphicon-star selected':modelArray[0]==true,'btn glyphicon glyphicon-star':modelArray[0]==false}"   ng-click="changeModule('basicModule',0)"></a>
+        <a title="道路名" ng-class="{'btn glyphicon glyphicon-tag selected':modelArray[1]==true,'btn glyphicon glyphicon-tag':modelArray[1]==false}"  ng-click="changeModule('nameModule',1)"></a>
+        <a title="限速" ng-class="{'btn glyphicon glyphicon-dashboard selected':modelArray[2]==true,'btn glyphicon glyphicon-dashboard':modelArray[2]==false}"  ng-click="changeModule('speedModule',2)"></a>
+        <a title="限制信息" ng-class="{'btn glyphicon glyphicon-ban-circle selected':modelArray[3]==true,'btn glyphicon glyphicon-ban-circle':modelArray[3]==false}"  ng-click="changeModule('limitedModule',3)"></a>
+        <a title="实时交通" ng-class="{'btn glyphicon glyphicon-road selected':modelArray[4]==true,'btn glyphicon glyphicon-road':modelArray[4]==false}"  ng-click="changeModule('realtimeModule',4)"></a>
+        <a title="行人导航" ng-class="{'btn glyphicon glyphicon-send selected':modelArray[5]==true,'btn glyphicon glyphicon-send':modelArray[5]==false}"  ng-click="changeModule('paginationModule',5)"></a>
     </div>
-
+    btn glyphicon glyphicon-road
     <div style="width: 100%;">
         <div ng-include="currentURL" ></div></div>
 </div>
