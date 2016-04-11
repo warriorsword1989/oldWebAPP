@@ -88,7 +88,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 lines.push(fastmap.mapApi.lineString(points));
                 $scope.linepids.push(data.data[index].pid);
                 highlightFeatures.push({
-                    id:data.data[index].pid,
+                    id:data.data[index].pid.toString(),
                     layerid:'referenceLine',
                     type:'line',
                     style:{}
@@ -102,7 +102,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
 
 
             highlightFeatures.push({
-                id:$scope.rdNodeData.pid,
+                id:$scope.rdNodeData.pid.toString(),
                 layerid:'referenceLine',
                 type:'node',
                 style:{}

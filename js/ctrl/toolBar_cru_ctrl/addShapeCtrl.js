@@ -5,15 +5,14 @@ var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
 addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
-        var editlayer = layerCtrl.getLayerById('edit');
+        var editLayer = layerCtrl.getLayerById('edit');
         var shapeCtrl = fastmap.uikit.ShapeEditorController();
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-        var highLightLayer = fastmap.uikit.HighLightController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
-        var objCtrl=fastmap.uikit.ObjectEditController();
+        var hLayer = layerCtrl.getLayerById('highlightlayer');
+        var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
-        var transform = new fastmap.mapApi.MecatorTranform();
         $scope.limitRelation = {};
         //两点之间的距离
         $scope.distance = function (pointA, pointB) {
@@ -31,58 +30,116 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             return angle;
         };
-        $scope.arrToReduce = function (arrA, arrB) {
-            var arr = [], obj = {};
-            for (var i = 0, len = arrB.length; i < len; i++) {
-                obj[arrB[i]] = true;
+        $scope.distinctArr = function (arr) {
+            var dObj = {};
+            for (var i = 0, len = arr.length; i < len; i++) {
+                dObj[arr[i]] = true;
             }
-
-            for (var j = 0, lenJ = arrA.length; j < lenJ; j++) {
-                if (!obj[arrA[j]]) {
-                    arr.push(arrA[j]);
+            return Object.keys(dObj);
+        };
+        $scope.minusArrByNode = function (nodesArr, linksArr, nodes) {
+            var nodesObj = {}, linksObj = {};
+            for (var i = 0, lenI = nodesArr.length; i < lenI; i++) {
+                nodesObj[nodesArr[i]] = true;
+            }
+            for (var j = 0, lenJ = linksArr.length; j < lenJ; j++) {
+                linksObj[linksArr[j]] = true;
+            }
+            for (var m = 0, lenM = nodes.length; m < lenM; m++) {
+                if (nodesObj[nodes[m]["node"]]) {
+                    delete nodesObj[nodes[m]["node"]];
                 }
-
-
+                if (linksObj[nodes[m]["link"]]) {
+                    delete linksObj[nodes[m]["link"]];
+                }
+            }
+            var obj = {
+                link: Object.keys(linksObj),
+                node: Object.keys(nodesObj)
+            };
+            return obj;
+        };
+        $scope.minusArrByLink = function (linksArr, nodesArr, links) {
+            var nodesObj = {}, linksObj = {};
+            for (var j = 0, lenJ = linksArr.length; j < lenJ; j++) {
+                linksObj[linksArr[j]] = true;
+            }
+            for (var i = 0, lenI = nodesArr.length; i < lenI; i++) {
+                nodesObj[nodesArr[i]] = true;
+            }
+            for (var m = 0, lenM = links.length; m < lenM; m++) {
+                if (links[m]["nodes"]) {
+                    if (nodesObj[links[m]["nodes"][0]]) {
+                        delete nodesObj[links[m]["nodes"][0]];
+                    } else if (nodesObj[links[m]["nodes"][1]]) {
+                        delete nodesObj[links[m]["nodes"][1]];
+                    }
+                } else if (links[m]["links"]) {
+                    delete linksObj[links[m]["link"]];
+                }
+            }
+            var obj = {
+                link: Object.keys(linksObj),
+                node: Object.keys(nodesObj)
+            };
+            return obj;
+        };
+        $scope.addArrByNode = function (nodesArr, linksArr, nodes, node) {
+            for (var i = 0, lenI = nodes.length; i < lenI; i++) {
+                for (var j = 0, lenJ = node.length; j < lenJ; j++) {
+                    if (nodes[i]["link"] === node[j]["link"]) {
+                        linksArr.push(node[j]["link"]);
+                        nodesArr.push(node[j]["node"]);
+                    }else{
+                        nodesArr.push(node[j]["node"]);
+                    }
+                }
+            }
+            nodes = nodes.concat(node);
+        };
+    $scope.addArrByLink=function(linksArr,nodesArr,links,nodes,link) {
+        for(var i= 0,lenI=link.length;i<lenI;i++) {
+            linksArr.push(link[i]["link"]);
+            nodesArr = nodesArr.concat(link[i]["node"]);
+            links.push(link[i]["link"]);
+            nodes = nodesArr.concat(link[i]["node"]);
+        }
+    };
+        $scope.containLink = function (linksArr, links) {
+            var flag = false, linksObj={};
+            for (var i = 0, len = linksArr.length; i < len; i++) {
+                linksObj[linksArr[i]] = true;
+            }
+            for (var j = 0, lenJ = links.length; j < lenJ; j++) {
+                if (linksObj[j]["links"]) {
+                    flag = true;
+                    break;
+                }
             }
 
-            return arr;
         };
         $scope.containsNode = function (arr, node) {
             var obj = {}, flag = false;
             for (var i = 0, len = arr.length; i < len; i++) {
                 obj[arr[i]] = true;
-                if (obj[node]) {
+            }
+            for (var j = 0, lenJ = node.length; j < lenJ; j++) {
+                if (obj[node[j]["node"]]) {
                     flag = true;
                     break;
                 }
             }
             return flag;
         };
-        /*初始化功能按钮*/
-        $scope.initCurrentTool = function () {
-            $("#node").removeClass('node_true').addClass('node_false');
-            $("#link").removeClass('link_true').addClass('link_false');
-            $("#relation").removeClass('relation_true').addClass('relation_false');
-            $("#tips").removeClass('tips_true').addClass('tips_false');
-            $("#cross").removeClass('cross_true').addClass('cross_false');
-            $("#addNode").removeClass('addNode_true').addClass('addNode_false');
-            $("#addLink").removeClass('addLink_true').addClass('addLink_false');
-            $("#addRelation").removeClass('addRelation_true').addClass('addRelation_false');
-            $("#insertDot").removeClass('insertDot_true').addClass('insertDot_false');
-            $("#deleteDot").removeClass('deleteDot_true').addClass('deleteDot_false');
-            $("#moveDot").removeClass('moveDot_true').addClass('moveDot_false');
-            $("#pathBreak").removeClass('pathBreak_true').addClass('pathBreak_false');
-        }
         $scope.addShape = function (type, num, event) {
 
             if (event) {
                 event.stopPropagation();
             }
-            $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
+            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             $("#popoverTips").hide();
-            $scope.initCurrentTool();
-            editlayer.clear();
-            editlayer.bringToBack();
+            editLayer.clear();
+            editLayer.bringToBack();
             shapeCtrl.shapeEditorResult.setFinalGeometry(null);
             shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
             rdLink.clearAllEventListeners()
@@ -94,8 +151,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool.cleanHeight();
             }
             $scope.changeBtnClass(num);
-            if(num!==7) {
-                if(!$scope.classArr[num]){
+            if (num !== 7) {
+                if (!$scope.classArr[num]) {
                     map.currentTool.disable();
                     map._container.style.cursor = '';
                     return;
@@ -104,19 +161,14 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             if (type === "restriction") {
-                if(map.currentTool.createRestrictFlag) {
-                    map.currentTool.disable();
-                    map.currentTool.createRestrictFlag = false;
-                    map._container.style.cursor = '';
-                    return;
-                }
                 shapeCtrl.setEditingType("restriction")
                 tooltipsCtrl.setEditEventType('restriction');
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
-                    createRestrictFlag:true,
-                    currentEditLayer: rdLink});
+                    createRestrictFlag: true,
+                    currentEditLayer: rdLink
+                });
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
@@ -206,13 +258,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     orientation: "2",
                                     pointForDirect: point
                                 };
-                                var editLayer = layerCtrl.getLayerById('edit');
                                 layerCtrl.pushLayerFront('edit');
-                                var sobj = shapeCtrl.shapeEditorResult;
+                                var sObj = shapeCtrl.shapeEditorResult;
                                 editLayer.drawGeometry = marker;
                                 editLayer.draw(marker, editLayer);
-                                sobj.setOriginalGeometry(marker);
-                                sobj.setFinalGeometry(marker);
+                                sObj.setOriginalGeometry(marker);
+                                sObj.setFinalGeometry(marker);
                                 shapeCtrl.setEditingType("transformDirect");
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
@@ -232,7 +283,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
-                    createBranchFlag:true,
+                    createBranchFlag: true,
                     currentEditLayer: rdLink
                 });
                 map.currentTool.enable();
@@ -255,51 +306,84 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 })
 
             } else if (type === "rdcross") {
-                var linksArr = [], nodesArr = [];
-                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"})
-
-                var highLightLink = new fastmap.uikit.HighLightRender(rdLink);
-
-                highLightLayer.pushHighLightLayers(highLightLink);
+                var linksArr = [], nodesArr = [], nodes = [], links = [],options={};
+                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {
+                    map: map,
+                    layer: rdLink,
+                    type: "rectangle"
+                })
+                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+                map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var data = event.data, options = {};
-                    if (linksArr.length === 0) {
-                        linksArr = data["links"];
-                        nodesArr = data["nodes"];
+                    var data = event.data,highlightFeatures=[];
+                    if (nodesArr.length === 0) {
+                        for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
+                            nodesArr.push(data["nodes"][nodeNum]["node"]);
+                        }
+                        for (var linkNum = 0, linkLen = data["links"].length; linkNum < linkLen; linkNum++) {
+                            nodesArr = nodesArr.concat(data["links"][linkNum]["node"]);
+                            linksArr.push(data["links"][linkNum]["link"]);
+                        }
+                        nodes = nodes.concat(data["nodes"]);
+                        links = links.concat(data["links"]);
+
                     } else {
-                        if (data['nodes'].length === 1) {
-                            if ($scope.containsNode(nodesArr, data["nodes"][0])) {
-                                linksArr = $scope.arrToReduce(linksArr, data["links"]);
-                                nodesArr = $scope.arrToReduce(nodesArr, data["nodes"]);
+                        if (data['nodes']) {
+                            if ($scope.containsNode(nodesArr, data["nodes"])) {
+                                var minusObj = $scope.minusArrByNode(nodesArr, linksArr, data['nodes']);
+                                linksArr = minusObj["link"];
+                                nodesArr = minusObj["node"];
                             } else {
-                                linksArr = linksArr.concat(data["links"]);
-                                nodesArr = nodesArr.concat(data["nodes"]);
+                                $scope.addArrByNode(nodesArr, linksArr, nodes, data["nodes"]);
                             }
 
-                        } else {
-                            linksArr.length = 0;
-                            nodesArr.length = 0;
-                            linksArr = data["crossLinks"];
-                            nodesArr = data["crossNodes"];
+                        } else if (data['links']) {
+                            if ($scope.containLink(linksArr, data["links"])) {
+                                var minusLink = $scope.minusArrByLink(linksArr, nodesArr, data["links"]);
+                                linksArr = minusLink["link"];
+                                nodesArr = minusLink["node"];
+                            } else {
+                                $scope.addArrByLink(linksArr, nodesArr, links, nodes, data["links"]);
+                            }
+
                         }
                     }
+                    linksArr = $scope.distinctArr(linksArr);
+                    nodesArr = $scope.distinctArr(nodesArr);
+                    for(var i= 0,lenI=linksArr.length;i<lenI;i++) {
 
-                    highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
+                        highlightFeatures.push({
+                            id:linksArr[i].toString(),
+                            layerid:'referenceLine',
+                            type:'line',
+                            style:{}
+                        })
+                    }
+                  for(var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
+                      highlightFeatures.push({
+                          id:nodesArr[j].toString(),
+                          layerid:'referenceLine',
+                          type:'node',
+                          style:{}
+                      })
+                  }
+                    highLightLink.highLightFeatures =highlightFeatures;
+                    highLightLink.drawHighlight();
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
                     selectCtrl.onSelected(options);
                 });
 
 
             } else if (type === "laneConnexity") {
-                $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":true})
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true})
                 var obj = {};
-                obj["showTransitData"]=[]
+                obj["showTransitData"] = []
                 obj["showAdditionalData"] = [];
                 obj["showNormalData"] = [];
                 obj["inLaneInfoArr"] = [];
                 objCtrl.setOriginalData(obj);
                 var addLaneObj = {
-                    "loadType":"attrTplContainer",
+                    "loadType": "attrTplContainer",
                     "propertyCtrl": 'ctrl/toolBar_cru_ctrl/addConnexityCtrl/addLaneconnexityCtrl',
                     "propertyHtml": 'js/tpl/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
                 }
@@ -327,14 +411,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 tooltipsCtrl.setEditEventType('overpass');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-                var linksArr = [], nodesArr = [];
+                var overpassLinksArr = [], overpassNodesArr = [];
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"});
-                var highLightLink = new fastmap.uikit.HighLightRender(rdLink, {
+                var highLightOverpass = new fastmap.uikit.HighLightRender(rdLink, {
                     map: map,
                     highLightFeature: "linksOfCross",
                     initFlag: true
                 });
-                highLightLayer.pushHighLightLayers(highLightLink);
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data, options = {};
                     if (linksArr.length === 0) {

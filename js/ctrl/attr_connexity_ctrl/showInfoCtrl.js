@@ -4,7 +4,6 @@
 var infoOfConnexityApp = angular.module("myApp", []);
 infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     $scope.infoData = objCtrl.data;
     $scope.directArr = $scope.infoData.laneInfo.split(",");
@@ -13,11 +12,10 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.outLanesArr = [];
     $scope.showLaneInfo = [];
     $scope.laneFlag = false;
-    $scope.flagNum = 0;
     $scope.laneNum = $scope.infoData["laneInfo"].split(",").length;
-    var linksObj = {};//存放需要高亮的进入线和退出线的id
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.reachDirOptions = [
         {"id": 0, "label": "0 未调查"},
         {"id": 1, "label": "1 直"},
@@ -71,18 +69,24 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         arr = data.toString(2).split("");
         return arr;
     };
-    //删除以前高亮的进入线和退出线
-    if (highLightLayer.highLightLayersArr.length !== 0) {
-        highLightLayer.removeHighLightLayers();
-    }
-    linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
+    var highLightFeatures = [];
+    highLightFeatures.push({
+        id: objCtrl.data["inLinkPid"].toString(),
+        layerid:'referenceLine',
+        type:'line',
+        style:{}
+    })
     for (var i = 0, len = $scope.infoData["topos"].length; i < len; i++) {
         var arrOfDecimal = $scope.decimalToArr($scope.infoData["topos"][i]["inLaneInfo"]), lenOfInfo;
         if (arrOfDecimal.lastIndexOf('1') === 0) {
             lenOfInfo = (16 - arrOfDecimal.length);
             if (lenOfInfo === $scope.infoData["index"]) {
-                linksObj["outLink" + $scope.flagNum] = $scope.infoData["topos"][i].outLinkPid.toString();
-                $scope.flagNum++;
+                highLightFeatures.push({
+                    id:$scope.infoData["topos"][i].outLinkPid.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
                 var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
                 obj["enterLaneNum"] = lenOfInfo + 1;
                 if (obj["busLaneInfo"] !== 0) {
@@ -97,8 +101,12 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             for (var k = 0; k <= numLen; k++) {
                 lenOfInfo = (16 - arrOfDecimal.length + k);
                 if (lenOfInfo === $scope.infoData["index"]) {
-                    linksObj["outLink" + $scope.flagNum] = $scope.infoData["topos"][i].outLinkPid.toString();
-                    $scope.flagNum++;
+                    highLightFeatures.push({
+                        id:$scope.infoData["topos"][i].outLinkPid.toString(),
+                        layerid:'referenceLine',
+                        type:'line',
+                        style:{}
+                    })
                     var obj = ($.extend(true, {}, $scope.infoData["topos"][i]));
                     obj["enterLaneNum"] = lenOfInfo + 1;
                     if (obj["busLaneInfo"] !== 0) {
@@ -112,13 +120,9 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         }
 
     }
-    var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-        map: map,
-        highLightFeature: "links",
-        linksObj: linksObj
-    })
-    highLightLinks.drawOfLinksForInit();
-    highLightLayer.pushHighLightLayers(highLightLinks);
+    var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
+    highLightLinks.highLightFeatures = highLightFeatures;
+    highLightLinks.drawHighlight();
     $scope.getChangedDirect = function () {
         var direct = $scope.directArr[$scope.infoData["selectNum"]];
         if (direct.length === 1) {
@@ -145,6 +149,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.getChangedDirect();
     $scope.currentValue();
     $scope.getLanesInfo = function (item) {
+        highLightFeatures.length = 0;
         if (eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID]) {
             for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID].length; ii < lenII; ii++) {
                 eventController.off(eventController.eventTypes.GETOUTLINKSPID, eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID][ii]);
@@ -152,28 +157,27 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
         }
         $scope.showLaneInfo.length = 0;
         var outLinkObj = {}, outLinkPid, changedObj = null,
-            copyTopos = [],directLinks={},highLightLinks=null;
+            copyTopos = [];
         $scope.changeOutLinkFlag = 0;
         for (var i = 0, len = $scope.outLanesArr.length; i < len; i++) {
             if ($scope.outLanesArr[i]["reachDir"] === $scope.transData[item]) {
                 $scope.showLaneInfo.push($scope.outLanesArr[i]);
-                directLinks["outLink" + i] = $scope.outLanesArr[i]["outLinkPid"].toString();
+                highLightFeatures.push({
+                    id: $scope.outLanesArr[i]["outLinkPid"].toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
                 outLinkObj[$scope.outLanesArr[i]["outLinkPid"].toString()] = true;
             }
         }
-        //删除此前高亮的线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
-        //高亮具体的方向的进入线和退出线
-        directLinks["inLink"] = objCtrl.data["inLinkPid"].toString();
-        highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "links",
-            linksObj: directLinks
+        highLightFeatures.push({
+            id: objCtrl.data["inLinkPid"].toString(),
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
         })
-        highLightLinks.drawOfLinksForInit();
-        highLightLayer.pushHighLightLayers(highLightLinks);
+        highLightLinks.drawHighlight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         map.currentTool = new fastmap.uikit.SelectPath(
             {
@@ -184,10 +188,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             });
         map.currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
-            //删除以前高亮的进入线和退出线
-            if (highLightLayer.highLightLayersArr.length !== 0) {
-                highLightLayer.removeHighLightLayers();
-            }
             if (outLinkObj[data.id]) {
                 for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                     if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
@@ -247,19 +247,22 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                     $scope.infoData["topos"].unshift(newTopo);
                 }
             }
-            linksObj = {};
             for(var x= 0,lenX= Object.keys(outLinkObj).length;x<lenX;x++) {
-                linksObj["outLink"+x] = Object.keys(outLinkObj)[x].toString();
+                highLightFeatures.push({
+                    id:Object.keys(outLinkObj)[x].toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                })
             }
             //高亮进入线和退出线
-            linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
-            highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-                map: map,
-                highLightFeature: "links",
-                linksObj: linksObj
+            highLightFeatures.push({
+                id: objCtrl.data["inLinkPid"].toString(),
+                layerid:'referenceLine',
+                type:'line',
+                style:{}
             })
-            highLightLinks.drawOfLinksForInit();
-            highLightLayer.pushHighLightLayers(highLightLinks);
+            highLightLinks.drawHighlight();
 
             //高亮车信
 

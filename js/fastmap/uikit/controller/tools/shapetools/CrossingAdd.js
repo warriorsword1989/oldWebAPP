@@ -132,8 +132,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         return re;
     },
     _dataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, idArray = [], linkArr = [], nodeArr = [],dataOfRectangle={},
-            crossLinks=[],crossNodes=[];
+        var points = layer._latlngs, linkArr = [], nodeArr = [],dataOfRectangle=null;
         var transform = new fastmap.mapApi.MecatorTranform();
         var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
             endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
@@ -156,19 +155,30 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                         endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
                         endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
                         if (polygon.containsPoint(startPoint)) {
-                            linkArr.push(parseInt(data[item].properties.id));
-                            nodeArr.push(parseInt(data[item].properties.snode));
                             if(polygon.containsPoint(endPoint)) {
-                                crossLinks.push(parseInt(data[item].properties.id));
-                                crossNodes.push(parseInt(data[item].properties.snode));
-                                crossNodes.push(parseInt(data[item].properties.enode));
+                                linkArr.push({
+                                    "node":[parseInt(data[item].properties.snode),parseInt(data[item].properties.enode)],
+                                    "link":parseInt(data[item].properties.id)
+                                });
 
+                            }else{
+                                var sObj={"node":parseInt(data[item].properties.snode),"link":parseInt(data[item].properties.id)}
+                                nodeArr.push(sObj);
                             }
 
 
                         } else if (polygon.containsPoint(endPoint)) {
-                            linkArr.push(parseInt(data[item].properties.id));
-                            nodeArr.push(parseInt(data[item].properties.enode));
+
+                            if (polygon.containsPoint(startPoint)) {
+                                linkArr.push({
+                                    "node":[parseInt(data[item].properties.snode),parseInt(data[item].properties.enode)],
+                                    "link":parseInt(data[item].properties.id)
+                                });
+                            }else{
+                                var eObj = {"node":parseInt(data[item].properties.enode),"link":parseInt(data[item].properties.id)};
+                                nodeArr.push(eObj);
+                            }
+
                         }
 
 
@@ -176,15 +186,9 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                 }
             }
         }
-        linkArr = this._arrayToWeigh(linkArr);
-        nodeArr = this._arrayToWeigh(nodeArr);
-        crossLinks = this._arrayToWeigh(crossLinks);
-        crossNodes = this._arrayToWeigh(crossNodes);
         dataOfRectangle={
             links:linkArr,
-            nodes:nodeArr,
-            crossLinks:crossLinks,
-            crossNodes:crossNodes
+            nodes:nodeArr
         };
         return dataOfRectangle;
     },

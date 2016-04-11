@@ -8,19 +8,19 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.layer = layer;//高亮的图层
         this.currentEditLayer = null;
         this.highLightFeatures = [];
-        this.initFlag = this.options.initFlag || false;//当地图变化时,才能激发this.draw()函数
         this.eventController = fastmap.uikit.EventController();
         var that = this;
         this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function (e) {
-            that.drawHighlight()
+            that.drawHighlight();
         })
 
     },
 
     /**
      * 使高亮的dataTips随着地图的变化依然高亮
-     * @param tile
-     * @param zoom
+     * @param id
+     * @param feature
+     * @param ctx
      */
     drawTips: function (id, feature, ctx) {
 
@@ -114,10 +114,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 this.currentEditLayer = fastmap.uikit.LayerController().getLayerById(this.highLightFeatures[item].layerid);
                 for (var tile in this.currentEditLayer.tiles) {
                     for (var feature in this.currentEditLayer.tiles[tile].data.features) {
-                        if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.id
-                            || this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.snode
-
-                        ) {
+                        if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.id) {
                             var ctx = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
@@ -161,7 +158,24 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 var feature = this.currentEditLayer.tiles[tile].data.features[feature];
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
                             }
-
+                            break;
+                        }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.snode) {
+                            var ctxOfSNode = {
+                                canvas: this.layer._tiles[tile],
+                                tile: L.point(tile.split(':')[0], tile.split(':')[1])
+                            };
+                            var geoOfSNode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[0][0];
+                            this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'red', radius: 3}, true);
+                            break;
+                        }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.enode) {
+                            var ctxOfENode = {
+                                canvas: this.layer._tiles[tile],
+                                tile: L.point(tile.split(':')[0], tile.split(':')[1])
+                            };
+                            var len = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates.length - 1;
+                            var geoOfENode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[len][0];
+                            this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'red', radius: 3}, true);
+                            break;
                         }
                     }
                 }
@@ -174,8 +188,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
     /**
      * 高亮link
-     * @param tile
-     * @param zoom
+     * @param id
+     * @param feature
+     * @param ctx
      */
     drawOfLink: function (id, feature, ctx) {
 
@@ -207,11 +222,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
     /**
      * 高亮交限
-     * @param tile
-     * @param zoom
+     * @param id
+     * @param feature
+     * @param ctx
      */
     drawRestrict: function (id, feature, ctx) {
-
 
         var type = feature.geometry.type;
         var geom = feature.geometry.coordinates;
@@ -328,7 +343,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             var laneObj = feature.properties.laneconnexityinfo;
             var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
             if (laneObj !== undefined) {
-                console.log(this.layer);
                 var laneObjArr = laneObj.split(",");
                 for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
                     if (fact > 0) {
@@ -432,7 +446,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         }
 
     },
-    drawCross: function (id, feature, context) {
+    drawCross: function (id, feature, ctx) {
         if (feature.properties.id == id) {
             if (feature.properties.rdcrosscondition === undefined) {
                 return;

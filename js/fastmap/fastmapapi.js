@@ -86,6 +86,7 @@
                 "fastmap/dataApi/datamodel/Rdgsc.js",
                 "fastmap/dataApi/datamodel/Rdgsclink.js",
                 "fastmap/dataApi/datamodel/Adface.js",
+                "fastmap/dataApi/datamodel/Rwlink.js",
 
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",

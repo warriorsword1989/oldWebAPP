@@ -6,7 +6,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var highLightLayer = fastmap.uikit.HighLightController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("restriction");
@@ -15,11 +14,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var gpsLine = layerCtrl.getLayerById("gpsLine");
     var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.eventController = fastmap.uikit.EventController();
-
-    //清除地图上的高亮的feature
-    if (highLightLayer.highLightLayersArr.length !== 0) {
-        highLightLayer.removeHighLightLayers();
-    }
     $scope.outIdS = [];
 
     //初始化DataTips相关数据

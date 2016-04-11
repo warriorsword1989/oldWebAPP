@@ -5,8 +5,6 @@ var adLinkApp = angular.module("lazymodule", []);
 adLinkApp.controller("adLinkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var outPutCtrl = fastmap.uikit.OutPutController();
-    var highLightLayer = fastmap.uikit.HighLightController();
 
     var test = {"pid":1,"kind":1,"form":1,"scale":0,"meshId":2,"length":16666,"geometry":"56.66,77.98","editFlag":1,"sNodePid":2,"eNodePid":7};
 

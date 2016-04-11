@@ -1,9 +1,10 @@
 /**
- * Created by liwanchong on 2016/2/29.
+ * Created by wangmingdong on 2016/4/8.
  */
 var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
-namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
-    var objCtrl = fastmap.uikit.ObjectEditController();
+namesOfBranch.controller("namesOf3dBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
+//    var objCtrl = fastmap.uikit.ObjectEditController();
+    var objCtrl = {"data":{"details":[{"arrowCode":"00224119","arrowFlag":1,"branchPid":40291374,"branchType":0,"estabType":0,"exitNum":"","guideCode":0,"nameKind":0,"names":[{"codeType":1,"detailId":40254863,"langCode":"CHI","name":"测试分歧名称1","nameClass":0,"nameGroupid":1,"phonetic":"Ce Shi Fen Qi Ming Cheng Yi","pid":100000034,"seqNum":1,"srcFlag":0,"voiceFile":"CeshifenqimingchengYi"},{"codeType":1,"detailId":40254863,"langCode":"CHI","name":"是地方撒过","nameClass":0,"nameGroupid":2,"phonetic":"Shi Di Fang Sa Guo","pid":100000035,"seqNum":1,"srcFlag":0,"voiceFile":"Shidifangsaguo"},{"codeType":3,"detailId":40254863,"langCode":"CHI","name":"阿是范德萨的方法","nameClass":1,"nameGroupid":3,"phonetic":"A Shi Fan De Sa De Fang Fa","pid":100000036,"seqNum":1,"srcFlag":0,"voiceFile":"Ashifandesadefangfa"},{"codeType":0,"detailId":40254863,"langCode":"CHI","name":"日日日","nameClass":0,"nameGroupid":4,"phonetic":"Ri Ri Ri","pid":100000037,"seqNum":1,"srcFlag":0,"voiceFile":"Ririri"}],"patternCode":"80224119","pid":40254863,"voiceDir":0}],"inLinkPid":732545,"nodePid":470001,"outLinkPid":735601,"pid":40291374,"realimages":[],"relationshipType":2,"schematics":[],"seriesbranches":[],"signasreals":[],"signboards":[],"vias":[]},"errmsg":"success","errcode":0};
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
@@ -13,7 +14,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     $scope.initializeData = function () {
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $('[data-toggle="tooltip"]').tooltip();
     }
     if (objCtrl.data) {
         $scope.initializeData();
@@ -138,6 +139,38 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
         $(e.target).parents('.pic-show').hide();
+    }
+    $scope.strClone = function(obj){
+        var o, obj;
+        if (obj.constructor == Object){
+            o = new obj.constructor();
+        }else{
+            o = new obj.constructor(obj.valueOf());
+        }
+        for(var key in obj){
+            if ( o[key] != obj[key] ){
+                if ( typeof(obj[key]) == 'object' ){
+                    o[key] = clone(obj[key]);
+                }else{
+                    o[key] = obj[key];
+                }
+            }
+        }
+        o.toString = obj.toString;
+        o.valueOf = obj.valueOf;
+        return o;
+    }
+    var oldPatCode = $scope.diverObj.details[0].patternCode;
+    /*修改模式图号*/
+    $scope.changePatternCode = function(){
+        var patternCode = $scope.diverObj.details[0].patternCode;
+        var tempEnd = patternCode.substring(1);
+        var tempArr = patternCode.split('');
+        if($scope.diverObj.details[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
+            $scope.diverObj.details[0].patternCode.length >  oldPatCode.length ||
+            ($scope.diverObj.details[0].patternCode.length+1 <=  oldPatCode.length && $scope.diverObj.details[0].patternCode.length+1 !=  oldPatCode.length)){
+            $scope.diverObj.details[0].patternCode = oldPatCode;
+        }
     }
     /*关系类型*/
     $scope.relationType = [
@@ -295,16 +328,11 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             }
         }
     }
-    /*展示详细信息*/
-    $scope.showDetail = function (type) {
+    /*经过线详细信息*/
+    $scope.showDetail = function () {
         var tempCtr = '', tempTepl = '';
-        if (type == 0) {  //名称信息
-            tempCtr = 'ctrl/attr_branch_ctrl/nameInfoCtrl';
-            tempTepl = 'js/tpl/attr_branch_Tpl/nameInfoTepl.html';
-        } else {  //经过线
-            tempCtr = 'ctrl/attr_branch_ctrl/passlineCtrl';
-            tempTepl = 'js/tpl/attr_branch_Tpl/passlineTepl.html';
-        }
+        tempCtr = 'ctrl/attr_branch_ctrl/passlineCtrl';
+        tempTepl = 'js/tpl/attr_branch_Tpl/passlineTepl.html';
         var detailInfo = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": tempCtr,

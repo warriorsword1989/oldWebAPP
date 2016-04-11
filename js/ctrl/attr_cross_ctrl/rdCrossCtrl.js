@@ -31,11 +31,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             type:'rdcross',
             style:{}
         })
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer, {
-            map: map,
-            highLightFeature: "linksOfCross",
-            initFlag: true
-        });
+        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
 
