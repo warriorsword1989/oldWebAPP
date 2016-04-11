@@ -234,24 +234,15 @@
         color: #fff;
     }
 </style>
-<div id="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
-   <!--<div class="panel-heading font-bold" style="text-align: center;top: 0px;z-index: 999;width: 100%;height: 40px;opacity: .8;background-color: #404040;color: #fff;">-->
-        <!--分歧-->
-        <!--<div class="btn-group d-radio-btn" data-toggle="buttons">-->
-          <!--<label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">-->
-          <!--</label>-->
-        <!--</div>-->
-    <!--</div>-->
+<div id="nameOfBraDiv" ng-controller="namesOf3dBranchCtrl">
     <div style="height:50px">
-        <form class="form-horizontal" method="get">
-            <div class="panel panel-default " style="background-color: transparent;border:0;">
-                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
-                    分歧
-                    <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
-                    </label>
-                </div>
+        <div class="panel panel-default " style="background-color: transparent;border:0;">
+            <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;">
+                分歧
+                <label ng-class="{'active':$index==0,'btn btn-primary btn-xs':true}" ng-bind="branchPid">
+                </label>
             </div>
-        </form>
+        </div>
     </div>
     <div id="picMapShow">
         <img id="picMapImg">
@@ -292,7 +283,7 @@
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()">
+                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
                     <div class="pic-show">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -323,7 +314,8 @@
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
+                    <!--<div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>-->
+                    <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
                 </div> 
             </div>
             <div class="d-group">
@@ -372,15 +364,8 @@
         </div>
     </div>
     <!--end 模式图信息-->
-    <!--begin 名称信息-->
-    <div class="module-box show-detail-title" ng-click="showDetail(0);">
-        <div class="box-head font-bold">
-            名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
-        </div>
-    </div>
-    <!--end 名称信息-->
     <!--begin 经过线-->
-    <div class="module-box show-detail-title" ng-click="showDetail(1);">
+    <div class="module-box show-detail-title" ng-click="showDetail();">
         <div class="box-head font-bold">
              经过线 （共 <span ng-bind="diverObj.vias.length"></span> 条）
         </div>
