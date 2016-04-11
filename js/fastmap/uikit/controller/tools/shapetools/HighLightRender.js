@@ -41,8 +41,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineWidth: 1,
                         width: 40,
                         height: 20,
-                        drawx: -20,
-                        drawy: -10
+                        drawx: 20,
+                        drawy: -10  
 
 
                     });
