@@ -10,7 +10,6 @@ outPutModule.controller('outPutController', function ($scope) {
     var output = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
-    var restrictLayer = layerCtrl.getLayerById("restriction");
     var selectCtrl = fastmap.uikit.SelectController();
 
     var hLayer = layerCtrl.getLayerById('highlightlayer');
