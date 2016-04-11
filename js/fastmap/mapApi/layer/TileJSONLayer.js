@@ -521,7 +521,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     boolPixelCrs:boolPixelCrs
 
                                 });
-
                             } else {
                                 this._drawImg({
                                     ctx:ctx,
@@ -530,7 +529,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     boolPixelCrs:boolPixelCrs
 
                                 });
-
                             }
                         }
                     } else if (this.options.type === 'rdlaneconnexityPoint') {
@@ -637,9 +635,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
 
                     }else if (this.options.type === 'rdRticPoint') {
-
                         this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
-
                     }else if(feature.properties.kind){  //种别
                         if(feature.properties.type == '1201'){
                             this._drawImg({
@@ -656,7 +652,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     dx:0,
                                     dy:7.5
                                 }
-
                             });
                         }else if(feature.properties.type == '1203'){
 

@@ -10,6 +10,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var hLayer = layerCtrl.getLayerById('highlightlayer');
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
         $scope.limitRelation = {};
@@ -314,7 +315,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var data = event.data;
+                    var data = event.data,highlightFeatures=[];
                     if (nodesArr.length === 0) {
                         for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
                             nodesArr.push(data["nodes"][nodeNum]["node"]);
@@ -349,7 +350,25 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     }
                     linksArr = $scope.distinctArr(linksArr);
                     nodesArr = $scope.distinctArr(nodesArr);
-                    highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
+                    for(var i= 0,lenI=linksArr.length;i<lenI;i++) {
+
+                        highlightFeatures.push({
+                            id:linksArr[i].toString(),
+                            layerid:'referenceLine',
+                            type:'line',
+                            style:{}
+                        })
+                    }
+                  for(var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
+                      highlightFeatures.push({
+                          id:nodesArr[j].toString(),
+                          layerid:'referenceLine',
+                          type:'node',
+                          style:{}
+                      })
+                  }
+                    highLightLink.highLightFeatures =highlightFeatures;
+                    highLightLink.drawHighlight();
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
                     selectCtrl.onSelected(options);
                 });

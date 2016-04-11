@@ -11,7 +11,6 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
-    var linksObj = {};//存放需要高亮的进入线和退出线的id
     var hLayer = layerCtrl.getLayerById("highlightlayer");
     var limitPicArr = [];
     /*时间控件*/
@@ -199,7 +198,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
         var highLightFeatures = [];
         highLightFeatures.push({
-            id:linksObj["inLink"],
+            id:objectEditCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
             type:'line',
             style:{}
@@ -217,7 +216,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             type:'restriction',
             style:{}
         })
-        var highLightLinks = new fastmap.uikit.HighLightRender(hlayer);
+        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
         highLightLinks.highLightFeatures = highLightFeatures;
         highLightLinks.drawHighlight();
 
@@ -262,7 +261,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
             var highLightFeatures = [];
             highLightFeatures.push({
-                id:linksObj["inLink"],
+                id:objectEditCtrl.data["inLinkPid"].toString(),
                 layerid:'referenceLine',
                 type:'line',
                 style:{}
@@ -274,7 +273,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 style:{}
             })
 
-            var highLightLinks = new fastmap.uikit.HighLightRender(hlayer);
+            var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
             highLightLinks.highLightFeatures = highLightFeatures;
             highLightLinks.drawHighlight();
         })

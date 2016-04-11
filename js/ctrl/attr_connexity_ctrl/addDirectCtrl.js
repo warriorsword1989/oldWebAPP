@@ -7,10 +7,8 @@
 var addDirectConnexityApp = angular.module("mapApp", []);
 addDirectConnexityApp.controller("addDirectOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
-    var highLightLayer = fastmap.uikit.HighLightController();
-    var linksObj = {};//存放需要高亮的进入线和退出线的id
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdLink = layerCtrl.getLayerById('referenceLine');
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -80,18 +78,15 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
     };
     $scope.laneInfo = objCtrl.data;
     if($scope.laneInfo["selectNum"]!==undefined) {
-        //删除以前高亮的进入线和退出线
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
-        linksObj["inLink"] = objCtrl.data["inLinkPid"].toString();
-        var highLightLinks = new fastmap.uikit.HighLightRender(rdLink, {
-            map: map,
-            highLightFeature: "links",
-            linksObj: linksObj
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id: objCtrl.data["inLinkPid"].toString(),
+            layerid:'referenceLine',
+            type:'line',
+            style:{}
         })
-        highLightLinks.drawOfLinksForInit();
-        highLightLayer.pushHighLightLayers(highLightLinks);
+        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
+        highLightLinks.drawHighlight();
     }
     $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
 
