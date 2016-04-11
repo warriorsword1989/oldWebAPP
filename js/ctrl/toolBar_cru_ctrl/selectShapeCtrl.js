@@ -67,6 +67,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad','$rootSco
         }
 
         if (type === "link") {
+            rdLink.redraw();
+            editLayer.drawGeometry = null;
+            $(layerCtrl.getLayerById('edit').options._div).unbind();
+            editLayer.clear();
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(
                 {

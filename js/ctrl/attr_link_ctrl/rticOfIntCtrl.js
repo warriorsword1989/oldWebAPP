@@ -7,6 +7,8 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
     $scope.realtimeData = objCtrl.data;
+
+
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
         {"id": 1,"label":"顺方向"},
@@ -29,6 +31,8 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
             }
         }
     }
+
+
 
     $scope.changeRank=function(){
         if($scope.oridiData.rank==0){
@@ -78,6 +82,14 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
         return angle;
 
     };
+
+    if($scope.realtimeData.direct!=1){
+        $scope.oridiData.rticDr=$scope.realtimeData.direct;
+        $scope.changeDirect($scope.realtimeData.direct);
+    }else{
+        $scope.oridiData.rticDr=1;
+        $scope.changeDirect(1);
+    }
 
     //添加新的RTIC代码
     $scope.addRticCode=function(){
