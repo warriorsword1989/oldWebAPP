@@ -207,6 +207,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         $scope.panelFlag = flag;
         $scope.objectFlag = flag;
         if ($scope.panelFlag) {
+
             $scope.outErrorArr[3] = true;
             $scope.outErrorArr[2] = false;
         }

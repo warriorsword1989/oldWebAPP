@@ -66,6 +66,14 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         {"id":2,"label":"路上点"}
     ];
     $scope.initializeNodeData=function() {
+        $scope.rdNodeData = {};
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                console.log("ddddd");
+                $scope.nodeForm.$setPristine();
+            });
+
+        }
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         var highlightFeatures = [];
@@ -163,6 +171,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         objectEditCtrl.selectNodeRefresh();
     }
     $scope.save = function () {
+        $scope.nodeForm.$setPristine();
         objectEditCtrl.save();
         var param = {
             "command": "UPDATE",
@@ -250,7 +259,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     $scope.cancel=function(){
 
     }
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
