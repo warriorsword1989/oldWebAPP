@@ -121,7 +121,7 @@
             <div><label>限速类型</label></div>
             <div class="inline">
                 <select ng-model="speedLimitData.speedType"
-                        ng-options="value.id as value.label for value in speedTypeOptions">
+                        ng-options="value.id as value.label for value in speedTypeOptions" ng-change="changeSpeedType()">
                 </select>
             </div>
 
@@ -226,6 +226,12 @@
             <div><label>文字说明</label></div>
             <div class="inline ">
                 <input type="text" ng-model="speedLimitData.timeDescript">
+            </div>
+        </li>
+        <li class="list-group-item" ng-if="carSpeedType==true">
+            <div><label>车道限速值</label></div>
+            <div class="inline ">
+                <input type="text" ng-model="speedLimitData.laneSpeedValue">
             </div>
         </li>
         <li class="list-group-item" style="padding:7px;">
