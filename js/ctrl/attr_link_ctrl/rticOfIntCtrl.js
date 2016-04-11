@@ -81,7 +81,16 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
 
     //添加新的RTIC代码
     $scope.addRticCode=function(){
-
+        var param = {
+            "type": "rtic"
+        };
+        Application.functions.getIntRticRank(JSON.stringify(param), function (data) {
+            if (data.errcode == 0) {
+                $scope.oridiData.code=data.data;
+                $scope.$apply();
+            }
+        });
     }
+
 
 })
