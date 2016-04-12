@@ -568,7 +568,12 @@ fastmap.mapApi.LayerRender = {
         }
         ctx.save();
         //var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
-        var centerPoint = L.point( point2.x, point2.y);
+        if(direct==2){
+            var centerPoint = L.point( point2.x, point2.y);
+        }else{
+            var centerPoint = L.point( point1.x, point1.y);
+        }
+
         ctx.translate(centerPoint.x, centerPoint.y);
         //先计算向量与y轴负方向向量(0,-1)的夹角
 

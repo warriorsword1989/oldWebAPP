@@ -13,6 +13,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
@@ -22,18 +23,24 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 if (layerCtrl.layers[10].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[10].options.visible) {
                     for(var i=0;i<$scope.modelArray.length;i++){
                         if(i==4){
+
                             $scope.modelArray[i]=true;
                         }else{
                             $scope.modelArray[i]=false;
                         }
                     }
                     $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
-                        if(objectCtrl.updateObject) {
-                            objectCtrl.updateObject();
-                        }
                         $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
                     });
-                    swal("", "请选择方向", "");
+                    //swal("", "请选择方向", "");
+                    //初始化鼠标提示
+
+                    $scope.toolTipText = '请选择方向！';
+                    tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+                    if(tooltipsCtrl.getCurrentTool!="请选择方向！"){
+                        tooltipsCtrl.setChangeInnerHtml($scope.toolTipText);
+                    }
+
                 }else{
                     for(var i=0;i<$scope.modelArray.length;i++){
                         if(i==0){
@@ -109,12 +116,12 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
 
         for(var i=0;i<$scope.modelArray.length;i++){
             if(ind==i&&ind==4){
-                layerCtrl.layers[10].options.visible=true;
-                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+               // layerCtrl.layers[10].options.visible=true;
+                //eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
                 $scope.modelArray[i]=true;
             }else if(ind==i){
-                layerCtrl.layers[10].options.visible=false;
-                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                //layerCtrl.layers[10].options.visible=false;
+                //eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
                 $scope.modelArray[i]=true;
             }else{
                 $scope.modelArray[i]=false;
@@ -131,7 +138,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.currentURL = "js/tpl/attr_link_tpl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
-            $scope.rticFlag = {flag:false};
             $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
                 $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
             });
