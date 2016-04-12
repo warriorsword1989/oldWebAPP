@@ -33,7 +33,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                             map.currentTool.enable();
                             //初始化鼠标提示
                             $scope.toolTipText = '请选择方向！';
-                            
+
                             rdLink.options.selectType = 'link';
                             rdLink.options.editable = true;
                             tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
@@ -125,12 +125,23 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
 
         for(var i=0;i<$scope.modelArray.length;i++){
             if(ind==i&&ind==4){
-                layerCtrl.layers[10].options.visible=true;
-                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                for (var layer in layerCtrl.layers) {
+                    if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                        layerCtrl.layers[layer].options.visible=true;
+                        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                        break;
+                    }
+                }
+
                 $scope.modelArray[i]=true;
             }else if(ind==i){
-                layerCtrl.layers[10].options.visible=false;
-                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                for (var layer in layerCtrl.layers) {
+                    if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                        layerCtrl.layers[layer].options.visible=false;
+                        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                        break;
+                    }
+                }
                 $scope.modelArray[i]=true;
             }else{
                 $scope.modelArray[i]=false;
