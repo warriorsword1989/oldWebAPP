@@ -5,15 +5,7 @@ var realtimeTrafficApp = angular.module("lazymodule", []);
 realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeout,$ocLazyLoad) {
     $scope.rticData =  $scope.linkData;
 
-    if($scope.rticData.intRtics.length>0){
-        $scope.linkData["oridiRowId"] = $scope.rticData.intRtics[0].rowId;
-        var showRticsInfoObj = {
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl": 'ctrl/attr_link_ctrl/rticOfIntCtrl',
-            "propertyHtml": 'js/tpl/attr_link_tpl/rticOfIntTpl.html'
-        }
-        $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
-    }
+
 
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
@@ -53,7 +45,7 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeo
 
 
     $scope.showRticsInfo= function (item) {
-        $scope.linkData["oridiRowId"] = item.rowId;
+        $scope.linkData["oridiIntRticRowId"] = item.rowId;
         var showRticsInfoObj = {
             "loadType":"subAttrTplContainer",
             "propertyCtrl": 'ctrl/attr_link_ctrl/rticOfIntCtrl',
@@ -88,4 +80,14 @@ realtimeTrafficApp.controller("realtimeTrafficController",function($scope,$timeo
             $("#carSpan"+ind).css("color","darkgray");
         }
     }
+
+    //if($scope.rticData.intRtics.length>0){
+    //    $scope.linkData["oridiIntRticRowId"] = $scope.rticData.intRtics[0].rowId;
+    //    var showRticsInfoObj = {
+    //        "loadType":"subAttrTplContainer",
+    //        "propertyCtrl": 'ctrl/attr_link_ctrl/rticOfIntCtrl',
+    //        "propertyHtml": 'js/tpl/attr_link_tpl/rticOfIntTpl.html'
+    //    }
+    //    $scope.$emit("transitCtrlAndTpl", showRticsInfoObj);
+    //}
 })
