@@ -28,12 +28,7 @@ function keyEvent(ocLazyLoad, scope) {
             var coordinate = [];
             if (event.keyCode == 27) {
                 resetPage();
-                map.currentTool.disable();
-                map.currentTool.shapeEditor.editType = "";
                 map._container.style.cursor = '';
-
-
-                $(layerCtrl.getLayerById('edit').options._div).unbind();
             }
 
 
@@ -62,7 +57,6 @@ function keyEvent(ocLazyLoad, scope) {
                 rdLink.redraw();
                 rdCross.redraw();
                 editLayer.drawGeometry = null;
-                editLayer.clear();
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();

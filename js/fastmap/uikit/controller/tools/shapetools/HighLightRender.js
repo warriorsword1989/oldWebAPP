@@ -30,7 +30,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         newGeom[1] = (parseInt(geom[1]));
         if (feature.properties.id == id) {
             if (feature.properties.kind) {  //种别
-
                 if (feature.properties.type == '1201') {
                     this.layer._drawBackground({
                         ctx: ctx,
@@ -41,15 +40,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineWidth: 1,
                         width: 40,
                         height: 20,
-                        drawx: 20,
-                        drawy: -10  
-
-
+                        drawx: -20,
+                        drawy: -10
                     });
                 } else if (feature.properties.type == '1203') {
-
-
-
                     this.layer._drawBackground({
                         ctx: ctx,
                         geo: newGeom,
@@ -62,8 +56,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         height: 20,
                         drawx: -20,
                         drawy: -10
-
-
                     });
                 } else {
                     this.layer._drawBackground({
@@ -74,15 +66,13 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.5)',
                         lineWidth: 1,
-                        width: 20,
+                        width: 40,
                         height: 20,
-                        drawx: -25,
-                        drawy: -25
-
+                        drawx: -20,
+                        drawy: -10
                     });
                 }
             } else {
-
                 this.layer._drawBackground({
                     ctx: ctx,
                     geo: newGeom,
@@ -91,11 +81,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     lineColor: 'rgb(4, 187, 245)',
                     fillColor: 'rgba(4, 187, 245, 0.5)',
                     lineWidth: 1,
-                    width: 20,
+                    width: 40,
                     height: 20,
-                    drawx: -25,
-                    drawy: -25
-
+                    drawx: -20,
+                    drawy: -10
                 });
             }
         }
