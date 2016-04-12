@@ -154,7 +154,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
                             var geoOfSNode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[0][0];
-                            this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'red', radius: 3}, true);
+                            this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
                             break;
                         }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.enode) {
                             var ctxOfENode = {
@@ -163,7 +163,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             };
                             var len = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates.length - 1;
                             var geoOfENode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[len][0];
-                            this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'red', radius: 3}, true);
+                            this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
                             break;
                         }
                     }
