@@ -40,12 +40,12 @@ Application.functions.getTipsResult=function(rowkey,func) {
  */
 Application.functions.getRdObjectById=function(id,type,func,detailid) {
     if(detailid){
-        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+detailid+'}',
+        fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+detailid+'}',
             function(data) {
                 func(data);
             });
     }else{
-        fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
+        fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
             function(data) {
                 func(data);
             });
@@ -59,7 +59,7 @@ Application.functions.getRdObjectById=function(id,type,func,detailid) {
  * @param func
  */
 Application.functions.getRdObjectByDetailId=function(id,type,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+id+'}',
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+id+'}',
         function(data) {
             func(data)
         });
@@ -70,7 +70,7 @@ Application.functions.getRdObjectByDetailId=function(id,type,func) {
  * @param func
  */
 Application.functions.saveLinkGeometry = function (param, func) {
-    fastmap.dataApi.ajaxConstruct(Application.url + '/editsupport/edit?parameter=' + param.replace(/\+/g,'%2B'),
+    fastmap.dataApi.ajaxConstruct(Application.url + '/edit/run?parameter=' + param.replace(/\+/g,'%2B'),
         function (data) {
             func(data)
         });
@@ -81,7 +81,7 @@ Application.functions.saveLinkGeometry = function (param, func) {
  * @param func
  */
 Application.functions.saveProperty=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url + '/editsupport/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url + '/edit/run?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -103,7 +103,7 @@ Application.functions.changeDataTipsState=function(param,func) {
  * @param func
  */
 Application.functions.getArrowImgGroup=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/meta/patternImage/search?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/metadata/patternImage/search?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -115,7 +115,7 @@ Application.functions.getArrowImgGroup=function(param,func) {
  * @param func
  */
 Application.functions.getArrowImg=function(param) {
-    return Application.url+'/meta/patternImage/getById?parameter=' + param;
+    return Application.url+'/metadata/patternImage/getById?parameter=' + param;
 };
 
 /**
@@ -124,7 +124,7 @@ Application.functions.getArrowImg=function(param) {
  * @param func
  */
 Application.functions.saveBranchInfo=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/run?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -135,7 +135,7 @@ Application.functions.saveBranchInfo=function(param,func) {
  * @param func
  */
 Application.functions.getNamePronunciation=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/meta/pinyin/convert?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/metadata/pinyin/convert?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -147,14 +147,14 @@ Application.functions.getNamePronunciation=function(param,func) {
  * @param func
  */
 Application.functions.saveNodeMove = function(param, func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/edit?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/run?parameter=' + param,
         function (data) {
             func(data)
         });
 }
 
 Application.functions.getByCondition=function(param,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/editsupport/getByCondition?parameter='+param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter='+param,
         function (data) {
             func(data)
         });
@@ -162,7 +162,7 @@ Application.functions.getByCondition=function(param,func) {
 
 //根据输入的道路名模糊查询所有道路民
 Application.functions.getNamesbyName = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/meta/rdname/search?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/metadata/rdname/search?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -170,7 +170,7 @@ Application.functions.getNamesbyName = function(param,func){
 
 //获取检查结果
 Application.functions.getCheckDatas = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/check/get?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/check/get?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -178,7 +178,7 @@ Application.functions.getCheckDatas = function(param,func){
 
 //获取检查结果总数
 Application.functions.getCheckCount = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/check/count?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/check/count?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -186,7 +186,7 @@ Application.functions.getCheckCount = function(param,func){
 
 //获取检查状态
 Application.functions.updateCheckType = function(param,func){
-    fastmap.dataApi.ajaxConstruct(Application.url+'/check/update?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/check/update?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -206,7 +206,7 @@ Application.functions.getScope=function(controller) {
  * 获取互联网rtic代码
  */
 Application.functions.getIntRticRank=function(param,func) {
-    fastmap.dataApi.ajaxConstruct('http://192.168.4.130/FosEngineWeb/editsupport/applyPid?parameter=' + param,
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/applyPid?parameter=' + param,
         function (data) {
             func(data)
         });
