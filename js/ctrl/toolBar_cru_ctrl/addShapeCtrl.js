@@ -411,7 +411,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 tooltipsCtrl.setEditEventType('overpass');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {
+                shapeCtrl.toolsSeparateOfEditor("linksOfOverpass", {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
@@ -421,6 +421,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var linksArr = [], nodesArr = [], nodes = [], links = [],options={};
                     var data = event.data,highlightFeatures=[];
+                    console.log(event)
                     if (nodesArr.length === 0) {
                         for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
                             nodesArr.push(data["nodes"][nodeNum]["node"]);
@@ -458,7 +459,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     selectCtrl.onSelected(options);
                 });
             } else if (type === '3dBranch'){
-                var highLightFeatures = [];
+                var highLightFeatures = [],
+                    linkDirect = 0;
                 shapeCtrl.setEditingType("rdBranch");
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
@@ -469,7 +471,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
-                var linkDirect = 0;
+                /*获取退出线*/
+                $scope.getOutLink = function(dataId){
+                    $scope.excitLineArr.push(parseInt(dataId));
+                    $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
+                    tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+                    console.log('已选退出线')
+                }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
                     if (data.index === 0) {
@@ -478,8 +486,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         Application.functions.getRdObjectById(data.id,'RDLINK',function(linkData){
                             if(linkData.errcode == 0){
                                 linkDirect = linkData.data.direct;
-                                if(linkDirect == 2){
-                                    $scope.limitRelation.nodePid = parseInt(linkData.data.sNodePid);
+                                if(linkDirect == 2 || linkDirect == 3){
+                                    $scope.limitRelation.nodePid = parseInt(linkDirect==2 ? linkData.data.eNodePid : linkData.data.sNodePid);
                                     highLightFeatures.push({
                                         id:$scope.limitRelation.nodePid,
                                         layerid:'referenceLine',
@@ -490,24 +498,18 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     highLightRender.highLightFeatures = highLightFeatures;
                                     highLightRender.drawHighlight();
                                     tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
-                                    console.log('已选进入点',$scope.limitRelation)
                                 }
                             }
                         });
                     } else if (data.index === 1) {
-                        if(linkDirect == 2){
-                            $scope.excitLineArr.push(parseInt(data.id));
-                            $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
-                            tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
-                            console.log('已选退出线')
+                        if(linkDirect == 2 || linkDirect == 3){
+                            $scope.getOutLink(data.id);
                             return;
                         }
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                     } else if (data.index > 1) {
-                        $scope.excitLineArr.push(parseInt(data.id));
-                        $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
-                        tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+                        $scope.getOutLink(data.id);
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
