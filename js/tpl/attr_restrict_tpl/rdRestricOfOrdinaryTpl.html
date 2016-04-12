@@ -171,7 +171,7 @@
 
                 </label>
                 <label ng-click="changeLimitType(2);">
-                    <input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type" title="时间段禁止">
+                    <input type="radio" name="researchOrLimited" value=2 ng-model="rdSubRestrictData.type" title="时间段禁止" ng-disabled="rdSubRestrictData.flag == 2">
                    时间段禁止
                 </label>
             </div>

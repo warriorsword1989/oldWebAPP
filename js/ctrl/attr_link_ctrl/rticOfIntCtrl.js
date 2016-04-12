@@ -1,12 +1,14 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("myApp", []);
+var oridinaryInfoApp = angular.module("lazymodule", []);
 oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
     $scope.realtimeData = objCtrl.data;
+    console.log("$scope.realtimeData  "+$scope.realtimeData["oridiIntRticRowId"]);
+
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
         {"id": 1,"label":"顺方向"},
@@ -21,7 +23,7 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     ];
 
     for(var i= 0,len=$scope.realtimeData.intRtics.length;i<len;i++) {
-        if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+        if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiIntRticRowId"]) {
             $scope.oridiData = $scope.realtimeData.intRtics[i];
             $scope.rank= $scope.oridiData.rank;
             if($scope.oridiData.rank==0){
@@ -29,6 +31,8 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
             }
         }
     }
+
+
 
     $scope.changeRank=function(){
         if($scope.oridiData.rank==0){
@@ -78,6 +82,26 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
         return angle;
 
     };
+
+    if($scope.realtimeData.direct!=1){
+            if($scope.oridiData) {
+                if($scope.realtimeData.direct==3){
+                    $scope.oridiData.rticDr = 2;
+                    $scope.changeDirect(2);
+                }else if($scope.realtimeData.direct==2){
+                    $scope.oridiData.rticDr = 1;
+                    $scope.changeDirect(1);
+                }
+
+            }
+
+    }else{
+        if($scope.oridiData){
+            $scope.oridiData.rticDr=1;
+            $scope.changeDirect(1);
+        }
+
+    }
 
     //添加新的RTIC代码
     $scope.addRticCode=function(){

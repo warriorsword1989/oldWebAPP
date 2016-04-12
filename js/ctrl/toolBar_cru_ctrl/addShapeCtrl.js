@@ -310,6 +310,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {
                     map: map,
                     layer: rdLink,
+                    crossFlag:true,
                     type: "rectangle"
                 })
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
@@ -411,42 +412,108 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 tooltipsCtrl.setEditEventType('overpass');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-                var overpassLinksArr = [], overpassNodesArr = [];
-                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {map: map, layer: rdLink, type: "rectangle"});
-                var highLightOverpass = new fastmap.uikit.HighLightRender(rdLink, {
+                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {
                     map: map,
-                    highLightFeature: "linksOfCross",
-                    initFlag: true
-                });
+                    layer: rdLink,
+                    type: "rectangle"
+                })
+                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+                map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var data = event.data, options = {};
-                    if (linksArr.length === 0) {
-                        linksArr = data["links"];
-                        nodesArr = data["nodes"];
-                    } else {
-                        if (data['nodes'].length === 1) {
-                            if ($scope.containsNode(nodesArr, data["nodes"][0])) {
-                                linksArr = $scope.arrToReduce(linksArr, data["links"]);
-                                nodesArr = $scope.arrToReduce(nodesArr, data["nodes"]);
-                            } else {
-                                linksArr = linksArr.concat(data["links"]);
-                                nodesArr = nodesArr.concat(data["nodes"]);
-                            }
-
-                        } else {
-                            linksArr.length = 0;
-                            nodesArr.length = 0;
-                            linksArr = data["crossLinks"];
-                            nodesArr = data["crossNodes"];
+                    var linksArr = [], nodesArr = [], nodes = [], links = [],options={};
+                    var data = event.data,highlightFeatures=[];
+                    if (nodesArr.length === 0) {
+                        for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
+                            nodesArr.push(data["nodes"][nodeNum]["node"]);
                         }
-                    }
+                        for (var linkNum = 0, linkLen = data["nodes"].length; linkNum < linkLen; linkNum++) {
+                            nodesArr = nodesArr.concat(data["nodes"][linkNum]["link"]);
+                            linksArr.push(data["nodes"][linkNum]["link"]);
+                        }
+                        nodes = nodes.concat(data["nodes"]);
+                        links = links.concat(data["links"]);
 
-                    highLightLink.drawLinksOfCrossForInit(linksArr, nodesArr);
+                    }
+                    linksArr = $scope.distinctArr(linksArr);
+                    nodesArr = $scope.distinctArr(nodesArr);
+                    console.log(linksArr,nodesArr)
+                    for(var i= 0,lenI=linksArr.length;i<lenI;i++) {
+                        highlightFeatures.push({
+                            id:linksArr[i].toString(),
+                            layerid:'referenceLine',
+                            type:'line',
+                            style:{}
+                        })
+                    }
+                    for(var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
+                        highlightFeatures.push({
+                            id:nodesArr[j].toString(),
+                            layerid:'referenceLine',
+                            type:'node',
+                            style:{}
+                        })
+                    }
+                    highLightLink.highLightFeatures =highlightFeatures;
+                    highLightLink.drawHighlight();
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
                     selectCtrl.onSelected(options);
                 });
             } else if (type === '3dBranch'){
+                var highLightFeatures = [];
+                shapeCtrl.setEditingType("rdBranch");
+                tooltipsCtrl.setEditEventType('rdBranch');
+                tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createBranchFlag: true,
+                    currentEditLayer: rdLink
+                });
+                map.currentTool.enable();
+                $scope.excitLineArr = [];
+                var linkDirect = 0;
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
+                    if (data.index === 0) {
+                        $scope.limitRelation.inLinkPid = parseInt(data.id);
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
+                        Application.functions.getRdObjectById(data.id,'RDLINK',function(linkData){
+                            if(linkData.errcode == 0){
+                                linkDirect = linkData.data.direct;
+                                if(linkDirect == 2){
+                                    $scope.limitRelation.nodePid = parseInt(linkData.data.sNodePid);
+                                    highLightFeatures.push({
+                                        id:$scope.limitRelation.nodePid.toString(),
+                                        layerid:'referenceLine',
+                                        type:'rdnode',
+                                        style:{}
+                                    });
+                                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
+                                    highLightRender.highLightFeatures = highLightFeatures;
+                                    highLightRender.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
+                                    tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                                }
+                            }
+                        });
+                    } else if (data.index === 1) {
+                        if(linkDirect == 2){
+                            $scope.excitLineArr.push(parseInt(data.id));
+                            $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
+                            tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+                            console.log('已选退出线')
+                            return;
+                        }
+                        else{
+                            $scope.limitRelation.nodePid = parseInt(data.id);
+                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                        }
+                    } else if (data.index > 1) {
+                        $scope.excitLineArr.push(parseInt(data.id));
+                        $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
+                        tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+                    }
+                    featCodeCtrl.setFeatCode($scope.limitRelation);
+                })
             }
         }
 
