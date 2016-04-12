@@ -481,7 +481,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 if(linkDirect == 2){
                                     $scope.limitRelation.nodePid = parseInt(linkData.data.sNodePid);
                                     highLightFeatures.push({
-                                        id:$scope.limitRelation.nodePid,
+                                        id:$scope.limitRelation.nodePid.toString(),
                                         layerid:'referenceLine',
                                         type:'rdnode',
                                         style:{}
@@ -489,8 +489,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
                                     highLightRender.highLightFeatures = highLightFeatures;
                                     highLightRender.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
                                     tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
-                                    console.log('已选进入点',$scope.limitRelation)
                                 }
                             }
                         });
@@ -502,8 +502,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             console.log('已选退出线')
                             return;
                         }
-                        $scope.limitRelation.nodePid = parseInt(data.id);
-                        tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                        else{
+                            $scope.limitRelation.nodePid = parseInt(data.id);
+                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                        }
                     } else if (data.index > 1) {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
