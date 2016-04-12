@@ -19,9 +19,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         if (typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
         }
-        //if (tooltipsCtrl.getCurrentTooltip()) {
-        //    tooltipsCtrl.onRemoveTooltip();
-        //}
+        if (tooltipsCtrl.getCurrentTooltip()) {
+            tooltipsCtrl.onRemoveTooltip();
+        }
         editLayer.drawGeometry = null;
         shapeCtrl.stopEditing();
         editLayer.bringToBack();
@@ -93,7 +93,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             $scope.toolTipText = '请选择线！';
             rdLink.options.selectType = 'link';
             rdLink.options.editable = true;
-
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 selectCtrl.onSelected({
                     point: data.point
