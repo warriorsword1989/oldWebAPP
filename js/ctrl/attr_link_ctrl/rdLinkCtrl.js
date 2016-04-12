@@ -16,13 +16,17 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
+    $scope.modelArray=[false,false,false,false,false,false];
     //改变模块的背景
     $scope.initializeLinkData = function () {
-        $("#fm-link-tabControl a").removeClass("selected");
-
-        //for (var layer in layerCtrl.layers) {
                 if (layerCtrl.layers[10].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[10].options.visible) {
-                    $("#fm-link-tabControl a:eq(4)").addClass("selected");
+                    for(var i=0;i<$scope.modelArray.length;i++){
+                        if(i==4){
+                            $scope.modelArray[i]=true;
+                        }else{
+                            $scope.modelArray[i]=false;
+                        }
+                    }
                     $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
                         if(objectCtrl.updateObject) {
                             objectCtrl.updateObject();
@@ -31,7 +35,13 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     });
                     swal("", "请选择方向", "");
                 }else{
-                    $("#fm-link-tabControl a:first").addClass("selected");
+                    for(var i=0;i<$scope.modelArray.length;i++){
+                        if(i==0){
+                            $scope.modelArray[i]=true;
+                        }else{
+                            $scope.modelArray[i]=false;
+                        }
+                    }
                     $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
                         if(objectCtrl.updateObject) {
                             objectCtrl.updateObject();
@@ -39,7 +49,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                         $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
                     });
                 }
-        //}
 
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
@@ -98,14 +107,27 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     //获取某个模块的信息
     $scope.changeModule = function (url,ind) {
 
-        var a= $("#fm-link-tabControl a");
-        $.each(a,function(i,value){
-            if(ind==i){
-                $(this).addClass("selected");
+        for(var i=0;i<$scope.modelArray.length;i++){
+            if(ind==i&&ind==4){
+                layerCtrl.layers[10].options.visible=true;
+                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                $scope.modelArray[i]=true;
+            }else if(ind==i){
+                layerCtrl.layers[10].options.visible=false;
+                eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                $scope.modelArray[i]=true;
             }else{
-                $(this).removeClass("selected");
+                $scope.modelArray[i]=false;
             }
-        })
+        }
+        //var a= $("#fm-link-tabControl a");
+        //$.each(a,function(i,value){
+        //    if(ind==i){
+        //        $(this).addClass("selected");
+        //    }else{
+        //        $(this).removeClass("selected");
+        //    }
+        //})
 
         $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         if (url === "basicModule") {
