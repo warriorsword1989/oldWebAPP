@@ -11,6 +11,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
+    var rdRestriction = layerCtrl.getLayerById('restriction');
     var hLayer = layerCtrl.getLayerById("highlightlayer");
     var limitPicArr = [];
     /*时间控件*/

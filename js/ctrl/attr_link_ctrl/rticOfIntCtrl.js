@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("myApp", []);
+var oridinaryInfoApp = angular.module("lazymodule", []);
 oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();

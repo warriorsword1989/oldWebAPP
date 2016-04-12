@@ -120,14 +120,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.modelArray[i]=false;
             }
         }
-        //var a= $("#fm-link-tabControl a");
-        //$.each(a,function(i,value){
-        //    if(ind==i){
-        //        $(this).addClass("selected");
-        //    }else{
-        //        $(this).removeClass("selected");
-        //    }
-        //})
 
         $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         if (url === "basicModule") {
@@ -139,6 +131,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.currentURL = "js/tpl/attr_link_tpl/pedestrianNaviTepl.html";
             });
         } else if (url === "realtimeModule") {
+            $scope.rticFlag = {flag:false};
             $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
                 $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
             });
