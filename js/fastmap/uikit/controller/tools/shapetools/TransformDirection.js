@@ -12,6 +12,7 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry().flag;
+        this.type=this.shapeEditor.shapeEditorResult.getFinalGeometry().type;
         this.angle = this.shapeEditor.angle;
         this.sign = 0;
     },
@@ -47,36 +48,58 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         var orientation = geos.orientation;
         var len = this.distance(layerPoint, point);
         if(len<10000) {
-            switch (orientation) {
-                case "1":
-                    if(this.sign===0) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";//向左
-                    }else if(this.sign===1) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向右
-                        this.sign = 0;
-                    }
-                    break;
-                case "2":
-                    if(this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
-                    }else{
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";
-                    }
+            if(this.type==="intRticMarker"){
+                switch (orientation) {
+                    case "1":
+                        if(this.sign===0) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向左
+                        }else if(this.sign===1) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";//向右
+                            this.sign = 0;
+                        }
+                        break;
+                    case "2":
+                        if(this.flag) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
+                        }else{
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
+                        }
 
-                    break;
-                case "3":
-                    if(this.flag) {
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
-                        this.sign = 1;
-                    }else{
-                        this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
+                        break;
+                }
+            }else{
+                switch (orientation) {
+                    case "1":
+                        if(this.sign===0) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";//向左
+                        }else if(this.sign===1) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向右
+                            this.sign = 0;
+                        }
+                        break;
+                    case "2":
+                        if(this.flag) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
+                        }else{
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";
+                        }
 
-                    }
-                    break;
+                        break;
+                    case "3":
+                        if(this.flag) {
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
+                            this.sign = 1;
+                        }else{
+                            this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
+
+                        }
+                        break;
 
 
+                }
             }
-        }
+            }
+
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
     },
     onMouseUp: function(event){

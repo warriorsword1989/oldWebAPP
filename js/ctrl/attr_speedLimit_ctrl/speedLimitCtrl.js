@@ -11,7 +11,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var hLayer = layerCtrl.getLayerById('highlightlayer');
-
+    $scope.carSpeedType=false;
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
@@ -209,5 +209,14 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+
+
+    $scope.changeSpeedType=function(){
+        if($scope.speedLimitData.speedType==4){
+            $scope.carSpeedType=true;
+        }else{
+            $scope.carSpeedType=false;
+        }
+    }
 
 });

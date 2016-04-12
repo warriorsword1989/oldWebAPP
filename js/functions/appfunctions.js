@@ -201,3 +201,13 @@ Application.functions.getScope=function(controller) {
         var scope = angular.element(getController).scope();
         return scope;
 };
+
+/***
+ * 获取互联网rtic代码
+ */
+Application.functions.getIntRticRank=function(param,func) {
+    fastmap.dataApi.ajaxConstruct('http://192.168.4.130/FosEngineWeb/editsupport/applyPid?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
