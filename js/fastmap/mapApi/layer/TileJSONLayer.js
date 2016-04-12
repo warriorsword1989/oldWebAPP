@@ -679,8 +679,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 geo:geom,
                                 style:{src:'css/tips/3D/3D.svg'},
                                 boolPixelCrs:boolPixelCrs,
-                                drawx:-30,
-                                drawy:-30
                             });
                         } else if(feature.properties.type == '1514'){
                             this._drawImg({
