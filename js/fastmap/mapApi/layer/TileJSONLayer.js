@@ -467,48 +467,80 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         if (feature.properties.speedlimitcondition === undefined) {
                             return;
                         }
-                        var speedFlagStyle = null, jtType = null;
-                        var speedLimitObj = feature.properties.speedlimitcondition;
-                        var speedLimitRoute = (feature.properties.speedlimitrotate - 90) * (Math.PI / 180);
-                        var resArray = speedLimitObj.split("|");
-                        var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
-                        var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
-                        var speedValue = resArray[2] / 10;//限速值
-                        if (gaptureFlag === "1") {//理论判断，限速开始和结束都为蓝色
-                            if (speedFlag === "1") {//解除限速
-                                speedFlagStyle = {src: './css/1101/1101_1_1_' + speedValue + '.svg'};
-                                jtType = {src: './css/1101/1101_1_1_e.svg'};
-                            } else {
-                                speedFlagStyle = {src: './css/1101/1101_1_0_' + speedValue + '.svg'};
-                                jtType = {src: './css/1101/1101_1_0_s.svg'};
-                            }
 
-                        } else {//现场采集，限速开始为红色，结束为黑色
-                            if (speedFlag === "1") {//解除限速
-                                speedFlagStyle = {src: './css/1101/1101_0_1_' + speedValue + '.svg'};
-                                jtType = {src: './css/1101/1101_0_1_e.svg'};
-                            } else {
-                                speedFlagStyle = {src: './css/1101/1101_0_0_' + speedValue + '.svg'};
-                                jtType = {src: './css/1101/1101_0_0_s.svg'};
+                        var speedLimitRoute = (feature.properties.speedlimitrotate - 90) * (Math.PI / 180),
+                            speedFlagStyle,jtType = {src: './css/1101/1101_0_0_s.svg'}; ;
+                        if(feature.properties.speedlimittype == 0){
+                            var speedFlagStyle = null, jtType = null;
+                            var speedLimitObj = feature.properties.speedlimitcondition;
+
+                            var resArray = speedLimitObj.split("|");
+                            var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
+                            var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
+                            var speedValue = resArray[2] / 10;//限速值
+                            if (gaptureFlag === "1") {//理论判断，限速开始和结束都为蓝色
+                                if (speedFlag === "1") {//解除限速
+
+                                    jtType = {src: './css/1101/1101_1_1_e.svg'};
+                                }
+
+                            } else {//现场采集，限速开始为红色，结束为黑色
+                                if (speedFlag === "1") {//解除限速
+
+                                    jtType = {src: './css/1101/1101_0_1_e.svg'};
+                                }
                             }
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:speedFlagStyle,
+                                boolPixelCrs:boolPixelCrs,
+                                rotate:speedLimitRoute
+                            })
+                            //绘制箭头
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:jtType,
+                                boolPixelCrs:boolPixelCrs,
+                                rotate:speedLimitRoute,
+                                drawx:5
+
+                            })
+
+                        }else if(feature.properties.speedlimittype == 3){
+                            speedFlagStyle = {src: './css/1101/condition_speedlimit'  + '.svg'};
+
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:speedFlagStyle,
+                                boolPixelCrs:boolPixelCrs,
+                                rotate:speedLimitRoute
+                            })
+                            //绘制箭头
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:jtType,
+                                boolPixelCrs:boolPixelCrs,
+                                rotate:speedLimitRoute,
+                                drawx:5
+
+                            })
+
+                            this._drawConditionSpeedLimit(
+                                ctx,
+
+                                0,
+                                "雪90",
+                                speedLimitRoute,
+                                geom,
+                                'bold 15px Courier New','center'
+                            )
                         }
-                        this._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:speedFlagStyle,
-                            boolPixelCrs:boolPixelCrs
 
-                        })
-                        //绘制箭头
-                        this._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:jtType,
-                            boolPixelCrs:boolPixelCrs,
-                            rotate:speedLimitRoute,
-                            drawx:5
 
-                        })
                     } else if (this.options.type === 'rdCrossPoint') {
                         var masterImg = {src: './css/rdcross/11.png'},
                             followImg = {src: './css/rdcross/111.png'};

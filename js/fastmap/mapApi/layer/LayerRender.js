@@ -131,7 +131,7 @@ fastmap.mapApi.LayerRender = {
             angle = this._rotateAngle(geom[0][0], geom[1][0]);
             lineLen = this.distance(geom[0][0], geom[1][0]);
             if (nameLen < lineLen / 2 && lineLen > 160) {
-                this._showTextOfAngle(g, 0, nameArr.length, name, angle, [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2]);
+                this._showTextOfAngle(ctx, 0, name, angle, [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2]);
             }
 
         } else {
@@ -151,7 +151,7 @@ fastmap.mapApi.LayerRender = {
                         angle = this._rotateAngle(startPoint, geom[linkFLag][0]);
                         if (betPointsLen > 10) {
                             textIndex = parseInt(betPointsLen / 10);
-                            this._showTextOfAngle(g, 0, nameArr.length, name, angle, startPoint);
+                            this._showTextOfAngle(ctx, 0, name, angle, startPoint);
                             break;
                         } else {
                             startPoint = geom[linkFLag][0];
@@ -163,6 +163,7 @@ fastmap.mapApi.LayerRender = {
             }
         }
     },
+
     _drawBridge: function (cav, geom, that) {
         var c = cav.canvas;
         var ctx = c.getContext('2d');
@@ -220,26 +221,45 @@ fastmap.mapApi.LayerRender = {
 
 
     },
-    _showTextOfAngle: function (ctx, start, end, name, angle, textGeom) {
-        var nameArr = name.split(""), PI = Math.PI;
+    _showTextOfAngle: function (ctx, start, name, angle, textGeom,font,align) {
+
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        g.font = font?font:"10px Courier New";
+        g.textAlign =align?align: "center";
+
+        var nameArr = name.split(""), PI = Math.PI,end = nameArr.length;
         if (angle === 0) {
-            ctx.fillText(name, textGeom[0], textGeom[1]);
-            ctx.save();
+            g.fillText(name, textGeom[0], textGeom[1]);
+            g.save();
         } else if ((angle < PI && angle > 2 * (PI / 5))) {
             for (var i = start; i < end; i++) {
-                ctx.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 13);
-                ctx.save();
+                g.fillText(nameArr[i], textGeom[0], textGeom[1] + i * 13);
+                g.save();
             }
         } else {
 
             var showName = name.substr(start, end);
-            ctx.save();
-            ctx.translate(textGeom[0], textGeom[1]);
-            ctx.rotate(angle);
-            ctx.fillText(showName, 0, 0);
-            ctx.restore();
+            g.save();
+            g.translate(textGeom[0], textGeom[1]);
+            g.rotate(angle);
+            g.fillText(showName, 0, 0);
+            g.restore();
 
         }
+
+    },
+    _drawConditionSpeedLimit:function(ctx, start, name, angle, textGeom,font,align){
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        g.font = font?font:"10px Courier New";
+        g.textAlign =align?align: "center";
+        //var showName = name.substr(start, end);
+        g.save();
+        g.translate(textGeom[0], textGeom[1]);
+        g.rotate(angle);
+        g.fillText(name,  0, 12/2);
+        g.restore();
 
     },
     /***

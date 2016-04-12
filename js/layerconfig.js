@@ -266,7 +266,8 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            "speedlimitcondition": item.m.a,
+                            'speedlimittype':item.m.a,
+                            "speedlimitcondition": item.m.b,
                             'speedlimitrotate': item.m.c
 
                         }
