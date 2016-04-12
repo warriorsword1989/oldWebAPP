@@ -351,6 +351,14 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     }
     //修改属性
     $scope.save = function () {
+        if ( $scope.rdSubRestrictData.type == 2 ) {
+            for (var i = 0;i< $scope.rdRestrictData.details.length;i++ ) {
+                if ($scope.rdRestrictData.details[i]["conditions"][0]["timeDomain"] == ''||$scope.rdRestrictData.details[i]["conditions"][0]["timeDomain"] == null) {
+                    swal("请填写禁止时间段！",'禁止时间段为空', "false");
+                }
+
+            }
+        }
         //保存的时候，获取车辆类型数组，循环31次存储新的二进制数组，并转为十进制数
         var resultStr = "";
         if ($scope.checkValue) {
