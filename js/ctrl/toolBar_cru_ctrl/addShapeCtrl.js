@@ -415,13 +415,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
-                })
+                });
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var linksArr = [], nodesArr = [], nodes = [], links = [],options={};
                     var data = event.data,highlightFeatures=[];
-                    console.log(event)
                     if (nodesArr.length === 0) {
                         for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
                             nodesArr.push(data["nodes"][nodeNum]["node"]);
@@ -435,14 +434,16 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                     }
                     linksArr = $scope.distinctArr(linksArr);
+    // linksArr = ['100002312','100002313','100002314'];
                     nodesArr = $scope.distinctArr(nodesArr);
-                    console.log(linksArr,nodesArr)
                     for(var i= 0,lenI=linksArr.length;i<lenI;i++) {
                         highlightFeatures.push({
                             id:linksArr[i].toString(),
                             layerid:'referenceLine',
                             type:'line',
-                            style:{}
+                            style:{
+                                color:'yellow'
+                            }
                         })
                     }
                     for(var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
@@ -456,7 +457,108 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     highLightLink.highLightFeatures =highlightFeatures;
                     highLightLink.drawHighlight();
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
+                    // console.log(linksArr)
                     selectCtrl.onSelected(options);
+                    /*运算两条线的交点坐标*/
+                    $scope.segmentsIntr = function(a,b){
+                        var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
+                        var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
+                        // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
+                        if ( area_abc*area_abd>=0 ) {
+                            return false;
+                        }
+
+                        var area_cda = (b[0].x - a[0].x) * (b[1].y - a[0].y) - (b[0].y - a[0].y) * (b[1].x - a[0].x);
+                        var area_cdb = area_cda + area_abc - area_abd ;
+                        if (  area_cda * area_cdb >= 0 ) {
+                            return false;
+                        }
+
+                        //计算交点坐标
+                        var t = area_cda / ( area_abd- area_abc );
+                        var dx= t*(a[1].x - a[0].x),
+                            dy= t*(a[1].y - a[0].y);
+                        return { x: (a[0].x + dx).toFixed(5) , y: (a[0].y + dy).toFixed(5) };//保留小数点后5位
+                    }
+                    /*去除重复的坐标点，保留一个*/
+                    Array.prototype.unique = function(){
+                        var res = [];
+                        var json = {};
+                        for(var i = 0; i < this.length; i++){
+                            if(!json[this[i]]){
+                                res.push(this[i]);
+                                json[this[i]] = 1;
+                            }
+                        }
+                        return res;
+                    }
+                    var geoArr = [],
+                        getGeo = function(){
+                        var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
+                        for(var i=0;i<linksArr.length;i++){
+                            Application.functions.getRdObjectById(linksArr[i],'RDLINK',function(linkData){
+                                if(linkData.errcode == 0){
+                                    var coor = linkData.data.geometry.coordinates;
+                                    var geoElem = [];
+                                    for(var j=0;j<coor.length;j++){
+                                        var geoObj = {};
+                                        if(j == 0){
+                                            geoObj.x = coor[0][0];
+                                            geoObj.y = coor[0][1];
+                                            geoElem.push(geoObj);
+                                        }
+                                        if(j == coor.length-1){
+                                            geoObj.x = coor[j][0];
+                                            geoObj.y = coor[j][1];
+                                            geoElem.push(geoObj);
+                                        }
+                                        if(geoElem.length > 0){
+                                        }
+                                    }
+                                    geoArr.push(geoElem);
+                                    dtd.resolve(); // 改变Deferred对象的执行状态
+                                }
+                            });
+                        }
+                        return dtd.promise(); // 返回promise对象
+                    };
+                    /*当坐标数组拆分组合完成后*/
+                    $.when(getGeo()).done(function(){
+                        // console.log(geoArr)
+                        /*geoArr = [
+                            [{x:116.47611,y:40.01801},{x:116.47618,y:40.01702}],
+                            [{x:116.47525,y:40.01746},{x:116.47719,y:40.01747}],
+                            [{x:116.4764,y:40.01786},{x:116.47565,y:40.01723}],
+                            [{x:116.47576,y:40.01776},{x:116.47649,y:40.01722}]
+                        ];*/
+                        /*geoArr = [
+                            [{x:116.47819,y:40.01743},{x:116.47856,y:40.01747}],
+                            [{x:116.47849,y:40.0176},{x:116.47829,y:40.01729}],
+                            [{x:116.47816,y:40.01756},{x:116.47865,y:40.01733}]
+                        ];*/
+                        var crossGeos = [],
+                            loopTime = (geoArr.length*geoArr.length-1)/2;   //循环次数C(n,2)
+                        if(geoArr.length > 1){
+                            for(var i=0;i<loopTime-1;i++){
+                                for(var j=i+1;j<geoArr.length;j++){
+                                    if(i!=j){
+                                        crossGeos.push($scope.segmentsIntr(geoArr[i],geoArr[j]));
+                                    }
+                                }
+                            }
+                            crossGeos = crossGeos.unique();
+                        }
+                        //判断相交点数
+                        // console.log(crossGeos)
+                        if(crossGeos.length == 0){
+                            tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
+                        }else if(crossGeos.length > 1){
+                            tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
+                        }else{
+                            // console.log(crossGeos)
+
+                        }
+                    });
                 });
             } else if (type === '3dBranch'){
                 var highLightFeatures = [],
@@ -476,7 +578,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     $scope.excitLineArr.push(parseInt(dataId));
                     $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
                     tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
-                    console.log('已选退出线')
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
