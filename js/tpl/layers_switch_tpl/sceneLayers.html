@@ -57,7 +57,7 @@
         <li><label>关系</label></li>
         <li>
             <ul style="padding-left: 10px">
-                <li ng-repeat="item in items">
+                <li ng-repeat="item in items" ng-if="item.options.id!=='rdrtic'">
                     <a style="float:right;margin-right: 10px" class="glyphicon"
                        ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
                        ng-click="showLayers(item,$event)"></a>

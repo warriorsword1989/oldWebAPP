@@ -332,6 +332,7 @@ Application.layersConfig =
                 tileSize: 256,
                 type: 'rdSpeedLimitPoint',
                 zIndex: 10,
+                showType:1,
                 restrictZoom: 10,
                 visible: true,
                 requestType: 'RDSPEEDLIMIT',

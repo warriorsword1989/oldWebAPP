@@ -3,8 +3,10 @@
  */
 var sceneLayersModule = angular.module('lazymodule', []);
 sceneLayersModule.controller('sceneLayersController', function ($scope) {
-    var layerCtrl = new fastmap.uikit.LayerController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var speedLimit = layerCtrl.getLayerById("speedlimit");
     var eventController = fastmap.uikit.EventController();
+    $scope.flag = true;
     $scope.scenceArr = [
         {"id": 1, "label": "普通限速", "selected": false},
         {"id": 2, "label": "条件限速", "selected": false},
@@ -22,15 +24,17 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     $scope.resetLayers=function() {
         for (var i = 0; i < layerCtrl.layers.length; i++) {
             if (layerCtrl.layers[i].options.groupid == "dataLayers") {
-              if(layerCtrl.layers[i].options.type==="rdrticPoint") {
+              if(layerCtrl.layers[i].options.id==="rdrtic") {
                   layerCtrl.layers[i].options.visible = false;
+              }else if(layerCtrl.layers[i].options.id==="speedlimit") {
+                  $scope.items[i].options.showType = 1;
+                  $scope.items[i].options.visible = true;
               }else{
                   layerCtrl.layers[i].options.visible = true;
               }
             }
         }
     };
-    $scope.originLayers = $.extend({},layerCtrl.layers);
     $scope.showLayers = function (item) {
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
@@ -38,9 +42,38 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
 
     };
     $scope.ordSpeedScene=function() {
-
+        for (var i= 0,len=$scope.items.length;i<len;i++) {
+            if($scope.items[i].options.id==="speedlimit") {
+                $scope.items[i].options.showType = 0;
+                $scope.items[i].options.visible = true;
+                if($scope.flag){
+                    speedLimit.redraw();
+                }
+            }else if($scope.items[i].options.id==="referenceLine"){
+                $scope.items[i].options.visible = true;
+            }else{
+                $scope.items[i].options.visible = false;
+            }
+        }
+        $scope.flag = true;
+        $scope.$emit("SWITCHTOOLS",{"type":"rdTools"})
     };
     $scope.conditionSpeedScene=function() {
+        for (var i= 0,len=$scope.items.length;i<len;i++) {
+            if($scope.items[i].options.id==="speedlimit") {
+                $scope.items[i].options.showType = 3;
+                $scope.items[i].options.visible = true;
+                if($scope.flag){
+                    speedLimit.redraw();
+                }
+            }else if($scope.items[i].options.id==="referenceLine"){
+                $scope.items[i].options.visible = true;
+            }else{
+                $scope.items[i].options.visible = false;
+            }
+        }
+        $scope.flag = true;
+        $scope.$emit("SWITCHTOOLS",{"type":"rdTools"})
     };
     $scope.rticSecne=function() {
         for (var i= 0,len=$scope.items.length;i<len;i++) {
@@ -50,6 +83,9 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                 $scope.items[i].options.visible = false;
             }
         }
+        $scope.flag = false;
+        $scope.$emit("SWITCHTOOLS",{"type":"adTools"})
+
     };
     $scope.showScene = function (item, event) {
 
@@ -60,7 +96,6 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         }
         item['selected']  = !item['selected'] ;
         if(item['selected']) {
-            $scope.resetLayers();
             switch (item["id"]) {
                 case 1://普通限速
                     $scope.ordSpeedScene();
