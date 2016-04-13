@@ -472,9 +472,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var speedLimitRoute = (feature.properties.speedlimitrotate - 90) * (Math.PI / 180),
                             speedFlagStyle,jtType = {src: './css/1101/1101_0_0_s.svg'}; ;
                         var resArray = speedLimitObj.split("|");
-                        if(feature.properties.speedlimittype == 0){
-
-
+                        if(feature.properties.speedlimittype == 0&&(this.options.showType===1||this.options.showType===0)){
                             var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
                             var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                             var speedValue = resArray[2];//限速值
@@ -516,7 +514,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                             })
 
-                        }else if(feature.properties.speedlimittype == 3){
+                        }else if(feature.properties.speedlimittype == 3&&(this.options.showType===1||this.options.showType===3)){
 
                             var limitspeed = resArray[1];
                             var condition = resArray[2];
