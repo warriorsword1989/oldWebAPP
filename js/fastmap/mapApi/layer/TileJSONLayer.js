@@ -690,6 +690,14 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 drawy:-30
                             });
                         }
+                        else if(feature.properties.type == '1801'){
+                            this._drawImg({
+                                ctx:ctx,
+                                geo:geom,
+                                style:{src:'css/tips/overpass/overpass.svg'},
+                                boolPixelCrs:boolPixelCrs
+                            });
+                        }
                     }else {
                         this._drawImg({
                             ctx:ctx,
