@@ -310,6 +310,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.toolsSeparateOfEditor("linksOfCross", {
                     map: map,
                     layer: rdLink,
+                    crossFlag:true,
                     type: "rectangle"
                 })
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);

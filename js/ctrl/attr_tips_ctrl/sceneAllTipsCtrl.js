@@ -307,6 +307,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 $scope.schemaNo = $scope.dataTipsData.schemaNo;
                 break;
             case "1801"://立交
+                $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
 
         }

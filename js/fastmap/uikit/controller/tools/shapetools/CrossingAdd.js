@@ -27,6 +27,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         this.type = options.type;
         this._map = options.map;
         this.boxLayer = options.layer;
+        this.crossFlag = options.crossFlag;
         this._container = this._map._container;
         this.eventController = fastmap.uikit.EventController();
     },
@@ -87,7 +88,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     onMouseDown: function (e) {
         this._isDrawing = true;
         this._startLatLng = e.latlng;
-        if(this._map.getPanes().overlayPane.style.zIndex==="1") {
+        if (this._map.getPanes().overlayPane.style.zIndex === "1") {
             this._map.getPanes().overlayPane.style.zIndex = "4";
         }
 
@@ -132,7 +133,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         return re;
     },
     _dataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, linkArr = [], nodeArr = [],dataOfRectangle=null;
+        var points = layer._latlngs, linkArr = [], nodeArr = [], dataOfRectangle = null;
         var transform = new fastmap.mapApi.MecatorTranform();
         var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
             endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
@@ -148,37 +149,64 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                 if (data) {
                     for (var item in data) {
                         var pointsLen = data[item].geometry.coordinates.length;
-                        var startPoint = data[item].geometry.coordinates[0][0],
-                            endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
-                        startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
-                        startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
-                        endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
-                        endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
-                        if (polygon.containsPoint(startPoint)) {
-                            if(polygon.containsPoint(endPoint)) {
-                                linkArr.push({
-                                    "node":[parseInt(data[item].properties.snode),parseInt(data[item].properties.enode)],
-                                    "link":parseInt(data[item].properties.id)
-                                });
+                        if (this.crossFlag) {
 
-                            }else{
-                                var sObj={"node":parseInt(data[item].properties.snode),"link":parseInt(data[item].properties.id)}
-                                nodeArr.push(sObj);
-                            }
-
-
-                        } else if (polygon.containsPoint(endPoint)) {
-
+                            var startPoint = data[item].geometry.coordinates[0][0],
+                                endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
+                            startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
+                            startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
+                            endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
+                            endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
                             if (polygon.containsPoint(startPoint)) {
-                                linkArr.push({
-                                    "node":[parseInt(data[item].properties.snode),parseInt(data[item].properties.enode)],
-                                    "link":parseInt(data[item].properties.id)
-                                });
-                            }else{
-                                var eObj = {"node":parseInt(data[item].properties.enode),"link":parseInt(data[item].properties.id)};
-                                nodeArr.push(eObj);
+                                if (polygon.containsPoint(endPoint)) {
+                                    linkArr.push({
+                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
+                                        "link": parseInt(data[item].properties.id)
+                                    });
+
+                                } else {
+                                    var sObj = {
+                                        "node": parseInt(data[item].properties.snode),
+                                        "link": parseInt(data[item].properties.id)
+                                    }
+                                    nodeArr.push(sObj);
+                                }
+
+
+                            } else if (polygon.containsPoint(endPoint)) {
+
+                                if (polygon.containsPoint(startPoint)) {
+                                    linkArr.push({
+                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
+                                        "link": parseInt(data[item].properties.id)
+                                    });
+                                } else {
+                                    var eObj = {
+                                        "node": parseInt(data[item].properties.enode),
+                                        "link": parseInt(data[item].properties.id)
+                                    };
+                                    nodeArr.push(eObj);
+                                }
+
                             }
 
+                            dataOfRectangle = {
+                                links: linkArr,
+                                nodes: nodeArr
+                            };
+                        }else{
+                            for(var k= 0;k<pointsLen;k++) {
+                                var containPoint = data[item].geometry.coordinates[k][0];
+                                containPoint = transform.PixelToLonlat(i * 256 + containPoint[0], j * 256 + containPoint[1], map.getZoom());
+                                containPoint = new fastmap.mapApi.Point(containPoint[0], containPoint[1]);
+                                if(polygon.containsPoint(containPoint)) {
+                                    linkArr.push(parseInt(data[item].properties.id));
+                                    break;
+                                }
+                            }
+                            dataOfRectangle = {
+                                links: linkArr
+                            };
                         }
 
 
@@ -186,10 +214,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                 }
             }
         }
-        dataOfRectangle={
-            links:linkArr,
-            nodes:nodeArr
-        };
+
         return dataOfRectangle;
     },
     _drawShape: function (latlng) {
