@@ -464,38 +464,46 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }
                         }
                     } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标
-                        if (feature.properties.speedlimitcondition === undefined) {
+                        var speedLimitObj = feature.properties.speedlimitcondition;
+                        if (speedLimitObj === undefined) {
                             return;
                         }
 
                         var speedLimitRoute = (feature.properties.speedlimitrotate - 90) * (Math.PI / 180),
                             speedFlagStyle,jtType = {src: './css/1101/1101_0_0_s.svg'}; ;
+                        var resArray = speedLimitObj.split("|");
                         if(feature.properties.speedlimittype == 0){
-                            var speedFlagStyle = null, jtType = null;
-                            var speedLimitObj = feature.properties.speedlimitcondition;
 
-                            var resArray = speedLimitObj.split("|");
+
                             var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
                             var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
-                            var speedValue = resArray[2] / 10;//限速值
+                            var speedValue = resArray[2];//限速值
+
                             if (gaptureFlag === "1") {//理论判断，限速开始和结束都为蓝色
                                 if (speedFlag === "1") {//解除限速
+                                    speedFlagStyle = {src: './css/1101/1101_1_1_' + speedValue + '.svg'};
 
-                                    jtType = {src: './css/1101/1101_1_1_e.svg'};
+                                } else {
+                                    speedFlagStyle = {src: './css/1101/1101_1_0_' + speedValue + '.svg'};
+
                                 }
 
                             } else {//现场采集，限速开始为红色，结束为黑色
                                 if (speedFlag === "1") {//解除限速
+                                    speedFlagStyle = {src: './css/1101/1101_0_1_' + speedValue + '.svg'};
 
-                                    jtType = {src: './css/1101/1101_0_1_e.svg'};
+                                } else {
+                                    speedFlagStyle = {src: './css/1101/1101_0_0_' + speedValue + '.svg'};
+
                                 }
                             }
+
                             this._drawImg({
                                 ctx:ctx,
                                 geo:geom,
                                 style:speedFlagStyle,
-                                boolPixelCrs:boolPixelCrs,
-                                rotate:speedLimitRoute
+                                boolPixelCrs:boolPixelCrs
+
                             })
                             //绘制箭头
                             this._drawImg({
@@ -509,7 +517,32 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             })
 
                         }else if(feature.properties.speedlimittype == 3){
-                            speedFlagStyle = {src: './css/1101/condition_speedlimit'  + '.svg'};
+
+                            var limitspeed = resArray[1];
+                            var condition = resArray[2];
+                            var limitspeedflag = resArray[0];
+                            var conditionObj={
+                                '1':'雨',
+                                '2':'雪',
+                                '3':'雾',
+                                '6':'学',
+                                '10':'时',
+                                '11':'车',
+                                '12':'季',
+                                '13':'医',
+                                '14':'购物',
+                                '15':'居',
+                                '16':'企',
+                                '17':'景',
+                                '18':'交'
+                            }
+
+                            if(limitspeedflag ==0){
+                                speedFlagStyle = {src: './css/1101/condition_speedlimit_start'  + '.svg'};
+                            }else if(limitspeedflag ==1){
+                                speedFlagStyle = {src: './css/1101/condition_speedlimit_end'  + '.svg'};
+                            }
+
 
                             this._drawImg({
                                 ctx:ctx,
@@ -531,9 +564,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                             this._drawConditionSpeedLimit(
                                 ctx,
-
                                 0,
-                                "雪90",
+                                conditionObj[condition]+limitspeed,
                                 speedLimitRoute,
                                 geom,
                                 'bold 15px Courier New','center'
@@ -710,7 +742,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 ctx:ctx,
                                 geo:geom,
                                 style:{src:'css/tips/3D/3D.svg'},
-                                boolPixelCrs:boolPixelCrs,
+                                boolPixelCrs:boolPixelCrs
                             });
                         } else if(feature.properties.type == '1514'){
                             this._drawImg({
@@ -787,10 +819,17 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 radius: 3
                             }, feature.properties);
                     } else {
-                        this._drawLineString(ctx, geom, boolPixelCrs, style, {
-                            color: 'rgba(105,105,105,1)',
-                            radius: 3
-                        }, feature.properties);
+                        //if(feature.properties.pattern == ){
+                        //
+                        //}else if(){
+                        //
+                        //}else{
+                            this._drawLineString(ctx, geom, boolPixelCrs, style, {
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }, feature.properties);
+                        //}
+
                     }
                     break;
 
@@ -876,8 +915,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                 break;
             case "AllList":
+                break;
+            case "polygon":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    url = this.url +this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
+                }
 
-
+                break;
         }
         return url;
     },
@@ -969,7 +1013,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     var rdLinkType = RD_LINK_TYPE[0];
                 }
 
-                var color = RD_LINK_Colors[parseInt(c)-1];
+                var color = RD_LINK_Colors[parseInt(c)];
                 return {
                     size: 1,
                     color: color,
