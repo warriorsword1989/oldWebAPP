@@ -27,7 +27,11 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                     layerCtrl.layers[layer].options.visible = false
                 }
             }
-
+        }
+        for (var layer in layerCtrl.layers) {
+            if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"&&layerCtrl.layers[layer].options.requestType.visible) {
+                layerCtrl.layers[layer].options.isUpDirect=true;
+            }
         }
         //单击checkbox的处理
         item.options.visible = !item.options.visible;

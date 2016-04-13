@@ -430,7 +430,8 @@ Application.layersConfig =
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKINTRTIC',
-                showNodeLevel: 17
+                showNodeLevel: 17,
+                isUpDirect:true
             }
 
         }, {
