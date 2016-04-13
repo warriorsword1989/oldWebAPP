@@ -480,6 +480,52 @@ Application.layersConfig =
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKINTRTIC',
+                showNodeLevel: 17,
+                isUpDirect:true
+            }
+
+        }, {
+            url: Application.url + '/display/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '行政区划',
+                id: 'adadmin',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'adadminPoint',
+                zIndex: 11,
+                restrictZoom: 10,
+                visible: false,
+                requestType: 'ADADMIN',
                 showNodeLevel: 17
             }
 

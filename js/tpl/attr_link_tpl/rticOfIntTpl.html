@@ -141,9 +141,15 @@
         </li>
         <li class="list-group-item">
             <div><label class="control-label" >RTIC方向</label></div>
-            <div class="inline">
+            <div class="inline" ng-if="isupDirect==true">
                 <select  ng-model="oridiData.rticDr"
                          ng-options="value.id as value.label for value in rticDroption" ng-change="changeDirect(oridiData.rticDr)">
+                    <option>--</option>
+                </select>
+            </div>
+            <div class="inline" ng-if="isupDirect==false">
+                <select disabled="disabled"  ng-model="oridiData.rticDr"
+                         ng-options="value.id as value.label for value in rticDroption" >
                     <option>--</option>
                 </select>
             </div>
