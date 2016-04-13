@@ -78,7 +78,6 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             $scope.resetLayers();
         }
         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
-
     };
 
 })
