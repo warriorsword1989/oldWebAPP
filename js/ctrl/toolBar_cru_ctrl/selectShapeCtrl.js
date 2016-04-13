@@ -30,8 +30,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
-
-
     };
 
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {

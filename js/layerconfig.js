@@ -78,7 +78,7 @@ Application.layersConfig =
         groupid: "dataLayers",
         groupname: "作业参考",
         layers: [{
-            url: Application.url + '/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -132,7 +132,7 @@ Application.layersConfig =
 
         }, {
 
-            url: Application.url + '/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -182,7 +182,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url:Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '高速分歧',
@@ -241,7 +241,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url:Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '限速',
@@ -289,7 +289,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '路口',
@@ -336,7 +336,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url: Application.url +'/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '车信',
@@ -385,7 +385,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb/display/obj/getByTileWithGap?',
+            url: Application.url +'/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '互联网RTIC',
@@ -430,7 +430,8 @@ Application.layersConfig =
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKINTRTIC',
-                showNodeLevel: 17
+                showNodeLevel: 17,
+                isUpDirect:true
             }
 
         }]
@@ -438,7 +439,7 @@ Application.layersConfig =
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
-            url: Application.url + '/display/tip/getByTileWithGap?',
+            url: Application.url + '/render/tip/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -489,7 +490,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/display/tip/getByTileWithGap?',
+            url: Application.url + '/render/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -564,7 +565,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/display/tip/getByTileWithGap?',
+            url: Application.url + '/render/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '测线',

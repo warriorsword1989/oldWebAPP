@@ -20,51 +20,44 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     $scope.modelArray=[false,false,false,false,false,false];
     //改变模块的背景
     $scope.initializeLinkData = function () {
-                if (layerCtrl.layers[10].options.requestType === "RDLINKINTRTIC" && layerCtrl.layers[10].options.visible) {
-                    for(var i=0;i<$scope.modelArray.length;i++){
-                        if(i==4){
-                            map.currentTool = new fastmap.uikit.SelectPath(
-                                {
-                                    map: map,
-                                    currentEditLayer: rdLink,
-                                    linksFlag: true,
-                                    shapeEditor: shapeCtrl
-                                });
-                            map.currentTool.enable();
-                            //初始化鼠标提示
-                            $scope.toolTipText = '请选择方向！';
-
-                            rdLink.options.selectType = 'link';
-                            rdLink.options.editable = true;
-                            tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
-                            $scope.modelArray[i]=true;
-                        }else{
-                            $scope.modelArray[i]=false;
-                        }
+        for (var layer in layerCtrl.layers) {
+            if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"&&layerCtrl.layers[layer].options.visible) {
+                for(var i=0;i<$scope.modelArray.length;i++){
+                    if(i==4){
+                        //初始化鼠标提示
+                        $scope.toolTipText = '请选择方向！';
+                        tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
+                        $scope.modelArray[i]=true;
+                        map.currentTool.disable();
+                    }else{
+                        $scope.modelArray[i]=false;
                     }
-                    $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
-                        if(objectCtrl.updateObject) {
-                            objectCtrl.updateObject();
-                        }
-                        $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
-                    });
-                    //swal("", "请选择方向", "");
-
-                }else{
-                    for(var i=0;i<$scope.modelArray.length;i++){
-                        if(i==0){
-                            $scope.modelArray[i]=true;
-                        }else{
-                            $scope.modelArray[i]=false;
-                        }
-                    }
-                    $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
-                        if(objectCtrl.updateObject) {
-                            objectCtrl.updateObject();
-                        }
-                        $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
-                    });
                 }
+
+                $ocLazyLoad.load('ctrl/attr_link_ctrl/rticCtrl').then(function () {
+                    if(objectCtrl.updateObject) {
+                        objectCtrl.updateObject();
+                    }
+                    $scope.currentURL = "js/tpl/attr_link_tpl/rticTpl.html";
+                });
+
+                break;
+            }else if(layer==layerCtrl.layers.length-1){
+                for(var i=0;i<$scope.modelArray.length;i++){
+                    if(i==0){
+                        $scope.modelArray[i]=true;
+                    }else{
+                        $scope.modelArray[i]=false;
+                    }
+                }
+                $ocLazyLoad.load('ctrl/attr_link_ctrl/basicCtrl').then(function () {
+                    if(objectCtrl.updateObject) {
+                        objectCtrl.updateObject();
+                    }
+                    $scope.currentURL = "js/tpl/attr_link_tpl/basicTpl.html";
+                });
+            }
+        }
 
         $scope.dataTipsData = selectCtrl.rowKey;
         objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
@@ -127,6 +120,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             if(ind==i&&ind==4){
                 for (var layer in layerCtrl.layers) {
                     if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                        layerCtrl.layers[layer].options.isUpDirect=false;
                         layerCtrl.layers[layer].options.visible=true;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
                         break;
@@ -137,6 +131,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             }else if(ind==i){
                 for (var layer in layerCtrl.layers) {
                     if(layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC"){
+                        layerCtrl.layers[layer].options.isUpDirect=true;
                         layerCtrl.layers[layer].options.visible=false;
                         eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
                         break;
@@ -147,14 +142,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 $scope.modelArray[i]=false;
             }
         }
-        //var a= $("#fm-link-tabControl a");
-        //$.each(a,function(i,value){
-        //    if(ind==i){
-        //        $(this).addClass("selected");
-        //    }else{
-        //        $(this).removeClass("selected");
-        //    }
-        //})
 
         $scope.$emit("SWITCHCONTAINERSTATE",{"subAttrContainerTpl":false})
         if (url === "basicModule") {
