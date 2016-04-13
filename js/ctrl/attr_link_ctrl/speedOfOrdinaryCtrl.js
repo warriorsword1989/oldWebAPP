@@ -10,11 +10,11 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     var eventController = fastmap.uikit.EventController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
-    $scope.realtimeData = objCtrl.data;
+    $scope.roadlinkData = objCtrl.data;
 
 
     for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
-        if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
+        if($scope.speedLimitsData[i]["rowId"]===$scope.roadlinkData["oridiRowId"]) {
             $scope.oridiData = $scope.speedLimitsData[i];
         }
     }
@@ -44,33 +44,45 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         {"id": 9, "label": "不应用"}
     ];
     $scope.speedAndDirect=function(data,index) {
-        if(index===100000) {
             if(data.orientation==="2") {
                 var fromSpeed = document.getElementById("fromSpeed");
                 fromSpeed.focus();
-            }else if(data.orientation==="3") {
+            }else if(data.orientation==="1") {
                 var toSpeed = document.getElementById("toSpeed");
                 toSpeed.focus()
             }
-        }else{
 
+
+    };
+
+    $scope.angleOfLink=function(pointA,pointB) {
+        var PI = Math.PI,angle;
+        if((pointA.x-pointB.x)===0) {
+            angle = PI / 2;
+        }else{
+            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
         }
+        return angle;
 
     };
     $scope.changeSpeedAndDirect=function(direct,index) {
+        if(direct==3){
+            direct=1;
+        }
+        map.currentTool.disable();
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
         var containerPoint;
-        var point= {x:$scope.linkData.geometry.coordinates[0][0], y:$scope.linkData.geometry.coordinates[0][1]};
-        var pointVertex= {x:$scope.linkData.geometry.coordinates[1][0], y:$scope.linkData.geometry.coordinates[1][1]};
+        var point= {x:$scope.roadlinkData.geometry.coordinates[0][0], y:$scope.roadlinkData.geometry.coordinates[0][1]};
+        var pointVertex= {x:$scope.roadlinkData.geometry.coordinates[1][0], y:$scope.roadlinkData.geometry.coordinates[1][1]};
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
         var marker = {
             flag:true,
-            pid:$scope.linkData.pid,
+            pid:$scope.roadlinkData.pid,
             point: point,
-            type: "marker",
+            type: "intRticMarker",
             angle:angle,
             orientation:direct.toString()
         };
@@ -88,4 +100,45 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
         })
 
     };
+
+
+ /*   $scope.angleOfLink=function(pointA,pointB) {
+        var PI = Math.PI,angle;
+        if((pointA.x-pointB.x)===0) {
+            angle = PI / 2;
+        }else{
+            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
+        }
+        return angle;
+
+    };
+    $scope.changeDirect = function (direct) {
+        map.currentTool.disable();
+        map.currentTool = shapeCtrl.getCurrentTool();
+        map.currentTool.disable();
+        var containerPoint;
+        var endNum = parseInt($scope.realtimeData.geometry.coordinates.length / 2);
+        var point= {x:$scope.realtimeData.geometry.coordinates[0][0], y:$scope.realtimeData.geometry.coordinates[0][1]};
+        var pointVertex= {x:$scope.realtimeData.geometry.coordinates[endNum][0], y:$scope.realtimeData.geometry.coordinates[endNum][1]};
+        containerPoint = map.latLngToContainerPoint([point.y, point.x]);
+        pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
+        var angle = $scope.angleOfLink(containerPoint, pointVertex);
+        var marker = {
+            flag:true,
+            pid:$scope.realtimeData.pid,
+            point: point,
+            type: "marker",
+            angle:angle,
+            orientation:direct.toString()
+        };
+        var editLayer = layerCtrl.getLayerById('edit');
+        layerCtrl.pushLayerFront('edit');
+        var sObj = shapeCtrl.shapeEditorResult;
+        editLayer.drawGeometry =  marker;
+        editLayer.draw( marker, editLayer);
+        sObj.setOriginalGeometry( marker);
+        sObj.setFinalGeometry(marker);
+        shapeCtrl.setEditingType("transformDirect");
+      //  shapeCtrl.startEditing();
+    };*/
 })
