@@ -78,7 +78,7 @@ Application.layersConfig =
         groupid: "dataLayers",
         groupname: "作业参考",
         layers: [{
-            url: Application.url + '/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -109,7 +109,8 @@ Application.layersConfig =
                             'kind': item.m.c,
                             'direct': item.m.d,
                             'snode': item.m.e,
-                            'enode': item.m.f
+                            'enode': item.m.f,
+                            'pattern':item.m.h
                         }
                         geojson['features'].push(obj);
                     });
@@ -130,9 +131,57 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
 
-        }, {
+        },
+            {
+                url: Application.url + '/render/obj/getByTileWithGap?',
 
-            url: Application.url + '/display/obj/getByTileWithGap?',
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '行政区划面',
+                    id: 'adface',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 5,
+                    boolPixelCrs: true,
+                    parse: function (data) {
+                        var geojson = {};
+                        geojson['features'] = [];
+                        $.each(data, function (index, item) {
+                            var obj = {};
+                            obj['type'] = "Feature";
+                            obj['geometry'] = {};
+                            obj['geometry']['type'] = 'Polygon';
+                            obj['geometry']['coordinates'] = [];
+                            for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                                obj['geometry']['coordinates'].push([item.g[i]]);
+                            }
+                            obj['properties'] = {
+                                'id': item.i
+                            }
+                            geojson['features'].push(obj);
+                        });
+                        return geojson;
+                    },
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'Polygon',
+                    zIndex: 17,
+                    restrictZoom: 10,
+                    editable: false,
+                    visible: true,
+                    requestType: 'ADFACE',
+                    showNodeLevel: 17
+                }
+
+            }, {
+
+            url: Application.url + '/render/obj/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -182,7 +231,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url:Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '高速分歧',
@@ -241,7 +290,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url:Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '限速',
@@ -266,7 +315,8 @@ Application.layersConfig =
                         }
                         obj['properties'] = {
                             'id': item.i,
-                            "speedlimitcondition": item.m.a,
+                            'speedlimittype':item.m.a,
+                            "speedlimitcondition": item.m.b,
                             'speedlimitrotate': item.m.c
 
                         }
@@ -289,7 +339,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '路口',
@@ -336,7 +386,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?',
+            url: Application.url +'/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '车信',
@@ -385,7 +435,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: 'http://192.168.4.130/FosEngineWeb/display/obj/getByTileWithGap?',
+            url: Application.url +'/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '互联网RTIC',
@@ -430,6 +480,52 @@ Application.layersConfig =
                 restrictZoom: 10,
                 visible: false,
                 requestType: 'RDLINKINTRTIC',
+                showNodeLevel: 17,
+                isUpDirect:true
+            }
+
+        }, {
+            url: Application.url + '/display/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '行政区划',
+                id: 'adadmin',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: function (data) {
+                    var geojson = {};
+                    geojson['features'] = [];
+                    $.each(data, function (index, item) {
+                        var obj = {};
+                        obj['type'] = "Feature";
+                        obj['geometry'] = {};
+                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['coordinates'] = [];
+                        for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                            obj['geometry']['coordinates'].push([item.g[i]]);
+                        }
+                        obj['properties'] = {
+                            'id': item.i
+                        }
+                        geojson['features'].push(obj);
+                    });
+                    return geojson;
+                },
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'adadminPoint',
+                zIndex: 11,
+                restrictZoom: 10,
+                visible: false,
+                requestType: 'ADADMIN',
                 showNodeLevel: 17
             }
 
@@ -438,7 +534,7 @@ Application.layersConfig =
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
-            url: Application.url + '/display/tip/getByTileWithGap?',
+            url: Application.url + '/render/tip/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -489,7 +585,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/display/tip/getByTileWithGap?',
+            url: Application.url + '/render/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -564,7 +660,7 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/display/tip/getByTileWithGap?',
+            url: Application.url + '/render/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '测线',

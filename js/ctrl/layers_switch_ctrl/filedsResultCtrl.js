@@ -625,7 +625,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1801") {//立交
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfOverPass= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"ctrl/attr_tips_ctrl/sceneAllTipsCtrl",
