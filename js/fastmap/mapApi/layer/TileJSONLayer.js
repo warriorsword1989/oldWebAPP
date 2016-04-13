@@ -678,7 +678,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 ctx:ctx,
                                 geo:geom,
                                 style:{src:'css/tips/3D/3D.svg'},
-                                boolPixelCrs:boolPixelCrs,
+                                boolPixelCrs:boolPixelCrs
                             });
                         } else if(feature.properties.type == '1514'){
                             this._drawImg({
@@ -754,6 +754,20 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 color: 'rgba(255,0,0,1)',
                                 radius: 3
                             }, feature.properties);
+                    }else if(this.options.type==="adLink"){
+
+                        this._drawAdLineString(ctx, geom, boolPixelCrs,
+                             {
+                                size: 4,
+                                color: '#FBD356',
+                                mouseOverColor: 'rgba(255,0,0,1)',
+                                clickColor: 'rgba(252,0,0,1)'
+                            },
+                            {
+                                color: '#FBD356 ',
+                                radius: 3
+                            }, feature.properties);
+
                     } else {
                         this._drawLineString(ctx, geom, boolPixelCrs, style, {
                             color: 'rgba(105,105,105,1)',
@@ -824,6 +838,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                 } else {
                     url = Application.url + '/display/link/getByTile?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                }
+
+                break;
+            case "adLink":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
                 }
 
                 break;

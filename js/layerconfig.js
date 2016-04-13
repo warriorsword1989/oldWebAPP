@@ -435,13 +435,12 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '行政区划',
-                id: 'adadmin',
+                id: 'adLink',
                 maxZoom: 20,
-
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -453,13 +452,16 @@ Application.layersConfig =
                         var obj = {};
                         obj['type'] = "Feature";
                         obj['geometry'] = {};
-                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['type'] = 'LineString';
                         obj['geometry']['coordinates'] = [];
                         for (var i = 0, len = item.g.length; i < len; i = i + 1) {
                             obj['geometry']['coordinates'].push([item.g[i]]);
                         }
                         obj['properties'] = {
-                            'id': item.i
+                            'id': item.i,
+                            'startLinkPid': item.m.a,//起点pid
+                            'endLinkPid': item.m.b,//终点pid
+                            'kind':'adlink'
                         }
                         geojson['features'].push(obj);
                     });
@@ -471,11 +473,11 @@ Application.layersConfig =
                 mecator: new fastmap.mapApi.MecatorTranform(),
                 updateWhenIdle: true,
                 tileSize: 256,
-                type: 'adadminPoint',
+                type: 'adLink',
                 zIndex: 11,
                 restrictZoom: 10,
                 visible: false,
-                requestType: 'ADADMIN',
+                requestType: 'ADLINK',
                 showNodeLevel: 17
             }
 

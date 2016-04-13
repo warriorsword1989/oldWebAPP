@@ -696,5 +696,44 @@ fastmap.mapApi.LayerRender = {
 
         }
 
+    },
+    /**
+     *行政区划画点画线
+     * @param ctx
+     * @param geom
+     * @param boolPixelCrs
+     * @param linestyle
+     * @param nodestyle
+     * @param properties
+     * @private
+     */
+    _drawAdLineString: function (ctx, geom, boolPixelCrs, linestyle, nodestyle, properties) {
+        if (!linestyle) {
+            return;
+        }
+        var coords = geom, proj = [],
+            arrowlist = [];
+        coords = this._clip(ctx, coords);
+
+        for (var i = 0; i < coords.length; i++) {
+
+            if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
+                if(i==0){
+                    this._drawPoint(ctx, coords[i][0], nodestyle, true);
+                }else if(coords[0][0]!=coords[coords.length - 1][0]){
+                    this._drawPoint(ctx, coords[coords.length - 1][0], nodestyle, true);
+                }
+            }
+        }
+        var g = ctx.canvas.getContext('2d');
+        g.strokeStyle = linestyle.color;
+        g.lineWidth = linestyle.size;
+        g.beginPath();
+        for (var j = 0; j < proj.length; j++) {
+            var method = (j === 0 ? 'move' : 'line') + 'To';
+            g[method](proj[j].x, proj[j].y);
+        }
+        g.stroke();
+        g.restore();
     }
 }
