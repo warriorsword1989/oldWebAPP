@@ -7,7 +7,7 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
     $scope.realtimeData = objCtrl.data;
-    console.log("$scope.realtimeData  "+$scope.realtimeData["oridiIntRticRowId"]);
+
 
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
@@ -23,9 +23,15 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     ];
 
     for(var i= 0,len=$scope.realtimeData.intRtics.length;i<len;i++) {
-        if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiIntRticRowId"]) {
+        if($scope.realtimeData.intRtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
             $scope.oridiData = $scope.realtimeData.intRtics[i];
             $scope.rank= $scope.oridiData.rank;
+
+            for (var layer in layerCtrl.layers) {
+                if (layerCtrl.layers[layer].options.requestType === "RDLINKINTRTIC") {
+                    $scope.isupDirect=layerCtrl.layers[layer].options.isUpDirect;
+                }
+            }
             if($scope.oridiData.rank==0){
                 swal("", "RTIC等级不能为无，请选择RTIC等级", "");
             }
@@ -84,16 +90,16 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     };
 
     if($scope.realtimeData.direct!=1){
-            if($scope.oridiData) {
-                if($scope.realtimeData.direct==3){
-                    $scope.oridiData.rticDr = 2;
-                    $scope.changeDirect(2);
-                }else if($scope.realtimeData.direct==2){
-                    $scope.oridiData.rticDr = 1;
-                    $scope.changeDirect(1);
-                }
-
+        if($scope.oridiData) {
+            if($scope.realtimeData.direct==3){
+                $scope.oridiData.rticDr = 2;
+                $scope.changeDirect(2);
+            }else if($scope.realtimeData.direct==2){
+                $scope.oridiData.rticDr = 1;
+                $scope.changeDirect(1);
             }
+
+        }
 
     }else{
         if($scope.oridiData){
