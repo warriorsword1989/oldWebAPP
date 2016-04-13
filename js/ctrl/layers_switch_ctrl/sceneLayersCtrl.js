@@ -35,7 +35,18 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         }
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
-        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
-
+        if (item.options.requestType == 'ADADMIN' && item.options.visible == true) {
+            for (var layer in layerCtrl.layers) {
+                if (layerCtrl.layers[layer].requestType != 'RDLINK' &&  layerCtrl.layers[layer].requestType != 'ADADMIN') {
+                    layerCtrl.layers[layer].options.visible = false;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                }else if (layerCtrl.layers[layer].requestType == 'RDLINK') {
+                    layerCtrl.layers[layer].options.visible = true;
+                    eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+                }
+            }
+        } else{
+            eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+        }
     };
 })
