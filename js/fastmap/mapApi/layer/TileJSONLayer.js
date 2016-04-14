@@ -472,9 +472,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         var speedLimitRoute = (feature.properties.speedlimitrotate - 90) * (Math.PI / 180),
                             speedFlagStyle,jtType = {src: './css/1101/1101_0_0_s.svg'}; ;
                         var resArray = speedLimitObj.split("|");
-                        if(feature.properties.speedlimittype == 0){
-
-
+                        if(feature.properties.speedlimittype == 0&&(this.options.showType===1||this.options.showType===0)){
                             var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
                             var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                             var speedValue = resArray[2];//限速值
@@ -516,7 +514,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                             })
 
-                        }else if(feature.properties.speedlimittype == 3){
+                        }else if(feature.properties.speedlimittype == 3&&(this.options.showType===1||this.options.showType===3)){
 
                             var limitspeed = resArray[1];
                             var condition = resArray[2];
@@ -819,13 +817,45 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 mouseOverColor: 'rgba(255,0,0,1)',
                                 clickColor: 'rgba(252,0,0,1)'
                             }
+                        }else if(feature.properties.kind ===1801){
+                            if (feature.properties.style == 1) {
+                                tipsStyle = {
+                                    size: 2,
+                                    color: '#336C0A',
+                                    mouseOverColor: 'rgba(255,0,0,1)',
+                                    clickColor: 'rgba(252,0,0,1)'
+                                }
+                            }else if (feature.properties.style == 2) {
+                                tipsStyle = {
+                                    size: 20,
+                                    color: 'red',
+                                    mouseOverColor: 'rgba(255,0,0,1)',
+                                    clickColor: 'rgba(252,0,0,1)'
+                                }
+                            }
+
                         }
+
                         this._drawLineString(ctx, geom, boolPixelCrs,
                             tipsStyle,
                             {
                                 color: 'rgba(255,0,0,1)',
                                 radius: 3
                             }, feature.properties);
+                    }else if(this.options.type==="adLink"){
+
+                        this._drawAdLineString(ctx, geom, boolPixelCrs,
+                             {
+                                size: 4,
+                                color: '#FBD356',
+                                mouseOverColor: 'rgba(255,0,0,1)',
+                                clickColor: 'rgba(252,0,0,1)'
+                            },
+                            {
+                                color: 'rgba(255,0,0,1) ',
+                                radius: 3
+                            }, feature.properties);
+
                     } else {
                         //if(feature.properties.pattern == ){
                         //
@@ -902,7 +932,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
 
                 } else {
-                    url = Application.url + '/display/link/getByTile?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                    url = Application.url + '/render/link/getByTile?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                }
+
+                break;
+            case "adLink":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
                 }
 
                 break;

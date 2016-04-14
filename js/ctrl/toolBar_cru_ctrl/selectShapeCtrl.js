@@ -76,7 +76,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map._container.style.cursor = '';
             return;
         }
-
         if (type === "link") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(

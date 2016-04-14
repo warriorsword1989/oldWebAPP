@@ -332,6 +332,7 @@ Application.layersConfig =
                 tileSize: 256,
                 type: 'rdSpeedLimitPoint',
                 zIndex: 10,
+                showType:1,
                 restrictZoom: 10,
                 visible: true,
                 requestType: 'RDSPEEDLIMIT',
@@ -485,13 +486,12 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/display/obj/getByTileWithGap?',
+            url: Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '行政区划',
-                id: 'adadmin',
+                id: 'adLink',
                 maxZoom: 20,
-
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -503,13 +503,16 @@ Application.layersConfig =
                         var obj = {};
                         obj['type'] = "Feature";
                         obj['geometry'] = {};
-                        obj['geometry']['type'] = 'Point';
+                        obj['geometry']['type'] = 'LineString';
                         obj['geometry']['coordinates'] = [];
                         for (var i = 0, len = item.g.length; i < len; i = i + 1) {
                             obj['geometry']['coordinates'].push([item.g[i]]);
                         }
                         obj['properties'] = {
-                            'id': item.i
+                            'id': item.i,
+                            'startLinkPid': item.m.a,//起点pid
+                            'endLinkPid': item.m.b,//终点pid
+                            'kind':'adlink'
                         }
                         geojson['features'].push(obj);
                     });
@@ -521,11 +524,11 @@ Application.layersConfig =
                 mecator: new fastmap.mapApi.MecatorTranform(),
                 updateWhenIdle: true,
                 tileSize: 256,
-                type: 'adadminPoint',
+                type: 'adLink',
                 zIndex: 11,
                 restrictZoom: 10,
                 visible: false,
-                requestType: 'ADADMIN',
+                requestType: 'ADLINK',
                 showNodeLevel: 17
             }
 
@@ -675,25 +678,47 @@ Application.layersConfig =
                     var geojson = {};
                     geojson['features'] = [];
                     $.each(data, function (index, item) {
-                        if (item.t === 2001||item.t===1901||item.t===1510||item.t===1803||item.t===1514) {
-                            var obj = {};
-                            obj['type'] = "Feature";
-                            obj['geometry'] = {};
-                            obj['geometry']['type'] = 'LineString';
-                            obj['geometry']['coordinates'] = [];
-                            for (var i = 0, len = item.g.length; i < len; i = i + 1) {
-                                obj['geometry']['coordinates'].push([item.g[i]]);
+                        if (item.t === 2001||item.t===1901||item.t===1510||item.t===1803||item.t===1514||item.t===1801) {
+                            if(item.t===1801){
+                                for (var j = 0;j<item.m.c.length;j++) {
+                                    var obj = {};
+                                    obj['type'] = "Feature";
+                                    obj['geometry'] = {};
+                                    obj['geometry']['type'] = 'LineString';
+                                    obj['geometry']['coordinates'] = [];
+                                    for (var i = 0, len = item.m.c[j].g.length; i < len; i = i + 1) {
+                                        obj['geometry']['coordinates'].push([item.m.c[j].g[i]]);
+                                    }
+                                    obj['properties'] = {
+                                        'id': item.i,
+                                        'color': 13,
+                                        'name': item.m.b,
+                                        'kind': item.t,
+                                        'style':item.m.c[j].s
+                                    }
+                                    geojson['features'].push(obj);
+                                }
+
+                            }else{
+                                var obj = {};
+                                obj['type'] = "Feature";
+                                obj['geometry'] = {};
+                                obj['geometry']['type'] = 'LineString';
+                                obj['geometry']['coordinates'] = [];
+                                for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                                    obj['geometry']['coordinates'].push([item.g[i]]);
+                                }
+                                obj['properties'] = {
+                                    'id': item.i,
+                                    'color': 13,
+                                    'name': item.m.b,
+                                    'kind': item.t,
+                                    'direct': item.m.d,
+                                    'snode': item.m.e,
+                                    'enode': item.m.f
+                                }
+                                geojson['features'].push(obj);
                             }
-                            obj['properties'] = {
-                                'id': item.i,
-                                'color': 13,
-                                'name': item.m.b,
-                                'kind': item.t,
-                                'direct': item.m.d,
-                                'snode': item.m.e,
-                                'enode': item.m.f
-                            }
-                            geojson['features'].push(obj);
                         }
 
                     });
