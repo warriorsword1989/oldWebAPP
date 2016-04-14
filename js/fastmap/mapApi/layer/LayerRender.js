@@ -31,6 +31,31 @@ fastmap.mapApi.LayerRender = {
         g.closePath();
         g.fill();
         g.restore();
+    },  /***
+     * 绘制空心圆
+     * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+     * @param geom 点对象
+     * @param style 样式
+     * @param boolPixelCrs 是否是像素坐标
+     * @private
+     */
+    _drawCircle: function (ctx, geom, style, boolPixelCrs) {
+        if (!style) {
+            return;
+        }
+        var p = null;
+        if (boolPixelCrs) {
+            p = {x: geom[0], y: geom[1]}
+        } else {
+            p = this._tilePoint(ctx, geom);
+        }
+        var c = ctx.canvas;
+        var g = c.getContext('2d');
+        g.beginPath();
+        g.fillStyle = style.color;
+        g.arc(p.x, p.y, style.radius, 0, Math.PI * 2);
+        g.stroke();//画空心圆
+        g.closePath();
     },
 
 
@@ -739,10 +764,16 @@ fastmap.mapApi.LayerRender = {
 
             if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
                 if(i==0){
-                    this._drawPoint(ctx, coords[i][0], nodestyle, true);
-                }else if(coords[0][0]!=coords[coords.length - 1][0]){
-                    this._drawPoint(ctx, coords[coords.length - 1][0], nodestyle, true);
+                    this._drawCircle(ctx, coords[i][0], nodestyle, true);
+                }else if(coords[0][0][0]!=coords[coords.length - 1][0][0]&&coords[0][0][1]!=coords[coords.length - 1][0][1]){
+                    this._drawCircle(ctx, coords[coords.length - 1][0], nodestyle, true);
                 }
+            }
+
+            if (boolPixelCrs) {
+                proj.push({x: coords[i][0][0], y: coords[i][0][1]});
+            } else {
+                proj.push(this._tilePoint(ctx, coords[i]));
             }
         }
         var g = ctx.canvas.getContext('2d');

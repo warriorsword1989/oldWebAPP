@@ -834,7 +834,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 clickColor: 'rgba(252,0,0,1)'
                             },
                             {
-                                color: '#FBD356 ',
+                                color: 'rgba(255,0,0,1) ',
                                 radius: 3
                             }, feature.properties);
 
