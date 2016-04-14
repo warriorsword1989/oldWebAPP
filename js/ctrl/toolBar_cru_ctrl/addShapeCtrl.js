@@ -412,7 +412,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 tooltipsCtrl.setEditEventType('overpass');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-                shapeCtrl.toolsSeparateOfEditor("linksOfOverpass", {
+                shapeCtrl.toolsSeparateOfEditor("overpass", {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
@@ -420,46 +420,23 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var linksArr = [], nodesArr = [], nodes = [], links = [],options={};
-                    var data = event.data,highlightFeatures=[];
-                    if (nodesArr.length === 0) {
-                        for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
-                            nodesArr.push(data["nodes"][nodeNum]["node"]);
-                        }
-                        for (var linkNum = 0, linkLen = data["nodes"].length; linkNum < linkLen; linkNum++) {
-                            nodesArr = nodesArr.concat(data["nodes"][linkNum]["link"]);
-                            linksArr.push(data["nodes"][linkNum]["link"]);
-                        }
-                        nodes = nodes.concat(data["nodes"]);
-                        links = links.concat(data["links"]);
-
-                    }
-                    linksArr = $scope.distinctArr(linksArr);
-    // linksArr = ['100002312','100002313','100002314'];
-                    nodesArr = $scope.distinctArr(nodesArr);
+                    var linksArr = [],
+                        data = event.data,highlightFeatures=[];
+                    console.log(data)
+                    linksArr = data.links;
                     for(var i= 0,lenI=linksArr.length;i<lenI;i++) {
                         highlightFeatures.push({
                             id:linksArr[i].toString(),
                             layerid:'referenceLine',
-                            type:'line',
+                            type:'overpass',
+                            index:i,
                             style:{
-                                color:'yellow'
+                                size:5
                             }
-                        })
-                    }
-                    for(var j= 0,lenJ=nodesArr.length;j<lenJ;j++) {
-                        highlightFeatures.push({
-                            id:nodesArr[j].toString(),
-                            layerid:'referenceLine',
-                            type:'node',
-                            style:{}
                         })
                     }
                     highLightLink.highLightFeatures =highlightFeatures;
                     highLightLink.drawHighlight();
-                    options = {"nodePids": nodesArr, "linkPids": linksArr};
-                    // console.log(linksArr)
-                    selectCtrl.onSelected(options);
                     /*运算两条线的交点坐标*/
                     $scope.segmentsIntr = function(a,b){
                         var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
@@ -495,7 +472,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     }
                     var geoArr = [],
                         getGeo = function(){
-                        var dtd = $.Deferred(); //在函数内部，新建一个Deferred对象
+                        var dtd = $.Deferred(),
+                            temp = 0; //在函数内部，新建一个Deferred对象
+                        linksArr = linksArr.unique();
                         for(var i=0;i<linksArr.length;i++){
                             Application.functions.getRdObjectById(linksArr[i],'RDLINK',function(linkData){
                                 if(linkData.errcode == 0){
@@ -513,11 +492,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                             geoObj.y = coor[j][1];
                                             geoElem.push(geoObj);
                                         }
-                                        if(geoElem.length > 0){
-                                        }
                                     }
                                     geoArr.push(geoElem);
-                                    dtd.resolve(); // 改变Deferred对象的执行状态
+                                    temp++;
+                                    if(temp == linksArr.length && j==coor.length){
+                                        dtd.resolve(); // 改变Deferred对象的执行状态
+                                    }
                                 }
                             });
                         }
@@ -525,20 +505,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     };
                     /*当坐标数组拆分组合完成后*/
                     $.when(getGeo()).done(function(){
-                        // console.log(geoArr)
-                        /*geoArr = [
-                            [{x:116.47611,y:40.01801},{x:116.47618,y:40.01702}],
-                            [{x:116.47525,y:40.01746},{x:116.47719,y:40.01747}],
-                            [{x:116.4764,y:40.01786},{x:116.47565,y:40.01723}],
-                            [{x:116.47576,y:40.01776},{x:116.47649,y:40.01722}]
-                        ];*/
-                        /*geoArr = [
-                            [{x:116.47819,y:40.01743},{x:116.47856,y:40.01747}],
-                            [{x:116.47849,y:40.0176},{x:116.47829,y:40.01729}],
-                            [{x:116.47816,y:40.01756},{x:116.47865,y:40.01733}]
-                        ];*/
                         var crossGeos = [],
-                            loopTime = (geoArr.length*geoArr.length-1)/2;   //循环次数C(n,2)
+                            loopTime = (geoArr.length*geoArr.length-1)/2,   //循环次数C(n,2)
+                            jsonData = {
+                                'wkt':'',
+                                'linkObjs':[]
+                            };
                         if(geoArr.length > 1){
                             for(var i=0;i<loopTime-1;i++){
                                 for(var j=i+1;j<geoArr.length;j++){
@@ -549,15 +521,67 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             }
                             crossGeos = crossGeos.unique();
                         }
+                        /*点击调整link层级高低*/
+                        $scope.changeLevel = function(){
+                            if (typeof map.currentTool.cleanHeight === "function") {
+                                map.currentTool.cleanHeight();
+                            }
+                            if (tooltipsCtrl.getCurrentTooltip()) {
+                                tooltipsCtrl.onRemoveTooltip();
+                            }
+                            editLayer.drawGeometry = null;
+                            shapeCtrl.stopEditing();
+                            editLayer.bringToBack();
+                            $(editLayer.options._div).unbind();
+                            $scope.changeBtnClass("");
+                            shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+                            shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+                            editLayer.clear();
+                            $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+                            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                            $scope.changeBtnClass(1);
+                            if (!$scope.classArr[1]) {
+                                map.currentTool.disable();
+                                map._container.style.cursor = '';
+                                return;
+                            }
+                            layerCtrl.pushLayerFront('edit');
+                            map.currentTool = new fastmap.uikit.SelectPath(
+                                {
+                                    map: map,
+                                    currentEditLayer: rdLink,
+                                    linksFlag: true,
+                                    shapeEditor: shapeCtrl
+                                });
+                            // map.currentTool.enable();
+                            //初始化鼠标提示
+                            tooltipsCtrl.setCurrentTooltip = '请选择线！';
+                            rdLink.options.selectType = 'link';
+                            rdLink.options.editable = true;
+                            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                                selectCtrl.onSelected({
+                                    point: data.point
+                                });
+                                console.log(data,data.id)
+                            })
+                        }
                         //判断相交点数
-                        // console.log(crossGeos)
                         if(crossGeos.length == 0){
                             tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                         }else if(crossGeos.length > 1){
                             tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
                         }else{
+                            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                            /*重组linkData格式*/
+                            for(var linkMark=0;linkMark<linksArr.length;linkMark++){
+                                var tempObj = {'pid':linksArr[linkMark],'zlevel':linkMark};
+                                jsonData.linkObjs.push(tempObj);
+                            }
                             // console.log(crossGeos)
-
+                            tooltipsCtrl.setCurrentTooltip("点击空格保存,或者按ESC键取消!");
+                            $scope.changeLevel();
+                            selectCtrl.onSelected(jsonData);
+                            console.log(shapeCtrl,selectCtrl)
                         }
                     });
                 });
