@@ -243,9 +243,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                                 "data": obj
                                             }
                                             Application.functions.getByCondition(JSON.stringify(param), function (data) {
+
                                                 var crossCtrlAndTpl = {
                                                     propertyCtrl: "ctrl/attr_cross_ctrl/rdCrossCtrl",
-                                                    propertyHtml: "js/tpl/attr_cross_tpl/rdCrossTpl.html",
+                                                    propertyHtml: "js/tpl/attr_cross_tpl/rdCrossTpl.html"
                                                 }
                                                 objCtrl.setCurrentObject("RDCROSS", data.data[0]);
                                                 $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);

@@ -243,9 +243,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             }
         } else if (data["loadType"] === "tipsTplContainer") {
 
-        }else if(data["loadType"] === "tipsPitureContainer") {
-            if($scope[data["loadType"]]) {
-                $scope.$broadcast("TRANSITTIPSPICTURE",{})
+        } else if (data["loadType"] === "tipsPitureContainer") {
+            if ($scope[data["loadType"]]) {
+                $scope.$broadcast("TRANSITTIPSPICTURE", {})
                 return;
             }
         }
@@ -265,7 +265,41 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
         }
     });
-
+    $scope.adTools=function() {
+        $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/modifyAdToolCtrl').then(function () {
+                $scope.modifyToolURL = 'js/tpl/toolBar_cru_tpl/modifyAdToolTpl.html';
+                $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
+                    $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectAdShapeTpl.html';
+                    $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addAdShapeCtrl').then(function () {
+                        $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addAdShapeTpl.html';
+                    });
+                });
+            }
+        );
+    };
+    $scope.rdTools = function () {
+        $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/modifyToolCtrl').then(function () {
+                $scope.modifyToolURL = 'js/tpl/toolBar_cru_tpl/modifyToolTpl.html';
+                $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
+                    $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectShapeTpl.html';
+                    $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addShapeCtrl').then(function () {
+                        $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addShapeTpl.html';
+                    });
+                });
+            }
+        );
+    };
+    $scope.switchTools = function (data, event) {
+        switch (event.type) {
+            case "rdTools":
+                $scope.rdTools();
+                break;
+            case "adTools":
+                $scope.adTools();
+                break;
+        }
+    };
+    $scope.$on("SWITCHTOOLS", $scope.switchTools)
 }]);
 
 var map = null;
@@ -274,7 +308,7 @@ function appInit() {
         attributionControl: false,
         doubleClickZoom: false,
         zoomControl: false
-    }).setView([40.012834, 116.476293], 17);
+    }).setView([39.99707, 116.4981], 17);
 
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var selectCtrl = new fastmap.uikit.SelectController();
@@ -284,6 +318,7 @@ function appInit() {
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
     var eventCtrl = new fastmap.uikit.EventController();
+    var speedLimit = layerCtrl.getLayerById("speedlimit")
     tooltipsCtrl.setMap(map, 'tooltip');
     shapeCtrl.setMap(map);
     layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
