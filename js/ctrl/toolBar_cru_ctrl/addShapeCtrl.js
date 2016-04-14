@@ -14,7 +14,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
         $scope.limitRelation = {};
-        //Á½µãÖ®¼äµÄ¾àÀë
+        //两点之间的距离
         $scope.distance = function (pointA, pointB) {
             var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
             return Math.sqrt(len);
@@ -131,7 +131,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             return flag;
         };
-        //ÌáÈ¡¿òÑ¡ÖÐµÄÊý¾ÝÎª´´½¨Â·¿Ú
+        //提取框选中的数据为创建路口
         $scope.getDataFromRectangleForCross = function (data) {
             var borderData = data.data, border = data.border,linkArr=[],nodeArr=[];
             var points = border._latlngs;
@@ -209,7 +209,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             if (typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
             }
@@ -226,7 +226,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (type === "restriction") {
                 shapeCtrl.setEditingType("restriction")
                 tooltipsCtrl.setEditEventType('restriction');
-                tooltipsCtrl.setCurrentTooltip('ÕýÒªÐÂ½¨½»ÏÞ,ÏÈÑ¡ÔñÏß£¡');
+                tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createRestrictFlag: true,
@@ -238,15 +238,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:black;");
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëÏß,Ñ¡Ôñ½øÈëµã!");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:red;");
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëµã,Ñ¡ÔñÍË³öÏß!");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                     } else if (data.index > 1) {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPids = $scope.excitLineArr;
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑÑ¡ÍË³öÏß,µã»÷¿Õ¸ñ¼ü±£´æ!");
+                        tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
@@ -262,10 +262,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('drawPath');
-                tooltipsCtrl.setCurrentTooltip('¿ªÊ¼»­Ïß£¡');
+                tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("µã»÷×îºóÒ»¸öµã½áÊø»­Ïß!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("µã»÷¿Õ¸ñ±£´æ»­Ïß,»òÕß°´ESC¼üÈ¡Ïû!");
+                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             } else if (type === "speedLimit") {
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
@@ -282,10 +282,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('¿ªÊ¼Ôö¼ÓÏÞËÙ£¡');
+                tooltipsCtrl.setCurrentTooltip('开始增加限速！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("µã»÷Ôö¼ÓÏÞËÙ!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("µã»÷¿Õ¸ñ±£´æ,»òÕß°´ESC¼üÈ¡Ïû!");
+                tooltipsCtrl.setChangeInnerHtml("点击增加限速!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
 
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                     var pro = e.property;
@@ -329,11 +329,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 sObj.setFinalGeometry(marker);
                                 shapeCtrl.setEditingType("transformDirect");
                                 shapeCtrl.startEditing();
-                                tooltipsCtrl.setCurrentTooltip("Ñ¡Ôñ·½Ïò!");
+                                tooltipsCtrl.setCurrentTooltip("选择方向!");
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
-                                tooltipsCtrl.setCurrentTooltip('Çëµã»÷¿Õ¸ñ,´´½¨ÏÞËÙ!');
+                                tooltipsCtrl.setCurrentTooltip('请点击空格,创建限速!');
                                 shapeCtrl.setEditingType("transformDirect");
                             }
                         } else {
@@ -343,7 +343,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === "rdBranch") {
                 shapeCtrl.setEditingType("rdBranch")
                 tooltipsCtrl.setEditEventType('rdBranch');
-                tooltipsCtrl.setCurrentTooltip('ÕýÒªÐÂ½¨·ÖÆç,ÏÈÑ¡ÔñÏß£¡');
+                tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
@@ -355,15 +355,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:black;");
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëÏß,Ñ¡Ôñ½øÈëµã!");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
                         tooltipsCtrl.setStyleTooltip("color:red;");
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëµã,Ñ¡ÔñÍË³öÏß!");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                     } else if (data.index > 1) {
                         $scope.excitLineArr.push(parseInt(data.id));
                         $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑÑ¡ÍË³öÏß,µã»÷¿Õ¸ñ¼ü±£´æ!");
+                        tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
@@ -462,18 +462,18 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('¿ªÊ¼Ôö¼Ó½Úµã£¡');
+                tooltipsCtrl.setCurrentTooltip('开始增加节点！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("µã»÷Ôö¼Ó½Úµã!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("µã»÷¿Õ¸ñ±£´æ,»òÕß°´ESC¼üÈ¡Ïû!");
+                tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             } else if (type === 'overpass') {
                 shapeCtrl.setEditingType("overpass");
-                map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
                 }
                 tooltipsCtrl.setEditEventType('overpass');
-                tooltipsCtrl.setCurrentTooltip('ÕýÒªÐÂ½¨Á¢½»,Çë¿òÑ¡Á¢½»µãÎ»£¡');
+                tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 shapeCtrl.toolsSeparateOfEditor("overpass", {
                     map: map,
                     layer: rdLink,
@@ -499,11 +499,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     }
                     highLightLink.highLightFeatures = highlightFeatures;
                     highLightLink.drawHighlight();
-                    /*ÔËËãÁ½ÌõÏßµÄ½»µã×ø±ê*/
+                    /*运算两条线的交点坐标*/
                     $scope.segmentsIntr = function(a,b){
                         var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
                         var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
-                        // Ãæ»ý·ûºÅÏàÍ¬ÔòÁ½µãÔÚÏß¶ÎÍ¬²à,²»Ïà½» (¶ÔµãÔÚÏß¶ÎÉÏµÄÇé¿ö,±¾Àýµ±×÷²»Ïà½»´¦Àí);
+                        // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
                         if ( area_abc*area_abd>=0 ) {
                             return false;
                         }
@@ -514,13 +514,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             return false;
                         }
 
-                        //¼ÆËã½»µã×ø±ê
+                        //计算交点坐标
                         var t = area_cda / ( area_abd- area_abc );
                         var dx= t*(a[1].x - a[0].x),
                             dy= t*(a[1].y - a[0].y);
-                        return { x: (a[0].x + dx).toFixed(5) , y: (a[0].y + dy).toFixed(5) };//±£ÁôÐ¡Êýµãºó5Î»
+                        return { x: (a[0].x + dx).toFixed(5) , y: (a[0].y + dy).toFixed(5) };//保留小数点后5位
                     }
-                    /*È¥³ýÖØ¸´µÄ×ø±êµã£¬±£ÁôÒ»¸ö*/
+                    /*去除重复的坐标点，保留一个*/
                     Array.prototype.unique = function(){
                         var res = [];
                         var json = {};
@@ -532,9 +532,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                         return res;
                     }
-                    /*µ±×ø±êÊý×é²ð·Ö×éºÏÍê³Éºó*/
+                    /*当坐标数组拆分组合完成后*/
                     var crossGeos = [],
-                        loopTime = (data.length*data.length-1)/2,   //Ñ­»·´ÎÊýC(n,2)
+                        loopTime = (data.length*data.length-1)/2,   //循环次数C(n,2)
                         jsonData = {
                             'wkt':'',
                             'linkObjs':[]
@@ -549,7 +549,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                         crossGeos = crossGeos.unique();
                     }
-                    /*µã»÷µ÷Õûlink²ã¼¶¸ßµÍ*/
+                    /*点击调整link层级高低*/
                     $scope.changeLevel = function(){
                         if (typeof map.currentTool.cleanHeight === "function") {
                             map.currentTool.cleanHeight();
@@ -566,7 +566,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
                         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
-                        map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
+                        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         $scope.changeBtnClass(1);
                         if (!$scope.classArr[1]) {
                             map.currentTool.disable();
@@ -582,8 +582,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 shapeEditor: shapeCtrl
                             });
                         // map.currentTool.enable();
-                        //³õÊ¼»¯Êó±êÌáÊ¾
-                        tooltipsCtrl.setCurrentTooltip = 'ÇëÑ¡ÔñÏß£¡';
+                        //初始化鼠标提示
+                        tooltipsCtrl.setCurrentTooltip = '请选择线！';
                         rdLink.options.selectType = 'link';
                         rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
@@ -593,20 +593,20 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             console.log(data,data.id)
                         })
                     }
-                    //ÅÐ¶ÏÏà½»µãÊý
+                    //判断相交点数
                     if(crossGeos.length == 0){
-                        tooltipsCtrl.setCurrentTooltip('ËùÑ¡ÇøÓòÎÞÏà½»µã£¬ÇëÖØÐÂÑ¡ÔñÁ¢½»µãÎ»£¡');
+                        tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     }else if(crossGeos.length > 1){
-                        tooltipsCtrl.setCurrentTooltip('²»ÄÜÓÐ¶à¸öÏà½»µã£¬ÇëÖØÐÂÑ¡ÔñÁ¢½»µãÎ»£¡');
+                        tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
                     }else{
-                        map.currentTool.disable();//½ûÖ¹µ±Ç°µÄ²Î¿¼ÏßÍ¼²ãµÄÊÂ¼þ²¶»ñ
-                        /*ÖØ×élinkData¸ñÊ½*/
+                        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+                        /*重组linkData格式*/
                         for(var linkMark=0;linkMark<data.length;linkMark++){
                             var tempObj = {'pid':data[linkMark].data.properties.id,'zlevel':linkMark};
                             jsonData.linkObjs.push(tempObj);
                         }
                         // console.log(crossGeos)
-                        tooltipsCtrl.setCurrentTooltip("µã»÷¿Õ¸ñ±£´æ,»òÕß°´ESC¼üÈ¡Ïû!");
+                        tooltipsCtrl.setCurrentTooltip("点击空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
                         selectCtrl.onSelected(jsonData);
                         console.log(shapeCtrl,selectCtrl)
@@ -617,7 +617,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     linkDirect = 0;
                 shapeCtrl.setEditingType("rdBranch");
                 tooltipsCtrl.setEditEventType('rdBranch');
-                tooltipsCtrl.setCurrentTooltip('ÕýÒªÐÂ½¨3D·ÖÆç,ÏÈÑ¡ÔñÏß£¡');
+                tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
                     createBranchFlag: true,
@@ -625,17 +625,17 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
-                /*»ñÈ¡ÍË³öÏß*/
+                /*获取退出线*/
                 $scope.getOutLink = function(dataId){
                     $scope.excitLineArr.push(parseInt(dataId));
                     $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
-                    tooltipsCtrl.setChangeInnerHtml("ÒÑÑ¡ÍË³öÏß,µã»÷¿Õ¸ñ¼ü±£´æ!");
+                    tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
-                        tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëÏß,Ñ¡Ôñ½øÈëµã!");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
                         Application.functions.getRdObjectById(data.id, 'RDLINK', function (linkData) {
                             if (linkData.errcode == 0) {
                                 linkDirect = linkData.data.direct;
@@ -651,7 +651,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     highLightRender.highLightFeatures = highLightFeatures;
                                     highLightRender.drawHighlight();
                                     map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
-                                    tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëµã,Ñ¡ÔñÍË³öÏß!");
+                                    tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                                 }
                             }
                         });
@@ -662,7 +662,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                         else {
                             $scope.limitRelation.nodePid = parseInt(data.id);
-                            tooltipsCtrl.setChangeInnerHtml("ÒÑ¾­Ñ¡Ôñ½øÈëµã,Ñ¡ÔñÍË³öÏß!");
+                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
