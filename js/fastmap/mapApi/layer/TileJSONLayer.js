@@ -842,6 +842,20 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 color: 'rgba(255,0,0,1)',
                                 radius: 3
                             }, feature.properties);
+                    }else if(this.options.type==="adLink"){
+
+                        this._drawAdLineString(ctx, geom, boolPixelCrs,
+                             {
+                                size: 4,
+                                color: '#FBD356',
+                                mouseOverColor: 'rgba(255,0,0,1)',
+                                clickColor: 'rgba(252,0,0,1)'
+                            },
+                            {
+                                color: 'rgba(255,0,0,1) ',
+                                radius: 3
+                            }, feature.properties);
+
                     } else {
                         //if(feature.properties.pattern == ){
                         //
@@ -919,6 +933,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                 } else {
                     url = Application.url + '/render/link/getByTile?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                }
+
+                break;
+            case "adLink":
+                if (this._map.getZoom() >= this.showNodeLevel) {
+                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
                 }
 
                 break;
