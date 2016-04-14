@@ -34,6 +34,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
               }
             }
         }
+        $scope.$emit("SWITCHTOOLS",{"type":"rdTools"})
     };
     $scope.showLayers = function (item) {
         //单击checkbox的处理
