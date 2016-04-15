@@ -699,7 +699,12 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }else if (this.options.type === 'rdrticPoint') {//互联网rtic
                         this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
                     }else if (this.options.type === 'adAdminPoint') {//行政区划代表点
-
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:{src:'css/img/star.png'},
+                            boolPixelCrs:boolPixelCrs
+                        });
                     }else if(feature.properties.kind){  //种别
                         if(feature.properties.type == '1201'){
                             this._drawImg({
