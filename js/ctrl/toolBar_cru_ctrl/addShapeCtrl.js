@@ -144,15 +144,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             var polygon = new fastmap.mapApi.Polygon([lineString]);
             for(var item in borderData) {
                 var properties = borderData[item]["data"]["properties"],
-                    coordinates=borderData[item]["data"]["geometry"]["coordinates"],
-                    tilePointX=borderData[item]["tilePointX"],
-                    tilePointY=borderData[item]["tilePointY"];
-                var startPoint = coordinates[0][0],
-                    endPoint=coordinates[coordinates.length-1][0];
-                startPoint = transform.PixelToLonlat(tilePointX * 256 + startPoint[0], tilePointY* 256 + startPoint[1], map.getZoom());
-                startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
-                endPoint = transform.PixelToLonlat(tilePointX * 256 + endPoint[0], tilePointY * 256 + endPoint[1], map.getZoom());
-                endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
+                    coordinates=borderData[item]["line"]["points"];
+                var startPoint = coordinates[0],
+                    endPoint=coordinates[coordinates.length-1];
                 if (polygon.containsPoint(startPoint)) {
                     if (polygon.containsPoint(endPoint)) {
                         linkArr.push({
