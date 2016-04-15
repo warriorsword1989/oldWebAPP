@@ -608,6 +608,53 @@ function keyEvent(ocLazyLoad, scope) {
                     })
 
                 }
+                else if (shapeCtrl.editType === "overpass") {
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDCROSS",
+                        "projectId": Application.projectid,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    console.log(param)
+                    /*Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        var info = null;
+                        if (data.errcode === -1) {
+                            info = [{
+                                "op": data.errcode,
+                                "type": data.errmsg,
+                                "pid": data.errid
+                            }];
+                            swal("操作失败", data.errmsg, "error");
+                        } else {
+                            Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                                if (!scope.panelFlag) {
+                                    scope.panelFlag = true;
+                                    scope.objectFlag = true;
+                                }
+                                objEditCtrl.setCurrentObject("RDCROSS", data.data);
+                                ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_cross_tpl/rdCrossTpl.html";
+                                });
+                            });
+                            var sInfo = {
+                                "op": "创建RDCROSS成功",
+                                "type": "",
+                                "pid": ""
+                            };
+                            data.data.log.push(sInfo);
+                            info = data.data.log;
+                        }
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+
+                    })*/
+                }
             }
         });
 }
