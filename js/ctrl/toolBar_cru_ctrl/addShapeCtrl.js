@@ -144,15 +144,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             var polygon = new fastmap.mapApi.Polygon([lineString]);
             for(var item in borderData) {
                 var properties = borderData[item]["data"]["properties"],
-                    coordinates=borderData[item]["data"]["geometry"]["coordinates"],
-                    tilePointX=borderData[item]["tilePointX"],
-                    tilePointY=borderData[item]["tilePointY"];
-                var startPoint = coordinates[0][0],
-                    endPoint=coordinates[coordinates.length-1][0];
-                startPoint = transform.PixelToLonlat(tilePointX * 256 + startPoint[0], tilePointY* 256 + startPoint[1], map.getZoom());
-                startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
-                endPoint = transform.PixelToLonlat(tilePointX * 256 + endPoint[0], tilePointY * 256 + endPoint[1], map.getZoom());
-                endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
+                    coordinates=borderData[item]["line"]["points"];
+                var startPoint = coordinates[0],
+                    endPoint=coordinates[coordinates.length-1];
                 if (polygon.containsPoint(startPoint)) {
                     if (polygon.containsPoint(endPoint)) {
                         linkArr.push({
@@ -482,10 +476,29 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var linksArr = [],
-                        data = event.data,highlightFeatures=[];
+                    var data = event.data,highlightFeatures=[],
+                        rectangleData = {       //矩形框信息geoJson
+                            "geometry":{
+                                "type":"Polygon",
+                                "coordinates":[[]]
+                            }
+                        },
+                        latArr = event.border._latlngs;
                     console.log(data)
-                    linksArr = data.links;
+                    /*过滤框选后的数组，去重*/
+                    for(var i=1;i<data.length;i++){
+                        if(data[i].data.properties.id == data[i-1].data.properties.id){
+                            data.splice(i,1);
+                        }
+                    }
+                    console.log(data)
+                    for(var rec=0;rec<latArr.length;rec++){
+                        var tempArr = [];
+                        tempArr.push(latArr[rec].lat);
+                        tempArr.push(latArr[rec].lng);
+                        rectangleData.geometry.coordinates[0].push(tempArr);
+                    }
+                    /*高亮link*/
                     for(var i= 0,lenI=data.length;i<lenI;i++) {
                         highlightFeatures.push({
                             id:data[i].data.properties.id.toString(),
@@ -500,7 +513,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     highLightLink.highLightFeatures = highlightFeatures;
                     highLightLink.drawHighlight();
                     /*运算两条线的交点坐标*/
-                    $scope.segmentsIntr = function(a,b){
+                    $scope.segmentsIntr = function(a,b){    //([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
                         var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
                         var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
                         // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
@@ -536,14 +549,17 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     var crossGeos = [],
                         loopTime = (data.length*data.length-1)/2,   //循环次数C(n,2)
                         jsonData = {
-                            'wkt':'',
+                            'wkt':rectangleData,
                             'linkObjs':[]
                         };
                     if(data.length > 1){
                         for(var i=0;i<loopTime-1;i++){
                             for(var j=i+1;j<data.length;j++){
                                 if(i!=j){
-                                    crossGeos.push($scope.segmentsIntr(data[i].data.geometry.coordinates,data[j].data.geometry.coordinates));
+                                    var lineGeoArr = function(mark){
+                                        return [data[mark].line.points[0],data[mark].line.points[1]];
+                                    }
+                                    crossGeos.push($scope.segmentsIntr(lineGeoArr(i),lineGeoArr(j)));
                                 }
                             }
                         }
@@ -593,6 +609,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             console.log(data,data.id)
                         })
                     }
+                    console.log(crossGeos)
                     //判断相交点数
                     if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
@@ -605,11 +622,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             var tempObj = {'pid':data[linkMark].data.properties.id,'zlevel':linkMark};
                             jsonData.linkObjs.push(tempObj);
                         }
-                        // console.log(crossGeos)
+                        console.log(crossGeos)
                         tooltipsCtrl.setCurrentTooltip("点击空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
                         selectCtrl.onSelected(jsonData);
-                        console.log(shapeCtrl,selectCtrl)
+                        console.log(shapeCtrl,selectCtrl,JSON.stringify(jsonData))
                     }
                 });
             } else if (type === '3dBranch'){
