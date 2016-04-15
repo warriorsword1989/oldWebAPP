@@ -476,8 +476,29 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var data = event.data,highlightFeatures=[];
-                    console.log('event.data:',data)
+                    var data = event.data,highlightFeatures=[],
+                        rectangleData = {       //矩形框信息geoJson
+                            "geometry":{
+                                "type":"Polygon",
+                                "coordinates":[[]]
+                            }
+                        },
+                        latArr = event.border._latlngs;
+                    console.log(data)
+                    /*过滤框选后的数组，去重*/
+                    for(var i=1;i<data.length;i++){
+                        if(data[i].data.properties.id == data[i-1].data.properties.id){
+                            data.splice(i,1);
+                        }
+                    }
+                    console.log(data)
+                    for(var rec=0;rec<latArr.length;rec++){
+                        var tempArr = [];
+                        tempArr.push(latArr[rec].lat);
+                        tempArr.push(latArr[rec].lng);
+                        rectangleData.geometry.coordinates[0].push(tempArr);
+                    }
+                    /*高亮link*/
                     for(var i= 0,lenI=data.length;i<lenI;i++) {
                         highlightFeatures.push({
                             id:data[i].data.properties.id.toString(),
@@ -528,15 +549,17 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     var crossGeos = [],
                         loopTime = (data.length*data.length-1)/2,   //循环次数C(n,2)
                         jsonData = {
-                            'wkt':'',
+                            'wkt':rectangleData,
                             'linkObjs':[]
                         };
                     if(data.length > 1){
                         for(var i=0;i<loopTime-1;i++){
                             for(var j=i+1;j<data.length;j++){
                                 if(i!=j){
-                                    crossGeos.push($scope.segmentsIntr(data[i].data.geometry.coordinates,data[j].data.geometry.coordinates));
-                                    console.log(data[i].data.geometry.coordinates,data[j].data.geometry.coordinates)
+                                    var lineGeoArr = function(mark){
+                                        return [data[mark].line.points[0],data[mark].line.points[1]];
+                                    }
+                                    crossGeos.push($scope.segmentsIntr(lineGeoArr(i),lineGeoArr(j)));
                                 }
                             }
                         }
@@ -603,7 +626,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         tooltipsCtrl.setCurrentTooltip("点击空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
                         selectCtrl.onSelected(jsonData);
-                        console.log(shapeCtrl,selectCtrl)
+                        console.log(shapeCtrl,selectCtrl,JSON.stringify(jsonData))
                     }
                 });
             } else if (type === '3dBranch'){
