@@ -103,11 +103,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
 
         for (var item in data) {
-            var touchids = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
-            if (touchids.length) {
+            var touchIds = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
+            if (touchIds.length) {
                 var id = data[item].properties.id;
 
-                if (touchids[0] == 0) {
+                if (touchIds[0] == 0) {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.snode
                     })

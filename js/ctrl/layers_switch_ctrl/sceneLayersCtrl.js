@@ -34,6 +34,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
               }
             }
         }
+        $scope.$emit("SWITCHTOOLS",{"type":"rdTools"})
     };
     $scope.showLayers = function (item) {
         //单击checkbox的处理
@@ -84,8 +85,20 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             }
         }
         $scope.flag = false;
-        $scope.$emit("SWITCHTOOLS",{"type":"adTools"})
+        $scope.$emit("SWITCHTOOLS",{"type":"rdTools"})
 
+    };
+    $scope.zoneRegionSecne=function() {
+        for (var i= 0,len=$scope.items.length;i<len;i++) {
+            if($scope.items[i].options.id==="adLink"||$scope.items[i].options.id==="adface"
+            ||$scope.items[i].options.id==="referenceLine") {
+                $scope.items[i].options.visible = true;
+            }else{
+                $scope.items[i].options.visible = false;
+            }
+        }
+        $scope.flag = false;
+        $scope.$emit("SWITCHTOOLS",{"type":"adTools"})
     };
     $scope.showScene = function (item, event) {
 
@@ -106,7 +119,8 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                 case 3://互联网rtic
                     $scope.rticSecne();
                     break;
-                case 4:
+                case 4://行政区划
+                    $scope.zoneRegionSecne();
                     break;
             }
         }else{

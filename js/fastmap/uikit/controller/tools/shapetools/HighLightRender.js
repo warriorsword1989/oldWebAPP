@@ -146,6 +146,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             } else if (this.highLightFeatures[item].type == 'workPoint') {
                                 var feature = this.currentEditLayer.tiles[tile].data.features[feature];
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
+                            } else if (this.highLightFeatures[item].type == 'overpass') {
+                                var feature = this.currentEditLayer.tiles[tile].data.features[feature]
+                                    cusFeature = this.highLightFeatures[item];
+                                this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
                             }
                             break;
                         }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.snode) {
@@ -229,7 +233,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 var newGeom = [];
                 var restrictObj = feature.properties.restrictioninfo;
                 if (restrictObj !== undefined) {
-                    console.log(this.layer)
                     if (restrictObj.constructor === Array) {
                         for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
 
@@ -457,6 +460,43 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 })
             }
 
+        }
+
+    },
+    /**
+     * 高亮立交
+     * @param id
+     * @param feature
+     * @param ctx
+     */
+    drawOverpass: function (id, feature, ctx ,cusFeature) {
+
+        var COLORTABLE = ['#33FF00','#33FF99','#33FFFF','#3399FF','#3366CC','#333366','#330000'];
+
+        var color = null;
+        if (feature.hasOwnProperty('properties')) {
+            color = feature.properties.c;
+        }
+
+        var style = this.layer.styleFor(feature, color);
+
+        var geom = feature.geometry.coordinates;
+        if (feature.properties.id === id) {
+            var cusStyle = {
+                size: 3,
+                color: '#00F5FF'
+            };
+            /*如果有层级关系和自定义粗细则不使用默认值*/
+            if(cusFeature){
+                cusStyle.size = cusFeature.style.size ? cusFeature.style.size : 3;
+                cusStyle.color = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
+            }
+            this.layer._drawLineString(ctx, geom, true, cusStyle, cusStyle, feature.properties);
+        } else {
+            this.layer._drawLineString(ctx, geom, true, style, {
+                color: '#696969',
+                radius: 3
+            }, feature.properties);
         }
 
     },
