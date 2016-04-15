@@ -113,7 +113,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawPoint(currentGeo, {color: 'red', radius: 3}, false);
                 break;
             case'Polygon':
-                drawPolygon();
+                drawPolygon(currentGeo, {color: 'red', outline: 3}, false);
                 break;
             case 'Cross':
                 drawCross(currentGeo, {color: 'blue', width: 1}, false,self);
@@ -235,17 +235,13 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 return;
             }
 
-            for (var el = 0; el < geom.length; el++) {
-                var coords = geom[el], proj = [], i;
-                coords = this._clip(ctx, coords);
+                var coords = geom.components, proj = [], i;
+
                 for (i = 0; i < coords.length; i++) {
-                    proj.push(this._tilePoint(ctx, coords[i]));
-                }
-                if (!this._isActuallyVisible(proj)) {
-                    continue;
+                    proj.push(this.map.latLngToContainerPoint([coords[i].y, coords[i].x]));
                 }
 
-                var g = ctx.canvas.getContext('2d');
+                var g = self._ctx;
                 var outline = style.outline;
                 g.fillStyle = style.color;
                 if (outline) {
@@ -262,7 +258,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 if (outline) {
                     g.stroke();
                 }
-            }
+
         }
 
         function drawMarker(geom, type, angle, boolPixelCrs,self) {

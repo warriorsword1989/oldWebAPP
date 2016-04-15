@@ -203,7 +203,26 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            } else if (type === "speedLimit") {
+            }
+
+            else if (type === "polygon") {
+                if (shapeCtrl.shapeEditorResult) {
+                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
+                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                    layerCtrl.pushLayerFront('edit');
+                }
+                shapeCtrl.setEditingType('drawPolygon');
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                tooltipsCtrl.setEditEventType('drawPolygon');
+                tooltipsCtrl.setCurrentTooltip('开始画面！');
+                tooltipsCtrl.setStyleTooltip("color:black;");
+                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
+            }
+
+
+            else if (type === "speedLimit") {
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.disable();

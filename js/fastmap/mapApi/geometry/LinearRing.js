@@ -221,11 +221,11 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
         var crosses = 0;
         for (var i = 0; i < numSeg; ++i) {
             start = this.coordinates[i];
-            x1 = this.limitSigDigs(start.x, digs);
-            y1 = this.limitSigDigs(start.y, digs);
+            x1 = this.limitSigDigs(start.x?start.x:start[0], digs);
+            y1 = this.limitSigDigs(start.y?start.y:start[1], digs);
             end = this.coordinates[i + 1];
-            x2 = this.limitSigDigs(end.x, digs);
-            y2 = this.limitSigDigs(end.y, digs);
+            x2 = this.limitSigDigs(end.x?end.x:end[0], digs);
+            y2 = this.limitSigDigs(end.y?end.y:end[1], digs);
 
             /**
              * The following conditions enforce five edge-crossing rules:
