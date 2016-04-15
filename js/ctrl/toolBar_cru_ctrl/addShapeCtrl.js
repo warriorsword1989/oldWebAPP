@@ -482,10 +482,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
-                    var linksArr = [],
-                        data = event.data,highlightFeatures=[];
-                    console.log(data)
-                    linksArr = data.links;
+                    var data = event.data,highlightFeatures=[];
+                    console.log('event.data:',data)
                     for(var i= 0,lenI=data.length;i<lenI;i++) {
                         highlightFeatures.push({
                             id:data[i].data.properties.id.toString(),
@@ -500,7 +498,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     highLightLink.highLightFeatures = highlightFeatures;
                     highLightLink.drawHighlight();
                     /*运算两条线的交点坐标*/
-                    $scope.segmentsIntr = function(a,b){
+                    $scope.segmentsIntr = function(a,b){    //([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
                         var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
                         var area_abd = (a[0].x - b[1].x) * (a[1].y - b[1].y) - (a[0].y - b[1].y) * (a[1].x - b[1].x);
                         // 面积符号相同则两点在线段同侧,不相交 (对点在线段上的情况,本例当作不相交处理);
@@ -544,6 +542,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             for(var j=i+1;j<data.length;j++){
                                 if(i!=j){
                                     crossGeos.push($scope.segmentsIntr(data[i].data.geometry.coordinates,data[j].data.geometry.coordinates));
+                                    console.log(data[i].data.geometry.coordinates,data[j].data.geometry.coordinates)
                                 }
                             }
                         }
@@ -593,6 +592,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             console.log(data,data.id)
                         })
                     }
+                    console.log(crossGeos)
                     //判断相交点数
                     if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
@@ -605,7 +605,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             var tempObj = {'pid':data[linkMark].data.properties.id,'zlevel':linkMark};
                             jsonData.linkObjs.push(tempObj);
                         }
-                        // console.log(crossGeos)
+                        console.log(crossGeos)
                         tooltipsCtrl.setCurrentTooltip("点击空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
                         selectCtrl.onSelected(jsonData);
