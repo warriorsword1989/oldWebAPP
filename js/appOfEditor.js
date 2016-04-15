@@ -7,6 +7,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     var eventController = fastmap.uikit.EventController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
+
+
     $scope.save = function () {
         $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.SAVEPROPERTY)
@@ -95,6 +97,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.hideFullPic = function () {
         $("#fullScalePic").hide();
     }
+
     //登录时
     keyEvent($ocLazyLoad, $scope);
     $ocLazyLoad.load('ctrl/log_show_ctrl/outPutCtrl').then(function () {
@@ -243,9 +246,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             }
         } else if (data["loadType"] === "tipsTplContainer") {
 
-        }else if(data["loadType"] === "tipsPitureContainer") {
-            if($scope[data["loadType"]]) {
-                $scope.$broadcast("TRANSITTIPSPICTURE",{})
+        } else if (data["loadType"] === "tipsPitureContainer") {
+            if ($scope[data["loadType"]]) {
+                $scope.$broadcast("TRANSITTIPSPICTURE", {})
                 return;
             }
         }
@@ -265,6 +268,46 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
         }
     });
+    $scope.adTools=function() {
+        $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/modifyAdToolCtrl').then(function () {
+                $scope.modifyToolURL = 'js/tpl/toolBar_cru_tpl/modifyAdToolTpl.html';
+                $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/selectAdShapeCtrl').then(function () {
+                    $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectAdShapeTpl.html';
+                    $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addAdShapeCtrl').then(function () {
+                        $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addAdShapeTpl.html';
+                    });
+                });
+            }
+        );
+    };
+    $scope.rdTools = function () {
+        $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/modifyToolCtrl').then(function () {
+                $scope.modifyToolURL = 'js/tpl/toolBar_cru_tpl/modifyToolTpl.html';
+                $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/selectShapeCtrl').then(function () {
+                    $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectShapeTpl.html';
+                    $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addShapeCtrl').then(function () {
+                        $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addShapeTpl.html';
+                        $ocLazyLoad.load('ctrl/attr_administratives_ctrl/adAdminCtrl').then(function () {
+                            $scope.attrTplContainer = 'js/tpl/attr_adminstratives_tpl/adAdminTpl.html';
+
+                        });
+                    });
+                });
+            }
+        );
+    };
+    $scope.switchTools = function (data, event) {
+        switch (event.type) {
+            case "rdTools":
+                $scope.rdTools();
+                break;
+            case "adTools":
+                $scope.adTools();
+                break;
+        }
+    };
+    $scope.$on("SWITCHTOOLS", $scope.switchTools)
+
 
 }]);
 
@@ -284,6 +327,7 @@ function appInit() {
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
     var eventCtrl = new fastmap.uikit.EventController();
+    var speedLimit = layerCtrl.getLayerById("speedlimit")
     tooltipsCtrl.setMap(map, 'tooltip');
     shapeCtrl.setMap(map);
     layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
@@ -296,6 +340,9 @@ function appInit() {
     for (var layer in layerCtrl.getVisibleLayers()) {
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
+
+
+
 }
 
 

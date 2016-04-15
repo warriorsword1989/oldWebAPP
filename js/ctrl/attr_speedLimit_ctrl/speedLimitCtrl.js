@@ -211,12 +211,4 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
 
 
-    $scope.changeSpeedType=function(){
-        if($scope.speedLimitData.speedType==4){
-            $scope.carSpeedType=true;
-        }else{
-            $scope.carSpeedType=false;
-        }
-    }
-
 });

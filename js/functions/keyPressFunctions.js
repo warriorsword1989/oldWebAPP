@@ -249,7 +249,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.$apply();
                                     rdLink.redraw();
                                 } else {
-                                     info = [{
+                                    info = [{
                                         "op": data.errcode,
                                         "type": data.errmsg,
                                         "pid": data.errid
@@ -608,7 +608,8 @@ function keyEvent(ocLazyLoad, scope) {
                     })
 
                 }
-                if (shapeCtrl.editType === 'drawPolygon') {
+
+                else if (shapeCtrl.editType === 'drawPolygon') {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
@@ -628,37 +629,76 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfPolygon), function (data) {
-                        var info = null;
-                        if (data.errcode == 0) {
-                            var sInfo = {
-                                "op": "创建行政区划面成功",
-                                "type": "",
-                                "pid": ""
-                            };
-                            data.data.log.push(sInfo);
-                            info = data.data.log;
-                            //Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
-                            //    objEditCtrl.setCurrentObject("RDLINK", data.data);
-                            //    ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
-                            //        scope.attrTplContainer = "js/tpl/attr_link_tpl/rdLinkTpl.html";
-                            //    })
-                            //});
-                        } else {
-                            info = [{
-                                "op": data.errcode,
-                                "type": data.errmsg,
-                                "pid": data.errid
-                            }];
-                            swal("操作失败", data.errmsg, "error");
+                            var info = null;
+                            if (data.errcode == 0) {
+                                var sInfo = {
+                                    "op": "创建行政区划面成功",
+                                    "type": "",
+                                    "pid": ""
+                                };
+                                data.data.log.push(sInfo);
+                                info = data.data.log;
+                                //Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
+                                //    objEditCtrl.setCurrentObject("RDLINK", data.data);
+                                //    ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
+                                //        scope.attrTplContainer = "js/tpl/attr_link_tpl/rdLinkTpl.html";
+                                //    })
+                                //});
+                            }
                         }
-                        resetPage(info);
-                        outPutCtrl.pushOutput(info);
-                        if (outPutCtrl.updateOutPuts !== "") {
-                            outPutCtrl.updateOutPuts();
-                        }
-                    });
-
+                    )
                 }
+
+                else if (shapeCtrl.editType === "overpass") {
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDGSC",
+                        "projectId": Application.projectid,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    console.log(param)
+                    /*Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                     var info = null;
+                     if (data.errcode === -1) {
+                     info = [{
+                     "op": data.errcode,
+                     "type": data.errmsg,
+                     "pid": data.errid
+                     }];
+                     swal("操作失败", data.errmsg, "error");
+                     } else {
+                     Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                     if (!scope.panelFlag) {
+                     scope.panelFlag = true;
+                     scope.objectFlag = true;
+                     }
+                     objEditCtrl.setCurrentObject("RDCROSS", data.data);
+                     ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                     scope.attrTplContainer = "jsl/attr_cross_tpl/rdCrossTpl.html";
+                     });
+                     });
+                     var sInfo = {
+                     "op": "创建RDCROSS成功",
+                     "type": "",
+                     "pid": ""
+                     };
+                     data.data.log.push(sInfo);
+                     info = data.data.log;
+                     }
+                     resetPage();
+                     outPutCtrl.pushOutput(info);
+                     if (outPutCtrl.updateOutPuts !== "") {
+                     outPutCtrl.updateOutPuts();
+                     }
+
+                     })*/
+                }
+
+
+
             }
         });
 }

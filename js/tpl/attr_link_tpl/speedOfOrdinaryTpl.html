@@ -34,8 +34,7 @@
         padding-left: 5px;
         border-radius: 4px;
         margin-top: 5px;
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
+        border: 1px ridge #FFFFFF;
         background-color: #333;
     }
 
@@ -44,8 +43,7 @@
         margin-left: -3px;
         width:170px;
         border-radius: 4px;
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
+        border: 1px ridge #FFFFFF;
         background-color: #333;
     }
 
@@ -95,7 +93,7 @@
     <ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===0" style="margin-bottom: 5px">
         <li class="list-group-item">
             <div class="list-name">
-                <a ng-click="addrdCrossName()" style="cursor: pointer;color:#FFF;">修改方向</a>
+                <a ng-click="changeSpeedAndDirect(roadlinkData.direct,oridiData.rowId)" style="cursor: pointer;color:#FFF;">修改方向</a>
             </div>
             <div class="list-line" style="margin-bottom: 5px;"></div>
         </li>
