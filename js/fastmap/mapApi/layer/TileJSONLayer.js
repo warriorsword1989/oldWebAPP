@@ -883,7 +883,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'Polygon':
-                    this._drawPolygon(ctx, geom, style);
+                    //geom[0] = [[[-1000,-1000],[2650,-1000],[2650,2650],[-1000,2650]]]
+                    this._drawPolygon(ctx, geom[0], style, true,feature.properties.id);
                     break;
 
                 case 'MultiPolygon':
@@ -966,9 +967,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 break;
             case "AllList":
                 break;
-            case "polygon":
+            case "Polygon":
                 if (this._map.getZoom() >= this.showNodeLevel) {
-                    url = this.url +this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
+                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
+
+                    //url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":["' + this.requestType + '"]}'
                 }
 
                 break;
@@ -1073,6 +1076,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 };
                 break;
             case 'Polygon':
+                return {
+                    fillstyle:'#' + Number(feature.properties.id).toString(16)+'00',
+                    outline:{
+                        size:1,
+                        color: 'rgba(43,140,190,0.9)'
+                    }
+                }
                 break;
             case 'MultiPolygon':
                 return {

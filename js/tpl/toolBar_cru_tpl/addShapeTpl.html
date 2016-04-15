@@ -61,6 +61,10 @@
     <button type="button" class="btn addRelation_{{classArr[7]}} dropdown-toggle" id="addRelation"
             data-toggle="dropdown" title="新增关系">
     </button>
+
+    <button type="button" class="btn addLink_{{classArr[6]}}" id="addPolygon"  ng-click="addShape('polygon',8,$event)"
+            title="新增polygon">
+    </button>
     <ul class="dropdown-menu shape-well" role="menu">
         <div class="btn-group btn-group-sm" style="float: none;">
             <button type="button" class="btn btn-default btn-shape" ng-click="addShape('overpass',7,$event)">立交</button>

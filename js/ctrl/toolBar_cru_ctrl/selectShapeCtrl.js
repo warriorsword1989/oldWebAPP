@@ -10,6 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var adFace = layerCtrl.getLayerById('adface');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
@@ -269,6 +270,27 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     })
                 }
             )
+        }
+        else if (type === "polygon") {
+            //layerCtrl.pushLayerFront('edit');
+            map.currentTool = new fastmap.uikit.SelectPolygon(
+                {
+                    map: map,
+                    currentEditLayer: adFace,
+
+                    shapeEditor: shapeCtrl
+                });
+            map.currentTool.enable();
+            //初始化鼠标提示
+            $scope.toolTipText = '请选择面！';
+            //rdLink.options.selectType = 'link';
+            //rdLink.options.editable = true;
+            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                selectCtrl.onSelected({
+                    point: data.point
+                });
+                //$scope.getFeatDataCallback(data, data.id, "RDLINK", 'ctrl/attr_link_ctrl/rdLinkCtrl', "js/tpl/attr_link_tpl/rdLinkTpl.html");
+            })
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };

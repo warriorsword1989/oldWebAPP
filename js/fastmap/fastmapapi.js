@@ -123,11 +123,11 @@
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
 
                 "fastmap/uikit/controller/corectl/EventController.js",
-                //uikit/controller/tools/shapetools
 
                 "fastmap/uikit/controller/tools/shapetools/Snap.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCopy.js",
                 "fastmap/uikit/controller/tools/shapetools/DrawPath.js",
+                "fastmap/uikit/controller/tools/shapetools/DrawPolygon.js",
                 "fastmap/uikit/controller/tools/shapetools/CrossingAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCut.js",
                 "fastmap/uikit/controller/tools/shapetools/PathMove.js",
@@ -152,6 +152,7 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectRdlane.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectSpeedLimit.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectDataTips.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectPolygon.js",
                 "fastmap/uikit/controller/tools/shapetools/GeometryValidation.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRelation.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdCross.js",

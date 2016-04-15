@@ -22,7 +22,7 @@ function keyEvent(ocLazyLoad, scope) {
             var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
             var editLayer = layerCtrl.getLayerById('edit');
             var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
-            var link = shapeCtrl.shapeEditorResult.getFinalGeometry();
+            var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
@@ -73,8 +73,8 @@ function keyEvent(ocLazyLoad, scope) {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
-                    for (var index = 0, len = link.components.length; index < len; index++) {
-                        coordinate.push([link.components[index].x, link.components[index].y]);
+                    for (var index = 0, len = geo.components.length; index < len; index++) {
+                        coordinate.push([geo.components[index].x, geo.components[index].y]);
                     }
                     var paramOfLink = {
                         "command": "CREATE",
@@ -168,9 +168,9 @@ function keyEvent(ocLazyLoad, scope) {
                     });
                 } else if (shapeCtrl.editType === "pathBreak") {
                     var breakPoint = null;
-                    for (var item in link.components) {
-                        if (!_contains(link.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
-                            breakPoint = link.components[item];
+                    for (var item in geo.components) {
+                        if (!_contains(geo.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
+                            breakPoint = geo.components[item];
                         }
 
                     }
@@ -220,12 +220,12 @@ function keyEvent(ocLazyLoad, scope) {
                         feature = selectCtrl.selectedFeatures;
                     var startPoint = feature.geometry[0],
                         point = feature.point;
-                    if (link) {
-                        if (link.flag) {
+                    if (geo) {
+                        if (geo.flag) {
                             var directOfLink = {
                                 "objStatus": "UPDATE",
-                                "pid": link.pid,
-                                "direct": parseInt(link.orientation)
+                                "pid": geo.pid,
+                                "direct": parseInt(geo.orientation)
                             };
                             var paramOfDirect = {
                                 "type": "RDLINK",
@@ -243,13 +243,13 @@ function keyEvent(ocLazyLoad, scope) {
                                     };
                                     data.data.log.push(sinfo);
                                     info = data.data.log;
-                                    objEditCtrl.data["direct"] = link.orientation;
+                                    objEditCtrl.data["direct"] = geo.orientation;
                                     objEditCtrl.setOriginalData(null);
                                     objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
                                     scope.$apply();
                                     rdLink.redraw();
                                 } else {
-                                     info = [{
+                                    info = [{
                                         "op": data.errcode,
                                         "type": data.errmsg,
                                         "pid": data.errid
@@ -264,7 +264,7 @@ function keyEvent(ocLazyLoad, scope) {
                             resetPage();
                             return;
                         } else {
-                            pointOfArrow = link.pointForDirect;
+                            pointOfArrow = geo.pointForDirect;
                             var pointOfContainer = map.latLngToContainerPoint([point.y, point.x]);
                             startPoint = map.latLngToContainerPoint([startPoint[1], startPoint[0]]);
                             disFromStart = distance(pointOfContainer, startPoint);
@@ -335,9 +335,9 @@ function keyEvent(ocLazyLoad, scope) {
                     if (coordinate.length !== 0) {
                         coordinate.length = 0;
                     }
-                    if (link) {
-                        for (var index in link.components) {
-                            coordinate.push([link.components[index].x, link.components[index].y]);
+                    if (geo) {
+                        for (var index in geo.components) {
+                            coordinate.push([geo.components[index].x, geo.components[index].y]);
                         }
                         var snapObj = selectCtrl.getSnapObj();
                         var interLinks = (snapObj && snapObj.interLinks.length != 0) ? snapObj.interLinks : [];
@@ -425,7 +425,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "projectId": Application.projectid,
                         "objId": parseInt(selectCtrl.selectedFeatures.id),
 
-                        "data": {"longitude": link.x, "latitude": link.y}
+                        "data": {"longitude": geo.x, "latitude": geo.y}
 
                     }
                     //结束编辑状态
@@ -608,6 +608,47 @@ function keyEvent(ocLazyLoad, scope) {
                     })
 
                 }
+
+                else if (shapeCtrl.editType === 'drawPolygon') {
+                    if (coordinate.length !== 0) {
+                        coordinate.length = 0;
+                    }
+                    for (var index = 0, len = geo.components.length; index < len; index++) {
+                        coordinate.push([geo.components[index].x, geo.components[index].y]);
+                    }
+                    var paramOfPolygon = {
+                        "command": "CREATE",
+                        "type": "ADFACE",
+                        "projectId": Application.projectid,
+                        "data": {
+
+                            "geometry": {"type": "Polygon", "coordinates": coordinate}
+
+                        }
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    Application.functions.saveLinkGeometry(JSON.stringify(paramOfPolygon), function (data) {
+                            var info = null;
+                            if (data.errcode == 0) {
+                                var sInfo = {
+                                    "op": "创建行政区划面成功",
+                                    "type": "",
+                                    "pid": ""
+                                };
+                                data.data.log.push(sInfo);
+                                info = data.data.log;
+                                //Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
+                                //    objEditCtrl.setCurrentObject("RDLINK", data.data);
+                                //    ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
+                                //        scope.attrTplContainer = "js/tpl/attr_link_tpl/rdLinkTpl.html";
+                                //    })
+                                //});
+                            }
+                        }
+                    )
+                }
+
                 else if (shapeCtrl.editType === "overpass") {
                     var options = selectCtrl.selectedFeatures;
                     var param = {
@@ -620,41 +661,44 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     console.log(param)
                     /*Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        var info = null;
-                        if (data.errcode === -1) {
-                            info = [{
-                                "op": data.errcode,
-                                "type": data.errmsg,
-                                "pid": data.errid
-                            }];
-                            swal("操作失败", data.errmsg, "error");
-                        } else {
-                            Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
-                                if (!scope.panelFlag) {
-                                    scope.panelFlag = true;
-                                    scope.objectFlag = true;
-                                }
-                                objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                                ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tpl/attr_cross_tpl/rdCrossTpl.html";
-                                });
-                            });
-                            var sInfo = {
-                                "op": "创建RDCROSS成功",
-                                "type": "",
-                                "pid": ""
-                            };
-                            data.data.log.push(sInfo);
-                            info = data.data.log;
-                        }
-                        resetPage();
-                        outPutCtrl.pushOutput(info);
-                        if (outPutCtrl.updateOutPuts !== "") {
-                            outPutCtrl.updateOutPuts();
-                        }
+                     var info = null;
+                     if (data.errcode === -1) {
+                     info = [{
+                     "op": data.errcode,
+                     "type": data.errmsg,
+                     "pid": data.errid
+                     }];
+                     swal("操作失败", data.errmsg, "error");
+                     } else {
+                     Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                     if (!scope.panelFlag) {
+                     scope.panelFlag = true;
+                     scope.objectFlag = true;
+                     }
+                     objEditCtrl.setCurrentObject("RDCROSS", data.data);
+                     ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                     scope.attrTplContainer = "jsl/attr_cross_tpl/rdCrossTpl.html";
+                     });
+                     });
+                     var sInfo = {
+                     "op": "创建RDCROSS成功",
+                     "type": "",
+                     "pid": ""
+                     };
+                     data.data.log.push(sInfo);
+                     info = data.data.log;
+                     }
+                     resetPage();
+                     outPutCtrl.pushOutput(info);
+                     if (outPutCtrl.updateOutPuts !== "") {
+                     outPutCtrl.updateOutPuts();
+                     }
 
-                    })*/
+                     })*/
                 }
+
+
+
             }
         });
 }

@@ -171,7 +171,7 @@ Application.layersConfig =
                     updateWhenIdle: true,
                     tileSize: 256,
                     type: 'Polygon',
-                    zIndex: 17,
+                    zIndex: 0,
                     restrictZoom: 10,
                     editable: false,
                     visible: true,
