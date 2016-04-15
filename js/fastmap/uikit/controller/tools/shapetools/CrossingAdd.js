@@ -87,7 +87,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     onMouseDown: function (e) {
         this._isDrawing = true;
         this._startLatLng = e.latlng;
-        if(this._map.getPanes().overlayPane.style.zIndex==="1") {
+        if (this._map.getPanes().overlayPane.style.zIndex === "1") {
             this._map.getPanes().overlayPane.style.zIndex = "4";
         }
 
@@ -114,10 +114,11 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     },
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
-        var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
+        //var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
+        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
 
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
-            {data: dataOfRectangle, layerType: this.type});
+            {data: dataOfRectangle, layerType: this.type,border:rectangle});
     },
     _arrayToWeigh: function (arr) {
         var hash = {},
@@ -131,9 +132,47 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         }
         return re;
     },
+    _getDataOfRectangle: function (layer, tiles) {
+        var points = layer._latlngs, dataOfRectangle = [];
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
+            endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
+        var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
+        var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
+        var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
+        var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
+        var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
+        var polygon = new fastmap.mapApi.Polygon([lineString]);
+        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
+            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
+
+                if (tiles[i + ":" + j]) {
+                    var data = tiles[i + ":" + j].data.features;
+                    for (var item in data) {
+                        var pointsLen = data[item].geometry.coordinates.length;
+                        var linePoints = [];
+                        for(var n=0;n<pointsLen;n++) {
+                            var linePoint=data[item].geometry.coordinates[n][0]
+                            linePoint = transform.PixelToLonlat(i * 256 + linePoint[0], j * 256 + linePoint[1], map.getZoom());
+                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
+                            linePoints.push(linePoint);
+                        }
+                        var line = new fastmap.mapApi.LineString(linePoints);
+                        if(polygon.intersects(line)) {
+                            var result = {};
+                            result["data"] = data[item];
+                            result["line"] = line;
+                            dataOfRectangle.push(result);
+                        }
+                    }
+                }
+            }
+        }
+
+        return dataOfRectangle;
+    },
     _dataOfRectangle: function (layer, tiles) {
-        var points = layer._latlngs, idArray = [], linkArr = [], nodeArr = [],dataOfRectangle={},
-            crossLinks=[],crossNodes=[];
+        var points = layer._latlngs, linkArr = [], nodeArr = [], dataOfRectangle = null;
         var transform = new fastmap.mapApi.MecatorTranform();
         var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
             endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
@@ -149,43 +188,56 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                 if (data) {
                     for (var item in data) {
                         var pointsLen = data[item].geometry.coordinates.length;
-                        var startPoint = data[item].geometry.coordinates[0][0],
-                            endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
-                        startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
-                        startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
-                        endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
-                        endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
-                        if (polygon.containsPoint(startPoint)) {
-                            linkArr.push(parseInt(data[item].properties.id));
-                            nodeArr.push(parseInt(data[item].properties.snode));
-                            if(polygon.containsPoint(endPoint)) {
-                                crossLinks.push(parseInt(data[item].properties.id));
-                                crossNodes.push(parseInt(data[item].properties.snode));
-                                crossNodes.push(parseInt(data[item].properties.enode));
+                            var startPoint = data[item].geometry.coordinates[0][0],
+                                endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
+                            startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
+                            startPoint = new fastmap.mapApi.Point(startPoint[0], startPoint[1]);
+                            endPoint = transform.PixelToLonlat(i * 256 + endPoint[0], j * 256 + endPoint[1], map.getZoom());
+                            endPoint = new fastmap.mapApi.Point(endPoint[0], endPoint[1]);
+                            if (polygon.containsPoint(startPoint)) {
+                                if (polygon.containsPoint(endPoint)) {
+                                    linkArr.push({
+                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
+                                        "link": parseInt(data[item].properties.id)
+                                    });
+
+                                } else {
+                                    var sObj = {
+                                        "node": parseInt(data[item].properties.snode),
+                                        "link": parseInt(data[item].properties.id)
+                                    }
+                                    nodeArr.push(sObj);
+                                }
+
+
+                            } else if (polygon.containsPoint(endPoint)) {
+
+                                if (polygon.containsPoint(startPoint)) {
+                                    linkArr.push({
+                                        "node": [parseInt(data[item].properties.snode), parseInt(data[item].properties.enode)],
+                                        "link": parseInt(data[item].properties.id)
+                                    });
+                                } else {
+                                    var eObj = {
+                                        "node": parseInt(data[item].properties.enode),
+                                        "link": parseInt(data[item].properties.id)
+                                    };
+                                    nodeArr.push(eObj);
+                                }
 
                             }
 
-
-                        } else if (polygon.containsPoint(endPoint)) {
-                            linkArr.push(parseInt(data[item].properties.id));
-                            nodeArr.push(parseInt(data[item].properties.enode));
-                        }
+                            dataOfRectangle = {
+                                links: linkArr,
+                                nodes: nodeArr
+                            };
 
 
                     }
                 }
             }
         }
-        linkArr = this._arrayToWeigh(linkArr);
-        nodeArr = this._arrayToWeigh(nodeArr);
-        crossLinks = this._arrayToWeigh(crossLinks);
-        crossNodes = this._arrayToWeigh(crossNodes);
-        dataOfRectangle={
-            links:linkArr,
-            nodes:nodeArr,
-            crossLinks:crossLinks,
-            crossNodes:crossNodes
-        };
+
         return dataOfRectangle;
     },
     _drawShape: function (latlng) {

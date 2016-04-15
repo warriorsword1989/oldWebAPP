@@ -1,0 +1,184 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
+
+    #pedestrianDiv {
+        opacity: 1;
+        width: 100%;
+    }
+
+    #pedestrianDiv ul {
+        list-style: none;
+        overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #pedestrianDiv ul > li {
+        background-color: #555;
+        border-right: none;
+        border-left: none;
+    }
+
+    #pedestrianDiv ul > li > div > input {
+        color: #F3F6FA;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #pedestrianDiv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #pedestrianDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #pedestrianDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #pedestrianDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+    #pedestrianDiv ul > li > div > label>input[type="radio"] {
+        margin-top: 3px
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 4px;
+    }
+    .list-name{
+        color:#FFF;
+        margin:5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid #9E9E9E;
+        margin: 0 -15px;
+    }
+</style>
+<div id="pedestrianDiv" ng-controller="pedestrianNaviController">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label" >DICI城市类型</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="diciTypeRadio" value=0 ng-model="naviData.diciType">
+                    不应用
+                </label>
+                <label>
+                    <input type="radio" name="diciTypeRadio" value=1 ng-model="naviData.diciType">
+                    全要素
+                </label>
+                <label>
+                    <input type="radio" name="diciTypeRadio" value=2 ng-model="naviData.diciType">
+                    简版
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >人行便道标记</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="sideWalkFlagRadio" value=0 ng-model="naviData.sidewalkFlag">
+                    未采集
+                </label>
+                <label>
+                    <input type="radio" name="sideWalkFlagRadio" value=1 ng-model="naviData.sidewalkFlag">
+                    有
+                </label>
+                <label>
+                    <input type="radio" name="sideWalkFlagRadio" value=2 ng-model="naviData.sidewalkFlag">
+                    无
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >人行阶梯标记</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="walkStairFlagRadio" value=0 ng-model="naviData.walkstairFlag">
+                    未采集
+                </label>
+                <label>
+                    <input type="radio" name="walkStairFlagRadio" value=1 ng-model="naviData.walkstairFlag">
+                    有
+                </label>
+                <label>
+                    <input type="radio" name="walkStairFlagRadio" value=2 ng-model="naviData.walkstairFlag">
+                    无
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >行人步行</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="walkFlagRadio" value=0 ng-model="naviData.walkFlag">
+                    未调查
+                </label>
+                <label>
+                    <input type="radio" name="walkFlagRadio" value=1 ng-model="naviData.walkFlag">
+                    允许
+                </label>
+                <label>
+                    <input type="radio" name="walkFlagRadio" value=2 ng-model="naviData.walkFlag">
+                    禁止
+                </label>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item">
+            <div class="list-name" style="width:120px;">
+                <a ng-click="addSidewalk()" style="cursor: pointer;color: #ffffff;">人行便道 共{{naviData.sidewalks.length}}个</a>
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
+            <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
+                <span id="SidewalkSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusSidewalk($index)"></span>
+            </div>
+        </li>
+    </ul>
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item">
+            <div class="list-name" style="width:120px;">
+                <a ng-click="addWalkstair()" style="cursor: pointer;color: #ffffff;">人行阶梯 共（{{naviData.walkstairs.length}})个</a>
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" ng-repeat="walkstairsItem in naviData.walkstairs">
+            <div ng-click="showWalkstair(walkstairsItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
+                <span id="WalkstairSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusWalkstair($index)"></span>
+            </div>
+        </li>
+    </ul>
+</div>

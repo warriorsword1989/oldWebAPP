@@ -1,0 +1,307 @@
+<style>
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
+
+    #otherDiv {
+        opacity: 1;
+        width: 100%;
+        font-size: 12px;
+    }
+
+    #otherDiv ul {
+        list-style: none;
+        overflow: hidden;
+        width: 100%;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #otherDiv ul > li {
+        background-color: #555;
+        border-right: none;
+        border-left: none;
+    }
+
+    #otherDiv ul > li > div > input[type='text'] {
+        color: #F3F6FA;
+        width: 170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #otherDiv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width: 160px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #otherDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #otherDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #otherDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+    .checkboxThree {
+        width: 81px;
+        height: 25px;
+        background: #333;
+        margin: 10px 40px;
+
+        border-radius: 50px;
+        position: relative;
+    }
+
+    .checkboxThree:before {
+        content: '是';
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        height: 2px;
+        color: #26ca28;
+        font-size: 16px;
+    }
+
+    .checkboxThree input {
+        position: absolute;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    /**
+     * Create the text for the off position
+     */
+    .checkboxThree:after {
+        content: '否';
+        position: absolute;
+        top: 3px;
+        left: 50px;
+        height: 2px;
+        color: #ddd;
+        font-size: 16px;
+    }
+
+    .checkboxThree label {
+        display: block;
+        width: 32px;
+        height: 20px;
+        border-radius: 50px;
+
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        transition: all .5s ease;
+        cursor: pointer;
+        position: absolute;
+        top: 3px;
+        z-index: 5;
+        left: 3px;
+        background: #ddd;
+    }
+
+    /**
+     * Create the checkbox event for the label
+     */
+    .checkboxThree input[type=checkbox]:checked + label {
+        left: 50px;
+        background: #26ca28;
+    }
+
+    .checkboxli {
+        /*background-color: #e4e4e4;*/
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+    }
+
+    .popover {
+        width: 100%;
+        position: relative;
+    }
+
+    .popover-content {
+        overflow-y: auto;
+        height: 150px;
+    }
+</style>
+<div id="otherDiv" ng-controller="otherController">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label" >特殊交通</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="specialTrafficRadio" value=0 ng-model="roadlinkData.specialTraffic">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="specialTrafficRadio" value=1 ng-model="roadlinkData.specialTraffic">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >是否高架</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="isViaductRadio" value=0 ng-model="roadlinkData.isViaduct">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="isViaductRadio" value=1 ng-model="roadlinkData.isViaduct">
+                    是
+                </label>
+                <label>
+                    <input type="radio" name="isViaductRadio" value=2 ng-model="roadlinkData.isViaduct">
+                    未调查
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >铺设状态</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="paveStatusRadio" value=0 ng-model="roadlinkData.paveStatus">
+                    铺设
+                </label>
+                <label>
+                    <input type="radio" name="paveStatusRadio" value=1 ng-model="roadlinkData.paveStatus">
+                    未铺设
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >收费信息</label></div>
+            <div class="inline">
+                <select  ng-model="roadlinkData.tollInfo"
+                        ng-options="value.id as value.label for value in toolinfoOption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">收费标准</label></div>
+            <div class="inline">
+                <input type="text" placeholder="0" style="width:120px"
+                       ng-model="roadlinkData.feeStd">
+                <label>元/KM</label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >计费标识</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="adasFlagRadio" value=0 ng-model="roadlinkData.adasFlag">
+                    不应用
+                </label>
+                <label>
+                    <input type="radio" name="adasFlagRadio" value=1 ng-model="roadlinkData.adasFlag">
+                    人工
+                </label>
+                <label>
+                    <input type="radio" name="adasFlagRadio" value=2 ng-model="roadlinkData.adasFlag">
+                    程序
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">区域标识</label></div>
+            <div class="inline">
+                <input type="text"  placeholder="0"
+                       ng-model="roadlinkData.systemId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">差分产品ID</label></div>
+            <div class="inline">
+                <input id="difGroupIdText" type="text" value="0" style="width:150px" ng-model="roadlinkData.difGroupid">
+                <span ng-click="emptyGroupId()" class="glyphicon glyphicon-remove" style="cursor: pointer;color:#FFF;"></span>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">LINK长度</label></div>
+            <div class="inline">
+                <input type="text"  placeholder="0"
+                       ng-model="roadlinkData.length">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">图幅编号</label></div>
+            <div class="inline">
+                <input type="text" placeholder="0"
+                       ng-model="roadlinkData.meshId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">起点号码</label></div>
+            <div class="inline">
+                <input type="text"  placeholder="0"
+                       ng-model="roadlinkData.sNodePid" value="roadlinkData.sNodePid">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">终点号码</label></div>
+            <div class="inline">
+                <input type="text"  placeholder="0"
+                       ng-model="roadlinkData.eNodePid" value="roadlinkData.eNodePid">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >辅助标志</label></div>
+            <div class="inline" ng-repeat="auxi in roadlinkData.forms|filter:auxiFilter">
+                <input type="text" ng-if="auxi.auxiFlag===0" placeholder="无" />
+                <input type="text" ng-if="auxi.auxiFlag===3" placeholder="功能面关联道路" />
+
+                <!--<select  ng-model="roadlinkData.auxiFlag"-->
+                         <!--ng-options="value.id as value.label for value in auxiFlagoption">-->
+                    <!--<option>--</option>-->
+                <!--</select>-->
+            </div>
+        </li>
+    </ul>
+</div>
+

@@ -1,0 +1,212 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        /*color: #0f096e;*/
+        color: #58666e;
+        /*background-color: transparent;*/
+       margin-right: 0px;
+   }
+
+   .list-group-item {
+       position: relative;
+       display: block;
+       padding: 1px 15px;
+       margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+       border: 0;
+    }
+
+    #rdNodediv {
+       /* background-color: #000;*/
+        opacity: 1;
+        width: 100%;
+    }
+    #rdNodediv ul {
+        /*background-color: #000;*/
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #rdNodediv ul > li {
+        background-color: #555;
+        color: #FFF;
+
+    }
+
+    #rdNodediv ul > li > div > input {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+    #rdNodediv ul > li > div > .ng-dirty {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: red;
+    }
+
+
+
+    #rdNodediv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+    #rdNodediv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: red;
+    }
+
+    #rdNodediv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+    }
+
+    #rdNodediv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #rdNodediv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+        border-radius:4px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: center;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+
+    .checkboxli {
+        background-color: #333;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        cursor: default;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-top: 5px;
+        padding: 0 5px;
+        color:#FFF;
+    }
+
+</style>
+<div id="rdNodediv" ng-controller="rdNodeFromController" >
+
+    <div style="height:50px">
+        <form class="form-horizontal" method="get">
+            <div class="panel panel-default " style="background-color: transparent;border:0;">
+                <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
+                    道路点
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{rdNodeData.pid}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <form name="nodeForm">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div ><label class="control-label">NODE种别</label></div>
+            <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.kind"
+                            ng-options="value.id as value.label for value in kindOptions" >
+                    </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">差分产品ID</label></div>
+                <div class="inline" style="text-align: left">
+                    <input type="text"  ng-model="rdNodeData.difGroupid">
+                </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">数据来源</label></div>
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.srcFlag"
+                            ng-options="value.id as value.label for value in srcFlagOptions" >
+                    </select>
+                </div>
+        </li>
+
+        <li class="list-group-item">
+            <div ><label class="control-label">精度级别</label></div>
+
+                <div class="inline" style="text-align: left">
+                    <select  ng-model="rdNodeData.digitalLevel"
+                            ng-options="value.id as value.label for value in digitalLeveOptions" >
+                    </select>
+                </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">辅助标志</label></div>
+
+            <div class="inline" style="text-align: left">
+                <select ng-model="auxiFlag" ng-options="value.id as value.label for value in auxiFlagOptions" >
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div ><label class="control-label">图幅号码</label></div>
+                <div class="inline" style="text-align: left" ng-repeat="mitem in rdNodeData.meshes">
+                    <input type="text"  ng-model="mitem.meshId">
+                </div>
+
+        </li>
+        <li class="list-group-item">
+            <div style="margin-top: 5px;"><label class="control-label">Node形态</label></div>
+
+            <div class="inline" style="text-align: left;">
+                <a  ng-click="showPopover()" style="cursor: pointer;">添加</a>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div id="fromOfWRoaddiv" style="width:260px;">
+                <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
+                    {{fromitem.label}}
+                </div>
+            </div>
+        </li>
+
+    </ul>
+    </form>
+</div>

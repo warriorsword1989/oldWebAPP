@@ -26,19 +26,9 @@ function keyEvent(ocLazyLoad, scope) {
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
-            var highCtrl = fastmap.uikit.HighLightController();
             if (event.keyCode == 27) {
-
-
-                if (highCtrl.highLightLayersArr.length !== 0) {
-                    highCtrl.removeHighLightLayers();
-                }
                 resetPage();
-                map.currentTool.disable();
                 map._container.style.cursor = '';
-
-
-                $(layerCtrl.getLayerById('edit').options._div).unbind();
             }
 
 
@@ -67,7 +57,6 @@ function keyEvent(ocLazyLoad, scope) {
                 rdLink.redraw();
                 rdCross.redraw();
                 editLayer.drawGeometry = null;
-                editLayer.clear();
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
                 $(editLayer.options._div).unbind();
@@ -112,8 +101,8 @@ function keyEvent(ocLazyLoad, scope) {
                             info = data.data.log;
                             Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
                                 objEditCtrl.setCurrentObject("RDLINK", data.data);
-                                ocLazyLoad.load('ctrl/linkObjectCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/linkObjTepl/linkObjectTepl.html";
+                                ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_link_tpl/rdLinkTpl.html";
                                 })
                             });
                         } else {
@@ -159,8 +148,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
-                                ocLazyLoad.load('ctrl/restrictionCtrl/rdRestriction').then(function () {
-                                    scope.attrTplContainer = "js/tepl/restrictTepl/trafficLimitOfNormalTepl.html";
+                                ocLazyLoad.load('ctrl/attr_restriction_ctrl/rdRestriction').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
                                 })
                             })
                         } else {
@@ -314,8 +303,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
-                                ocLazyLoad.load('ctrl/speedLimitCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/speedLimitTepl.html";
+                                ocLazyLoad.load('ctrl/attr_speedLimit_ctrl/speedLimitCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_speedLimit_ctrl/speedLimitTpl.html";
                                 });
                             });
                             var sinfo = {
@@ -495,8 +484,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDBRANCH", data.data);
-                                ocLazyLoad.load('ctrl/branchCtrl/namesOfBranchCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/branchTepl/namesOfBranch.html";
+                                ocLazyLoad.load('ctrl/attr_branch_ctrl/rdBranchCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_branch_Tpl/namesOfBranch.html";
                                 })
                             }, data.data.pid)
                         } else {
@@ -542,8 +531,8 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                                ocLazyLoad.load('ctrl/crossCtrl/rdCrossCtrl').then(function () {
-                                    scope.attrTplContainer = "js/tepl/crossTepl/rdCrossTepl.html";
+                                ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_cross_tpl/rdCrossTpl.html";
                                 });
                             });
                             var sInfo = {
@@ -597,8 +586,8 @@ function keyEvent(ocLazyLoad, scope) {
                             }
                             Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
                                 objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
-                                ocLazyLoad.load("ctrl/connexityCtrl/rdLaneConnexityCtrl").then(function () {
-                                    scope.attrTplContainer = "js/tepl/connexityTepl/rdLaneConnexityTepl.html";
+                                ocLazyLoad.load("ctrl/attr_connexity_ctrl/rdLaneConnexityCtrl").then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_connexity_tpl/rdLaneConnexityTpl.html";
                                 });
                             });
                             var sinfo = {
@@ -618,6 +607,53 @@ function keyEvent(ocLazyLoad, scope) {
 
                     })
 
+                }
+                else if (shapeCtrl.editType === "overpass") {
+                    var options = selectCtrl.selectedFeatures;
+                    var param = {
+                        "command": "CREATE",
+                        "type": "RDCROSS",
+                        "projectId": Application.projectid,
+                        "data": options
+                    }
+                    //结束编辑状态
+                    shapeCtrl.stopEditing();
+                    console.log(param)
+                    /*Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        var info = null;
+                        if (data.errcode === -1) {
+                            info = [{
+                                "op": data.errcode,
+                                "type": data.errmsg,
+                                "pid": data.errid
+                            }];
+                            swal("操作失败", data.errmsg, "error");
+                        } else {
+                            Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
+                                if (!scope.panelFlag) {
+                                    scope.panelFlag = true;
+                                    scope.objectFlag = true;
+                                }
+                                objEditCtrl.setCurrentObject("RDCROSS", data.data);
+                                ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                                    scope.attrTplContainer = "js/tpl/attr_cross_tpl/rdCrossTpl.html";
+                                });
+                            });
+                            var sInfo = {
+                                "op": "创建RDCROSS成功",
+                                "type": "",
+                                "pid": ""
+                            };
+                            data.data.log.push(sInfo);
+                            info = data.data.log;
+                        }
+                        resetPage();
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+
+                    })*/
                 }
             }
         });

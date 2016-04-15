@@ -25,7 +25,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.layerController = new fastmap.uikit.LayerController();
-
+        this.highlightLayer = this.layerController.getLayerById('highlightlayer');
         for(var item in this.editLayerIds){
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
@@ -65,17 +65,33 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
 
+    /***
+     * 获取鼠标点击周边所有瓦片
+     * @param layer
+     * @param tilePoint
+     * @returns {Array}
+     */
+    getRoundTile:function(layer, tilePoint){
+        var tiles = [];
+        for( var index in layer.tiles){
+            if(Math.abs(layer.tiles[index].options.context.name.split('_')[0] - tilePoint[0])<=1&&Math.abs(layer.tiles[index].options.context.name.split('_')[1] - tilePoint[1])<=1){
+                tiles.push(layer.tiles[index]);
+            }
+        }
+
+        return tiles;
+    },
+
     drawGeomCanvasHighlight: function (tilePoint, event) {
         this.overlays=[];
         var  frs = null;
         for(var layer in this.currentEditLayers){
 
-            this.tiles.push(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]);
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer],tilePoint))
 
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 return;
             }
-
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
@@ -103,39 +119,34 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             switch (this.overlays[0].layer.requestType) {
 
                 case'RDRESTRICTION':
-                    frs= new fastmap.uikit.SelectRestriction({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs= new fastmap.uikit.SelectRestriction({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDLANECONNEXITY":
-                    frs = new fastmap.uikit.SelectRdlane({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdlane({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDSPEEDLIMIT":
-                    frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectSpeedLimit({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDCROSS":
-                    frs = new fastmap.uikit.SelectRdCross({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdCross({highlightLayer:this.highlightLayer,map:this._map});
                     break;
                 case "RDBRANCH":
-                    frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:this.overlays[0].layer,map:this._map});
+                    frs = new fastmap.uikit.SelectRdBranch({highlightLayer:this.highlightLayer,map:this._map});
                     break;
             }
             frs.tiles = this.tiles;
             frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
         }else if (this.overlays.length > 1){
             var html = '<ul id="layerpopup">';
-
-
-
             this.overlays = this.unique(this.overlays);
             for(var item in this.overlays){
                 html += '<li><a href="#" id="'+this.overlays[item].layer.options.requestType+'">'+this.overlays[item].layer.options.layername+'</a></li>';
             }
             html +='</ul>';
-
             this.popup
                 .setLatLng(event.latlng)
                 .setContent(html);
             var that = this;
-
             this._map.on('popupopen',function(){
                 document.getElementById('layerpopup').onclick=function(e){
                     if(e.target.tagName == 'A'){
@@ -151,19 +162,19 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         switch (e.target.id) {
 
                             case'RDRESTRICTION':
-                                frs = new fastmap.uikit.SelectRestriction({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRestriction({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDLANECONNEXITY":
-                                frs = new fastmap.uikit.SelectRdlane({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdlane({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDSPEEDLIMIT":
-                                frs = new fastmap.uikit.SelectSpeedLimit({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectSpeedLimit({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDCROSS":
-                                frs = new fastmap.uikit.SelectRdCross({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdCross({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                             case "RDBRANCH":
-                                frs = new fastmap.uikit.SelectRdBranch({currentEditLayer:layer,map:that._map});
+                                frs = new fastmap.uikit.SelectRdBranch({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
                         }
                         frs.tiles = that.tiles;
@@ -175,8 +186,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
         }
     },
-
-
      unique:function(arr) {
         var result = [], hash = {};
         for (var i = 0; i<arr.length; i++) {

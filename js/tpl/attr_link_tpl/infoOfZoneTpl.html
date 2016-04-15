@@ -1,0 +1,126 @@
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        /*background-color: transparent;*/
+        margin-right: 0px;
+    }
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*background-color: #000;*/
+        /*border: 1px solid #ddd;*/
+        font-size: 12px;
+    }
+
+    #zoneInfoDiv {
+        /*background-color: #000;*/
+        opacity: 1;
+        width: 100%;
+    }
+
+    #zoneInfoDiv ul {
+        /*background-color: #000;*/
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #zoneInfoDiv ul > li {
+        background-color: #555;
+    }
+
+    #zoneInfoDiv ul > li > div > input {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #zoneInfoDiv ul > li > div > select {
+        color: #F3F6FA;
+        width: 170px;
+        border-radius: 4px;
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        background-color: #333;
+    }
+
+    #zoneInfoDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 80px;
+        padding-top: 3px;
+    }
+
+    #zoneInfoDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #zoneInfoDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    .inline {
+        display: inline-block !important;
+        /*width: 70%;*/
+        text-align: left;
+        padding-top: 5px;
+    }
+
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .radio {
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+</style>
+<div ng-controller="zoneInfoController" id="zoneInfoDiv">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">区划号码</label></div>
+            <div class="inline">
+                <input type="number"  placeholder="0" ng-model="oridiData.regionId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">Zone类型</label></div>
+            <div class="inline">
+                <select  ng-model="oridiData.type" ng-options="value.id as value.label for value in typeoption">
+                    <option>--</option>
+                </select>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">Link左右</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="sideRadio" value="0"
+                           ng-model="oridiData.side">
+                    左
+                </label>
+                <label>
+                    <input type="radio" name="sideRadio" value="1"
+                           ng-model="oridiData.side">
+                    右
+                </label>
+            </div>
+        </li>
+    </ul>
+</div>

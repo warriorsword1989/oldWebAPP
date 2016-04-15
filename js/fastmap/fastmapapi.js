@@ -80,6 +80,13 @@
                 "fastmap/dataApi/datamodel/Rdlanetopology.js",
                 "fastmap/dataApi/datamodel/Rdlanevia.js",
                 "fastmap/dataApi/datamodel/Rdspeedlimit.js",
+                "fastmap/dataApi/datamodel/Adlink.js",
+                "fastmap/dataApi/datamodel/Adadminname.js",
+                "fastmap/dataApi/datamodel/Adadmin.js",
+                "fastmap/dataApi/datamodel/Rdgsc.js",
+                "fastmap/dataApi/datamodel/Rdgsclink.js",
+                "fastmap/dataApi/datamodel/Adface.js",
+                "fastmap/dataApi/datamodel/Rwlink.js",
 
                 //mapApi/geometry
                 "fastmap/mapApi/geometry/Geometry.js",
@@ -114,7 +121,7 @@
                 "fastmap/uikit/controller/corectl/SelectController.js",
                 "fastmap/uikit/controller/corectl/ShapeEditorController.js",
                 "fastmap/uikit/controller/corectl/ToolTipsController.js",
-                "fastmap/uikit/controller/corectl/HighLightController.js",
+
                 "fastmap/uikit/controller/corectl/EventController.js",
                 //uikit/controller/tools/shapetools
 
@@ -149,6 +156,8 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectRelation.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdCross.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRdBranch.js",
+
+                //"fastmap/uikit/controller/tools/L.floatMenuControl.js",
 
                 "fastmap/uikit/ctlmodel/CheckResult.js",
                 "fastmap/uikit/ctlmodel/ContentStyle.js",

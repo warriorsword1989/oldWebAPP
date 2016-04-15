@@ -1,0 +1,110 @@
+
+<style>
+    div {
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.42857143;
+        color: #58666e;
+        /*background-color: transparent;*/
+        margin-right: 0px;
+    }
+    .list-group-item {
+        position: relative;
+        display: block;
+        padding: 1px 15px;
+        margin-bottom: -1px;
+        /*background-color: #000;*/
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
+
+    #realTimeDiv {
+        /*background-color: #000;*/
+        opacity: 1;
+        padding: 10px 5px;
+        width: 100%;
+        z-index: 20;
+    }
+
+    #realTimeDiv ul {
+        /*background-color: #000;*/
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+        width: 97%;
+        float: left;
+        margin: 5px;
+        border-radius: 4px;
+    }
+
+    #realTimeDiv ul > li {
+        background-color: #555;
+    }
+
+    #realTimeDiv ul > li > div > input {
+        color: #F3F6FA;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+
+    #realTimeDiv ul > li > div > select {
+        color: #F3F6FA;
+        margin-left: -3px;
+        border: 1px ridge #FFFFFF;
+        background-color: #333;
+    }
+
+    #realTimeDiv ul > li > div:first-child {
+        display: inline-block;
+        width: 150px;
+    }
+
+    #realTimeDiv ul > li > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+
+    #realTimeDiv ul > li > div > label {
+        color: #F3F6FA;
+        font-weight: normal;
+    }
+    .m-b-none {
+        margin-bottom: 0 !important;
+    }
+    .list-name{
+        color:#FFF;
+        margin:5px 0;
+    }
+    .list-line{
+        border-bottom: 1px solid #9E9E9E;
+        margin: 0 -15px;
+    }
+</style>
+<div id="realTimeDiv" ng-controller="realtimeTrafficController">
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item">
+            <div class="list-name">
+                <a ng-click="addIntRtic()" style="cursor: pointer;color:#FFF;">互联网RTIC信息（共<span ng-if="rticData!=undefined">{{rticData.intRtics.length}}</span>条）</a>
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" ng-repeat="item in rticData.intRtics track by $index">
+            <div ng-click="showRticsInfo(item)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{item.code}}</label>
+                <span id="rticSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusIntRtic($index)"></span>
+            </div>
+        </li>
+    </ul>
+
+    <ul class="list-group list-group-lg m-b-none" >
+        <li class="list-group-item">
+            <div class="list-name">
+                <a ng-click="addCarRtic()" style="cursor: pointer;color:#FFF;">车厂RTIC信息（共<span ng-if="linkData!=undefined">{{linkData.rtics.length}}</span>条）</a>
+            </div>
+            <div class="list-line"></div>
+        </li>
+        <li class="list-group-item" ng-repeat="cItem in linkData.rtics  track by $index">
+            <div ng-click="showCarInfo(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.code}}</label>
+                <span id="carSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusCarRtic($index)"></span>
+            </div>
+        </li>
+    </ul>
+</div>

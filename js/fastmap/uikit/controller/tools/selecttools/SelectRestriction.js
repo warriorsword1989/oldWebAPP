@@ -16,7 +16,7 @@ function init(options) {
             this.options = options || {};
             L.setOptions(this, options);
             this._map = this.options.map;
-            this.currentEditLayer = this.options.currentEditLayer;
+            this.highlightLayer = this.options.highlightLayer;
             this.eventController = fastmap.uikit.EventController();
             this.tiles = this.options.tiles;
             this.transform = new fastmap.mapApi.MecatorTranform();
@@ -43,11 +43,6 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             } else {
@@ -55,11 +50,6 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             }
@@ -75,11 +65,6 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             } else {
@@ -87,11 +72,6 @@ function init(options) {
                                     id = data[item].properties.id;
                                     this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
 
-                                    if (this.redrawTiles.length != 0) {
-                                        this._cleanHeight();
-                                    }
-
-                                    this._drawHeight(id);
                                     break;
                                 }
                             }
@@ -121,262 +101,8 @@ function init(options) {
             } else {
                 return 0;
             }
-        },
-        cleanHeight: function () {
-            this._cleanHeight();
-            //this.currentEditLayer.fire("getNodeId")
         }
-        ,
 
-        /***_drawLineString: function (ctx, geom, style, boolPixelCrs) {
-     *清除高亮
-     */
-        _cleanHeight: function () {
-
-            for (var index in this.redrawTiles) {
-                var data = this.redrawTiles[index].data;
-
-                if(this.redrawTiles[index].options.context._layer.requestType == 'RDRESTRICTION' ){
-
-                    this.redrawTiles[index].options.context.getContext('2d').clearRect(0, 0, 256, 256);
-                    var ctx = {
-                        canvas: this.redrawTiles[index].options.context,
-                        tile: this.redrawTiles[index].options.context._tilePoint
-                        //, zoom: this._map.getZoom()
-                    }
-                    if (data.hasOwnProperty("features")) {
-                        for (var i = 0; i < data.features.length; i++) {
-                            var feature = data.features[i];
-                            if (feature.properties.restrictioninfo === undefined) {
-                                break;
-                            }
-                            var newStyle = "", newGeom = [];
-                            var restrictObj = feature.properties.restrictioninfo;
-                            var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
-                            var geom = feature.geometry.coordinates;
-                            var newgeom = [];
-                            if (restrictObj !== undefined) {
-                                if (restrictObj.constructor === Array) {
-                                    for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                        newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
-                                        if (theory > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:newGeom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route
-                                            })
-                                        } else {
-
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:geom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route
-                                            })
-                                        }
-                                    }
-                                } else {
-                                    var restrictArr = restrictObj.split(",");
-                                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                        if (restrictArr[fact].constructor === Array) {
-                                            newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
-
-                                        } else {
-                                            if (restrictArr[fact].indexOf("[") > -1) {
-                                                restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                                restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                                newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
-                                            } else {
-                                                newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
-                                            }
-
-                                        }
-                                        if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:newGeom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route
-                                            })
-                                        } else {
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:geom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route
-                                            })
-                                        }
-                                    }
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-
-            }
-        }
-        ,
-        /***
-         * 绘制高亮
-         * @param id
-         * @private
-         */
-        _drawHeight: function (id) {
-            this.redrawTiles = this.tiles;
-            for (var obj in this.tiles) {
-                var data = this.tiles[obj].data.features;
-
-                for (var key in data) {
-
-                    var feature = data[key];
-                    var type = feature.geometry.type;
-                    var geom = feature.geometry.coordinates;
-                    var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
-                    var newgeom = [];
-                    if (data[key].properties.id == id) {
-                        var ctx = {
-                            canvas: this.tiles[obj].options.context,
-                            tile: L.point(key.split(',')[0], key.split(',')[1])
-                            //, zoom: this._map.getZoom()
-                        }
-                        if (type == "Point") {
-                            if (feature.properties.restrictioninfo === undefined) {
-                                break;
-                            }
-                            var newStyle = "", newGeom = [];
-                            var restrictObj = feature.properties.restrictioninfo;
-                            if (restrictObj !== undefined) {
-                                if (restrictObj.constructor === Array) {
-                                    for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                        newStyle = {src: './css/1302/1302_2_' + restrictObj[theory] + '.svg'};
-                                        if (theory > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:newGeom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                fillStyle:{
-                                                    lineColor:'rgb(4, 187, 245)',
-                                                    fillColor:'rgba(4, 187, 245, 0.5)',
-                                                    lineWidth:1,
-                                                    width:20,
-                                                    height:20,
-                                                    dx:0,
-                                                    dy:0
-
-                                                }
-                                            })
-                                        } else {
-
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:geom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                fillStyle:{
-                                                    lineColor:'rgb(4, 187, 245)',
-                                                    fillColor:'rgba(4, 187, 245, 0.5)',
-                                                    lineWidth:1,
-                                                    width:20,
-                                                    height:20,
-                                                    dx:0,
-                                                    dy:0
-
-                                                }
-                                            })
-                                        }
-
-                                    }
-                                } else {
-                                    var restrictArr = restrictObj.split(",");
-                                    for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                        if (restrictArr[fact].constructor === Array) {
-                                            newStyle = {src: './css/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
-
-                                        } else {
-                                            if (restrictArr[fact].indexOf("[") > -1) {
-                                                restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                                restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                                newStyle = {src: './css/1302/1302_2_'  + restrictArr[fact] + '.svg'};
-                                            } else {
-                                                newStyle = {src: './css/1302/1302_1_' + restrictArr[fact] + '.svg'};
-                                            }
-
-                                        }
-                                        if (fact > 0) {
-                                            newgeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                            newgeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:newGeom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                fillStyle:{
-                                                    lineColor:'rgb(4, 187, 245)',
-                                                    fillColor:'rgba(4, 187, 245, 0.5)',
-                                                    lineWidth:1,
-                                                    width:20,
-                                                    height:20,
-                                                    dx:0,
-                                                    dy:0
-
-                                                }
-                                            })
-                                        } else {
-
-                                            this.currentEditLayer._drawImg({
-                                                ctx:ctx,
-                                                geo:geom,
-                                                style:newStyle,
-                                                boolPixelCrs:true,
-                                                rotate:route,
-                                                fillStyle:{
-                                                    lineColor:'rgb(4, 187, 245)',
-                                                    fillColor:'rgba(4, 187, 245, 0.5)',
-                                                    lineWidth:1,
-                                                    width:20,
-                                                    height:20,
-                                                    dx:0,
-                                                    dy:0
-
-                                                }
-                                            })
-                                        }
-
-                                    }
-                                }
-
-                            }
-
-
-                        }
-                    }
-                }
-            }
-
-
-        }
     }
 )
     return new SelectRestriction(options);

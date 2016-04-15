@@ -6,7 +6,7 @@
  */
 fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
     options: {},
-    coordinates: [],
+    components: [],
 
     /**
      * 几何类型
@@ -21,11 +21,11 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
      * @class LinearRing
      * @constructor
      * @namespace fastmap.mapApi
-     * @param {Array}coordinates
+     * @param {Array}components
      * @param {Object}options
      */
-    initialize: function (coordinates, options) {
-        this.coordinates = coordinates;
+    initialize: function (components, options) {
+        this.components = components;
         this.options = options;
     },
     /**
@@ -216,14 +216,14 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
             return (y - y2) * ((x2 - x1) / (y2 - y1)) + x2;
         }
 
-        var numSeg = this.coordinates.length - 1;
+        var numSeg = this.components.length - 1;
         var start, end, x1, y1, x2, y2, cx, cy;
         var crosses = 0;
         for (var i = 0; i < numSeg; ++i) {
-            start = this.coordinates[i];
+            start = this.components[i];
             x1 = this.limitSigDigs(start.x, digs);
             y1 = this.limitSigDigs(start.y, digs);
-            end = this.coordinates[i + 1];
+            end = this.components[i + 1];
             x2 = this.limitSigDigs(end.x, digs);
             y2 = this.limitSigDigs(end.y, digs);
 
