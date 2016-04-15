@@ -65,51 +65,7 @@ fastmap.mapApi.LayerRender = {
      * @private
      */
     _drawImg: function (options) {
-        if(options.geo.length == 4){
-            for (var i = 0;i<2;i++) {
-                var p = null;
-                var style = options.style;
-                if (options.boolPixelCrs) {
-                    if (i == 0) {
-                        p = {x: options.geo[0], y: options.geo[1]}
-                    } else {
-                        p = {x: options.geo[2], y: options.geo[3]}
-                    }
-                    var c = options.ctx.canvas;
 
-                    var g = c.getContext('2d');
-
-                    var image = new Image();
-
-                    var rotate = options.rotate;
-
-
-                    image.src = style.src;
-                    image.onload = function () {
-                        var scalex = options.scalex ? options.scalex : 1;
-                        var scaley = options.scaley ? options.scaley : 1;
-                        var drawx = options.drawx ? options.drawx : -image.width * scalex / 2;
-                        var drawy = options.drawy ? options.drawy : -image.height * scalex / 2;
-                        g.save();
-                        g.translate(p.x, p.y);
-                        if (options.fillStyle) {
-                            g.strokeStyle = options.fillStyle.lineColor;  //边框颜色
-                            g.fillStyle = options.fillStyle.fillColor;
-                            g.linewidth = options.fillStyle.lineWidth;  //边框宽
-                            g.fillRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充颜色 x y坐标 宽 高
-                            g.strokeRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充边框 x y坐标 宽 高
-                        }
-
-                        if (rotate) {
-                            g.rotate(rotate);//旋转度数
-                        }
-
-                        g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
-                        g.restore();
-                    }
-                }
-            }
-        }else{
             var p = null;
             var style = options.style;
             if (options.boolPixelCrs) {
@@ -150,7 +106,6 @@ fastmap.mapApi.LayerRender = {
                 g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
                 g.restore();
             }
-        }
 
     },
 

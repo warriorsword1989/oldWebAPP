@@ -668,30 +668,35 @@ Application.layersConfig =
                             }
                             geojson['features'].push(obj);
                         }else if (item.t === 1514) {
-                            var obj = {};
-                            obj['type'] = "Feature";
-                            obj['geometry'] = {};
-                            obj['geometry']['type'] = 'Point';
-                            obj['geometry']['coordinates'] = [];
-                            if (item.m.c === undefined) {
-                                return;
-                            }
-                            for (var i = 0, len = item.m.c.length; i < len; i = i + 1) {
+                            for (var n =0 ;n<2;n++) {
+                                var obj = {};
+                                obj['type'] = "Feature";
+                                obj['geometry'] = {};
+                                obj['geometry']['type'] = 'Point';
+                                obj['geometry']['coordinates'] = [];
+                                if (item.m.c === undefined) {
+                                    return;
+                                }
+                                if (n == 0) {
+                                    for (var i = 0, len = item.m.c.length; i < len; i = i + 1) {
 
-                                obj['geometry']['coordinates'].push([item.m.c[i]]);
-                            }
-                            for (var j = 0, len = item.m.d.length; j < len; j = j + 1) {
+                                        obj['geometry']['coordinates'].push([item.m.c[i]]);
+                                    }
+                                }else {
+                                    for (var j = 0, len = item.m.d.length; j < len; j = j + 1) {
 
-                                obj['geometry']['coordinates'].push([item.m.d[j]]);
+                                        obj['geometry']['coordinates'].push([item.m.d[j]]);
+                                    }
+                                }
+                                obj['properties'] = {
+                                    'id': item.i,
+                                    'type': item.t,
+                                    'srctype': item.m.a,
+                                    'kind': item.m.c,
+                                    'direc': item.m.d
+                                }
+                                geojson['features'].push(obj);
                             }
-                            obj['properties'] = {
-                                'id': item.i,
-                                'type': item.t,
-                                'srctype': item.m.a,
-                                'kind': item.m.c,
-                                'direc': item.m.d
-                            }
-                            geojson['features'].push(obj);
 
                         }
                         else {
