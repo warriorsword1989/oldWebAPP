@@ -161,8 +161,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                         if(polygon.intersects(line)) {
                             var result = {};
                             result["data"] = data[item];
-                            result["tilePointX"] = i;
-                            result["tilePointY"] = j;
+                            result["line"] = line;
                             dataOfRectangle.push(result);
                         }
                     }
