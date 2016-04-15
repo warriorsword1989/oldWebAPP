@@ -740,16 +740,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 ctx:ctx,
                                 geo:geom,
                                 style:{src:'css/tips/3D/3D.svg'},
-                                boolPixelCrs:boolPixelCrs
+                                boolPixelCrs:boolPixelCrs,
+
                             });
                         } else if(feature.properties.type == '1514'){
                             this._drawImg({
                                 ctx:ctx,
                                 geo:geom,
                                 style:{src:'css/tips/construction/1.svg'},
-                                boolPixelCrs:boolPixelCrs,
-                                drawx:-30,
-                                drawy:-30
+                                boolPixelCrs:boolPixelCrs
                             });
                         }
                         else if(feature.properties.type == '1801'){
