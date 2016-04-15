@@ -471,7 +471,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawOverpass: function (id, feature, ctx ,cusFeature) {
 
-        var COLORTABLE = ['#33FF00','#33FF99','#33FFFF','#3399FF','#3366CC','#333366','#330000'];
+        var COLORTABLE = ['#33FFFF','#3399FF','#3366CC','#333366','#330000'];
 
         var color = null;
         if (feature.hasOwnProperty('properties')) {

@@ -296,13 +296,17 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1514"://施工
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
+
+                $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
                 break;
             case "1501"://上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
                 break;
             case "1403"://3D
                 /*进入*/
-                $scope.sceneEnty = $scope.dataTipsData.sceneEnty;
+                $scope.sceneEnty = $scope.dataTipsData.in;
+                /*退出*/
+                $scope.sceneOut = $scope.dataTipsData.o_array;
                 /*模式图号*/
                 $scope.schemaNo = $scope.dataTipsData.schemaNo;
                 break;

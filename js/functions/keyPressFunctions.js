@@ -612,7 +612,7 @@ function keyEvent(ocLazyLoad, scope) {
                     var options = selectCtrl.selectedFeatures;
                     var param = {
                         "command": "CREATE",
-                        "type": "RDCROSS",
+                        "type": "RDGSC",
                         "projectId": Application.projectid,
                         "data": options
                     }
