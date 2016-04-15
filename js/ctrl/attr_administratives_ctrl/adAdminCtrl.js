@@ -6,6 +6,8 @@ adAdminZone.controller("adAdminController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
 
+    $scope.isbase=true;
+
 
     var test = {"regionId":1,"adminId":0,"extendId":0,"adminType":0,"capital":0,"population":0,
         "geometry":"56.66,77.98","linkPid":0,"side":0,"jisCode":0,"meshId":0,"editFlag":1,
@@ -17,6 +19,7 @@ adAdminZone.controller("adAdminController",function($scope) {
                 "nameId":4,"regionId":1,"nameGroupid":2,"langCode":"CHI","nameClass":1,"name":"desafesdr","phonetic":"","srcFlag":0
             }
         ]};
+
 
     $scope.adminType = [
         {"id": 0, "label": "国家地区级"},
@@ -47,11 +50,13 @@ adAdminZone.controller("adAdminController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-        var adAdmin = fastmap.dataApi.adadmin(test);
-        objCtrl.data = adAdmin;
-        $scope.adAdminData = objCtrl.data;
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        //var adAdmin = fastmap.dataApi.adadmin(test);
+        //objCtrl.data = adAdmin;
+        //$scope.adAdminData = objCtrl.data;
+        $scope.adAdminData=test;
+       // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     };
+
     $scope.initializeData();
 
     $scope.save = function(){
@@ -79,4 +84,10 @@ adAdminZone.controller("adAdminController",function($scope) {
         }
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
+
+    $scope.clickBasic=function(boolValue){
+        $scope.isbase=boolValue;
+        $scope.$apply();
+    }
+
 })

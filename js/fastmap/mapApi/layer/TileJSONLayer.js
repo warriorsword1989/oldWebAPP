@@ -696,8 +696,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 });
                             }
                         }
-                    }else if (this.options.type === 'rdrticPoint') {
+                    }else if (this.options.type === 'rdrticPoint') {//互联网rtic
                         this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
+                    }else if (this.options.type === 'adAdminPoint') {//行政区划代表点
+                        this._drawImg({
+                            ctx:ctx,
+                            geo:geom,
+                            style:{src:'css/img/star.png'},
+                            boolPixelCrs:boolPixelCrs
+                        });
                     }else if(feature.properties.kind){  //种别
                         if(feature.properties.type == '1201'){
                             this._drawImg({
@@ -731,7 +738,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                     height:20,
                                     dx:5,
                                     dy:5
-
                                 }
                             });
                         }
@@ -740,16 +746,15 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 ctx:ctx,
                                 geo:geom,
                                 style:{src:'css/tips/3D/3D.svg'},
-                                boolPixelCrs:boolPixelCrs
+                                boolPixelCrs:boolPixelCrs,
+
                             });
                         } else if(feature.properties.type == '1514'){
                             this._drawImg({
                                 ctx:ctx,
                                 geo:geom,
                                 style:{src:'css/tips/construction/1.svg'},
-                                boolPixelCrs:boolPixelCrs,
-                                drawx:-30,
-                                drawy:-30
+                                boolPixelCrs:boolPixelCrs
                             });
                         }
                         else if(feature.properties.type == '1801'){
@@ -878,7 +883,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'Polygon':
-                    this._drawPolygon(ctx, geom, style);
+                    //geom[0] = [[[-1000,-1000],[2650,-1000],[2650,2650],[-1000,2650]]]
+                    this._drawPolygon(ctx, geom[0], style, true,feature.properties.id);
                     break;
 
                 case 'MultiPolygon':
@@ -920,6 +926,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "rdCrossPoint":
             case "Diverge":
             case "rdrticPoint"://互联网RTIC
+            case "adAdminPoint":
                 if (this._map.getZoom() >= this.showNodeLevel) {
 
                     url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
@@ -960,9 +967,11 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 break;
             case "AllList":
                 break;
-            case "polygon":
+            case "Polygon":
                 if (this._map.getZoom() >= this.showNodeLevel) {
-                    url = this.url +this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
+                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
+
+                    //url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":["' + this.requestType + '"]}'
                 }
 
                 break;
@@ -1067,6 +1076,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 };
                 break;
             case 'Polygon':
+                return {
+                    fillstyle:'#' + Number(feature.properties.id).toString(16)+'00',
+                    outline:{
+                        size:1,
+                        color: 'rgba(43,140,190,0.9)'
+                    }
+                }
                 break;
             case 'MultiPolygon':
                 return {

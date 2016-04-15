@@ -171,7 +171,7 @@ Application.layersConfig =
                     updateWhenIdle: true,
                     tileSize: 256,
                     type: 'Polygon',
-                    zIndex: 17,
+                    zIndex: 0,
                     restrictZoom: 10,
                     editable: false,
                     visible: true,
@@ -532,7 +532,52 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
 
-        }]
+        },{
+                url: Application.url + '/render/obj/getByTileWithGap?',
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '行政区划代表点',
+                    id: 'adAdmin',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse: function (data) {
+                        var geojson = {};
+                        geojson['features'] = [];
+                        $.each(data, function (index, item) {
+                            var obj = {};
+                            obj['type'] = "Feature";
+                            obj['geometry'] = {};
+                            obj['geometry']['type'] = 'Point';
+                            obj['geometry']['coordinates'] = [];
+                            for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                                obj['geometry']['coordinates'].push([item.g[i]]);
+                            }
+                            obj['properties'] = {
+                                'id': item.i
+                            }
+                            geojson['features'].push(obj);
+                        });
+                        return geojson;
+                    },
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'adAdminPoint',
+                    zIndex: 18,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'ADADMIN',
+                    showNodeLevel: 17
+                }
+
+            }]
     }, {
         groupid: 'worklayer',
         groupname: '编辑图层',
@@ -622,7 +667,39 @@ Application.layersConfig =
                                 'srctype': item.m.a
                             }
                             geojson['features'].push(obj);
-                        } else {
+                        }else if (item.t === 1514) {
+                            for (var n =0 ;n<2;n++) {
+                                var obj = {};
+                                obj['type'] = "Feature";
+                                obj['geometry'] = {};
+                                obj['geometry']['type'] = 'Point';
+                                obj['geometry']['coordinates'] = [];
+                                if (item.m.c === undefined) {
+                                    return;
+                                }
+                                if (n == 0) {
+                                    for (var i = 0, len = item.m.c.length; i < len; i = i + 1) {
+
+                                        obj['geometry']['coordinates'].push([item.m.c[i]]);
+                                    }
+                                }else {
+                                    for (var j = 0, len = item.m.d.length; j < len; j = j + 1) {
+
+                                        obj['geometry']['coordinates'].push([item.m.d[j]]);
+                                    }
+                                }
+                                obj['properties'] = {
+                                    'id': item.i,
+                                    'type': item.t,
+                                    'srctype': item.m.a,
+                                    'kind': item.m.c,
+                                    'direc': item.m.d
+                                }
+                                geojson['features'].push(obj);
+                            }
+
+                        }
+                        else {
                             var obj = {};
                             obj['type'] = "Feature";
                             obj['geometry'] = {};
@@ -639,8 +716,8 @@ Application.layersConfig =
                                 'id': item.i,
                                 'type': item.t,
                                 'srctype': item.m.a,
-                                'kind':item.m.c,
-                                'direc':item.m.d
+                                'kind': item.m.c,
+                                'direc': item.m.d
                             }
                             geojson['features'].push(obj);
                         }

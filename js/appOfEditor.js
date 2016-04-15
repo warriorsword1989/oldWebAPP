@@ -7,6 +7,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     var eventController = fastmap.uikit.EventController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
+
+
     $scope.save = function () {
         $scope.subAttrTplContainerSwitch(false);
         eventController.fire(eventController.eventTypes.SAVEPROPERTY)
@@ -95,6 +97,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.hideFullPic = function () {
         $("#fullScalePic").hide();
     }
+
     //登录时
     keyEvent($ocLazyLoad, $scope);
     $ocLazyLoad.load('ctrl/log_show_ctrl/outPutCtrl').then(function () {
@@ -284,6 +287,10 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                     $scope.selectShapeURL = 'js/tpl/toolBar_cru_tpl/selectShapeTpl.html';
                     $ocLazyLoad.load('ctrl/toolBar_cru_ctrl/addShapeCtrl').then(function () {
                         $scope.addShapeURL = 'js/tpl/toolBar_cru_tpl/addShapeTpl.html';
+                        $ocLazyLoad.load('ctrl/attr_administratives_ctrl/adAdminCtrl').then(function () {
+                            $scope.attrTplContainer = 'js/tpl/attr_adminstratives_tpl/adAdminTpl.html';
+
+                        });
                     });
                 });
             }
@@ -300,6 +307,8 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         }
     };
     $scope.$on("SWITCHTOOLS", $scope.switchTools)
+
+
 }]);
 
 var map = null;
@@ -308,7 +317,7 @@ function appInit() {
         attributionControl: false,
         doubleClickZoom: false,
         zoomControl: false
-    }).setView([39.99707, 116.4981], 17);
+    }).setView([39.90960456049752, 116.3972282409668], 17);
 
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var selectCtrl = new fastmap.uikit.SelectController();
@@ -331,6 +340,9 @@ function appInit() {
     for (var layer in layerCtrl.getVisibleLayers()) {
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
+
+
+
 }
 
 
