@@ -1,0 +1,57 @@
+<style>
+    .trafficPic{
+        /*float: left;*/
+        transition: all 0.5s;
+        border-radius: 50%;
+
+    }
+    .trafficPic > img{
+        text-align: center;
+        cursor: pointer;
+        margin: 15px;
+        transition: all 0.5s;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+    }
+    .trafficPic > .active{
+        box-shadow: 0px 0px 7px 4px #9d9d9d;
+    }
+    #addDirectOfRest {
+        /*background-color: #000;*/
+        opacity: 1;
+        width: 100%;
+    }
+
+    #addDirectOfRest ul {
+        /*background-color: #000;*/
+        list-style: none;
+        /*padding:5px;*/
+        overflow: hidden;
+    }
+
+    #addDirectOfRest ul > li {
+        background-color: transparent;
+    }
+</style>
+<div ng-controller="addDirectOfRestController" id="addDirectOfRest">
+    <ul class="list-group list-group-lg m-b-none">
+        <li class="list-group-item">
+            <div><label class="control-label">增加交限</label></div>
+        </li>
+        <li class="list-group-item">
+            <div class="trafficPic ">
+                <img  ng-repeat="addItem in addLimitedData" ng-if="addItem.flag===false" ng-src="../../images/road/1302/1302_1_{{addItem.id}}.svg" ng-click="selectTip(addItem,$event)">
+            </div>
+            <div class="trafficPic ">
+                <img  ng-repeat="addItems in addLimitedData" ng-if="addItems.flag===true" ng-src="../../images/road/1302/1302_2_{{addItems.id}}.svg" ng-click="selectTip(addItems,$event)">
+            </div>
+        </li>
+    </ul>
+    <div style="padding: 5px 10px;text-align: right">
+        <button type="button" class="btn btn-primary btn-xs" style="width: 60px;text-align: center" ng-click="addTips()">
+        增 加
+    </button>
+    </div>
+
+</div>
