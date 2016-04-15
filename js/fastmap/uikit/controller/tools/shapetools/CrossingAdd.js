@@ -27,7 +27,6 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
         this.type = options.type;
         this._map = options.map;
         this.boxLayer = options.layer;
-        this.crossFlag = options.crossFlag;
         this._container = this._map._container;
         this.eventController = fastmap.uikit.EventController();
     },
@@ -115,10 +114,11 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
     },
     _fireCreatedEvent: function () {
         var rectangle = new L.Rectangle(this._shape.getBounds(), this.options.shapeOptions);
-        var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
+        //var dataOfRectangle = this._dataOfRectangle(rectangle, this.boxLayer.tiles);
+        var dataOfRectangle = this._getDataOfRectangle(rectangle, this.boxLayer.tiles);
 
         this.eventController.fire(this.eventController.eventTypes.GETBOXDATA,
-            {data: dataOfRectangle, layerType: this.type});
+            {data: dataOfRectangle, layerType: this.type,border:rectangle});
     },
     _arrayToWeigh: function (arr) {
         var hash = {},
@@ -131,6 +131,45 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
             }
         }
         return re;
+    },
+    _getDataOfRectangle: function (layer, tiles) {
+        var points = layer._latlngs, dataOfRectangle = [];
+        var transform = new fastmap.mapApi.MecatorTranform();
+        var startTilePoint = transform.lonlat2Tile(points[1].lng, points[1].lat, map.getZoom()),
+            endTilePoint = transform.lonlat2Tile(points[3].lng, points[3].lat, map.getZoom());
+        var point0 = new fastmap.mapApi.Point(points[1].lng, points[1].lat);
+        var point1 = new fastmap.mapApi.Point(points[2].lng, points[2].lat);
+        var point2 = new fastmap.mapApi.Point(points[3].lng, points[3].lat);
+        var point3 = new fastmap.mapApi.Point(points[0].lng, points[0].lat);
+        var lineString = new fastmap.mapApi.LinearRing([point0, point1, point2, point3, point0]);
+        var polygon = new fastmap.mapApi.Polygon([lineString]);
+        for (var i = startTilePoint[0]; i <= endTilePoint[0]; i++) {
+            for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
+
+                if (tiles[i + ":" + j]) {
+                    var data = tiles[i + ":" + j].data.features;
+                    for (var item in data) {
+                        var pointsLen = data[item].geometry.coordinates.length;
+                        var linePoints = [];
+                        for(var n=0;n<pointsLen;n++) {
+                            var linePoint=data[item].geometry.coordinates[n][0]
+                            linePoint = transform.PixelToLonlat(i * 256 + linePoint[0], j * 256 + linePoint[1], map.getZoom());
+                            linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
+                            linePoints.push(linePoint);
+                        }
+                        var line = new fastmap.mapApi.LineString(linePoints);
+                        if(polygon.intersects(line)) {
+                            var result = {};
+                            result["data"] = data[item];
+                            result["line"] = line;
+                            dataOfRectangle.push(result);
+                        }
+                    }
+                }
+            }
+        }
+
+        return dataOfRectangle;
     },
     _dataOfRectangle: function (layer, tiles) {
         var points = layer._latlngs, linkArr = [], nodeArr = [], dataOfRectangle = null;
@@ -149,8 +188,6 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                 if (data) {
                     for (var item in data) {
                         var pointsLen = data[item].geometry.coordinates.length;
-                        if (this.crossFlag) {
-
                             var startPoint = data[item].geometry.coordinates[0][0],
                                 endPoint = data[item].geometry.coordinates[pointsLen - 1][0];
                             startPoint = transform.PixelToLonlat(i * 256 + startPoint[0], j * 256 + startPoint[1], map.getZoom());
@@ -194,20 +231,6 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
                                 links: linkArr,
                                 nodes: nodeArr
                             };
-                        }else{
-                            for(var k= 0;k<pointsLen;k++) {
-                                var containPoint = data[item].geometry.coordinates[k][0];
-                                containPoint = transform.PixelToLonlat(i * 256 + containPoint[0], j * 256 + containPoint[1], map.getZoom());
-                                containPoint = new fastmap.mapApi.Point(containPoint[0], containPoint[1]);
-                                if(polygon.containsPoint(containPoint)) {
-                                    linkArr.push(parseInt(data[item].properties.id));
-                                    break;
-                                }
-                            }
-                            dataOfRectangle = {
-                                links: linkArr
-                            };
-                        }
 
 
                     }
