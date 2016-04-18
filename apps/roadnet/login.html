@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Fastmap道路编辑平台-登陆</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="content-script-type" content="text/javascript">
+        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../../styles/road/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="../../scripts/libs/sweet-alert/css/sweet-alert.css">
+        <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            min-width: 800px;
+            /*min-height: 768px;*/
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
+        }
+        .login-panel {
+            padding: 10px 70px;
+            border: 0;
+            width: 500px;
+            height:300px;    
+            position:absolute;    
+            left:50%;    
+            top:50%;
+            margin-left:-250px;    
+            margin-top:-150px;
+        }
+        .login-panel h1 {
+            font-size: 30px;
+            color: #000;
+            margin: 0px;
+            padding: 30px 0px;
+        }
+        .login-form input, .login-form button {
+            height: 46px;
+            font-size: 16px;
+        }
+        .login-footer {
+            margin-top: 8%;
+            position: absolute;
+            width: 100%;
+            bottom: 4%;
+        }
+        .login-footer-content {
+            margin: 0px auto;
+            border-top: 1px solid #e7e7e7;
+            text-align: center;
+        }
+        .login-footer-content p, .login-footer-content a {
+            padding: 6px 0px;
+            margin: 0px;
+            color: #2e6da4;
+            font-size: 12px;
+        }
+        .login-img{
+            background-image:url("css/login/2.jpg");
+            background-size:cover;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+        .login-well{
+            padding:0;
+            margin:0;
+            box-sizing:border-box;
+            height:100%
+        }
+        .login-input{
+            height: 100%;
+        }
+        .input-group-addon{
+            background-color: #fff
+        }
+        #login_btn{
+            transition:all 0.5s;
+            width: 50%;
+        }
+        </style>
+        <script>
+            console.log(decodeURIComponent("http://192.168.4.63:8091/fos/charge/crowdsourcing/query?access_token=0000E1E300O4IRWL16F3DFC1B73A445DBF8806130DF5558B&parameter=%7B%22region%22%3A%22POLYGON%28%28116.33146047592163+39.861263098008536%2C116.33901357650757+39.80220607474971%2C116.41591787338257+39.82066684864227%2C116.40767812728882+39.86495247598372%2C116.33146047592163+39.861263098008536%29%29%22%2C%22type%22%3A1%7D"));
+            console.log(decodeURIComponent("http://192.168.4.63:8091/fos/charge/crowdsourcing/query?access_token=0000E1E300O4ISCBD98A1DD17DD85CBB555BF1788FD83C69&parameter=%7B%22region%22%3A%22POLYGON%28%28116.46365582942963+40.02156760530183%2C116.45902097225189+40.00920936862171%2C116.462282538414+40.00013647279231%2C116.47464215755463+40.00565924863166%2C116.46846234798431+40.009340851001646%29%29%22%2C%22type%22%3A1%7D"));
+        </script>
+    </head>
+    <body>
+        <div class="login-well">
+            <div class="col-md-12 col-lg-12 login-input">
+                <div class="login-panel">
+                    <h1>Fastmap道路编辑平台</h1>
+                    <form method="post" id="loginForm" name="loginForm" class="login-form" role="form">
+                        <div class="input-group form-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-user"></i>
+                            </span>
+                            <input type="text" name="username" class="form-control" placeholder="用户名" autocomplete="off" required autofocus/>
+                        </div>
+                        <div class="input-group form-group">
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-lock"></i>
+                            </span>
+                            <input type="password" name="password" class="form-control" placeholder="密 码" required/>
+                        </div>
+                        <div class="form-group">
+                            <button id="login_btn" class="btn btn-primary btn-block" type="submit" data-loading-text="登录中...">登 录</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+        <script src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="../../scripts/libs/sweet-alert/js/sweet-alert.min.js"></script>
+        <script src="login.js"></script>
+    </body>
+</html>
