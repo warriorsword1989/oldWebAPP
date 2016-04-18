@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../styles/road/toolbar.css">
     <script src="../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
     <script src="../../scripts/fastmap/fastmapapi.js"></script>
+    <script src="../../scripts/dataApi/datAapi.js"></script>
 </head>
 <body ng-controller="RoadEditController">
 <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
@@ -167,7 +168,7 @@
     <div ng-include="tipsPitureContainer" style="height: 100%;width: 100%"></div>
 </div>
 <div id="fullScalePic" ng-click="hideFullPic();"><img src=""></div>
-<div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'../../scripts/main/road/svgLoading.html'"></div>
-<script type="text/javascript" data-main="../../scripts/main/road/mainOfEditor" src="../../scripts/libs/require/require.js"></script>
+<div ng-show="showLoading" id="loadingAnimate" class="show-animation" ng-include="'../roadnet/svgLoading.html'"></div>
+<script type="text/javascript" data-main="../roadnet/mainOfEditor" src="../../scripts/libs/require/require.js"></script>
 </body>
 </html>
