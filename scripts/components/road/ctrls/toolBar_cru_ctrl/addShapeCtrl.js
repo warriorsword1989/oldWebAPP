@@ -554,13 +554,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         return { x: (a[0].x + dx).toFixed(5) , y: (a[0].y + dy).toFixed(5) };//保留小数点后5位
                     }
                     /*去除重复的坐标点，保留一个*/
-                    Array.prototype.unique = function(){
+                    var ArrUnique = function(arr){
                         var res = [];
                         var json = {};
-                        for(var i = 0; i < this.length; i++){
-                            if(!json[this[i]]){
-                                res.push(this[i]);
-                                json[this[i]] = 1;
+                        for(var i = 0; i < arr.length; i++){
+                            if(!json[arr[i]]){
+                                res.push(arr[i]);
+                                json[arr[i]] = 1;
                             }
                         }
                         return res;
@@ -583,7 +583,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 }
                             }
                         }
-                        crossGeos = crossGeos.unique();
+                        crossGeos = ArrUnique(crossGeos);
                     }
                     /*点击调整link层级高低*/
                     $scope.changeLevel = function(){
@@ -629,7 +629,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             console.log(data,data.id)
                         })
                     }
-                    console.log(crossGeos)
                     //判断相交点数
                     if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
