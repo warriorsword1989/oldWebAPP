@@ -23,11 +23,11 @@ a {
   width: 20px;
   height: 20px;
   margin: 2px 0px 0px 1px;
-  background: url('../images/261_expand_12rollover1.png') no-repeat;
+  background: url('../../images/261_expand_12rollover1.png') no-repeat;
   cursor: pointer;
 }
 .maximizePanelOver {
-  background: url('../images/261_expand_12rollover2.png') no-repeat;    
+  background: url('../../images/261_expand_12rollover2.png') no-repeat;
 }
 
 #interfaceControlFrameMinimizeContainer {
@@ -43,7 +43,7 @@ a {
     width: 15px;
     height: 20px;
   font-size: 2px;
-  background: url('../images/260_collapse_12rollover1.png') no-repeat;
+  background: url('../../images/260_collapse_12rollover1.png') no-repeat;
   text-decoration: none;
   margin: 5px 5px 0px 0px;
 }
@@ -51,7 +51,7 @@ a {
     margin: 0px;
 }
 #interfaceControlFrameMinimizeContainer a:hover {
-  background: url('../images/260_collapse_12rollover2.png') no-repeat;
+  background: url('../../images/260_collapse_12rollover2.png') no-repeat;
 }
 #interfaceControlFrameCloseContainer {
     display: inline;
@@ -62,13 +62,13 @@ a {
 }
 #interfaceControlFrameCloseContainer a 
 {
-  background: url('../images/259_close_12rollover1.png') no-repeat;
+  background: url('../../images/259_close_12rollover1.png') no-repeat;
     margin: 0px;
   text-decoration: none;
 }
 #interfaceControlFrameCloseContainer a:hover 
 {
-  background: url('../images/259_close_12rollover2.png') no-repeat;
+  background: url('../../images/259_close_12rollover2.png') no-repeat;
 }
 #interfaceControlFrameHeader li {
     display: inline;
