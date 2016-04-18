@@ -1,0 +1,27 @@
+<div ng-controller="tipsPictureController">
+    <div class="modal-header">
+        <div class="pull-right" id="fullPicBtn" ng-click="showFullPic();" title="全屏">
+            <span class="glyphicon glyphicon-fullscreen"></span>
+        </div>
+        <button id="tipsImgClose" type="button" class="close"
+                ng-click="closePicContainer()"
+                data-dismiss="modal" aria-hidden="true" title="关闭">
+            &times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">
+            图片
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="switch-left" ng-click="switchPic(0);">
+            <img src="../../images/road/img/left.png">
+        </div>
+        <div id="imgContainer">
+            <img id="dataTipsOriginImg" src=""/>
+        </div>
+        <div class="switch-right" ng-click="switchPic(1);">
+            <img src="../../images/road/img/right.png">
+        </div>
+        <div id="imgPage">{{imgPageNow}}/{{imgAllPage}}</div>
+    </div>
+</div>
