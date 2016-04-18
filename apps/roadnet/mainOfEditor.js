@@ -11,7 +11,7 @@ requirejs.config({
         'angular': 'libs/angularjs/1.4.4/angular',
         'leaflet':'libs/leaflet-0.7.3/leaflet-src',
         'fastmap':"fastmap/fastmapapi",
-        'appMain': 'main/road/appOfEditor',
+        'appMain': '../apps/roadnet/appOfEditor',
         'ngLayout': 'libs/ui-layout/ui-layout',
         'ocLazyLoad': 'libs/ocLazyLoad/ocLazyLoad.require',
         'applicationfuns':'uikits/road/appfunctions',
