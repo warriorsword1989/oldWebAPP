@@ -484,7 +484,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDBRANCH", data.data);
-                                ocLazyLoad.load('ctrl/attr_branch_ctrl/rdBranchCtrl').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_branch_ctrl/rdBranchCtrl').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
                                 })
                             }, data.data.pid)
@@ -660,41 +660,41 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     console.log(param)
-                    /*Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                     var info = null;
-                     if (data.errcode === -1) {
-                     info = [{
-                     "op": data.errcode,
-                     "type": data.errmsg,
-                     "pid": data.errid
-                     }];
-                     swal("操作失败", data.errmsg, "error");
-                     } else {
-                     Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
-                     if (!scope.panelFlag) {
-                     scope.panelFlag = true;
-                     scope.objectFlag = true;
-                     }
-                     objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                     ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
-                     scope.attrTplContainer = "jsl/attr_cross_tpl/rdCrossTpl.html";
-                     });
-                     });
-                     var sInfo = {
-                     "op": "创建RDCROSS成功",
-                     "type": "",
-                     "pid": ""
-                     };
-                     data.data.log.push(sInfo);
-                     info = data.data.log;
-                     }
-                     resetPage();
-                     outPutCtrl.pushOutput(info);
-                     if (outPutCtrl.updateOutPuts !== "") {
-                     outPutCtrl.updateOutPuts();
-                     }
+                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                         var info = null;
+                         if (data.errcode === -1) {
+                             info = [{
+                                 "op": data.errcode,
+                                 "type": data.errmsg,
+                                 "pid": data.errid
+                             }];
+                             swal("操作失败", data.errmsg, "error");
+                         } else {
+                             Application.functions.getRdObjectById(data.data.pid, "RDGSC", function (data) {
+                                 if (!scope.panelFlag) {
+                                     scope.panelFlag = true;
+                                     scope.objectFlag = true;
+                                 }
+                                 objEditCtrl.setCurrentObject("RDGSC", data.data);
+                                 ocLazyLoad.load('ctrl/attr_rdgsc_ctrl/rdGscCtrl').then(function () {
+                                    scope.attrTplContainer = "jsl/attr_gsc_tpl/rdGscTpl.html";
+                                 });
+                             });
+                             var sInfo = {
+                                 "op": "RDGSC",
+                                 "type": "",
+                                 "pid": ""
+                             };
+                             data.data.log.push(sInfo);
+                             info = data.data.log;
+                         }
+                         resetPage();
+                         outPutCtrl.pushOutput(info);
+                         if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                         }
 
-                     })*/
+                     })
                 }
 
 

@@ -497,17 +497,18 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data,highlightFeatures=[],
                         rectangleData = {       //矩形框信息geoJson
-                            "geometry":{
-                                "type":"Polygon",
-                                "coordinates":[[]]
-                            }
+                            "type":"Polygon",
+                            "coordinates":[[]]
                         },
                         latArr = event.border._latlngs;
-                    console.log(data)
                     /*过滤框选后的数组，去重*/
-                    for(var i=1;i<data.length;i++){
-                        if(data[i].data.properties.id == data[i-1].data.properties.id){
-                            data.splice(i,1);
+                    for(var i=0;i<data.length;i++){
+                        for(var j=0;j<data.length;j++){
+                            if(i!=j && data[i]){
+                                if(data[i].data.properties.id == data[j].data.properties.id){
+                                    data.splice(i,1);
+                                }
+                            }
                         }
                     }
                     console.log(data)
@@ -515,7 +516,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         var tempArr = [];
                         tempArr.push(latArr[rec].lat);
                         tempArr.push(latArr[rec].lng);
-                        rectangleData.geometry.coordinates[0].push(tempArr);
+                        rectangleData.coordinates[0].push(tempArr);
                     }
                     /*高亮link*/
                     for(var i= 0,lenI=data.length;i<lenI;i++) {
@@ -553,13 +554,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         return { x: (a[0].x + dx).toFixed(5) , y: (a[0].y + dy).toFixed(5) };//保留小数点后5位
                     }
                     /*去除重复的坐标点，保留一个*/
-                    Array.prototype.unique = function(){
+                    var ArrUnique = function(arr){
                         var res = [];
                         var json = {};
-                        for(var i = 0; i < this.length; i++){
-                            if(!json[this[i]]){
-                                res.push(this[i]);
-                                json[this[i]] = 1;
+                        for(var i = 0; i < arr.length; i++){
+                            if(!json[arr[i]]){
+                                res.push(arr[i]);
+                                json[arr[i]] = 1;
                             }
                         }
                         return res;
@@ -568,7 +569,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     var crossGeos = [],
                         loopTime = (data.length*data.length-1)/2,   //循环次数C(n,2)
                         jsonData = {
-                            'wkt':rectangleData,
+                            'geometry':rectangleData,
                             'linkObjs':[]
                         };
                     if(data.length > 1){
@@ -582,7 +583,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 }
                             }
                         }
-                        crossGeos = crossGeos.unique();
+                        crossGeos = ArrUnique(crossGeos);
                     }
                     /*点击调整link层级高低*/
                     $scope.changeLevel = function(){
@@ -616,7 +617,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 linksFlag: true,
                                 shapeEditor: shapeCtrl
                             });
-                        // map.currentTool.enable();
+                        map.currentTool.enable();
                         //初始化鼠标提示
                         tooltipsCtrl.setCurrentTooltip = '请选择线！';
                         rdLink.options.selectType = 'link';
@@ -628,7 +629,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             console.log(data,data.id)
                         })
                     }
-                    console.log(crossGeos)
                     //判断相交点数
                     if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
