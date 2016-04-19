@@ -44,11 +44,102 @@ rdGscApp.controller("rdGscController",function($scope) {
     $scope.initializeData();
 
     $scope.save = function(){
+        objCtrl.save();
+        var param = {
+            "command": "UPDATE",
+            "type": "RDGSC",
+            "projectId": Application.projectid,
+            "data": objCtrl.changedProperty
+        };
+        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+            var info = [];
+            if (data.data) {
+                if (selectCtrl.rowkey) {
+                    var stageParam = {
+                        "rowkey": selectCtrl.rowkey.rowkey,
+                        "stage": 3,
+                        "handler": 0
 
+                    }
+                    Application.functions.changeDataTipsState(JSON.stringify(stageParam), function (data) {
+                        var info = null;
+                        if (data.errcode==0) {
+                            var sinfo={
+                                "op":"修改RDGSC状态成功",
+                                "type":"",
+                                "pid": ""
+                            };
+                            data.data.log.push(sinfo);
+                            info=data.data.log;
+                        }else{
+                            info=[{
+                                "op":data.errcode,
+                                "type":data.errmsg,
+                                "pid": data.errid
+                            }];
+                        }
+                        outPutCtrl.pushOutput(info);
+                        if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                        }
+                        selectCtrl.rowkey.rowkey = undefined;
+                    })
+                }
+                var sinfo={
+                    "op":"修改RDGSC成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
+            }
+            outPutCtrl.pushOutput(info);
+            if (outPutCtrl.updateOutPuts !== "") {
+                outPutCtrl.updateOutPuts();
+            }
+            $scope.refreshData();
+        })
     };
 
     $scope.delete = function(){
+        var objId = parseInt($scope.rdCrossData.pid);
+        var param = {
+            "command": "DELETE",
+            "type": "RDGSC",
+            "projectId": Application.projectid,
+            "objId": objId
+        }
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var info = null;
+            if (data.errcode==0) {
+                rdcross.redraw();
+                $scope.rdCrossData = null;
+                var sinfo={
+                    "op":"删除RDGSC成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info=data.data.log;
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
+            }
 
+            outPutCtrl.pushOutput(info);
+            if (outPutCtrl.updateOutPuts !== "") {
+                outPutCtrl.updateOutPuts();
+            }
+        })
     };
     $scope.cancel = function(){
 
