@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Fastmap道路编辑平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="content-script-type" content="text/javascript">
+    <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../scripts/libs/sweet-alert/css/sweet-alert.css">
+    <link rel="stylesheet" href="../../scripts/libs/leaflet-0.7.3/leaflet.css">
+    <style type="text/css">
+        html, body {
+            width: 100%;
+            height: 100%;
+            min-width: 800px;
+            /*min-height: 768px;*/
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
+        }
+
+        body {
+            background: none repeat scroll 0 0;
+        }
+
+        .navbar {
+            border-radius: 0px;
+            background-color: #1c588f;
+        }
+
+        .navbar-brand {
+            padding: 10px 15px;
+        }
+
+        .lnk-message{
+            float: none;
+            display: inline;
+            background: #f90;
+            border-radius: 5px;
+            padding: 0 6px;
+            margin: 0;
+            color: #fff!important;
+            cursor: default!important;
+            position: relative;
+            line-height: 16px;
+            display: inline-block;
+            color: #fff;
+        }
+        li.normalStatus >a i{
+            position: relative;
+            top: -3px;
+            border: solid 1px transparent;
+            border-width: 4px 4px 0;
+            _border-color: #000;
+            _filter: chroma(color=black);
+            border-top-color: #fff;
+            display: inline-block;
+            margin-right: 6px;
+            margin-left: 3px;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+        }
+        li.normalStatus:hover > a i{
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            border: solid 1px transparent;
+            border-width: 4px 4px 0;
+            _border-color: #fff;
+            _filter: chroma(color=white);
+            border-top-color: #000;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            -o-transition: all .3s;
+        }
+        li.normalStatus > div{
+            display: none;
+            width: 100px;
+            height:0px
+        }
+        li.normalStatus:hover > div{
+            display:block;
+            width: 300px;
+            height:150px;
+            position: absolute;
+            top:50px;
+            right: 0px;
+            z-index: 50;
+            background: #fefefe;
+            border-radius: 0 0 2px 2px;
+            -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.1);
+            box-shadow: 0 3px 3px rgba(0,0,0,.1);
+            filter: alpha(Opacity=95);
+            opacity: .95;
+            -webkit-transition: height .1s;
+        }
+
+        li.normalStatus ul{
+            list-style: none;
+            padding: 5px;
+        }
+
+        li.normalStatus ul>li{
+            list-style: none;
+        }
+        li.normalStatus ul>li>a{
+            background: #fefefe;
+            color: #000;
+            display: block;
+            height: 25px;
+            line-height: 20px;
+            margin: 0;
+            padding: 3px 10px;
+        }
+        li.normalStatus ul>li>a:hover{
+            background: #00a2ca;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .login-footer {
+            position: absolute;
+            width: 100%;
+            bottom:0px;
+            background-color: #404040;;
+        }
+
+        .login-footer-content {
+            margin: 0px auto;
+            border-top: 1px solid #e7e7e7;
+            text-align: center;
+            padding: 5px 0px;
+
+        }
+
+        .login-footer-content p, .login-footer-content a {
+            padding: 6px 0px;
+            margin: 0px;
+            color: #FFF;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default" style="border: none">
+        <div class="container-fluid" style="background-color:#0097c6; ">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="color: white;font-weight:600;line-height: 30px" href="http://www.navinfo.com/index.aspx">
+                    <strong>FastMap 道路编辑系统</strong>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="normalStatus">
+                        <a href="#" title="登陆人员" class="" style="color:#fff">admin <span class="lnk-message">5</span><i id="arrow"></i></a>
+                        <div class="userInfo">
+                            <div style="border-bottom: 1px solid #e5e5e5;padding:10px;">
+                                <img src="../../images/road//img/header.png" style="width: 32px;height: 32px">
+                            </div>
+                            <div style="border-bottom: 1px solid #e5e5e5;padding:10px; ">
+                                <ul>
+                                    <li><a href="#">个人资料</a></li>
+                                    <li><a href="#">消息中心<span style="color:red">（5）</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="selectPro.html" title="返回" class="glyphicon glyphicon-share" style="color:#fff;top: -1px;"></a>
+                    </li>
+                    <li>
+                        <a href="login.html" title="退出" class="glyphicon glyphicon-log-out" style="color:#fff;top: -1px;"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="width: 100%;height: 100%;;margin-top: -70px;padding-bottom: 40px;padding-top: 50px">
+         <div class="row" style="height: 100%">
+             <div id="gridMap" class="col-md-12" style="height: 100%"></div>
+         </div>
+    </div>
+    <div class="login-footer">
+        <div class="login-footer-content">
+            <p>Copyright©2009北京四维图新科技股份有限公司</p>
+        </div>
+    </div>
+    <script src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+    <script src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../scripts/libs/sweet-alert/js/sweet-alert.min.js"></script>
+    <script src="../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+    <script src="../../scripts/fastmap/fastmapapi.js"></script>
+    <script src="Application.js"></script>
+    <script>
+        $(function(){
+            initMap()
+        })
+
+        function paramTest(data){
+            var tt=data["key"]||0;
+            var sss=data;
+        }
+
+        function initMap(){
+            map = L.map('gridMap',{ attributionControl: false,zoomControl:false,doubleClickZoom:false,minZoom:10,maxZoom:14}).setView([40.005834, 116.476293], 12);
+            L.tileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
+                subdomains: ["rt0", "rt1", "rt2", "rt3"],
+                tms: true
+            }).addTo(map);
+
+
+            var gridLayer=new fastmap.mapApi.GridLayer("",{gridInfo:null,layername: '图幅',id: 'grid',url: '',divideX:2,divideY:2,visible: true,zIndex: 5});
+            map.addLayer(gridLayer);
+
+            var meshLayer=new fastmap.mapApi.MeshLayer("",{layername: '图幅',id: 'mesh',url: '',visible: true,zIndex: 3});
+            map.addLayer(meshLayer);
+
+
+            var projectId=getUrlParam("proId");
+
+            $.ajax({
+                url:Application.url+"/man/grid/getByUser?",
+                data:{parameter:JSON.stringify({"userId":4408,"projectId":projectId})},
+                dataType:"json",
+                success:function(data){
+                      if(data.data.Normal){
+                           for(var i=0;i<data.data.Normal.length;i++){
+                               var gridId=data.data.Normal[i].toString();
+                               var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                               createPolygon(meshBorder,gridId.substr(6),"#0DFEFF",'<div style="width:200px;height: 200px"><img style="width: 200px;height: 200px;cursor: pointer" src="../../images/road//img/pie.jpg" onclick="startWork()" /></div>');
+                           }
+                      }
+                      if(data.data.CanBorrow){
+                          for(var j=0;j<data.data.CanBorrow.length;j++){
+                              var gridId=data.data.CanBorrow[j].toString();
+                              var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                              createPolygon(meshBorder,gridId.substr(6),"#4C9DA0",'<a href="#" class="btn btn-success">借数据</a>');
+                          }
+                      }
+                      if(data.data.BorrowIn){
+                          for(var k=0;k<data.data.BorrowIn.length;k++){
+                              var gridId=data.data.BorrowIn[k].toString();
+                              var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                              createPolygon(meshBorder,gridId.substr(6),"#E8D70C",'<a href="#" class="btn btn-success">还数据</a>');
+                          }
+                      }
+                      if(data.data.BorrowOut){
+                          for(var m=0;m<data.data.BorrowOut.length;m++){
+                              var gridId=data.data.BorrowOut[m].toString();
+                              var meshBorder=meshLayer.Calculate25TMeshBorder(gridId);
+                              createPolygon(meshBorder,gridId.substr(6),"#FFAE00",'<a href="#" class="btn btn-success">已借格网数据</a>');
+                          }
+                      }
+                },
+                error:function(){
+
+                }
+            })
+
+        }
+
+        function getUrlParam (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
+        function createPolygon(meshBorder,id,color,htmlStr){
+            var dLon=(meshBorder.maxLon-meshBorder.minLon)/2;
+            var dLat=(meshBorder.maxLat-meshBorder.minLat)/2;
+            switch (id){
+                case "01":
+                    var bounds = [[meshBorder.maxLat, meshBorder.minLon], [meshBorder.maxLat-dLat,meshBorder.minLon+dLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+                case "02":
+                    var bounds = [[meshBorder.maxLat, meshBorder.minLon+dLon], [meshBorder.maxLat-dLat,meshBorder.maxLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+                case "03":
+                    var bounds = [[meshBorder.maxLat-dLat, meshBorder.minLon], [meshBorder.minLat,meshBorder.minLon+dLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+                case "04":
+                    var bounds = [[meshBorder.maxLat-dLat, meshBorder.minLon+dLon], [meshBorder.minLat,meshBorder.maxLon]];
+                    L.rectangle(bounds, {color: color, weight: 1}).bindPopup(htmlStr).addTo(map);
+                    break;
+            }
+        }
+
+        function startWork(){
+            window.location.href="editor.html";
+        }
+
+    </script>
+</body>
+</html>
