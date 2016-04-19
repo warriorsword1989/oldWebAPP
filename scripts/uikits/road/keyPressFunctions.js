@@ -101,7 +101,7 @@ function keyEvent(ocLazyLoad, scope) {
                             info = data.data.log;
                             Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
                                 objEditCtrl.setCurrentObject("RDLINK", data.data);
-                                ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/rdLinkCtrl').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
                                 })
                             });
