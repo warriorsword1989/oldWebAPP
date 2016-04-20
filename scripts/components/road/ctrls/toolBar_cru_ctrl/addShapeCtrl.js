@@ -521,7 +521,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         highlightFeatures.push({
                             id:data[i].data.properties.id.toString(),
                             layerid:'referenceLine',
-                            type:'line',
+                            type:'overpass',
                             index:i,
                             style:{
                                 size:5
@@ -613,15 +613,16 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         rdLink.options.selectType = 'link';
                         rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                            /*把当前link的lever_index升高一级*/
+                            console.log(data)
+                            /*把当前link的level_index升高一级*/
                             for(var i=0;i<jsonData.linkObjs.length;i++){
                                 if(jsonData.linkObjs[i].pid == data.id){
                                     for(var j=0;j<jsonData.linkObjs.length;j++){
-                                        if(jsonData.linkObjs[j].lever_index == jsonData.linkObjs[i].lever_index+1){
-                                            jsonData.linkObjs[j].lever_index--;
+                                        if(jsonData.linkObjs[j].level_index == jsonData.linkObjs[i].level_index+1){
+                                            jsonData.linkObjs[j].level_index--;
                                         }
                                     }
-                                    jsonData.linkObjs[i].lever_index =+ 1;
+                                    jsonData.linkObjs[i].level_index =+ 1;
                                 }
                             }
                             /*重绘link颜色*/
@@ -630,11 +631,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     id:jsonData.linkObjs[i].pid.toString(),
                                     layerid:'referenceLine',
                                     type:'overpass',
-                                    index:jsonData.linkObjs[i].lever_index,
+                                    index:jsonData.linkObjs[i].level_index,
                                     style:{
                                         size:5
                                     }
                                 });
+                                console.log(jsonData)
                                 highLightLink.highLightFeatures = highlightFeatures;
                                 highLightLink.drawHighlight();
                             }
@@ -649,7 +651,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/
                         for(var linkMark=0;linkMark<data.length;linkMark++){
-                            var tempObj = {'pid':data[linkMark].data.properties.id,'lever_index':linkMark};
+                            var tempObj = {'pid':data[linkMark].data.properties.id,'level_index':linkMark};
                             jsonData.linkObjs.push(tempObj);
                         }
                         tooltipsCtrl.setCurrentTooltip("点击link调整层级(颜色越深层级越高),空格保存,或者按ESC键取消!");
