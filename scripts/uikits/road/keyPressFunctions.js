@@ -670,14 +670,16 @@ function keyEvent(ocLazyLoad, scope) {
                              }];
                              swal("操作失败", data.errmsg, "error");
                          } else {
+                             console.log(data)
                              Application.functions.getRdObjectById(data.data.pid, "RDGSC", function (data) {
                                  if (!scope.panelFlag) {
                                      scope.panelFlag = true;
                                      scope.objectFlag = true;
                                  }
+                                 console.log(data)
                                  objEditCtrl.setCurrentObject("RDGSC", data.data);
-                                 ocLazyLoad.load('ctrl/attr_rdgsc_ctrl/rdGscCtrl').then(function () {
-                                    scope.attrTplContainer = "jsl/attr_gsc_tpl/rdGscTpl.html";
+                                 ocLazyLoad.load('components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl').then(function () {
+                                    scope.attrTplContainer = "../../scripts/components/road/tpls/attr_gsc_tpl/rdGscTpl.html";
                                  });
                              });
                              var sInfo = {
