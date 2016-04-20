@@ -103,6 +103,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 this.currentEditLayer = fastmap.uikit.LayerController().getLayerById(this.highLightFeatures[item].layerid);
                 for (var tile in this.currentEditLayer.tiles) {
                     for (var feature in this.currentEditLayer.tiles[tile].data.features) {
+
                         if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.id) {
                             var ctx = {
                                 canvas: this.layer._tiles[tile],

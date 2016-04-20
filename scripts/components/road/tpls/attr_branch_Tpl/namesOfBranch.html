@@ -217,10 +217,11 @@
         position: absolute;
         height: 160px;
         z-index: 99;
+        top: 50px;
     }
     #picModalImg{
         width: 192px;
-        top: 52px;
+        top: 50px;
         height: 160px;
         position: absolute;
         z-index: 9;
@@ -286,13 +287,18 @@
             <div class="d-group">
                 <div class="d-name">分歧类型：</div>
                 <div class="d-value">
-                    <select class="rounded d-input"  ng-model="diverObj.details[0].branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
+                    <select class="rounded d-input" ng-change="changeBranchType(diverObj.details[0].branchType);" ng-model="diverObj.details[0].branchType" ng-options="value.id as value.label for value in branchTypeOptions" ></select>
                 </div> 
             </div>
             <div class="d-group">
                 <div class="d-name">箭头图号：</div>
                 <div class="d-value">
-                    <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()">
+                    <div ng-show="diverObj.details[0].branchType != 3">
+                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()">
+                    </div>
+                    <div ng-show="diverObj.details[0].branchType == 3">
+                        <input type="text" class="rounded d-input form-pic-input" placeholder="箭头图代码" ng-model="diverObj.details[0].arrowCode" ng-keydown="showPicSelect()" data-toggle="tooltip" data-placement="top" title="3D分歧箭头图号必须e或c开头">
+                    </div>
                     <div class="pic-show">
                         <div class="option-hide">
                             <button type="button" class="close" aria-label="Close" ng-click="hidePicSelect($event)">
@@ -307,7 +313,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="pull-left num-well">
-                            第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 | 
+                            第 <span class="pic-num" ng-bind="picNowNum">1</span> 页 |
                             共 <span class="pic-total" ng-bind="picTotal">1</span> 页
                         </div>
                         <div class="pic-show-btn pull-right">
@@ -318,13 +324,18 @@
                         </div>
                         <div class="pic-loading" ng-bind="loadText">loading...</div>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">模式图号：</div>
                 <div class="d-value">
-                    <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
-                </div> 
+                    <div ng-show="diverObj.details[0].branchType != 3">
+                        <div ng-bind="diverObj.details[0].patternCode" class="show-val"></div>
+                    </div>
+                    <div ng-show="diverObj.details[0].branchType == 3">
+                        <input type="text" class="d-input" placeholder="模式图号" ng-model="diverObj.details[0].patternCode" ng-change="changePatternCode()" data-toggle="tooltip" data-placement="top" title="3D分歧模式图号必须5或8开头"/>
+                    </div>
+                </div>
             </div>
             <div class="d-group">
                 <div class="d-name">出口编号：</div>
@@ -373,9 +384,11 @@
     </div>
     <!--end 模式图信息-->
     <!--begin 名称信息-->
-    <div class="module-box show-detail-title" ng-click="showDetail(0);">
-        <div class="box-head font-bold">
-            名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
+    <div ng-if="diverObj.details[0].branchType != 3">
+        <div class="module-box show-detail-title" ng-click="showDetail(0);">
+            <div class="box-head font-bold">
+                名称信息（共 <span ng-bind="diverObj.details[0].names.length"></span> 条）
+            </div>
         </div>
     </div>
     <!--end 名称信息-->

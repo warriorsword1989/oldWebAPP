@@ -507,13 +507,14 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             }
                         }
                     }
-
-
                     for(var rec=0;rec<latArr.length;rec++){
                         var tempArr = [];
-                        tempArr.push(latArr[rec].lat);
                         tempArr.push(latArr[rec].lng);
+                        tempArr.push(latArr[rec].lat);
                         rectangleData.coordinates[0].push(tempArr);
+                        if(rec == latArr.length-1){
+                            rectangleData.coordinates[0].push(rectangleData.coordinates[0][0]);
+                        }
                     }
                     /*高亮link*/
                     for(var i= 0,lenI=data.length;i<lenI;i++) {
@@ -551,16 +552,23 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         return { x: (a[0].x + dx).toFixed(5) , y: (a[0].y + dy).toFixed(5) };//保留小数点后5位
                     }
                     /*去除重复的坐标点，保留一个*/
-                    Array.prototype.unique = function(){
-                        var res = [];
-                        var json = {};
-                        for(var i = 0; i < this.length; i++){
-                            if(!json[this[i]]){
-                                res.push(this[i]);
-                                json[this[i]] = 1;
+                    var ArrUnique = function(arr){
+                        for(var i=0;i<arr.length;i++){
+                            for(var j=0;j<arr.length;j++){
+                                if(i!=j){
+                                    if(arr[i].x == arr[j].x && arr[i].y == arr[j].y){
+                                        arr.splice(j,1);
+                                    }
+                                }
                             }
                         }
-                        return res;
+                        /*清除空数组*/
+                        arr.filter(function(v){
+                            if(v.length>0){
+                                return v;
+                            }
+                        })
+                        return arr;
                     }
                     /*当坐标数组拆分组合完成后*/
                     var crossGeos = [],
@@ -580,16 +588,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 }
                             }
                         }
-                        crossGeos = crossGeos.unique();
+                        crossGeos = ArrUnique(crossGeos);
                     }
                     /*点击调整link层级高低*/
                     $scope.changeLevel = function(){
-                        //if (typeof map.currentTool.cleanHeight === "function") {
-                        //    map.currentTool.cleanHeight();
-                        //}
-                        if (tooltipsCtrl.getCurrentTooltip()) {
-                            tooltipsCtrl.onRemoveTooltip();
-                        }
                         editLayer.drawGeometry = null;
                         shapeCtrl.stopEditing();
                         editLayer.bringToBack();
@@ -608,16 +610,36 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 shapeEditor: shapeCtrl
                             });
                         map.currentTool.enable();
-                        //初始化鼠标提示
-                        tooltipsCtrl.setCurrentTooltip = '请选择线！';
+                        rdLink.options.selectType = 'link';
+                        rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                            selectCtrl.onSelected({
-                                point: data.point
-                            });
-                            console.log(data,data.id)
+                            /*把当前link的lever_index升高一级*/
+                            for(var i=0;i<jsonData.linkObjs.length;i++){
+                                if(jsonData.linkObjs[i].pid == data.id){
+                                    for(var j=0;j<jsonData.linkObjs.length;j++){
+                                        if(jsonData.linkObjs[j].lever_index == jsonData.linkObjs[i].lever_index+1){
+                                            jsonData.linkObjs[j].lever_index--;
+                                        }
+                                    }
+                                    jsonData.linkObjs[i].lever_index =+ 1;
+                                }
+                            }
+                            /*重绘link颜色*/
+                            for(var i=0;i<jsonData.linkObjs.length;i++){
+                                highlightFeatures.push({
+                                    id:jsonData.linkObjs[i].pid.toString(),
+                                    layerid:'referenceLine',
+                                    type:'overpass',
+                                    index:jsonData.linkObjs[i].lever_index,
+                                    style:{
+                                        size:5
+                                    }
+                                });
+                                highLightLink.highLightFeatures = highlightFeatures;
+                                highLightLink.drawHighlight();
+                            }
                         })
                     }
-                    console.log(crossGeos)
                     //判断相交点数
                     if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
@@ -627,14 +649,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         //map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                         /*重组linkData格式*/
                         for(var linkMark=0;linkMark<data.length;linkMark++){
-                            var tempObj = {'pid':data[linkMark].data.properties.id,'zlevel':linkMark};
+                            var tempObj = {'pid':data[linkMark].data.properties.id,'lever_index':linkMark};
                             jsonData.linkObjs.push(tempObj);
                         }
-                        console.log(crossGeos)
-                        tooltipsCtrl.setCurrentTooltip("点击空格保存,或者按ESC键取消!");
+                        tooltipsCtrl.setCurrentTooltip("点击link调整层级(颜色越深层级越高),空格保存,或者按ESC键取消!");
                         $scope.changeLevel();
                         selectCtrl.onSelected(jsonData);
-                        console.log("jsonData:"+shapeCtrl,selectCtrl,JSON.stringify(jsonData))
                     }
                 });
             } else if (type === '3dBranch'){
