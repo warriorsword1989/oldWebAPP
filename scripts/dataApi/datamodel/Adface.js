@@ -33,6 +33,7 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
         data["area"] = this.area;
         data["perimeter"] = this.perimeter;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -45,6 +46,7 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
         data["area"] = this.area;
         data["perimeter"] = this.perimeter;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
