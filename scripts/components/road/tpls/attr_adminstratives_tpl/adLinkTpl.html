@@ -145,22 +145,22 @@
             <div ><label class="control-label">比例尺</label></div>
             <div class="inline" style="text-align: left">
                 <select  ng-model="adLinkData.scale"
-                         ng-options="value.id as value.label for value in scale" >
+                         ng-options="value.id as value.label for value in scale" disabled="disabled">
                 </select>
             </div>
         </li>
 
         <li class="list-group-item">
             <div ><label class="control-label">图幅号</label></div>
-            <div class="inline" style="text-align: left" >
-                <input type="text"  ng-model="adLinkData.meshId">
+            <div class="inline" style="text-align: left">
+                <input type="text"  ng-model="adLinkData.meshId" disabled="disabled">
             </div>
 
         </li>
         <li class="list-group-item">
             <div ><label class="control-label">Link长度</label></div>
-            <div class="inline" style="text-align: left" >
-                <input type="text"  ng-model="adLinkData.length">
+            <div class="inline" style="text-align: left">
+                <input type="text"  ng-model="adLinkData.length" disabled="disabled">
             </div>
 
         </li>

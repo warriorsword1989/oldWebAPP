@@ -4,6 +4,7 @@
 
 var rdGscApp = angular.module("lazymodule", []);
 rdGscApp.controller("rdGscController",function($scope) {
+    var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var rdgsc = layerCtrl.getLayerById('rdgsc');

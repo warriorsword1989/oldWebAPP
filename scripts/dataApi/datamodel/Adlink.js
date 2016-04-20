@@ -41,6 +41,7 @@ fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
         data["scale"] = this.scale;
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -57,6 +58,7 @@ fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
         data["scale"] = this.scale;
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 

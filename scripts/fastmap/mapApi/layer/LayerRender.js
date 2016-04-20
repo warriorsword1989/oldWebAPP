@@ -144,7 +144,13 @@ fastmap.mapApi.LayerRender = {
     },
 
     _drawText: function (ctx, geom, name) {
+        var startLen = geom.concat().length;
+
         geom = this._clip(ctx, geom);
+        var endLen = geom.length;
+        if(startLen!==endLen) {
+            console.log("开始的长度为: "+startLen+"处理后的长度:"+endLen);
+        }
 
         var c = ctx.canvas;
         var g = c.getContext('2d');
@@ -157,11 +163,13 @@ fastmap.mapApi.LayerRender = {
             angle = this._rotateAngle(geom[0][0], geom[1][0]);
             lineLen = this.distance(geom[0][0], geom[1][0]);
             if (nameLen < lineLen / 2 && lineLen > 160) {
-                this._showTextOfAngle(ctx, 0, name, angle, [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2]);
+                this._showTextOfAngle(ctx, 0, name, angle,
+                    [(geom[0][0][0] + geom[1][0][0]) / 2, (geom[0][0][1] + geom[1][0][1]) / 2]);
             }
 
         } else {
-            var startPoint = geom[0][0], startPointForLen = geom[0][0], endPoint = geom[geom.length - 1][0],
+            var startPoint = geom[0][0], startPointForLen = geom[0][0],
+                endPoint = geom[geom.length - 1][0],
                 textLength = 0, startText = 0, textIndex = 0,
                 betPointsLen, realLineLen = 0, linkArrLen = geom.length;
             for (var m = 1; m < linkArrLen; m++) {
@@ -596,6 +604,7 @@ fastmap.mapApi.LayerRender = {
      * @param {Object}ctx
      * @param {Number}direct 绘制方向
      * @param {Array}data 点数组
+     * * @param colors 点数组
      * @private
      */
     _drawIntRticArrow: function (ctx, direct, data, colors) {
