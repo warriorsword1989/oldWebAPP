@@ -220,10 +220,10 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
         var start, end, x1, y1, x2, y2, cx, cy;
         var crosses = 0;
         for (var i = 0; i < numSeg; ++i) {
-            start = this.coordinates[i];
+            start = this.components[i];
             x1 = this.limitSigDigs(start.x?start.x:start[0], digs);
             y1 = this.limitSigDigs(start.y?start.y:start[1], digs);
-            end = this.coordinates[i + 1];
+            end = this.components[i + 1];
             x2 = this.limitSigDigs(end.x?end.x:end[0], digs);
             y2 = this.limitSigDigs(end.y?end.y:end[1], digs);
 

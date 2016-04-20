@@ -101,7 +101,7 @@ function keyEvent(ocLazyLoad, scope) {
                             info = data.data.log;
                             Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
                                 objEditCtrl.setCurrentObject("RDLINK", data.data);
-                                ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_link_ctrl/rdLinkCtrl').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
                                 })
                             });
@@ -148,7 +148,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDRESTRICTION", data.data);
-                                ocLazyLoad.load('ctrl/attr_restriction_ctrl/rdRestriction').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_restriction_ctrl/rdRestriction').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
                                 })
                             })
@@ -303,7 +303,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDSPEEDLIMIT", data.data);
-                                ocLazyLoad.load('ctrl/attr_speedLimit_ctrl/speedLimitCtrl').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_speedLimit_ctrl/speedLimitTpl.html";
                                 });
                             });
@@ -484,7 +484,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.panelFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDBRANCH", data.data);
-                                ocLazyLoad.load('ctrl/attr_branch_ctrl/rdBranchCtrl').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_branch_ctrl/rdBranchCtrl').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
                                 })
                             }, data.data.pid)
@@ -531,7 +531,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     scope.objectFlag = true;
                                 }
                                 objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                                ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
+                                ocLazyLoad.load('components/road/ctrls/attr_cross_ctrl/rdCrossCtrl').then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html";
                                 });
                             });
@@ -586,7 +586,7 @@ function keyEvent(ocLazyLoad, scope) {
                             }
                             Application.functions.getRdObjectById(data.data.pid, "RDLANECONNEXITY", function (data) {
                                 objEditCtrl.setCurrentObject("RDLANECONNEXITY", data.data);
-                                ocLazyLoad.load("ctrl/attr_connexity_ctrl/rdLaneConnexityCtrl").then(function () {
+                                ocLazyLoad.load("components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl").then(function () {
                                     scope.attrTplContainer = "../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html";
                                 });
                             });
@@ -616,13 +616,16 @@ function keyEvent(ocLazyLoad, scope) {
                     for (var index = 0, len = geo.components.length; index < len; index++) {
                         coordinate.push([geo.components[index].x, geo.components[index].y]);
                     }
+                    coordinate.push([geo.components[0].x, geo.components[0].y]);
+                    var test = [];
+                    test.push(coordinate);
                     var paramOfPolygon = {
                         "command": "CREATE",
                         "type": "ADFACE",
                         "projectId": Application.projectid,
                         "data": {
 
-                            "geometry": {"type": "Polygon", "coordinates": coordinate}
+                            "geometry": {"type": "Polygon", "coordinates": test}
 
                         }
                     }
@@ -630,7 +633,14 @@ function keyEvent(ocLazyLoad, scope) {
                     shapeCtrl.stopEditing();
                     Application.functions.saveLinkGeometry(JSON.stringify(paramOfPolygon), function (data) {
                             var info = null;
-                            if (data.errcode == 0) {
+                        if (data.errcode === -1) {
+                            info = [{
+                                "op": data.errcode,
+                                "type": data.errmsg,
+                                "pid": data.errid
+                            }];
+                            swal("操作失败", data.errmsg, "error");
+                        } else  {
                                 var sInfo = {
                                     "op": "创建行政区划面成功",
                                     "type": "",
@@ -638,12 +648,22 @@ function keyEvent(ocLazyLoad, scope) {
                                 };
                                 data.data.log.push(sInfo);
                                 info = data.data.log;
-                                //Application.functions.getRdObjectById(data.data.pid, "RDLINK", function (data) {
-                                //    objEditCtrl.setCurrentObject("RDLINK", data.data);
-                                //    ocLazyLoad.load('ctrl/attr_link_ctrl/rdLinkCtrl').then(function () {
-                                //        scope.attrTplContainer = "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
-                                //    })
-                                //});
+                            var test = '';
+                            for (var k = 0 ;k<data.data.log.length;k++) {
+                                if (data.data.log[k].type==="ADFACE") {
+                                    test =  data.data.log[k].pid;
+                                }
+                            }
+                                Application.functions.getRdObjectById(test, "ADFACE", function (data) {
+                                   objEditCtrl.setCurrentObject("ADFACE", data.data);
+                                    ocLazyLoad.load('components/road/ctrls/attr_administratives_ctrl/adFaceCtrl').then(function () {
+                                        scope.attrTplContainer = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html";
+                                    })
+                                });
+                            outPutCtrl.pushOutput(info);
+                            if (outPutCtrl.updateOutPuts !== "") {
+                                outPutCtrl.updateOutPuts();
+                            }
                             }
                         }
                     )
@@ -660,41 +680,41 @@ function keyEvent(ocLazyLoad, scope) {
                     //结束编辑状态
                     shapeCtrl.stopEditing();
                     console.log(param)
-                    /*Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                     var info = null;
-                     if (data.errcode === -1) {
-                     info = [{
-                     "op": data.errcode,
-                     "type": data.errmsg,
-                     "pid": data.errid
-                     }];
-                     swal("操作失败", data.errmsg, "error");
-                     } else {
-                     Application.functions.getRdObjectById(data.data.pid, "RDCROSS", function (data) {
-                     if (!scope.panelFlag) {
-                     scope.panelFlag = true;
-                     scope.objectFlag = true;
-                     }
-                     objEditCtrl.setCurrentObject("RDCROSS", data.data);
-                     ocLazyLoad.load('ctrl/attr_cross_ctrl/rdCrossCtrl').then(function () {
-                     scope.attrTplContainer = "jsl/attr_cross_tpl/rdCrossTpl.html";
-                     });
-                     });
-                     var sInfo = {
-                     "op": "创建RDCROSS成功",
-                     "type": "",
-                     "pid": ""
-                     };
-                     data.data.log.push(sInfo);
-                     info = data.data.log;
-                     }
-                     resetPage();
-                     outPutCtrl.pushOutput(info);
-                     if (outPutCtrl.updateOutPuts !== "") {
-                     outPutCtrl.updateOutPuts();
-                     }
+                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                         var info = null;
+                         if (data.errcode === -1) {
+                             info = [{
+                                 "op": data.errcode,
+                                 "type": data.errmsg,
+                                 "pid": data.errid
+                             }];
+                             swal("操作失败", data.errmsg, "error");
+                         } else {
+                             Application.functions.getRdObjectById(data.data.pid, "RDGSC", function (data) {
+                                 if (!scope.panelFlag) {
+                                     scope.panelFlag = true;
+                                     scope.objectFlag = true;
+                                 }
+                                 objEditCtrl.setCurrentObject("RDGSC", data.data);
+                                 ocLazyLoad.load('components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl').then(function () {
+                                    scope.attrTplContainer = "jsl/attr_gsc_tpl/rdGscTpl.html";
+                                 });
+                             });
+                             var sInfo = {
+                                 "op": "RDGSC",
+                                 "type": "",
+                                 "pid": ""
+                             };
+                             data.data.log.push(sInfo);
+                             info = data.data.log;
+                         }
+                         resetPage();
+                         outPutCtrl.pushOutput(info);
+                         if (outPutCtrl.updateOutPuts !== "") {
+                            outPutCtrl.updateOutPuts();
+                         }
 
-                     })*/
+                     })
                 }
 
 

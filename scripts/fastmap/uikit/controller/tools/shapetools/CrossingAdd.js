@@ -58,7 +58,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
             }
 
             //TODO refactor: move cursor to styles
-            this._container.style.cursor = '';
+            this._map._container.style.cursor = '';
 
             this._map
                 .off('mousedown', this.onMouseDown, this)

@@ -257,7 +257,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (data.features == undefined) {
                     return
                 }
-                self._drawfeature(data, ctx, boolPixelCrs);
+                self._drawFeature(data, ctx, boolPixelCrs);
             }, url, this.key, parse);
 
             this.tiles[this.key].setRequest(this.request);
@@ -346,7 +346,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @param {Boolean}boolPixelCrs 是否像素坐标
      * @private
      */
-    _drawfeature: function (data, ctx, boolPixelCrs) {
+    _drawFeature: function (data, ctx, boolPixelCrs) {
         for (var i = 0; i < data.features.length; i++) {
             var feature = data.features[i];
 
@@ -862,16 +862,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             }, feature.properties);
 
                     } else {
-                        //if(feature.properties.pattern == ){
-                        //
-                        //}else if(){
-                        //
-                        //}else{
                             this._drawLineString(ctx, geom, boolPixelCrs, style, {
                                 color: 'rgba(105,105,105,1)',
                                 radius: 3
                             }, feature.properties);
-                        //}
 
                     }
                     break;

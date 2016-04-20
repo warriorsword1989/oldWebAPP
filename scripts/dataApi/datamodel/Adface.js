@@ -14,7 +14,7 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
-        this.facePid = data["facePid"];
+        this.pid = data["pid"];
         this.regionId = data["regionId"];
         this.geometry = data["geometry"];
         this.area = data["area"] || 0;
@@ -27,7 +27,7 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["facePid"] = this.facePid;
+        data["pid"] = this.pid;
         data["regionId"] = this.regionId;
         data["geometry"] = this.geometry;
         data["area"] = this.area;
