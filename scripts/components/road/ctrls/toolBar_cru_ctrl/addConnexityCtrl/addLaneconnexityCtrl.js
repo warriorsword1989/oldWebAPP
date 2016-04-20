@@ -19,7 +19,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
 
     var changedDirectObj = {
         "loadType":"subAttrTplContainer",
-        "propertyCtrl":'components/road/ctrls/toolBar_cru_ctrl/addConnexitycomponents/road/ctrls/directOfConnexityCtrl',
+        "propertyCtrl":'components/road/ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
         "propertyHtml":'../../scripts/components/road/tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
