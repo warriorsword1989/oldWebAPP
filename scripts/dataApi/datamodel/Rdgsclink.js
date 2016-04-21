@@ -22,7 +22,7 @@ fastmap.dataApi.RdGscLink = fastmap.dataApi.GeoDataModel.extend({
      */
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.zlevel = data["regionId"] || 0;
+        this.zlevel = data["zlevel"] || 0;
         this.linkPid = data["linkPid"] || 0;
         this.tableName = data["tableName"]|| "";
         this.shpSeqNum = data["shpSeqNum"] || 1;
