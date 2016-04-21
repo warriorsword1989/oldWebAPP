@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchSignAsreal=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCHSIGNASREAL";
@@ -41,3 +41,7 @@ fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+
+fastmap.dataApi.RdBranchSignAsreal = function (data, options) {
+    return new fastmap.dataApi.RdBranchSignAsreal(data, options);
+}

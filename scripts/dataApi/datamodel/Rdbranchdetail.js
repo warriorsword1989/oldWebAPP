@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchDetail=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchDetail=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCHDETAIL";
@@ -22,7 +22,7 @@ fastmap.dataApi.rdBranchDetail=fastmap.dataApi.rdBranch.extend({
         this.arrowFlag = data["arrowFlag"] || 0;
         this.names=[];
         for(var i=0;i<data["names"].length;i++){
-            var name= new fastmap.dataApi.rdBranchName(data["names"][i]);
+            var name= fastmap.dataApi.rdBranchName(data["names"][i]);
             this.names.push(name);
         }
     },
@@ -71,3 +71,7 @@ fastmap.dataApi.rdBranchDetail=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+
+fastmap.dataApi.rdBranchDetail = function (data, options) {
+    return new fastmap.dataApi.RdBranchDetail(data, options);
+}

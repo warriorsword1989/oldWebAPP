@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkForm = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -74,7 +74,7 @@ fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.linkform = function (data, options) {
-    return new fastmap.dataApi.linkForm(data, options);
+fastmap.dataApi.rdLinkForm = function (data, options) {
+    return new fastmap.dataApi.RdLinkForm(data, options);
 }
 

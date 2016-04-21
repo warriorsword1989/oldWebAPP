@@ -50,7 +50,7 @@ adAdminZone.controller("adAdminController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-        //var adAdmin = fastmap.dataApi.adadmin(test);
+        //var adAdmin = fastmap.dataApi.adAdmin(test);
         //objCtrl.data = adAdmin;
         //$scope.adAdminData = objCtrl.data;
         $scope.adAdminData=test;

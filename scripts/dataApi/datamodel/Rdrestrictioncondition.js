@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -77,6 +77,6 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdRestriction}
  */
-fastmap.dataApi.rdrestrictioncondition = function (data, options) {
-    return new fastmap.dataApi.rdRestrictionCondition(data, options);
+fastmap.dataApi.rdRestrictionCondition = function (data, options) {
+    return new fastmap.dataApi.RdRestrictionCondition(data, options);
 }

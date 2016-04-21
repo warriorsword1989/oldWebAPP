@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkSideWalk = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -77,7 +77,7 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkSidewalk}
  */
-fastmap.dataApi.linksidewalk = function (data, options) {
-    return new fastmap.dataApi.linkSidewalk(data, options);
+fastmap.dataApi.rdLinkSideWalk = function (data, options) {
+    return new fastmap.dataApi.RdLinkSideWalk(data, options);
 }
 

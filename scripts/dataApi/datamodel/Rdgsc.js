@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.rdGsc = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdGsc = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -21,7 +21,7 @@ fastmap.dataApi.rdGsc = fastmap.dataApi.GeoDataModel.extend({
         this.links = [];
         if (data["links"]&&data["links"].length > 0) {
             for (var i = 0, len = data["links"].length; i < len; i++) {
-                var link =fastmap.dataApi.rdgsclink(data["links"][i]);
+                var link =fastmap.dataApi.rdGscLink(data["links"][i]);
                 this.links.push(link);
             }
 
@@ -63,10 +63,9 @@ fastmap.dataApi.rdGsc = fastmap.dataApi.GeoDataModel.extend({
         data["links"] = links;
         return data;
     },
-
 });
 
-fastmap.dataApi.rdgsc = function (data, options) {
-    return new fastmap.dataApi.rdGsc(data, options);
+fastmap.dataApi.rdGsc = function (data, options) {
+    return new fastmap.dataApi.RdGsc(data, options);
 }
 

@@ -218,7 +218,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
 
             if (type === "restriction") {
-                shapeCtrl.setEditingType("restriction")
+                shapeCtrl.setEditingType("restriction");
                 tooltipsCtrl.setEditEventType('restriction');
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({

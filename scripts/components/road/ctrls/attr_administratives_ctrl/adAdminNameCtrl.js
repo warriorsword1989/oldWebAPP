@@ -124,7 +124,7 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
         var protoArr = $scope.names;
-        var newName = fastmap.dataApi.rdbranchname({
+        var newName = fastmap.dataApi.rdBranchName({
             "pid":0,
             "langCode":$scope.languageCode[0].code,
             "nameGroupid":protoArr.length>0?protoArr[0].nameGroupid + 1:1,

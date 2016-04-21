@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -28,7 +28,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         this.conditions = [];
         if (data["conditions"]&&data["conditions"].length > 0) {
             for (var i = 0, len = data["conditions"].length; i < len; i++) {
-                var condition =fastmap.dataApi.rdrestrictioncondition(data["conditions"][i]);
+                var condition =fastmap.dataApi.rdRestrictionCondition(data["conditions"][i]);
                 this.conditions.push(condition);
             }
 
@@ -87,6 +87,6 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdRestriction}
  */
-fastmap.dataApi.rdrestrictiondetail = function (data, options) {
-    return new fastmap.dataApi.rdRestrictionDetail(data, options);
+fastmap.dataApi.rdRestrictionDetail = function (data, options) {
+    return new fastmap.dataApi.RdRestrictionDetail(data, options);
 }

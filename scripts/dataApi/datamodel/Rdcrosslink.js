@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.RdCrossLink=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDCROSSLINK";
@@ -32,3 +32,7 @@ fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
         return data;
     }
 })
+
+fastmap.dataApi.rdCrossLink = function (data, options) {
+    return new fastmap.dataApi.RdCrossLink(data, options);
+}

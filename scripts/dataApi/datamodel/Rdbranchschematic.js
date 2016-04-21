@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchSchematic=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCHSCHEMATIC";
@@ -39,3 +39,7 @@ fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+
+fastmap.dataApi.rdBranchSchematic = function (data, options) {
+    return new fastmap.dataApi.RdBranchSchematic(data, options);
+}

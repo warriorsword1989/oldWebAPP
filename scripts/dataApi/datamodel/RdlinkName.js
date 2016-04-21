@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkName = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -89,7 +89,7 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linkname = function (data, options) {
-    return new fastmap.dataApi.linkName(data, options);
+fastmap.dataApi.rdLinkName = function (data, options) {
+    return new fastmap.dataApi.RdLinkName(data, options);
 }
 

@@ -44,7 +44,7 @@ rwLinkZone.controller("rwLinkController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-        var rwLink = fastmap.dataApi.rwlink(test);
+        var rwLink = fastmap.dataApi.rwLink(test);
         objCtrl.data = rwLink;
         $scope.rwLinkData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());

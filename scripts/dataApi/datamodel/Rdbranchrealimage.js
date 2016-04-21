@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchRealImage=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchRealImage=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCHREALIMAGE";

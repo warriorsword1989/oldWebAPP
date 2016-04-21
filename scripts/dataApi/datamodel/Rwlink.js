@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.rwLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -95,7 +95,7 @@ fastmap.dataApi.rwLink = fastmap.dataApi.GeoDataModel.extend({
 
 });
 
-fastmap.dataApi.rwlink = function (data, options) {
-    return new fastmap.dataApi.rwLink(data, options);
+fastmap.dataApi.rwLink = function (data, options) {
+    return new fastmap.dataApi.RwLink(data, options);
 }
 

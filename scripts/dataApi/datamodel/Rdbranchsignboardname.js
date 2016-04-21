@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchSignBoardName=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchSignBoardName=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCHSIGNBOARDNAME";
@@ -56,3 +56,7 @@ fastmap.dataApi.rdBranchSignBoardName=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+
+fastmap.dataApi.rdBranchSignBoardName = function (data, options) {
+    return new fastmap.dataApi.RdBranchSignBoardName(data, options);
+}

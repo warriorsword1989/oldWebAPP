@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkWalkStair = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -74,7 +74,7 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linkwalkstair = function (data, options) {
-    return new fastmap.dataApi.linkWalkStair(data, options);
+fastmap.dataApi.rdLinkWalkStair = function (data, options) {
+    return new fastmap.dataApi.RdLinkWalkStair(data, options);
 }
 

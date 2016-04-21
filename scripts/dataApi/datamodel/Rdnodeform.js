@@ -6,7 +6,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdNodeForm = fastmap.dataApi.GeoDataModel.extend({
 
 
     /***
@@ -66,7 +66,7 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdnodeform = function (data, options) {
-    return new fastmap.dataApi.rdNodeForm(data, options);
+fastmap.dataApi.rdNodeForm = function (data, options) {
+    return new fastmap.dataApi.RdNodeForm(data, options);
 }
 
