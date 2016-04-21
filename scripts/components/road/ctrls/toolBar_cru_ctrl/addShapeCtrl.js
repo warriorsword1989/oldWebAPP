@@ -601,8 +601,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
                         map._container.style.cursor = '';
-
-                        //layerCtrl.pushLayerFront('edit');
                         map.currentTool = new fastmap.uikit.SelectPath(
                             {
                                 map: map,
@@ -614,7 +612,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         rdLink.options.selectType = 'link';
                         rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                            console.log(data)
                             /*把当前link的level_index升高一级*/
                             for(var i=0;i<jsonData.linkObjs.length;i++){
                                 if(jsonData.linkObjs[i].pid == data.id){
