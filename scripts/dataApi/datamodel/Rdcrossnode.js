@@ -1,9 +1,10 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.RdCrossNode=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDCROSSNODE";
         this.setAttributeData(data);
     },
 
@@ -20,7 +21,7 @@ fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
         data["isMain"] = this.isMain;
         data["nodePid"] = this.nodePid ;
         data["rowId"] = this.rowId;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -30,9 +31,11 @@ fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
         data["isMain"] = this.isMain;
         data["nodePid"] = this.nodePid ;
         data["rowId"] = this.rowId;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
-
-
 })
+
+fastmap.dataApi.rdCrossNode = function (data, options) {
+    return new fastmap.dataApi.RdCrossNode(data, options);
+}

@@ -41,7 +41,6 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         $scope.adAdminData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 
-
     };
     if(objCtrl.data){
         $scope.initializeData();

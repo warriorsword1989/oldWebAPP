@@ -78,7 +78,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             return;
         }
 
-        if (type === "link") {
+        if (type === "adLink") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
@@ -100,6 +100,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             })
         }
         else if (type === "node") {
+            layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
@@ -112,54 +113,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 $scope.getFeatDataCallback(data, data.id, "ADADMIN", 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html");
             });
         }
-        else if (type === "relation") {
-            map.currentTool = new fastmap.uikit.SelectRelation({
-                map: map,
-                relationFlag: true
-            });
-            map.currentTool.enable();
-
-            editLayer.bringToBack();
-            $scope.toolTipText = '请选择关系！';
-            eventController.on(eventController.eventTypes.GETRELATIONID, function (data) {
-                $scope.data = data;
-                $scope.tips = data.tips;
-                var ctrlAndTmplParams = {
-                    propertyCtrl: "",
-                    propertyHtml: ""
-                }
-                switch ($scope.data.optype) {
-                    case 'RDRESTRICTION':
-                        if ($scope.tips === 0) {
-                            ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                            ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
-                        }
-                        else {
-                            ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                            ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html";
-                        }
-                        break;
-                    case 'RDLANECONNEXITY':
-                        ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl';
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html";
-                        break;
-                    case 'RDSPEEDLIMIT':
-                        ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html";
-                        break;
-                    case 'RDCROSS':
-                        ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_cross_ctrl/rdCrossCtrl';
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html";
-                        break;
-                    case 'RDBRANCH':
-                        ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
-                        break;
-                }
-
-                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
-            })
-        }else if (type === "polygon") {
+       else if (type === "adFace") {
            /* layerCtrl.pushLayerFront('edit');*/
             map.currentTool = new fastmap.uikit.SelectPolygon(
                 {

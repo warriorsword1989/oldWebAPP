@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -13,7 +13,7 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         else{
             this.id = data["regionId"];
         }
-
+        this.geoLiveType = "ADADMINNAME";
         this.setAttributeData(data);
     },
     /*
@@ -28,8 +28,6 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         this.name = data["name"] || null;
         this.phonetic = data["phonetic"] || null;
         this.srcFlag = data["srcFlag"] || 0;
-
-
     },
 
     /*
@@ -45,9 +43,8 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
-
     },
 
     getSnapShot: function () {
@@ -60,12 +57,12 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
 });
 
-fastmap.dataApi.adadminname = function (data, options) {
-    return new fastmap.dataApi.adAdminName(data, options);
+fastmap.dataApi.adAdminName = function (data, options) {
+    return new fastmap.dataApi.AdAdminName(data, options);
 }

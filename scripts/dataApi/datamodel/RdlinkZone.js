@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkZone = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -11,6 +11,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKZONE";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -39,6 +40,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
         data["regionId"] = this.regionId;
         data["type"] = this.type;
         data["side"] = this.side;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -55,6 +57,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
         data["regionId"] = this.regionId;
         data["type"] = this.type;
         data["side"] = this.side;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -65,7 +68,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linkzone = function (data, options) {
-    return new fastmap.dataApi.linkZone(data, options);
+fastmap.dataApi.rdLinkZone = function (data, options) {
+    return new fastmap.dataApi.RdLinkZone(data, options);
 }
 

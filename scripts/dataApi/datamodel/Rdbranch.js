@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdBranch = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCH";
@@ -17,7 +17,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.realimages = [];
         if (data["realimages"].length > 0) {
             for (var i = 0; i < data["realimages"].length; i++) {
-                var realImage = new fastmap.dataApi.rdBranchRealImage(data["realimages"][i]);
+                var realImage = fastmap.dataApi.rdBranchRealImage(data["realimages"][i]);
                 this.realimages.push(realImage);
             }
         }
@@ -25,7 +25,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.schematics = [];
         if (data["schematics"].length > 0) {
             for (var i = 0; i < data["schematics"].length; i++) {
-                var schemtic = new fastmap.dataApi.rdBranchSchematic(data["schematics"][i]);
+                var schemtic = fastmap.dataApi.rdBranchSchematic(data["schematics"][i]);
                 this.schematics.push(schemtic);
             }
         }
@@ -33,7 +33,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.seriesbranches = [];
         if (data["seriesbranches"].length > 0) {
             for (var i = 0; i < data["seriesbranches"].length; i++) {
-                var seriesBranch = new fastmap.dataApi.rdBranchSeriesBranch(data["seriesbranches"][i]);
+                var seriesBranch = fastmap.dataApi.rdBranchSeriesBranch(data["seriesbranches"][i]);
                 this.seriesbranches.push(seriesBranch);
             }
         }
@@ -41,7 +41,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.signasreals = [];
         if (data["signasreals"].length > 0) {
             for (var i = 0; i < data["signasreals"].length; i++) {
-                var signasReal = new fastmap.dataApi.rdBranchSignAsreal(data["signasreals"][i]);
+                var signasReal = fastmap.dataApi.rdBranchSignAsreal(data["signasreals"][i]);
                 this.signasreals.push(signasReal);
             }
         }
@@ -49,7 +49,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.signboards = [];
         if (data["signboards"].length > 0) {
             for (var i = 0; i < data["signboards"].length; i++) {
-                var signBoard = new fastmap.dataApi.rdBranchSignBoard(data["signboards"][i]);
+                var signBoard = fastmap.dataApi.rdBranchSignBoard(data["signboards"][i]);
                 this.signboards.push(signBoard);
             }
         }
@@ -57,7 +57,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.vias = [];
         if (data["vias"].length > 0) {
             for (var i = 0; i < data["vias"].length; i++) {
-                var via = new fastmap.dataApi.rdBranchVia(data["vias"][i]);
+                var via = fastmap.dataApi.rdBranchVia(data["vias"][i]);
                 this.vias.push(via);
             }
         }
@@ -65,7 +65,7 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
         this.details = [];
         if (data["details"].length > 0) {
             for (var i = 0; i < data["details"].length; i++) {
-                var detail = new fastmap.dataApi.rdBranchDetail(data["details"][i]);
+                var detail = fastmap.dataApi.rdBranchDetail(data["details"][i]);
                 this.details.push(detail);
             }
         }
@@ -169,6 +169,6 @@ fastmap.dataApi.rdBranch = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdBranch}
  */
-fastmap.dataApi.rdbranch = function (data, options) {
-    return new fastmap.dataApi.rdBranch(data, options);
+fastmap.dataApi.rdBranch = function (data, options) {
+    return new fastmap.dataApi.RdBranch(data, options);
 }

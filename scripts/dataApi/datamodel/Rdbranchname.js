@@ -1,9 +1,10 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchName=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHNAME";
         this.setAttributeData(data);
     },
 
@@ -34,6 +35,7 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
         data["voiceFile"] = this.voiceFile;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -50,6 +52,7 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
         data["voiceFile"] = this.voiceFile;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })
@@ -59,6 +62,6 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdBranchName}
  */
-fastmap.dataApi.rdbranchname = function (data, options) {
-    return new fastmap.dataApi.rdBranchName(data, options);
+fastmap.dataApi.rdBranchName = function (data, options) {
+    return new fastmap.dataApi.RdBranchName(data, options);
 }

@@ -35,7 +35,7 @@ addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeo
         } else {
             flag = 1;
         }
-        var newDirectObj = fastmap.dataApi.rdrestrictiondetail({"restricInfo": item.id, "flag": flag,"conditions":[]})
+        var newDirectObj = fastmap.dataApi.rdRestrictionDetail({"restricInfo": item.id, "flag": flag,"conditions":[]})
         $scope.newLimited = newDirectObj;
     };
     //添加交限

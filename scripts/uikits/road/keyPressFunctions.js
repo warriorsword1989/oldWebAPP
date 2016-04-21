@@ -101,7 +101,7 @@ function keyEvent(ocLazyLoad, scope) {
                     coordinate.length = 0;
                 }
                 var param = {};
-                if (geo) {
+                if (geo&&geo.components) {
                     for (var index = 0, len = geo.components.length; index < len; index++) {
                         coordinate.push([geo.components[index].x, geo.components[index].y]);
                     }
@@ -138,7 +138,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adLink").redraw();
-                        treatmentOfChanged(data,data.data.pid, "ADLINK", "创建AdLink成功", 'attr_administratives_ctrl/adLinkCtrl', 'attr_link_tpl/rdLinkTpl.html')
+                        treatmentOfChanged(data,data.data.pid, "ADLINK", "创建AdLink成功", 'attr_administratives_ctrl/adLinkCtrl', 'attr_adminstratives_tpl/adLinkTpl.html')
                     });
                 } else if (shapeCtrl.editType === "restriction") {
                     param = {

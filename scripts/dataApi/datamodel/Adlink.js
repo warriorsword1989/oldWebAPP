@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.AdLink = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -64,8 +64,8 @@ fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
 
 });
 
-    fastmap.dataApi.adlink = function (data, options) {
-        return new fastmap.dataApi.adLink(data, options);
+    fastmap.dataApi.adLink = function (data, options) {
+        return new fastmap.dataApi.AdLink(data, options);
     }
 
 
