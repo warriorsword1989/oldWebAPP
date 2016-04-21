@@ -307,7 +307,6 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data,"", "RDBRANCH", "创建RDBRANCH成功", 'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html', data.data.pid);
                     })
 
-
                 }
                 else if (shapeCtrl.editType === "linksOfCross") {
                     param = {
@@ -319,8 +318,6 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdcross").redraw();
                         treatmentOfChanged(data,data.data.pid, "RDCROSS", "创建RDCROSS成功", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
-
-
                     })
                 } else if (shapeCtrl.editType === "rdlaneConnexity") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
