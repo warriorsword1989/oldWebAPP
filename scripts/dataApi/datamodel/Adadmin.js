@@ -59,7 +59,7 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
         data["meshId"] = this.meshId;
         data["editFlag"] = this.editFlag;
         data["memo"] = this.memo;
-
+        data["geoLiveType"] = this.geoLiveType;
         var names = [];
         for (var i = 0, len = this.names.length; i < len; i++) {
             names.push(this.names[i].getIntegrate());
@@ -84,7 +84,7 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
         data["meshId"] = this.meshId;
         data["editFlag"] = this.editFlag;
         data["memo"] = this.memo;
-
+        data["geoLiveType"] = this.geoLiveType;
         var names = [];
         for (var i = 0, len = this.names.length; i < len; i++) {
             names.push(this.names[i].getIntegrate());

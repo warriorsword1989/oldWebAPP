@@ -19,6 +19,7 @@ fastmap.uikit.ShapeEditorFactory =  L.Class.extend({
                 var toolsObject = {
 
                     'drawPath': new fastmap.uikit.DrawPath({shapeEditor:shapeEditor}),
+                    'drawAdLink': new fastmap.uikit.DrawPath({shapeEditor:shapeEditor}),
                     'drawPolygon': new fastmap.uikit.DrawPolygon({shapeEditor:shapeEditor}),
                     'pathcopy': new fastmap.uikit.PathCopy({shapeEditor:shapeEditor}),
                     'pathcut': new fastmap.uikit.PathCut({shapeEditor:shapeEditor}),

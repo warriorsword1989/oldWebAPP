@@ -56,7 +56,7 @@
     <ul>
         <li><label>关系</label></li>
         <li>
-            <ul style="padding-left: 10px">
+            <ul style="padding-left: 10px" >
                 <li ng-repeat="item in items" ng-if="item.options.id!=='rdrtic'">
                     <a style="float:right;margin-right: 10px" class="glyphicon"
                        ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
@@ -64,6 +64,38 @@
                     <label style="font-weight: bold;">{{item.options.layername}}</label>
                 </li>
             </ul>
+           <!-- <ul style="padding-left: 10px" >
+                <li ng-repeat="item in testItem" ng-if="item.options.id!=='rdrtic' && !item.options.flag">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">{{item.options.layername}}</label>
+                </li>
+            </ul>
+            <ul style="padding-left: 10px" ng-repeat="item in testItem" ng-if="item.options.flag">
+                <li ng-repeat="item1 in item.options.sonName">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item1[1]]"
+                       ng-click="showLayers1(item,item1,$event)"></a>
+                    <label style="font-weight: bold;">{{item1[0]}}</label>
+                </li>
+            </ul>-->
         </li>
+       <!-- <li>
+            <ul style="padding-left: 10px">
+                <li ng-repeat="item in testItem" ng-if="item.options.id!=='rdrtic'">
+                    <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">{{item.options.layername}}</label>
+                </li>
+                <li  ng-repeat="item in testItem" ng-if="item.options.layername==='普通限速'">
+                     <a style="float:right;margin-right: 10px" class="glyphicon"
+                       ng-class="{true:'glyphicon-check',false:'glyphicon-unchecked'}[item.options.visible]"
+                       ng-click="showLayers(item,$event)"></a>
+                    <label style="font-weight: bold;">条件限速</label>
+                </li>
+            </ul>
+        </li>-->
     </ul>
 </div>

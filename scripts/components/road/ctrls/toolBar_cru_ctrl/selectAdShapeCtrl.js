@@ -10,6 +10,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var adFace = layerCtrl.getLayerById('adface');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.flagId = 0;
@@ -159,6 +160,27 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 }
 
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+            })
+        }else if (type === "polygon") {
+           /* layerCtrl.pushLayerFront('edit');*/
+            map.currentTool = new fastmap.uikit.SelectPolygon(
+                {
+                    map: map,
+                    currentEditLayer: adFace,
+                    shapeEditor: shapeCtrl
+                });
+            map.currentTool.enable();
+            editLayer.bringToBack();
+            //初始化鼠标提示
+            $scope.toolTipText = '请选择面！';
+           /* adFace.options.selectType = 'face';
+            adFace.options.editable = true;*/
+            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                selectCtrl.onSelected({
+                    point: data.point
+                });
+
+                $scope.getFeatDataCallback(data, data.id, "ADFACE", 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html");
             })
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
