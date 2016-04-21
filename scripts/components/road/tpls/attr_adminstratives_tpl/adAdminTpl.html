@@ -142,17 +142,17 @@
             </div>
             <div class="list-line"></div>
         </li>
-        <li class="list-group-item" ng-if="isbase==true">
+        <li class="list-group-item" >
             <div><label class="control-label">行政代码</label></div>
             <div class="inline"><input type="text" ng-model="adAdminData.adminId" />
             </div>
         </li>
-        <li class="list-group-item" ng-if="isbase==true">
+        <li class="list-group-item" >
             <div><label class="control-label">扩展代码</label></div>
             <div class="inline"><input type="text" ng-model="adAdminData.extendId" />
             </div>
         </li>
-        <li class="list-group-item" ng-if="isbase==true">
+        <li class="list-group-item" >
             <div>
                 <label class="control-label">行政类型</label>
             </div>
@@ -163,7 +163,7 @@
                 </select>
             </div>
         </li>
-        <li class="list-group-item" ng-if="isbase==true">
+        <li class="list-group-item" >
             <div>
                 <label class="control-label">代表点标识</label>
             </div>
@@ -174,12 +174,12 @@
                 </select>
             </div>
         </li>
-        <li class="list-group-item" ng-if="isbase==true">
+        <li class="list-group-item" >
             <div><label class="control-label">图符号码</label></div>
             <div class="inline"><input type="text" ng-model="adAdminData.meshId" />
             </div>
         </li>
-        <li class="list-group-item" ng-if="isbase==true">
+        <li class="list-group-item" >
             <div>
                 <label class="control-label">人口数量</label>
             </div>
@@ -188,10 +188,6 @@
                          ng-options="value.id as value.label for value in population">
                 </select>
             </div>
-        </li>
-
-        <li>
-
         </li>
     </ul>
     <ul class="list-group list-group-lg m-b-none" ng-if="isbase==true">

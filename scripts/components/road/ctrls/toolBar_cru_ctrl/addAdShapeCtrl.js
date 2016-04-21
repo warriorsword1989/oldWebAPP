@@ -15,6 +15,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             var hLayer = layerCtrl.getLayerById('highlightlayer');
             var objCtrl = fastmap.uikit.ObjectEditController();
             var eventController = fastmap.uikit.EventController();
+            var adAdmin=layerCtrl.getLayerById('adAdmin');
             $scope.limitRelation = {};
             //两点之间的距离
             $scope.distance = function (pointA, pointB) {
@@ -123,7 +124,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 }
                else if (type === "node") {
                     if (shapeCtrl.shapeEditorResult) {
-                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.adlink([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
