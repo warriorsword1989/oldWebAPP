@@ -130,54 +130,7 @@ Application.layersConfig =
             }
 
         },
-            {
-                url: Application.url + '/render/obj/getByTileWithGap?',
-
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划面',
-                    id: 'adface',
-                    maxZoom: 20,
-
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 5,
-                    boolPixelCrs: true,
-                    parse: function (data) {
-                        var geojson = {};
-                        geojson['features'] = [];
-                        $.each(data, function (index, item) {
-                            var obj = {};
-                            obj['type'] = "Feature";
-                            obj['geometry'] = {};
-                            obj['geometry']['type'] = 'Polygon';
-                            obj['geometry']['coordinates'] = [];
-                            for (var i = 0, len = item.g.length; i < len; i = i + 1) {
-                                obj['geometry']['coordinates'].push([item.g[i]]);
-                            }
-                            obj['properties'] = {
-                                'id': item.i
-                            }
-                            geojson['features'].push(obj);
-                        });
-                        return geojson;
-                    },
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'Polygon',
-                    zIndex: 0,
-                    restrictZoom: 10,
-                    editable: false,
-                    visible: false,
-                    requestType: 'ADFACE',
-                    showNodeLevel: 17
-                }
-
-            }, {
+           {
 
                 url: Application.url + '/render/obj/getByTileWithGap?',
 
@@ -483,7 +436,55 @@ Application.layersConfig =
                     isUpDirect: true
                 }
 
-            }, {
+            },  {
+                url: Application.url + '/render/obj/getByTileWithGap?',
+
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '行政区划面',
+                    id: 'adface',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 5,
+                    boolPixelCrs: true,
+                    parse: function (data) {
+                        var geojson = {};
+                        geojson['features'] = [];
+                        $.each(data, function (index, item) {
+                            var obj = {};
+                            obj['type'] = "Feature";
+                            obj['geometry'] = {};
+                            obj['geometry']['type'] = 'Polygon';
+                            obj['geometry']['coordinates'] = [];
+                            for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                                obj['geometry']['coordinates'].push([item.g[i]]);
+                            }
+                            obj['properties'] = {
+                                'id': item.i
+                            }
+                            geojson['features'].push(obj);
+                        });
+                        return geojson;
+                    },
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'Polygon',
+                    zIndex: 0,
+                    restrictZoom: 10,
+                    editable: false,
+                    visible: false,
+                    requestType: 'ADFACE',
+                    showNodeLevel: 17
+                }
+
+            },
+            {
                 url: Application.url + '/render/obj/getByTileWithGap?',
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -523,8 +524,9 @@ Application.layersConfig =
                     updateWhenIdle: true,
                     tileSize: 256,
                     type: 'adLink',
-                    zIndex: 11,
+                    zIndex: 8,
                     restrictZoom: 10,
+                    editable: false,
                     visible: false,
                     requestType: 'ADLINK',
                     showNodeLevel: 17

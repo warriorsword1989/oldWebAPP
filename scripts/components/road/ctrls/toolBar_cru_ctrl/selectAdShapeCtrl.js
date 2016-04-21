@@ -128,10 +128,6 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
            /* adFace.options.selectType = 'face';
             adFace.options.editable = true;*/
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                selectCtrl.onSelected({
-                    point: data.point
-                });
-
                 $scope.getFeatDataCallback(data, data.id, "ADFACE", 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html");
             })
         }

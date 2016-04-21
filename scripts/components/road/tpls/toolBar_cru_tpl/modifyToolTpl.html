@@ -67,14 +67,14 @@
     }
 </style>
 <div id="fm-modifyToolContainer" ng-controller="modifyToolController" class="btn-group btn-group-sm">
-    <button type="button" class="btn insertDot_{{classArr[8]}}" id="insertDot" ng-click="modifyShape('pathVertexInsert',8,$event)" title="插入形状点"></button>
-    <button type="button" class="btn deleteDot_{{classArr[9]}}" id="deleteDot" ng-click="modifyShape('pathVertexReMove',9,$event)" title="删除形状点"></button>
-    <button type="button" class="btn moveDot_{{classArr[10]}}" id="moveDot" ng-click="modifyShape('pathVertexMove',10,$event)" title="移动形状点"></button>
+    <button type="button" class="btn insertDot_{{classArr[8]}}" id="insertDot" ng-click="modifyShape('PATHVERTEXINSERT',8,$event)" title="插入形状点"></button>
+    <button type="button" class="btn deleteDot_{{classArr[9]}}" id="deleteDot" ng-click="modifyShape('PATHVERTEXREMOVE',9,$event)" title="删除形状点"></button>
+    <button type="button" class="btn moveDot_{{classArr[10]}}" id="moveDot" ng-click="modifyShape('PATHVERTEXMOVE',10,$event)" title="移动形状点"></button>
     <!--<button type="button" class="btn btn-default"  disabled>复制link</button>-->
     <!--<button type="button" class="btn btn-default" disabled>平移link</button>-->
     <!--<button type="button" class="btn btn-default" id="extendDot" disabled ng-click="modifyShape('pathVertexInsert')">延长link</button>-->
-    <button type="button" class="btn pathBreak_{{classArr[11]}}" id="pathBreak" ng-click="modifyShape('pathBreak',11,$event)" title="打断link"></button>
+    <button type="button" class="btn pathBreak_{{classArr[11]}}" id="pathBreak" ng-click="modifyShape('PATHBREAK',11,$event)" title="打断link"></button>
 
-    <button type="button" class="btn nodeMove_{{classArr[12]}}" id="nodemove" ng-click="modifyShape('pathNodeMove',12,$event)" title="移动node"></button>
+    <button type="button" class="btn nodeMove_{{classArr[12]}}" id="nodemove" ng-click="modifyShape('PATHNODEMOVE',12,$event)" title="移动node"></button>
     <button type="button" class="btn navi_{{classArr[13]}}" id="naviTool" ng-click="modifyShape('naviTool',13,$event)" title="浏览"></button>
 </div>
