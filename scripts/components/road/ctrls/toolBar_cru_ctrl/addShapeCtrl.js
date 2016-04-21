@@ -217,9 +217,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
 
 
-            if (type === "restriction") {
-                shapeCtrl.setEditingType("restriction")
-                tooltipsCtrl.setEditEventType('restriction');
+            if (type === "RDRESTRICTION") {
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION)
+                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION);
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
                     map: map,
@@ -246,40 +246,22 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 })
 
             }
-            else if (type === "link") {
+            else if (type === "RDLINK") {
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType('drawPath');
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DrawPath);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
-                tooltipsCtrl.setEditEventType('drawPath');
+                tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             }
-
-            else if (type === "polygon") {
-                if (shapeCtrl.shapeEditorResult) {
-                    shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
-                    selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
-                    layerCtrl.pushLayerFront('edit');
-                }
-                shapeCtrl.setEditingType('drawPolygon');
-                shapeCtrl.startEditing();
-                map.currentTool = shapeCtrl.getCurrentTool();
-                tooltipsCtrl.setEditEventType('drawPolygon');
-                tooltipsCtrl.setCurrentTooltip('开始画面！');
-                tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
-            }
-
-
-            else if (type === "speedLimit") {
+            else if (type === "RDSPEEDLIMIT") {
                 var minLen = 100000, pointsOfDis, pointForAngle, angle;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.disable();
@@ -291,7 +273,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType('pointVertexAdd');
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
@@ -313,7 +295,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                             var linkArr = data.data.geometry.coordinates || data.geometry.coordinates, points = [];
                             if (pro.direct == 1) {
-                                tooltipsCtrl.setEditEventType('speedLimit');
+                                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDSPEEDLIMIT);
                                 var point = shapeCtrl.shapeEditorResult.getFinalGeometry();
                                 var link = linkArr;
                                 for (var i = 0, len = link.length; i < len; i++) {
@@ -324,8 +306,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     }
                                 }
                                 angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
-                                console.log(angle);
-                                console.log("angle  " + angle)
                                 var marker = {
                                     flag: false,
                                     point: point,
@@ -353,8 +333,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                     })
                 });
-            } else if (type === "rdBranch") {
-                shapeCtrl.setEditingType("rdBranch")
+            } else if (type === "RDBRANCH") {
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH)
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -381,9 +361,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
 
-            } else if (type === "rdcross") {
+            } else if (type === "RDCROSS") {
                 var linksArr = [], nodesArr = [], nodes = [], links = [], options = {};
-                shapeCtrl.toolsSeparateOfEditor("linksOfCross", {
+                shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDCROSS, {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
@@ -450,7 +430,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
 
 
-            } else if (type === "laneConnexity") {
+            } else if (type === "RDLANECONNEXITY") {
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true})
                 var obj = {};
                 obj["showTransitData"] = []
@@ -464,14 +444,14 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addConnexityTepl/addLaneconnexityTpl.html'
                 }
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
-            } else if (type === "node") {
+            } else if (type === "RDNODE") {
                 if (shapeCtrl.shapeEditorResult) {
                     shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
 
-                shapeCtrl.setEditingType('pointVertexAdd');
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
@@ -480,10 +460,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
             } else if (type === 'overpass') {
-                shapeCtrl.setEditingType("overpass");
                 tooltipsCtrl.setEditEventType('overpass');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-                shapeCtrl.toolsSeparateOfEditor("overpass", {
+                shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDGSC, {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
@@ -662,7 +641,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === '3dBranch'){
                 var highLightFeatures = [],
                     linkDirect = 0;
-                shapeCtrl.setEditingType("rdBranch");
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
