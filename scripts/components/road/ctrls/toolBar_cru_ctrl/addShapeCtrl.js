@@ -601,12 +601,13 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
                         map._container.style.cursor = '';
+
                         //layerCtrl.pushLayerFront('edit');
                         map.currentTool = new fastmap.uikit.SelectPath(
                             {
                                 map: map,
                                 currentEditLayer: rdLink,
-                                linksFlag: false,
+                                linksFlag: true,
                                 shapeEditor: shapeCtrl
                             });
                         map.currentTool.enable();
@@ -636,9 +637,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                         size:5
                                     }
                                 });
-                                console.log(jsonData)
-                                highLightLink.highLightFeatures = highlightFeatures;
-                                highLightLink.drawHighlight();
+                                highLightLinkOfOverPass.highLightFeatures = highlightFeatures;
+                                highLightLinkOfOverPass.drawHighlight();
                             }
                         })
                     }
