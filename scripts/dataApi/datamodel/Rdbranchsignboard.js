@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchSignBoard=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHSIGNBOARD";
         this.setAttributeData(data);
     },
 
@@ -20,7 +21,7 @@ fastmap.dataApi.rdBranchSignBoard=fastmap.dataApi.rdBranch.extend({
         data["branchPid"] = this.branchPid;
         data["backimageCode"] = this.backimageCode;
         data["arrowCode"] = this.arrowCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -30,7 +31,7 @@ fastmap.dataApi.rdBranchSignBoard=fastmap.dataApi.rdBranch.extend({
         data["branchPid"] = this.branchPid;
         data["backimageCode"] = this.backimageCode;
         data["arrowCode"] = this.arrowCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHSCHEMATIC";
         this.setAttributeData(data);
     },
 
@@ -13,6 +14,7 @@ fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
         this.schematicCode = data["schematicCode"] || "";
         this.arrowCode = data["arrowCode"] || "";
         this.memo = data["memo"] || "";
+
     },
 
     getIntegrate:function(){
@@ -22,7 +24,7 @@ fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
         data["schematicCode"] = this.schematicCode;
         data["arrowCode"] = this.arrowCode;
         data["memo"] = this.memo;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -33,7 +35,7 @@ fastmap.dataApi.rdBranchSchematic=fastmap.dataApi.rdBranch.extend({
         data["schematicCode"] = this.schematicCode;
         data["arrowCode"] = this.arrowCode;
         data["memo"] = this.memo;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

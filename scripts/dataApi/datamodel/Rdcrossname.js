@@ -4,6 +4,7 @@
 fastmap.dataApi.rdCrossName = fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDCROSSNAME";
         this.setAttributeData(data);
     },
 
@@ -28,7 +29,7 @@ fastmap.dataApi.rdCrossName = fastmap.dataApi.rdRestriction.extend({
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
         data["rowId"] = this.rowId;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
     getIntegrate: function () {
@@ -41,7 +42,7 @@ fastmap.dataApi.rdCrossName = fastmap.dataApi.rdRestriction.extend({
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
         data["rowId"] = this.rowId;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

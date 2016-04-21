@@ -7,6 +7,7 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDGSCLINK";
         if(!data["pid"]){
             throw "form对象没有对应link"
         }
@@ -40,7 +41,7 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
         data["tableName"] = this.tableName;
         data["shpSeqNum"] = this.shpSeqNum;
         data["startEnd"] = this.startEnd;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -53,7 +54,7 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
         data["tableName"] = this.tableName;
         data["shpSeqNum"] = this.shpSeqNum;
         data["startEnd"] = this.startEnd;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 

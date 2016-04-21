@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchRealImage=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHREALIMAGE";
         this.setAttributeData(data);
     },
 
@@ -20,7 +21,7 @@ fastmap.dataApi.rdBranchRealImage=fastmap.dataApi.rdBranch.extend({
         data["imageType"] = this.imageType;
         data["realCode"] = this.realCode;
         data["arrowCode"] = this.arrowCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -30,7 +31,7 @@ fastmap.dataApi.rdBranchRealImage=fastmap.dataApi.rdBranch.extend({
         data["imageType"] = this.imageType;
         data["realCode"] = this.realCode;
         data["arrowCode"] = this.arrowCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

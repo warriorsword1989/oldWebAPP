@@ -38,7 +38,7 @@ fastmap.dataApi.rdGsc = fastmap.dataApi.GeoDataModel.extend({
         data["pid"] = this.pid;
         data["geometry"] = this.geometry;
         data["processFlag"] = this.processFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
 
         var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
@@ -54,7 +54,7 @@ fastmap.dataApi.rdGsc = fastmap.dataApi.GeoDataModel.extend({
         data["pid"] = this.pid;
         data["geometry"] = this.geometry;
         data["processFlag"] = this.processFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
 
         var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {

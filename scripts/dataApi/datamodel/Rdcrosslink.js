@@ -4,6 +4,7 @@
 fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDCROSSLINK";
         this.setAttributeData(data);
     },
 
@@ -18,7 +19,7 @@ fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
         data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["rowId"] = this.rowId;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -27,7 +28,7 @@ fastmap.dataApi.rdCrossLink=fastmap.dataApi.rdRestriction.extend({
         data["pid"] = this.pid;
         data["linkPid"] = this.linkPid;
         data["rowId"] = this.rowId;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

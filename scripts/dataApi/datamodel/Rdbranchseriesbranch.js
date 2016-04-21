@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHSERIESBRANCH";
         this.setAttributeData(data);
     },
 
@@ -26,6 +27,7 @@ fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
         data["type"] = this.type;
         data["patternCode"] = this.patternCode;
         data["arrowFlag"] = this.arrowFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -38,6 +40,7 @@ fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
         data["type"] = this.type;
         data["patternCode"] = this.patternCode;
         data["arrowFlag"] = this.arrowFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

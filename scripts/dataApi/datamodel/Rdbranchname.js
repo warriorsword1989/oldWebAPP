@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHNAME";
         this.setAttributeData(data);
     },
 
@@ -34,6 +35,7 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
         data["voiceFile"] = this.voiceFile;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -50,6 +52,7 @@ fastmap.dataApi.rdBranchName=fastmap.dataApi.rdBranch.extend({
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
         data["voiceFile"] = this.voiceFile;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

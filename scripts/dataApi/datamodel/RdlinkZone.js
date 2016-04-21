@@ -11,6 +11,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKZONE";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -39,6 +40,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
         data["regionId"] = this.regionId;
         data["type"] = this.type;
         data["side"] = this.side;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -55,6 +57,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
         data["regionId"] = this.regionId;
         data["type"] = this.type;
         data["side"] = this.side;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

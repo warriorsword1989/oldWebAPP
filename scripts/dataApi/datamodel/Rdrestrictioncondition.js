@@ -11,6 +11,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDRESTRICTIONCONDITION";
         this.setAttributeData(data);
     },
 
@@ -44,6 +45,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
         data["resAxleLoad"]  = this.resAxleLoad;
         data["resAxleCount"]  = this.resAxleCount;
         data["resOut"] = this.resOut;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -64,6 +66,7 @@ fastmap.dataApi.rdRestrictionCondition = fastmap.dataApi.GeoDataModel.extend({
         data["resAxleLoad"]  = this.resAxleLoad;
         data["resAxleCount"]  = this.resAxleCount;
         data["resOut"] = this.resOut;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

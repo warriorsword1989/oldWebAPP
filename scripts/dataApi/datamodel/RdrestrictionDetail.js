@@ -11,6 +11,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDRESTRICTIONDETAIL";
         this.setAttributeData(data);
     },
 
@@ -50,6 +51,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         data["restricInfo"] = this.restricInfo;
         data["type"] = this.type;
         data["relationshipType"] = this.relationshipType;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -74,6 +76,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
             conditions.push(this.conditions[i].getIntegrate());
         }
         data["conditions"] = conditions;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchDetail=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHDETAIL";
         this.setAttributeData(data);
     },
 
@@ -39,7 +40,7 @@ fastmap.dataApi.rdBranchDetail=fastmap.dataApi.rdBranch.extend({
         data["voiceDir"] = this.voiceDir;
         data["arrowCode"] = this.arrowCode;
         data["arrowFlag"] = this.arrowFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         data["names"] = [];
         for(var i=0;i<this.names.length;i++){
             data["names"].push(this.names[i].getIntegrate());
@@ -61,7 +62,7 @@ fastmap.dataApi.rdBranchDetail=fastmap.dataApi.rdBranch.extend({
         data["voiceDir"] = this.voiceDir;
         data["arrowCode"] = this.arrowCode;
         data["arrowFlag"] = this.arrowFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         data["names"] = [];
         for(var i=0;i<this.names.length;i++){
             data["names"].push(this.names[i].getIntegrate());

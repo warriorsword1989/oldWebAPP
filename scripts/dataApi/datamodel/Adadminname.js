@@ -13,7 +13,7 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         else{
             this.id = data["regionId"];
         }
-
+        this.geoLiveType = "ADADMINNAME";
         this.setAttributeData(data);
     },
     /*
@@ -45,7 +45,7 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -60,7 +60,7 @@ fastmap.dataApi.adAdminName = fastmap.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         data["phonetic"] = this.phonetic;
         data["srcFlag"] = this.srcFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 

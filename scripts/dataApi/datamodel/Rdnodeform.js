@@ -15,6 +15,7 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
      * @param options 其他可选参数
      */
     initialize: function (data) {
+        this.geoLiveType = "RDNODEFORM";
         this.setAttributeData(data);
     },
 
@@ -37,6 +38,7 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
         data["formOfWay"] = this.formOfWay;
         data["auxiFlag"]  = this.auxiFlag;
         data["rowId"] = this.rowId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -52,6 +54,7 @@ fastmap.dataApi.rdNodeForm = fastmap.dataApi.GeoDataModel.extend({
         data["formOfWay"] = this.formOfWay;
         data["auxiFlag"]  = this.auxiFlag;
         data["rowId"] = this.rowId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

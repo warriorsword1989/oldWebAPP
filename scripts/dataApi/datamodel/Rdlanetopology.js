@@ -4,6 +4,7 @@
 fastmap.dataApi.rdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLANETOPOLOGY";
         this.setAttributeData(data);
     },
 
@@ -32,7 +33,7 @@ fastmap.dataApi.rdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
         data["reachDir"] = this.reachDir;
         data["relationshipType"] = this.relationshipType;
         data["vias"] = [];
-
+        data["geoLiveType"] = this.geoLiveType;
         for (var i = 0; i < this.vias.length; i++) {
             data["vias"].push(this.vias.getIntegrate())
         }
@@ -50,7 +51,7 @@ fastmap.dataApi.rdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
         data["reachDir"] = this.reachDir;
         data["relationshipType"] = this.relationshipType;
         data["vias"] = [];
-
+        data["geoLiveType"] = this.geoLiveType;
         for (var i = 0; i < this.vias.length; i++) {
             data["vias"].push(this.vias[i].getIntegrate())
         }

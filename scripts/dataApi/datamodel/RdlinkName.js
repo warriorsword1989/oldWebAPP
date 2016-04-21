@@ -11,6 +11,7 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKNAME";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -43,17 +44,18 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
      */
     getSnapShot:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["rowId"] = this.rowId|| "";
-        data["nameGroupid"] = this.nameGroupid  || 0;
-        data["name"] = this.name || "";
-        data["seqNum"] = this.seqNum || 1;
-        data["nameClass"] = this.nameClass || 1;
-        data["inputTime"] = this.inputTime || "";
-        data["nameType"] = this.nameType || 0;
-        data["srcFlag"]= this.srcFlag || 9;
-        data["routeAtt"] = this.routeAtt  || 0;
-        data["code"]  = this.code || 0;
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["nameGroupid"] = this.nameGroupid;
+        data["name"] = this.name;
+        data["seqNum"] = this.seqNum;
+        data["nameClass"] = this.nameClass;
+        data["inputTime"] = this.inputTime;
+        data["nameType"] = this.nameType;
+        data["srcFlag"]= this.srcFlag;
+        data["routeAtt"] = this.routeAtt;
+        data["code"]  = this.code;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -65,17 +67,18 @@ fastmap.dataApi.linkName = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate:function() {
         var data = {};
-        data["linkPid"] = this.linkPid || "";
-        data["rowId"] = this.rowId|| "";
-        data["nameGroupid"] = this.nameGroupid  || 0;
-        data["name"] = this.name || "";
-        data["seqNum"] = this.seqNum || 1;
-        data["nameClass"] = this.nameClass || 1;
-        data["inputTime"] = this.inputTime || "";
-        data["nameType"] = this.nameType || 0;
-        data["srcFlag"]= this.srcFlag || 9;
-        data["routeAtt"] = this.routeAtt  || 0;
-        data["code"]  = this.code || 0;
+        data["linkPid"] = this.linkPid;
+        data["rowId"] = this.rowId;
+        data["nameGroupid"] = this.nameGroupid;
+        data["name"] = this.name;
+        data["seqNum"] = this.seqNum;
+        data["nameClass"] = this.nameClass;
+        data["inputTime"] = this.inputTime;
+        data["nameType"] = this.nameType;
+        data["srcFlag"]= this.srcFlag;
+        data["routeAtt"] = this.routeAtt;
+        data["code"]  = this.code;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

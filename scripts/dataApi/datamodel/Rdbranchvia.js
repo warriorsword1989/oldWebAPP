@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchVia=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHVIA";
         this.setAttributeData(data);
     },
 
@@ -20,7 +21,7 @@ fastmap.dataApi.rdBranchVia=fastmap.dataApi.rdBranch.extend({
         data["groupId"] = this.groupId;
         data["linkPid"] = this.linkPid;
         data["seqNum"] = this.seqNum;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -30,7 +31,7 @@ fastmap.dataApi.rdBranchVia=fastmap.dataApi.rdBranch.extend({
         data["groupId"] = this.groupId;
         data["linkPid"] = this.linkPid;
         data["seqNum"] = this.seqNum;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

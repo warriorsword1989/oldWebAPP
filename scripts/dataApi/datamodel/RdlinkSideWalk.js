@@ -11,6 +11,7 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKSIDEWALK";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -46,6 +47,7 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
         data["workDir"] = this.workDir;
         data["processFlag"] = this.processFlag;
         data["captureFlag"] = this.captureFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -64,6 +66,7 @@ fastmap.dataApi.linkSidewalk = fastmap.dataApi.GeoDataModel.extend({
         data["workDir"] = this.workDir;
         data["processFlag"] = this.processFlag;
         data["captureFlag"] = this.captureFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });

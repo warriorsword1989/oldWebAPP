@@ -4,6 +4,7 @@
 fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHSIGNASREAL";
         this.setAttributeData(data);
     },
 
@@ -24,7 +25,7 @@ fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
         data["arrowCode"] = this.arrowCode;
         data["memo"] = this.memo;
         data["svgfileCode"] = this.svgfileCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -36,7 +37,7 @@ fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
         data["arrowCode"] = this.arrowCode;
         data["memo"] = this.memo;
         data["svgfileCode"] = this.svgfileCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })

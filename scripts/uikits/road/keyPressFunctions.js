@@ -101,7 +101,7 @@ function keyEvent(ocLazyLoad, scope) {
                     coordinate.length = 0;
                 }
                 var param = {};
-                if (geo) {
+                if (geo&&geo.components) {
                     for (var index = 0, len = geo.components.length; index < len; index++) {
                         coordinate.push([geo.components[index].x, geo.components[index].y]);
                     }
