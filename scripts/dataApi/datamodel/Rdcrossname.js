@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdCrossName = fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.RdCrossName = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDCROSSNAME";
@@ -52,6 +52,6 @@ fastmap.dataApi.rdCrossName = fastmap.dataApi.rdRestriction.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdCross}
  */
-fastmap.dataApi.rdcrossname = function (data, options) {
-    return new fastmap.dataApi.rdCrossName(data, options);
+fastmap.dataApi.rdCrossName = function (data, options) {
+    return new fastmap.dataApi.RdCrossName(data, options);
 }

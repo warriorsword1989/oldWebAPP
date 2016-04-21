@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.RdCrossNode=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDCROSSNODE";
@@ -34,6 +34,8 @@ fastmap.dataApi.rdCrossNode=fastmap.dataApi.rdRestriction.extend({
         data["geoLiveType"] = this.geoLiveType;
         return data;
     }
-
-
 })
+
+fastmap.dataApi.rdCrossNode = function (data, options) {
+    return new fastmap.dataApi.RdCrossNode(data, options);
+}

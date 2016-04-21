@@ -28,10 +28,10 @@ adLinkApp.controller("adLinkController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-       /* var linkData = fastmap.dataApi.adlink(test);
+       /* var linkData = fastmap.dataApi.adLink(test);
         objCtrl.data = linkData;*/
         $scope.adLinkData = objCtrl.data;
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        //objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     };
     $scope.initializeData();
 

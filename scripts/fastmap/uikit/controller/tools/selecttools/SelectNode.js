@@ -22,6 +22,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.currentEditLayer = this.options.currentEditLayer;
         this.id = this.currentEditLayer.options.id;
         this.tiles = this.currentEditLayer.tiles;
+        this.editLayerIds = ['referenceLine','adAdmin']
         this.eventController = fastmap.uikit.EventController();
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
@@ -29,7 +30,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.selectCtrl = fastmap.uikit.SelectController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        for(var item in this.editLayerIds){
+            //this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
+            this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById(this.editLayerIds[item]));
+        }
+
     },
 
     /***
@@ -70,6 +75,8 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.newredraw = $.extend({}, this.tiles);
         if (this.id === "rdcross") {
             this.getRdCrossId(tileCoordinate, event);
+        }else if(this.id === "adAdmin"){
+            this.getadAdminId(tileCoordinate, event);
         } else {
             this.drawGeomCanvasHighlight(tileCoordinate, event);
         }
@@ -96,6 +103,28 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             }
         }
 
+    },
+    getadAdminId: function (tilePoint, event) {
+        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]].data === undefined) {
+            return;
+        }
+        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+
+        var id = null;
+        for (var item in data) {
+            var geom = data[item].geometry.coordinates;
+            var newGeom = [];
+            //for (var theory = 0, theoryLen = geom.length; theory < theoryLen; theory++) {
+            newGeom[0] = (parseInt(geom[0]));
+            newGeom[1] = (parseInt(geom[1]));
+            if (this._TouchesPoint(newGeom, x, y, 20)) {
+                id = data[item].properties.id;
+                this.eventController.fire(this.eventController.eventTypes.GETADADMINNODEID, {id: id, tips: 0})
+                break;
+            }
+            //}
+        }
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());

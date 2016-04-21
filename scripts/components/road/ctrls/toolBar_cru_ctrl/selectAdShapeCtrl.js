@@ -13,6 +13,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var adFace = layerCtrl.getLayerById('adface');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    var adAdmin=layerCtrl.getLayerById('adAdmin');
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
@@ -103,13 +104,13 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: adLink,
+                currentEditLayer: adAdmin,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
-            $scope.toolTipText = '请选择node！';
-            eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                $scope.getFeatDataCallback(data, data.id, "RDNODE", 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl', "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html");
+            $scope.toolTipText = '请选择行政区划代表点！';
+            eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
+                $scope.getFeatDataCallback(data, data.id, "ADADMIN", 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html");
             });
         }
        else if (type === "adFace") {

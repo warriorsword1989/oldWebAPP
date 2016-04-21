@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -82,7 +82,7 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linktrucklimit = function (data, options) {
-    return new fastmap.dataApi.linkTruckLimit(data, options);
+fastmap.dataApi.rdLinkTruckLimit = function (data, options) {
+    return new fastmap.dataApi.RdLinkTruckLimit(data, options);
 }
 

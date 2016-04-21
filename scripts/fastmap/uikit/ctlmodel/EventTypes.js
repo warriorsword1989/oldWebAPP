@@ -15,6 +15,7 @@ L.Mixin.EventTypes={
     GETOUTLINKSPID:'getOutLinksPid',
     GETNODEID:'getNodeId',
     GETCROSSNODEID:'getCorssNodeId',
+    GETADADMINNODEID:'getAdAdminNodeId',
     GETTIPSID:'getTipsId',
     FEATURESELECTED:'featureSelected',
     FEATURECLEARED:'featureCleared',

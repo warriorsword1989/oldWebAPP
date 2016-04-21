@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -86,7 +86,7 @@ fastmap.dataApi.linkSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkSpeedLimit}
  */
-fastmap.dataApi.linkspeedlimit = function (data, options) {
-    return new fastmap.dataApi.linkSpeedLimit(data, options);
+fastmap.dataApi.rdLinkSpeedLimit = function (data, options) {
+    return new fastmap.dataApi.RdLinkSpeedLimit(data, options);
 }
 

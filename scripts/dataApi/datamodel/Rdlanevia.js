@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdLaneVIA=fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLaneVIA=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDLANEVIA";
@@ -38,3 +38,7 @@ fastmap.dataApi.rdLaneVIA=fastmap.dataApi.GeoDataModel.extend({
         return data;
     }
 })
+
+fastmap.dataApi.rdLaneVIA = function (data, options) {
+    return new fastmap.dataApi.RdLaneVIA(data, options);
+}

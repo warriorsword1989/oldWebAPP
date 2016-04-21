@@ -216,7 +216,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
             }
 
-
             if (type === "RDRESTRICTION") {
                 shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION)
                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION);

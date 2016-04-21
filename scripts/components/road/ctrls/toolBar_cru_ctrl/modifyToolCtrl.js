@@ -74,13 +74,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
                 }
             }else if(type === 'naviTool'){
-
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
-                if (tooltipsCtrl.getCurrentTooltip()) {
-                    tooltipsCtrl.onRemoveTooltip();
-                }
                 map._container.style.cursor = '';
 
                 editLyer.drawGeometry = null;
@@ -104,7 +97,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
             sObj.setOriginalGeometry(feature);
             sObj.setFinalGeometry(feature);
 
-            shapeCtrl.setEditingType(type);
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
             shapeCtrl.startEditing();
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){

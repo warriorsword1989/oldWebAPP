@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdGscLink = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -60,6 +60,6 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
 
 });
 
-fastmap.dataApi.rdgsclink = function (data, options) {
-    return new fastmap.dataApi.rdGscLink(data, options);
+fastmap.dataApi.rdGscLink = function (data, options) {
+    return new fastmap.dataApi.RdGscLink(data, options);
 }

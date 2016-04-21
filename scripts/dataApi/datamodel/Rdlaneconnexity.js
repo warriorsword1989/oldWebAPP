@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType  = "RDLANECONNEXITY";
@@ -21,7 +21,7 @@ fastmap.dataApi.rdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
         this.srcFlag = data["srcFlag"] || 0;
         this.topos = [];
         for (var i = 0; i < data["topos"].length; i++) {
-            var topos = new fastmap.dataApi.rdLaneTopology(data["topos"][i]);
+            var topos = fastmap.dataApi.rdLaneTopology(data["topos"][i]);
             this.topos.push(topos);
         }
     },
@@ -74,6 +74,6 @@ fastmap.dataApi.rdLaneConnexity = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdLaneConnexity}
  */
-fastmap.dataApi.rdlaneconnexity = function (data, options) {
-    return new fastmap.dataApi.rdLaneConnexity(data, options);
+fastmap.dataApi.rdLaneConnexity = function (data, options) {
+    return new fastmap.dataApi.RdLaneConnexity(data, options);
 }

@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDLANETOPOLOGY";
@@ -18,7 +18,7 @@ fastmap.dataApi.rdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
         this.relationshipType = data["relationshipType"] || 1;
         this.vias = [];
         for (var i = 0; i < data["vias"].length; i++) {
-            var via = new fastmap.dataApi.rdLaneVIA(data["vias"][i]);
+            var via = fastmap.dataApi.rdLaneVIA(data["vias"][i]);
             this.vias.push(via);
         }
     },
@@ -63,6 +63,6 @@ fastmap.dataApi.rdLaneTopology = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdlanetopology}
  */
-fastmap.dataApi.rdlanetopology = function (data, options) {
-    return new fastmap.dataApi.rdLaneTopology(data, options);
+fastmap.dataApi.rdLaneTopology = function (data, options) {
+    return new fastmap.dataApi.RdLaneTopology(data, options);
 }

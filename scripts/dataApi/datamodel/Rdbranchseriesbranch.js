@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchSeriesBranch=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDBRANCHSERIESBRANCH";
@@ -44,3 +44,7 @@ fastmap.dataApi.rdBranchSeriesBranch=fastmap.dataApi.rdBranch.extend({
         return data;
     }
 })
+
+fastmap.dataApi.rdBranchSeriesBranch = function (data, options) {
+    return new fastmap.dataApi.RdBranchSeriesBranch(data, options);
+}

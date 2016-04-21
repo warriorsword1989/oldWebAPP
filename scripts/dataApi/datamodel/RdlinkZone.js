@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkZone = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -68,7 +68,7 @@ fastmap.dataApi.linkZone = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linkzone = function (data, options) {
-    return new fastmap.dataApi.linkZone(data, options);
+fastmap.dataApi.rdLinkZone = function (data, options) {
+    return new fastmap.dataApi.RdLinkZone(data, options);
 }
 

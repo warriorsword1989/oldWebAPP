@@ -12,7 +12,8 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         {"id": 2, "label": "条件限速", "selected": false},
         {"id": 3, "label": "互联网Rtic", "selected": false},
         {"id": 4, "label": "行政区划", "selected": false},
-        {"id": 5, "label": "复杂要素", "selected": false}
+        {"id": 5, "label": "复杂要素", "selected": false},
+        {"id": 6, "label": "默认", "selected": false}
     ]
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
@@ -121,6 +122,9 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                     break;
                 case 4://行政区划
                     $scope.zoneRegionSecne();
+                    break;
+                case 6://恢复到以前
+                    $scope.resetScence();
                     break;
             }
         }else{
