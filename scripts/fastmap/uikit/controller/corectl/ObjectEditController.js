@@ -90,6 +90,9 @@ fastmap.uikit.ObjectEditController = (function () {
                     case "RDGSC":
                         this.data = fastmap.dataApi.rdGsc(obj);
                         break;
+                    case "ADADMIN":
+                        this.data = fastmap.dataApi.adAdmin(obj);
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
