@@ -6,6 +6,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
+    var outputCtrl = fastmap.uikit.OutPutController({});
     var adAdmin = layerCtrl.getLayerById("adAdmin");
     $scope.isbase=true;
 
@@ -58,10 +59,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
 
     };
 
-    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
-    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
-    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+
 
 
     $scope.otherAdminName=function(){
@@ -172,7 +170,10 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         })
     };
 
-
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
 
 
 })

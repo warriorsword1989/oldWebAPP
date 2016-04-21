@@ -27,6 +27,15 @@
         border-right: none;
         border-left: none;
     }
+    #basicDiv ul >li button.selected{
+        color:rgba(0,0,0,0.5);
+        background-color: rgba(255,255,255,0.8);
+    }
+
+    #basicDiv ul >li  button{
+         color:#FFF;
+         background-color: rgba(255,255,255,0.3);
+     }
 
     #basicDiv ul > li > div > input {
         color: #F3F6FA;
@@ -55,6 +64,8 @@
         display: inline-block;
         width: 80px;
     }
+
+
 
     #basicDiv ul > li > label {
         color: #F3F6FA;
@@ -128,15 +139,18 @@
     </div>
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
-            <div  class="list-name" style="width:200px;">
+            <div class="btn-group btn-group-justified" style="width: 150px" role="group"
+                 aria-label="">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-xs" ng-click="clickBasic(true)"><a href="#"
-                             data-toggle="tab" style="font-size: 10px;"> 基础属性</a>
+                    <button id="liout" type="button" ng-class="{'btn btn-xs selected':isbase==true,'btn btn-xs ':isbase==false}"
+                            ng-click="clickBasic(true)">
+                        基础属性
                     </button>
                 </div>
-                <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-xs" ng-click="clickBasic(false)"><a href="#"data-toggle="tab"
-                          style="font-size: 10px;"> 层级关系</a>
+                <div class="btn-group" role="group"
+                     style="border-left: 1px solid #404040;border-right: 1px solid #404040">
+                    <button id="lierror" type="button"  ng-class="{'btn btn-xs':isbase==true,'btn btn-xs selected':isbase==false}"
+                            ng-click="clickBasic(false)"> 层级关系
                     </button>
                 </div>
             </div>
