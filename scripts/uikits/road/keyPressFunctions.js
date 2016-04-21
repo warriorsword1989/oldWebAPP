@@ -138,7 +138,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adLink").redraw();
-                        treatmentOfChanged(data,data.data.pid, "ADLINK", "创建AdLink成功", 'attr_administratives_ctrl/adLinkCtrl', 'attr_link_tpl/rdLinkTpl.html')
+                        treatmentOfChanged(data,data.data.pid, "ADLINK", "创建AdLink成功", 'attr_administratives_ctrl/adLinkCtrl', 'attr_adminstratives_tpl/adLinkTpl.html')
                     });
                 } else if (shapeCtrl.editType === "restriction") {
                     param = {

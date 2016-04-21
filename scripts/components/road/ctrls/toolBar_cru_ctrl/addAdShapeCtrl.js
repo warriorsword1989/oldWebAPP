@@ -52,45 +52,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     map.currentTool.cleanHeight();
                 }
                 $scope.changeBtnClass(num);
-                if (num !== 7) {
-                    if (!$scope.classArr[num]) {
-                        map.currentTool.disable();
-                        map._container.style.cursor = '';
-                        return;
-                    }
-                }
-
-
-                if (type === "restriction") {
-                    shapeCtrl.setEditingType("restriction")
-                    tooltipsCtrl.setEditEventType('restriction');
-                    tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
-                    map.currentTool = new fastmap.uikit.SelectForRestriction({
-                        map: map,
-                        createRestrictFlag: true,
-                        currentEditLayer: rdLink
-                    });
-                    map.currentTool.enable();
-                    $scope.excitLineArr = [];
-                    eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                        if (data.index === 0) {
-                            $scope.limitRelation.inLinkPid = parseInt(data.id);
-                            tooltipsCtrl.setStyleTooltip("color:black;");
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
-                        } else if (data.index === 1) {
-                            $scope.limitRelation.nodePid = parseInt(data.id);
-                            tooltipsCtrl.setStyleTooltip("color:red;");
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
-                        } else if (data.index > 1) {
-                            $scope.excitLineArr.push(parseInt(data.id));
-                            $scope.limitRelation.outLinkPids = $scope.excitLineArr;
-                            tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
-                        }
-                        featCodeCtrl.setFeatCode($scope.limitRelation);
-                    })
-
-                }
-                else if (type === "link") {
+                if (type === "adLink") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -106,7 +68,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
                 }
 
-                else if (type === "polygon") {
+                else if (type === "adFace") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
