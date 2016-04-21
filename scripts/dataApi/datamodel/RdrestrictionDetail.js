@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -11,6 +11,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDRESTRICTIONDETAIL";
         this.setAttributeData(data);
     },
 
@@ -27,7 +28,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         this.conditions = [];
         if (data["conditions"]&&data["conditions"].length > 0) {
             for (var i = 0, len = data["conditions"].length; i < len; i++) {
-                var condition =fastmap.dataApi.rdrestrictioncondition(data["conditions"][i]);
+                var condition =fastmap.dataApi.rdRestrictionCondition(data["conditions"][i]);
                 this.conditions.push(condition);
             }
 
@@ -50,6 +51,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
         data["restricInfo"] = this.restricInfo;
         data["type"] = this.type;
         data["relationshipType"] = this.relationshipType;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -74,6 +76,7 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
             conditions.push(this.conditions[i].getIntegrate());
         }
         data["conditions"] = conditions;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -84,6 +87,6 @@ fastmap.dataApi.rdRestrictionDetail = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdRestriction}
  */
-fastmap.dataApi.rdrestrictiondetail = function (data, options) {
-    return new fastmap.dataApi.rdRestrictionDetail(data, options);
+fastmap.dataApi.rdRestrictionDetail = function (data, options) {
+    return new fastmap.dataApi.RdRestrictionDetail(data, options);
 }

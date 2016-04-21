@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkRtic = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -11,6 +11,7 @@ fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKRTIC";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -45,6 +46,7 @@ fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
         data["rticDir"] = this.rticDir;
         data["updownFlag"] = this.updownFlag;
         data["rangeType"]  = this.rangeType;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -63,6 +65,7 @@ fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
         data["rticDir"] = this.rticDir;
         data["updownFlag"] = this.updownFlag;
         data["rangeType"]  = this.rangeType;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -73,7 +76,7 @@ fastmap.dataApi.linkRtic = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkRtic}
  */
-fastmap.dataApi.linkrtic = function (data, options) {
-    return new fastmap.dataApi.linkRtic(data, options);
+fastmap.dataApi.rdLinkRtic = function (data, options) {
+    return new fastmap.dataApi.RdLinkRtic(data, options);
 }
 

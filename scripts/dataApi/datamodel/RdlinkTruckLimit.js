@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -11,6 +11,7 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKTRUCKLIMIT";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -49,6 +50,7 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
         data["resAxleLoad"] = this.resAxleLoad;
         data["resAxleCount"]  = this.resAxleCount;
         data["resOut"] = this.resOut;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -69,6 +71,7 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
         data["resAxleLoad"] = this.resAxleLoad;
         data["resAxleCount"]  = this.resAxleCount;
         data["resOut"] = this.resOut;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -79,7 +82,7 @@ fastmap.dataApi.linkTruckLimit = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linktrucklimit = function (data, options) {
-    return new fastmap.dataApi.linkTruckLimit(data, options);
+fastmap.dataApi.rdLinkTruckLimit = function (data, options) {
+    return new fastmap.dataApi.RdLinkTruckLimit(data, options);
 }
 

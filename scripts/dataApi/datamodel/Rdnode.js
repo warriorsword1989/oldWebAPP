@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdNode = fastmap.dataApi.GeoDataModel.extend({
 
 
     /***
@@ -32,7 +32,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
         this.forms = [];
 
         for(var i=0;i<data["forms"].length;i++){
-            var form = fastmap.dataApi.rdnodeform(data["forms"][i]);
+            var form = fastmap.dataApi.rdNodeForm(data["forms"][i]);
             this.forms.push(form);
         }
     },
@@ -101,7 +101,7 @@ fastmap.dataApi.rdNode = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdnode = function (data, options) {
-    return new fastmap.dataApi.rdNode(data, options);
+fastmap.dataApi.rdNode = function (data, options) {
+    return new fastmap.dataApi.RdNode(data, options);
 }
 

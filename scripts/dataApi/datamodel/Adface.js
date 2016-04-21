@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.AdFace = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -52,8 +52,8 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
 
 });
 
-fastmap.dataApi.adface = function (data, options) {
-    return new fastmap.dataApi.adFace(data, options);
+fastmap.dataApi.adFace = function (data, options) {
+    return new fastmap.dataApi.AdFace(data, options);
 }
 
 

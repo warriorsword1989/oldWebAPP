@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdSpeedLimit = fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.RdSpeedLimit = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDSPEEDLIMIT";
@@ -94,6 +94,6 @@ fastmap.dataApi.rdSpeedLimit = fastmap.dataApi.rdRestriction.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdSpeedLimit}
  */
-fastmap.dataApi.rdspeedlimit = function (data, options) {
-    return new fastmap.dataApi.rdSpeedLimit(data, options);
+fastmap.dataApi.rdSpeedLimit = function (data, options) {
+    return new fastmap.dataApi.RdSpeedLimit(data, options);
 }
