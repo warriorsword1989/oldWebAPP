@@ -20,7 +20,8 @@ rdGscApp.controller("rdGscController",function($scope) {
             highLightFeatures.push({
                 id: links[i]["linkPid"].toString(),
                 layerid:'referenceLine',
-                type:'overpass',
+                type:'rdgsc',
+                index:links[i].zlevel,
                 style:{
                     size:5
                 }
