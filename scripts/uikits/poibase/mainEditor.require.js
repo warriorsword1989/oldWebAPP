@@ -17,7 +17,7 @@ requirejs.config({
     shim: {
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
-        'dataService': ['ixPoiModel'],
+        'dataService': ['application', 'ixPoiModel'],
         'fastmap': ['application'],
         'geoDataModel': ['fastmap'],
         'ixPoiModel': ['geoDataModel'],
