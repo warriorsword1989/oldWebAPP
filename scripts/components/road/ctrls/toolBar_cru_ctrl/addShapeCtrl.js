@@ -251,9 +251,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DrawPath);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
