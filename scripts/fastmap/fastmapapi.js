@@ -86,6 +86,7 @@
                 "fastmap/uikit/controller/tools/shapetools/DrawPath.js",
                 "fastmap/uikit/controller/tools/shapetools/DrawPolygon.js",
                 "fastmap/uikit/controller/tools/shapetools/CrossingAdd.js",
+                "fastmap/uikit/controller/tools/shapetools/adAdminAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCut.js",
                 "fastmap/uikit/controller/tools/shapetools/PathMove.js",
                 "fastmap/uikit/controller/tools/shapetools/PathSmooth.js",
