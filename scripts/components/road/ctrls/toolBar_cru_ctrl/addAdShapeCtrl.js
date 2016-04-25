@@ -120,7 +120,4 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                 }
             }
-
-
-}
 ])
