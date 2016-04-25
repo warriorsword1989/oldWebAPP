@@ -66,6 +66,11 @@ adLinkApp.controller("adLinkController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
+
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
@@ -84,6 +89,7 @@ adLinkApp.controller("adLinkController",function($scope) {
                     $(editLayer.options._div).unbind();
                 }
                 swal("操作成功",'保存成功！', "success");
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 var sInfo={
                     "op":"修改道路link成功",
                     "type":"",
@@ -94,7 +100,6 @@ adLinkApp.controller("adLinkController",function($scope) {
                     if(data.data.log[i].rowId){
                         data.data.log[i].rowId=$scope.linkData.pid;
                     }
-
                 }
 
                 info=data.data.log;

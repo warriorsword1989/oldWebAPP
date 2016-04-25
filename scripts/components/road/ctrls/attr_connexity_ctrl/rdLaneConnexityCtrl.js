@@ -231,9 +231,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
                     highLightRender.highLightFeatures = highLightFeatures;
                     highLightRender.drawHighlight();
-
-
-
                 });
             }
         }
@@ -348,8 +345,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         }
         $scope.lanesData["topos"].length = 0;
         $scope.lanesData["topos"] = arr;
-
-
     };
     //删除公交车道
     $scope.minusTransitData = function (item, index) {
@@ -381,7 +376,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             };
             $scope.$emit("transitCtrlAndTpl", changedTransitObj);
         }
-
     };
 
     $document.bind("keydown", function (event) {
@@ -435,6 +429,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
+
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -444,6 +444,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
+
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 info = data.data.log;
             } else {
                 info = [{

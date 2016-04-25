@@ -297,16 +297,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                         if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
                             $scope.rdRestrictData.details.splice(i, 1);
                             len--;
-
                         }
                     }
-
-
                 }
             }
-
         }
-
     };
     //修改交限方向的理论或实际
     $scope.changeType = function (item) {
@@ -398,6 +393,13 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
+
+
+        if(!objectEditCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {
@@ -410,6 +412,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 info = data.data.log;
                 rdRestriction.redraw();
                 swal("操作成功",'更新成功', "success");
+                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             } else {
                 info = [{
                     "op": data.errcode,
