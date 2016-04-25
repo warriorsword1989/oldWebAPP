@@ -14,6 +14,7 @@ fastmap.dataApi.AdAdmin = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+        this.pid = data["pid"];
         this.regionId = data["regionId"];
         this.adminId = data["adminId"] || 0;
         this.extendId = data["extendId"] || 0;
@@ -42,6 +43,7 @@ fastmap.dataApi.AdAdmin = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
+        data["pid"]=this.pid;
         data["regionId"] = this.regionId;
         data["adminId"] = this.adminId;
         data["extendId"] = this.extendId;
@@ -66,6 +68,7 @@ fastmap.dataApi.AdAdmin = fastmap.dataApi.GeoDataModel.extend({
 
     getSnapShot: function () {
         var data = {};
+        data["pid"]=this.pid;
         data["regionId"] = this.regionId;
         data["adminId"] = this.adminId;
         data["extendId"] = this.extendId;
@@ -86,7 +89,7 @@ fastmap.dataApi.AdAdmin = fastmap.dataApi.GeoDataModel.extend({
         }
         data["names"] = names;
         return data;
-    },
+    }
 
 });
 

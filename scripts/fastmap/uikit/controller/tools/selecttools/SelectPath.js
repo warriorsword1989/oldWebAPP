@@ -236,8 +236,6 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         color: '#00F5FF',
                         radius: 3
                     }, data[key].properties);
-
-
                 }
             }
         }

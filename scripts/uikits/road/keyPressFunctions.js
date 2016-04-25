@@ -306,8 +306,6 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("highSpeedDivergence").redraw();
                         treatmentOfChanged(data,"", "RDBRANCH", "创建RDBRANCH成功", 'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html', data.data.pid);
                     })
-
-
                 }
                 else if (shapeCtrl.editType === "linksOfCross") {
                     param = {
@@ -371,6 +369,21 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adface").redraw();
                         treatmentOfChanged(data,data.data.pid, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
+                    })
+                }else if(shapeCtrl.editType === "addAdAdmin"){
+                    param = {
+                        "command": "CREATE",
+                        "type": "ADADMIN",
+                        "projectId": Application.projectid,
+                        "data": {
+                            "longitude":geo.x,
+                            "latitude":geo.y,
+                            "linkPid": parseInt(selectCtrl.selectedFeatures.id)
+                        }
+                    }
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("adAdmin").redraw();
+                        treatmentOfChanged(data,data.data.pid, "ADADMIN", "创建ADADMIN成功", 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
                 }
 
