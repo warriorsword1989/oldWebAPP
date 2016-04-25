@@ -60,9 +60,10 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
-                    shapeCtrl.setEditingType('drawAdLink');
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    shapeCtrl.editFeatType = "adLink";
                     map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('drawAdLink');
                     tooltipsCtrl.setCurrentTooltip('开始画线！');

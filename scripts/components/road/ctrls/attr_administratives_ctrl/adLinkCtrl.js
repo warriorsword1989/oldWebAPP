@@ -37,7 +37,8 @@ adLinkApp.controller("adLinkController",function($scope) {
         }
         var line = fastmap.mapApi.lineString(points);
         selectCtrl.onSelected({
-            geometry: line
+            geometry: line,
+            id: $scope.adLinkData.pid
         });
     };
     $scope.initializeData();

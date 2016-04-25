@@ -97,6 +97,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             sObj.setFinalGeometry(feature);
 
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+            shapeCtrl.editFeatType = "adLink";
             map.currentTool.snapHandler.addGuideLayer(adLink);
             shapeCtrl.startEditing();
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
