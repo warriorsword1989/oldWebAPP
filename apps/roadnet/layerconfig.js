@@ -509,8 +509,8 @@ Application.layersConfig =
                             }
                             obj['properties'] = {
                                 'id': item.i,
-                                'startLinkPid': item.m.a,//起点pid
-                                'endLinkPid': item.m.b,//终点pid
+                                'snode': item.m.a,//起点pid
+                                'enode': item.m.b,//终点pid
                                 'kind': 'adlink'
                             }
                             geojson['features'].push(obj);
