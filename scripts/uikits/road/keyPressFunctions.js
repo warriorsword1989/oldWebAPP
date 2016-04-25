@@ -295,7 +295,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data,data.data.pid, "RDLINK", "插入点成功");
 
                     })
-                } else if (shapeCtrl.editType === "rdBranch") {
+                } else if (shapeCtrl.editType === "RDBRANCH") {
                     param = {
                         "command": "CREATE",
                         "type": "RDBRANCH",
