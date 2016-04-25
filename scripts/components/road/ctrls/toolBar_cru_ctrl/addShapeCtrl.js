@@ -459,8 +459,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 tooltipsCtrl.setStyleTooltip("color:black;");
                 tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                 tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-            } else if (type === 'overpass') {
-                tooltipsCtrl.setEditEventType('overpass');
+            } else if (type === 'RDGSC') {
+                tooltipsCtrl.setEditEventType('rdgsc');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
                 shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDGSC, {
                     map: map,
@@ -500,7 +500,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         highlightFeatures.push({
                             id:data[i].data.properties.id.toString(),
                             layerid:'referenceLine',
-                            type:'overpass',
+                            type:'rdgsc',
                             index:i,
                             style:{
                                 size:5
@@ -580,19 +580,17 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
                         map._container.style.cursor = '';
-                        //layerCtrl.pushLayerFront('edit');
                         map.currentTool = new fastmap.uikit.SelectPath(
                             {
                                 map: map,
                                 currentEditLayer: rdLink,
-                                linksFlag: false,
+                                linksFlag: true,
                                 shapeEditor: shapeCtrl
                             });
                         map.currentTool.enable();
                         rdLink.options.selectType = 'link';
                         rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                            console.log(data)
                             /*把当前link的level_index升高一级*/
                             for(var i=0;i<jsonData.linkObjs.length;i++){
                                 if(jsonData.linkObjs[i].pid == data.id){
@@ -609,15 +607,14 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 highlightFeatures.push({
                                     id:jsonData.linkObjs[i].pid.toString(),
                                     layerid:'referenceLine',
-                                    type:'overpass',
+                                    type:'rdgsc',
                                     index:jsonData.linkObjs[i].level_index,
                                     style:{
                                         size:5
                                     }
                                 });
-                                console.log(jsonData)
-                                highLightLink.highLightFeatures = highlightFeatures;
-                                highLightLink.drawHighlight();
+                                highLightLinkOfOverPass.highLightFeatures = highlightFeatures;
+                                highLightLinkOfOverPass.drawHighlight();
                             }
                         })
                     }

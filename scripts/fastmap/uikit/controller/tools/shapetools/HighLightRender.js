@@ -147,7 +147,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             } else if (this.highLightFeatures[item].type == 'workPoint') {
                                 var feature = this.currentEditLayer.tiles[tile].data.features[feature];
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
-                            } else if (this.highLightFeatures[item].type == 'overpass') {
+                            } else if (this.highLightFeatures[item].type == 'rdgsc') {
                                 var feature = this.currentEditLayer.tiles[tile].data.features[feature]
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
