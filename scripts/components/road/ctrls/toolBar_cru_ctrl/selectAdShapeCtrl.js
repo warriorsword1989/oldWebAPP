@@ -87,11 +87,10 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-            adLink.options.selectType = 'link';
-            adLink.options.editable = true;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 selectCtrl.onSelected({
                     point: data.point
@@ -110,6 +109,9 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.enable();
             $scope.toolTipText = '请选择行政区划代表点！';
             eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
+                selectCtrl.onSelected({
+                    point: data.point
+                });
                 $scope.getFeatDataCallback(data, data.id, "ADADMIN", 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html");
             });
         }
