@@ -106,41 +106,38 @@ function keyEvent(ocLazyLoad, scope) {
                         coordinate.push([geo.components[index].x, geo.components[index].y]);
                     }
                 }
-                if (shapeCtrl.editType === 'drawpath') {
-                    param = {
-                        "command": "CREATE",
-                        "type": "RDLINK",
-                        "projectId": Application.projectid,
-                        "data": {
-                            "eNodePid": properties.enodePid ? properties.enodePid : 0,
-                            "sNodePid": properties.snodePid ? properties.snodePid : 0,
-                            "geometry": {"type": "LineString", "coordinates": coordinate},
-                            'catchLinks': properties.catches
-                        }
+                if (shapeCtrl.editType === 'drawPath') {
+                    var showContent,ctrl,tpl,type;
+                    param["command"] = "CREATE";
+                    param["projectId"] = Application.projectid;
+                    param["data"]={
+                        "eNodePid": properties.enodePid ? properties.enodePid : 0,
+                        "sNodePid": properties.snodePid ? properties.snodePid : 0,
+                        "geometry": {"type": "LineString", "coordinates": coordinate},
+                        'catchLinks': properties.catches
+                    }
+                    if(shapeCtrl.editFeatType==="rdLink") {
+                        param["type"] = "RDLINK";
+                        showContent = "创建道路link成功";
+                        ctrl = 'attr_link_ctrl/rdLinkCtrl';
+                        tpl = 'attr_link_tpl/rdLinkTpl.html';
+
+                    }else if(shapeCtrl.editFeatType==="adLink") {
+                        param["type"] = "ADLINK";
+                        showContent = "创建AdLink成功";
+                        ctrl = 'attr_administratives_ctrl/adLinkCtrl';
+                        tpl = 'attr_adminstratives_tpl/adLinkTpl.html';
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById('referenceLine').redraw();
-                        treatmentOfChanged(data,data.data.pid,"RDLINK", "创建道路link成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html'
-                        )
+                        if(param["type"]==="RDLINK") {
+                            layerCtrl.getLayerById("referenceLine").redraw();
+                        }else if(param["type"]==="ADLINK") {
+                            layerCtrl.getLayerById("rdLink").redraw();
+                        }
+                        treatmentOfChanged(data,data.data.pid,param["type"],showContent, ctrl, tpl)
                     })
 
-                } else if (shapeCtrl.editType === 'drawAdLink') {
-                    param = {
-                        "command": "CREATE",
-                        "type": "ADLINK",
-                        "projectId": Application.projectid,
-                        "data": {
-                            "eNodePid": properties.enodePid ? properties.enodePid : 0,
-                            "sNodePid": properties.snodePid ? properties.snodePid : 0,
-                            "geometry": {"type": "LineString", "coordinates": coordinate},
-                            'catchLinks': properties.catches
-                        }
-                    }
-                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("adLink").redraw();
-                        treatmentOfChanged(data,data.data.pid, fastmap.dataApi.GeoLiveModelType.ADLINK, "创建AdLink成功", 'attr_administratives_ctrl/adLinkCtrl', 'attr_adminstratives_tpl/adLinkTpl.html')
-                    });
-                } else if (shapeCtrl.editType === "rdrestricton") {
+                }  else if (shapeCtrl.editType === "rdrestricton") {
                     param = {
                         "command": "CREATE",
                         "type": "RDRESTRICTION",
@@ -243,25 +240,35 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data,data.data.pid,"RDSPEEDLIMIT", "创建RDSPEEDLIMIT成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_ctrl/speedLimitTpl.html');
                     })
 
-                } else if (shapeCtrl.editType === "pathVertexMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
+                } else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
                     if (geo) {
+                        var repairContent;
+                        param["command"] = "REPAIR";
+                        param["projectId"] = Application.projectid;
+                        param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
                         var snapObj = selectCtrl.getSnapObj();
                         var interLinks = (snapObj && snapObj.interLinks.length != 0) ? snapObj.interLinks : [];
                         var interNodes = (snapObj && snapObj.interNodes.length != 0) ? snapObj.interNodes : [];
-                        param = {
-                            "command": "REPAIR",
-                            "type": "RDLINK",
-                            "projectId": Application.projectid,
-                            "objId": parseInt(selectCtrl.selectedFeatures.id),
-                            "data": {
-                                "geometry": {"type": "LineString", "coordinates": coordinate},
-                                "interLinks": interLinks,
-                                "interNodes": interNodes
-                            }
+                        param["data"]={
+                            "geometry": {"type": "LineString", "coordinates": coordinate},
+                            "interLinks": interLinks,
+                            "interNodes": interNodes
+                        }
+
+                        if(shapeCtrl.editFeatType==="rdLink") {
+                            repairContent = "修改道路rdLink成功";
+                            param["type"] = "RDLINK";
+                        }else if(shapeCtrl.editFeatType==="adLink") {
+                            repairContent = "修改道路adLink成功";
+                            param["type"] = "ADLINK";
                         }
                         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                            layerCtrl.getLayerById("referenceLine").redraw();
-                            treatmentOfChanged(data,data.data.pid, "RDLINK", "修改道路link成功");
+                            if(param["type"]==="RDLINK") {
+                                layerCtrl.getLayerById("referenceLine").redraw();
+                            }else if(param["type"]==="ADLINK") {
+                                layerCtrl.getLayerById("adLink").redraw();
+                            }
+                            treatmentOfChanged(data,data.data.pid, param["type"], repairContent);
 
                         })
                     }
@@ -270,7 +277,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "command": "MOVE",
                         "type": "RDNODE",
                         "projectId": Application.projectid,
-                        "objId": options.id,
+                        "objId":  selectCtrl.selectedFeatures.id,
                         "data": {
                             longitude: selectCtrl.selectedFeatures.latlng.lng,
                             latitude: selectCtrl.selectedFeatures.latlng.lat
