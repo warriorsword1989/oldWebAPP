@@ -55,7 +55,6 @@ fastmap.uikit.DrawPath = L.Handler.extend({
 
 
     onMouseDown: function (event) {
-
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
         var lastPoint = this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 2];
         if (lastPoint != null && lastPoint.x != 0) {
@@ -70,21 +69,16 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                 return;
             }
         }
-        if (this.snapHandler.snaped == true) {
+        if (this.snapHandler.snaped) {
             mousePoint = this.targetPoint;
         }
         if (this.clickcount == 1) {
-
-
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-
         } else {
-
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 1, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
-
         }
         this.clickcount++;
-        if (this.snapHandler.snaped == true) {
+        if (this.snapHandler.snaped) {
             mousePoint = this.targetPoint;
             if (this.snapHandler.snapIndex == 0) {
                 this.catches.push({
@@ -104,7 +98,6 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                     lat: mousePoint.lat
                 })
             }
-
             else {
                 if (this.clickcount == 2) {
                     this.snodePid = parseInt(this.snapHandler.properties.enode);
@@ -117,9 +110,6 @@ fastmap.uikit.DrawPath = L.Handler.extend({
                     lat: mousePoint.lat
                 })
             }
-
-
-
         } else {
 
         }
