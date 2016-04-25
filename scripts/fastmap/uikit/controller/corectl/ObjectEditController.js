@@ -76,7 +76,7 @@ fastmap.uikit.ObjectEditController = (function () {
                         this.data = fastmap.dataApi.rdLaneConnexity(obj);
                         break;
                     case "RDSPEEDLIMIT":
-                        this.data = fastmap.dataApi.rdSpeedlimit(obj);
+                        this.data = fastmap.dataApi.rdSpeedLimit(obj);
                         break;
                     case "RDBRANCH":
                         this.data = fastmap.dataApi.rdBranch(obj);
