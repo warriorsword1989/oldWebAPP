@@ -25,7 +25,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.panelFlag = false;
             $scope.attrTplContainerSwitch(false);
             $scope.subAttrTplContainerSwitch(false);
-            $scope.attrTplContainer = '../../scripts/components/road/tpls/blankTpl.html';
+            $scope.attrTplContainer = '../../scripts/components/road/tpls/blank_tpl/blankTpl.html';
             objectCtrl.setOriginalData(null);
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
         }, data.errmsg, "error");

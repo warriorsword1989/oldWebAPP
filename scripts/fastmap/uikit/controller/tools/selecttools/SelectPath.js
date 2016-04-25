@@ -27,7 +27,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.linksFlag = this.options.linksFlag;
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
+        //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.eventController = fastmap.uikit.EventController();
     },
 
@@ -36,8 +36,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('tap', this.onMouseDown, this);
         this._map.on('mousemove', this.onMouseMove, this);
+        if(L.Browser.touch){
+            this._map.on('click', this.onMouseDown, this);
+            this.snapHandler.disable();
+        }
     },
 
     /***
@@ -46,12 +49,14 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
-        this._map.off('tap', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.off('click', this.onMouseDown, this);
+        }
     },
 
     onMouseMove:function(event){
         this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
@@ -64,7 +69,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
     onMouseDown: function (event) {
         var mouseLatlng;
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             mouseLatlng = this.targetPoint
         }else{
             mouseLatlng = event.latlng;
@@ -77,7 +82,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
             var pixels = null;
-            if(this.snapHandler.snaped == false){
+            if(!this.snapHandler.snaped){
                 pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
             }else{
                 pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat,this._map.getZoom());
@@ -94,24 +99,19 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     id = data[item].properties.id;
 
                     if (this.linksFlag) {
-                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point});
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point,optype:"RDLINK"});
                         this.currentEditLayer.selectedid = id;
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
                         }
-
                         this._drawHeight(id);
                     } else {
                         this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
                     }
-
                     break;
                 }
             }
-
         }
-
-
     },
 
     /***
@@ -181,18 +181,26 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     var style = this.currentEditLayer.styleFor(feature, color);
 
                     var geom = feature.geometry.coordinates;
-
-                    this.currentEditLayer._drawLineString(ctx, geom, true, style, {
-                        color: '#696969',
-                        radius: 3
-                    }, feature.properties);
-
+                     if(!style) {
+                         this.currentEditLayer._drawLineString(ctx, geom, true, {
+                             size: 4,
+                                 color: '#FBD356',
+                             mouseOverColor: 'rgba(255,0,0,1)',
+                             clickColor: 'rgba(252,0,0,1)'
+                         },
+                         {
+                             color: 'rgba(255,0,0,1) ',
+                                 radius: 3
+                         }, feature.properties);
+                     }else{
+                         this.currentEditLayer._drawLineString(ctx, geom, true, style, {
+                             color: '#696969',
+                             radius: 3
+                         }, feature.properties);
+                     }
                 }
             }
-
         }
-
-
     }
     ,
     /***
@@ -207,10 +215,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
             var data = this.tiles[obj].data.features;
 
             for (var key in data) {
-
                 if (data[key].properties.id == id) {
-
-
                     var ctx = {
                         canvas: this.tiles[obj].options.context,
                         tile: L.point(key.split(',')[0], key.split(',')[1]),
@@ -223,13 +228,8 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         color: '#00F5FF',
                         radius: 3
                     }, data[key].properties);
-
-
                 }
             }
         }
-
-
     }
-
 });

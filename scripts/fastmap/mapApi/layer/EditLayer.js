@@ -303,7 +303,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if(type==="2") {
                 angleOfTran = angleOfTran + Math.PI;
             }
-            url = "../../images/road/intRtic/intRtic/" + type + ".svg";
+            url = "../../images/road/intRtic/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();

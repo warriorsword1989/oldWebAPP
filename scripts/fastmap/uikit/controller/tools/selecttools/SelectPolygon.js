@@ -50,7 +50,7 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
 
     },
 
-    onMouseMove:function(event){
+    onMouseMove: function (event) {
 
     },
 
@@ -68,31 +68,23 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
             var pixels = null;
 
-            pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+            pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
 
 
-            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
+            var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256
             var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
             for (var item in data) {
                 if (this._containPoint(data[item].geometry.coordinates, x, y, 5)) {
-                    var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
-                    point= new fastmap.mapApi.Point(point[0], point[1]);
+                    var point = transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
+                    point = new fastmap.mapApi.Point(point[0], point[1]);
                     id = data[item].properties.id;
-
-
-                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point});
-                        this.currentEditLayer.selectedid = id;
-
+                    this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id, point: point});
+                    this.currentEditLayer.selectedid = id;
                     this._cleanHeight();
-
-
-                        this._drawHeight(id);
-
-                        this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
-
-
+                    this._drawHeight(id);
+                    this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
                     break;
                 }
             }
@@ -110,9 +102,9 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
      * @param y
      * @private
      */
-    _containPoint:function(geo, x, y){
+    _containPoint: function (geo, x, y) {
         var lineRing = fastmap.mapApi.linearRing(geo[0][0]);
-        return lineRing.containsPoint(fastmap.mapApi.point(x,y));
+        return lineRing.containsPoint(fastmap.mapApi.point(x, y));
     },
 
     cleanHeight: function () {
@@ -147,10 +139,7 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
 
                 }
             }
-
         }
-
-
     }
     ,
     /***
@@ -175,14 +164,14 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
                     };
                     this.currentEditLayer._drawPolygon(ctx, data[key].geometry.coordinates[0],
                         {
-                            fillstyle:'#00F5FF',
-                            outline:{
-                                size:1,
+                            fillstyle: '#00F5FF',
+                            outline: {
+                                size: 1,
                                 color: '#00F5FF'
                             }
                         }
 
-                    , true);
+                        , true);
 
 
                 }

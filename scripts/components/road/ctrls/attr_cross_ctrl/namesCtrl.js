@@ -83,7 +83,7 @@ namesOfCross.controller("namesController",function($scope) {
                 }
             }
         }
-        var newName = fastmap.dataApi.rdcrossname({nameGroupid: maxNum + 1});
+        var newName = fastmap.dataApi.rdCrossName({nameGroupid: maxNum + 1});
         $scope.names.unshift(newName);
     }
 })

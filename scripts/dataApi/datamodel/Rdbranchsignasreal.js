@@ -1,9 +1,10 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchSignAsreal=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHSIGNASREAL";
         this.setAttributeData(data);
     },
 
@@ -24,7 +25,7 @@ fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
         data["arrowCode"] = this.arrowCode;
         data["memo"] = this.memo;
         data["svgfileCode"] = this.svgfileCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -36,7 +37,11 @@ fastmap.dataApi.rdBranchSignAsreal=fastmap.dataApi.rdBranch.extend({
         data["arrowCode"] = this.arrowCode;
         data["memo"] = this.memo;
         data["svgfileCode"] = this.svgfileCode;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })
+
+fastmap.dataApi.RdBranchSignAsreal = function (data, options) {
+    return new fastmap.dataApi.RdBranchSignAsreal(data, options);
+}

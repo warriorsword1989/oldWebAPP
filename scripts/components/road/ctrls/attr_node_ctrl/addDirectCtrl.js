@@ -52,7 +52,7 @@ addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout)
 
     $scope.getCheck=function(item){
         item.isCheck=true;
-        var form = fastmap.dataApi.rdnodeform({"auxiFlag":0,"formOfWay":item.id,"nodePid":$scope.rdNodepid});
+        var form = fastmap.dataApi.rdNodeForm({"auxiFlag":0,"formOfWay":item.id,"nodePid":$scope.rdNodepid});
         $scope.rdNodeData.forms.unshift(form);
         objectEditCtrl.nodeObjRefresh(false);
     }

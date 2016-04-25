@@ -56,7 +56,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     };
 
     $scope.addRdCrossName = function () {
-        var newName = fastmap.dataApi.rdcrossname({"linkPid": $scope.rdCrossData.pid,"name":"路口名"});
+        var newName = fastmap.dataApi.rdCrossName({"linkPid": $scope.rdCrossData.pid,"name":"路口名"});
         $scope.rdCrossData.names.unshift(newName)
     };
 

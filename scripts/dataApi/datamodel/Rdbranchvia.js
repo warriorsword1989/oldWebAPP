@@ -1,9 +1,10 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchVia=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchVia=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHVIA";
         this.setAttributeData(data);
     },
 
@@ -20,7 +21,7 @@ fastmap.dataApi.rdBranchVia=fastmap.dataApi.rdBranch.extend({
         data["groupId"] = this.groupId;
         data["linkPid"] = this.linkPid;
         data["seqNum"] = this.seqNum;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -30,7 +31,11 @@ fastmap.dataApi.rdBranchVia=fastmap.dataApi.rdBranch.extend({
         data["groupId"] = this.groupId;
         data["linkPid"] = this.linkPid;
         data["seqNum"] = this.seqNum;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })
+
+fastmap.dataApi.rdBranchVia = function (data, options) {
+    return new fastmap.dataApi.RdBranchVia(data, options);
+}

@@ -1,25 +1,15 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-var adAdminZone = angular.module("lazymodule", []);
-adAdminZone.controller("adAdminController",function($scope) {
+var adAdminZone = angular.module("lazymodule", ['ui.tree', 'ngRoute', 'ui.bootstrap']);
+adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-
+    var layerCtrl = fastmap.uikit.LayerController();
+    var outputCtrl = fastmap.uikit.OutPutController({});
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var adAdmin = layerCtrl.getLayerById("adAdmin");
     $scope.isbase=true;
-
-
-    var test = {"regionId":1,"adminId":0,"extendId":0,"adminType":0,"capital":0,"population":0,
-        "geometry":"56.66,77.98","linkPid":0,"side":0,"jisCode":0,"meshId":0,"editFlag":1,
-        "memo":"备注信息","names":[
-            {
-                "nameId":1,"regionId":1,"nameGroupid":1,"langCode":"CHI","nameClass":1,"name":"gfdr","phonetic":"","srcFlag":0
-            },
-            {
-                "nameId":4,"regionId":1,"nameGroupid":2,"langCode":"CHI","nameClass":1,"name":"desafesdr","phonetic":"","srcFlag":0
-            }
-        ]};
-
 
     $scope.adminType = [
         {"id": 0, "label": "国家地区级"},
@@ -50,14 +40,14 @@ adAdminZone.controller("adAdminController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-        //var adAdmin = fastmap.dataApi.adadmin(test);
-        //objCtrl.data = adAdmin;
-        //$scope.adAdminData = objCtrl.data;
-        $scope.adAdminData=test;
-       // objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-    };
+        $scope.adAdminData = objCtrl.data;
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
 
-    $scope.initializeData();
+    };
+    if(objCtrl.data){
+        $scope.initializeData();
+    }
+
 
     $scope.save = function(){
 
@@ -70,24 +60,121 @@ adAdminZone.controller("adAdminController",function($scope) {
 
     };
 
-    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
-    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
-    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
-    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+
 
 
     $scope.otherAdminName=function(){
         var showOtherObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_administratives_components/road/ctrls/adAdminNameCtrl',
-            "propertyHtml":'js/tepl/attr_adminstratives_tpl/adAdminNameTpl.html'
+            "propertyCtrl":'components/road/ctrls/attr_administratives_ctrl/adAdminNameCtrl',
+            "propertyHtml":'../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminNameTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
 
     $scope.clickBasic=function(boolValue){
         $scope.isbase=boolValue;
-        $scope.$apply();
+        if($scope.isbase==false){
+            var showOrdinaryObj={
+                "loadType":"subAttrTplContainer",
+                "propertyCtrl":'components/road/ctrls/attr_administratives_ctrl/adAdminOfLevelCtrl',
+                "propertyHtml":'../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminOfLevelTpl.html'
+            }
+            $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
+        }
+
     }
+
+    $scope.save = function(){
+        objCtrl.save();
+        var param = {
+            "command": "UPDATE",
+            "type":"ADADMIN",
+            "projectId": Application.projectid,
+            "data": objCtrl.changedProperty
+        };
+        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+            var info = null;
+            if (data.errcode==0) {
+                adAdmin.redraw();
+                if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }
+                swal("操作成功",'保存成功！', "success");
+                var sInfo={
+                    "op":"修改行政区划代表点成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.push(sInfo);
+                for(var i=0; i<data.data.log.length-1;i++){
+                    if(data.data.log[i].rowId){
+                        data.data.log[i].rowId=$scope.linkData.pid;
+                    }
+                }
+                info=data.data.log;
+
+            } else {
+                swal("操作失败", data.errmsg, "error");
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
+            }
+            outputCtrl.pushOutput(info);
+            if (outputCtrl.updateOutPuts !== "") {
+                outputCtrl.updateOutPuts();
+            }
+        })
+    };
+
+    $scope.delete = function(){
+        var objId = parseInt($scope.adAdminData.pid);
+        var param = {
+            "command": "DELETE",
+            "type":"ADADMIN",
+            "projectId": Application.projectid,
+            "objId": objId
+        }
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"删除行政区划代表点成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info=data.data.log;
+                outputCtrl.pushOutput(info);
+                if (outputCtrl.updateOutPuts !== "") {
+                    outputCtrl.updateOutPuts();
+                }
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
+            }
+        })
+    };
+
+    eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
+    eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
+    eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
+    eventController.on(eventController.eventTypes.SELECTEDFEATURECHANGE,  $scope.initializeData);
+
 
 })

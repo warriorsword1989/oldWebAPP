@@ -23,7 +23,13 @@ requirejs.config({
         'sweet-alert':'libs/sweet-alert/js/sweet-alert.min',
         'poi-msg':'libs/poi-msg/poiMsg',
         'e-smart-zoom':'libs/e-smart-zoom/js/e-smart-zoom-jquery.min',
-        'ztree':'libs/jquery/2.1.1/jquery.ztree.core'
+        'angular-route':'libs/angularjs/1.4.4/angular-route.min',
+        'uitree':'libs/ui-tree/angular-ui-tree',
+        'uibootstrap':'libs/ui-tree/ui-bootstrap-tpls',
+        'jqmin':'libs/jquery/2.1.1/jquery-2.1.1.min',
+        'z-tree':'libs/z-tree/jquery.ztree.all',
+        //'z-treeexcheck':'libs/z-tree/jquery.ztree.excheck',
+        //'z-treeexedit':'libs/z-tree/jquery.ztree.exedit'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -40,8 +46,13 @@ requirejs.config({
         'sweet-alert':['jquery'],
         'poi-msg':['jquery'],
         'e-smart-zoom':['jquery'],
-        'ztree':['jquery'],
-        'appMain': ['ocLazyLoad','ngLayout','bootstrap', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom']
+        'angular-route':['angular'],
+        'uitree':['angular'],
+        'uibootstrap':['angular'],
+        'z-tree':['jquery'],
+        //'z-treeexcheck':['jquery'],
+        //'z-treeexedit':['jquery'],
+        'appMain': ['ocLazyLoad','ngLayout','bootstrap', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom','angular-route','uitree','uibootstrap','jqmin','z-tree']
     }
 });
 

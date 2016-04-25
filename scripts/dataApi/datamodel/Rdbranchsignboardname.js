@@ -1,9 +1,10 @@
 /**
  * Created by wangtun on 2016/3/15.
  */
-fastmap.dataApi.rdBranchSignBoardName=fastmap.dataApi.rdBranch.extend({
+fastmap.dataApi.RdBranchSignBoardName=fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDBRANCHSIGNBOARDNAME";
         this.setAttributeData(data);
     },
 
@@ -34,7 +35,7 @@ fastmap.dataApi.rdBranchSignBoardName=fastmap.dataApi.rdBranch.extend({
         data["phonetic"] = this.phonetic;
         data["voiceFile"] = this.voiceFile;
         data["srcFlag"] = this.srcFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -51,7 +52,11 @@ fastmap.dataApi.rdBranchSignBoardName=fastmap.dataApi.rdBranch.extend({
         data["phonetic"] = this.phonetic;
         data["voiceFile"] = this.voiceFile;
         data["srcFlag"] = this.srcFlag;
-
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 })
+
+fastmap.dataApi.rdBranchSignBoardName = function (data, options) {
+    return new fastmap.dataApi.RdBranchSignBoardName(data, options);
+}

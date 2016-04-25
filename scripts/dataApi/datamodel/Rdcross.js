@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/14.
  */
-fastmap.dataApi.rdCross = fastmap.dataApi.rdRestriction.extend({
+fastmap.dataApi.RdCross = fastmap.dataApi.GeoDataModel.extend({
     initialize: function (data, options) {
         L.setOptions(this, options);
         this.geoLiveType = "RDCROSS";
@@ -17,21 +17,21 @@ fastmap.dataApi.rdCross = fastmap.dataApi.rdRestriction.extend({
         this.names = [];
         if (data["names"].length > 0) {
             for (var i = 0; i < data["names"].length; i++) {
-                var name = new fastmap.dataApi.rdCrossName(data["names"][i]);
+                var name = fastmap.dataApi.rdCrossName(data["names"][i]);
                 this.names.push(name);
             }
         }
         this.links = [];
         if (data["links"].length > 0) {
             for (var i = 0; i < data["links"].length; i++) {
-                var link = new fastmap.dataApi.rdCrossLink(data["links"][i]);
+                var link = fastmap.dataApi.rdCrossLink(data["links"][i]);
                 this.links.push(link);
             }
         }
         this.nodes = [];
         if (data["nodes"].length > 0) {
             for (var i = 0; i < data["nodes"].length; i++) {
-                var node = new fastmap.dataApi.rdCrossNode(data["nodes"][i]);
+                var node = fastmap.dataApi.rdCrossNode(data["nodes"][i]);
                 this.nodes.push(node);
             }
         }
@@ -95,6 +95,6 @@ fastmap.dataApi.rdCross = fastmap.dataApi.rdRestriction.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdCross}
  */
-fastmap.dataApi.rdcross = function (data, options) {
-    return new fastmap.dataApi.rdCross(data, options);
+fastmap.dataApi.rdCross = function (data, options) {
+    return new fastmap.dataApi.RdCross(data, options);
 }

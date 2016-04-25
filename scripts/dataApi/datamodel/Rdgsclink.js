@@ -1,12 +1,13 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdGscLink = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDGSCLINK";
         if(!data["pid"]){
             throw "form对象没有对应link"
         }
@@ -21,11 +22,12 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
      */
     setAttributeData:function(data){
         this.pid = data["pid"];
-        this.zlevel = data["regionId"] || 0;
+        this.zlevel = data["zlevel"] || 0;
         this.linkPid = data["linkPid"] || 0;
         this.tableName = data["tableName"]|| "";
         this.shpSeqNum = data["shpSeqNum"] || 1;
         this.startEnd = data["startEnd"] || 0;
+        this.rowId = data["rowId"];
 
     },
 
@@ -40,7 +42,8 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
         data["tableName"] = this.tableName;
         data["shpSeqNum"] = this.shpSeqNum;
         data["startEnd"] = this.startEnd;
-
+        data["geoLiveType"] = this.geoLiveType;
+        data["rowId"] = this.rowId;
         return data;
 
     },
@@ -53,12 +56,13 @@ fastmap.dataApi.rdGscLink = fastmap.dataApi.GeoDataModel.extend({
         data["tableName"] = this.tableName;
         data["shpSeqNum"] = this.shpSeqNum;
         data["startEnd"] = this.startEnd;
-
+        data["geoLiveType"] = this.geoLiveType;
+        data["rowId"] = this.rowId;
         return data;
     },
 
 });
 
-fastmap.dataApi.rdgsclink = function (data, options) {
-    return new fastmap.dataApi.rdGscLink(data, options);
+fastmap.dataApi.rdGscLink = function (data, options) {
+    return new fastmap.dataApi.RdGscLink(data, options);
 }

@@ -198,6 +198,67 @@
                 </select>
             </div>
         </li>
+        <li class="list-group-item">
+            <div><label class="control-label">开发状态</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="developStateRadio" value="0" ng-model="linkData.developState">
+                    非详细
+                </label>
+                <label>
+                    <input type="radio" name="developStateRadio" value="1" ng-model="linkData.developState">
+                    详细
+                </label>
+                <label>
+                    <input type="radio" name="developStateRadio" value="2" ng-model="linkData.developState">
+                    未验证
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">城市道路</label></div>
+
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="urbanRadio" value="0" ng-model="linkData.urban">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="urbanRadio" value="1" ng-model="linkData.urban">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >特殊交通</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="specialTrafficRadio" value=0 ng-model="linkData.specialTraffic">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="specialTrafficRadio" value=1 ng-model="linkData.specialTraffic">
+                    是
+                </label>
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label" >是否高架</label></div>
+            <div class="radio inline" style="text-align: left">
+                <label>
+                    <input type="radio" name="isViaductRadio" value=0 ng-model="linkData.isViaduct">
+                    否
+                </label>
+                <label>
+                    <input type="radio" name="isViaductRadio" value=1 ng-model="linkData.isViaduct">
+                    是
+                </label>
+                <label>
+                    <input type="radio" name="isViaductRadio" value=2 ng-model="linkData.isViaduct">
+                    未调查
+                </label>
+            </div>
+        </li>
         <!--<li class="list-group-item">-->
             <!--<div><label class="control-label">道路名</label></div>-->
             <!--<div class="inline">-->

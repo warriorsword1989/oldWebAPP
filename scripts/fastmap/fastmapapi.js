@@ -58,6 +58,7 @@
                 "fastmap/mapApi/Map.js",
                 "fastmap/mapApi/MecatorTransform.js",
                 "fastmap/mapApi/Tile.js",
+                "fastmap/mapApi/ShapeOptionTypeEnum.js",
                 //mapApi/layer
                 "fastmap/mapApi/layer/Layer.js",
                 "fastmap/mapApi/layer/WholeLayer.js",
@@ -85,6 +86,7 @@
                 "fastmap/uikit/controller/tools/shapetools/DrawPath.js",
                 "fastmap/uikit/controller/tools/shapetools/DrawPolygon.js",
                 "fastmap/uikit/controller/tools/shapetools/CrossingAdd.js",
+                "fastmap/uikit/controller/tools/shapetools/adAdminAdd.js",
                 "fastmap/uikit/controller/tools/shapetools/PathCut.js",
                 "fastmap/uikit/controller/tools/shapetools/PathMove.js",
                 "fastmap/uikit/controller/tools/shapetools/PathSmooth.js",
