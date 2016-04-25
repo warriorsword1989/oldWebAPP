@@ -42,10 +42,13 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on("click",this.onMouseDown,this);
+            this.snapHandler.disable();
+        }
         if (this.id !== "rdcross") {
             this._map.on('mousemove',this.onMouseMove,this);
         }
-
     },
 
     /***
@@ -54,12 +57,15 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
+        if(L.Browser.touch){
+            this._map.off("click",this.onMouseDown,this);
+        }
     },
 
 
     onMouseMove:function(event){
         this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
@@ -73,36 +79,11 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this.newredraw = $.extend({}, this.tiles);
-        if (this.id === "rdcross") {
-            this.getRdCrossId(tileCoordinate, event);
-        }else if(this.id === "adAdmin"){
+        if(this.id === "adAdmin"){
             this.getadAdminId(tileCoordinate, event);
         } else {
             this.drawGeomCanvasHighlight(tileCoordinate, event);
         }
-    },
-    getRdCrossId: function (tilePoint, event) {
-        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]].data === undefined) {
-            return;
-        }
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
-
-        var id = null;
-        for (var item in data) {
-            var geom = data[item].geometry.coordinates;
-            var newGeom = [];
-            for (var theory = 0, theoryLen = geom.length; theory < theoryLen; theory++) {
-                newGeom[0] = (parseInt(geom[theory][0][0]));
-                newGeom[1] = (parseInt(geom[theory][0][1]));
-                if (this._TouchesPoint(newGeom, x, y, 20)) {
-                    id = data[item].properties.id;
-                    this.eventController.fire(this.eventController.eventTypes.GETCROSSNODEID, {id: id, tips: 0})
-                    break;
-                }
-            }
-        }
-
     },
     getadAdminId: function (tilePoint, event) {
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
@@ -115,15 +96,13 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         for (var item in data) {
             var geom = data[item].geometry.coordinates;
             var newGeom = [];
-            //for (var theory = 0, theoryLen = geom.length; theory < theoryLen; theory++) {
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
             if (this._TouchesPoint(newGeom, x, y, 20)) {
                 id = data[item].properties.id;
-                this.eventController.fire(this.eventController.eventTypes.GETADADMINNODEID, {id: id, tips: 0})
+                this.eventController.fire(this.eventController.eventTypes.GETADADMINNODEID, {id: id, optype:"RDADMINNODE"})
                 break;
             }
-            //}
         }
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
@@ -138,19 +117,19 @@ fastmap.uikit.SelectNode = L.Handler.extend({
 
                 if (touchIds[0] == 0) {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
-                        id: data[item].properties.snode
+                        id: data[item].properties.snode,
+                        optype:"RDNODE"
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.snode;
                     break;
                 } else {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
-                        id: data[item].properties.enode
+                        id: data[item].properties.enode,
+                        optype:"RDNODE"
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.enode;
                     break;
                 }
-
-
             }
         }
     },
@@ -207,8 +186,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 }
             }
         }
-
         return [];
-
     }
 });

@@ -177,16 +177,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         };
                         nodeArr.push(eObj);
                     }
-
                 }
-
-
             }
             return {
                 links: linkArr,
                 nodes: nodeArr
             }
-
         };
         $scope.addShape = function (type, num, event) {
 
@@ -203,9 +199,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-            if (typeof map.currentTool.cleanHeight === "function") {
+
+            if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             }
             $scope.changeBtnClass(num);
             if (num !== 7) {
@@ -251,9 +248,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                     layerCtrl.pushLayerFront('edit');
                 }
-                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DrawPath);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
+                shapeCtrl.editFeatType = "rdLink";
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
@@ -453,6 +452,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
+                shapeCtrl.editFeatType = "rdLink";
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
                 tooltipsCtrl.setStyleTooltip("color:black;");

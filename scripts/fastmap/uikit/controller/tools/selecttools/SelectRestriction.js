@@ -41,15 +41,13 @@ function init(options) {
                                 newGeom[1] = (parseInt(geom[1]));
                                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
-
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, type:1,  optype: 'RDRESTRICTION'});
                                     break;
                                 }
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
-
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, type:1, optype: 'RDRESTRICTION'});
                                     break;
                                 }
                             }
@@ -63,14 +61,14 @@ function init(options) {
                                 newGeom[1] = (parseInt(geom[1]));
                                 if (this._TouchesPoint(newGeom, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id,restrictionType:1, optype: 'RDRESTRICTION'})
 
                                     break;
                                 }
                             } else {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     id = data[item].properties.id;
-                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id, tips: 0, optype: 'RDRESTRICTION'})
+                                    this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {id: id,restrictionType:1, optype: 'RDRESTRICTION'})
 
                                     break;
                                 }

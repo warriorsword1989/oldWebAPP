@@ -171,7 +171,7 @@
 </style>
 <div id="otherDiv" ng-controller="otherController">
     <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
+       <!-- <li class="list-group-item">
             <div><label class="control-label" >特殊交通</label></div>
             <div class="radio inline" style="text-align: left">
                 <label>
@@ -200,7 +200,7 @@
                     未调查
                 </label>
             </div>
-        </li>
+        </li>-->
         <li class="list-group-item">
             <div><label class="control-label" >铺设状态</label></div>
             <div class="radio inline" style="text-align: left">
@@ -300,6 +300,20 @@
                          <!--ng-options="value.id as value.label for value in auxiFlagoption">-->
                     <!--<option>--</option>-->
                 <!--</select>-->
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">左区划号码</label></div>
+
+            <div class="inline" style="text-align: left">
+                <input type="text" placeholder="0530" ng-model="roadlinkData.leftRegionId">
+            </div>
+        </li>
+        <li class="list-group-item">
+            <div><label class="control-label">右区划号码</label></div>
+
+            <div class="inline" style="text-align: left">
+                <input type="text" placeholder="0530" ng-model="roadlinkData.rightRegionId">
             </div>
         </li>
     </ul>

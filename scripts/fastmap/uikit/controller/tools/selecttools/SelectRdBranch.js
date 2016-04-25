@@ -35,15 +35,12 @@ fastmap.uikit.SelectRdBranch = (function () {
                             id = data[item].properties.SpeedDivergencecondition[0].ids[0].detailId;
                             this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
                                 detailid: id,
-                                tips: 0,
                                 optype: 'RDBRANCH'
                             })
 
                             break;
                         }
-
                     }
-
                 }
             },
 
