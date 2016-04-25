@@ -52,7 +52,7 @@ adNodeApp.controller("adNodeController",function($scope) {
         }
 
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var restrict = layerCtrl.getLayerById("referenceLine");
+            var restrict = layerCtrl.getLayerById("adLink");
             restrict.redraw();
             var info = null;
             if (data.errcode==0) {
@@ -78,7 +78,39 @@ adNodeApp.controller("adNodeController",function($scope) {
         });
     };
     $scope.delete = function(){
-
+        var pid = parseInt($scope.adNodeData.pid);
+        var param =
+        {
+            "command": "DELETE",
+            "type": "ADNODE",
+            "projectId": Application.projectid,
+            "objId": pid
+        };
+        //结束编辑状态
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            adLink.redraw();
+            var info = [];
+            if (data.errcode == 0) {
+                var sinfo = {
+                    "op": "删除ADNODE成功",
+                    "type": "",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info = data.data.log;
+            } else {
+                info = [{
+                    "op": data.errcode,
+                    "type": data.errmsg,
+                    "pid": data.errid
+                }];
+                swal("删除失败", data.errmsg, "error");
+            }
+            outputCtrl.pushOutput(info);
+            if (outputCtrl.updateOutPuts !== "") {
+                outputCtrl.updateOutPuts();
+            }
+        })
     };
     $scope.cancel = function(){
 
