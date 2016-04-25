@@ -39,12 +39,8 @@ fastmap.uikit.SelectSpeedLimit = (function () {
 
                             break;
                         }
-
                     }
-
                 }
-
-
             },
 
             /***
