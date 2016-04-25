@@ -87,20 +87,35 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
                 }
-               else if (type === "node") {
+               else if (type === "adNode") {
                     if (shapeCtrl.shapeEditorResult) {
-                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point([fastmap.mapApi.point(0, 0)]));
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
-                    shapeCtrl.setEditingType('pointVertexAdd');
+
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    shapeCtrl.editFeatType = "adLink";
+                    map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('pointVertexAdd');
                     tooltipsCtrl.setCurrentTooltip('开始增加节点！');
                     tooltipsCtrl.setStyleTooltip("color:black;");
                     tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                }else if (type === "adAdmin") {
+                    if (shapeCtrl.shapeEditorResult) {
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType('addAdAdmin');
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    tooltipsCtrl.setEditEventType('pointVertexAdd');
+                    tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
+                    tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                 }
             }
 
