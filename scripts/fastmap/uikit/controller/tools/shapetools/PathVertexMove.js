@@ -23,7 +23,6 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         this.selectCtrl = fastmap.uikit.SelectController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.eventController = fastmap.uikit.EventController();
     },

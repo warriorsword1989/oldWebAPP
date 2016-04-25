@@ -11,6 +11,7 @@ adLinkApp.controller("adLinkController",function($scope) {
     var editLayer = layerCtrl.getLayerById('edit');
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
+    var selectCtrl = fastmap.uikit.SelectController();
     $scope.form = [
         {"id": 0, "label": "未调查"},
         {"id": 1, "label": "无属性"},
@@ -28,10 +29,18 @@ adLinkApp.controller("adLinkController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-       /* var linkData = fastmap.dataApi.adLink(test);
-        objCtrl.data = linkData;*/
         $scope.adLinkData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
+        for (var i = 0, len = linkArr.length; i < len; i++) {
+            var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+            points.push(pointOfLine);
+        }
+        var line = fastmap.mapApi.lineString(points);
+        selectCtrl.onSelected({
+            geometry: line,
+            id: $scope.adLinkData.pid
+        });
     };
     $scope.initializeData();
 

@@ -33,16 +33,11 @@ fastmap.uikit.SelectRdCross = (function () {
                                     tips: 0,
                                     optype: 'RDCROSS'
                                 })
-
                                 break;
                             }
                         }
-
                     }
-
                 }
-
-
             },
 
             /***

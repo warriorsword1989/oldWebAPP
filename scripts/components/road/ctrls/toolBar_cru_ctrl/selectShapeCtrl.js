@@ -90,6 +90,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
             //rdLink.options.selectType = 'link';
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
             rdLink.options.editable = true;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 selectCtrl.onSelected({

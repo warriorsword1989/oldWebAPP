@@ -254,6 +254,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
+                shapeCtrl.editFeatType = "rdLink";
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
@@ -454,6 +455,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
+                shapeCtrl.editFeatType = "rdLink";
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加节点！');
                 tooltipsCtrl.setStyleTooltip("color:black;");

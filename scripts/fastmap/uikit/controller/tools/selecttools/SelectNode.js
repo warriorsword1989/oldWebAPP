@@ -42,10 +42,13 @@ fastmap.uikit.SelectNode = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on("click",this.onMouseDown,this);
+            this.snapHandler.disable();
+        }
         if (this.id !== "rdcross") {
             this._map.on('mousemove',this.onMouseMove,this);
         }
-
     },
 
     /***
@@ -54,12 +57,15 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
         this._map.off('mousemove', this.onMouseMove, this);
+        if(L.Browser.touch){
+            this._map.off("click",this.onMouseDown,this);
+        }
     },
 
 
     onMouseMove:function(event){
         this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
@@ -149,8 +155,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                     this.selectCtrl.selectedFeatures =data[item].properties.enode;
                     break;
                 }
-
-
             }
         }
     },
@@ -207,8 +211,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 }
             }
         }
-
         return [];
-
     }
 });

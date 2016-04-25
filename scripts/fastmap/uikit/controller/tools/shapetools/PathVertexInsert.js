@@ -20,7 +20,6 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.eventController = fastmap.uikit.EventController();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
