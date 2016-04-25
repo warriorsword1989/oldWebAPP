@@ -87,11 +87,10 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-            adLink.options.selectType = 'link';
-            adLink.options.editable = true;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 selectCtrl.onSelected({
                     point: data.point
@@ -99,7 +98,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 $scope.getFeatDataCallback(data, data.id, "ADLINK", 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html");
             })
         }
-        else if (type === "node") {
+        else if (type === "adAdmin") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
@@ -110,6 +109,9 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.enable();
             $scope.toolTipText = '请选择行政区划代表点！';
             eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
+                selectCtrl.onSelected({
+                    point: data.point
+                });
                 $scope.getFeatDataCallback(data, data.id, "ADADMIN", 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html");
             });
         }
@@ -128,12 +130,23 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
            /* adFace.options.selectType = 'face';
             adFace.options.editable = true;*/
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                selectCtrl.onSelected({
-                    point: data.point
-                });
-
                 $scope.getFeatDataCallback(data, data.id, "ADFACE", 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html");
             })
+        }else if(type==="adNode") {
+          /*  layerCtrl.pushLayerFront('edit');*/
+            adLink.options.selectType = 'node';
+            adLink.options.editable = true;
+            map.currentTool = new fastmap.uikit.SelectNode({
+                map: map,
+                nodesFlag: true,
+                currentEditLayer: adLink,
+                shapeEditor: shapeCtrl
+            });
+            map.currentTool.enable();
+            $scope.toolTipText = '请选择node！';
+            eventController.on(eventController.eventTypes.GETNODEID, function (data) {
+                $scope.getFeatDataCallback(data, data.id, "ADNODE", 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html");
+            });
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };

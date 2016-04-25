@@ -22,7 +22,6 @@ fastmap.uikit.PathVertexRemove = L.Handler.extend({
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         this.eventController = fastmap.uikit.EventController();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
     },
     /***
      * 重写disable，加入地图拖动控制

@@ -933,7 +933,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
 
                 } else {
-                    url = Application.url + '/render/link/getByTile?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+                    url = Application.url + '/render/link/getByTileWithGap?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
                 }
 
                 break;

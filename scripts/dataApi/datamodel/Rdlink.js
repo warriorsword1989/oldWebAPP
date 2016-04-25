@@ -106,7 +106,7 @@ fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["intRtics"]&&data["intRtics"].length > 0) {
             for (var i = 0, len = data["intRtics"].length; i < len; i++) {
 
-                var intRtics =fastmap.dataApi.rdLinkIntTtic(data["intRtics"][i]);
+                var intRtics =fastmap.dataApi.rdLinkIntRtic(data["intRtics"][i]);
                 this.intRtics.push(intRtics);
             }
 
