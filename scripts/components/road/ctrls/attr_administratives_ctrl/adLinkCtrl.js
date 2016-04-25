@@ -30,6 +30,7 @@ adLinkApp.controller("adLinkController",function($scope) {
 
     $scope.initializeData = function(){
         $scope.adLinkData = objCtrl.data;
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
         for (var i = 0, len = linkArr.length; i < len; i++) {
             var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);

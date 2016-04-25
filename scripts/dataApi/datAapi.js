@@ -45,7 +45,8 @@
                 "dataApi/datamodel/RdGsc.js",
                 "dataApi/datamodel/RdGscLink.js",
                 "dataApi/datamodel/AdFace.js",
-                "dataApi/datamodel/RwLink.js"
+                "dataApi/datamodel/RwLink.js",
+                "dataApi/datamodel/AdNode.js"
             ]; // etc.
 
 

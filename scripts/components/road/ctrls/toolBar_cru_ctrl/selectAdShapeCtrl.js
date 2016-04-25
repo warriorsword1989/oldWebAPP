@@ -98,7 +98,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 $scope.getFeatDataCallback(data, data.id, "ADLINK", 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html");
             })
         }
-        else if (type === "node") {
+        else if (type === "adAdmin") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
@@ -132,6 +132,21 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 $scope.getFeatDataCallback(data, data.id, "ADFACE", 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html");
             })
+        }else if(type==="adNode") {
+          /*  layerCtrl.pushLayerFront('edit');*/
+            adLink.options.selectType = 'node';
+            adLink.options.editable = true;
+            map.currentTool = new fastmap.uikit.SelectNode({
+                map: map,
+                nodesFlag: true,
+                currentEditLayer: adLink,
+                shapeEditor: shapeCtrl
+            });
+            map.currentTool.enable();
+            $scope.toolTipText = '请选择node！';
+            eventController.on(eventController.eventTypes.GETNODEID, function (data) {
+                $scope.getFeatDataCallback(data, data.id, "ADNODE", 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html");
+            });
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
