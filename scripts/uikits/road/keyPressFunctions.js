@@ -127,7 +127,7 @@ function keyEvent(ocLazyLoad, scope) {
                 } else if (shapeCtrl.editType === 'drawAdLink') {
                     param = {
                         "command": "CREATE",
-                        "type": fastmap.dataApi.GeoLiveModelType.ADLINK,
+                        "type": "ADLINK",
                         "projectId": Application.projectid,
                         "data": {
                             "eNodePid": properties.enodePid ? properties.enodePid : 0,
