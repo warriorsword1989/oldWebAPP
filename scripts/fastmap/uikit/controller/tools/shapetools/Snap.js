@@ -26,6 +26,7 @@ fastmap.uikit.Snap = L.Handler.extend({
         this.point = null;
         this.selectedLink = null;
         this._guides = [];
+        this.snaped = false;
     },
     /***
      * 添加事件处理

@@ -54,7 +54,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         if(this.overlays &&this.overlays.length > 1){
             this._map.openPopup(this.popup);
         }
-
     }
     ,
     onMouseDown: function (event) {
@@ -110,10 +109,8 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                             this.overlays.push({layer:this.currentEditLayers[layer],data:data});
                         }
                     }
-
                 }
             }
-
        }
         if(this.overlays.length == 1){
             switch (this.overlays[0].layer.requestType) {
