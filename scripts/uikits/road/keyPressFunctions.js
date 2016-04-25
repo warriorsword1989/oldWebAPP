@@ -296,19 +296,36 @@ function keyEvent(ocLazyLoad, scope) {
                     })
                 }
                 else if (shapeCtrl.editType === "pointVertexAdd") {
-                    param = {
-                        "command": "BREAK",
-                        "type": "RDLINK",
-                        "projectId": Application.projectid,
-                        "objId": parseInt(selectCtrl.selectedFeatures.id),
+                    if (shapeCtrl.editFeatType === "adLink") {
+                        param = {
+                            "command": "BREAK",
+                            "type": "ADLINK",
+                            "projectId": Application.projectid,
+                            "objId": parseInt(selectCtrl.selectedFeatures.id),
 
-                        "data": {"longitude": geo.x, "latitude": geo.y}
+                            "data": {"longitude": geo.x, "latitude": geo.y}
+                        }
+                        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                            layerCtrl.getLayerById("adLink").redraw();
+                            treatmentOfChanged(data, "ADLINK", "插入点成功");
+
+                        })
+                    }else {
+                        param = {
+                            "command": "BREAK",
+                            "type": "RDLINK",
+                            "projectId": Application.projectid,
+                            "objId": parseInt(selectCtrl.selectedFeatures.id),
+
+                            "data": {"longitude": geo.x, "latitude": geo.y}
+                        }
+                        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                            layerCtrl.getLayerById("referenceLine").redraw();
+                            treatmentOfChanged(data, "RDLINK", "插入点成功");
+
+                        })
                     }
-                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        treatmentOfChanged(data, "RDLINK", "插入点成功");
 
-                    })
                 } else if (shapeCtrl.editType === "rdBranch") {
                     param = {
                         "command": "CREATE",
