@@ -7,6 +7,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var outputCtrl = fastmap.uikit.OutPutController({});
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var adAdmin = layerCtrl.getLayerById("adAdmin");
     $scope.isbase=true;
 
