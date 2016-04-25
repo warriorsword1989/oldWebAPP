@@ -9,8 +9,6 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
     var adLink = layerCtrl.getLayerById('adLink');
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLayer = layerCtrl.getLayerById('edit');
-
-    map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
@@ -97,9 +95,11 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             sObj.setFinalGeometry(feature);
 
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+            shapeCtrl.startEditing();
+            map.currentTool = shapeCtrl.getCurrentTool();
             shapeCtrl.editFeatType = "adLink";
             map.currentTool.snapHandler.addGuideLayer(adLink);
-            shapeCtrl.startEditing();
+
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
                 shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);

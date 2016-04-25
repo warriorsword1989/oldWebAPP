@@ -139,7 +139,7 @@ function keyEvent(ocLazyLoad, scope) {
                         if(param["type"]==="RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                         }else if(param["type"]==="ADLINK") {
-                            layerCtrl.getLayerById("rdLink").redraw();
+                            layerCtrl.getLayerById("adLink").redraw();
                         }
                         treatmentOfChanged(data,param["type"],showContent, ctrl, tpl)
                     })
@@ -279,20 +279,26 @@ function keyEvent(ocLazyLoad, scope) {
 
                         })
                     }
-                } else if (shapeCtrl.editType === "pathNodeMove") {
-                    param = {
-                        "command": "MOVE",
-                        "type": "RDNODE",
-                        "projectId": Application.projectid,
-                        "objId":  selectCtrl.selectedFeatures.id,
-                        "data": {
-                            longitude: selectCtrl.selectedFeatures.latlng.lng,
-                            latitude: selectCtrl.selectedFeatures.latlng.lat
-                        }
-                    }
+                } else if (shapeCtrl.editType === "pathNodeMove"){
+                    param[ "command"]="MOVE";
+                    param["projectId"] = Application.projectid;
+                    param["objId"] = selectCtrl.selectedFeatures.id;
+                    param["data"] = {
+                        longitude: selectCtrl.selectedFeatures.latlng.lng,
+                        latitude: selectCtrl.selectedFeatures.latlng.lat
+                    };
+                if(shapeCtrl.editFeatType==="rdLink"){
+                    param ["type"] = "RDNODE";
+                }else if(shapeCtrl.editFeatType==="adLink") {
+                    param ["type"] = "ADNODE";
+                }
                     Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        treatmentOfChanged(data,"RDLINK", "移动link成功");
+                       if( param ["type"] === "RDNODE") {
+                           layerCtrl.getLayerById("referenceLine").redraw();
+                       }else if(param ["type"] === "ADNODE") {
+                           layerCtrl.getLayerById("adLink").redraw();
+                       }
+                        treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
                 }
                 else if (shapeCtrl.editType === "pointVertexAdd") {
@@ -313,9 +319,8 @@ function keyEvent(ocLazyLoad, scope) {
                             layerCtrl.getLayerById("adLink").redraw();
                         }
 
-                        treatmentOfChanged(data, param["type"], "插入点成功");
+                        treatmentOfChanged(data, param["type"], "插入点成功");})
 
-                    })
                 } else if (shapeCtrl.editType === "rdBranch") {
                     param = {
                         "command": "CREATE",

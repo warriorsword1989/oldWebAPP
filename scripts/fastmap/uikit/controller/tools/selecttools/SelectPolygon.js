@@ -139,10 +139,7 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
 
                 }
             }
-
         }
-
-
     }
     ,
     /***

@@ -10,8 +10,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var rdLink=ly.getLayerById("referenceLine")
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLyer = ly.getLayerById('edit');
-
-    map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
@@ -99,9 +97,11 @@ modifyApp.controller("modifyToolController", function ($scope) {
             sObj.setFinalGeometry(feature);
 
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+            shapeCtrl.startEditing();
+            map.currentTool = shapeCtrl.getCurrentTool();
             shapeCtrl.editFeatType = "rdLink";
             map.currentTool.snapHandler.addGuideLayer(rdLink);
-            shapeCtrl.startEditing();
+
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
                 shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);

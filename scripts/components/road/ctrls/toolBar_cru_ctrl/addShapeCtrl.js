@@ -203,9 +203,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (tooltipsCtrl.getCurrentTooltip()) {
                 tooltipsCtrl.onRemoveTooltip();
             }
-            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-            if (typeof map.currentTool.cleanHeight === "function") {
+
+            if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
                 map.currentTool.cleanHeight();
+                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
             }
             $scope.changeBtnClass(num);
             if (num !== 7) {
