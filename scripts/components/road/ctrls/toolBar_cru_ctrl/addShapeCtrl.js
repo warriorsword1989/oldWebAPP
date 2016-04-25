@@ -177,16 +177,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         };
                         nodeArr.push(eObj);
                     }
-
                 }
-
-
             }
             return {
                 links: linkArr,
                 nodes: nodeArr
             }
-
         };
         $scope.addShape = function (type, num, event) {
 
