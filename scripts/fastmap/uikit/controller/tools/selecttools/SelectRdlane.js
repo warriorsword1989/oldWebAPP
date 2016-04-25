@@ -39,7 +39,6 @@ fastmap.uikit.SelectRdlane = (function () {
                                 id = data[item].properties.id;
                                 this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
                                     id: id,
-                                    tips: 0,
                                     optype: 'RDLANECONNEXITY'
                                 })
 
