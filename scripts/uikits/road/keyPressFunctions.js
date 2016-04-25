@@ -296,17 +296,24 @@ function keyEvent(ocLazyLoad, scope) {
                     })
                 }
                 else if (shapeCtrl.editType === "pointVertexAdd") {
-                    param = {
-                        "command": "BREAK",
-                        "type": "RDLINK",
-                        "projectId": Application.projectid,
-                        "objId": parseInt(selectCtrl.selectedFeatures.id),
+                    param["command"] = "BREAK";
+                    param["projectId"] = Application.projectid;
+                    param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
+                    param["data"] = {"longitude": geo.x, "latitude": geo.y};
 
-                        "data": {"longitude": geo.x, "latitude": geo.y}
+                    if(shapeCtrl.editFeatType==="rdLink") {
+                        param["type"] = "RDLINK";
+                    }else{
+                        param["type"] = "ADLINK";
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        treatmentOfChanged(data, "RDLINK", "插入点成功");
+                        if(param["type"] === "RDLINK") {
+                            layerCtrl.getLayerById("referenceLine").redraw();
+                        }else{
+                            layerCtrl.getLayerById("adLink").redraw();
+                        }
+
+                        treatmentOfChanged(data, param["type"], "插入点成功");
 
                     })
                 } else if (shapeCtrl.editType === "rdBranch") {

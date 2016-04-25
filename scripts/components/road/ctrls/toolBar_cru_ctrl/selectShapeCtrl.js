@@ -17,8 +17,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
-        if (typeof map.currentTool.cleanHeight === "function") {
+        if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
+
             map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
         }
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
@@ -70,7 +73,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         $scope.resetToolAndMap();
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
-        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         $scope.changeBtnClass(num);
         if (!$scope.classArr[num]) {
             map.currentTool.disable();
