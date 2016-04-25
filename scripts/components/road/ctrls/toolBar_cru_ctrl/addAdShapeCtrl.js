@@ -99,6 +99,13 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     map.currentTool = shapeCtrl.getCurrentTool();
                     shapeCtrl.editFeatType = "adLink";
                     map.currentTool.snapHandler.addGuideLayer(adLink);
+                    tooltipsCtrl.setEditEventType('pointVertexAdd');
+                    tooltipsCtrl.setCurrentTooltip('开始增加节点！');
+                    tooltipsCtrl.setStyleTooltip("color:black;");
+                    tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
+                    tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                }else if (type === "adAdmin") {
+                    if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
@@ -106,18 +113,12 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     shapeCtrl.setEditingType('addAdAdmin');
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
-                    //layerCtrl.pushLayerFront('edit');
-                    //map.currentTool = new fastmap.uikit.adAdminAdd({
-                    //    map: map,
-                    //    nodesFlag: true,
-                    //    currentEditLayer: rdLink,
-                    //    currentEditLayer1:adAdmin,
-                    //    shapeEditor: shapeCtrl
-                    //});
-                    //map.currentTool.enable();
                     tooltipsCtrl.setEditEventType('pointVertexAdd');
                     tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
                     tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                 }
             }
+
+
+}
 ])
