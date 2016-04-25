@@ -8,12 +8,29 @@ rdGscApp.controller("rdGscController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var rdgsc = layerCtrl.getLayerById('rdgsc');
+    var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
 
     $scope.initializeData = function(){
-        $scope.reGscData = objCtrl.data;
-        console.log(objCtrl.data)
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $scope.reGscData = objCtrl.data;
+        var links = $scope.reGscData.links,highLightFeatures=[];
+        for(var i= 0,len=links.length;i<len;i++) {
+            highLightFeatures.push({
+                id: links[i]["linkPid"].toString(),
+                layerid:'referenceLine',
+                type:'rdgsc',
+                index:links[i].zlevel,
+                style:{
+                    size:5
+                }
+            })
+        }
+
+        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
+        highLightRender.highLightFeatures = highLightFeatures;
+        highLightRender.drawHighlight();
     };
     $scope.initializeData();
     $scope.refreshData = function () {
@@ -49,12 +66,14 @@ rdGscApp.controller("rdGscController",function($scope) {
     $scope.save = function(){
         objCtrl.save();
         objCtrl.changedProperty.objId = 13;
+        if(!objCtrl.changedProperty){
+            return ;
+        }
         var param = {
             "command": "UPDATE",
             "type": "RDGSC",
             "projectId": Application.projectid,
-            "data": objCtrl.changedProperty,
-            "objId":13
+            "data": objCtrl.changedProperty
         };
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];

@@ -77,7 +77,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map._container.style.cursor = '';
             return;
         }
-        if (type === "link") {
+        if (type === "RDLINK") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
@@ -89,7 +89,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-            rdLink.options.selectType = 'link';
+            //rdLink.options.selectType = 'link';
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
             rdLink.options.editable = true;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 selectCtrl.onSelected({

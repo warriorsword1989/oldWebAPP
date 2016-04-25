@@ -3,6 +3,7 @@
  */
 (function() {
             jsFiles = [
+                "dataApi/datamodel/GeoLiveTypeEnum.js",
                 "dataApi/datamodel/GeoDataModel.js",
                 "dataApi/datamodel/RdBranch.js",
                 "dataApi/datamodel/RdBranchDetail.js",
@@ -44,7 +45,8 @@
                 "dataApi/datamodel/RdGsc.js",
                 "dataApi/datamodel/RdGscLink.js",
                 "dataApi/datamodel/AdFace.js",
-                "dataApi/datamodel/RwLink.js"
+                "dataApi/datamodel/RwLink.js",
+                "dataApi/datamodel/AdNode.js"
             ]; // etc.
 
 

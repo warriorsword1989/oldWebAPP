@@ -26,6 +26,7 @@ fastmap.uikit.Snap = L.Handler.extend({
         this.point = null;
         this.selectedLink = null;
         this._guides = [];
+        this.snaped = false;
     },
     /***
      * 添加事件处理
@@ -53,7 +54,24 @@ fastmap.uikit.Snap = L.Handler.extend({
     setSelectedLink: function (link) {
         this.selectedLink = link;
     },
-
+    setSnapOptions: function (obj) {
+        if(obj.snapVertex){
+            this.snapVertex = obj.snapVertex;
+        }
+        if(obj.snapNode){
+            this.snapNode = obj.snapNode;
+        }
+        if(obj.snapLine){
+            this.snapLine = obj.snapLine;
+        }
+    },
+    getSnapOptions:function() {
+        var obj = {};
+        obj.snapVertex = this.snapVertex;
+        obj.snapNode = this.snapNode;
+        obj.snapLine = this.snapLine;
+        return obj;
+    },
     onMouseMove: function (event) {
 
         if (this._mapDraggable) {

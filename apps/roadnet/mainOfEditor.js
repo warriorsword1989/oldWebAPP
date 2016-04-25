@@ -27,9 +27,9 @@ requirejs.config({
         'uitree':'libs/ui-tree/angular-ui-tree',
         'uibootstrap':'libs/ui-tree/ui-bootstrap-tpls',
         'jqmin':'libs/jquery/2.1.1/jquery-2.1.1.min',
-        'z-treecore':'libs/z-tree/jquery.ztree.core',
-        'z-treeexcheck':'libs/z-tree/jquery.ztree.excheck',
-        'z-treeexedit':'libs/z-tree/jquery.ztree.exedit'
+        'z-tree':'libs/z-tree/jquery.ztree.all',
+        //'z-treeexcheck':'libs/z-tree/jquery.ztree.excheck',
+        //'z-treeexedit':'libs/z-tree/jquery.ztree.exedit'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -49,10 +49,10 @@ requirejs.config({
         'angular-route':['angular'],
         'uitree':['angular'],
         'uibootstrap':['angular'],
-        'z-treecore':['jquery'],
-        'z-treeexcheck':['jquery'],
-        'z-treeexedit':['jquery'],
-        'appMain': ['ocLazyLoad','ngLayout','bootstrap', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom','angular-route','uitree','uibootstrap','jqmin','z-treecore', 'z-treeexcheck','z-treeexedit']
+        'z-tree':['jquery'],
+        //'z-treeexcheck':['jquery'],
+        //'z-treeexedit':['jquery'],
+        'appMain': ['ocLazyLoad','ngLayout','bootstrap', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom','angular-route','uitree','uibootstrap','jqmin','z-tree']
     }
 });
 

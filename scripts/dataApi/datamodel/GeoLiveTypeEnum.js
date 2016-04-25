@@ -1,6 +1,8 @@
 /**
  * Created by wangtun on 2016/4/21.
+ * GeoLive模型枚举，统一用枚举来判断类型及服务表名
  */
+
 fastmap.dataApi.GeoLiveModelType={
     /*
      行政区划点
