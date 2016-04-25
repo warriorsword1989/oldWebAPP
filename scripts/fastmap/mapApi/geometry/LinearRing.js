@@ -226,7 +226,7 @@ fastmap.mapApi.LinearRing = fastmap.mapApi.LineString.extend({
             end = this.components[i + 1];
             x2 = this.limitSigDigs(end.x?end.x:end[0], digs);
             y2 = this.limitSigDigs(end.y?end.y:end[1], digs);
-            
+
             /**
              * The following conditions enforce five edge-crossing rules:
              *    1. points coincident with edges are considered contained;
