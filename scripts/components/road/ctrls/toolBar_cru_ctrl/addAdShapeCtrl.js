@@ -11,6 +11,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var selectCtrl = fastmap.uikit.SelectController();
             var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+            var adLink = layerCtrl.getLayerById('adLink');
             var rdLink = layerCtrl.getLayerById('referenceLine');
             var hLayer = layerCtrl.getLayerById('highlightlayer');
             var objCtrl = fastmap.uikit.ObjectEditController();
@@ -62,6 +63,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     shapeCtrl.setEditingType('drawAdLink');
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('drawAdLink');
                     tooltipsCtrl.setCurrentTooltip('开始画线！');
                     tooltipsCtrl.setStyleTooltip("color:black;");
