@@ -30,6 +30,9 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on("click",this.onMouseDown,this);
+        }
     },
 
     /***
@@ -37,6 +40,9 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.off("click",this.onMouseDown,this);
+        }
     },
 
     disable: function () {
@@ -84,12 +90,8 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
                         }
                     }
                 }
-
             }
-
         }
-
-
     },
 
     /***
@@ -110,6 +112,5 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
             return 0;
         }
     }
-
 });
 

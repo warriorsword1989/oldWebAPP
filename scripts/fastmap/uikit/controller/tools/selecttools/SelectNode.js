@@ -76,7 +76,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     },
 
     onMouseDown: function (event) {
-        console.log(1);
         var mouseLatlng = event.latlng;
         var tileCoordinate = this.transform.lonlat2Tile(mouseLatlng.lng, mouseLatlng.lat, this._map.getZoom());
         this.newredraw = $.extend({}, this.tiles);
