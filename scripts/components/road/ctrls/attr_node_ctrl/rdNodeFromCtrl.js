@@ -207,6 +207,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
+                swal("操作成功",'保存成功！', "success");
             }else{
                 info=[{
                     "op":data.errcode,
