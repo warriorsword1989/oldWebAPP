@@ -452,6 +452,10 @@ fastmap.mapApi.LayerRender = {
         coords = this._clip(ctx, geom);
 
         for (var i = 0; i < coords.length; i++) {
+            if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
+                this._drawPoint(ctx, coords[i], nodestyle, true);
+            }
+
             if (boolPixelCrs) {
                 proj.push({x: coords[i][0], y: coords[i][1]});
             } else {

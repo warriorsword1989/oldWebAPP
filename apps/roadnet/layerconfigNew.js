@@ -540,7 +540,8 @@ function transformData(data) {
 
                 obj['properties']['name']= item.m.b;
                 obj['properties']['direct']= item.m.d;
-
+                obj['properties']['snode']= item.m.e;
+                obj['properties']['enode']= item.m.f;
                 obj['properties']['pattern'] = item.m.c;
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;

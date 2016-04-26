@@ -89,7 +89,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
             }
 
             var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
             for (var item in data) {
@@ -126,11 +126,11 @@ fastmap.uikit.SelectPath = L.Handler.extend({
     _TouchesPath: function (d, x, y, r) {
         var i;
         var N = d.length;
-        var p1x = d[0][0][0];
-        var p1y = d[0][0][1];
+        var p1x = d[0][0];
+        var p1y = d[0][1];
         for (var i = 1; i < N; i += 1) {
-            var p2x = d[i][0][0];
-            var p2y = d[i][0][1];
+            var p2x = d[i][0];
+            var p2y = d[i][1];
             var dirx = p2x - p1x;
             var diry = p2y - p1y;
             var diffx = x - p1x;
@@ -169,16 +169,16 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
-            if (data.hasOwnProperty("features")) {
-                for (var i = 0; i < data.features.length; i++) {
-                    var feature = data.features[i];
+           // if (data.hasOwnProperty("features")) {
+                for (var i = 0; i < data.length; i++) {
+                    var feature = data[i];
 
                     var color = null;
                     if (feature.hasOwnProperty('properties')) {
-                        color = feature.properties.c;
+                        color = feature.properties.style.strokeColor;
                     }
 
-                    var style = this.currentEditLayer.styleFor(feature, color);
+                    var style = feature.properties.style;
 
                     var geom = feature.geometry.coordinates;
                      if(!style) {
@@ -199,7 +199,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                          }, feature.properties);
                      }
                 }
-            }
+            //}
         }
     }
     ,
@@ -212,7 +212,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.redrawTiles = this.tiles;
         for (var obj in this.tiles) {
 
-            var data = this.tiles[obj].data.features;
+            var data = this.tiles[obj].data;
 
             for (var key in data) {
                 if (data[key].properties.id == id) {
@@ -222,8 +222,8 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                         zoom: this._map.getZoom()
                     };
                     this.currentEditLayer._drawLineString(ctx, data[key].geometry.coordinates, true, {
-                        size: 3,
-                        color: '#00F5FF'
+                        strokeWidth: 3,
+                        strokeColor: '#00F5FF'
                     }, {
                         color: '#00F5FF',
                         radius: 3
