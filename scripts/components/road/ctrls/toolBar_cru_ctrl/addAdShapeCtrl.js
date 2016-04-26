@@ -97,6 +97,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.enable();
                     shapeCtrl.editFeatType = "adLink";
                     map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('pointVertexAdd');
