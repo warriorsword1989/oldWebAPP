@@ -23,30 +23,27 @@ fastmap.uikit.SelectRdlane = (function () {
 
             drawGeomCanvasHighlight: function (event, data) {
 
-                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                //
+                //for (var item in data) {
+                //    var id = data[item].properties.id;
+                //    var geom = data[item].geometry.coordinates;
+                //    var newGeom = [];
+                //    if (id !== undefined) {
+                //
+                //        if (this._TouchesPoint(geom, x, y, 20)) {
 
-                var id = null;
-                for (var item in data) {
-                    var laneObj = data[item].properties.laneconnexityinfo;
-                    var geom = data[item].geometry.coordinates;
-                    var newGeom = [];
-                    if (laneObj !== undefined) {
-                        var laneArr = laneObj.split(",");
-                        for (var fact = 0, factLen = laneArr.length; fact < factLen; fact++) {
-                            newGeom[0] = (parseInt(geom[0]) + fact * 16);
-                            newGeom[1] = (parseInt(geom[1]));
-                            if (this._TouchesPoint(newGeom, x, y, 20)) {
-                                id = data[item].properties.id;
-                                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-                                    id: id,
-                                    optype: 'RDLANECONNEXITY'
-                                })
+                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                                id: data.properties.id,
+                                optype: 'RDLANECONNEXITY'
+                            })
+                    //
+                    //        break;
+                    //    }
+                    //        this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
 
-                                break;
-                            }
-                        }
-                    }
-                }
+                    //}
+                //}
 
 
             },

@@ -367,6 +367,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     for (var item in icons){
 
                         if(icons[item].iconName){
+                            console.log('-------------------'+icons[item].scalex)
                             this._drawImg({
                                 ctx:ctx,
                                 geo:icons[item].location,
@@ -374,7 +375,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 boolPixelCrs:boolPixelCrs,
                                 rotate:icons[item].rotate?icons[item].rotate :"",
                                 drawx:icons[item].column*icons[item].dx,
-                                drawy:icons[item].row*icons[item].dy
+                                drawy:icons[item].row*icons[item].dy,
+                                scalex:icons[item].scalex?icons[item].scalex:1,
+                                scaley:icons[item].scaley?icons[item].scaley:1
                             });
                         }else{
                             var coords = geom.coordinates;

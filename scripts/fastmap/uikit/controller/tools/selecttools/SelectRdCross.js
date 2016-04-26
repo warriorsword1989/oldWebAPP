@@ -20,23 +20,23 @@ fastmap.uikit.SelectRdCross = (function () {
             }
             ,
             drawGeomCanvasHighlight: function (event, data) {
-                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
-                var id = null;
-                for (var item in data) {
-                    var rdCrossObj = data[item].properties.rdcrosscondition;
-                    if (rdCrossObj) {
-                        for (var key in data[item].geometry.coordinates) {
-                            if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
-                                id = data[item].properties.id;
+                //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                //var id = null;
+                //for (var item in data) {
+                //    var rdCrossObj = data[item].properties.rdcrosscondition;
+                //    if (rdCrossObj) {
+                //        for (var key in data[item].geometry.coordinates) {
+                //            if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
+                //                id = data[item].properties.id;
                                 this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-                                    id: id,
+                                    id: data.properties.id,
                                     optype: 'RDCROSS'
                                 })
-                                break;
-                            }
-                        }
-                    }
-                }
+                //                break;
+                //            }
+                //        }
+                //    }
+                //}
             },
 
             /***
