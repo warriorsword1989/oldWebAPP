@@ -63,7 +63,9 @@ adNodeApp.controller("adNodeController",function($scope) {
 
         });
     };
-
+    if (objCtrl.data) {
+        $scope.initializeData();
+    }
     $scope.save = function(){
         objCtrl.save();
         var param = {

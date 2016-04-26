@@ -88,19 +88,20 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 return;
             }
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
-                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
                     if(this.currentEditLayers[layer].requestType =='RDCROSS'){
+
                         for (var key in data[item].geometry.coordinates) {
-                            if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
-                                this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                            if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
+                                this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});
                             }
                         }
                     }else{
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                            this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});
                         }
                     }
                 }

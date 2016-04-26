@@ -475,13 +475,8 @@ Application.layersConfig =
                 visible: true,
 
                 zIndex: 0
-
-
             }
-
         }
-
-
         ]
     }
     ]
@@ -514,9 +509,11 @@ function transformData(data) {
                                 row: 0,
                                 column: j,
                                 location: obj['geometry']['coordinates'],
-                                rotate: item.m.c* (Math.PI-90 / 180),
+                                rotate: item.m.c* (Math.PI / 180),
                                 dx:10,
-                                dy:0
+                                dy:0,
+                                scalex:3/4,
+                                scaley:3/4
                             }
                         )
                     } else {
@@ -526,9 +523,11 @@ function transformData(data) {
                             row: 0,
                             column: j,
                             location: obj['geometry']['coordinates'],
-                            rotate: item.m.c* (Math.PI -90/ 180),
+                            rotate: item.m.c* (Math.PI / 180),
                             dx:10,
-                            dy:0
+                            dy:0,
+                            scalex:3/4,
+                            scaley:3/4
                         })
                     }
                     obj['properties']['markerStyle']["icon"].push(restrictICon);
@@ -560,8 +559,8 @@ function transformData(data) {
                     var geomnew = [];
 
 
-                    geomnew[0] = parseInt(geom[0]) + lane * 15 * Math.cos(item.m.c* (Math.PI / 180));
-                    geomnew[1] = parseInt(geom[1]) + lane * 15 * Math.sin(item.m.c* (Math.PI / 180));
+                    geomnew[0] = parseInt(geom[0]) + lane * 10 * Math.cos(item.m.c* (Math.PI / 180));
+                    geomnew[1] = parseInt(geom[1]) + lane * 10 * Math.sin(item.m.c* (Math.PI / 180));
                     if (laneArr[lane].indexOf("[") > -1) {
 
                         obj['properties']['markerStyle']["icon"].push(
@@ -571,23 +570,23 @@ function transformData(data) {
                                 row: 0,
                                 column: lane,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
-
+                                rotate: item.m.c* (Math.PI / 180),
+                                scalex:2/3,
+                                scaley:2/3
                             })
                         );
                         if (laneArr[lane].indexOf("<") > -1) {
                             obj['properties']['markerStyle']["icon"].push(
-
                                 getIconStyle({
                                     iconName: '../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg',
                                     row: 0,
                                     column: lane,
                                     location: geomnew,
                                     rotate: item.m.c* (Math.PI / 180)
-
+                                    ,
+                                    scalex:2/3,
+                                    scaley:2/3
                                 })
-
-
                             );
                         }
 
@@ -600,11 +599,10 @@ function transformData(data) {
                                 row: lane,
                                 column: lane,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
-
+                                rotate: item.m.c* (Math.PI / 180),
+                                scalex:2/3,
+                                scaley:2/3
                             })
-
-
                         );
                         obj['properties']['markerStyle']["icon"].push(
 
@@ -613,29 +611,24 @@ function transformData(data) {
                                 row: lane,
                                 column: lane,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
-
+                                rotate: item.m.c* (Math.PI / 180) ,
+                                scalex:2/3,
+                                scaley:2/3
                             })
-
                         );
-
                     } else if (laneArr[lane]) {
-
-
                         obj['properties']['markerStyle']["icon"].push(
-
                             getIconStyle({
                                 iconName: '../../images/road/1301/1301_0_' + laneArr[lane] + '.svg',
                                 row: lane,
                                 column: 0,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
-
+                                rotate: item.m.c* (Math.PI / 180),
+                                scalex:2/3,
+                                scaley:2/3
                             })
-
                         );
                     }
-
                 }
                 break;
             case 6://点限速
@@ -658,29 +651,21 @@ function transformData(data) {
                                         iconName: '../../images/road/1101/1101_1_1_' + speedValue + '.svg',
                                         row: 0,
                                         column: 0,
-
                                         location: obj['geometry']['coordinates']
-
                                     }
                                 )
                             );
-
                         } else {
                             obj['properties']['markerStyle']["icon"].push(
-
                                 getIconStyle({
                                         iconName: '../../images/road/1101/1101_1_0_' + speedValue + '.svg',
                                         row: 0,
                                         column: 0,
-
                                         location: obj['geometry']['coordinates']
-
                                     }
                                 )
                             );
-
                         }
-
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
@@ -689,28 +674,20 @@ function transformData(data) {
                                         iconName: '../../images/road/1101/1101_0_1_' + speedValue + '.svg',
                                         row: 0,
                                         column: 0,
-
                                         location: obj['geometry']['coordinates']
-
                                     }
                                 )
                             );
-
                         } else {
                             obj['properties']['markerStyle']["icon"].push(
-
-                            getIconStyle({
-                                    iconName: '../../images/road/1101/1101_0_0_' + speedValue + '.svg',
-                                    row: 0,
-                                    column: 0,
-
-                                    location: obj['geometry']['coordinates']
-
-                                }
+                                getIconStyle({
+                                        iconName: '../../images/road/1101/1101_0_0_' + speedValue + '.svg',
+                                        row: 0,
+                                        column: 0,
+                                        location: obj['geometry']['coordinates']
+                                    }
+                                )
                             )
-
-                            );
-
                         }
                     }
 
@@ -813,12 +790,7 @@ function transformData(data) {
                             featArr.push(obj);
                         }
                     }
-
-
                 }
-
-
-
                 break;
             case 8: //路口
                 obj['geometry']['type'] = 'Point';
@@ -1036,8 +1008,6 @@ function transformData(data) {
                     'strokeOpacity': 0.8
                 };
                 break;
-
-
         }
     });
 
@@ -1079,6 +1049,8 @@ function getIconStyle(options) {
     icon["rotate"] = options.rotate ||"";
     icon["dx"] = options.dx ||"";
     icon["dy"] = options.dy ||"";
+    icon["scalex"] = options.scalex || 1;
+    icon["scaley"] = options.scaley || 1;
     return icon;
 };
 function getRticAngle(geom, direct) {
@@ -1176,7 +1148,6 @@ function transformDataForTips(data) {
             case 1501://上下线分离
             case 1302://普通交限
                 for (var i = 0, len = item.g.length; i < len; i = i + 1) {
-
                     obj['geometry']['coordinates'].push([item.g[i]]);
                 }
                 obj['properties']['markerStyle']["icon"].push(
@@ -1259,8 +1230,6 @@ function transformDataForTips(data) {
                     getIconStyle('../../images/road/tips/overpass/overpass.svg', 1, 0, obj['geometry']['coordinates'][0])
                 );
                 break;
-
-
         }
     })
 }/**
