@@ -319,9 +319,9 @@ function keyEvent(ocLazyLoad, scope) {
                             layerCtrl.getLayerById("adLink").redraw();
                         }
 
-                        treatmentOfChanged(data, param["type"], "插入点成功");})
-
-                } else if (shapeCtrl.editType === "rdBranch") {
+                        treatmentOfChanged(data, param["type"], "插入点成功");
+                    })
+                } else if (shapeCtrl.editType === "RDBRANCH") {
                     param = {
                         "command": "CREATE",
                         "type": "RDBRANCH",

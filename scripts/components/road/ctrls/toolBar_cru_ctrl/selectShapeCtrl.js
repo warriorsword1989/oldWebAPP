@@ -108,6 +108,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
             $scope.toolTipText = '请选择node！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);

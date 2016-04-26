@@ -63,7 +63,6 @@ adNodeApp.controller("adNodeController",function($scope) {
 
         });
     };
-    $scope.initializeData();
 
     $scope.save = function(){
         objCtrl.save();
@@ -74,7 +73,7 @@ adNodeApp.controller("adNodeController",function($scope) {
             "data": objCtrl.changedProperty
         }
         if(!objCtrl.changedProperty){
-            swal("操作失败", '沒有做任何操作', "error");
+            swal("操作成功",'属性值没有变化！', "success");
             return;
         }
         if(objCtrl.changedProperty && objCtrl.changedProperty.forms && objCtrl.changedProperty.forms.length > 0){
@@ -95,6 +94,7 @@ adNodeApp.controller("adNodeController",function($scope) {
             var info = null;
             if (data.errcode==0) {
                 swal("操作成功",'保存成功！', "success");
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 var sinfo={
                     "op":"修改ADNODE成功",
                     "type":"",

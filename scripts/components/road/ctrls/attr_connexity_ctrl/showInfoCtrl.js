@@ -118,7 +118,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 }
             }
         }
-
     }
     var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
     highLightLinks.highLightFeatures = highLightFeatures;
@@ -143,7 +142,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             if ($scope.outLanesArr[i]["reachDir"] === $scope.transData[$scope.directArr[0]]) {
                 $scope.showLaneInfo.push($scope.outLanesArr[i]);
             }
-
         }
     };
     $scope.getChangedDirect();
