@@ -350,13 +350,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for (var i = 0; i < data.length; i++) {
             var feature = data[i];
 
-            //var color = null;
-            //if (feature.hasOwnProperty('properties')) {
-            //    color = feature.properties.c;
-            //}
-            //
-            //
-
             var geom = feature.geometry;
             var type = geom.type;
             var style = feature.properties.style;
@@ -367,7 +360,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     for (var item in icons){
 
                         if(icons[item].iconName){
-                            console.log('-------------------'+icons[item].scalex)
+
                             this._drawImg({
                                 ctx:ctx,
                                 geo:icons[item].location,
@@ -461,7 +454,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'Polygon':
-                    //geom[0] = [[[-1000,-1000],[2650,-1000],[2650,2650],[-1000,2650]]]
                     this._drawPolygon(ctx, geom.coordinates, style, true,feature.properties.id);
                     break;
 
