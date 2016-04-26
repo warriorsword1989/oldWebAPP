@@ -22,7 +22,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.currentEditLayer = this.options.currentEditLayer;
         this.id = this.currentEditLayer.options.id;
         this.tiles = this.currentEditLayer.tiles;
-        this.editLayerIds = ['referenceLine','adAdmin']
         this.eventController = fastmap.uikit.EventController();
         this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
@@ -30,10 +29,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.selectCtrl = fastmap.uikit.SelectController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
-        for(var item in this.editLayerIds){
 
-            this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById(this.editLayerIds[item]));
-        }
 
     },
 
@@ -64,7 +60,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
 
 
     onMouseMove:function(event){
-        console.log(this.snapHandler.snaped);
         this.snapHandler.setTargetIndex(0);
         if(this.snapHandler.snaped){
             this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':true});

@@ -1,0 +1,403 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    min-width: 800px;
+    /*min-height: 768px;*/
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "黑体", Arial, sans-serif;
+}
+
+body {
+    background: none repeat scroll 0 0;
+}
+
+
+/************************************************************************************************************
+*顶部导航栏                                                                                                 *
+************************************************************************************************************/
+
+.navbar-top {
+    border-radius: 0px;
+    margin-bottom: 10px;
+}
+
+.navbar-header a.logo {
+    width: 300px;
+    background: url("../images/main/navi_logo.png") no-repeat center center;
+}
+
+.navbar-header span.platform {
+    width: 150px;
+    font-size: 24px;
+}
+
+.navbar-header span.system {
+    padding-left: 0px;
+}
+
+.col-container {
+    padding: 5px;
+    overflow: auto;
+}
+
+.content-box {
+    background-color: #fff;
+    border: 1px solid #d9dadc;
+    padding: 5px;
+    display: inline-block;
+}
+
+.tab-header {
+    background-color: #E6E6E6;
+    padding: 8px;
+    margin-bottom: 5px;
+}
+
+.func-btn {
+    width: 100px;
+    margin: 0px 5px;
+}
+
+.navi-table>thead>tr>th>div.th-inner, .navi-table>tbody>tr>th, .navi-table>tfoot>tr>th, .navi-table>thead>tr>td, .navi-table>tbody>tr>td, .navi-table>tfoot>tr>td {
+    padding: 4px;
+    vertical-align: middle;
+}
+
+.navi-table td.active {
+    text-align: right;
+    padding: 7px;
+}
+
+.navi-table td > p {
+    margin: 0px;
+}
+
+.navi-table thead>tr>th>div.th-inner {
+    padding: 4px;
+}
+
+.property-table {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid #ddd;
+}
+
+.property-table td {
+    padding: 7px !important;
+    vertical-align: middle !important;
+}
+
+.property-table td > p {
+    margin: 0px;
+}
+
+.property-table tr:first-child > td {
+    border: 0px;
+}
+
+.property-table tr td:nth-child(odd) {
+    background: #f5f5f5;
+    text-align: right;
+    width: 20%;
+}
+
+.property-table tr td:nth-child(even) {
+    background: #ffffff;
+    text-align: left;
+}
+
+.elem-mutex {
+    color: green;
+}
+
+.info-tip {
+    min-width: 100px;
+    background-color: #FDFBBA;
+    border: 1px solid #A39E05;
+    display: none;
+}
+
+.info-tip div.title {
+    min-height: 22px;
+    font-size: 14px;
+    color: gray;
+    font-weight: bold;
+    margin: 5px 10px;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+.info-tip div.content {
+    min-height: 50px;
+    margin: 5px;
+    padding: 5px;
+    overflow: auto;
+}
+
+.info-tip div.content span.label {
+    margin-left: 5px;
+    padding: 0px 4px;
+}
+
+.info-tip div.content > ol {
+    padding-left: 30px;
+}
+
+.info-tip div.content > ol > li {
+    list-style: inherit;
+    margin: 2px 0px;
+}
+
+.info-tip div.foot {
+    min-height: 22px;
+    font-size: 12px;
+    margin: 0px 10px;
+    padding: 5px;
+    border-top: 1px solid gray;
+    text-align: center;
+}
+
+.info-tip div.foot > button {
+    padding: 1px 5px;
+    margin: 0px 5px;
+}
+
+dl.property {
+    min-width: 200px;
+    margin-bottom: 9px;
+}
+
+dl.property > dt {
+    width: 50px;
+}
+
+dl.property > dd {
+    margin-left: 60px;
+}
+
+.btn-tn {
+    padding: 2px 6px;
+    font-size: 10px;
+    margin: 0px 5px;
+}
+
+
+/*左侧的描述区域的样式，主要用于项目详情页面*/
+
+.desc-block {
+    margin: 15px 5px;
+    padding-top: 15px;
+    border-top: 1px solid #d9dadc;
+    text-align: center
+}
+
+.desc-block:first-child {
+    border-top: 0px;
+    padding-top: 0px;
+}
+
+.desc-block p {
+    text-align: left;
+    margin-left: 25px;
+    padding: 3px;
+    font-size: 12px;
+}
+
+.desc-block p.title {
+    margin-left: 0px;
+    font-size: 16px;
+    color: gray;
+}
+
+.desc-block p > i {
+    margin-right: 10px;
+}
+
+.iconqt {
+    position: relative;
+    bottom: 2px;
+    width: 18px;
+    height: 18px;
+}
+
+.operate-table {
+    border-spacing: 5px;
+    border-collapse: separate;
+}
+
+.operate-table-td {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.cap-text-box {
+    display: inline-block;
+}
+
+.cap-text-box > span {
+    display: inline-block;
+    border: 1px solid #ddd;
+    padding: 6px;
+}
+
+.cap-text-box > .cap {
+    background-color: #f5f5f5;
+    border-radius: 4px 0px 0px 4px;
+    text-align: center;
+    min-width: 34px;
+}
+
+.cap-text-box > .cap > input[type='checkbox'] {
+    margin-top: -2px;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+}
+
+.cap-text-box > .text {
+    margin-left: -5px;
+    display: inline-block;
+    min-width: 80px;
+    border-radius: 0px 4px 4px 0px;
+    background-color: #fff;
+}
+
+.item-info-panel {
+    min-height: 124px;
+    min-width: 220px;
+    margin: 10px !important;
+    cursor: pointer;
+}
+
+.text-loading {
+    background: url("../images/icon/loading-cycle.gif") no-repeat center center;
+    min-width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: sub;
+    text-align: center;
+}
+
+.text-loaded {
+    min-width: 14px;
+    height: 14px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn-loading {
+    background: url("../images/icon/loading-dotted.gif") no-repeat center center;
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: sub;
+}
+
+.business-time-panel {
+    border: 1px solid #ddd;
+    background-color: #F7F7F7;
+    margin: 5px;
+}
+
+.business-time-panel > .xx {
+    text-align: right;
+    height: 15px;
+}
+
+.business-time-panel > .xx > span {
+    background-color: #c12e2a;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    line-height: 15px;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.business-time-panel > .xx > span:hover {
+    color: #fff;
+}
+
+.business-time-panel > .items {
+    padding: 0px 8px;
+    margin-top: -3px;
+}
+
+.business-time-panel > .items > .row {
+    margin: 5px -15px;
+}
+
+.business-time-panel .input-group-addon {
+    border-left: 0px;
+    border-right: 0px;
+    padding: 5px;
+}
+
+
+/******************************************多级下拉菜单**************************************************/
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu:hover > a {
+    background-color: #ddd;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+.dropdown-submenu.half-active > a, .dropdown-submenu.half-active > a:hover {
+    background-color: #eb9316;
+    background-image: -webkit-linear-gradient(top, #f0ad4e 0, #eb9316 100%);
+    background-image: -o-linear-gradient(top, #f0ad4e 0, #eb9316 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f0ad4e), to(#eb9316));
+    background-image: linear-gradient(to bottom, #f0ad4e 0, #eb9316 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#fff0ad4e', endColorstr='#ffeb9316', GradientType=0);
+    background-repeat: repeat-x;
+    color: #fff;
+}

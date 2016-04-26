@@ -287,10 +287,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                     $scope.selectShapeURL = '../../scripts/components/road/tpls/toolBar_cru_tpl/selectShapeTpl.html';
                     $ocLazyLoad.load('components/road/ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function () {
                         $scope.addShapeURL = '../../scripts/components/road/tpls/toolBar_cru_tpl/addShapeTpl.html';
-                        $ocLazyLoad.load('components/road/ctrls/attr_administratives_ctrl/adAdminCtrl').then(function () {
-                            $scope.attrTplContainer = '../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html';
-
-                        });
                     });
                 });
             }

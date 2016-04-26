@@ -1,0 +1,116 @@
+.div_float {
+    position: absolute;
+    z-index: 999;
+}
+
+.arrow_left {
+    width: 28px;
+    height: 42px;
+    background-image: url(../images/icon/gray_arrow.jpg);
+    background-position: -27px -27px;
+}
+
+.arrow_right {
+    width: 28px;
+    height: 42px;
+    background-image: url(../images/icon/gray_arrow.jpg);
+    background-position: -57px -27px;
+}
+
+.arrow_left:hover {
+    background-position: -27px -70px;
+}
+
+.arrow_right:hover {
+    background-position: -57px -70px;
+}
+
+.image_ctl {
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+    bottom: 10px;
+    left: 10px;
+    display: none;
+}
+
+.audio_bar {
+    bottom: 10px;
+    right: 10px;
+    width: 240px;
+    display: none;
+}
+
+#info {
+    position: absolute;
+    top: 70px;
+    right: 15px;
+    width: 300px;
+    z-index: 999;
+    background-color: white;
+}
+
+#samePoint {
+    position: absolute;
+    top: 110px;
+    right: 10px;
+    width: 300px;
+    z-index: 1000;
+    background-color: white;
+}
+
+.jsoneditor div.outer {
+    margin: 0 0 0 0;
+}
+
+.jsoneditor .search .results {
+    display: none;
+}
+
+#kindMenu {
+    position: relative;
+    width: auto;
+    z-index: 1040;
+    border: 0px;
+    box-shadow: 0 0px 0px;
+}
+
+#kindMenu li > a {
+    padding: 5px 20px;
+    font-size: 12px;
+}
+
+#kindMenu > li > a {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+#kindMenu > li > a > span {
+    display: none;
+}
+
+
+/*为了使弹出fancybox图层后页面保持有滚动条，覆盖fancybox组件的样式*/
+
+.fancybox-lock {
+    overflow: auto !important;
+    width: auto;
+    height: auto;
+}
+
+.fancybox-margin {
+    margin-right: 0px !important;
+}
+
+#fancybox-thumbs.bottom {
+    bottom: 52px;
+}
+
+.olControlLayerSwitcher {
+    width: 150px !important;
+}
+
+.olControlLayerSwitcher .layersDiv {
+    border-radius: 5px 0 0 5px;
+}
