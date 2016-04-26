@@ -89,7 +89,7 @@
             </div>
             <div class='list-line'></div>
         </li>
-        <li class="list-group-item" ng-repeat="cItem in linkData.names">
+        <li class="list-group-item" ng-repeat="cItem in linkData.names" style="padding-left: 30px">
             <div ng-click="showNames(cItem)" style="cursor: pointer;">
                 <label ng-if="cItem.name!=''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
                 <label ng-if="cItem.name==''" style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.nameGroupid}}</label>
