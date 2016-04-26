@@ -497,7 +497,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         tempArr.push(latArr[rec].lat);
                         rectangleData.coordinates[0].push(tempArr);
                         if(rec == latArr.length-1){
-                            rectangleData.coordinates[0].push(rectangleData.coordinates[0]);
+                            rectangleData.coordinates[0].push(rectangleData.coordinates[0][0]);
                         }
                     }
                     /*高亮link*/
