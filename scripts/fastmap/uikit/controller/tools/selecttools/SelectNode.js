@@ -60,7 +60,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
 
 
     onMouseMove:function(event){
-        console.log(this.snapHandler.snaped);
         this.snapHandler.setTargetIndex(0);
         if(this.snapHandler.snaped){
             this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':true});
