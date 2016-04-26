@@ -11,6 +11,7 @@ adLinkApp.controller("adLinkController",function($scope) {
     var editLayer = layerCtrl.getLayerById('edit');
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
+    var selectCtrl = fastmap.uikit.SelectController();
     $scope.form = [
         {"id": 0, "label": "未调查"},
         {"id": 1, "label": "无属性"},
@@ -28,12 +29,19 @@ adLinkApp.controller("adLinkController",function($scope) {
     ];
 
     $scope.initializeData = function(){
-       /* var linkData = fastmap.dataApi.adlink(test);
-        objCtrl.data = linkData;*/
         $scope.adLinkData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
+        for (var i = 0, len = linkArr.length; i < len; i++) {
+            var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+            points.push(pointOfLine);
+        }
+        var line = fastmap.mapApi.lineString(points);
+        selectCtrl.onSelected({
+            geometry: line,
+            id: $scope.adLinkData.pid
+        });
     };
-    $scope.initializeData();
 
     $scope.save = function(){
         objCtrl.save();
@@ -57,6 +65,11 @@ adLinkApp.controller("adLinkController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
+
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
@@ -75,6 +88,7 @@ adLinkApp.controller("adLinkController",function($scope) {
                     $(editLayer.options._div).unbind();
                 }
                 swal("操作成功",'保存成功！', "success");
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 var sInfo={
                     "op":"修改道路link成功",
                     "type":"",
@@ -85,7 +99,6 @@ adLinkApp.controller("adLinkController",function($scope) {
                     if(data.data.log[i].rowId){
                         data.data.log[i].rowId=$scope.linkData.pid;
                     }
-
                 }
 
                 info=data.data.log;

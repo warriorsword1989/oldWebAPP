@@ -102,21 +102,21 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             for (var item in this.highLightFeatures) {
                 this.currentEditLayer = fastmap.uikit.LayerController().getLayerById(this.highLightFeatures[item].layerid);
                 for (var tile in this.currentEditLayer.tiles) {
-                    for (var feature in this.currentEditLayer.tiles[tile].data.features) {
+                    for (var feature in this.currentEditLayer.tiles[tile].data) {
 
-                        if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.id) {
+                        if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.id) {
                             var ctx = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
-                            var hightlightfeature = this.currentEditLayer.tiles[tile].data.features[feature];
+                            var hightlightfeature = this.currentEditLayer.tiles[tile].data[feature];
                             var id = this.highLightFeatures[item].id;
                             if (this.highLightFeatures[item].type == 'line') {
                                 this.drawOfLink(id, hightlightfeature, ctx);
 
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
-                                var geo = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[0][0];
+                                var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                                 this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
                             }
                             else if (this.highLightFeatures[item].type == 'speedlimit') {
@@ -137,37 +137,37 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 var feature = this.currentEditLayer.tiles[tile].data.features[feature];
                                 this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
                             } else if (this.highLightFeatures[item].type == 'gpsLine') {
-                                this.layer._drawLineString(ctx, this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates, true, {
+                                this.layer._drawLineString(ctx, this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates, true, {
                                     size: 3,
                                     color: '#00F5FF'
                                 }, {
                                     size: 3,
                                     color: '#00F5FF'
-                                }, this.currentEditLayer.tiles[tile].data.features[feature].properties);
+                                }, this.currentEditLayer.tiles[tile].data[feature].properties);
                             } else if (this.highLightFeatures[item].type == 'workPoint') {
-                                var feature = this.currentEditLayer.tiles[tile].data.features[feature];
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
-                            } else if (this.highLightFeatures[item].type == 'overpass') {
-                                var feature = this.currentEditLayer.tiles[tile].data.features[feature]
+                            } else if (this.highLightFeatures[item].type == 'rdgsc') {
+                                var feature = this.currentEditLayer.tiles[tile].data[feature]
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
                             }
                             break;
-                        }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.snode) {
+                        }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                             var ctxOfSNode = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
-                            var geoOfSNode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[0][0];
+                            var geoOfSNode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                             this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
                             break;
-                        }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.enode) {
+                        }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
                             var ctxOfENode = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
-                            var len = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates.length - 1;
-                            var geoOfENode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[len][0];
+                            var len = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates.length - 1;
+                            var geoOfENode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[len];
                             this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
                             break;
                         }
@@ -191,16 +191,16 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
         var color = null;
         if (feature.hasOwnProperty('properties')) {
-            color = feature.properties.c;
+            color = feature.properties.style.strokeColor;
         }
 
-        var style = this.layer.styleFor(feature, color);
+        var style = feature.properties.style;
 
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
             this.layer._drawLineString(ctx, geom, true, {
-                size: 3,
-                color: '#00F5FF'
+                strokeWidth: 3,
+                strokeColor: '#00F5FF'
             }, {
                 color: '#00F5FF',
                 radius: 3

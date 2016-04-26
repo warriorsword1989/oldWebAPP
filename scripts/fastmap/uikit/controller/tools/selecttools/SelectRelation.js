@@ -38,7 +38,9 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        this._map.on('click', this._click,this);
+        if(L.Browser.touch){
+            this._map.on('click', this.onMouseDown,this);
+        }
     },
 
 
@@ -47,16 +49,10 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        this._map.off('click', this._click,this);
-    },
-
-    _click:function(){
-        if(this.overlays &&this.overlays.length > 1){
-            this._map.openPopup(this.popup);
+        if(L.Browser.touch){
+            this._map.off('click', this.onMouseDown,this);
         }
-
-    }
-    ,
+    },
     onMouseDown: function (event) {
         this.tiles = [];
         var mouseLatlng = event.latlng;
@@ -78,7 +74,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 tiles.push(layer.tiles[index]);
             }
         }
-
         return tiles;
     },
 
@@ -98,7 +93,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
                 for (var item in data) {
                     if(this.currentEditLayers[layer].requestType =='RDCROSS'){
-
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
                                 this.overlays.push({layer:this.currentEditLayers[layer],data:data});
@@ -106,18 +100,14 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         }
                     }else{
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-
                             this.overlays.push({layer:this.currentEditLayers[layer],data:data});
                         }
                     }
-
                 }
             }
-
        }
         if(this.overlays.length == 1){
             switch (this.overlays[0].layer.requestType) {
-
                 case'RDRESTRICTION':
                     frs= new fastmap.uikit.SelectRestriction({highlightLayer:this.highlightLayer,map:this._map});
                     break;
@@ -150,7 +140,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             this._map.on('popupopen',function(){
                 document.getElementById('layerpopup').onclick=function(e){
                     if(e.target.tagName == 'A'){
-
                         var layer = '';
                         var d = '';
                         for(var key in that.overlays){
@@ -160,7 +149,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                             }
                         }
                         switch (e.target.id) {
-
                             case'RDRESTRICTION':
                                 frs = new fastmap.uikit.SelectRestriction({highlightLayer:that.highlightLayer,map:that._map});
                                 break;
@@ -180,10 +168,17 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         frs.tiles = that.tiles;
                         frs.drawGeomCanvasHighlight(event, d);
                     }
-
                 }
             });
 
+
+            //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
+            var that = this;
+            if(this.overlays &&this.overlays.length > 1){
+                setTimeout(function(){
+                    that._map.openPopup(that.popup);
+                },200)
+            }
         }
     },
      unique:function(arr) {

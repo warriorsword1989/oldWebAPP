@@ -26,6 +26,7 @@ fastmap.uikit.Snap = L.Handler.extend({
         this.point = null;
         this.selectedLink = null;
         this._guides = [];
+        this.snaped = false;
     },
     /***
      * 添加事件处理
@@ -53,7 +54,24 @@ fastmap.uikit.Snap = L.Handler.extend({
     setSelectedLink: function (link) {
         this.selectedLink = link;
     },
-
+    setSnapOptions: function (obj) {
+        if(obj.snapVertex){
+            this.snapVertex = obj.snapVertex;
+        }
+        if(obj.snapNode){
+            this.snapNode = obj.snapNode;
+        }
+        if(obj.snapLine){
+            this.snapLine = obj.snapLine;
+        }
+    },
+    getSnapOptions:function() {
+        var obj = {};
+        obj.snapVertex = this.snapVertex;
+        obj.snapNode = this.snapNode;
+        obj.snapLine = this.snapLine;
+        return obj;
+    },
     onMouseMove: function (event) {
 
         if (this._mapDraggable) {
@@ -71,9 +89,9 @@ fastmap.uikit.Snap = L.Handler.extend({
 
         for (var layerindex in this._guides) {
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
-            if (this.currentTileData&&this.currentTileData.data&&this.currentTileData.data.features) {
+            if (this.currentTileData&&this.currentTileData.data&&this.currentTileData.data) {
 
-                var closest = this.closeestLineSnap(this._map, this.currentTileData.data.features, tilePixcel, 10, this.snapVertex, this._guides[layerindex].selectedid);
+                var closest = this.closeestLineSnap(this._map, this.currentTileData.data, tilePixcel, 10, this.snapVertex, this._guides[layerindex].selectedid);
                 if (closest) {
                     this.snaped = true;
                     this.properties = closest.properties;
@@ -81,6 +99,7 @@ fastmap.uikit.Snap = L.Handler.extend({
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
+                    break;
                 } else {
                     //this.selectedVertex = closest.selectedVertexe;
                     this.snaped = false;
@@ -186,7 +205,7 @@ fastmap.uikit.Snap = L.Handler.extend({
             for (i = 0, n = latlngs.length; i < n; i++) {
                 if (this.snapNode) {
                     if (i == 0 || i == n - 1) {
-                        var ll = latlngs[i][0];
+                        var ll = latlngs[i];
                         var point = new fastmap.mapApi.Point(ll[0], ll[1]);
 
                         distance = point.distanceTo(new fastmap.mapApi.Point(p[0], p[1]));
@@ -221,8 +240,8 @@ fastmap.uikit.Snap = L.Handler.extend({
         // Keep the closest point of all segments
         for (i = 0, n = latlngs.length; i < n - 1; i++) {
 
-            var latlngA = latlngs[i][0],
-                latlngB = latlngs[i + 1][0];
+            var latlngA = latlngs[i],
+                latlngB = latlngs[i + 1];
 
             var line = new fastmap.mapApi.LineString([new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1])])
             distance = line.pointToSegmentDistance(p, new fastmap.mapApi.Point(latlngA[0], latlngA[1]), new fastmap.mapApi.Point(latlngB[0], latlngB[1]));

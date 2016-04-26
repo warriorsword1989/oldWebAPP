@@ -22,7 +22,6 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
-        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
@@ -31,6 +30,9 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on('click', this.onMouseDown, this);
+        }
         this._map.on('mousemove', this.onMouseMove, this);
         this._map.on('mouseup', this.onMouseUp, this);
     },
@@ -40,6 +42,9 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.off('click', this.onMouseDown, this);
+        }
         this._map.off('mousemove', this.onMouseMove, this);
         this._map.off('mouseup', this.onMouseUp, this);
     },
@@ -62,7 +67,7 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
     onMouseMove: function () {
         this.container.style.cursor = 'pointer';
         this.snapHandler.setTargetIndex(0);
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             this.shapeEditor.fire('snaped',{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.selectCtrl.selectedFeatures = this.snapHandler.properties;
@@ -84,6 +89,4 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
             }
         );
     }
-
-
 })

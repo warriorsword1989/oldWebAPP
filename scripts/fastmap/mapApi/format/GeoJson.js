@@ -12,10 +12,10 @@ fastmap.mapApi.GeoJson =(function() {
             ignoreExtraDims: false,
 
             geoLiveTypes:{
-                rdLink : fastmap.dataApi.rdlink,
-                rdNode:fastmap.dataApi.rdnode,
-                rdLinkForm:fastmap.dataApi.linkform,
-                rdLinkLimit:fastmap.dataApi.linklimit,
+                rdLink : fastmap.dataApi.rdLink,
+                rdNode:fastmap.dataApi.rdNode,
+                rdLinkForm:fastmap.dataApi.rdLinkform,
+                rdLinkLimit:fastmap.dataApi.rdLinkLimit,
                 rdLinkName:fastmap.dataApi.linkname,
                 rdLinkRtic:fastmap.dataApi.linkrtic,
                 rdLinkSideWalk:fastmap.dataApi.linksidewalk,

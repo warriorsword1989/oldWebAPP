@@ -7,10 +7,9 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var ly = fastmap.uikit.LayerController();
+    var rdLink=ly.getLayerById("referenceLine")
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLyer = ly.getLayerById('edit');
-
-    map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
@@ -74,13 +73,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
                 }
             }else if(type === 'naviTool'){
-
-                if (typeof map.currentTool.cleanHeight === "function") {
-                    map.currentTool.cleanHeight();
-                }
-                if (tooltipsCtrl.getCurrentTooltip()) {
-                    tooltipsCtrl.onRemoveTooltip();
-                }
                 map._container.style.cursor = '';
 
                 editLyer.drawGeometry = null;
@@ -104,8 +96,12 @@ modifyApp.controller("modifyToolController", function ($scope) {
             sObj.setOriginalGeometry(feature);
             sObj.setFinalGeometry(feature);
 
-            shapeCtrl.setEditingType(type);
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
             shapeCtrl.startEditing();
+            map.currentTool = shapeCtrl.getCurrentTool();
+            shapeCtrl.editFeatType = "rdLink";
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
+
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
                 shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);

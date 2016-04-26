@@ -107,6 +107,11 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             "data": objectEditCtrl.changedProperty
         };
 
+        if(!objectEditCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info=null;
             if (data.errcode==0) {
@@ -116,6 +121,8 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
+
+                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
                 info=data.data.log;
                 speedLimit.redraw();
             }else{

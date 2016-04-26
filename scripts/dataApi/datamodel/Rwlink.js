@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.rwLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RwLink = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -58,7 +58,7 @@ fastmap.dataApi.rwLink = fastmap.dataApi.GeoDataModel.extend({
         data["detailFlag"] = this.detailFlag;
         data["editFlag"] = this.editFlag;
         data["color"] = this.color;
-
+        data["geoLiveType"] = this.geoLiveType;
       /*  var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
             links.push(this.links[i].getIntegrate());
@@ -83,7 +83,7 @@ fastmap.dataApi.rwLink = fastmap.dataApi.GeoDataModel.extend({
         data["detailFlag"] = this.detailFlag;
         data["editFlag"] = this.editFlag;
         data["color"] = this.color;
-
+        data["geoLiveType"] = this.geoLiveType;
 /*
         var links = [];
         for (var i = 0, len = this.links.length; i < len; i++) {
@@ -95,7 +95,7 @@ fastmap.dataApi.rwLink = fastmap.dataApi.GeoDataModel.extend({
 
 });
 
-fastmap.dataApi.rwlink = function (data, options) {
-    return new fastmap.dataApi.rwLink(data, options);
+fastmap.dataApi.rwLink = function (data, options) {
+    return new fastmap.dataApi.RwLink(data, options);
 }
 

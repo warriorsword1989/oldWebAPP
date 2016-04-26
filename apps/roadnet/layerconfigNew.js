@@ -56,7 +56,6 @@ Application.layersConfig =
                         visible: false,
                         zIndex: 4
                     }
-
                 }, {
                     url: '',
                     clazz: fastmap.mapApi.meshLayer,
@@ -72,9 +71,8 @@ Application.layersConfig =
         }, {
         groupid: "dataLayers",
         groupname: "作业参考",
-        layers: [{
+        layers: [  {
             url: Application.url + '/render/obj/getByTileWithGap?',
-
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考线数据',
@@ -85,7 +83,7 @@ Application.layersConfig =
                 // this value should be equal to 'radius' of your points
                 buffer: 5,
                 boolPixelCrs: true,
-                parse: transformData(data),
+                parse: transformData,
                 boundsArr: [],
                 unloadInvisibleTiles: true,
                 reuseTiles: false,
@@ -100,9 +98,9 @@ Application.layersConfig =
                 requestType: 'RDLINK',
                 showNodeLevel: 17
             }
-
         },
-            {
+
+       {
                 url: Application.url + '/render/obj/getByTileWithGap?',
 
                 clazz: fastmap.mapApi.tileJSON,
@@ -110,12 +108,11 @@ Application.layersConfig =
                     layername: '行政区划面',
                     id: 'adface',
                     maxZoom: 20,
-
                     debug: false,
                     // this value should be equal to 'radius' of your points
                     buffer: 5,
                     boolPixelCrs: true,
-                    parse: transformData(data),
+                    parse: transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -131,7 +128,7 @@ Application.layersConfig =
                     showNodeLevel: 17
                 }
 
-            }, {
+            } ,{
 
                 url: Application.url + '/render/obj/getByTileWithGap?',
 
@@ -145,7 +142,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse: transformData(data),
+                    parse: transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -172,7 +169,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse: transformData(data),
+                    parse: transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -199,7 +196,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse:transformData(data),
+                    parse:transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -215,7 +212,7 @@ Application.layersConfig =
                     showNodeLevel: 17
                 }
 
-            }, {
+            },{
                 url: Application.url + '/render/obj/getByTileWithGap?',
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -227,7 +224,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse:transformData(data),
+                    parse:transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -242,7 +239,7 @@ Application.layersConfig =
                     showNodeLevel: 17
                 }
 
-            }, {
+            } , {
                 url: Application.url + '/render/obj/getByTileWithGap?',
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -254,7 +251,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse: transformData(data),
+                    parse: transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -281,7 +278,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse: transformData(data),
+                    parse: transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -297,18 +294,18 @@ Application.layersConfig =
                     isUpDirect: true
                 }
 
-            }, {
+            },{
                 url: Application.url + '/render/obj/getByTileWithGap?',
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
-                    layername: '行政区划',
+                    layername: '行政区划线',
                     id: 'adLink',
                     maxZoom: 20,
                     debug: false,
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse:transformData(data),
+                    parse:transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -335,7 +332,7 @@ Application.layersConfig =
                     // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
-                    parse: transformData(data),
+                    parse: transformData,
                     boundsArr: [],
                     unloadInvisibleTiles: true,
                     reuseTiles: false,
@@ -350,8 +347,11 @@ Application.layersConfig =
                     showNodeLevel: 17
                 }
 
-            }]
-    }, {
+            }
+             ]
+    }
+
+             , {
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
@@ -367,7 +367,7 @@ Application.layersConfig =
                 // this value should be equal to 'radius' of your points
                 buffer: 7,
                 boolPixelCrs: true,
-                parse:transformData(data),
+                parse:transformData,
                 boundsArr: [],
                 unloadInvisibleTiles: true,
                 reuseTiles: false,
@@ -394,7 +394,7 @@ Application.layersConfig =
                 // this value should be equal to 'radius' of your points
                 buffer: 8,
                 boolPixelCrs: true,
-                parse: transformDataForTips(data),
+                parse: transformDataForTips,
                 boundsArr: [],
                 unloadInvisibleTiles: true,
                 reuseTiles: false,
@@ -421,7 +421,7 @@ Application.layersConfig =
                 // this value should be equal to 'radius' of your points
                 buffer: 8,
                 boolPixelCrs: true,
-                parse:transformData(data),
+                parse:transformData,
                 boundsArr: [],
                 unloadInvisibleTiles: true,
                 reuseTiles: false,
@@ -490,11 +490,9 @@ function transformData(data) {
     $.each(data, function (index, item) {
         var obj = {};
         obj['geometry'] = {};
-        obj['geometry']['coordinates'] = [];
-        for (var ii = 0, lenI = item.g.length; ii < lenI; ii++) {
-            obj['geometry']['coordinates'].push([item.g[ii]]);
-        }
-
+        obj['geometry']['coordinates'] = item.g;
+        obj['properties'] = {};
+        obj['properties']['style'] = {};
         obj['properties']['id'] = item.i;
         featArr.push(obj);
         switch (item.t) {
@@ -503,17 +501,35 @@ function transformData(data) {
             case 3://交限
                 obj['geometry']['type'] = 'Point';
                 obj['properties']["featType"] = "RDRESTRICTION";
+                obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
                 obj['properties']['rotate'] = item.m.c;
                 var restrictArr = (item.m.b).split(",");
                 for (var j = 0, lenJ = restrictArr.length; j < lenJ; j++) {
                     var restrictICon = {};
-                    if (restrictArr[i].indexOf("[") !== -1) {
-                        restrictICon = getIconStyle('../../images/road/1302/1302_2_' + restrictArr[j][1] + '.svg',
-                            j, 0, obj['geometry']['coordinates'][0])
+                    if (restrictArr[j].indexOf("[") !== -1) {
+                        restrictICon = getIconStyle(
+                            {
+                                iconName: '../../images/road/1302/1302_2_' + restrictArr[j][1] + '.svg',
+                                row: 0,
+                                column: j,
+                                location: obj['geometry']['coordinates'],
+                                rotate: item.m.c* (Math.PI-90 / 180),
+                                dx:10,
+                                dy:0
+                            }
+                        )
                     } else {
-                        restrictICon = getIconStyle('../../images/road/1302/1302_1_' + restrictArr[j] + '.svg',
-                            j, 0, obj['geometry']['coordinates'][0])
+
+                        restrictICon = getIconStyle({
+                            iconName: '../../images/road/1302/1302_1_' + restrictArr[j] + '.svg',
+                            row: 0,
+                            column: j,
+                            location: obj['geometry']['coordinates'],
+                            rotate: item.m.c* (Math.PI -90/ 180),
+                            dx:10,
+                            dy:0
+                        })
                     }
                     obj['properties']['markerStyle']["icon"].push(restrictICon);
                 }
@@ -521,67 +537,146 @@ function transformData(data) {
             case 4://link
                 obj['properties']["featType"] = "RDLINK";
                 obj['geometry']['type'] = 'LineString';
-                obj['properties'] = {
-                    'name': item.m.b,
-                    'direct': item.m.d
-                };
+
+                obj['properties']['name']= item.m.b;
+                obj['properties']['direct']= item.m.d;
+                obj['properties']['snode']= item.m.e;
+                obj['properties']['enode']= item.m.f;
                 obj['properties']['pattern'] = item.m.c;
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
-                obj['properties']['style'] = {
-                    'strokeWidth': 2,
-                    'strokeOpacity': 2
-                }
+                obj['properties']['style']['strokeWidth'] = 1;
+                obj['properties']['style']['strokeOpacity'] = 1;
+
                 break;
             case 5://车信
                 obj['geometry']['type'] = 'Point';
                 obj['properties']["featType"] = "RDLANECONNEXITY";
+                obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
                 obj['properties']['rotate'] = item.m.c;
-                var laneArr = item.item.m.b.split(",");
+                var laneArr = item.m.b.split(",");
                 for (var lane = 0, laneNum = laneArr.length; lane < laneNum; lane++) {
+                    var geom =  obj['geometry']['coordinates'];
+                    var geomnew = [];
+
+
+                    geomnew[0] = parseInt(geom[0]) + lane * 15 * Math.cos(item.m.c* (Math.PI / 180));
+                    geomnew[1] = parseInt(geom[1]) + lane * 15 * Math.sin(item.m.c* (Math.PI / 180));
                     if (laneArr[lane].indexOf("[") > -1) {
+
                         obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle('../../images/road/1301/1301_2_' + laneArr[lane].substr(1, 1) + '.svg', lane, 0, obj['geometry']['coordinates'][0])
+
+                            getIconStyle({
+                                iconName: '../../images/road/1301/1301_2_' + laneArr[lane].substr(1, 1) + '.svg',
+                                row: 0,
+                                column: lane,
+                                location: geomnew,
+                                rotate: item.m.c* (Math.PI / 180)
+
+                            })
                         );
                         if (laneArr[lane].indexOf("<") > -1) {
                             obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle('../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg', lane, lane, obj['geometry']['coordinates'][0])
+
+                                getIconStyle({
+                                    iconName: '../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg',
+                                    row: 0,
+                                    column: lane,
+                                    location: geomnew,
+                                    rotate: item.m.c* (Math.PI / 180)
+
+                                })
+
+
                             );
                         }
 
                     } else if (laneArr[lane].indexOf("<") > -1) {
+
                         obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle('../../images/road/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg', lane, lane, obj['geometry']['coordinates'][0])
+
+                            getIconStyle({
+                                iconName: '../../images/road/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg',
+                                row: lane,
+                                column: lane,
+                                location: geomnew,
+                                rotate: item.m.c* (Math.PI / 180)
+
+                            })
+
+
                         );
                         obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle('../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg', lane, lane, obj['geometry']['coordinates'][0])
+
+                            getIconStyle({
+                                iconName: '../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg',
+                                row: lane,
+                                column: lane,
+                                location: geomnew,
+                                rotate: item.m.c* (Math.PI / 180)
+
+                            })
+
                         );
 
                     } else if (laneArr[lane]) {
+
+
                         obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle('../../images/road/1301/1301_0_' + laneArr[lane] + '.svg', lane, 0, obj['geometry']['coordinates'][0])
+
+                            getIconStyle({
+                                iconName: '../../images/road/1301/1301_0_' + laneArr[lane] + '.svg',
+                                row: lane,
+                                column: 0,
+                                location: geomnew,
+                                rotate: item.m.c* (Math.PI / 180)
+
+                            })
+
                         );
                     }
 
                 }
                 break;
             case 6://点限速
-                var resArray = item.m.b.split("1");
+                var resArray = item.m.b.split("|");
                 var type = item.m.a;
+                obj['geometry']['type'] = 'Point';
+                obj['properties']['markerStyle'] = {};
+                obj['properties']['markerStyle']["icon"] = [];
                 if(type == 0){
                     var fieldCollection = resArray[0];//采集标志（0,现场采集;1,理论判断）
                     var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                     var speedValue = resArray[2];//限速值
 
+
                     if (fieldCollection === "1") {//理论判断，限速开始和结束都为蓝色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle('../../images/road/1101/1101_1_1_' + speedValue + '.svg', 1, 0, obj['geometry']['coordinates'][0])
+
+                                getIconStyle({
+                                        iconName: '../../images/road/1101/1101_1_1_' + speedValue + '.svg',
+                                        row: 0,
+                                        column: 0,
+
+                                        location: obj['geometry']['coordinates']
+
+                                    }
+                                )
                             );
 
                         } else {
                             obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle('../../images/road/1101/1101_1_0_' + speedValue + '.svg', 2, 0, obj['geometry']['coordinates'][0])
+
+                                getIconStyle({
+                                        iconName: '../../images/road/1101/1101_1_0_' + speedValue + '.svg',
+                                        row: 0,
+                                        column: 0,
+
+                                        location: obj['geometry']['coordinates']
+
+                                    }
+                                )
                             );
 
                         }
@@ -589,23 +684,54 @@ function transformData(data) {
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle( '../../images/road/1101/1101_0_1_' + speedValue + '.svg', 1, 0, obj['geometry']['coordinates'][0])
-                            );
+                                //getIconStyle( '../../images/road/1101/1101_0_1_' + speedValue + '.svg', 1, 0, obj['geometry']['coordinates'],item.m.c)
+                                getIconStyle({
+                                        iconName: '../../images/road/1101/1101_0_1_' + speedValue + '.svg',
+                                        row: 0,
+                                        column: 0,
 
+                                        location: obj['geometry']['coordinates']
+
+                                    }
+                                )
+                            );
 
                         } else {
                             obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle( '../../images/road/1101/1101_0_0_' + speedValue + '.svg', 2, 0, obj['geometry']['coordinates'][0])
+
+                            getIconStyle({
+                                    iconName: '../../images/road/1101/1101_0_0_' + speedValue + '.svg',
+                                    row: 0,
+                                    column: 0,
+
+                                    location: obj['geometry']['coordinates']
+
+                                }
+                            )
+
                             );
 
                         }
                     }
 
+                    obj['properties']['markerStyle']["icon"].push(
+                        getIconStyle({
+                                iconName: '../../images/road/1101/1101_0_0_s.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates'],
+                                rotate: (item.m.c- 90) * (Math.PI / 180),
+                                dx:6,
+                                dy:0
+                            }
+                        )
+                    );
 
-                }else{
+                }else if(type ==3){
                     var limitSpeed = resArray[1];
                     var condition = resArray[2];
                     var limitSpeedFlag = resArray[0];
+                    var iconName = '';
                     var conditionObj={
                         '1':'雨',
                         '2':'雪',
@@ -621,45 +747,107 @@ function transformData(data) {
                         '17':'景',
                         '18':'交'
                     }
+
+                    if (limitSpeedFlag == 0) {
+                        iconName = '../../images/road/1101/condition_speedlimit_start' + '.svg';
+                    } else if (limitspeedflag == 1) {
+                        iconName = '../../images/road/1101/condition_speedlimit_end' + '.svg';
+                    }
+
                     obj['properties']['markerStyle']["icon"].push(
                         {
+                            iconName: iconName,
                             text: conditionObj[condition]+limitSpeed,
-                            row:2,
+                            row:0,
                             column:0,
-                            location:obj['geometry']['coordinates'][0]
+
+                            location:obj['geometry']['coordinates'],
+                            rotate: (item.m.c- 90) * (Math.PI / 180)
                         }
                     );
+
+                    obj['properties']['markerStyle']["icon"].push(
+                        getIconStyle({
+                                iconName: '../../images/road/1101/1101_0_0_s.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates'],
+                                rotate: (item.m.c- 90) * (Math.PI / 180),
+                                dx:16,
+                                dy:0
+                            }
+                        )
+                    );
+
                 }
+
                 break;
             case 7://分歧
-                obj['geometry']['type'] = 'Point';
-                for (var key in item.m.a) {
-                    if (item.m.a[key].type == 0) {
-                        //for(var obj in item.m.a[key].ids){
-                        obj['properties']['id'] = item.m.a[key].ids[0].detailId;
-                        //}
+
+
+                featArr.pop()
+                for(var key in item.m.a){
+
+                    for(var j in item.m.a[key].ids){
+                        if(item.m.a[key].type == 0){
+                            obj['geometry'] = {};
+                            obj['geometry']['coordinates'] = item.g;
+                            obj['properties'] = {};
+                            obj['properties']['style'] = {};
+                            obj['properties']['id'] = item.m.a[key].ids[j].detailId;
+                            obj['geometry']['type'] = 'Point';
+
+                            obj['properties']["featType"] = "RDBRANCH";
+                            obj['properties']['markerStyle'] = {};
+                            obj['properties']['markerStyle']["icon"] = [];
+                            obj['properties']['rotate'] = item.m.c;
+
+
+                            obj['properties']['markerStyle']["icon"].push(     getIconStyle({
+                                iconName: '../../images/road/1407/' + item.m.a[key].type + '.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates'],
+                                rotate:(item.m.c) * (Math.PI / 180)
+                            }));
+                            featArr.push(obj);
+                        }
                     }
+
+
                 }
-                obj['properties']["featType"] = "RDBRANCH";
-                obj['properties']['markerStyle']["icon"] = [];
-                obj['properties']['rotate'] = item.m.c;
-                obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle('../../images/road/1407/' + item.a.type + '.svg', 1, 0, obj['geometry']['coordinates'][0])
-                )
+
+
 
                 break;
             case 8: //路口
                 obj['geometry']['type'] = 'Point';
+
+                obj['properties']['markerStyle'] = {};
                 obj['properties']["featType"] = "RDCROSS";
                 obj['properties']['markerStyle']["icon"] = [];
                 for (var crossNum = 0, crossLen = obj['geometry']['coordinates'].length; crossNum < crossLen; crossNum++) {
                     var crossObj = {};
                     if (crossNum === 0) {
-                        crossObj = getIconStyle('../../images/road/rdcross/11.png', 0, 0, obj['geometry']['coordinates'][crossNum]);
+
+                        crossObj = getIconStyle({
+                                iconName: '../../images/road/rdcross/11.png',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates'][crossNum]
+
+                            }
+                        )
                     } else {
-                        crossObj = getIconStyle('../../images/road/rdcross/111.png', 0, 0, obj['geometry']['coordinates'][crossNum]);
+                        crossObj = getIconStyle({
+                            iconName: '../../images/road/rdcross/111.png',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates'][crossNum]
+
+                        })
                     }
-                    obj['properties']['markerStyle']["icon"].push(restrictICon);
+                    obj['properties']['markerStyle']["icon"].push(crossObj);
                 }
                 break;
             case 9 ://线限速
@@ -667,20 +855,38 @@ function transformData(data) {
             case 10 ://rtic
                 obj['geometry']['type'] = 'Point';
                 obj['properties']["featType"] = "RDLINKINTRTIC";
+                obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
-                var pointAndAng = {}, src;
+
                 if (item.m.a) {
-                    pointAndAng = getRticAngle(obj['geometry']['coordinates'], item.m.a);
-                    src = getSrcByKind(item.m.b);
+
+                    obj['properties']['forwardtext']= item.m.a;
+                    obj['properties']['forwarddirect']= item.m.b;
+                    obj['properties']['color'] = getrTicColor(item.m.b);
                     obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle(src, 0, 0, pointAndAng["point"])
+
+                        getIconStyle({
+                            row: 0,
+                            column: 1,
+                            color:getrTicColor(item.m.b)
+
+                        })
                     );
                 }
                 if (item.m.c) {
-                    pointAndAng = getRticAngle(obj['geometry']['coordinates'], item.m.c);
-                    src = getSrcByKind(item.m.d);
+                    //pointAndAng = getRticAngle(obj['geometry']['coordinates'], item.m.d);
+                    //src = getSrcByKind(item.m.d);
+                    obj['properties']['reversetext']= item.m.c;
+                    obj['properties']['reversedirect']= item.m.d;
+                    obj['properties']['color'] = getrTicColor(item.m.d);
                     obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle(src, 0, 0, pointAndAng["point"])
+
+                        getIconStyle({
+                            row: 0,
+                            column: 1,
+                            color:getrTicColor(item.m.d)
+
+                        })
                     );
                 }
                 break;
@@ -689,30 +895,19 @@ function transformData(data) {
             case 12 ://行政区划线
                 obj['properties']["featType"] = "ADLINK";
                 obj['geometry']['type'] = 'LineString';
-                obj['properties'] = {
-                    'name': item.m.b,
-                    'direct': item.m.d
-                };
-                obj['properties']['pattern'] = item.m.c;
-                obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
-                obj['properties']['style'] = {
-                    'strokeWidth': 2,
-                    'strokeOpacity': 2
-                }
+                obj['properties']['style']['strokeColor'] = '#FBD356';
+                obj['properties']['style']['strokeWidth']=1;
+                obj['properties']['style']['strokeOpacity']=1;
+
                 break;
             case 13 ://行政区划面
                 obj['properties']["featType"] = "ADFACE";
                 obj['geometry']['type'] = 'Polygon';
-                obj['properties'] = {
-                    'name': item.m.b
-                };
-                obj['properties']['pattern'] = item.m.c;
-                obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style'] = {
-                    'fillColor': '#eee',
-                    'fillOpacity': 0.8,
-                    'strokeColor': '#FFF',
-                    'strokeWidth': 0,
+                    'fillColor':'#' + Number(obj['properties'].id).toString(16)+'00',
+                    'fillOpacity': 0.2,
+                    'strokeColor': '#FBD356',
+                    'strokeWidth': 1,
                     'backgroundImage': ""
                 }
                 break;
@@ -721,10 +916,18 @@ function transformData(data) {
             case 15://行政区划代表点
                 obj['geometry']['type'] = 'Point';
                 obj['properties']["featType"] = "ADADMIN";
+                obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
-                obj['properties']['rotate'] = item.m.c;
+
                 obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle(' ../../images/road/img/star.png', 1, 0, obj['geometry']['coordinates'][0])
+
+                    getIconStyle({
+                        iconName: '../../images/road/img/star.png',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+
+                    })
                 );
 
                 break;
@@ -747,9 +950,7 @@ function transformData(data) {
             case 1901://道路名
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
-                obj['properties'] = {
-                    'name': item.m.b
-                };
+
                 obj['properties']['style'] = {
                     'strokeColor': '#7030A0',
                     'strokeWidth': 2,
@@ -759,9 +960,7 @@ function transformData(data) {
             case 2001://侧线
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
-                obj['properties'] = {
-                    'name': item.m.b
-                };
+
                 obj['properties']['style'] = {
                     'strokeColor': '#000000',
                     'strokeWidth': 2,
@@ -777,9 +976,7 @@ function transformData(data) {
             case 1510://桥
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
-                obj['properties'] = {
-                    'name': item.m.b
-                };
+
                 obj['properties']['style'] = {
                     'strokeColor': '#336C0A',
                     'strokeWidth': 2,
@@ -789,9 +986,7 @@ function transformData(data) {
             case 1514://施工维修
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
-                obj['properties'] = {
-                    'name': item.m.b
-                };
+
                 obj['properties']['style'] = {
                     'strokeColor': '#E36C0A',
                     'strokeWidth': 2,
@@ -799,7 +994,7 @@ function transformData(data) {
                 };
                 break;
             case 1801://立交
-                obj=null;
+                featArr.pop();
                 for (var num = 0; num < item.m.c.length; num++) {
                     var overPassObj = {};
                     overPassObj['geometry'] = {};
@@ -810,17 +1005,16 @@ function transformData(data) {
                     }
                     overPassObj['properties'] = {
                         'id': item.i,
-                        'name': item.m.b,
                         'featType': item.t
                     }
                     if(item.m.c[num].s===1) {
-                        obj['properties']['style'] = {
+                        overPassObj['properties']['style'] = {
                             'strokeColor': '#E36C0A',
                             'strokeWidth': 2,
                             'strokeOpacity': 0.8
                         };
                     }else{
-                        obj['properties']['style'] = {
+                        overPassObj['properties']['style'] = {
                             'strokeColor': 'red',
                             'strokeWidth': 2,
                             'strokeOpacity': 0.8
@@ -833,9 +1027,7 @@ function transformData(data) {
             case 1803://挂接
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
-                obj['properties'] = {
-                    'name': item.m.b
-                };
+
                 obj['properties']['style'] = {
                     'strokeColor': '#336C0A',
                     'strokeWidth': 2,
@@ -855,20 +1047,43 @@ var RD_LINK_Colors = [
     '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
     '#000000', '#7364C8', '#000000', '#DCBEBE'
 ];
-function getIconStyle(iconName, row, column, location, status) {
+
+function getrTicColor(level){
+    switch (parseInt(level)){
+        case 0:
+            return "#808080";
+            break;
+        case 1:
+            return "#FF0000";
+            break;
+        case 2:
+            return "#006400";
+            break;
+        case 3:
+            return "#00008B";
+            break;
+        case 4:
+            return "#FF1493";
+            break;
+    }
+}
+function getIconStyle(options) {
     var icon = {};
-    icon["iconName"] = iconName;
-    icon["row"] = row;
-    icon["column"] = column;
-    icon["status"] = status || null;
-    icon["location"] = location;
+    icon["iconName"] = options.iconName ||"";
+    icon["row"] = options.row || "";
+    icon["column"] = options.column || "";
+    icon["status"] = options.status || null;
+    icon["location"] = options.location||"";
+    icon["rotate"] = options.rotate ||"";
+    icon["dx"] = options.dx ||"";
+    icon["dy"] = options.dy ||"";
     return icon;
 };
 function getRticAngle(geom, direct) {
     var coords = geom, proj = [], arrowList = [],
         point1, point2, ang, centerPoint;
     for (var rtic = 0; rtic < coords.length; rtic++) {
-        proj.push({x: coords[rtic][0][0], y: coords[rtic][0][1]});
+        proj.push({x: coords[rtic][0], y: coords[rtic][1]});
 
     }
     for (var j = 0; j < proj.length; j++) {
@@ -879,10 +1094,10 @@ function getRticAngle(geom, direct) {
         }
     }
 
-    if (direct === 2) {
+    if (direct == 2) {
         point1 = arrowList[arrowList.length - 1][0];
         point2 = arrowList[arrowList.length - 1][1];
-    } else if (direct === 3) {
+    } else if (direct == 3) {
         point1 = arrowList[0][0];
         point2 = arrowList[0][1];
     }

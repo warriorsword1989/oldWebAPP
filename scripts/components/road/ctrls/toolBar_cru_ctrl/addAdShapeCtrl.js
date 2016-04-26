@@ -11,10 +11,12 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var selectCtrl = fastmap.uikit.SelectController();
             var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+            var adLink = layerCtrl.getLayerById('adLink');
             var rdLink = layerCtrl.getLayerById('referenceLine');
             var hLayer = layerCtrl.getLayerById('highlightlayer');
             var objCtrl = fastmap.uikit.ObjectEditController();
             var eventController = fastmap.uikit.EventController();
+            var adAdmin=layerCtrl.getLayerById('adAdmin');
             $scope.limitRelation = {};
             //两点之间的距离
             $scope.distance = function (pointA, pointB) {
@@ -47,58 +49,22 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                if (typeof map.currentTool.cleanHeight === "function") {
+                if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 }
                 $scope.changeBtnClass(num);
-                if (num !== 7) {
-                    if (!$scope.classArr[num]) {
-                        map.currentTool.disable();
-                        map._container.style.cursor = '';
-                        return;
-                    }
-                }
-
-
-                if (type === "restriction") {
-                    shapeCtrl.setEditingType("restriction")
-                    tooltipsCtrl.setEditEventType('restriction');
-                    tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
-                    map.currentTool = new fastmap.uikit.SelectForRestriction({
-                        map: map,
-                        createRestrictFlag: true,
-                        currentEditLayer: rdLink
-                    });
-                    map.currentTool.enable();
-                    $scope.excitLineArr = [];
-                    eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                        if (data.index === 0) {
-                            $scope.limitRelation.inLinkPid = parseInt(data.id);
-                            tooltipsCtrl.setStyleTooltip("color:black;");
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
-                        } else if (data.index === 1) {
-                            $scope.limitRelation.nodePid = parseInt(data.id);
-                            tooltipsCtrl.setStyleTooltip("color:red;");
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
-                        } else if (data.index > 1) {
-                            $scope.excitLineArr.push(parseInt(data.id));
-                            $scope.limitRelation.outLinkPids = $scope.excitLineArr;
-                            tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
-                        }
-                        featCodeCtrl.setFeatCode($scope.limitRelation);
-                    })
-
-                }
-                else if (type === "link") {
+                if (type === "adLink") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
-                    shapeCtrl.setEditingType('drawAdLink');
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    shapeCtrl.editFeatType = "adLink";
+                    map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('drawAdLink');
                     tooltipsCtrl.setCurrentTooltip('开始画线！');
                     tooltipsCtrl.setStyleTooltip("color:black;");
@@ -106,7 +72,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
                 }
 
-                else if (type === "polygon") {
+                else if (type === "adFace") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
@@ -121,20 +87,35 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
                 }
-               else if (type === "node") {
+               else if (type === "adNode") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.lineString([fastmap.mapApi.point(0, 0)]));
                         selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
                         layerCtrl.pushLayerFront('edit');
                     }
-                    shapeCtrl.setEditingType('pointVertexAdd');
+
+                    shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    shapeCtrl.editFeatType = "adLink";
+                    map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('pointVertexAdd');
                     tooltipsCtrl.setCurrentTooltip('开始增加节点！');
                     tooltipsCtrl.setStyleTooltip("color:black;");
                     tooltipsCtrl.setChangeInnerHtml("点击增加节点!");
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                }else if (type === "adAdmin") {
+                    if (shapeCtrl.shapeEditorResult) {
+                        shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(0, 0));
+                        selectCtrl.selectByGeometry(shapeCtrl.shapeEditorResult.getFinalGeometry());
+                        layerCtrl.pushLayerFront('edit');
+                    }
+                    shapeCtrl.setEditingType('addAdAdmin');
+                    shapeCtrl.startEditing();
+                    map.currentTool = shapeCtrl.getCurrentTool();
+                    tooltipsCtrl.setEditEventType('pointVertexAdd');
+                    tooltipsCtrl.setCurrentTooltip('开始增加行政区划代表点！');
+                    tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                 }
             }
 
