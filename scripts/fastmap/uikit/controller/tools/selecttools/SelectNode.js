@@ -31,7 +31,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         for(var item in this.editLayerIds){
-            //this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
+
             this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById(this.editLayerIds[item]));
         }
 
@@ -64,6 +64,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
 
 
     onMouseMove:function(event){
+        console.log(this.snapHandler.snaped);
         this.snapHandler.setTargetIndex(0);
         if(this.snapHandler.snaped){
             this.eventController.fire( this.eventController.eventTypes.SNAPED,{'snaped':true});
@@ -108,7 +109,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
         var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
         for (var item in data) {
             var touchIds = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
@@ -179,8 +180,8 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         var touched = false;
         for (var i = 0, len = d.length; i < len; i++) {
             if (i == 0 || i == len - 1) {
-                var dx = x - d[i][0][0];
-                var dy = y - d[i][0][1];
+                var dx = x - d[i][0];
+                var dy = y - d[i][1];
                 if ((dx * dx + dy * dy) <= r * r) {
                     return [i];
                 }
