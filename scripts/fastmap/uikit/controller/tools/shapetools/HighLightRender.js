@@ -148,7 +148,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
                             } else if (this.highLightFeatures[item].type == 'rdgsc') {
-                                var feature = this.currentEditLayer.tiles[tile].data[feature]
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
                             }
@@ -383,13 +383,13 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
             var cusStyle = {
-                size: 3,
-                color: '#00F5FF'
+                strokeWidth: 3,
+                strokeColor: '#00F5FF'
             };
             /*如果有层级关系和自定义粗细则不使用默认值*/
             if(cusFeature){
-                cusStyle.size = cusFeature.style.size ? cusFeature.style.size : 3;
-                cusStyle.color = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
+                cusStyle.strokeWidth = cusFeature.style.strokeWidth ? cusFeature.style.strokeWidth : 3;
+                cusStyle.strokeColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
             }
             this.layer._drawLineString(ctx, geom, true, cusStyle, cusStyle, feature.properties);
         } else {

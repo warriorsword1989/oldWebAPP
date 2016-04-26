@@ -106,7 +106,7 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectNode.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectPath.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectForRestriction.js",
-        
+
                 "fastmap/uikit/controller/tools/selecttools/SelectDataTips.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectPolygon.js",
                 "fastmap/uikit/controller/tools/shapetools/GeometryValidation.js",

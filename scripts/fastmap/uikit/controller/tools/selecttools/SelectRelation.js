@@ -94,6 +94,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
                 for (var item in data) {
                     if(this.currentEditLayers[layer].requestType =='RDCROSS'){
+
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
                                 this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});

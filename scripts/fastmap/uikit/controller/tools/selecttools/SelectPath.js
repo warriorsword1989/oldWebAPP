@@ -169,37 +169,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
-           // if (data.hasOwnProperty("features")) {
-                for (var i = 0; i < data.length; i++) {
-                    var feature = data[i];
-
-                    var color = null;
-                    if (feature.hasOwnProperty('properties')) {
-                        color = feature.properties.style.strokeColor;
-                    }
-
-                    var style = feature.properties.style;
-
-                    var geom = feature.geometry.coordinates;
-                     if(!style) {
-                         this.currentEditLayer._drawLineString(ctx, geom, true, {
-                             size: 4,
-                                 color: '#FBD356',
-                             mouseOverColor: 'rgba(255,0,0,1)',
-                             clickColor: 'rgba(252,0,0,1)'
-                         },
-                         {
-                             color: 'rgba(255,0,0,1) ',
-                                 radius: 3
-                         }, feature.properties);
-                     }else{
-                         this.currentEditLayer._drawLineString(ctx, geom, true, style, {
-                             color: '#696969',
-                             radius: 3
-                         }, feature.properties);
-                     }
-                }
-            //}
+            this.currentEditLayer._drawFeature(data, ctx, true);
         }
     }
     ,
