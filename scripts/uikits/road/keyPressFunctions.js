@@ -144,7 +144,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data,param["type"],showContent, ctrl, tpl)
                     })
 
-                }  else if (shapeCtrl.editType === "rdrestricton") {
+                }  else if (shapeCtrl.editType === "RDRESTRICTION") {
                     param = {
                         "command": "CREATE",
                         "type": "RDRESTRICTION",
@@ -344,7 +344,7 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("rdcross").redraw();
                         treatmentOfChanged(data, "RDCROSS", "创建RDCROSS成功", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     })
-                } else if (shapeCtrl.editType === "rdlaneConnexity") {
+                } else if (shapeCtrl.editType === "RDLANECONNEXITY") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["laneConnexity"];
                     var laneStr = "";

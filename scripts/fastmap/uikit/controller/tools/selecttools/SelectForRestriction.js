@@ -73,7 +73,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
         if (this.selectedFeatures.length == 1) {
             for (var item in data) {
@@ -114,13 +114,13 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                     this.selectedFeatures.push(id)
                     if (this.selectedFeatures.length === 1) {
                         this._drawLineHeight(id, {
-                            size: 3,
-                            color: '#F63428'
+                            strokeWidth: 3,
+                            strokeColor: '#F63428'
                         });
                     } else {
                         this._drawLineHeight(id, {
-                            size: 3,
-                            color: '#253B76'
+                            strokeWidth: 3,
+                            strokeColor: '#253B76'
                         });
                     }
 
@@ -143,11 +143,11 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
     _TouchesPath: function (d, x, y, r) {
         var i;
         var N = d.length;
-        var p1x = d[0][0][0];
-        var p1y = d[0][0][1];
+        var p1x = d[0][0];
+        var p1y = d[0][1];
         for (var i = 1; i < N; i += 1) {
-            var p2x = d[i][0][0];
-            var p2y = d[i][0][1];
+            var p2x = d[i][0];
+            var p2y = d[i][1];
             var dirx = p2x - p1x;
             var diry = p2y - p1y;
             var diffx = x - p1x;
@@ -186,8 +186,8 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
         var touched = false;
         for (var i = 0, len = d.length; i < len; i++) {
             if (i == 0 || i == len - 1) {
-                var dx = x - d[i][0][0];
-                var dy = y - d[i][0][1];
+                var dx = x - d[i][0];
+                var dy = y - d[i][1];
                 if ((dx * dx + dy * dy) <= r * r) {
                     return [i];
                 }
@@ -206,7 +206,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
         for (var obj in this.tiles) {
 
-            var data = this.tiles[obj].data.features;
+            var data = this.tiles[obj].data;
 
             for (var key in data) {
 
@@ -233,7 +233,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
 
     _drawPointHeight: function (ctx, point) {
 
-        this.currentEditLayer._drawPoint(ctx, point[0], {
+        this.currentEditLayer._drawPoint(ctx, point, {
             color: '#FFFF00',
             radius: 3
         }, true);
@@ -257,30 +257,9 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
-            if (data.hasOwnProperty("features")) {
-                for (var i = 0; i < data.features.length; i++) {
-                    var feature = data.features[i];
-
-                    var color = null;
-                    if (feature.hasOwnProperty('properties')) {
-                        color = feature.properties.c;
-                    }
-
-                    var style = this.currentEditLayer.styleFor(feature, color);
-
-                    var geom = feature.geometry.coordinates;
-
-                    this.currentEditLayer._drawLineString(ctx, geom, true, style, {
-                        color: '#696969',
-                        radius: 3
-                    },feature.properties);
-
-                }
+            this.currentEditLayer._drawFeature(data, ctx, true);
             }
 
         }
-
-
-    }
 
 });
