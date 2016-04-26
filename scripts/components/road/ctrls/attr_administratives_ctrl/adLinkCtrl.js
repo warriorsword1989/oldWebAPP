@@ -42,7 +42,6 @@ adLinkApp.controller("adLinkController",function($scope) {
             id: $scope.adLinkData.pid
         });
     };
-    $scope.initializeData();
 
     $scope.save = function(){
         objCtrl.save();

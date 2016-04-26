@@ -48,14 +48,6 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         $scope.initializeData();
     }
 
-
-    $scope.save = function(){
-
-    };
-
-    $scope.delete = function(){
-
-    };
     $scope.cancel = function(){
 
     };

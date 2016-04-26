@@ -60,7 +60,6 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
             case "9":
                 lab = 0;
                 break;
-
         }
         return lab;
     };
@@ -171,7 +170,6 @@ addDirectConnexityApp.controller("addDirectOfConnexityController",function($scop
                 }
                 $scope.laneInfo["topos"].unshift(obj);
             }
-
         }
 
         objCtrl.rdLaneObject(false);

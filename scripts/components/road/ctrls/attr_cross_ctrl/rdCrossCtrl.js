@@ -34,7 +34,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
-
     };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();
@@ -142,7 +141,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             }
             $scope.refreshData();
         })
-
     };
     $scope.delete = function () {
         var objId = parseInt($scope.rdCrossData.pid);
