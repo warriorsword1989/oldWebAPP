@@ -509,9 +509,11 @@ function transformData(data) {
                                 row: 0,
                                 column: j,
                                 location: obj['geometry']['coordinates'],
-                                rotate: item.m.c* (Math.PI-90 / 180),
+                                rotate: item.m.c* (Math.PI / 180),
                                 dx:10,
-                                dy:0
+                                dy:0,
+                                scalex:3/4,
+                                scaley:3/4
                             }
                         )
                     } else {
@@ -521,9 +523,11 @@ function transformData(data) {
                             row: 0,
                             column: j,
                             location: obj['geometry']['coordinates'],
-                            rotate: item.m.c* (Math.PI -90/ 180),
+                            rotate: item.m.c* (Math.PI / 180),
                             dx:10,
-                            dy:0
+                            dy:0,
+                            scalex:3/4,
+                            scaley:3/4
                         })
                     }
                     obj['properties']['markerStyle']["icon"].push(restrictICon);
@@ -555,8 +559,8 @@ function transformData(data) {
                     var geomnew = [];
 
 
-                    geomnew[0] = parseInt(geom[0]) + lane * 15 * Math.cos(item.m.c* (Math.PI / 180));
-                    geomnew[1] = parseInt(geom[1]) + lane * 15 * Math.sin(item.m.c* (Math.PI / 180));
+                    geomnew[0] = parseInt(geom[0]) + lane * 10 * Math.cos(item.m.c* (Math.PI / 180));
+                    geomnew[1] = parseInt(geom[1]) + lane * 10 * Math.sin(item.m.c* (Math.PI / 180));
                     if (laneArr[lane].indexOf("[") > -1) {
 
                         obj['properties']['markerStyle']["icon"].push(
@@ -566,8 +570,9 @@ function transformData(data) {
                                 row: 0,
                                 column: lane,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
-
+                                rotate: item.m.c* (Math.PI / 180),
+                                scalex:2/3,
+                                scaley:2/3
                             })
                         );
                         if (laneArr[lane].indexOf("<") > -1) {
@@ -578,7 +583,9 @@ function transformData(data) {
                                     column: lane,
                                     location: geomnew,
                                     rotate: item.m.c* (Math.PI / 180)
-
+                                    ,
+                                    scalex:2/3,
+                                    scaley:2/3
                                 })
                             );
                         }
@@ -592,7 +599,9 @@ function transformData(data) {
                                 row: lane,
                                 column: lane,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
+                                rotate: item.m.c* (Math.PI / 180),
+                                scalex:2/3,
+                                scaley:2/3
                             })
                         );
                         obj['properties']['markerStyle']["icon"].push(
@@ -602,7 +611,9 @@ function transformData(data) {
                                 row: lane,
                                 column: lane,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
+                                rotate: item.m.c* (Math.PI / 180) ,
+                                scalex:2/3,
+                                scaley:2/3
                             })
                         );
                     } else if (laneArr[lane]) {
@@ -612,7 +623,9 @@ function transformData(data) {
                                 row: lane,
                                 column: 0,
                                 location: geomnew,
-                                rotate: item.m.c* (Math.PI / 180)
+                                rotate: item.m.c* (Math.PI / 180),
+                                scalex:2/3,
+                                scaley:2/3
                             })
                         );
                     }
@@ -1036,6 +1049,8 @@ function getIconStyle(options) {
     icon["rotate"] = options.rotate ||"";
     icon["dx"] = options.dx ||"";
     icon["dy"] = options.dy ||"";
+    icon["scalex"] = options.scalex || 1;
+    icon["scaley"] = options.scaley || 1;
     return icon;
 };
 function getRticAngle(geom, direct) {
