@@ -25,23 +25,11 @@ fastmap.uikit.SelectRdBranch = (function () {
             },
             drawGeomCanvasHighlight: function (event, data) {
 
-                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                    detailid: data.properties.id,
+                    optype: 'RDBRANCH'
+                })
 
-                var id = null;
-                for (var item in data) {
-                    var speedLimitObj = data[item].properties.SpeedDivergencecondition;
-                    if (speedLimitObj) {
-                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            id = data[item].properties.SpeedDivergencecondition[0].ids[0].detailId;
-                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-                                detailid: id,
-                                optype: 'RDBRANCH'
-                            })
-
-                            break;
-                        }
-                    }
-                }
             },
 
             /***

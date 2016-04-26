@@ -21,25 +21,11 @@ fastmap.uikit.SelectSpeedLimit = (function () {
             },
             drawGeomCanvasHighlight: function (event, data) {
 
-                var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+                this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
+                    id: data.properties.id,
+                    optype: 'RDSPEEDLIMIT'
+                })
 
-                var id = null;
-                for (var item in data) {
-                    var speedlimitObj = data[item].properties.speedlimitcondition;
-
-                    if (speedlimitObj !== undefined) {
-
-                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            id = data[item].properties.id;
-                            this.eventController.fire(this.eventController.eventTypes.GETRELATIONID, {
-                                id: id,
-                                optype: 'RDSPEEDLIMIT'
-                            })
-
-                            break;
-                        }
-                    }
-                }
             },
 
             /***
