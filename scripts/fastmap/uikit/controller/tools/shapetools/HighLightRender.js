@@ -134,7 +134,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             } else if (this.highLightFeatures[item].type == 'rdlaneconnexity') {
                                 this.drawLane(id, hightlightfeature, ctx);
                             } else if (this.highLightFeatures[item].type == 'highSpeedDivergence') {
-                                var feature = this.currentEditLayer.tiles[tile].data.features[feature];
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
                             } else if (this.highLightFeatures[item].type == 'gpsLine') {
                                 this.layer._drawLineString(ctx, this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates, true, {

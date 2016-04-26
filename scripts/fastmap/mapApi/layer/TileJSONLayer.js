@@ -349,14 +349,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _drawFeature: function (data, ctx, boolPixelCrs) {
         for (var i = 0; i < data.length; i++) {
             var feature = data[i];
-
-            //var color = null;
-            //if (feature.hasOwnProperty('properties')) {
-            //    color = feature.properties.c;
-            //}
-            //
-            //
-
             var geom = feature.geometry;
             var type = geom.type;
             var style = feature.properties.style;
@@ -644,7 +636,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 var color = RD_LINK_Colors[parseInt(c)];
                 return {
                     size: 1,
-                    color: color,
+                    color: value,
                     rdLinkType: rdLinkType,
                     mouseOverColor: 'rgba(255,0,0,1)',
                     clickColor: 'rgba(252,0,0,1)'
