@@ -394,8 +394,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 $scope.delEmptyNames(param.data.details[0].names);
             }
         }
-        if (param.data == false) {
-            swal("操作失败", "属性值无任何改变！", "error");
+        if (!param.data) {
+            swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
         Application.functions.saveBranchInfo(JSON.stringify(param), function (data) {
@@ -404,7 +404,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             var info = null;
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();
-                objCtrl.setOriginalData(param.data);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
                 swal("操作成功", "高速分歧属性值修改成功！", "success");
                 var sinfo = {
                     "op": "修改RDBRANCH成功",

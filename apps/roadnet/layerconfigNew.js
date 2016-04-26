@@ -56,7 +56,6 @@ Application.layersConfig =
                         visible: false,
                         zIndex: 4
                     }
-
                 }, {
                     url: '',
                     clazz: fastmap.mapApi.meshLayer,
@@ -99,7 +98,6 @@ Application.layersConfig =
                 requestType: 'RDLINK',
                 showNodeLevel: 17
             }
-
         },
 
        {
@@ -110,7 +108,6 @@ Application.layersConfig =
                     layername: '行政区划面',
                     id: 'adface',
                     maxZoom: 20,
-
                     debug: false,
                     // this value should be equal to 'radius' of your points
                     buffer: 5,
