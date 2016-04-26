@@ -131,6 +131,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             return flag;
         };
+    $scope.addRdMultidDgitized=function() {
+        console.log("test");
+    };
         //提取框选中的数据为创建路口
         $scope.getDataFromRectangleForCross = function (data) {
             var borderData = data.data, border = data.border,linkArr=[],nodeArr=[];
@@ -274,6 +277,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                 shapeCtrl.startEditing();
                 map.currentTool = shapeCtrl.getCurrentTool();
+                map.currentTool.enable();
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
                 tooltipsCtrl.setCurrentTooltip('开始增加限速！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
@@ -692,6 +697,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
+            }else if(type==='RDMULTIDIGITIZED') {
+                map.scrollWheelZoom._enabled = false;
+                map.off('mousewheel', $scope.addRdMultidDgitized, this);
+                map.on('mousewheel', $scope.addRdMultidDgitized, this);
             }
         }
 

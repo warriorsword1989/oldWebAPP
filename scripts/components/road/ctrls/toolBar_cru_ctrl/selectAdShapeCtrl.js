@@ -108,6 +108,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(adAdmin);
             $scope.toolTipText = '请选择行政区划代表点！';
             eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
                 selectCtrl.onSelected({
@@ -144,6 +145,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             $scope.toolTipText = '请选择node！';
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
                 $scope.getFeatDataCallback(data, data.id, "ADNODE", 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html");

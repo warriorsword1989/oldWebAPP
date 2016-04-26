@@ -24,16 +24,20 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
         var feature = null;
         $scope.changeBtnClass(num);
         if(!$scope.classArr[num]){
-            map.currentTool.disable();
+            if(map.currentTool) {
+                map.currentTool.disable();
+            }
             map._container.style.cursor = '';
             return;
         }
-        map.currentTool.disable();
+        if(map.currentTool) {
+            map.currentTool.disable();
+        }
         if (shapeCtrl.shapeEditorResult) {
             if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if(type==="pathVertexInsert") {
+            if(type==="PATHVERTEXINSERT") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('insertDot');
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
@@ -41,7 +45,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                     return;
                 }
-            }else if(type==="pathVertexReMove") {
+            }else if(type==="PATHVERTEXREMOVE") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('deleteDot');
                     tooltipsCtrl.setCurrentTooltip('删除此形状点！');
@@ -49,7 +53,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                     return;
                 }
-            }else if(type==="pathVertexMove") {
+            }else if(type==="PATHVERTEXMOVE") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('moveDot');
                     tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
@@ -57,7 +61,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
                     return;
                 }
-            }else if(type==="pathBreak") {
+            }else if(type==="PATHBREAK") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathBreak');
                     tooltipsCtrl.setCurrentTooltip('开始打断link！');
@@ -66,10 +70,13 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                     return;
                 }
-            }else if(type==="pathNodeMove") {
+            }else if(type==="PATHNODEMOVE") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathNodeMove');
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
+                    return;
                 }
             }else if(type === 'naviTool'){
                 map._container.style.cursor = '';
