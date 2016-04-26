@@ -1,16 +1,16 @@
 <div ng-controller="generalParkingsCtl" style="min-width:420px;margin-bottom:20px;">
-    <uib-accordion-group panel-class="panel-default" is-open="status.open">
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.open">
         <uib-accordion-heading>
             <div class="form-inline">
                 <span style="font-weight:bold;">专有信息-停车场</span>
                 <div  class="form-group" style="margin:0px 20px;">
-                    <span class="label label-danger" style="padding:4px 15px;">无</span>
+                    <span class="label label-danger" style="padding:4px 15px;" ng-show="">无</span>
                 </div>
                 <div class="form-group form-inline pull-right">
                     <div class="form-group" style="margin:0px 20px;">
                         <img src="../../images/poi/icon/prompt.png">
                     </div>
-                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': status.open, 'glyphicon-chevron-down': !status.open}"></i>
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.open, 'glyphicon-chevron-down': !ctrl.open}"></i>
                 </div>
             </div>
         </uib-accordion-heading>
@@ -18,17 +18,34 @@
             <table class="table property-table" style="border:0px;">
                 <tr>
                     <td>类 型</td>
-                    <td></td>
+                    <td>
+                        <div class="col-sm-2" style="padding:0px" ng-show="ctrl.btShow"><input type='radio' name='parkigType' value="0" ng-model="parkings.buildingType"> 室内</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='radio' name='parkigType' value="1" ng-model="parkings.buildingType"> 室外</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='radio' name='parkigType' value="2" ng-model="parkings.buildingType"> 占道</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='radio' name='parkigType' value="3" ng-model="parkings.buildingType"> 室内地上</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='radio' name='parkigType' value="4" ng-model="parkings.buildingType"> 地下</div>
+                    </td>
                 </tr>
                 <tr>
                     <td>收费标准</td>
-                    <td id="parkings-tollStd"></td>
+                    <td>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="0" ng-model="parkings.tollStdObj['0']" ng-click="changeTollStd($event)"> 包年</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="1" ng-model="parkings.tollStdObj['1']" ng-click="changeTollStd($event)"> 包月</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="2" ng-model="parkings.tollStdObj['2']" ng-click="changeTollStd($event)"> 计次</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="3" ng-model="parkings.tollStdObj['3']" ng-click="changeTollStd($event)"> 计时</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="4" ng-model="parkings.tollStdObj['4']" ng-click="changeTollStd($event)"> 分段计价</div>
+                        <div class="col-sm-2" style="padding:0px;color:red"><input type='checkbox' value="5" ng-model="parkings.tollStdObj['5']" ng-click="changeTollStd($event)"> 免费</div>
+                    </td>
                 </tr>
-                <tr id="parkings-tollWay-ctl" style="display:none">
+                <tr id="parkings-tollWay-ctl" ng-show="true">
                     <td>收费方式</td>
-                    <td id="parkings-tollWay"></td>
+                    <td id="parkings-tollWay">
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="0" ng-click="changeTollWay($event)"> 人工收费</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="1" ng-click="changeTollWay($event)"> 电子收费</div>
+                        <div class="col-sm-2" style="padding:0px"><input type='checkbox' value="2" ng-click="changeTollWay($event)"> 自助缴费</div>
+                    </td>
                 </tr>
-                <tr id="parkings-payment-ctl" style="display:none">
+                <tr id="parkings-payment-ctl" ng-show="true">
                     <td>支付方式</td>
                     <td id="parkings-payment"></td>
                 </tr>

@@ -3,12 +3,12 @@ App.dataService = (function() {
 
     function init($q) {
         var ds = {};
-        ds.getPoiDetailByFid = function() {
+        ds.getPoiDetailByFid = function(fid) {
             var deferred = $q.defer();
             var param = {
                 "projectId": 2016013086,
                 "condition": {
-                    "fid": "0010060815LML01353"
+                    "fid": fid
                 },
                 "type": "integrate",
                 "phase": "4",
