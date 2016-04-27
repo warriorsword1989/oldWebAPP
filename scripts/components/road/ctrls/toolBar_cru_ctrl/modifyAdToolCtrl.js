@@ -7,6 +7,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var adAdmin = layerCtrl.getLayerById('adAdmin');
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLayer = layerCtrl.getLayerById('edit');
 
@@ -35,12 +36,12 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if(type==="pathVertexInsert") {
+            if(type==="ADADMINMOVE") {
                 if(selectCtrl.selectedFeatures){
-                    tooltipsCtrl.setEditEventType('insertDot');
-                    tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
+                    tooltipsCtrl.setEditEventType('moveDot');
+                    tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
                 }else{
-                    tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
+                    tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
                     return;
                 }
             }else if(type==="pathVertexReMove") {
@@ -97,8 +98,13 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             sObj.setFinalGeometry(feature);
 
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
-            shapeCtrl.editFeatType = "adLink";
-            map.currentTool.snapHandler.addGuideLayer(adLink);
+            if(type==="ADADMINMOVE") {
+                shapeCtrl.editFeatType = "adAdmin";
+                map.currentTool.snapHandler.addGuideLayer(adAdmin);
+            }else {
+                shapeCtrl.editFeatType = "adLink";
+                map.currentTool.snapHandler.addGuideLayer(adLink);
+            }
             shapeCtrl.startEditing();
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){

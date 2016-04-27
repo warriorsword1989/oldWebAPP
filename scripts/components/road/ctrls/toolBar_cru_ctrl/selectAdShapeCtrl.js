@@ -106,6 +106,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 currentEditLayer: adAdmin,
                 shapeEditor: shapeCtrl
             });
+            map.currentTool.snapHandler.addGuideLayer(adAdmin);
             map.currentTool.enable();
             $scope.toolTipText = '请选择行政区划代表点！';
             eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {

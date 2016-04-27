@@ -53,5 +53,10 @@ fastmap.mapApi.ShapeOptionType={
     /*
       添加端点操作
      */
-    'POINTVERTEXADD':"pointVertexAdd"
+    'POINTVERTEXADD':"pointVertexAdd",
+    /*
+    移动行政区划代表点
+     */
+    'ADADMINMOVE':"adAdminMove"
+
 }

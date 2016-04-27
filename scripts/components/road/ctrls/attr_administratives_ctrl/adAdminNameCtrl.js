@@ -6,24 +6,26 @@ var otherApp = angular.module("mapApp", []);
 otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
-    console.log(objCtrl)
+    $scope.indexName=0;
+    var selectCtrl = fastmap.uikit.SelectController();
+    console.log(objCtrl.data)
     $scope.names = objCtrl.data.names?objCtrl.data.names:0;
     $scope.nameGroup = [];
-    /*根据nameGroupid排序*/
+    /*根据nameGroupId排序*/
     $scope.names.sort(function(a,b){
-        return b.nameGroupid >= a.nameGroupid;
+        return b.nameGroupId >= a.nameGroupId;
     });
     /*重组源数据用新建变量nameGroup显示*/
     $scope.sortNameGroup = function(arr){
         $scope.nameGroup = [];
         for (var i = 0; i <= arr.length - 1; i++) {
             var tempArr = [];
-            if (arr[i+1] && arr[i].nameGroupid == arr[i + 1].nameGroupid) {
+            if (arr[i+1] && arr[i].nameGroupId == arr[i + 1].nameGroupId) {
                 if($.inArray(arr[i],$scope.nameGroup) == -1){
                     tempArr.push(arr[i])
                 }
                 for(var j=i+1;j<arr.length-1;j++){
-                    if(arr[j].nameGroupid == arr[i].nameGroupid){
+                    if(arr[j].nameGroupId == arr[i].nameGroupId){
                         tempArr.push(arr[j]);
                         i = j;
                     }
@@ -36,31 +38,31 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
     };
     $scope.sortNameGroup($scope.names);
     $scope.nameGroup = $scope.nameGroup.sort(function(a,b){
-        return b.nameGroupid >= a.nameGroupid;
+        return b.nameGroupId >= a.nameGroupId;
     });
     /*上移或者下移*/
     $scope.changeOrder = function(item,type){
         if(type == 1){
             $.each($scope.names,function(i,v){
-                if(v.nameGroupid == item[0].nameGroupid-1){
-                    v.nameGroupid += 1;
+                if(v.nameGroupId == item[0].nameGroupId-1){
+                    v.nameGroupId += 1;
                 }
             });
             for(var i=0;i<item.length;i++){
-                item[i].nameGroupid -= 1;
+                item[i].nameGroupId -= 1;
             }
         }else{
             $.each($scope.names,function(i,v){
-                if(v.nameGroupid == item[0].nameGroupid+1){
-                    v.nameGroupid -= 1;
+                if(v.nameGroupId == item[0].nameGroupId+1){
+                    v.nameGroupId -= 1;
                 }
             });
             for(var i=0;i<item.length;i++){
-                item[i].nameGroupid+= 1;
+                item[i].nameGroupId+= 1;
             }
         }
         $scope.names.sort(function(a,b){
-            return b.nameGroupid >= a.nameGroupid;
+            return b.nameGroupId >= a.nameGroupId;
         });
         $scope.sortNameGroup($scope.names);
     }
@@ -69,14 +71,14 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
         var nameLength = 0;
         /*数组中删除*/
         $.each($scope.nameGroup,function(i,v){
-            if(v && v[0].nameGroupid == item.nameGroupid){
+            if(v && v[0].nameGroupId == item.nameGroupId){
                 $scope.nameGroup.splice(i,1);
             }
         });
         /*由于names的长度是变化的，所以在循环前赋值给一个变量*/
         var tempLength = $scope.names.length;
         for(var i = 0;i<tempLength;i++){
-            if($scope.names[i] && $scope.names[i].nameGroupid == item.nameGroupid){
+            if($scope.names[i] && $scope.names[i].nameGroupId == item.nameGroupId){
                 $scope.names.splice(i,1);
                 i -= 1;
             }
@@ -85,12 +87,12 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
             $.each(v,function(m,n){
                 if(n){
                     /*删除一个，之后的nameGroup都减一*/
-                    if(n.nameGroupid > item.nameGroupid){
-                        n.nameGroupid -= 1;
+                    if(n.nameGroupId > item.nameGroupId){
+                        n.nameGroupId -= 1;
                     }
                     /*如果只剩一条名称信息*/
                     /*if($scope.nameGroup.length == 1){
-                     $scope.nameGroup[0].nameGroupid = 1;
+                     $scope.nameGroup[0].nameGroupId = 1;
                      }*/
                     nameLength++;
                 }
@@ -103,7 +105,7 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
         var groupNum = 0;
         /*统计该组下有多少个名称信息*/
         for(var i=0;i<tempLength;i++){
-            if($scope.names[i] && $scope.names[i].nameGroupid == item.nameGroupid){
+            if($scope.names[i] && $scope.names[i].nameGroupId == item.nameGroupId){
                 groupNum++;
             }
         }
@@ -112,8 +114,8 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
                 $scope.names.splice(i,1);
                 if(groupNum == 1){
                     for(var j=0;j<tempLength-1;j++){
-                        if($scope.names[j].nameGroupid > item.nameGroupid){
-                            $scope.names[j].nameGroupid -= 1;
+                        if($scope.names[j].nameGroupId > item.nameGroupId){
+                            $scope.names[j].nameGroupId -= 1;
                         }
                     }
                 }
@@ -123,15 +125,15 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
     }
     /*新增名称信息*/
     $scope.nameInfoAdd = function(){
-        var protoArr = $scope.names;
-        var newName = fastmap.dataApi.rdBranchName({
-            "pid":0,
+        //var protoArr = $scope.names;
+        var newName = fastmap.dataApi.adAdminName({
+            "regionId":objCtrl.data.regionId,
             "langCode":$scope.languageCode[0].code,
-            "nameGroupid":protoArr.length>0?protoArr[0].nameGroupid + 1:1,
-            "seqNum":this.nameGroupid
+            "nameGroupId":$scope.names.length>0?$scope.names[0].nameGroupId + 1:1,
+            "rowId":""
         });
-        protoArr.unshift(newName);
-        $scope.sortNameGroup(protoArr);
+        $scope.names.unshift(newName);
+        $scope.sortNameGroup($scope.names);
     }
 
     /*分歧名称输入完查询发音和拼音*/
@@ -143,7 +145,7 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
             $scope.$apply();
             if(data.errcode == 0){
                 $.each($scope.names,function(i,v){
-                    if(v.nameGroupid == id){
+                    if(v.nameGroupId == id){
                         v.phonetic = data.data.phonetic;
                         v.voiceFile = data.data.voicefile;
                     }
