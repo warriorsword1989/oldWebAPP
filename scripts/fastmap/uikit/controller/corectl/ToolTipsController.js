@@ -99,7 +99,6 @@ fastmap.uikit.ToolTipsController=(function() {
             setCurrentTooltip: function (tooltip) {
                 var tools=L.DomUtil.get(this._divid);
                 this._map.on('mousemove', this.onMoveTooltip,this);
-                tools.style.display = 'block';
                 tools.style.backgroundColor = "#000";
                 tools.innerHTML=tooltip;
                 this.toolsdiv=tools;

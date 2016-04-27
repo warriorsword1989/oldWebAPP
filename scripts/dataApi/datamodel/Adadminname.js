@@ -20,14 +20,17 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+        this.pid = data["pid"];
+        this.rowId = data["rowId"];
         this.nameId = data["nameId"];
         this.regionId = data["regionId"];
-        this.nameGroupid = data["nameGroupid"] || 1;
+        this.nameGroupId = data["nameGroupId"] || 1;
         this.langCode = data["langCode"] || "CHI" || "CHT";
         this.nameClass = data["nameClass"] || 1;
-        this.name = data["name"] || null;
-        this.phonetic = data["phonetic"] || null;
+        this.name = data["name"] || "";
+        this.phonetic = data["phonetic"] || "";
         this.srcFlag = data["srcFlag"] || 0;
+        this.geoLiveType=data["geoLiveType"];
     },
 
     /*
@@ -35,9 +38,11 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
+        data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["nameId"] = this.nameId;
         data["regionId"] = this.regionId;
-        data["nameGroupid"] = this.nameGroupid;
+        data["nameGroupId"] = this.nameGroupId;
         data["langCode"] = this.langCode;
         data["nameClass"] = this.nameClass;
         data["name"] = this.name;
@@ -49,9 +54,11 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
 
     getSnapShot: function () {
         var data = {};
+        data["pid"] = this.pid;
+        data["rowId"] = this.rowId;
         data["nameId"] = this.nameId;
         data["regionId"] = this.regionId;
-        data["nameGroupid"] = this.nameGroupid;
+        data["nameGroupId"] = this.nameGroupId;
         data["langCode"] = this.langCode;
         data["nameClass"] = this.nameClass;
         data["name"] = this.name;
@@ -59,7 +66,7 @@ fastmap.dataApi.AdAdminName = fastmap.dataApi.GeoDataModel.extend({
         data["srcFlag"] = this.srcFlag;
         data["geoLiveType"] = this.geoLiveType;
         return data;
-    },
+    }
 
 });
 

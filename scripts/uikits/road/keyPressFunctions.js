@@ -409,6 +409,22 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("adAdmin").redraw();
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功", 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
+                }else if(shapeCtrl.editType === "adAdminMove"){
+                    param = {
+                        "command": "MOVE",
+                        "type": "ADADMIN",
+                        "projectId": Application.projectid,
+                        "objId":selectCtrl.selectedFeatures.id,
+                        "data": {
+                            "longitude":geo.x,
+                            "latitude":geo.y,
+                            "linkPid": parseInt(selectCtrl.selectedFeatures.linkPid)
+                        }
+                    }
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("adAdmin").redraw();
+                        treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功", 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
+                    })
                 }
 
             }

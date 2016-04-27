@@ -8,7 +8,9 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var layerCtrl = fastmap.uikit.LayerController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin = layerCtrl.getLayerById("adAdmin");
+    var selectCtrl = fastmap.uikit.SelectController();
     $scope.isbase=true;
 
     $scope.adminType = [
@@ -34,15 +36,20 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         {"id": 3, "label": "地级市"}
     ];
     $scope.population = [
-        {"id": 0, "label": "100w"},
-        {"id": 1, "label": "200w"}
+        {"id": "0", "label": "100w"},
+        {"id": "1", "label": "200w"}
 
     ];
 
     $scope.initializeData = function(){
         $scope.adAdminData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-
+        var linkArr =$scope.adAdminData.geometry.coordinates, points = [];
+        var points = fastmap.mapApi.point(linkArr[0], linkArr[1]);
+        selectCtrl.onSelected({
+            geometry: points,
+            id: $scope.adAdminData.pid
+        });
     };
     if(objCtrl.data){
         $scope.initializeData();
@@ -139,7 +146,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     };
 
     $scope.delete = function(){
-        var objId = parseInt($scope.adAdminData.pid);
+        var objId = parseInt($scope.adAdminData.regionId);
         var param = {
             "command": "DELETE",
             "type":"ADADMIN",
@@ -149,6 +156,20 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
+                adAdmin.redraw();
+                if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
+                    if (typeof map.currentTool.cleanHeight === "function") {
+                        map.currentTool.cleanHeight();
+                    }
+                    if (toolTipsCtrl.getCurrentTooltip()) {
+                        toolTipsCtrl.onRemoveTooltip();
+                    }
+                    editLayer.drawGeometry = null;
+                    editLayer.clear();
+                    shapeCtrl.stopEditing();
+                    editLayer.bringToBack();
+                    $(editLayer.options._div).unbind();
+                }
                 var sinfo={
                     "op":"删除行政区划代表点成功",
                     "type":"",

@@ -10,24 +10,10 @@ fastmap.uikit.adAdminAdd = L.Handler.extend({
      * @param {Object}options
      */
     initialize: function (options) {
-        //this.options = options || {};
-        //L.setOptions(this, options);
-        //this.shapeEditor = this.options.shapeEditor;
-        //this._map = this.options.map;
         var layerCtrl = fastmap.uikit.LayerController();
         this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
-        //this.id = this.currentEditLayer.options.id;
         this.tiles = this.currentEditLayer.tiles;
-        this.editLayerIds = ['referenceLine','adAdmin']
-        //this.eventController = fastmap.uikit.EventController();
-        //this._map._container.style.cursor = 'pointer';
         this.transform = new fastmap.mapApi.MecatorTranform();
-        //this.redrawTiles = [];
-        //this.selectCtrl = fastmap.uikit.SelectController();
-        //this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
-        //this.snapHandler.enable();
-
-
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
@@ -41,11 +27,7 @@ fastmap.uikit.adAdminAdd = L.Handler.extend({
         this.eventController = fastmap.uikit.EventController();
         this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
-       // this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('adAdmin'));
-        for(var item in this.editLayerIds){
-            //this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
-            this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById(this.editLayerIds[item]));
-        }
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('adAdmin'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
@@ -102,7 +84,7 @@ fastmap.uikit.adAdminAdd = L.Handler.extend({
             }
 
             var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
 
