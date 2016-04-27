@@ -252,6 +252,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
             this.request = this._ajaxLoader(function (geo) {
                 if (parse != null || parse != undefined) {
+
                     data = parse(geo);
                 }
                 if (data.length == 0) {
@@ -349,10 +350,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _drawFeature: function (data, ctx, boolPixelCrs) {
         for (var i = 0; i < data.length; i++) {
             var feature = data[i];
-<<<<<<< HEAD
-
-=======
->>>>>>> fm/master
             var geom = feature.geometry;
             var type = geom.type;
             var style = feature.properties.style;
@@ -491,6 +488,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     } else {
                         url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
                     }
+                    //url = 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?'+'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20}'
+                    //url ='http://192.168.4.130/FosEngineWeb3/display/tip/getByTileWithGap?'+'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}';
                 }
                 break;
             case "Marker":
@@ -530,6 +529,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     } else {
                         url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
                     }
+                    //url ='http://192.168.4.130/FosEngineWeb3/display/tip/getByTileWithGap?'+'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType +']}';
+
                 }
                 break;
             case "fusionroad":
