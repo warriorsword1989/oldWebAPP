@@ -231,9 +231,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
                     highLightRender.highLightFeatures = highLightFeatures;
                     highLightRender.drawHighlight();
-
-
-
                 });
             }
         }
@@ -312,14 +309,11 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     layerid:'referenceLine',
                     type:'line',
                     style:{}
-                })
-                    var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
+                });
+                var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
 
-                    highLightLinks.highLightFeatures = highLightFeatures;
-                    highLightLinks.drawHighlight();
-
-
-
+                highLightLinks.highLightFeatures = highLightFeatures;
+                highLightLinks.drawHighlight();
             });
         }
     };
@@ -348,26 +342,21 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         }
         $scope.lanesData["topos"].length = 0;
         $scope.lanesData["topos"] = arr;
-
-
     };
     //删除公交车道
     $scope.minusTransitData = function (item, index) {
-            var num = index;
-            $scope.lanesData["selectNum"] = index;
-            $scope.showTransitData[num] = "test";
-            $scope.lanesArr[num] = $scope.showNormalData[num];
-            $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
-            for (var k = 0, lenK = $scope.lanesData["topos"].length; k < lenK; k++) {
-                var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
-                var lenOfInfo = (16 - arrOfDecimal.length);
-                if (lenOfInfo === num) {
-                    $scope.lanesData["topos"][k]["busLaneInfo"] = 0;
-
-                }
+        var num = index;
+        $scope.lanesData["selectNum"] = index;
+        $scope.showTransitData[num] = "test";
+        $scope.lanesArr[num] = $scope.showNormalData[num];
+        $scope.lanesData["laneInfo"] = $scope.lanesArr.join(",");
+        for (var k = 0, lenK = $scope.lanesData["topos"].length; k < lenK; k++) {
+            var arrOfDecimal = $scope.decimalToArr($scope.lanesData["topos"][k]["inLaneInfo"]);
+            var lenOfInfo = (16 - arrOfDecimal.length);
+            if (lenOfInfo === num) {
+                $scope.lanesData["topos"][k]["busLaneInfo"] = 0;
             }
-
-
+        }
     };
     //修改公交车道
     $scope.changeTransit=function(item,index) {
@@ -381,7 +370,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             };
             $scope.$emit("transitCtrlAndTpl", changedTransitObj);
         }
-
     };
 
     $document.bind("keydown", function (event) {
@@ -424,8 +412,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
             }
         }
-
-
     });
     $scope.save = function () {
         objCtrl.save();
@@ -435,6 +421,12 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
+
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -444,6 +436,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
+
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 info = data.data.log;
             } else {
                 info = [{
@@ -458,7 +452,6 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             }
             rdConnexity.redraw();
         })
-
     };
     $scope.delete = function () {
         var objId = parseInt($scope.lanesData.pid);

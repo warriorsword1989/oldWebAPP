@@ -122,27 +122,8 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
                 tile: this.redrawTiles[index].options.context._tilePoint,
                 zoom: this._map.getZoom()
             }
-            if (data.hasOwnProperty("features")) {
-                for (var i = 0; i < data.features.length; i++) {
-                    var feature = data.features[i];
-
-                    var color = null;
-                    if (feature.hasOwnProperty('properties')) {
-                        color = feature.properties.c;
-                    }
-
-                    var style = this.currentEditLayer.styleFor(feature, color);
-
-                    var geom = feature.geometry.coordinates;
-
-                    this.currentEditLayer._drawPolygon(ctx, geom[0], style, true);
-
-                }
-            }
-
+            this.currentEditLayer._drawFeature(data, ctx, true);
         }
-
-
     }
     ,
     /***

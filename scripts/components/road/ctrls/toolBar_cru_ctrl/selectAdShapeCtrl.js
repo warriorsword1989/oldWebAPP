@@ -17,8 +17,9 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
-        if (typeof map.currentTool.cleanHeight === "function") {
+        if ( map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
@@ -70,7 +71,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
         $scope.resetToolAndMap();
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
-        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
         $scope.changeBtnClass(num);
         if (!$scope.classArr[num]) {
             map.currentTool.disable();
@@ -107,6 +108,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(adAdmin);
             $scope.toolTipText = '请选择行政区划代表点！';
             eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
                 selectCtrl.onSelected({
@@ -143,6 +145,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             $scope.toolTipText = '请选择node！';
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
                 $scope.getFeatDataCallback(data, data.id, "ADNODE", 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html");

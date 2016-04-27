@@ -139,12 +139,12 @@ function keyEvent(ocLazyLoad, scope) {
                         if(param["type"]==="RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
                         }else if(param["type"]==="ADLINK") {
-                            layerCtrl.getLayerById("rdLink").redraw();
+                            layerCtrl.getLayerById("adLink").redraw();
                         }
                         treatmentOfChanged(data,param["type"],showContent, ctrl, tpl)
                     })
 
-                }  else if (shapeCtrl.editType === "rdrestricton") {
+                }  else if (shapeCtrl.editType === "RDRESTRICTION") {
                     param = {
                         "command": "CREATE",
                         "type": "RDRESTRICTION",
@@ -244,7 +244,7 @@ function keyEvent(ocLazyLoad, scope) {
                         selectCtrl.selectedFeatures = null;
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         layerCtrl.getLayerById("speedlimit").redraw();
-                        treatmentOfChanged(data,"RDSPEEDLIMIT", "创建RDSPEEDLIMIT成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_ctrl/speedLimitTpl.html');
+                        treatmentOfChanged(data,"RDSPEEDLIMIT", "创建RDSPEEDLIMIT成功", 'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
                     })
 
                 } else if (shapeCtrl.editType === "pathVertexReMove" || shapeCtrl.editType === "pathVertexInsert" || shapeCtrl.editType === "pathVertexMove") {
@@ -279,37 +279,49 @@ function keyEvent(ocLazyLoad, scope) {
 
                         })
                     }
-                } else if (shapeCtrl.editType === "pathNodeMove") {
-                    param = {
-                        "command": "MOVE",
-                        "type": "RDNODE",
-                        "projectId": Application.projectid,
-                        "objId":  selectCtrl.selectedFeatures.id,
-                        "data": {
-                            longitude: selectCtrl.selectedFeatures.latlng.lng,
-                            latitude: selectCtrl.selectedFeatures.latlng.lat
-                        }
-                    }
+                } else if (shapeCtrl.editType === "pathNodeMove"){
+                    param[ "command"]="MOVE";
+                    param["projectId"] = Application.projectid;
+                    param["objId"] = selectCtrl.selectedFeatures.id;
+                    param["data"] = {
+                        longitude: selectCtrl.selectedFeatures.latlng.lng,
+                        latitude: selectCtrl.selectedFeatures.latlng.lat
+                    };
+                if(shapeCtrl.editFeatType==="rdLink"){
+                    param ["type"] = "RDNODE";
+                }else if(shapeCtrl.editFeatType==="adLink") {
+                    param ["type"] = "ADNODE";
+                }
                     Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        treatmentOfChanged(data,"RDLINK", "移动link成功");
+                       if( param ["type"] === "RDNODE") {
+                           layerCtrl.getLayerById("referenceLine").redraw();
+                       }else if(param ["type"] === "ADNODE") {
+                           layerCtrl.getLayerById("adLink").redraw();
+                       }
+                        treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
                 }
                 else if (shapeCtrl.editType === "pointVertexAdd") {
-                    param = {
-                        "command": "BREAK",
-                        "type": "RDLINK",
-                        "projectId": Application.projectid,
-                        "objId": parseInt(selectCtrl.selectedFeatures.id),
+                    param["command"] = "BREAK";
+                    param["projectId"] = Application.projectid;
+                    param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
+                    param["data"] = {"longitude": geo.x, "latitude": geo.y};
 
-                        "data": {"longitude": geo.x, "latitude": geo.y}
+                    if(shapeCtrl.editFeatType==="rdLink") {
+                        param["type"] = "RDLINK";
+                    }else{
+                        param["type"] = "ADLINK";
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        treatmentOfChanged(data, "RDLINK", "插入点成功");
+                        if(param["type"] === "RDLINK") {
+                            layerCtrl.getLayerById("referenceLine").redraw();
+                        }else{
+                            layerCtrl.getLayerById("adLink").redraw();
+                        }
 
+                        treatmentOfChanged(data, param["type"], "插入点成功");
                     })
-                } else if (shapeCtrl.editType === "rdBranch") {
+                } else if (shapeCtrl.editType === "RDBRANCH") {
                     param = {
                         "command": "CREATE",
                         "type": "RDBRANCH",
@@ -332,7 +344,7 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("rdcross").redraw();
                         treatmentOfChanged(data, "RDCROSS", "创建RDCROSS成功", 'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     })
-                } else if (shapeCtrl.editType === "rdlaneConnexity") {
+                } else if (shapeCtrl.editType === "RDLANECONNEXITY") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["laneConnexity"];
                     var laneStr = "";

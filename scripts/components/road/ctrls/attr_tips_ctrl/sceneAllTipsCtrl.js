@@ -427,7 +427,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     var restrictObj = {
                         "loadType":"attrTplContainer",
                         "propertyCtrl":"components/road/ctrls/attr_restriction_ctrl/rdRestriction",
-                        "propertyHtml":"js/pl/rdRestricOfOrdinaryTpl.html"
+                        "propertyHtml":"../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html"
                     };
                     $scope.$emit("transitCtrlAndTpl", restrictObj);
                 })

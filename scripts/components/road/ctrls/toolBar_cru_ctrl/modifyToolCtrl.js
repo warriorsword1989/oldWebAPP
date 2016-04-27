@@ -10,8 +10,6 @@ modifyApp.controller("modifyToolController", function ($scope) {
     var rdLink=ly.getLayerById("referenceLine")
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLyer = ly.getLayerById('edit');
-
-    map.currentTool = shapeCtrl.getCurrentTool();
     $scope.type = "";
     $scope.modifyShape = function (type, num,event) {
         event.stopPropagation();
@@ -27,16 +25,20 @@ modifyApp.controller("modifyToolController", function ($scope) {
         var feature = null;
         $scope.changeBtnClass(num);
         if(!$scope.classArr[num]){
-            map.currentTool.disable();
+            if(map.currentTool) {
+                map.currentTool.disable();
+            }
             map._container.style.cursor = '';
             return;
         }
-        map.currentTool.disable();
+        if(map.currentTool) {
+            map.currentTool.disable();
+        }
         if (shapeCtrl.shapeEditorResult) {
             if(tooltipsCtrl.getCurrentTooltip()){
                 tooltipsCtrl.onRemoveTooltip();
             }
-            if(type==="pathVertexInsert") {
+            if(type==="PATHVERTEXINSERT") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('insertDot');
                     tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
@@ -44,7 +46,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
                     return;
                 }
-            }else if(type==="pathVertexReMove") {
+            }else if(type==="PATHVERTEXREMOVE") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('deleteDot');
                     tooltipsCtrl.setCurrentTooltip('删除此形状点！');
@@ -52,7 +54,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                     return;
                 }
-            }else if(type==="pathVertexMove") {
+            }else if(type==="PATHVERTEXMOVE") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('moveDot');
                     tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
@@ -60,7 +62,7 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
                     return;
                 }
-            }else if(type==="pathBreak") {
+            }else if(type==="PATHBREAK") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathBreak');
                     tooltipsCtrl.setCurrentTooltip('开始打断link！');
@@ -69,10 +71,13 @@ modifyApp.controller("modifyToolController", function ($scope) {
                     tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
                     return;
                 }
-            }else if(type==="pathNodeMove") {
+            }else if(type==="PATHNODEMOVE") {
                 if(selectCtrl.selectedFeatures){
                     tooltipsCtrl.setEditEventType('pathNodeMove');
                     tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
+                    return;
                 }
             }else if(type === 'naviTool'){
                 map._container.style.cursor = '';
@@ -99,9 +104,11 @@ modifyApp.controller("modifyToolController", function ($scope) {
             sObj.setFinalGeometry(feature);
 
             shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+            shapeCtrl.startEditing();
+            map.currentTool = shapeCtrl.getCurrentTool();
             shapeCtrl.editFeatType = "rdLink";
             map.currentTool.snapHandler.addGuideLayer(rdLink);
-            shapeCtrl.startEditing();
+
             shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback",function(){
                 shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);

@@ -81,7 +81,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
 
     resetVertex:function(layerPoint){
 
-        var index = 0
+        var index = 0;
         var segments = this.shapeEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
         for(var i = 0,len = segments.length; i< len; i++){
             var distance =  L.LineUtil.pointToSegmentDistance(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2)))

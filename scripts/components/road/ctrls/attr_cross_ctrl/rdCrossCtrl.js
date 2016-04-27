@@ -34,7 +34,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
         var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
-
     };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();
@@ -79,6 +78,12 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
+
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -118,6 +123,9 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
                     "type":"",
                     "pid": ""
                 };
+
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
                 data.data.log.push(sinfo);
                     info=data.data.log;
                 }else{
@@ -133,7 +141,6 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             }
             $scope.refreshData();
         })
-
     };
     $scope.delete = function () {
         var objId = parseInt($scope.rdCrossData.pid);
