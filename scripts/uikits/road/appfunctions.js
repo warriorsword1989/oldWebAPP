@@ -211,3 +211,13 @@ Application.functions.getIntRticRank=function(param,func) {
             func(data)
         });
 };
+
+/***
+ * 获取层级
+ */
+Application.functions.getCondition=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};

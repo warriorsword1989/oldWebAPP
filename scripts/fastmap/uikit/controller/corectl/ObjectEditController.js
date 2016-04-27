@@ -179,6 +179,7 @@ fastmap.uikit.ObjectEditController = (function () {
                                             obj["pid"] = data["pid"];
                                         }
                                     }
+                                    delete obj["geoLiveType"];
                                     obj["objStatus"] = "INSERT";
                                     objArr.push(obj);
                                 }else{
@@ -193,6 +194,7 @@ fastmap.uikit.ObjectEditController = (function () {
                                         }
                                         objArr.push(obj);
                                     }
+                                    delete obj["geoLiveType"];
                                 }
 
                             }

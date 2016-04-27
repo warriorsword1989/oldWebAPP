@@ -97,7 +97,7 @@ Application.layersConfig =
             }
         },
 
-       {
+            {
                 url: Application.url + '/render/obj/getByTileWithGap?',
 
                 clazz: fastmap.mapApi.tileJSON,
@@ -345,10 +345,10 @@ Application.layersConfig =
                 }
 
             }
-             ]
+        ]
     }
 
-             , {
+        , {
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
@@ -637,6 +637,7 @@ function transformData(data) {
                 }
                 break;
             case 6://点限速
+                var  startEndArrow=null;//箭头图片
                 var resArray = item.m.b.split("|");
                 var type = item.m.a;
                 obj['geometry']['type'] = 'Point';
@@ -651,7 +652,6 @@ function transformData(data) {
                     if (fieldCollection === "1") {//理论判断，限速开始和结束都为蓝色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
-
                                 getIconStyle({
                                         iconName: '../../images/road/1101/1101_1_1_' + speedValue + '.svg',
                                         row: 0,
@@ -671,6 +671,7 @@ function transformData(data) {
                                 )
                             );
                         }
+                        startEndArrow="../../images/road/1101/1101_1_1_s.svg";
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
@@ -683,6 +684,10 @@ function transformData(data) {
                                     }
                                 )
                             );
+                            startEndArrow="../../images/road/1101/1101_1_1_e.svg";
+
+
+
                         } else {
                             obj['properties']['markerStyle']["icon"].push(
                                 getIconStyle({
@@ -693,21 +698,23 @@ function transformData(data) {
                                     }
                                 )
                             )
+                            startEndArrow="../../images/road/1101/1101_0_0_s.svg";
                         }
                     }
+                        obj['properties']['markerStyle']["icon"].push(
+                            getIconStyle({
+                                    iconName: startEndArrow,
+                                    row: 0,
+                                    column: 1,
+                                    location: obj['geometry']['coordinates'],
+                                    rotate: (item.m.c- 90) * (Math.PI / 180),
+                                    dx:(speedFlag=="1"?-36:6),//解除限速时，要使箭头冲着自己
+                                    dy:0
+                                }
+                            )
+                        );
 
-                    obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle({
-                                iconName: '../../images/road/1101/1101_0_0_s.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates'],
-                                rotate: (item.m.c- 90) * (Math.PI / 180),
-                                dx:6,
-                                dy:0
-                            }
-                        )
-                    );
+
 
                 }else if(type ==3){
                     var limitSpeed = resArray[1];
@@ -730,10 +737,13 @@ function transformData(data) {
                         '18':'交'
                     }
 
-                    if (limitSpeedFlag == 0) {
+                    if (limitSpeedFlag == "0") {
                         iconName = '../../images/road/1101/condition_speedlimit_start' + '.svg';
-                    } else if (limitspeedflag == 1) {
+                        startEndArrow="../../images/road/1101/1101_0_0_s.svg";
+                    } else if (limitSpeedFlag == "1") {
+
                         iconName = '../../images/road/1101/condition_speedlimit_end' + '.svg';
+                        startEndArrow="../../images/road/1101/1101_1_1_e.svg";
                     }
 
                     obj['properties']['markerStyle']["icon"].push(
@@ -750,12 +760,12 @@ function transformData(data) {
 
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
-                                iconName: '../../images/road/1101/1101_0_0_s.svg',
+                                iconName: startEndArrow,
                                 row: 0,
                                 column: 1,
                                 location: obj['geometry']['coordinates'],
                                 rotate: (item.m.c- 90) * (Math.PI / 180),
-                                dx:16,
+                                dx:(limitSpeedFlag=="1"?-50:20),//解除限速时，要使箭头冲着自己,
                                 dy:0
                             }
                         )

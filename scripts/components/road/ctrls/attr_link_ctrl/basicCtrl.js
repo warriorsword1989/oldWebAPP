@@ -160,7 +160,7 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     $scope.addFormOfWay = function() {
         var addFormOfWayObj={
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_components/road/ctrls/basicOfFormWayCtrl',
+            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/basicOfFormWayCtrl',
             "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/basicOfFormWayTpl.html'
         }
         $scope.$emit("transitCtrlAndTpl", addFormOfWayObj);

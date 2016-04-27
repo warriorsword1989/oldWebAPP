@@ -91,8 +91,6 @@ adNodeApp.controller("adNodeController",function($scope) {
         }
 
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            var restrict = layerCtrl.getLayerById("adLink");
-            restrict.redraw();
             var info = null;
             if (data.errcode==0) {
                 swal("操作成功",'保存成功！', "success");
@@ -104,6 +102,8 @@ adNodeApp.controller("adNodeController",function($scope) {
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
+                var restrict = layerCtrl.getLayerById("adLink");
+                restrict.redraw();
             }else{
                 info=[{
                     "op":data.errcode,
@@ -128,9 +128,9 @@ adNodeApp.controller("adNodeController",function($scope) {
         };
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
-            adLink.redraw();
             var info = [];
             if (data.errcode == 0) {
+                swal("操作成功",'删除成功！', "success");
                 var sinfo = {
                     "op": "删除ADNODE成功",
                     "type": "",
@@ -138,6 +138,8 @@ adNodeApp.controller("adNodeController",function($scope) {
                 };
                 data.data.log.push(sinfo);
                 info = data.data.log;
+                var restrict = layerCtrl.getLayerById("adLink");
+                restrict.redraw();
             } else {
                 info = [{
                     "op": data.errcode,
