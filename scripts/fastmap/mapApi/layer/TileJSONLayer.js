@@ -349,10 +349,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     _drawFeature: function (data, ctx, boolPixelCrs) {
         for (var i = 0; i < data.length; i++) {
             var feature = data[i];
-<<<<<<< HEAD
-
-=======
->>>>>>> fm/master
             var geom = feature.geometry;
             var type = geom.type;
             var style = feature.properties.style;
