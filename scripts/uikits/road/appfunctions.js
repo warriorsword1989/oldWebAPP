@@ -26,7 +26,7 @@ Application.functions.getTipsListItems=function(meshidArray,stage,type,func) {
     )
 };
 Application.functions.getTipsResult=function(rowkey,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getByRowkey?parameter={"rowkey":"'+rowkey+'"}',
+    fastmap.dataApi.ajaxConstruct('http://192.168.4.130/FosEngineWeb3'+'/fcc/tip/getByRowkey?parameter={"rowkey":"'+rowkey+'"}',
         function(data){
             func(data.data)
         }

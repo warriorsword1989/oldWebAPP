@@ -38,9 +38,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.2)',
                         lineWidth: 1,
-                        width: 40,
+                        width: 20,
                         height: 20,
-                        drawx: -20,
+                        drawx: -10,
                         drawy: -10
                     });
                 } else if (feature.properties.type == '1203') {
@@ -52,9 +52,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.5)',
                         lineWidth: 1,
-                        width: 40,
+                        width: 20,
                         height: 20,
-                        drawx: -20,
+                        drawx: -10,
                         drawy: -10
                     });
                 } else {
@@ -66,9 +66,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.5)',
                         lineWidth: 1,
-                        width: 40,
+                        width: 20,
                         height: 20,
-                        drawx: -20,
+                        drawx: -10,
                         drawy: -10
                     });
                 }
@@ -81,9 +81,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     lineColor: 'rgb(4, 187, 245)',
                     fillColor: 'rgba(4, 187, 245, 0.5)',
                     lineWidth: 1,
-                    width: 40,
+                    width: 20,
                     height: 20,
-                    drawx: -20,
+                    drawx: -10,
                     drawy: -10
                 });
             }
