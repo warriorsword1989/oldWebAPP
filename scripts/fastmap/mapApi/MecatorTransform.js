@@ -4,8 +4,8 @@
  */
     fastmap.mapApi.MecatorTranform = function (){
         this.M_PI = Math.PI;
-        this.originShift = 2 * this.M_PI * 6378137 / 2.0;
-        this.initialResolution = 2 * this.M_PI * 6378137 / 256;
+        this.originShift = 2 * this.M_PI * 6367447.5 / 2.0;
+        this.initialResolution = 2 * this.M_PI * 6367447.5 / 256;
     }
     /***
      * 计算当前地图分辨率
