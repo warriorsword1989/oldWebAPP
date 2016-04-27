@@ -146,7 +146,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     };
 
     $scope.delete = function(){
-        var objId = parseInt($scope.adAdminData.pid);
+        var objId = parseInt($scope.adAdminData.regionId);
         var param = {
             "command": "DELETE",
             "type":"ADADMIN",
