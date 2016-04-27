@@ -4,7 +4,7 @@
  */
     fastmap.mapApi.MecatorTranform = function (){
         this.M_PI = Math.PI;
-        this.originShift = 2 * this.M_PI * 6367447.5 / 2.0;
+        this.originShift = 2 * this.M_PI * 6367447.5 / 2.0;    //原先为6378137，wt修改
         this.initialResolution = 2 * this.M_PI * 6367447.5 / 256;
     }
     /***
