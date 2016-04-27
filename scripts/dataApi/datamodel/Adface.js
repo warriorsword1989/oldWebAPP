@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.AdFace = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -14,7 +14,7 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
-        this.facePid = data["facePid"];
+        this.pid = data["pid"];
         this.regionId = data["regionId"];
         this.geometry = data["geometry"];
         this.area = data["area"] || 0;
@@ -27,12 +27,13 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
-        data["facePid"] = this.facePid;
+        data["pid"] = this.pid;
         data["regionId"] = this.regionId;
         data["geometry"] = this.geometry;
         data["area"] = this.area;
         data["perimeter"] = this.perimeter;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -45,13 +46,14 @@ fastmap.dataApi.adFace = fastmap.dataApi.GeoDataModel.extend({
         data["area"] = this.area;
         data["perimeter"] = this.perimeter;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
 });
 
-fastmap.dataApi.adface = function (data, options) {
-    return new fastmap.dataApi.adFace(data, options);
+fastmap.dataApi.adFace = function (data, options) {
+    return new fastmap.dataApi.AdFace(data, options);
 }
 
 

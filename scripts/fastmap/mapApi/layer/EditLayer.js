@@ -275,7 +275,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if(type==="3") {
                 angleOfTran = angleOfTran + Math.PI;
             }
-            url = "./css/img/" + type + ".svg";
+            url = "../../images/road/img/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();
@@ -303,7 +303,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if(type==="2") {
                 angleOfTran = angleOfTran + Math.PI;
             }
-            url = "./css/intRtic/" + type + ".svg";
+            url = "../../images/road/intRtic/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();

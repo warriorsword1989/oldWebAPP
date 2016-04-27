@@ -57,32 +57,44 @@ fastmap.uikit.ObjectEditController = (function () {
                 this.data = null;
                 switch(type){
                     case "RDNODE":
-                        this.data=fastmap.dataApi.rdnode(obj)
+                        this.data = fastmap.dataApi.rdNode(obj);
                         if(options) {
                             this.data.linepids = options.linepids;
                             this.data.nodeid = options.nodeid;
                         }
                         break;
                     case "RDLINK":
-                        this.data =  fastmap.dataApi.rdlink(obj);
+                        this.data =  fastmap.dataApi.rdLink(obj);
                         break;
                     case "RDRESTRICTION":
-                        this.data=fastmap.dataApi.rdrestriction(obj)
+                        this.data = fastmap.dataApi.rdRestriction(obj);
                         break;
                     case "RDCROSS":
-                        this.data=fastmap.dataApi.rdcross(obj)
+                        this.data = fastmap.dataApi.rdCross(obj);
                         break;
                     case "RDLANECONNEXITY":
-                        this.data=fastmap.dataApi.rdlaneconnexity(obj)
+                        this.data = fastmap.dataApi.rdLaneConnexity(obj);
                         break;
                     case "RDSPEEDLIMIT":
-                        this.data=fastmap.dataApi.rdspeedlimit(obj)
+                        this.data = fastmap.dataApi.rdSpeedLimit(obj);
                         break;
                     case "RDBRANCH":
-                        this.data = fastmap.dataApi.rdbranch(obj);
+                        this.data = fastmap.dataApi.rdBranch(obj);
                         break;
                     case "ADLINK":
                         this.data = fastmap.dataApi.adLink(obj);
+                        break;
+                    case "ADFACE":
+                        this.data = fastmap.dataApi.adFace(obj);
+                        break;
+                    case "RDGSC":
+                        this.data = fastmap.dataApi.rdGsc(obj);
+                        break;
+                    case "ADADMIN":
+                        this.data = fastmap.dataApi.adAdmin(obj);
+                        break;
+                    case "ADNODE":
+                        this.data = fastmap.dataApi.adNode(obj);
                         break;
                     default:
                         throw "无法解析当前选择的类型!";
@@ -167,6 +179,7 @@ fastmap.uikit.ObjectEditController = (function () {
                                             obj["pid"] = data["pid"];
                                         }
                                     }
+                                    delete obj["geoLiveType"];
                                     obj["objStatus"] = "INSERT";
                                     objArr.push(obj);
                                 }else{
@@ -181,6 +194,7 @@ fastmap.uikit.ObjectEditController = (function () {
                                         }
                                         objArr.push(obj);
                                     }
+                                    delete obj["geoLiveType"];
                                 }
 
                             }

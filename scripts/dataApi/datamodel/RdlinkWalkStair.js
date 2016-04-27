@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkWalkStair = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data data
@@ -11,6 +11,7 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKWALKSTAIR";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -42,6 +43,7 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
         data["captureFlag"] = this.captureFlag;
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -61,6 +63,7 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
         data["captureFlag"] = this.captureFlag;
         data["uRecord"] = this.uRecord;
         data["uFields"] = this.uFields;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -71,7 +74,7 @@ fastmap.dataApi.linkWalkStair = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkLimit}
  */
-fastmap.dataApi.linkwalkstair = function (data, options) {
-    return new fastmap.dataApi.linkWalkStair(data, options);
+fastmap.dataApi.rdLinkWalkStair = function (data, options) {
+    return new fastmap.dataApi.RdLinkWalkStair(data, options);
 }
 

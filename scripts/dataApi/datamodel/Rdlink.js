@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLink = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data geometry
@@ -75,7 +75,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         this.forms = [];
         if (data["forms"]&&data["forms"].length > 0) {
             for (var i = 0, len = data["forms"].length; i < len; i++) {
-                var form =fastmap.dataApi.linkform(data["forms"][i]);
+                var form =fastmap.dataApi.rdLinkForm(data["forms"][i]);
                 this.forms.push(form);
             }
 
@@ -86,7 +86,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
 
             for (var i = 0, len = data["names"].length; i < len; i++) {
 
-                var name =  fastmap.dataApi.linkname(data["names"][i]);
+                var name =  fastmap.dataApi.rdLinkName(data["names"][i]);
                 this.names.push(name);
             }
 
@@ -96,7 +96,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["rtics"]&&data["rtics"].length > 0) {
             for (var i = 0, len = data["rtics"].length; i < len; i++) {
 
-                var rtic =fastmap.dataApi.linkrtic(data["rtics"][i]);
+                var rtic =fastmap.dataApi.rdLinkRtic(data["rtics"][i]);
                 this.rtics.push(rtic);
             }
 
@@ -106,7 +106,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["intRtics"]&&data["intRtics"].length > 0) {
             for (var i = 0, len = data["intRtics"].length; i < len; i++) {
 
-                var intRtics =fastmap.dataApi.linkintrtic(data["intRtics"][i]);
+                var intRtics =fastmap.dataApi.rdLinkIntRtic(data["intRtics"][i]);
                 this.intRtics.push(intRtics);
             }
 
@@ -116,7 +116,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["sidewalks"]&&data["sidewalks"].length > 0) {
             for (var i = 0, len = data["sidewalks"].length; i < len; i++) {
 
-                var sideWalk =  fastmap.dataApi.linksidewalk(data["sidewalks"][i]);
+                var sideWalk =  fastmap.dataApi.rdLinkSideWalk(data["sidewalks"][i]);
                 this.sidewalks.push(sideWalk);
             }
 
@@ -125,7 +125,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         this.speedlimits = [];
         if (data["speedlimits"]&&data["speedlimits"].length > 0) {
             for(var i= 0,len=data["speedlimits"].length;i<len;i++) {
-                var speeedLimit =  fastmap.dataApi.linkspeedlimit(data["speedlimits"][i]);
+                var speeedLimit =  fastmap.dataApi.rdLinkSpeedLimit(data["speedlimits"][i]);
                 this.speedlimits.push(speeedLimit);
             }
 
@@ -134,7 +134,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         this.limits = [];
         if (data["limits"]&&data["limits"].length > 0) {
             for(var i= 0,len=data["limits"].length;i<len;i++) {
-                var limit=  fastmap.dataApi.linklimit(data["limits"][i]);
+                var limit=  fastmap.dataApi.rdLinkLimit(data["limits"][i]);
                 this.limits.push(limit);
             }
 
@@ -144,7 +144,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["limitTrucks"]&&data["limitTrucks"].length > 0) {
             for(var i= 0,len=data["limitTrucks"].length;i<len;i++) {
 
-                var truckLimit = fastmap.dataApi.linktrucklimit(data["limitTrucks"][i]);
+                var truckLimit = fastmap.dataApi.rdLinkTruckLimit(data["limitTrucks"][i]);
                 this.limitTrucks.push(truckLimit);
             }
 
@@ -153,7 +153,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["walkstairs"]&&data["walkstairs"].length > 0) {
             for(var i= 0,len=data["walkstairs"].length;i<len;i++) {
 
-                var walkStair =  fastmap.dataApi.linkwalkstair(data["walkstairs"][i]);
+                var walkStair =  fastmap.dataApi.rdLinkWalkStair(data["walkstairs"][i]);
                 this.walkstairs.push(walkStair);
             }
 
@@ -162,7 +162,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
         if (data["zones"]&&data["zones"].length > 0) {
             for(var i= 0,len=data["zones"].length;i<len;i++) {
 
-                var zone =  fastmap.dataApi.linkzone(data["zones"][i]);
+                var zone =  fastmap.dataApi.rdLinkZone(data["zones"][i]);
                 this.zones.push(zone);
             }
 
@@ -317,7 +317,7 @@ fastmap.dataApi.rdLink = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.rdlink = function (data, options) {
-    return new fastmap.dataApi.rdLink(data, options);
+fastmap.dataApi.rdLink = function (data, options) {
+    return new fastmap.dataApi.RdLink(data, options);
 }
 

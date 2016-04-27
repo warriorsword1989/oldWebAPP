@@ -54,12 +54,15 @@
     }
 </style>
 <div id="fm-addShapContainer" ng-controller="addAdShapeController" class="btn-group btn-group-sm dropdown" style="width: 100%;">
-    <button type="button" class="btn addNode_{{classArr[5]}}" id="addNode" ng-click="addShape('node',5,$event)"
+    <button type="button" class="btn addNode_{{classArr[4]}}" id="addNode" ng-click="addShape('adNode',4,$event)"
             title="新增点+"></button>
-    <button type="button" class="btn addLink_{{classArr[6]}}" id="addLink" ng-click="addShape('link',6,$event)"
+    <button type="button" class="btn addLink_{{classArr[5]}}" id="addLink" ng-click="addShape('adLink',5,$event)"
             title="新增线"></button>
-    <button type="button" class="btn addRelation_{{classArr[7]}} dropdown-toggle" id="addRelation"
-            data-toggle="dropdown" title="新增关系">
+    <button type="button" class="btn addRelation_{{classArr[6]}} dropdown-toggle"  ng-click="addShape('adAdmin',6,$event)"
+            title="新增行政区划代表点">
+    </button>
+    <button type="button" class="btn addLink_{{classArr[7]}}" id="addPolygon"  ng-click="addShape('adFace',7,$event)"
+            title="新增polygon">
     </button>
 
 </div>

@@ -25,6 +25,7 @@ fastmap.uikit.ShapeEditorController=(function() {
                 L.setOptions(this, options);
                 this.map = null;
                 this.editType = this.options.editType || '';
+                this.editFeatType = null;
                 this.currentEditinGeometry = {};
                 this.currentTool = {"disable":function(){return -1;}};
                 this.shapeEditorResultFeedback = new fastmap.uikit.ShapeEditResultFeedback({shapeEditor:this});
@@ -63,6 +64,7 @@ fastmap.uikit.ShapeEditorController=(function() {
                 //this.shapeEditorResult = shapeEditorResult;
                 this.currentEditinGeometry = this.shapeEditorResult.getFinalGeometry();
                 this._tools(this.editType);
+
             },
 
             /***

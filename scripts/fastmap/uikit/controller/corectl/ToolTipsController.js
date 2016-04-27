@@ -68,7 +68,7 @@ fastmap.uikit.ToolTipsController=(function() {
                 this._map.on('mouseout', this.onMoveOutTooltip,this);
             },
             onClickTooltip:function(event){
-                if(this.eventType=="drawPath"){
+                if(this.eventType==fastmap.mapApi.ShapeOptionType.DRAWPATH){
                     this.toolsdiv.innerHTML=this.innervalue;
                     this.toolsdiv.style.cssText+=this.tooltipstyle;
                     this._map.on('dblclick', this.onDbClickTooltip,this);
@@ -99,7 +99,6 @@ fastmap.uikit.ToolTipsController=(function() {
             setCurrentTooltip: function (tooltip) {
                 var tools=L.DomUtil.get(this._divid);
                 this._map.on('mousemove', this.onMoveTooltip,this);
-                tools.style.display = 'block';
                 tools.style.backgroundColor = "#000";
                 tools.innerHTML=tooltip;
                 this.toolsdiv=tools;

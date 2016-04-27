@@ -17,11 +17,11 @@ fastmap.uikit.ShapeEditorFactory =  L.Class.extend({
 
             CreateShapeToolsObject: function (shapeEditor) {
                 var toolsObject = {
-
                     'drawPath': new fastmap.uikit.DrawPath({shapeEditor:shapeEditor}),
+                    'drawAdLink': new fastmap.uikit.DrawPath({shapeEditor:shapeEditor}),
                     'drawPolygon': new fastmap.uikit.DrawPolygon({shapeEditor:shapeEditor}),
-                    'pathcopy': new fastmap.uikit.PathCopy({shapeEditor:shapeEditor}),
-                    'pathcut': new fastmap.uikit.PathCut({shapeEditor:shapeEditor}),
+                    'pathCopy': new fastmap.uikit.PathCopy({shapeEditor:shapeEditor}),
+                    'pathCut': new fastmap.uikit.PathCut({shapeEditor:shapeEditor}),
                     'pathVertexInsert': new fastmap.uikit.PathVertexInsert({shapeEditor:shapeEditor}),
                     'pathVertexMove': new fastmap.uikit.PathVertexMove({shapeEditor:shapeEditor}),
                     'pathVertexReMove': new fastmap.uikit.PathVertexRemove({shapeEditor:shapeEditor}),
@@ -29,8 +29,9 @@ fastmap.uikit.ShapeEditorFactory =  L.Class.extend({
                     'pathBreak': new fastmap.uikit.PathBreak({shapeEditor:shapeEditor}),
                     'transformDirect':new fastmap.uikit.TransformDirection({shapeEditor:shapeEditor}),
                     'pathNodeMove':new fastmap.uikit.PathNodeMove({shapeEditor:shapeEditor}),
-                    'pointVertexAdd':new fastmap.uikit.PointVertexAdd({shapeEditor:shapeEditor})
-
+                    'pointVertexAdd':new fastmap.uikit.PointVertexAdd({shapeEditor:shapeEditor}),
+                    'addAdAdmin':new fastmap.uikit.adAdminAdd({shapeEditor:shapeEditor}),
+                    'adAdminMove':new fastmap.uikit.adAdminMove({shapeEditor:shapeEditor})
                 };
                 return toolsObject;
             }

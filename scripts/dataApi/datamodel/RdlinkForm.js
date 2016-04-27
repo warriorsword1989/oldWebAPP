@@ -3,7 +3,7 @@
  * Class Rdnode
  */
 
-fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkForm = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -11,6 +11,7 @@ fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKFORM";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -44,6 +45,7 @@ fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
         data["extendedForm"] = this.extendedForm;
         data["auxiFlag"] = this.auxiFlag;
         data["kgFlag"] = this.kgFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -61,6 +63,7 @@ fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
         data["extendedForm"] = this.extendedForm;
         data["auxiFlag"] = this.auxiFlag;
         data["kgFlag"] = this.kgFlag;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -71,7 +74,7 @@ fastmap.dataApi.linkForm = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.rdNode}
  */
-fastmap.dataApi.linkform = function (data, options) {
-    return new fastmap.dataApi.linkForm(data, options);
+fastmap.dataApi.rdLinkForm = function (data, options) {
+    return new fastmap.dataApi.RdLinkForm(data, options);
 }
 

@@ -58,7 +58,7 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
             }
 
             //TODO refactor: move cursor to styles
-            this._container.style.cursor = '';
+            this._map._container.style.cursor = '';
 
             this._map
                 .off('mousedown', this.onMouseDown, this)
@@ -147,12 +147,12 @@ fastmap.uikit.CrossingAdd = L.Handler.extend({
             for (var j = startTilePoint[1]; j <= endTilePoint[1]; j++) {
 
                 if (tiles[i + ":" + j]) {
-                    var data = tiles[i + ":" + j].data.features;
+                    var data = tiles[i + ":" + j].data;
                     for (var item in data) {
                         var pointsLen = data[item].geometry.coordinates.length;
                         var linePoints = [];
                         for(var n=0;n<pointsLen;n++) {
-                            var linePoint=data[item].geometry.coordinates[n][0]
+                            var linePoint = data[item].geometry.coordinates[n];
                             linePoint = transform.PixelToLonlat(i * 256 + linePoint[0], j * 256 + linePoint[1], map.getZoom());
                             linePoint = new fastmap.mapApi.Point(linePoint[0], linePoint[1]);
                             linePoints.push(linePoint);

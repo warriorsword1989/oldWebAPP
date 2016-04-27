@@ -118,7 +118,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 }
             }
         }
-
     }
     var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
     highLightLinks.highLightFeatures = highLightFeatures;
@@ -143,7 +142,6 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             if ($scope.outLanesArr[i]["reachDir"] === $scope.transData[$scope.directArr[0]]) {
                 $scope.showLaneInfo.push($scope.outLanesArr[i]);
             }
-
         }
     };
     $scope.getChangedDirect();
@@ -236,7 +234,7 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                     for(var p= 0,lenP=$scope.infoData["topos"].length;p<lenP;p++) {
                         if($scope.infoData["topos"][p]["outLinkPid"]===newShowLane["outLinkPid"]) {
                             newTopo = angular.extend({},$scope.infoData["topos"][p]);
-                            newTopo = fastmap.dataApi.rdlanetopology(newTopo);
+                            newTopo = fastmap.dataApi.rdLaneTopology(newTopo);
                         }
                     }
                     newTopo["outLinkPid"] = parseInt(data.id);

@@ -38,9 +38,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.2)',
                         lineWidth: 1,
-                        width: 40,
+                        width: 20,
                         height: 20,
-                        drawx: -20,
+                        drawx: -10,
                         drawy: -10
                     });
                 } else if (feature.properties.type == '1203') {
@@ -52,9 +52,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.5)',
                         lineWidth: 1,
-                        width: 40,
+                        width: 20,
                         height: 20,
-                        drawx: -20,
+                        drawx: -10,
                         drawy: -10
                     });
                 } else {
@@ -66,9 +66,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         lineColor: 'rgb(4, 187, 245)',
                         fillColor: 'rgba(4, 187, 245, 0.5)',
                         lineWidth: 1,
-                        width: 40,
+                        width: 20,
                         height: 20,
-                        drawx: -20,
+                        drawx: -10,
                         drawy: -10
                     });
                 }
@@ -81,9 +81,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     lineColor: 'rgb(4, 187, 245)',
                     fillColor: 'rgba(4, 187, 245, 0.5)',
                     lineWidth: 1,
-                    width: 40,
+                    width: 20,
                     height: 20,
-                    drawx: -20,
+                    drawx: -10,
                     drawy: -10
                 });
             }
@@ -102,20 +102,21 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             for (var item in this.highLightFeatures) {
                 this.currentEditLayer = fastmap.uikit.LayerController().getLayerById(this.highLightFeatures[item].layerid);
                 for (var tile in this.currentEditLayer.tiles) {
-                    for (var feature in this.currentEditLayer.tiles[tile].data.features) {
-                        if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.id) {
+                    for (var feature in this.currentEditLayer.tiles[tile].data) {
+
+                        if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.id) {
                             var ctx = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
-                            var hightlightfeature = this.currentEditLayer.tiles[tile].data.features[feature];
+                            var hightlightfeature = this.currentEditLayer.tiles[tile].data[feature];
                             var id = this.highLightFeatures[item].id;
                             if (this.highLightFeatures[item].type == 'line') {
                                 this.drawOfLink(id, hightlightfeature, ctx);
 
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
-                                var geo = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[0][0];
+                                var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                                 this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
                             }
                             else if (this.highLightFeatures[item].type == 'speedlimit') {
@@ -133,40 +134,40 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             } else if (this.highLightFeatures[item].type == 'rdlaneconnexity') {
                                 this.drawLane(id, hightlightfeature, ctx);
                             } else if (this.highLightFeatures[item].type == 'highSpeedDivergence') {
-                                var feature = this.currentEditLayer.tiles[tile].data.features[feature];
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
                             } else if (this.highLightFeatures[item].type == 'gpsLine') {
-                                this.layer._drawLineString(ctx, this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates, true, {
+                                this.layer._drawLineString(ctx, this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates, true, {
                                     size: 3,
                                     color: '#00F5FF'
                                 }, {
                                     size: 3,
                                     color: '#00F5FF'
-                                }, this.currentEditLayer.tiles[tile].data.features[feature].properties);
+                                }, this.currentEditLayer.tiles[tile].data[feature].properties);
                             } else if (this.highLightFeatures[item].type == 'workPoint') {
-                                var feature = this.currentEditLayer.tiles[tile].data.features[feature];
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
-                            } else if (this.highLightFeatures[item].type == 'overpass') {
-                                var feature = this.currentEditLayer.tiles[tile].data.features[feature]
+                            } else if (this.highLightFeatures[item].type == 'rdgsc') {
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
                             }
                             break;
-                        }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.snode) {
+                        }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                             var ctxOfSNode = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
-                            var geoOfSNode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[0][0];
+                            var geoOfSNode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                             this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
                             break;
-                        }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data.features[feature].properties.enode) {
+                        }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
                             var ctxOfENode = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
-                            var len = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates.length - 1;
-                            var geoOfENode = this.currentEditLayer.tiles[tile].data.features[feature].geometry.coordinates[len][0];
+                            var len = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates.length - 1;
+                            var geoOfENode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[len];
                             this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
                             break;
                         }
@@ -187,19 +188,18 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawOfLink: function (id, feature, ctx) {
 
-
         var color = null;
         if (feature.hasOwnProperty('properties')) {
-            color = feature.properties.c;
+            color = feature.properties.style.strokeColor;
         }
 
-        var style = this.layer.styleFor(feature, color);
+        var style = feature.properties.style;
 
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
             this.layer._drawLineString(ctx, geom, true, {
-                size: 3,
-                color: '#00F5FF'
+                strokeWidth: 3,
+                strokeColor: '#00F5FF'
             }, {
                 color: '#00F5FF',
                 radius: 3
@@ -221,160 +221,63 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawRestrict: function (id, feature, ctx) {
 
-        var type = feature.geometry.type;
-        var geom = feature.geometry.coordinates;
-        var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
-        var newgeom = [];
+
         if (feature.properties.id == id) {
-            if (type == "Point") {
-                if (feature.properties.restrictioninfo === undefined) {
-                    return;
-                }
-                var newGeom = [];
-                var restrictObj = feature.properties.restrictioninfo;
-                if (restrictObj !== undefined) {
-                    if (restrictObj.constructor === Array) {
-                        for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
 
-                            if (theory > 0) {
+            if (id !== undefined) {
+                var laneObjArr = feature.properties.markerStyle.icon;
+                for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
 
-                                newgeom[0] = parseInt(geom[0]) + theory * 16 * Math.cos(route);
-                                newgeom[1] = parseInt(geom[1]) + theory * 16 * Math.sin(route);
+                    this.layer._drawBackground(
+                        {
+                            ctx: ctx,
+                            geo: laneObjArr[fact].location,
+                            boolPixelCrs: true,
+                            //rotate: feature.properties.rotate,
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0)',
+                            lineWidth: 1,
+                            width: 15,
+                            height: 15,
+                            drawx: -7.5,
+                            drawy: -7.5,
+                            scalex: 2 / 3,
+                            scaley: 2 / 3
+                        })
 
-
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newGeom,
-
-                                    boolPixelCrs: true,
-                                    rotate: route,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-
-                                })
-                            } else {
-
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: geom,
-
-                                    boolPixelCrs: true,
-                                    rotate: route,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-
-                                })
-                            }
-
-                        }
-                    } else {
-                        var restrictArr = restrictObj.split(",");
-                        for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-                            if (fact > 0) {
-                                newgeom[0] = parseInt(geom[0][0]) + fact * 16 * Math.cos(route);
-                                newgeom[1] = parseInt(geom[1][0]) + fact * 16 * Math.sin(route);
-
-
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newgeom,
-
-                                    boolPixelCrs: true,
-                                    rotate: route,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-
-                                })
-                            } else {
-
-
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: geom,
-
-                                    boolPixelCrs: true,
-                                    rotate: route,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-
-                                })
-                            }
-                        }
-                    }
                 }
             }
         }
 
+
+
     },
 
     drawLane: function (id, feature, ctx) {
-        var geom = feature.geometry.coordinates;
+
         if (feature.properties.id == id) {
 
-            var newGeom = [];
-            var laneObj = feature.properties.laneconnexityinfo;
-            var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
-            if (laneObj !== undefined) {
-                var laneObjArr = laneObj.split(",");
+            if (id !== undefined) {
+                var laneObjArr = feature.properties.markerStyle.icon;
                 for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-                    if (fact > 0) {
-                        newGeom[0] = parseInt(geom[0]) + fact * 10 * Math.cos(route);
-                        newGeom[1] = parseInt(geom[1]) + fact * 10 * Math.sin(route);
-                        this.layer._drawBackground(
-                            {
-                                ctx: ctx,
-                                geo: newGeom,
-                                boolPixelCrs: true,
-                                rotate: route - (Math.PI / 2),
-                                lineColor: 'rgb(4, 187, 245)',
-                                fillColor: 'rgba(4, 187, 245, 0)',
-                                lineWidth: 1,
-                                width: 20,
-                                height: 10,
-                                drawx: -10,
-                                drawy: -5,
-                                scalex: 2 / 3,
-                                scaley: 2 / 3
-                            })
-                    } else {
-                        this.layer._drawBackground(
-                            {
-                                ctx: ctx,
-                                geo: geom,
-                                boolPixelCrs: true,
-                                rotate: route - (Math.PI / 2),
-                                lineColor: 'rgb(4, 187, 245)',
-                                fillColor: 'rgba(4, 187, 245, 0)',
-                                lineWidth: 1,
-                                width: 20,
-                                height: 10,
-                                drawx: -10,
-                                drawy: -5,
-                                scalex: 2 / 3,
-                                scaley: 2 / 3
-                            })
 
-                    }
+                    this.layer._drawBackground(
+                        {
+                            ctx: ctx,
+                            geo: laneObjArr[fact].location,
+                            boolPixelCrs: true,
+                            rotate: feature.properties.rotate* (Math.PI / 180),
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0)',
+                            lineWidth: 1,
+                            width: 10,
+                            height: 20,
+                            drawx: -5,
+                            drawy: -10,
+                            scalex: 2 / 3,
+                            scaley: 2 / 3
+                        })
+
                 }
             }
         }
@@ -385,9 +288,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         var geom = feature.geometry.coordinates;
         if (feature.properties.id == id) {
             if (type == "Point") {
-                if (feature.properties.speedlimitcondition === undefined) {
-                    return;
-                }
 
                 var newGeom = [];
 
@@ -415,17 +315,17 @@ fastmap.uikit.HighLightRender = L.Class.extend({
     drawBranch: function (id, feature, context) {
 
         var geom = feature.geometry.coordinates;
-        if (feature.properties.SpeedDivergencecondition && feature.properties.id == id) {
+        if (feature.properties.id && feature.properties.id == id) {
 
             var newGeom = [];
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
-            var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
+
             this.layer._drawBackground({
                 ctx: context,
                 geo: newGeom,
                 boolPixelCrs: true,
-                rotate: divergeRoute,
+
                 lineColor: 'rgb(4, 187, 245)',
                 fillColor: 'rgba(4, 187, 245, 0.5)',
                 lineWidth: 1,
@@ -440,11 +340,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
     },
     drawCross: function (id, feature, ctx) {
         if (feature.properties.id == id) {
-            if (feature.properties.rdcrosscondition === undefined) {
+            if (feature.properties.id === undefined) {
                 return;
             }
             for (var j in feature.geometry.coordinates) {
-                var geo = feature.geometry.coordinates[j][0];
+                var geo = feature.geometry.coordinates[j];
                 this.layer._drawBackground({
                     ctx: ctx,
                     geo: geo,
@@ -452,10 +352,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     lineColor: 'rgb(4, 187, 245)',
                     fillColor: 'rgba(4, 187, 245, 0.5)',
                     lineWidth: 1,
-                    width: 20,
-                    height: 20,
-                    drawx: -10,
-                    drawy: -10
+                    width: 6,
+                    height: 6,
+                    drawx: -3,
+                    drawy: -3
 
                 })
             }
@@ -483,13 +383,13 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
             var cusStyle = {
-                size: 3,
-                color: '#00F5FF'
+                strokeWidth: 3,
+                strokeColor: '#00F5FF'
             };
             /*如果有层级关系和自定义粗细则不使用默认值*/
             if(cusFeature){
-                cusStyle.size = cusFeature.style.size ? cusFeature.style.size : 3;
-                cusStyle.color = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
+                cusStyle.strokeWidth = cusFeature.style.strokeWidth ? cusFeature.style.strokeWidth : 3;
+                cusStyle.strokeColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
             }
             this.layer._drawLineString(ctx, geom, true, cusStyle, cusStyle, feature.properties);
         } else {
