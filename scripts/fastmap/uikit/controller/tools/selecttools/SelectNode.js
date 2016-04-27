@@ -27,7 +27,13 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.selectCtrl = fastmap.uikit.SelectController();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:false,snapNode:true,snapVertex:true});
+        this.snapHandler = new fastmap.uikit.Snap({
+            map:this._map,
+            shapeEditor:this.shapeEditor,
+            snapLine:false,
+            snapNode:true,
+            snapVertex:true
+        });
         this.snapHandler.enable();
 
 
