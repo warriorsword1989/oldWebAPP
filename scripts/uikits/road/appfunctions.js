@@ -26,7 +26,7 @@ Application.functions.getTipsListItems=function(meshidArray,stage,type,func) {
     )
 };
 Application.functions.getTipsResult=function(rowkey,func) {
-    fastmap.dataApi.ajaxConstruct(Application.url+'/fcc/tip/getByRowkey?parameter={"rowkey":"'+rowkey+'"}',
+    fastmap.dataApi.ajaxConstruct('http://192.168.4.130/FosEngineWeb3'+'/fcc/tip/getByRowkey?parameter={"rowkey":"'+rowkey+'"}',
         function(data){
             func(data.data)
         }
@@ -207,6 +207,16 @@ Application.functions.getScope=function(controller) {
  */
 Application.functions.getIntRticRank=function(param,func) {
     fastmap.dataApi.ajaxConstruct(Application.url+'/edit/applyPid?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
+
+/***
+ * 获取层级
+ */
+Application.functions.getCondition=function(param,func) {
+    fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
         function (data) {
             func(data)
         });

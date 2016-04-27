@@ -88,11 +88,13 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         }
     },
     getadAdminId: function (tilePoint, event) {
-        var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
+        var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+        var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]].data === undefined) {
             return;
         }
-        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+        var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
         var id = null;
         for (var item in data) {

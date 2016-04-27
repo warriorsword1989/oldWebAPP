@@ -30,7 +30,8 @@ fastmap.uikit.ShapeEditorFactory =  L.Class.extend({
                     'transformDirect':new fastmap.uikit.TransformDirection({shapeEditor:shapeEditor}),
                     'pathNodeMove':new fastmap.uikit.PathNodeMove({shapeEditor:shapeEditor}),
                     'pointVertexAdd':new fastmap.uikit.PointVertexAdd({shapeEditor:shapeEditor}),
-                    'addAdAdmin':new fastmap.uikit.adAdminAdd({shapeEditor:shapeEditor})
+                    'addAdAdmin':new fastmap.uikit.adAdminAdd({shapeEditor:shapeEditor}),
+                    'adAdminMove':new fastmap.uikit.adAdminMove({shapeEditor:shapeEditor})
                 };
                 return toolsObject;
             }

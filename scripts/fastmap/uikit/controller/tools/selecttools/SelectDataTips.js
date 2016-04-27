@@ -63,33 +63,36 @@ fastmap.uikit.SelectDataTips = L.Handler.extend({
     drawGeomCanvasHighlight: function (tilePoint, event) {
         var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]] && this.tiles[tilePoint[0] + ":" + tilePoint[1]].hasOwnProperty("data")) {
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
             var id = null;
             for (var item in data) {
-                if (data[item].geometry.coordinates.length <= 2) {
-                    if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
-                        id = data[item].properties.id;
-                        this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
-
-                        break;
-                    }
-                } else {
-                    var temp = [];
-                    for (var i = 0; i < data[item].geometry.coordinates.length; i++) {
-                        var childArr = [];
-                        childArr[0] = data[item].geometry.coordinates[i][0][0];
-                        childArr[1] = data[item].geometry.coordinates[i][0][1];
-                        temp.push(childArr);
-                    }
-                    for (var i = 0; i < temp.length; i++) {
-                        if (this._TouchesPoint(temp[i], x, y, 27)) {
+                if(data[item].geometry.coordinates){
+                    if (data[item].geometry.coordinates.length <= 2) {
+                        if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 27)) {
                             id = data[item].properties.id;
                             this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+
                             break;
+                        }
+                    } else {
+                        var temp = [];
+                        for (var i = 0; i < data[item].geometry.coordinates.length; i++) {
+                            var childArr = [];
+                            childArr[0] = data[item].geometry.coordinates[i][0];
+                            childArr[1] = data[item].geometry.coordinates[i][1];
+                            temp.push(childArr);
+                        }
+                        for (var i = 0; i < temp.length; i++) {
+                            if (this._TouchesPoint(temp[i], x, y, 27)) {
+                                id = data[item].properties.id;
+                                this.eventController.fire(this.eventController.eventTypes.GETTIPSID, {id: id, tips: 0,optype:"TIPS"})
+                                break;
+                            }
                         }
                     }
                 }
+
             }
         }
     },

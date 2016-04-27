@@ -39,7 +39,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
         var ctrlAndTplParams = {
             loadType: 'tipsTplContainer',
-            propertyCtrl: "components/road/ctrls/sceneAllTipsCtrl",
+            propertyCtrl: "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
             propertyHtml: "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
             callback: function () {
                 if (data.t_lifecycle === 2) { //外业修改

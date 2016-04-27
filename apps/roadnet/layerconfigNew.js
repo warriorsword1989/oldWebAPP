@@ -94,8 +94,9 @@ Application.layersConfig =
                 requestType: 'RDLINK',
                 showNodeLevel: 17
             }
-        }, {
+        },
 
+            {
             url: Application.url + '/render/obj/getByTileWithGap?',
 
             clazz: fastmap.mapApi.tileJSON,
@@ -423,7 +424,7 @@ Application.layersConfig =
                 zIndex: 12,
                 restrictZoom: 10,
                 visible: true,
-                requestType: "",
+                requestType: [2001,1510,1901],
                 showNodeLevel: 17
             }
 
@@ -627,6 +628,7 @@ function transformData(data) {
                 }
                 break;
             case 6://点限速
+                var  startEndArrow=null;//箭头图片
                 var resArray = item.m.b.split("|");
                 var type = item.m.a;
                 obj['geometry']['type'] = 'Point';
@@ -660,6 +662,7 @@ function transformData(data) {
                                 )
                             );
                         }
+                        startEndArrow="../../images/road/1101/1101_1_1_s.svg";
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
@@ -671,6 +674,10 @@ function transformData(data) {
                                     }
                                 )
                             );
+                            startEndArrow="../../images/road/1101/1101_1_1_e.svg";
+
+
+
                         } else {
                             obj['properties']['markerStyle']["icon"].push(
                                 getIconStyle({
@@ -681,21 +688,22 @@ function transformData(data) {
                                     }
                                 )
                             )
+                            startEndArrow="../../images/road/1101/1101_0_0_s.svg";
                         }
                     }
+                        obj['properties']['markerStyle']["icon"].push(
+                            getIconStyle({
+                                    iconName: startEndArrow,
+                                    row: 0,
+                                    column: 1,
+                                    location: obj['geometry']['coordinates'],
+                                    rotate: (item.m.c- 90) * (Math.PI / 180),
+                                    dx:(speedFlag=="1"?-36:6),//解除限速时，要使箭头冲着自己
+                                    dy:0
+                                }
+                            )
+                        );
 
-                    obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle({
-                                iconName: '../../images/road/1101/1101_0_0_s.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates'],
-                                rotate: (item.m.c - 90) * (Math.PI / 180),
-                                dx: 6,
-                                dy: 0
-                            }
-                        )
-                    );
 
                 } else if (type == 3) {
                     var limitSpeed = resArray[1];
@@ -718,10 +726,13 @@ function transformData(data) {
                         '18': '交'
                     }
 
-                    if (limitSpeedFlag == 0) {
+                    if (limitSpeedFlag == "0") {
                         iconName = '../../images/road/1101/condition_speedlimit_start' + '.svg';
-                    } else if (limitspeedflag == 1) {
+                        startEndArrow="../../images/road/1101/1101_0_0_s.svg";
+                    } else if (limitSpeedFlag == "1") {
+
                         iconName = '../../images/road/1101/condition_speedlimit_end' + '.svg';
+                        startEndArrow="../../images/road/1101/1101_1_1_e.svg";
                     }
 
                     obj['properties']['markerStyle']["icon"].push(
@@ -738,13 +749,13 @@ function transformData(data) {
 
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
-                                iconName: '../../images/road/1101/1101_0_0_s.svg',
+                                iconName: startEndArrow,
                                 row: 0,
                                 column: 1,
                                 location: obj['geometry']['coordinates'],
-                                rotate: (item.m.c - 90) * (Math.PI / 180),
-                                dx: 16,
-                                dy: 0
+                                rotate: (item.m.c- 90) * (Math.PI / 180),
+                                dx:(limitSpeedFlag=="1"?-50:20),//解除限速时，要使箭头冲着自己,
+                                dy:0
                             }
                         )
                     );
@@ -963,9 +974,9 @@ function transformData(data) {
                     overPassObj['geometry'] = {};
                     overPassObj['geometry']['type'] = 'LineString';
                     overPassObj['geometry']['coordinates'] = [];
-                    for (var i = 0, len = item.m.c[num].g.length; i < len; i = i + 1) {
-                        overPassObj['geometry']['coordinates'].push([item.m.c[num].g[i]]);
-                    }
+                    //for (var i = 0, len = item.m.c[num].g.length; i < len; i = i + 1) {
+                        overPassObj['geometry']['coordinates']=item.m.c[num].g;
+                    //}
                     overPassObj['properties'] = {
                         'id': item.i,
                         'featType': item.t
@@ -1119,14 +1130,18 @@ function getSrcByKind(kind) {
 function transformDataForTips(data) {
     var featArr = [];
     $.each(data, function (index, item) {
+
         var obj = {};
         obj['geometry'] = {};
+        obj['properties'] = {};
+        obj['properties']['markerStyle'] = {};
+        obj['properties']['markerStyle']["icon"] = [];
         obj['properties']['id'] = item.i;
         obj['geometry']['type'] = 'Point';
         obj['geometry']['coordinates'] = [];
         obj['properties']["featType"] = item.t;
         obj['properties']['status'] = item.m.a;
-        featArr.push(obj);
+
         switch (item.t) {
             case 1101://限速
             case 1301://车信
@@ -1136,45 +1151,67 @@ function transformDataForTips(data) {
             case 1803://挂接
             case 1501://上下线分离
             case 1302://普通交限
-                for (var i = 0, len = item.g.length; i < len; i = i + 1) {
-                    obj['geometry']['coordinates'].push([item.g[i]]);
-                }
+
+                obj['geometry']['coordinates'] = item.g;
+
                 obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle('../../images/road/tips/normal/pending.png', 1, 0, obj['geometry']['coordinates'][0])
+
+                    getIconStyle({
+                        iconName: '../../images/road/tips/normal/pending.png',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
                 );
                 break;
             case 1201://道路种别
-                for (var i = 0, len = item.g.length; i < len; i = i + 1) {
-
-                    obj['geometry']['coordinates'].push([item.g[i]]);
-                }
+                obj['geometry']['coordinates'] = item.g;
                 obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle('../../images/road/tips/kind/K' + feature.properties.kind + '.svg', 1, 0, obj['geometry']['coordinates'][0])
+                    getIconStyle({
+                        iconName: '../../images/road/tips/kind/K' + item.m.c + '.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
                 );
                 break;
             case 1901://道路名
             case 2001://侧线
-                for (var i = 0, len = item.m.c.length; i < len; i = i + 1) {
-
-                    obj['geometry']['coordinates'].push([item.m.c[i]]);
-                }
+                obj['geometry']['coordinates'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle('../../images/road/tips/normal/pending.png', 1, 0, obj['geometry']['coordinates'][0])
+
+                    getIconStyle({
+                        iconName: '../../images/road/tips/normal/pending.png',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
                 );
                 break;
             case 1203://道路方向
-                for (var i = 0, len = item.g.length; i < len; i = i + 1) {
 
-                    obj['geometry']['coordinates'].push([item.g[i]]);
-                }
+                obj['geometry']['coordinates'] = item.g[i];
+
                 obj['properties']['rotate'] = item.m.c;
                 if (item.m.d === 2) {
                     obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle('../../images/road/tips/road/2.svg', 1, 0, obj['geometry']['coordinates'][0])
+
+                        getIconStyle({
+                            iconName: '../../images/road/tips/road/2.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates']
+                        })
                     );
                 } else {
                     obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle('../../images/road/tips/road/1.svg', 1, 0, obj['geometry']['coordinates'][0])
+
+                        getIconStyle({
+                            iconName: '../../images/road/tips/road/1.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates']
+                        })
                     );
                 }
                 break;
@@ -1211,17 +1248,23 @@ function transformDataForTips(data) {
 
                 break;
             case 1801://立交
-                for (var i = 0, len = item.g.length; i < len; i = i + 1) {
 
-                    obj['geometry']['coordinates'].push([item.g[i]]);
-                }
+                obj['geometry']['coordinates'] =  item.g;
                 obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle('../../images/road/tips/overpass/overpass.svg', 1, 0, obj['geometry']['coordinates'][0])
+
+                    getIconStyle({
+                        iconName: '../../images/road/tips/overpass/overpass.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+
+                    })
                 );
                 break;
+            default:
         }
+        featArr.push(obj);
     })
+
+    return featArr;
 }
-/**
- * Created by liwanchong on 2016/4/20.
- */
