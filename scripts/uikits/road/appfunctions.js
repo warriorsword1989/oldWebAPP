@@ -39,7 +39,7 @@ Application.functions.getTipsResult=function(rowkey,func) {
  * @param func
  */
 Application.functions.getRdObjectById=function(id,type,func,detailid) {
-    if(detailid){
+    if(!id){
         fastmap.dataApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+detailid+'}',
             function(data) {
                 func(data);

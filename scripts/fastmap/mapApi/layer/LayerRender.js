@@ -90,7 +90,6 @@ fastmap.mapApi.LayerRender = {
 
             var rotate = options.rotate;
 
-
             image.src = style.src;
             image.onload = function () {
                 var scalex = options.scalex ? options.scalex : 1;

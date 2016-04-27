@@ -188,7 +188,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawOfLink: function (id, feature, ctx) {
 
-
         var color = null;
         if (feature.hasOwnProperty('properties')) {
             color = feature.properties.style.strokeColor;
@@ -222,11 +221,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawRestrict: function (id, feature, ctx) {
 
-        //var type = feature.geometry.type;
-        //var geom = feature.geometry.coordinates;
-        //var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
 
-        var geom = feature.geometry.coordinates;
         if (feature.properties.id == id) {
 
             if (id !== undefined) {
@@ -242,10 +237,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             lineColor: 'rgb(4, 187, 245)',
                             fillColor: 'rgba(4, 187, 245, 0)',
                             lineWidth: 1,
-                            width: 20,
-                            height: 20,
-                            drawx: -10,
-                            drawy: -10,
+                            width: 15,
+                            height: 15,
+                            drawx: -7.5,
+                            drawy: -7.5,
                             scalex: 2 / 3,
                             scaley: 2 / 3
                         })
@@ -254,157 +249,35 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             }
         }
 
-        //var newgeom = [];
-        //if (feature.properties.id == id) {
-        //    if (type == "Point") {
-        //        if (feature.properties.restrictioninfo === undefined) {
-        //            return;
-        //        }
-        //        var newGeom = [];
-        //        var restrictObj = feature.properties.restrictioninfo;
-        //        if (restrictObj !== undefined) {
-        //            if (restrictObj.constructor === Array) {
-        //                for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-        //
-        //                    if (theory > 0) {
-        //
-        //                        newgeom[0] = parseInt(geom[0]) + theory * 16 * Math.cos(route);
-        //                        newgeom[1] = parseInt(geom[1]) + theory * 16 * Math.sin(route);
-        //
-        //
-        //                        this.layer._drawBackground({
-        //                            ctx: ctx,
-        //                            geo: newGeom,
-        //
-        //                            boolPixelCrs: true,
-        //                            rotate: route,
-        //                            lineColor: 'rgb(4, 187, 245)',
-        //                            fillColor: 'rgba(4, 187, 245, 0.5)',
-        //                            lineWidth: 1,
-        //                            width: 20,
-        //                            height: 20,
-        //                            drawx: -10,
-        //                            drawy: -10
-        //
-        //                        })
-        //                    } else {
-        //
-        //                        this.layer._drawBackground({
-        //                            ctx: ctx,
-        //                            geo: geom,
-        //
-        //                            boolPixelCrs: true,
-        //                            rotate: route,
-        //                            lineColor: 'rgb(4, 187, 245)',
-        //                            fillColor: 'rgba(4, 187, 245, 0.5)',
-        //                            lineWidth: 1,
-        //                            width: 20,
-        //                            height: 20,
-        //                            drawx: -10,
-        //                            drawy: -10
-        //
-        //                        })
-        //                    }
-        //
-        //                }
-        //            } else {
-        //                var restrictArr = restrictObj.split(",");
-        //                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-        //                    if (fact > 0) {
-        //                        newgeom[0] = parseInt(geom[0][0]) + fact * 16 * Math.cos(route);
-        //                        newgeom[1] = parseInt(geom[1][0]) + fact * 16 * Math.sin(route);
-        //
-        //
-        //                        this.layer._drawBackground({
-        //                            ctx: ctx,
-        //                            geo: newgeom,
-        //
-        //                            boolPixelCrs: true,
-        //                            rotate: route,
-        //                            lineColor: 'rgb(4, 187, 245)',
-        //                            fillColor: 'rgba(4, 187, 245, 0.5)',
-        //                            lineWidth: 1,
-        //                            width: 20,
-        //                            height: 20,
-        //                            drawx: -10,
-        //                            drawy: -10
-        //
-        //                        })
-        //                    } else {
-        //
-        //
-        //                        this.layer._drawBackground({
-        //                            ctx: ctx,
-        //                            geo: geom,
-        //
-        //                            boolPixelCrs: true,
-        //                            rotate: route,
-        //                            lineColor: 'rgb(4, 187, 245)',
-        //                            fillColor: 'rgba(4, 187, 245, 0.5)',
-        //                            lineWidth: 1,
-        //                            width: 20,
-        //                            height: 20,
-        //                            drawx: -10,
-        //                            drawy: -10
-        //
-        //                        })
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+
 
     },
 
     drawLane: function (id, feature, ctx) {
-        var geom = feature.geometry.coordinates;
+
         if (feature.properties.id == id) {
 
-            //var newGeom = [];
-            //var laneObj = feature.properties.id;
-            //var route = (feature.properties.laneconnexityrotate ) * (Math.PI / 180);
             if (id !== undefined) {
                 var laneObjArr = feature.properties.markerStyle.icon;
                 for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-                    //if (fact > 0) {
-                    //    newGeom[0] = parseInt(geom[0]) + fact * 10 * Math.cos(route);
-                    //    newGeom[1] = parseInt(geom[1]) + fact * 10 * Math.sin(route);
-                        this.layer._drawBackground(
-                            {
-                                ctx: ctx,
-                                geo: laneObjArr[fact].location,
-                                boolPixelCrs: true,
-                                rotate: feature.properties.rotate,
-                                lineColor: 'rgb(4, 187, 245)',
-                                fillColor: 'rgba(4, 187, 245, 0)',
-                                lineWidth: 1,
-                                width: 20,
-                                height: 10,
-                                drawx: -10,
-                                drawy: -5,
-                                scalex: 2 / 3,
-                                scaley: 2 / 3
-                            })
-                    //} else {
-                    //    this.layer._drawBackground(
-                    //        {
-                    //            ctx: ctx,
-                    //            geo: geom,
-                    //            boolPixelCrs: true,
-                    //            rotate: route - (Math.PI / 2),
-                    //            lineColor: 'rgb(4, 187, 245)',
-                    //            fillColor: 'rgba(4, 187, 245, 0)',
-                    //            lineWidth: 1,
-                    //            width: 20,
-                    //            height: 10,
-                    //            drawx: -10,
-                    //            drawy: -5,
-                    //            scalex: 2 / 3,
-                    //            scaley: 2 / 3
-                    //        })
-                    //
-                    //}
+
+                    this.layer._drawBackground(
+                        {
+                            ctx: ctx,
+                            geo: laneObjArr[fact].location,
+                            boolPixelCrs: true,
+                            rotate: feature.properties.rotate* (Math.PI / 180),
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0)',
+                            lineWidth: 1,
+                            width: 10,
+                            height: 20,
+                            drawx: -5,
+                            drawy: -10,
+                            scalex: 2 / 3,
+                            scaley: 2 / 3
+                        })
+
                 }
             }
         }
@@ -452,7 +325,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 ctx: context,
                 geo: newGeom,
                 boolPixelCrs: true,
-                rotate: feature.properties.rotate,
+
                 lineColor: 'rgb(4, 187, 245)',
                 fillColor: 'rgba(4, 187, 245, 0.5)',
                 lineWidth: 1,

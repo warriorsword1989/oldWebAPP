@@ -1,7 +1,4 @@
-/**
- * Created by zhongxiaoming on 2015/10/23.
- * Class layerconfig
- */
+
 /**
  * Created by zhongxiaoming on 2015/8/7.
  */
@@ -494,6 +491,7 @@ function transformData(data) {
             case 2://照片
                 break;
             case 3://交限
+
                 obj['geometry']['type'] = 'Point';
                 obj['properties']["featType"] = "RDRESTRICTION";
                 obj['properties']['markerStyle'] = {};
@@ -501,17 +499,26 @@ function transformData(data) {
                 obj['properties']['rotate'] = item.m.c;
                 var restrictArr = (item.m.b).split(",");
                 for (var j = 0, lenJ = restrictArr.length; j < lenJ; j++) {
+
+                    var geom =  obj['geometry']['coordinates'];
+                    var geomnew = [];
+
+
+                    geomnew[0] = parseInt(geom[0]) + j * 15 * Math.cos(item.m.c* (Math.PI / 180));
+                    geomnew[1] = parseInt(geom[1]) + j * 15 * Math.sin(item.m.c* (Math.PI / 180));
+
+
                     var restrictICon = {};
                     if (restrictArr[j].indexOf("[") !== -1) {
+
                         restrictICon = getIconStyle(
                             {
                                 iconName: '../../images/road/1302/1302_2_' + restrictArr[j][1] + '.svg',
                                 row: 0,
                                 column: j,
-                                location: obj['geometry']['coordinates'],
+                                location: geomnew,
                                 rotate: item.m.c* (Math.PI / 180),
-                                dx:10,
-                                dy:0,
+
                                 scalex:3/4,
                                 scaley:3/4
                             }
@@ -522,10 +529,9 @@ function transformData(data) {
                             iconName: '../../images/road/1302/1302_1_' + restrictArr[j] + '.svg',
                             row: 0,
                             column: j,
-                            location: obj['geometry']['coordinates'],
+                            location:geomnew,
                             rotate: item.m.c* (Math.PI / 180),
-                            dx:10,
-                            dy:0,
+
                             scalex:3/4,
                             scaley:3/4
                         })
@@ -557,8 +563,6 @@ function transformData(data) {
                 for (var lane = 0, laneNum = laneArr.length; lane < laneNum; lane++) {
                     var geom =  obj['geometry']['coordinates'];
                     var geomnew = [];
-
-
                     geomnew[0] = parseInt(geom[0]) + lane * 10 * Math.cos(item.m.c* (Math.PI / 180));
                     geomnew[1] = parseInt(geom[1]) + lane * 10 * Math.sin(item.m.c* (Math.PI / 180));
                     if (laneArr[lane].indexOf("[") > -1) {
@@ -603,6 +607,7 @@ function transformData(data) {
                                 scalex:2/3,
                                 scaley:2/3
                             })
+
                         );
                         obj['properties']['markerStyle']["icon"].push(
 
@@ -669,7 +674,7 @@ function transformData(data) {
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
                             obj['properties']['markerStyle']["icon"].push(
-                                //getIconStyle( '../../images/road/1101/1101_0_1_' + speedValue + '.svg', 1, 0, obj['geometry']['coordinates'],item.m.c)
+
                                 getIconStyle({
                                         iconName: '../../images/road/1101/1101_0_1_' + speedValue + '.svg',
                                         row: 0,
@@ -846,8 +851,7 @@ function transformData(data) {
                     );
                 }
                 if (item.m.c) {
-                    //pointAndAng = getRticAngle(obj['geometry']['coordinates'], item.m.d);
-                    //src = getSrcByKind(item.m.d);
+
                     obj['properties']['reversetext']= item.m.c;
                     obj['properties']['reversedirect']= item.m.d;
                     obj['properties']['color'] = getrTicColor(item.m.d);
