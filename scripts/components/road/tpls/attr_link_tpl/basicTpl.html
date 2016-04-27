@@ -1,4 +1,12 @@
 <style>
+    .list-group-item1 {
+        position: relative;
+        display: block;
+        padding: 1px 5px;
+        margin-bottom: -1px;
+        /*border: 1px solid #ddd;*/
+        border: 0;
+    }
 
     .list-group-item {
         position: relative;
@@ -7,6 +15,7 @@
         margin-bottom: -1px;
         /*border: 1px solid #ddd;*/
         border: 0;
+        padding-left: 15px
     }
 
     #basicDiv {
@@ -115,13 +124,13 @@
 </style>
 <div id="basicDiv" ng-controller="basicController" >
     <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
+        <li class="list-group-item1">
             <div  class="list-name text-left">
                 基础属性
             </div>
             <div class="list-line"></div>
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" style="padding-left: 15px">
             <div>
                 <label class="control-label">道路种别</label>
             </div>
@@ -272,7 +281,7 @@
             </div>
 
         </li>
-        <li>
+        <li style="padding-left: 20px">
             <div id="fromOfWRoaddiv" style="width:260px;" >
                 <div ng-repeat="fromitem in newFromOfWRoadDate track by $index" class="checkboxli">
                       {{fromitem.label}}
@@ -281,16 +290,20 @@
         </li>
         </ul>
         <ul class="list-group list-group-lg m-b-none">
-            <li class="list-group-item">
+            <li class="list-group-item1">
                 <div  class="inline" style="text-align: left;width: 120px;">
                     <a ng-click="showOther()" style="cursor: pointer;color:#FFF;">附加属性</a>
                 </div>
             </li>
+            <li class="list-group-item">
+                <div  ng-click="showOther()" style="cursor: pointer;width: 180px"><label style="padding-top: 5px;cursor: pointer;width:160px" class="control-label">起终点&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收费信息</label>
+                </div>
+            </li>
         </ul>
         <ul class="list-group list-group-lg m-b-none">
-            <li class="list-group-item">
+            <li class="list-group-item1">
                 <div  class="inline" style="text-align: left;width: 120px;" >
-                    <a ng-click="showZone()" style="cursor: pointer;color:#FFF;">zone属性</a>
+                    <a ng-click="showZone()" style="cursor: pointer;color:#FFF;">zone属性（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
                 </div>
             </li>
         </ul>

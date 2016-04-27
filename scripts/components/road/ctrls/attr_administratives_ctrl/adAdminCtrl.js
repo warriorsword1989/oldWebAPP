@@ -55,14 +55,6 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         $scope.initializeData();
     }
 
-
-    $scope.save = function(){
-
-    };
-
-    $scope.delete = function(){
-
-    };
     $scope.cancel = function(){
 
     };
@@ -100,6 +92,11 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
+
+        if(!objCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
@@ -118,6 +115,8 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
                     $(editLayer.options._div).unbind();
                 }
                 swal("操作成功",'保存成功！', "success");
+
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 var sInfo={
                     "op":"修改行政区划代表点成功",
                     "type":"",

@@ -36,7 +36,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
 
     //条件限速
     $scope.addspeedLimit = function () {
-        var newRtic = fastmap.dataApi.linkspeedlimit({"linkPid": $scope.rticData.pid,"speedType":3});
+        var newRtic = fastmap.dataApi.rdLinkSpeedLimit({"linkPid": $scope.rticData.pid,"speedType":3});
         $scope.rticData.speedlimits.unshift(newRtic)
     };
     $scope.minusspeedLimit=function(id){

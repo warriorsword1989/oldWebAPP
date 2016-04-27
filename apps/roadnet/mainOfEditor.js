@@ -5,7 +5,7 @@ requirejs.config({
     baseUrl: '../../scripts/',
     paths: {
         'application':'../apps/roadnet/Application',
-        'layers':"../apps/roadnet/layerconfig",
+        'layers':"../apps/roadnet/layerconfigNew",
         'jquery': 'libs/jquery/2.1.1/jquery-2.1.1',
         'bootstrap':'libs/bootstrap-3.3.5/js/bootstrap',
         'angular': 'libs/angularjs/1.4.4/angular',

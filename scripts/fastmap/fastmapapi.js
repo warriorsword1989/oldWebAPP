@@ -107,17 +107,14 @@
                 "fastmap/uikit/controller/tools/selecttools/SelectNode.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectPath.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectForRestriction.js",
-                "fastmap/uikit/controller/tools/selecttools/SelectRestriction.js",
-                "fastmap/uikit/controller/tools/selecttools/SelectRdlane.js",
-                "fastmap/uikit/controller/tools/selecttools/SelectSpeedLimit.js",
+
                 "fastmap/uikit/controller/tools/selecttools/SelectDataTips.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectPolygon.js",
                 "fastmap/uikit/controller/tools/shapetools/GeometryValidation.js",
                 "fastmap/uikit/controller/tools/selecttools/SelectRelation.js",
-                "fastmap/uikit/controller/tools/selecttools/SelectRdCross.js",
-                "fastmap/uikit/controller/tools/selecttools/SelectRdBranch.js",
 
-                //"fastmap/uikit/controller/tools/L.floatMenuControl.js",
+                "fastmap/uikit/controller/tools/selecttools/SelectObject.js",
+
 
                 "fastmap/uikit/ctlmodel/CheckResult.js",
                 "fastmap/uikit/ctlmodel/ContentStyle.js",

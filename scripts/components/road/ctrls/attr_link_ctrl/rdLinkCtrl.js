@@ -261,6 +261,11 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             "projectId": Application.projectid,
             "data": objectCtrl.changedProperty
         };
+
+        if(!objectCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
@@ -279,6 +284,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     $(editLayer.options._div).unbind();
                 }
                 swal("操作成功",'保存成功！', "success");
+
+                objectCtrl.setOriginalData(objectCtrl.data.getIntegrate());
                 var sInfo={
                     "op":"修改道路link成功",
                     "type":"",
@@ -289,7 +296,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                     if(data.data.log[i].rowId){
                         data.data.log[i].rowId=$scope.linkData.pid;
                     }
-
                 }
 
                 info=data.data.log;

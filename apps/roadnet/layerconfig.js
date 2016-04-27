@@ -539,9 +539,7 @@ Application.layersConfig =
                     layername: '行政区划代表点',
                     id: 'adAdmin',
                     maxZoom: 20,
-
                     debug: false,
-                    // this value should be equal to 'radius' of your points
                     buffer: 10,
                     boolPixelCrs: true,
                     parse: function (data) {
@@ -572,7 +570,8 @@ Application.layersConfig =
                     type: 'adAdminPoint',
                     zIndex: 18,
                     restrictZoom: 10,
-                    visible: true,
+                    editable: false,
+                    visible: false,
                     requestType: 'ADADMIN',
                     showNodeLevel: 17
                 }

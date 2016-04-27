@@ -132,7 +132,7 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
             }
 
             if(this.snapHandler.selectedVertex == true){
-                if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes )){
+                if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes)){
                 if(this.snapHandler.snapIndex == 0){
 
                     this.snapHandler.interNodes.push({pid:parseInt(this.snapHandler.properties.snode),nodePid:nodePid});

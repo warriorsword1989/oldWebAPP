@@ -19,6 +19,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
         this._map = this.options.map;
         this.editLayerIds = ['speedlimit','rdcross','rdlaneconnexity','restriction','highSpeedDivergence']
+
         this.currentEditLayers = [];
         this.tiles = [];
         this._map._container.style.cursor = 'pointer';
@@ -88,45 +89,29 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 return;
             }
             if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
-                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+                var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
                     if(this.currentEditLayers[layer].requestType =='RDCROSS'){
 
                         for (var key in data[item].geometry.coordinates) {
-                            if (this._TouchesPoint(data[item].geometry.coordinates[key][0], x, y, 20)) {
-                                this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                            if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
+                                this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});
                             }
                         }
                     }else{
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            this.overlays.push({layer:this.currentEditLayers[layer],data:data});
+                            this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});
                         }
                     }
                 }
             }
        }
         if(this.overlays.length == 1){
-            switch (this.overlays[0].layer.requestType) {
-                case'RDRESTRICTION':
-                    frs= new fastmap.uikit.SelectRestriction({highlightLayer:this.highlightLayer,map:this._map});
-                    break;
-                case "RDLANECONNEXITY":
-                    frs = new fastmap.uikit.SelectRdlane({highlightLayer:this.highlightLayer,map:this._map});
-                    break;
-                case "RDSPEEDLIMIT":
-                    frs = new fastmap.uikit.SelectSpeedLimit({highlightLayer:this.highlightLayer,map:this._map});
-                    break;
-                case "RDCROSS":
-                    frs = new fastmap.uikit.SelectRdCross({highlightLayer:this.highlightLayer,map:this._map});
-                    break;
-                case "RDBRANCH":
-                    frs = new fastmap.uikit.SelectRdBranch({highlightLayer:this.highlightLayer,map:this._map});
-                    break;
-            }
+            frs = new fastmap.uikit.SelectObject({highlightLayer:this.highlightLayer,map:this._map});
             frs.tiles = this.tiles;
-            frs.drawGeomCanvasHighlight(event, this.overlays[0].data);
+            frs.drawGeomCanvasHighlight(this.overlays[0].data ,this.overlays[0].layer.requestType);
         }else if (this.overlays.length > 1){
             var html = '<ul id="layerpopup">';
             this.overlays = this.unique(this.overlays);
@@ -149,29 +134,13 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 d = that.overlays[key].data;
                             }
                         }
-                        switch (e.target.id) {
-                            case'RDRESTRICTION':
-                                frs = new fastmap.uikit.SelectRestriction({highlightLayer:that.highlightLayer,map:that._map});
-                                break;
-                            case "RDLANECONNEXITY":
-                                frs = new fastmap.uikit.SelectRdlane({highlightLayer:that.highlightLayer,map:that._map});
-                                break;
-                            case "RDSPEEDLIMIT":
-                                frs = new fastmap.uikit.SelectSpeedLimit({highlightLayer:that.highlightLayer,map:that._map});
-                                break;
-                            case "RDCROSS":
-                                frs = new fastmap.uikit.SelectRdCross({highlightLayer:that.highlightLayer,map:that._map});
-                                break;
-                            case "RDBRANCH":
-                                frs = new fastmap.uikit.SelectRdBranch({highlightLayer:that.highlightLayer,map:that._map});
-                                break;
-                        }
+
+                        frs = new fastmap.uikit.SelectObject({highlightLayer:this.highlightLayer,map:this._map});
                         frs.tiles = that.tiles;
-                        frs.drawGeomCanvasHighlight(event, d);
+                        frs.drawGeomCanvasHighlight(d, e.target.id);
                     }
                 }
             });
-
 
             //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
             var that = this;

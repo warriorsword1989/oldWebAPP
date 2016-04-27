@@ -244,7 +244,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         var url = this.createUrl(bounds);
         if (url) { //如果url未定义的话，不请求
             this.key = ctx.tile.x + ":" + ctx.tile.y;
-            var self = this, j;
+            var self = this;
 
             this.tileobj = fastmap.mapApi.tile(url);
             this.tileobj.options.context = ctx.canvas;
@@ -254,8 +254,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 if (parse != null || parse != undefined) {
                     data = parse(geo);
                 }
-                if (data.features == undefined) {
-                    return
+                if (data.length == 0) {
+                    return;
                 }
                 self._drawFeature(data, ctx, boolPixelCrs);
             }, url, this.key, parse);
@@ -347,435 +347,72 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      * @private
      */
     _drawFeature: function (data, ctx, boolPixelCrs) {
-        for (var i = 0; i < data.features.length; i++) {
-            var feature = data.features[i];
-
-            var color = null;
-            if (feature.hasOwnProperty('properties')) {
-                color = feature.properties.c;
-            }
-
-
-            var style = this.styleFor(feature, color);
-            var type = feature.geometry.type;
-
-            var geom = feature.geometry.coordinates;
-            var len = geom.length;
+        for (var i = 0; i < data.length; i++) {
+            var feature = data[i];
+            var geom = feature.geometry;
+            var type = geom.type;
+            var style = feature.properties.style;
             switch (type) {
                 case 'Point':
-                    if (this.options.type === 'Marker') {
 
-                        if (feature.properties.restrictioninfo === undefined) {
-                            return;
-                        }
-                        var newStyleOfRestrict = "",newGeom = [];
-                        var restrictObj = feature.properties.restrictioninfo;
-                        var route = (feature.properties.restrictionrotate) * (Math.PI / 180);
-                        if (restrictObj) {
-                            if (restrictObj.constructor === Array) {
-                                for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                                    newStyleOfRestrict = {src: '../../images/road/1302/1302_2_' + restrictObj[theory] + '.svg'};
-                                    if (theory > 0) {
-                                        newGeom[0] = parseInt(geom[0]) + theory * 16*Math.cos(route);
-                                        newGeom[1] = parseInt(geom[1])+ theory * 16*Math.sin(route);
-                                        this._drawImg({
-                                            ctx:ctx,
-                                            geo:newGeom,
-                                            style:newStyleOfRestrict,
-                                            boolPixelCrs:boolPixelCrs,
-                                            rotate:route
-                                        });
-                                    } else {
+                    var icons = feature.properties.markerStyle.icon;
+                    for (var item in icons){
 
-                                        this._drawImg({
-                                            ctx:ctx,
-                                            geo:geom,
-                                            style:newStyleOfRestrict,
-                                            boolPixelCrs:boolPixelCrs,
-                                            rotate:route
-                                        });
-                                    }
-                                }
-                            } else {
-                                var restrictArr = restrictObj.split(",");
-                                for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-
-                                    if (restrictArr[fact].constructor === Array) {
-                                        newStyleOfRestrict = {src: '../../images/road/1302/1302_2_' + restrictArr[fact][0] + '.svg'};
-
-                                    } else {
-                                        if (restrictArr[fact].indexOf("[") > -1) {
-                                            restrictArr[fact] = restrictArr[fact].replace("[", "");
-                                            restrictArr[fact] = restrictArr[fact].replace("]", "");
-                                            newStyleOfRestrict = {src: '../../images/road/1302/1302_2_' + restrictArr[fact] + '.svg'};
-
-                                        } else {
-                                            newStyleOfRestrict = {src: '../../images/road/1302/1302_1_' + restrictArr[fact] + '.svg'};
-
-                                        }
-                                    }
-                                    if (fact > 0) {
-                                        newGeom[0] = parseInt(geom[0]) + fact * 16*Math.cos(route);
-                                        newGeom[1] = parseInt(geom[1])+ fact * 16*Math.sin(route);
-
-
-
-                                        this._drawImg( {
-                                            ctx:ctx,
-                                            geo:newGeom,
-                                            style:newStyleOfRestrict,
-                                            boolPixelCrs:boolPixelCrs,
-                                            rotate:route
-                                        });
-                                    } else {
-                                        this._drawImg( {
-                                            ctx:ctx,
-                                            geo:geom,
-                                            style:newStyleOfRestrict,
-                                            boolPixelCrs:boolPixelCrs,
-                                            rotate:route
-                                        });
-                                    }
-
-                                }
-                            }
-
-                        }
-                    } else if (this.options.type === 'Diverge') {
-                        if (feature.properties.SpeedDivergencecondition === undefined) {
-                            return;
-                        }
-                        var divergeObj = feature.properties.SpeedDivergencecondition;
-                        if (divergeObj) {
-                            var that = this;
-                            for(var key in divergeObj){
-                                /*之所以判断由于目前没有1.svg和2.svg*/
-                                if(divergeObj[key].type == 0){
-                                    var newStyleOfDiverge = {src:'../../images/road/1407/' + divergeObj[key].type + '.svg'};
-                                    var divergeRoute = feature.properties.SpeedDivergencerotate * (Math.PI / 180);
-                                    that._drawImg( {
-                                        ctx:ctx,
-                                        geo:[feature.geometry.coordinates[0][0],feature.geometry.coordinates[1][0]],
-                                        style:newStyleOfDiverge,
-                                        boolPixelCrs:boolPixelCrs,
-                                        rotate:divergeRoute
-                                    });
-                                }
-                            }
-                        }
-                    } else if (this.options.type === 'rdSpeedLimitPoint') {//限速图标
-                        var speedLimitObj = feature.properties.speedlimitcondition;
-                        if (speedLimitObj === undefined) {
-                            return;
-                        }
-
-                        var speedLimitRoute = (feature.properties.speedlimitrotate - 90) * (Math.PI / 180),
-                            speedFlagStyle,jtType = {src: '../../images/road/1101/1101_0_0_s.svg'}; ;
-                        var resArray = speedLimitObj.split("|");
-                        if(feature.properties.speedlimittype == 0&&(this.options.showType===1||this.options.showType===0)){
-                            var gaptureFlag = resArray[0];//采集标志（0,现场采集;1,理论判断）
-                            var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
-                            var speedValue = resArray[2];//限速值
-
-                            if (gaptureFlag === "1") {//理论判断，限速开始和结束都为蓝色
-                                if (speedFlag === "1") {//解除限速
-                                    speedFlagStyle = {src: '../../images/road/1101/1101_1_1_' + speedValue + '.svg'};
-
-                                } else {
-                                    speedFlagStyle = {src: '../../images/road/1101/1101_1_0_' + speedValue + '.svg'};
-
-                                }
-
-                            } else {//现场采集，限速开始为红色，结束为黑色
-                                if (speedFlag === "1") {//解除限速
-                                    speedFlagStyle = {src: '../../images/road/1101/1101_0_1_' + speedValue + '.svg'};
-
-                                } else {
-                                    speedFlagStyle = {src: '../../images/road/1101/1101_0_0_' + speedValue + '.svg'};
-
-                                }
-                            }
+                        if(icons[item].iconName){
 
                             this._drawImg({
                                 ctx:ctx,
-                                geo:geom,
-                                style:speedFlagStyle,
-                                boolPixelCrs:boolPixelCrs
+                                geo:icons[item].location,
+                                style:{src:icons[item].iconName},
+                                boolPixelCrs:boolPixelCrs,
+                                rotate:icons[item].rotate?icons[item].rotate :"",
+                                drawx:icons[item].column*icons[item].dx,
+                                drawy:icons[item].row*icons[item].dy,
+                                scalex:icons[item].scalex?icons[item].scalex:1,
+                                scaley:icons[item].scaley?icons[item].scaley:1
+                            });
+                        }else{
+                            var coords = geom.coordinates;
+                            var arrowlist = [];
+                            var direct = '';
+                            for (var index = 0; index < coords.length; index++) {
+                                if (index < coords.length - 1) {
+                                    var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {x: coords[index+1][0], y: coords[index+1][1]}];
+                                    arrowlist.push(oneArrow);
+                                }
+                            }
+                            if (feature.properties.forwarddirect&&feature.properties.forwardtext) {
+                                direct = 2;//顺方向
+                                this._drawIntRticArrow(ctx, direct, arrowlist,feature.properties.color);
+                            } else if (feature.properties.reversedirect) {
+                                direct = 3;//逆方向
+                                this._drawIntRticArrow(ctx, direct, arrowlist,feature.properties.color);
+                            }
 
+
+                            if(direct == 2){
+                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.forwardtext,direct);
+                            }
+                            if(direct==3){
+                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.reversetext,direct);
+                            }
+
+                        }
+
+
+                        if(icons[item].text){
+                            this._drawText({
+                                ctx:ctx,
+                                geo:geom.coordinates,
+                                text :icons[item].text,
+                                font:'bold 15px Courier New',
+                                rotate:icons[item].rotate?icons[item].rotate :"",
+                                align:'center',
+                                drawx:0,
+                                drawy:6
                             })
-                            //绘制箭头
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:jtType,
-                                boolPixelCrs:boolPixelCrs,
-                                rotate:speedLimitRoute,
-                                drawx:5
-
-                            })
-
-                        }else if(feature.properties.speedlimittype == 3&&(this.options.showType===1||this.options.showType===3)){
-
-                            var limitspeed = resArray[1];
-                            var condition = resArray[2];
-                            var limitspeedflag = resArray[0];
-                            var conditionObj={
-                                '1':'雨',
-                                '2':'雪',
-                                '3':'雾',
-                                '6':'学',
-                                '10':'时',
-                                '11':'车',
-                                '12':'季',
-                                '13':'医',
-                                '14':'购物',
-                                '15':'居',
-                                '16':'企',
-                                '17':'景',
-                                '18':'交'
-                            }
-
-                            if(limitspeedflag ==0){
-                                speedFlagStyle = {src: '../../images/road/1101/condition_speedlimit_start'  + '.svg'};
-                            }else if(limitspeedflag ==1){
-                                speedFlagStyle = {src: '../../images/road/1101/condition_speedlimit_end'  + '.svg'};
-                            }
-
-
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:speedFlagStyle,
-                                boolPixelCrs:boolPixelCrs,
-                                rotate:speedLimitRoute
-                            })
-                            //绘制箭头
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:jtType,
-                                boolPixelCrs:boolPixelCrs,
-                                rotate:speedLimitRoute,
-                                drawx:5
-
-                            })
-
-                            this._drawConditionSpeedLimit(
-                                ctx,
-                                0,
-                                conditionObj[condition]+limitspeed,
-                                speedLimitRoute,
-                                geom,
-                                'bold 15px Courier New','center'
-                            )
                         }
-
-
-                    } else if (this.options.type === 'rdCrossPoint') {
-                        var masterImg = {src: '../../images/road/rdcross/11.png'},
-                            followImg = {src: '../../images/road/rdcross/111.png'};
-                        for (var rd = 0, rdLen = geom.length; rd < rdLen; rd++) {
-                            if (rd === 0) {
-                                this._drawImg({
-                                    ctx:ctx,
-                                    geo:geom[rd][0],
-                                    style:masterImg,
-                                    boolPixelCrs:boolPixelCrs
-
-                                });
-                            } else {
-                                this._drawImg({
-                                    ctx:ctx,
-                                    geo:geom[rd][0],
-                                    style:followImg,
-                                    boolPixelCrs:boolPixelCrs
-
-                                });
-                            }
-                        }
-                    } else if (this.options.type === 'rdlaneconnexityPoint') {
-                        if (feature.properties.laneconnexityinfo === undefined) {
-                            return;
-                        }
-                        var newLaneStyle = "", newLaneGeom = [];
-                        var busLaneStyle = "";
-                        busLaneGeom = [];
-                        var laneObj = feature.properties.laneconnexityinfo;
-                        var laneRoute = (feature.properties.laneconnexityrotate) * (Math.PI / 180);
-                        if (isNaN(laneRoute)) {
-                            route = 0;
-                        }
-                        if (laneObj) {
-                            if (laneObj.length > 1) {
-                                var laneArr = laneObj.split(",");
-                                for (var lane = 0, laneNum = laneArr.length; lane < laneNum; lane++) {
-
-                                    if (laneArr[lane].indexOf("[") > -1) {
-                                        newLaneStyle = {src: '../../images/road/1301/1301_2_' + laneArr[lane].substr(1, 1) + '.svg'};
-
-                                        if (laneArr[lane].indexOf("<") > -1) {
-                                            busLaneStyle = {src: '../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
-                                            busLaneGeom[0] = parseInt(geom[0]) + lane * 10 * Math.cos(laneRoute) - 20 * Math.sin(laneRoute);
-                                            busLaneGeom[1] = parseInt(geom[1]) + lane * 10 * Math.sin(laneRoute) + 20 * Math.cos(laneRoute);
-
-                                            this._drawImg({
-                                                ctx: ctx,
-                                                geo: busLaneGeom,
-                                                style: busLaneStyle,
-                                                boolPixelCrs: boolPixelCrs,
-                                                rotate: laneRoute,
-                                                scalex: 2 / 3,
-                                                scaley: 2 / 3
-                                            });
-                                        }
-
-                                    } else if (laneArr[lane].indexOf("<") > -1) {
-                                        newLaneStyle = {src: '../../images/road/1301/1301_0_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
-                                        busLaneStyle = {src: '../../images/road/1301/1301_1_' + laneArr[lane].substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
-                                        busLaneGeom[0] = parseInt(geom[0]) + lane * 10 * Math.cos(laneRoute) - 20 * Math.sin(laneRoute);
-                                        busLaneGeom[1] = parseInt(geom[1]) + lane * 10 * Math.sin(laneRoute) + 20 * Math.cos(laneRoute);
-
-                                        this._drawImg({
-                                            ctx: ctx,
-                                            geo: busLaneGeom,
-                                            style: busLaneStyle,
-                                            boolPixelCrs: boolPixelCrs,
-                                            rotate: laneRoute,
-                                            scalex: 2 / 3,
-                                            scaley: 2 / 3
-                                        });
-
-                                    } else if (laneArr[lane] && laneArr[lane] != "9") {
-
-                                        newLaneStyle = {src: '../../images/road/1301/1301_0_' + laneArr[lane] + '.svg'};
-                                    }
-
-                                    if (lane > 0) {
-                                        newLaneGeom[0] = parseInt(geom[0]) + lane * 10 * Math.cos(laneRoute);
-                                        newLaneGeom[1] = parseInt(geom[1]) + lane * 10 * Math.sin(laneRoute);
-                                        this._drawImg({
-                                            ctx: ctx,
-                                            geo: newLaneGeom,
-                                            style: newLaneStyle,
-                                            boolPixelCrs: boolPixelCrs,
-                                            rotate: laneRoute,
-                                            scalex: 2 / 3,
-                                            scaley: 2 / 3
-                                        });
-                                    } else {
-                                        this._drawImg({
-                                            ctx: ctx,
-                                            geo: geom,
-                                            style: newLaneStyle,
-                                            boolPixelCrs: boolPixelCrs,
-                                            rotate: laneRoute,
-                                            scalex: 2 / 3,
-                                            scaley: 2 / 3
-                                        });
-                                    }
-                                }
-                            }
-                            else {
-                                if (laneObj.indexOf("[") > -1) {
-                                    newLaneStyle = {src: '../../images/road/1301/1301_2_' + laneObj.substr(1, 1) + '.svg'};
-
-                                } else if (laneObj.indexOf("<") > -1) {
-                                    newLaneStyle = {src: '../../images/road/1301/1301_1_' + laneObj.substr(laneArr[lane].indexOf("<") + 1, 1) + '.svg'};
-
-                                } else if (laneObj && laneObj != "9") {
-                                    newLaneStyle = {src: '../../images/road/1301/1301_0_' + laneObj + '.svg'};
-                                }
-                                this._drawImg({
-                                    ctx: ctx,
-                                    geo: geom,
-                                    style: newLaneStyle,
-                                    boolPixelCrs: boolPixelCrs,
-                                    rotate: laneRoute,
-                                    scalex: 2 / 3,
-                                    scaley: 2 / 3
-                                });
-                            }
-                        }
-                    }else if (this.options.type === 'rdrticPoint') {//互联网rtic
-                        this._drawrdrtic(ctx,geom,feature.properties,boolPixelCrs);
-                    }else if (this.options.type === 'adAdminPoint') {//行政区划代表点
-                        this._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:{src:'../../images/road/img/star.png'},
-                            boolPixelCrs:boolPixelCrs
-                        });
-                    }else if(feature.properties.kind){  //种别
-                        if(feature.properties.type == '1201'){
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:'../../images/road/tips/kind/K'+feature.properties.kind+'.svg'},
-                                boolPixelCrs:boolPixelCrs,
-                                fillStyle:{
-                                    lineColor:'rgb(4, 187, 245)',
-                                    fillColor:'rgba(4, 187, 245, 0.2)',
-                                    lineWidth:1,
-                                    width:30,
-                                    height:15,
-                                    dx:0,
-                                    dy:7.5
-                                }
-                            });
-                        }else if(feature.properties.type == '1203'){
-
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:feature.properties.direc == 2?'../../images/road/tips/road/1.svg':'../../images/road/tips/road/2.svg'},
-                                boolPixelCrs:boolPixelCrs,
-                                rotate:feature.properties.kind*(Math.PI / 180),
-                                fillStyle:{
-                                    lineColor:'rgb(4, 187, 245)',
-                                    fillColor:'rgba(4, 187, 245, 0.2)',
-                                    lineWidth:1,
-                                    width:20,
-                                    height:20,
-                                    dx:5,
-                                    dy:5
-                                }
-                            });
-                        }
-                        else if(feature.properties.type == '1403'){
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:'../../images/road/tips/3D/3D.svg'},
-                                boolPixelCrs:boolPixelCrs,
-
-                            });
-                        } else if(feature.properties.type == '1514'){
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:'../../images/road/tips/construction/1.svg'},
-                                boolPixelCrs:boolPixelCrs
-                            });
-                        }
-                        else if(feature.properties.type == '1801'){
-                            this._drawImg({
-                                ctx:ctx,
-                                geo:geom,
-                                style:{src:'../../images/road/tips/overpass/overpass.svg'},
-                                boolPixelCrs:boolPixelCrs
-                            });
-                        }
-                    }else {
-                        this._drawImg({
-                            ctx:ctx,
-                            geo:geom,
-                            style:style,
-                            boolPixelCrs:boolPixelCrs,
-                            drawx:-30,
-                            drawy:-30
-                        });
                     }
-
                     break;
 
                 case 'MultiPoint':
@@ -785,88 +422,27 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    if (this.options.type === 'gpsLine') {
-                        var tipsStyle = {};
-                        if (feature.properties.kind === 2001) {
-                            tipsStyle = {
-                                size: 2,
-                                color: '#000000',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            }
-                        } else if (feature.properties.kind === 1901) {
-                            tipsStyle = {
-                                size: 2,
-                                color: '#7030A0',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            }
-                        } else if (feature.properties.kind === 1510) {
-                            tipsStyle = {
-                                size: 2,
-                                color: '#E36C0A',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            }
-                        }else if(feature.properties.kind ===1803){
-                            tipsStyle = {
-                                size: 2,
-                                color: '#336C0A',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            }
-                        }else if(feature.properties.kind ===1514){
-                            tipsStyle = {
-                                size: 2,
-                                color: '#336C0A',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            }
-                        }else if(feature.properties.kind ===1801){
-                            if (feature.properties.style == 1) {
-                                tipsStyle = {
-                                    size: 2,
-                                    color: '#336C0A',
-                                    mouseOverColor: 'rgba(255,0,0,1)',
-                                    clickColor: 'rgba(252,0,0,1)'
-                                }
-                            }else if (feature.properties.style == 2) {
-                                tipsStyle = {
-                                    size: 20,
-                                    color: 'red',
-                                    mouseOverColor: 'rgba(255,0,0,1)',
-                                    clickColor: 'rgba(252,0,0,1)'
-                                }
-                            }
+                    this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                                    color: 'rgba(105,105,105,1)',
+                                    radius: 3
+                                }, feature.properties);
 
+                    //如果属性中有direct属性则绘制箭头
+                    if(feature.properties.direct){
+                        var coords = geom.coordinates;
+                        var arrowlist = [];
+                        for (var index = 0; index < coords.length; index++) {
+                            if (index < coords.length - 1) {
+                                var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {x: coords[index+1][0], y: coords[index+1][1]}];
+                                arrowlist.push(oneArrow);
+                            }
                         }
+                        this._drawArrow(ctx, feature.properties.direct, arrowlist);
+                    }
 
-                        this._drawLineString(ctx, geom, boolPixelCrs,
-                            tipsStyle,
-                            {
-                                color: 'rgba(255,0,0,1)',
-                                radius: 3
-                            }, feature.properties);
-                    }else if(this.options.type==="adLink"){
-
-                        this._drawAdLineString(ctx, geom, boolPixelCrs,
-                             {
-                                size: 4,
-                                color: '#FBD356',
-                                mouseOverColor: 'rgba(255,0,0,1)',
-                                clickColor: 'rgba(252,0,0,1)'
-                            },
-                            {
-                                color: 'rgba(255,0,0,1) ',
-                                radius: 3
-                            }, feature.properties);
-
-                    } else {
-                            this._drawLineString(ctx, geom, boolPixelCrs, style, {
-                                color: 'rgba(105,105,105,1)',
-                                radius: 3
-                            }, feature.properties);
-
+                    //如果属性中有name属性则绘制名称
+                    if(feature.properties.name){
+                        this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
                     }
                     break;
 
@@ -877,8 +453,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'Polygon':
-                    //geom[0] = [[[-1000,-1000],[2650,-1000],[2650,2650],[-1000,2650]]]
-                    this._drawPolygon(ctx, geom[0], style, true,feature.properties.id);
+                    this._drawPolygon(ctx, geom.coordinates, style, true,feature.properties.id);
                     break;
 
                 case 'MultiPolygon':
@@ -1063,7 +638,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 var color = RD_LINK_Colors[parseInt(c)];
                 return {
                     size: 1,
-                    color: color,
+                    color: value,
                     rdLinkType: rdLinkType,
                     mouseOverColor: 'rgba(255,0,0,1)',
                     clickColor: 'rgba(252,0,0,1)'

@@ -1,0 +1,61 @@
+<div ng-controller="generalBaseCtl" style="min-width:420px;margin-bottom:20px;">
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.open">
+        <uib-accordion-heading>
+            <div class="form-inline">
+                <span style="font-weight:bold;">基本信息</span>
+                <div  class="form-group" style="margin:0px 20px;font-size:14px;">
+                    <span class="label label-{{ctrl.lifeCycleLabel}}" style="padding:4px 15px;">{{ctrl.lifeCycleName}}</span>
+                    <span id="auditStatusLabel" class="label" style="padding:4px 15px;"></span>
+                    <span id="fressnessLabel" class="label label-success" style="padding:4px 15px;">鲜度验证</span>
+                    <span id="evaluatePlanningLabel" class="label label-primary" style="padding:4px 15px;">监察抽样点</span>
+                </div>
+                <div class="form-group form-inline pull-right">
+                    <div class="form-group" style="margin:0px 20px;">
+                        <img src="../../images/poi/icon/3D.png" title="3DIcon">
+                        <img src="../../images/poi/icon/poi_car.png" title="重要车厂">
+                        <img src="../../images/poi/icon/poi_rmb.png" title="后项收费">
+                    </div>
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.open, 'glyphicon-chevron-down': !ctrl.open}"></i>
+                </div>
+            </div>
+        </uib-accordion-heading>
+        <div class="panel-bady" style="margin:-15px;">
+            <form id="baseInfoForm" role="form">
+                <table id="baseInfoTab" class="table property-table" style="border:0px;">
+                    <tr>
+                        <td>FID</td>
+                        <td>{{poi.fid}}</td>
+                    </tr>
+                    <tr>
+                        <td>PID</td>
+                        <td>{{poi.pid}}</td>
+                    </tr>
+                    <tr>
+                        <td>主名称</td>
+                        <td class="form-inline">
+                            <div class="form-group" style="width:90%">
+                                <input type="text" class="form-control input-sm" style="width:100%" ng-model="poi.name">
+                            </div>
+                            <div class="form-group">
+                                <img src="../../images/poi/icon/prompt.png" ng-show="ctrl.fieldLabel.name">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>分 类</td>
+                        <td class="form-inline">
+                            <div class="form-group" style="width:80%">
+                                <select class="form-control input-sm" ng-model="selectedKind" ng-options="x.kindName for x in meta.kindList" ng-change="kindChange($event, this)">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <img src="../../images/poi/icon/prompt.png" ng-show="ctrl.fieldLabel.kindCode">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <p>{{selectedKind}}</p>
+            </form>
+        </div>
+    </uib-accordion-group>
+</div>

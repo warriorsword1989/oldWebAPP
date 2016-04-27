@@ -49,9 +49,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
-                map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-                if (typeof map.currentTool.cleanHeight === "function") {
+                if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
+                    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 }
                 $scope.changeBtnClass(num);
                 if (type === "adLink") {
@@ -97,6 +97,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.POINTVERTEXADD);
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
+                    map.currentTool.enable();
                     shapeCtrl.editFeatType = "adLink";
                     map.currentTool.snapHandler.addGuideLayer(adLink);
                     tooltipsCtrl.setEditEventType('pointVertexAdd');

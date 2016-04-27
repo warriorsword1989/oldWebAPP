@@ -17,8 +17,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
-        if (typeof map.currentTool.cleanHeight === "function") {
+        if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
+
             map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
         }
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
@@ -70,7 +73,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         $scope.resetToolAndMap();
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
-        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         $scope.changeBtnClass(num);
         if (!$scope.classArr[num]) {
             map.currentTool.disable();
@@ -106,6 +108,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
             $scope.toolTipText = '请选择node！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
@@ -159,14 +162,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
-                if (data.restrictionType === 1) {
+                //if (data.restrictionType === 1) {
                     ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
                     ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
-                }
-                else {
-                    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                    ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html";
-                }
+                //}
+                //else {
+                //    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
+                //    ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html";
+                //}
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDLANECONNEXITY':
@@ -187,7 +190,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             case 'RDBRANCH':
                 ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
-                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case "TIPS":
                 $("#popoverTips").css("display", "block");
@@ -300,6 +303,6 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 "propertyHtml": tpl
             }
             $scope.$emit("transitCtrlAndTpl", options);
-        }, selectedData.detailid);
+        }, selectedData.id);
     }
 }])
