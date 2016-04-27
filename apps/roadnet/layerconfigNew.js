@@ -732,7 +732,7 @@ function transformData(data) {
 
                     if (limitSpeedFlag == 0) {
                         iconName = '../../images/road/1101/condition_speedlimit_start' + '.svg';
-                    } else if (limitspeedflag == 1) {
+                    } else if (limitSpeedFlag == 1) {
                         iconName = '../../images/road/1101/condition_speedlimit_end' + '.svg';
                     }
 
