@@ -25,38 +25,54 @@ fastmap.uikit.HighLightRender = L.Class.extend({
     drawTips: function (id, feature, ctx) {
 
         var geom = feature.geometry.coordinates;
-        var newGeom = [];
-        newGeom[0] = (parseInt(geom[0]));
-        newGeom[1] = (parseInt(geom[1]));
-        if (feature.properties.id == id) {
-            if (feature.properties.kind) {  //种别
-                if (feature.properties.type == '1201') {
-                    this.layer._drawBackground({
-                        ctx: ctx,
-                        geo: newGeom,
-                        boolPixelCrs: true,
-                        lineColor: 'rgb(4, 187, 245)',
-                        fillColor: 'rgba(4, 187, 245, 0.2)',
-                        lineWidth: 1,
-                        width: 20,
-                        height: 20,
-                        drawx: -10,
-                        drawy: -10
-                    });
-                } else if (feature.properties.type == '1203') {
-                    this.layer._drawBackground({
-                        ctx: ctx,
-                        geo: newGeom,
-                        boolPixelCrs: true,
-                        rotate: (feature.properties.kind - 90) * (Math.PI / 180),
-                        lineColor: 'rgb(4, 187, 245)',
-                        fillColor: 'rgba(4, 187, 245, 0.5)',
-                        lineWidth: 1,
-                        width: 20,
-                        height: 20,
-                        drawx: -10,
-                        drawy: -10
-                    });
+        if(geom) {
+            var newGeom = [];
+            newGeom[0] = (parseInt(geom[0]));
+            newGeom[1] = (parseInt(geom[1]));
+            if (feature.properties.id == id) {
+                if (feature.properties.kind) {  //种别
+                    if (feature.properties.type == '1201') {
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            boolPixelCrs: true,
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0.2)',
+                            lineWidth: 1,
+                            width: 20,
+                            height: 20,
+                            drawx: -10,
+                            drawy: -10
+                        });
+                    } else if (feature.properties.type == '1203') {
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            boolPixelCrs: true,
+                            rotate: (feature.properties.kind - 90) * (Math.PI / 180),
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                            lineWidth: 1,
+                            width: 20,
+                            height: 20,
+                            drawx: -10,
+                            drawy: -10
+                        });
+                    } else {
+                        this.layer._drawBackground({
+                            ctx: ctx,
+                            geo: newGeom,
+                            style: null,
+                            boolPixelCrs: true,
+                            lineColor: 'rgb(4, 187, 245)',
+                            fillColor: 'rgba(4, 187, 245, 0.5)',
+                            lineWidth: 1,
+                            width: 20,
+                            height: 20,
+                            drawx: -10,
+                            drawy: -10
+                        });
+                    }
                 } else {
                     this.layer._drawBackground({
                         ctx: ctx,
@@ -72,24 +88,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                         drawy: -10
                     });
                 }
-            } else {
-                this.layer._drawBackground({
-                    ctx: ctx,
-                    geo: newGeom,
-                    style: null,
-                    boolPixelCrs: true,
-                    lineColor: 'rgb(4, 187, 245)',
-                    fillColor: 'rgba(4, 187, 245, 0.5)',
-                    lineWidth: 1,
-                    width: 20,
-                    height: 20,
-                    drawx: -10,
-                    drawy: -10
-                });
             }
         }
-
-
     },
 
 
