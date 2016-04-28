@@ -132,7 +132,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             return flag;
         };
     $scope.addRdMultidDgitized=function() {
-        console.log("test");
+
     };
         //提取框选中的数据为创建路口
         $scope.getDataFromRectangleForCross = function (data) {

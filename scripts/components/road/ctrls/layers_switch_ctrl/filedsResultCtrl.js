@@ -562,7 +562,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
 
                     } else if (pItemId === "1803") {//挂接
-                        console.log(data);
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
