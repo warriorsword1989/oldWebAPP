@@ -1,5 +1,5 @@
 /**
- * Created by liwanchong on 2016/4/18.
+ * Created by liwanchong on 2016/04/18.
  */
 (function() {
             jsFiles = [

@@ -1,5 +1,5 @@
 /**
- * Created by zhongxiaoming on 2015/8/7.
+ * Created by zhongxiaoming on 2015/08/07.
  */
 Application.layersConfig =
     [
