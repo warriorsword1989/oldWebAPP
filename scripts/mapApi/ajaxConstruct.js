@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/10/26.
  * Class ajaxConstruct
  */
-fastmap.dataApi.ajaxConstruct = function (url, func) {
+fastmap.mapApi.ajaxConstruct = function (url, func) {
 
     if (document.getElementById) {
         var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();

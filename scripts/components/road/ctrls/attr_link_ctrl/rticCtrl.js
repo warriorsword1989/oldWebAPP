@@ -113,7 +113,6 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
             $scope.rticData.intRtics.unshift(newIntRtic)
         }
         objCtrl.data["oridiRowId"] = $scope.rticData.intRtics[0].rowId;
-        console.log("objCtrl.data['oridiRowId']  "+objCtrl.data["oridiRowId"]);
         var showRticsInfoObj = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',

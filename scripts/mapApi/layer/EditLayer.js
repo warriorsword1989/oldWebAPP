@@ -279,7 +279,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();
-                g.translate(p.x, p.y);
+                g.translate(p.x-img.height/2, p.y-img.width/2);
                 g.rotate(angleOfTran);
                 g.drawImage(img, 0, 0);
                 g.restore();

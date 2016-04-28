@@ -69,7 +69,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.rdNodeData = {};
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                console.log("ddddd");
                 $scope.nodeForm.$setPristine();
             });
 
