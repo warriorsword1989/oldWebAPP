@@ -82,7 +82,16 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope) {
         {"id": 1, "label": "雨天"},
         {"id": 2, "label": "雪天"},
         {"id": 3, "label": "雾天"},
-        {"id": 9, "label": "不应用"}
+        {"id": 6, "label": "学校"},
+        {"id": 10, "label": "时间限制"},
+        {"id": 11, "label": "车道限制"},
+        {"id": 12, "label": "季节时段"},
+        {"id": 13, "label": "医院"},
+        {"id": 14, "label": "购物"},
+        {"id": 15, "label": "居民区"},
+        {"id": 16, "label": "企事业单位"},
+        {"id": 17, "label": "景点景区"},
+        {"id": 18, "label": "交通枢纽"}
     ];
     $scope.fromLimitSrcOption=[
         {"id":0,"label":"未赋值"},
