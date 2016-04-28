@@ -405,6 +405,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                rdBranch.redraw();
 
                 swal("操作成功", "高速分歧属性值修改成功！", "success");
                 var sinfo = {
@@ -445,12 +446,12 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 //if (highLightLayer.highLightLayersArr.length !== 0) {
                 //    highLightLayer.removeHighLightLayers();
                 //}
+                rdBranch.redraw();
                 hLayer._cleanHightlight();
                 $timeout(function () {
                     swal("删除成功", "分歧数据删除成功！", "success");
                 }, 500)
                 outPutCtrl.pushOutput(data.errmsg);
-                rdBranch.redraw();
             } else {
                 $timeout(function () {
                     swal("删除失败", "问题原因：" + data.errmsg, "error");
