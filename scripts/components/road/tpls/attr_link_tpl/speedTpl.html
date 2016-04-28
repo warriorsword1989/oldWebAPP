@@ -103,7 +103,7 @@
             </div>
             <div class="list-line"></div>
         </li>
-        <li class="list-group-item" ng-repeat="cItem in linkData.speedlimits">
+        <li class="list-group-item" ng-repeat="cItem in rticData.speedlimits">
             <div ng-if="cItem.speedType==3" ng-click="showspeedlimitInfo(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index}}</label>
                 <span id="speedLimitSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusspeedLimit($index)"></span>
             </div>

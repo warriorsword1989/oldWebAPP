@@ -47,12 +47,12 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         $scope.naviData.sidewalks.splice(id, 1);
     };
     $scope.addSidewalk = function () {
-        var newSidewalk = fastmap.dataApi.linksidewalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
+        var newSidewalk = fastmap.dataApi.rdLinkSideWalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.sidewalks.unshift(newSidewalk);
         $scope.walkFlag++;
     };
     $scope.addWalkstair = function () {
-        var newWalkstair = fastmap.dataApi.linkwalkstair({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
+        var newWalkstair = fastmap.dataApi.rdLinkSideWalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.walkstairs.unshift(newWalkstair);
         $scope.walkFlag++;
     };

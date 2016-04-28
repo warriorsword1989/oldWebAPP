@@ -159,7 +159,7 @@ function keyEvent(ocLazyLoad, scope) {
 
                     });
                 } else if (shapeCtrl.editType === "pathBreak") {
-                    var breakPoint = null;
+                    var breakPoint = null,breakPathContent;
                     for (var item in geo.components) {
                         if (!_contains(geo.components[item], shapeCtrl.shapeEditorResult.getOriginalGeometry().points)) {
                             breakPoint = geo.components[item];
@@ -171,17 +171,25 @@ function keyEvent(ocLazyLoad, scope) {
                         resetPage();
                         return;
                     }
-                    param = {
-                        "command": "BREAK",
-                        "type": "RDLINK",
-                        "projectId": Application.projectid,
-                        "objId": parseInt(selectCtrl.selectedFeatures.id),
-                        "data": {"longitude": breakPoint.x, "latitude": breakPoint.y}
+                    param["command"] = "BREAK";
+                    param["projectId"] = Application.projectid;
+                    param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
+                    param["data"] = {"longitude": breakPoint.x, "latitude": breakPoint.y};
+                    if(shapeCtrl.editFeatType==="rdLink") {
+                        param["type"] = "RDLINK";
+                        breakPathContent = "打断rdLink成功";
 
+                    }else if(shapeCtrl.editFeatType==="adLink") {
+                        param["type"] = "ADLINK";
+                        breakPathContent = "打断adLink成功";
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("referenceLine").redraw();
-                        treatmentOfChanged(data, "RDLINK", "打断link成功");
+                        if(param["type"]==="RDLINK") {
+                            layerCtrl.getLayerById("referenceLine").redraw();
+                        }else if(param["type"]==="ADLINK") {
+                            layerCtrl.getLayerById("adLink").redraw();
+                        }
+                        treatmentOfChanged(data, param["type"] ,breakPathContent);
                     })
                 } else if (shapeCtrl.editType === "transformDirect") {
                     var disFromStart, disFromEnd, direct, pointOfArrow,

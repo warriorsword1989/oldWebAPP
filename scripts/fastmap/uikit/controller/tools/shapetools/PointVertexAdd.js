@@ -14,15 +14,22 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
-        this._map._container.style.cursor = 'pointer';
+        //this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
+        this.snapHandler = new fastmap.uikit.Snap({
+            map:this._map,
+            shapeEditor:this.shapeEditor,
+            selectedSnap:false,
+            snapLine:true,
+            snapNode:false,
+            snapVertex:false
+        });
         this.snapHandler.enable();
-        this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
+        //this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
     /***
