@@ -285,7 +285,7 @@ Application.layersConfig =
                 editable: false,
                 visible: false,
                 requestType: 'ADFACE',
-                showNodeLevel: 17
+                showNodeLevel: 13
             }
         }, {
             url: Application.url + '/render/obj/getByTileWithGap?',
