@@ -237,6 +237,33 @@ Application.layersConfig =
             url: Application.url + '/render/obj/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
+                layername: '立交',
+                id: 'rdGsc',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: transformData,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'rdlaneconnexityPoint',
+                zIndex: 10,
+                restrictZoom: 10,
+                visible: true,
+                requestType: 'RDGSC',
+                showNodeLevel: 17
+            }
+
+        }, {
+            url: Application.url + '/render/obj/getByTileWithGap?',
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
                 layername: '互联网RTIC',
                 id: 'rdrtic',
                 maxZoom: 20,
@@ -766,24 +793,22 @@ function transformData(data) {
             case 7://分歧
 
 
-                featArr.pop()
+                featArr.pop();
                 for (var key in item.m.a) {
 
                     for (var j in item.m.a[key].ids) {
+                        obj['geometry'] = {};
+                        obj['geometry']['coordinates'] = item.g;
+                        obj['properties'] = {};
+                        obj['properties']['style'] = {};
+                        obj['properties']['id'] = item.m.a[key].ids[j].detailId;
+                        obj['geometry']['type'] = 'Point';
+
+                        obj['properties']["featType"] = "RDBRANCH";
+                        obj['properties']['markerStyle'] = {};
+                        obj['properties']['markerStyle']["icon"] = [];
+                        obj['properties']['rotate'] = item.m.c;
                         if (item.m.a[key].type == 0) {
-                            obj['geometry'] = {};
-                            obj['geometry']['coordinates'] = item.g;
-                            obj['properties'] = {};
-                            obj['properties']['style'] = {};
-                            obj['properties']['id'] = item.m.a[key].ids[j].detailId;
-                            obj['geometry']['type'] = 'Point';
-
-                            obj['properties']["featType"] = "RDBRANCH";
-                            obj['properties']['markerStyle'] = {};
-                            obj['properties']['markerStyle']["icon"] = [];
-                            obj['properties']['rotate'] = item.m.c;
-
-
                             obj['properties']['markerStyle']["icon"].push(getIconStyle({
                                 iconName: '../../images/road/1407/' + item.m.a[key].type + '.svg',
                                 row: 0,
@@ -791,8 +816,18 @@ function transformData(data) {
                                 location: obj['geometry']['coordinates'],
                                 rotate: (item.m.c) * (Math.PI / 180)
                             }));
-                            featArr.push(obj);
+
+                        }else if(item.m.a[key].type == 3) {
+                            obj['properties']['markerStyle']["icon"].push(getIconStyle({
+                                iconName: '../../images/road/tips/3d/' + item.m.a[key].type + 'D.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates'],
+                                rotate: (item.m.c) * (Math.PI / 180)
+                            }));
+
                         }
+                        featArr.push(obj);
                     }
                 }
                 break;
@@ -864,6 +899,39 @@ function transformData(data) {
                 }
                 break;
             case 11://立交
+                featArr.pop();
+                for(var gscNum= 0,gscLen=item.g.length;gscNum<gscLen;gscNum++) {
+                    var gscObj = {};
+                    gscObj['geometry'] = {};
+                    gscObj['geometry']['type'] = 'LineString';
+                    gscObj['geometry']['coordinates'] = [];
+                    gscObj['geometry']['coordinates']=item.g[gscNum].g;
+                    gscObj['properties'] = {
+                        'id': item.g[gscNum].i,
+                        'featType': item.t
+                    }
+                    if (item.g[gscNum].z=== 0) {
+                        gscObj['properties']['style'] = {
+                            'strokeColor': '#14B7FC',
+                            'strokeWidth': 12,
+                            'strokeOpacity': 0.8
+                        };
+                    } else if(item.g[gscNum].z=== 1) {
+                        gscObj['properties']['style'] = {
+                            'strokeColor': '#4FFFB6',
+                            'strokeWidth': 12,
+                            'strokeOpacity': 0.8
+                        };
+                    }else{
+                        gscObj['properties']['style'] = {
+                            'strokeColor': '#F8B19C',
+                            'strokeWidth': 12,
+                            'strokeOpacity': 0.8
+                        };
+                    }
+
+                    featArr.push(gscObj);
+                }
                 break;
             case 12 ://行政区划线
                 obj['properties']["featType"] = "ADLINK";
