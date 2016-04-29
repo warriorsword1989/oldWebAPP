@@ -29,13 +29,6 @@ FM.dataApi.ixPoiTopKind = FM.dataApi.GeoDataModel.extend({
         data["name"] = this.name;
         return data;
     },
-    getSnapShot: function() {
-        var data = {};
-        data["id"] = this.id;
-        data["code"] = this.code;
-        data["name"] = this.name;
-        return data;
-    },
     statics: {
         getList: function(param, callback) {
             FM.dataApi.ajax.get("fos/meta/queryTopKind", param, function(data) {

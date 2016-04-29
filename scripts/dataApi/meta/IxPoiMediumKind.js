@@ -31,14 +31,6 @@ FM.dataApi.ixPoiMediumKind = FM.dataApi.GeoDataModel.extend({
         data["topId"] = this.topId;
         return data;
     },
-    getSnapShot: function() {
-        var data = {};
-        data["id"] = this.id;
-        data["code"] = this.code;
-        data["name"] = this.name;
-        data["topId"] = this.topId;
-        return data;
-    },
     statics: {
         getList: function(param, callback) {
             FM.dataApi.ajax.get("fos/meta/queryMediumKind", param, function(data) {
