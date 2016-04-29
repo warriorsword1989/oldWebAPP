@@ -6,7 +6,7 @@
 (function(window, document, undefined) {
     var oldFM = window.FM,
         FM = {};
-    FM.version = '0.7.3';
+    FM.version = '1.0.0';
     // define fastmap for Node module pattern loaders, including Browserify
     if (typeof module === 'object' && typeof module.exports === 'object') {
         module.exports = FM;
@@ -43,19 +43,10 @@
                 return fn.apply(obj, args || arguments);
             };
         },
-        trim: function(str) {
-            return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, '');
-        },
-        split: function(str, sep) {
-            return FM.Util.trim(str).split(sep || /\s+/);
-        },
         setOptions: function(obj, options) {
             obj.options = FM.Util.extend({}, obj.options, options);
             return obj.options;
-        },
-        isArray: Array.isArray || function(obj) {
-            return (Object.prototype.toString.call(obj) === '[object Array]');
-        },
+        }
     };
     // shortcuts for most used utility functions
     FM.extend = FM.Util.extend;
@@ -141,72 +132,6 @@
         this.prototype._initHooks = this.prototype._initHooks || [];
         this.prototype._initHooks.push(init);
     };
-    var ajaxConstruct = function(url, reqType, callback) {
-        if (document.getElementById) {
-            var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
-            if (window.XDomainRequest) {
-                x.xdomain = 1
-            }
-        }
-        if (x) {
-            x.onreadystatechange = function() {
-                var el = el || {};
-                if (x.xdomain || x.readyState == 4) {
-                    var d = 0;
-                    var el;
-                    if (x.xdomain || x.status == 200) {
-                        if (x.responseText && x.responseText[0] != "<" && x.responseText != "[0]") {
-                            if (window.JSON) {
-                                d = window.JSON.parse(x.responseText)
-                            } else {
-                                d = eval("(" + x.responseText + ")")
-                            }
-                            callback(d);
-                        }
-                    }
-                }
-            };
-            if (x.xdomain) {
-                x.onerror = function() {
-                    console.error('ajax error!');
-                };
-                x.ontimeout = function() {
-                    console.error('ajax timeout!');
-                };
-                x.onprogress = function() {
-                    console.log('ajax progress!');
-                };
-                x.onload = x.onreadystatechange
-            }
-            x.open(reqType, url);
-            x._url = url;
-            x.send()
-        }
-        return x;
-    };
-    FM.dataApi = {
-        ajax: {
-            get: function(url, param, callback) {
-                return ajaxConstruct(this.getUrl(url, param), "GET", callback);
-            },
-            post: function(url, param, callback) {
-                return ajaxConstruct(this.getUrl(url, param), "POST", callback);
-            },
-            getUrl: function(url, param) {
-                var fullUrl = App.Config.serviceUrl + "/" + url + "?";
-                if (App.Config.accessToken) {
-                    fullUrl += "access_token=" + App.Config.accessToken;
-                }
-                if (param) {
-                    fullUrl += (App.Config.accessToken ? "&" : "") + "parameter=" + encodeURIComponent(JSON.stringify(param));
-                }
-                return fullUrl;
-            }
-        }
-    };
-    FM.mapApi = {
-        mapTest: function() {
-            console.log("map");
-        },
-    };
+    FM.dataApi = {};
+    FM.mapApi = {};
 }(window, document))
