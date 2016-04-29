@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.AdAdmin = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -14,6 +14,7 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
      * 返回参数赋值
      */
     setAttributeData:function(data){
+        this.pid = data["pid"];
         this.regionId = data["regionId"];
         this.adminId = data["adminId"] || 0;
         this.extendId = data["extendId"] || 0;
@@ -31,14 +32,10 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
         this.names = [];
         if (data["names"]&&data["names"].length > 0) {
             for (var i = 0, len = data["names"].length; i < len; i++) {
-                var name =fastmap.dataApi.adadminname(data["names"][i]);
+                var name =fastmap.dataApi.adAdminName(data["names"][i]);
                 this.names.push(name);
             }
-
-
         }
-
-
     },
 
     /*
@@ -46,6 +43,7 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
      */
     getIntegrate: function () {
         var data = {};
+        data["pid"]=this.pid;
         data["regionId"] = this.regionId;
         data["adminId"] = this.adminId;
         data["extendId"] = this.extendId;
@@ -59,18 +57,18 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
         data["meshId"] = this.meshId;
         data["editFlag"] = this.editFlag;
         data["memo"] = this.memo;
-
+        data["geoLiveType"] = this.geoLiveType;
         var names = [];
         for (var i = 0, len = this.names.length; i < len; i++) {
             names.push(this.names[i].getIntegrate());
         }
         data["names"] = names;
         return data;
-
     },
 
     getSnapShot: function () {
         var data = {};
+        data["pid"]=this.pid;
         data["regionId"] = this.regionId;
         data["adminId"] = this.adminId;
         data["extendId"] = this.extendId;
@@ -84,17 +82,17 @@ fastmap.dataApi.adAdmin = fastmap.dataApi.GeoDataModel.extend({
         data["meshId"] = this.meshId;
         data["editFlag"] = this.editFlag;
         data["memo"] = this.memo;
-
+        data["geoLiveType"] = this.geoLiveType;
         var names = [];
         for (var i = 0, len = this.names.length; i < len; i++) {
             names.push(this.names[i].getIntegrate());
         }
         data["names"] = names;
         return data;
-    },
+    }
 
 });
 
-fastmap.dataApi.adadmin = function (data, options) {
-    return new fastmap.dataApi.adAdmin(data, options);
+fastmap.dataApi.adAdmin = function (data, options) {
+    return new fastmap.dataApi.AdAdmin(data, options);
 }

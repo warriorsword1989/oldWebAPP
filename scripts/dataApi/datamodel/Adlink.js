@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.AdLink = fastmap.dataApi.GeoDataModel.extend({
     /*
 
      */
@@ -41,6 +41,7 @@ fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
         data["scale"] = this.scale;
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
 
     },
@@ -57,13 +58,14 @@ fastmap.dataApi.adLink = fastmap.dataApi.GeoDataModel.extend({
         data["scale"] = this.scale;
         data["editFlag"] = this.editFlag;
         data["meshId"] = this.meshId;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
 });
 
-    fastmap.dataApi.adlink = function (data, options) {
-        return new fastmap.dataApi.adLink(data, options);
+    fastmap.dataApi.adLink = function (data, options) {
+        return new fastmap.dataApi.AdLink(data, options);
     }
 
 

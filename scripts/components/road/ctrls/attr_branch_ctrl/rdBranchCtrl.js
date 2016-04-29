@@ -14,6 +14,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        $('[data-toggle="tooltip"]').tooltip();
     }
     if (objCtrl.data) {
         $scope.initializeData();
@@ -133,11 +134,47 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $("#picModalImg").attr('src', $scope.getArrowPic($scope.diverObj.details[0].patternCode));
         $("#picMapDesc").text(code);
         $('.pic-show').hide();
+        oldPatCode = $scope.diverObj.details[0].patternCode;
         $scope.changeArrowPosition();
     }
     /*点击关闭隐藏选择图片界面*/
     $scope.hidePicSelect = function (e) {
         $(e.target).parents('.pic-show').hide();
+    }
+    $scope.strClone = function(obj){
+        var o, obj;
+        if (obj.constructor == Object){
+            o = new obj.constructor();
+        }else{
+            o = new obj.constructor(obj.valueOf());
+        }
+        for(var key in obj){
+            if ( o[key] != obj[key] ){
+                if ( typeof(obj[key]) == 'object' ){
+                    o[key] = clone(obj[key]);
+                }else{
+                    o[key] = obj[key];
+                }
+            }
+        }
+        o.toString = obj.toString;
+        o.valueOf = obj.valueOf;
+        return o;
+    }
+    var oldPatCode = $scope.diverObj.details[0].patternCode;
+    /*修改模式图号*/
+    $scope.changePatternCode = function(){
+        if($scope.diverObj.details[0].patternCode.charAt(0) == oldPatCode.charAt(0) ||
+            $scope.diverObj.details[0].patternCode.length >  oldPatCode.length ||
+            ($scope.diverObj.details[0].patternCode.length+1 <=  oldPatCode.length && $scope.diverObj.details[0].patternCode.length+1 !=  oldPatCode.length)){
+            $scope.diverObj.details[0].patternCode = oldPatCode;
+        }
+    }
+    /*当分歧类型变更时*/
+    $scope.changeBranchType = function(type){
+        if(type == 3){
+            $('[data-toggle="tooltip"]').tooltip();
+        }
     }
     /*关系类型*/
     $scope.relationType = [
@@ -299,10 +336,10 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     $scope.showDetail = function (type) {
         var tempCtr = '', tempTepl = '';
         if (type == 0) {  //名称信息
-            tempCtr = 'components/road/ctrls/attr_branch_components/road/ctrls/nameInfoCtrl';
+            tempCtr = 'components/road/ctrls/attr_branch_ctrl/nameInfoCtrl';
             tempTepl = '../../scripts/components/road/tpls/attr_branch_Tpl/nameInfoTepl.html';
         } else {  //经过线
-            tempCtr = 'components/road/ctrls/attr_branch_components/road/ctrls/passlineCtrl';
+            tempCtr = 'components/road/ctrls/attr_branch_ctrl/passlineCtrl';
             tempTepl = '../../scripts/components/road/tpls/attr_branch_Tpl/passlineTepl.html';
         }
         var detailInfo = {
@@ -357,8 +394,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 $scope.delEmptyNames(param.data.details[0].names);
             }
         }
-        if (param.data == false) {
-            swal("操作失败", "属性值无任何改变！", "error");
+        if (!param.data) {
+            swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
         Application.functions.saveBranchInfo(JSON.stringify(param), function (data) {
@@ -367,7 +404,9 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             var info = null;
             if (data.errcode == 0) {
                 $scope.setOriginalDataFunc();
-                objCtrl.setOriginalData(param.data);
+                objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+                rdBranch.redraw();
+
                 swal("操作成功", "高速分歧属性值修改成功！", "success");
                 var sinfo = {
                     "op": "修改RDBRANCH成功",
@@ -407,12 +446,12 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 //if (highLightLayer.highLightLayersArr.length !== 0) {
                 //    highLightLayer.removeHighLightLayers();
                 //}
+                rdBranch.redraw();
                 hLayer._cleanHightlight();
                 $timeout(function () {
                     swal("删除成功", "分歧数据删除成功！", "success");
                 }, 500)
                 outPutCtrl.pushOutput(data.errmsg);
-                rdBranch.redraw();
             } else {
                 $timeout(function () {
                     swal("删除失败", "问题原因：" + data.errmsg, "error");

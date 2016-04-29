@@ -69,7 +69,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         $scope.rdNodeData = {};
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                console.log("ddddd");
                 $scope.nodeForm.$setPristine();
             });
 
@@ -179,10 +178,12 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
+
         if(!objectEditCtrl.changedProperty){
-            swal("操作失败", '沒有做任何操作', "error");
+            swal("操作成功",'属性值没有变化！', "success");
             return;
         }
+
         if(objectEditCtrl.changedProperty && objectEditCtrl.changedProperty.forms && objectEditCtrl.changedProperty.forms.length > 0){
             $.each(objectEditCtrl.changedProperty.forms,function(i,v){
                 if(v.linkPid || v.pid){
@@ -207,6 +208,8 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
+                swal("操作成功",'保存成功！', "success");
+                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             }else{
                 info=[{
                     "op":data.errcode,

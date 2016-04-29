@@ -243,7 +243,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             $timeout(function () {
                 $scope.$broadcast('set-code', str);
                 if($scope.rdSubRestrictData["conditions"].length===0) {
-                    var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
+                    var condition = fastmap.dataApi.rdRestrictionCondition({"rowId":"0"});
                     $scope.rdSubRestrictData["conditions"].push(condition);
                 }
                 $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
@@ -257,7 +257,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             $scope.$apply(function () {
-                $scope.rdSubRestrictData.outLinkPid = data.id;
+                $scope.rdSubRestrictData.outLinkPid =parseInt( data.id);
             });
 
             var highLightFeatures = [];
@@ -297,16 +297,11 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                         if (item.pid === $scope.rdRestrictData.details[i]["pid"]) {
                             $scope.rdRestrictData.details.splice(i, 1);
                             len--;
-
                         }
                     }
-
-
                 }
             }
-
         }
-
     };
     //修改交限方向的理论或实际
     $scope.changeType = function (item) {
@@ -343,7 +338,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         $timeout(function () {
             $scope.$broadcast('set-code', str);
             if($scope.rdSubRestrictData["conditions"].length===0) {
-                var condition = fastmap.dataApi.rdrestrictioncondition({"rowId":"0"});
+                var condition = fastmap.dataApi.rdRestrictionCondition({"rowId":"0"});
                 $scope.rdSubRestrictData["conditions"].push(condition);
             }
             $scope.rdSubRestrictData["conditions"][0]["timeDomain"] = str;
@@ -382,12 +377,14 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             if(objectEditCtrl.changedProperty.details) {
                 $.each(objectEditCtrl.changedProperty.details, function (i, v) {
                     delete v.linkPid;
+
                 })
             }
 
             if(objectEditCtrl.changedProperty.details[0].conditions){
                 $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
                     delete v.pid;
+                    delete v.geoLiveType;
                 })
             }
 
@@ -398,6 +395,13 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "projectId": Application.projectid,
             "data": objectEditCtrl.changedProperty
         }
+
+
+        if(!objectEditCtrl.changedProperty){
+            swal("操作成功",'属性值没有变化！', "success");
+            return;
+        }
+
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {
@@ -410,6 +414,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 info = data.data.log;
                 rdRestriction.redraw();
                 swal("操作成功",'更新成功', "success");
+                objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
             } else {
                 info = [{
                     "op": data.errcode,

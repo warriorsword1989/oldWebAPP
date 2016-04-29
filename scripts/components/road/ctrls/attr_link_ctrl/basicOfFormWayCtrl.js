@@ -64,9 +64,9 @@ formOfWayApp.controller("formOfWayController",function($scope){
         item.isCheck=true;
         var newForm = null;
         if(parseInt(item.id)===53) {
-            newForm= fastmap.dataApi.linkform({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id),"auxiFlag":3});
+            newForm= fastmap.dataApi.rdLinkForm({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id),"auxiFlag":3});
         }else{
-            newForm= fastmap.dataApi.linkform({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id)});
+            newForm= fastmap.dataApi.rdLinkForm({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id)});
 
         }
 

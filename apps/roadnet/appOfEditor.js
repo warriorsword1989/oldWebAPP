@@ -25,7 +25,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.panelFlag = false;
             $scope.attrTplContainerSwitch(false);
             $scope.subAttrTplContainerSwitch(false);
-            $scope.attrTplContainer = '../../scripts/components/road/tpls/blankTpl.html';
+            $scope.attrTplContainer = '../../scripts/components/road/tpls/blank_tpl/blankTpl.html';
             objectCtrl.setOriginalData(null);
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
         }, data.errmsg, "error");
@@ -72,7 +72,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
     $scope.suspendFlag = false;//次属性框显隐控制
     $scope.outErrorUrlFlag = false;
     $scope.tipsTplContainerFlag = true;//点击tips列表 判断右侧属性栏是否弹出
-    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false,false];//按钮样式的变化
     $scope.changeBtnClass = function (id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
             if (claFlag === id) {
@@ -287,10 +287,6 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                     $scope.selectShapeURL = '../../scripts/components/road/tpls/toolBar_cru_tpl/selectShapeTpl.html';
                     $ocLazyLoad.load('components/road/ctrls/toolBar_cru_ctrl/addShapeCtrl').then(function () {
                         $scope.addShapeURL = '../../scripts/components/road/tpls/toolBar_cru_tpl/addShapeTpl.html';
-                        $ocLazyLoad.load('components/road/ctrls/attr_administratives_ctrl/adAdminCtrl').then(function () {
-                            $scope.attrTplContainer = '../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html';
-
-                        });
                     });
                 });
             }
@@ -317,7 +313,7 @@ function appInit() {
         attributionControl: false,
         doubleClickZoom: false,
         zoomControl: false
-    }).setView([39.90960456049752, 116.3972282409668], 17);
+    }).setView([40.012834, 116.476293], 17);
 
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var selectCtrl = new fastmap.uikit.SelectController();

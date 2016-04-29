@@ -10,13 +10,16 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var adFace = layerCtrl.getLayerById('adface');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    var adAdmin=layerCtrl.getLayerById('adAdmin');
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
-        if (typeof map.currentTool.cleanHeight === "function") {
+        if ( map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
             map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
@@ -68,7 +71,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
         $scope.resetToolAndMap();
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
-        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
         $scope.changeBtnClass(num);
         if (!$scope.classArr[num]) {
             map.currentTool.disable();
@@ -76,7 +79,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             return;
         }
 
-        if (type === "link") {
+        if (type === "adLink") {
             layerCtrl.pushLayerFront('edit');
             map.currentTool = new fastmap.uikit.SelectPath(
                 {
@@ -85,11 +88,10 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                     linksFlag: true,
                     shapeEditor: shapeCtrl
                 });
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-            adLink.options.selectType = 'link';
-            adLink.options.editable = true;
             eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                 selectCtrl.onSelected({
                     point: data.point
@@ -97,69 +99,58 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 $scope.getFeatDataCallback(data, data.id, "ADLINK", 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html");
             })
         }
-        else if (type === "node") {
+        else if (type === "adAdmin") {
             layerCtrl.pushLayerFront('edit');
-            rdLink.options.selectType = 'node';
-            rdLink.options.editable = true;
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: rdLink,
+                currentEditLayer: adAdmin,
+                shapeEditor: shapeCtrl
+            });
+            map.currentTool.snapHandler.addGuideLayer(adAdmin);
+            map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(adAdmin);
+            $scope.toolTipText = '请选择行政区划代表点！';
+            eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
+                selectCtrl.onSelected({
+                    point: data.point
+                });
+                $scope.getFeatDataCallback(data, data.id, "ADADMIN", 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html");
+            });
+        }
+       else if (type === "adFace") {
+           /* layerCtrl.pushLayerFront('edit');*/
+            map.currentTool = new fastmap.uikit.SelectPolygon(
+                {
+                    map: map,
+                    currentEditLayer: adFace,
+                    shapeEditor: shapeCtrl
+                });
+            map.currentTool.enable();
+            editLayer.bringToBack();
+            //初始化鼠标提示
+            $scope.toolTipText = '请选择面！';
+           /* adFace.options.selectType = 'face';
+            adFace.options.editable = true;*/
+            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                $scope.getFeatDataCallback(data, data.id, "ADFACE", 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html");
+            })
+        }else if(type==="adNode") {
+          /*  layerCtrl.pushLayerFront('edit');*/
+            adLink.options.selectType = 'node';
+            adLink.options.editable = true;
+            map.currentTool = new fastmap.uikit.SelectNode({
+                map: map,
+                nodesFlag: true,
+                currentEditLayer: adLink,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
+            map.currentTool.snapHandler.addGuideLayer(adLink);
             $scope.toolTipText = '请选择node！';
             eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                $scope.getFeatDataCallback(data, data.id, "RDNODE", 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl', "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html");
+                $scope.getFeatDataCallback(data, data.id, "ADNODE", 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html");
             });
-        }
-        else if (type === "relation") {
-            map.currentTool = new fastmap.uikit.SelectRelation({
-                map: map,
-                relationFlag: true
-            });
-            map.currentTool.enable();
-
-            editLayer.bringToBack();
-            $scope.toolTipText = '请选择关系！';
-            eventController.on(eventController.eventTypes.GETRELATIONID, function (data) {
-                $scope.data = data;
-                $scope.tips = data.tips;
-                var ctrlAndTmplParams = {
-                    propertyCtrl: "",
-                    propertyHtml: ""
-                }
-                switch ($scope.data.optype) {
-                    case 'RDRESTRICTION':
-                        if ($scope.tips === 0) {
-                            ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                            ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
-                        }
-                        else {
-                            ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                            ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestrictOfTruckTpl.html";
-                        }
-                        break;
-                    case 'RDLANECONNEXITY':
-                        ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl';
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html";
-                        break;
-                    case 'RDSPEEDLIMIT':
-                        ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl';
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html";
-                        break;
-                    case 'RDCROSS':
-                        ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_cross_ctrl/rdCrossCtrl';
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html";
-                        break;
-                    case 'RDBRANCH':
-                        ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
-                        ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
-                        break;
-                }
-
-                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
-            })
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };

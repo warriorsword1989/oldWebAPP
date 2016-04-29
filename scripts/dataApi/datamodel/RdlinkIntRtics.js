@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/14.
  */
-fastmap.dataApi.linkIntRtic = fastmap.dataApi.GeoDataModel.extend({
+fastmap.dataApi.RdLinkIntRtic = fastmap.dataApi.GeoDataModel.extend({
     /***
      *
      * @param data 初始化属性对象
@@ -9,6 +9,7 @@ fastmap.dataApi.linkIntRtic = fastmap.dataApi.GeoDataModel.extend({
      */
     initialize: function (data, options) {
         L.setOptions(this, options);
+        this.geoLiveType = "RDLINKINTRTIC";
         if(!data["linkPid"]){
             throw "form对象没有对应link"
         }
@@ -44,6 +45,7 @@ fastmap.dataApi.linkIntRtic = fastmap.dataApi.GeoDataModel.extend({
         data["rticDir"] = this.rticDir;
         data["updownFlag"] = this.updownFlag;
         data["rangeType"]  = this.rangeType;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     },
 
@@ -62,6 +64,7 @@ fastmap.dataApi.linkIntRtic = fastmap.dataApi.GeoDataModel.extend({
         data["rticDir"] = this.rticDir;
         data["updownFlag"] = this.updownFlag;
         data["rangeType"]  = this.rangeType;
+        data["geoLiveType"] = this.geoLiveType;
         return data;
     }
 });
@@ -72,6 +75,6 @@ fastmap.dataApi.linkIntRtic = fastmap.dataApi.GeoDataModel.extend({
  * @param options 其他可选参数
  * @returns {.dataApi.linkRtic}
  */
-fastmap.dataApi.linkintrtic = function (data, options) {
-    return new fastmap.dataApi.linkIntRtic(data, options);
+fastmap.dataApi.rdLinkIntRtic = function (data, options) {
+    return new fastmap.dataApi.RdLinkIntRtic(data, options);
 }

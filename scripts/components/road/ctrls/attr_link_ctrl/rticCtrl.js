@@ -52,12 +52,12 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
         }
     };
     $scope.addIntRtic = function () {
-        var newIntRtic = fastmap.dataApi.linkintrtic({"linkPid": $scope.rticData.pid});
+        var newIntRtic = fastmap.dataApi.rdLinkIntRtic({"linkPid": $scope.rticData.pid});
         $scope.rticData.intRtics.unshift(newIntRtic)
 
     };
     $scope.addCarRtic = function () {
-        var newRtic = fastmap.dataApi.linkrtic({"linkPid": $scope.rticData.pid});
+        var newRtic = fastmap.dataApi.rdLinkRtic({"linkPid": $scope.rticData.pid});
         $scope.rticData.rtics.unshift(newRtic)
     };
     $scope.minusCarRtic = function (id) {
@@ -109,11 +109,10 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
 
         if ($scope.rticData.intRtics.length > 0) {
         }else{
-            var newIntRtic = fastmap.dataApi.linkintrtic({"linkPid": $scope.rticData.pid,"rowId":"0"});
+            var newIntRtic = fastmap.dataApi.rdLinkIntRtic({"linkPid": $scope.rticData.pid,"rowId":"0"});
             $scope.rticData.intRtics.unshift(newIntRtic)
         }
         objCtrl.data["oridiRowId"] = $scope.rticData.intRtics[0].rowId;
-        console.log("objCtrl.data['oridiRowId']  "+objCtrl.data["oridiRowId"]);
         var showRticsInfoObj = {
             "loadType": "subAttrTplContainer",
             "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/rticOfIntCtrl',

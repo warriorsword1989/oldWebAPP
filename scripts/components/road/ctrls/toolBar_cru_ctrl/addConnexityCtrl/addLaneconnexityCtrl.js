@@ -19,7 +19,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
 
     var changedDirectObj = {
         "loadType":"subAttrTplContainer",
-        "propertyCtrl":'components/road/ctrls/toolBar_cru_ctrl/addConnexitycomponents/road/ctrls/directOfConnexityCtrl',
+        "propertyCtrl":'components/road/ctrls/toolBar_cru_ctrl/addConnexityCtrl/directOfConnexityCtrl',
         "propertyHtml":'../../scripts/components/road/tpls/toolBar_cru_tpl/addConnexityTepl/directOfConnexityTpl.html'
     };
     $scope.$emit("transitCtrlAndTpl", changedDirectObj);
@@ -57,12 +57,13 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         }
     };
 
-    shapeCtrl.setEditingType("rdlaneConnexity")
-    map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-    if (typeof map.currentTool.cleanHeight === "function") {
+    shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDLANECONNEXITY)
+
+    if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
         map.currentTool.cleanHeight();
+        map.currentTool.disable();//禁止当前的参考线图层的事件捕获
     }
-    tooltipsCtrl.setEditEventType('rdlaneConnexity');
+    tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDLANECONNEXITY);
     tooltipsCtrl.setCurrentTooltip('正要新建车信,先选择线！');
     map.currentTool = new fastmap.uikit.SelectForRestriction({
         map: map,
