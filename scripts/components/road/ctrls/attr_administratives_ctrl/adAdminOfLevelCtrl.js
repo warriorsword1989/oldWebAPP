@@ -147,8 +147,6 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             zTree.selectNode(treeNode);
             if(confirm("确认删除 节点 -- " + treeNode.name + " 吗？")){
                 upStatus(newZNodes,treeNode,null,"delete",1);
-
-                console.log(newZNodes);
             }
             // return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
         }
@@ -418,7 +416,6 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
         function zTreeOnDrop(event, treeId, treeNodes, targetNode, moveType) {
             // alert(treeNodes[0].regionId);
             upStatus(newZNodes,treeNodes,targetNode,"drop",3);
-            console.log(newZNodes);
         };
 
 

@@ -52,7 +52,7 @@ pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyL
         $scope.walkFlag++;
     };
     $scope.addWalkstair = function () {
-        var newWalkstair = fastmap.dataApi.rdLinkSideWalk({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
+        var newWalkstair = fastmap.dataApi.rdLinkWalkStair({"linkPid":$scope.naviData.pid,"rowId":$scope.walkFlag.toString()});
         $scope.naviData.walkstairs.unshift(newWalkstair);
         $scope.walkFlag++;
     };

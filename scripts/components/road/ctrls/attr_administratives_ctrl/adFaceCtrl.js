@@ -9,7 +9,9 @@ adFaceApp.controller("adFaceController",function($scope) {
         $scope.adFaceData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
     };
-
+    if(objCtrl.data) {
+        $scope.initializeData();
+    }
     $scope.save = function(){
 
     };

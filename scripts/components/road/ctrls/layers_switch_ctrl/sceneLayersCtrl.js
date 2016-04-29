@@ -13,7 +13,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         {"id": 3, "label": "互联网Rtic", "selected": false},
         {"id": 4, "label": "行政区划", "selected": false},
         {"id": 5, "label": "复杂要素", "selected": false},
-        {"id": 6, "label": "默认", "selected": false}
+        {"id": 6, "label": "常规场景", "selected": false},
     ]
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
