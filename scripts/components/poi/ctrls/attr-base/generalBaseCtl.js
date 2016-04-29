@@ -43,7 +43,6 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
         // console.log(evt);
         // console.log(obj);
         // console.log(obj.selectedKind);
-        console.log(obj.selectedKind);
         $scope.$emit("kindChange", obj.selectedKind);
     };
     // $scope.$on("initPage", function(event, data) {

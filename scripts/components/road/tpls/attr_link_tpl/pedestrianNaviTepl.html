@@ -163,7 +163,12 @@
             <div class="list-line"></div>
         </li>
         <li class="list-group-item" ng-repeat="sidewalksItem in naviData.sidewalks" >
-            <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
+            <div ng-click="showSidewalk(sidewalksItem)" style="cursor: pointer; width: 150px">
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 0">未调查</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 1">高度差隔离(马路涯)</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 2">物理栅栏隔离</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 3">划线隔离</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="sidewalksItem.dividerType == 4">无隔离</label>
                 <span id="SidewalkSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusSidewalk($index)"></span>
             </div>
         </li>
@@ -171,12 +176,15 @@
     <ul class="list-group list-group-lg m-b-none" >
         <li class="list-group-item">
             <div class="list-name" style="width:120px;">
-                <a ng-click="addWalkstair()" style="cursor: pointer;color: #ffffff;">人行阶梯 共（{{naviData.walkstairs.length}})个</a>
+                <a ng-click="addWalkstair()" style="cursor: pointer;color: #ffffff;">人行阶梯 共{{naviData.walkstairs.length}}个</a>
             </div>
             <div class="list-line"></div>
         </li>
         <li class="list-group-item" ng-repeat="walkstairsItem in naviData.walkstairs">
-            <div ng-click="showWalkstair(walkstairsItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index+1}}</label>
+            <div ng-click="showWalkstair(walkstairsItem)" style="cursor: pointer;width: 150px">
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="walkstairsItem.stairFlag == 0">未调查</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="walkstairsItem.stairFlag == 1">上坡</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="walkstairsItem.stairFlag == 2">下坡</label>
                 <span id="WalkstairSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusWalkstair($index)"></span>
             </div>
         </li>

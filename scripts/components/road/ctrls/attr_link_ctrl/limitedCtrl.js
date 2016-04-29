@@ -130,7 +130,7 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         $scope.fmdateTimer(str);
     }
     $scope.addLimit=function() {
-        var newLimit = fastmap.dataApi.linklimit({"linkPid":$scope.linkLimitData.pid});
+        var newLimit = fastmap.dataApi.rdLinkLimit({"linkPid":$scope.linkLimitData.pid});
         $scope.linkLimitData.limits.unshift(newLimit);
     };
     $scope.slideShow = function(target){
@@ -158,7 +158,7 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         $scope.linkLimitData.limits.splice(id, 1);
     };
     $scope.addLimitTruck = function () {
-        var newTruckLimit = fastmap.dataApi.linktrucklimit({"linkPid":$scope.linkLimitData.pid});
+        var newTruckLimit = fastmap.dataApi.rdLinkTruckLimit({"linkPid":$scope.linkLimitData.pid});
         $scope.linkLimitData.limitTrucks.unshift(newTruckLimit);
         $scope.truckFlagarray.push(0);
     };

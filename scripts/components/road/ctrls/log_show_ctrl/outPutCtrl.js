@@ -32,7 +32,7 @@ outPutModule.controller('outPutController', function ($scope) {
     }
 
     $scope.showByMap = function (type, pid) {
-        console.log(type, pid);
+
     }
 
     //index 1表示是pid  2表示rowid
