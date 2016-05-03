@@ -56,7 +56,7 @@
         "mapApi/layer/Layer.js",
         "mapApi/layer/WholeLayer.js",
         "mapApi/layer/MeshLayer.js",
-        "mapApi/layer/LayerRender.js",
+        "mapApi/LayerRender.js",
         "mapApi/layer/TileJSONLayer.js",
         "mapApi/layer/EditLayer.js",
         "mapApi/layer/GridLayer.js",
