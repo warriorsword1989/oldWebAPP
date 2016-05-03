@@ -99,14 +99,14 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     id = data[item].properties.id;
 
                     if (this.linksFlag) {
-                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point,optype:"RDLINK"});
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point,optype:"RDLINK",event:event});
                         this.currentEditLayer.selectedid = id;
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
                         }
                         this._drawHeight(id);
                     } else {
-                        this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
+                        this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id,event:event});
                     }
                     break;
                 }
