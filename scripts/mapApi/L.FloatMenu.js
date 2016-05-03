@@ -71,7 +71,8 @@ L.Control.FloatMenu = L.Class.extend({
         var stop = L.DomEvent.stopPropagation;
         if(fn){
             L.DomEvent
-                .on(link, 'click', stop)
+                .on(link, 'click', L.DomEvent.stopPropagation)
+                .on(link, 'mousedown', L.DomEvent.stopPropagation)
                 .on(link, 'click', L.DomEvent.preventDefault)
                 .on(link, 'click', fn, context)
         }
