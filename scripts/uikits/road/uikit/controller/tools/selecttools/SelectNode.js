@@ -35,8 +35,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             snapVertex:true
         });
         this.snapHandler.enable();
-
-
+        //this.floatVisible=false;
     },
 
     /***
@@ -86,6 +85,22 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         } else {
             this.drawGeomCanvasHighlight(tileCoordinate, event);
         }
+
+        //if(!this.floatMenu){
+        //    this.floatMenu = new L.Control.FloatMenu("000",event.originalEvent,{items:[{text:"<a class='glyphicon glyphicon-apple'></a>",title:"ddd","class":"feaf",callback:function(){alert()}},{text:"<a class='glyphicon glyphicon-apple'></a>",title:"ddd","class":"feaf",callback:function(){alert()}},{text:"<a class='glyphicon glyphicon-apple'></a>",title:"ddd","class":"feaf",callback:function(){alert()}}]})
+        //    this._map.addLayer(this.floatMenu);
+        //    this.floatMenu.setVisible(true);
+        //}
+        //else{
+        //    if(this.floatVisible){
+        //        this.floatMenu.setVisible(false);
+        //        this.floatVisible=false
+        //    }
+        //    else{
+        //        this.floatMenu.setVisible(true);
+        //        this.floatVisible=true
+        //    }
+        //}
     },
     getadAdminId: function (tilePoint, event) {
         //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;

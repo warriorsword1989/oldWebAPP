@@ -272,14 +272,14 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             } else {
                 p =this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
-            if(type==="3") {
-                angleOfTran = angleOfTran + Math.PI;
-            }
+            //if(type==="3") {
+            //    angleOfTran = angleOfTran + Math.PI;
+            //}
             url = "../../images/road/img/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
                 g.save();
-                g.translate(p.x-img.height/2, p.y-img.width/2);
+                g.translate(p.x, p.y);
                 g.rotate(angleOfTran);
                 g.drawImage(img, 0, 0);
                 g.restore();
