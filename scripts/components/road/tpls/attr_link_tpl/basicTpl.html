@@ -303,7 +303,7 @@
         <ul class="list-group list-group-lg m-b-none">
             <li class="list-group-item1">
                 <div  class="inline" style="text-align: left;width: 120px;" >
-                    <a ng-click="showZone()" style="cursor: pointer;color:#FFF;">zone属性（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
+                    <a ng-click="showZone(linkData.zones.length)" style="cursor: pointer;color:#FFF;" >zone属性（共<span ng-if="linkData!=undefined">{{ linkData.zones.length}}</span>条）</a>
                 </div>
             </li>
         </ul>
