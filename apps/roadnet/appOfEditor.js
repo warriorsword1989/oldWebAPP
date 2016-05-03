@@ -66,13 +66,14 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         if (!$scope.panelFlag) {
             $scope.attrTplContainerSwitch(true);
         }
+
     });
     $scope.panelFlag = false;//panelFlag属性面板状态
     $scope.outErrorArr = [false, true, true, false];//输出框样式控制
     $scope.suspendFlag = false;//次属性框显隐控制
     $scope.outErrorUrlFlag = false;
     $scope.tipsTplContainerFlag = true;//点击tips列表 判断右侧属性栏是否弹出
-    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false];//按钮样式的变化
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false,false];//按钮样式的变化
     $scope.changeBtnClass = function (id) {
         for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
             if (claFlag === id) {

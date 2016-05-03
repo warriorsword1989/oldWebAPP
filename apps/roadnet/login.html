@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="../../favicon.ico" rel="icon" type="image/x-icon" />
     <meta http-equiv="content-script-type" content="text/javascript">
     <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="../../styles/road/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -80,13 +81,16 @@
             width: 50%;
         }
     </style>
-    <script>
-        console.log(decodeURIComponent("http://192.168.4.63:8091/fos/charge/crowdsourcing/query?access_token=0000E1E300O4IRWL16F3DFC1B73A445DBF8806130DF5558B&parameter=%7B%22region%22%3A%22POLYGON%28%28116.33146047592163+39.861263098008536%2C116.33901357650757+39.80220607474971%2C116.41591787338257+39.82066684864227%2C116.40767812728882+39.86495247598372%2C116.33146047592163+39.861263098008536%29%29%22%2C%22type%22%3A1%7D"));
-        console.log(decodeURIComponent("http://192.168.4.63:8091/fos/charge/crowdsourcing/query?access_token=0000E1E300O4ISCBD98A1DD17DD85CBB555BF1788FD83C69&parameter=%7B%22region%22%3A%22POLYGON%28%28116.46365582942963+40.02156760530183%2C116.45902097225189+40.00920936862171%2C116.462282538414+40.00013647279231%2C116.47464215755463+40.00565924863166%2C116.46846234798431+40.009340851001646%29%29%22%2C%22type%22%3A1%7D"));
-    </script>
 </head>
 <body>
+<ul class="floatMenu">
+    <li><a class="glyphicon glyphicon-apple"></a></li>
+    <li><a class="glyphicon glyphicon-apple"></a></li>
+    <li><a class="glyphicon glyphicon-apple"></a></li>
+    <li><a class="glyphicon glyphicon-apple"></a></li>
+</ul>
 <div class="login-well">
+
     <div class="col-md-12 col-lg-12 login-input">
         <div class="login-panel">
             <h1>Fastmap道路编辑平台</h1>
@@ -108,11 +112,33 @@
                 </div>
             </form>
         </div>
+
     </div>
 </div>
 <script src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.min.js"></script>
 <script src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../scripts/libs/sweet-alert/js/sweet-alert.min.js"></script>
 <script src="login.js"></script>
+<script>
+    $(function(){
+        var buttons=$(".floatMenu>li");
+        var r=100,n= 5;
+        var expanded=false;
+        var intervalId=setInterval(function(){
+            if(expanded){
+                for(var i= 0,len=buttons.length;i<len;i++){
+                    $(buttons[i]).css("transform","translate(0px,0px").css("transition",'1s')
+                }
+                expanded=false;
+            }
+            else{
+                for(var i= 0,len=buttons.length;i<len;i++){
+                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'1s')
+                }
+                expanded=true;
+            }
+        },3000)
+    })
+</script>
 </body>
 </html>

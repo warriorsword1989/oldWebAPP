@@ -34,7 +34,7 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
             6: "postCode",
             7: "deepInfo"
         }
-        var list = FM.Util.split(!value ? "" : value);
+        var list = App.Util.split(!value ? "" : value);
         for (key in conf) {
             $scope.ctrl.fieldLabel[conf[key]] = (list.indexOf(key) >= 0);
         }
@@ -43,7 +43,6 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
         // console.log(evt);
         // console.log(obj);
         // console.log(obj.selectedKind);
-        console.log(obj.selectedKind);
         $scope.$emit("kindChange", obj.selectedKind);
     };
     // $scope.$on("initPage", function(event, data) {

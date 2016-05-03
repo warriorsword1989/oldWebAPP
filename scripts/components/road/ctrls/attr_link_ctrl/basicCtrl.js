@@ -198,12 +198,16 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     }
 
     $scope.showZone=function(item){
-        var showZoneObj={
-            "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_link_ctrl/basicOfZoneCtrl',
-            "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/basicOfZoneTpl.html'
+        if (item == 0) {
+            return;
+        }else {
+            var showZoneObj={
+                "loadType":"subAttrTplContainer",
+                "propertyCtrl":'components/road/ctrls/attr_link_ctrl/basicOfZoneCtrl',
+                "propertyHtml":'../../scripts/components/road/tpls/attr_link_tpl/basicOfZoneTpl.html'
+            }
+            $scope.$emit("transitCtrlAndTpl", showZoneObj);
         }
-        $scope.$emit("transitCtrlAndTpl", showZoneObj);
     }
     $scope.showOther=function(){
         var showOtherObj={

@@ -90,7 +90,13 @@
             <div class="list-line"></div>
         </li>
         <li class="list-group-item" ng-repeat="item in rticData.speedlimits">
-            <div ng-if="item.speedType==0" ng-click="showOridinarySpeedInfo(item)" style="cursor: pointer;padding-left: 15px;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">普通</label>
+            <div ng-if="item.fromSpeedLimit!=0 && item.toSpeedLimit == 0&&item.speedType==0" ng-click="showOridinarySpeedInfo(item)" style="cursor: pointer;padding-left: 15px;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">顺向速度&nbsp;{{item.fromSpeedLimit}}</label>
+                <!--<span id="oridinarySpeedSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusoridinarySpeed($index)"></span>-->
+            </div>
+            <div ng-if="item.fromSpeedLimit==0 && item.toSpeedLimit != 0&&item.speedType==0" ng-click="showOridinarySpeedInfo(item)" style="cursor: pointer;padding-left: 15px;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">逆向速度&nbsp;{{item.toSpeedLimit}}</label>
+                <!--<span id="oridinarySpeedSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusoridinarySpeed($index)"></span>-->
+            </div>
+            <div ng-if="((item.fromSpeedLimit==0 && item.toSpeedLimit == 0)||(item.fromSpeedLimit!=0 && item.toSpeedLimit != 0))&&item.speedType==0" ng-click="showOridinarySpeedInfo(item)" style="cursor: pointer;padding-left: 15px; width: 200px"><label style="padding-top: 5px;cursor: pointer;" class="control-label">顺向速度&nbsp;{{item.fromSpeedLimit}}&nbsp;&nbsp;&nbsp;&nbsp;逆向速度&nbsp;{{item.toSpeedLimit}}</label>
                 <!--<span id="oridinarySpeedSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,1)" ng-mouseleave="backColor($index,1)" ng-click="minusoridinarySpeed($index)"></span>-->
             </div>
         </li>
@@ -103,10 +109,25 @@
             </div>
             <div class="list-line"></div>
         </li>
-        <li class="list-group-item" ng-repeat="cItem in linkData.speedlimits">
-            <div ng-if="cItem.speedType==3" ng-click="showspeedlimitInfo(cItem)" style="cursor: pointer;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{$index}}</label>
+        <li class="list-group-item" ng-repeat="cItem in rticData.speedlimits">
+            <div ng-if="cItem.speedType==3" ng-click="showspeedlimitInfo(cItem)" style="cursor: pointer;">
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 0">特定条件</label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 1">雨天&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 2">雪天&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 3">雾天&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 6">学校&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 10">时间限制&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 11">车道限制&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 12">季节时段&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 13">医院&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 14">购物&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 15">居民区&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 16">企事业单位&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 17">景点景区&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
+                <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 18">交通枢纽&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
                 <span id="speedLimitSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index,2)" ng-mouseleave="backColor($index,2)" ng-click="minusspeedLimit($index)"></span>
             </div>
+
         </li>
     </ul>
 </div>

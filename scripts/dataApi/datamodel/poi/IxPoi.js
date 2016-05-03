@@ -1,7 +1,7 @@
 /**
  * Created by chenxiao on 2016/4/21.
  */
-FM.dataApi.ixPoi = FM.dataApi.GeoDataModel.extend({
+FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     // options: {
     //     test: "test"
     // },
@@ -12,12 +12,12 @@ FM.dataApi.ixPoi = FM.dataApi.GeoDataModel.extend({
     initialize: function(data, options) {
         FM.setOptions(this, options);
         this.geoLiveType = "IXPOI";
-        this.setAttributeData(data);
+        this.setAttributes(data);
     },
     /*
      * 返回参数赋值
      */
-    setAttributeData: function(data) {
+    setAttributes: function(data) {
         this.fid = data["fid"];
         this.pid = data["pid"] || null;
         this.name = data["name"];
@@ -25,20 +25,6 @@ FM.dataApi.ixPoi = FM.dataApi.GeoDataModel.extend({
         this.lifecycle = data['lifecycle'];
         this.auditStatus = data['auditStatus'];
         this.rawFields = data['rawFields'];
-    },
-    /*
-     *获取的道路信息
-     */
-    getIntegrate: function() {
-        var data = {};
-        data["fid"] = this.fid;
-        data["pid"] = this.pid;
-        data["name"] = this.name;
-        data["kindCode"] = this.kindCode;
-        data["lifecycle"] = this.lifecycle;
-        data["auditStatus"] = this.auditStatus;
-        data["rawFields"] = this.rawFields;
-        return data;
     },
     getSnapShot: function() {
         var data = {};
@@ -57,7 +43,7 @@ FM.dataApi.ixPoi = FM.dataApi.GeoDataModel.extend({
                 var ret = [],
                     poi;
                 for (var i = 0; i < data.data.data.length; i++) {
-                    poi = new FM.dataApi.ixPoi(data.data.data[i]);
+                    poi = new FM.dataApi.IxPoi(data.data.data[i]);
                     ret.push(poi);
                 }
                 callback(ret);

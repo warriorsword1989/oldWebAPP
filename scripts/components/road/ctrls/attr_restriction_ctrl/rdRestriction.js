@@ -257,7 +257,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
             $scope.$apply(function () {
-                $scope.rdSubRestrictData.outLinkPid = data.id;
+                $scope.rdSubRestrictData.outLinkPid =parseInt( data.id);
             });
 
             var highLightFeatures = [];
@@ -377,12 +377,14 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             if(objectEditCtrl.changedProperty.details) {
                 $.each(objectEditCtrl.changedProperty.details, function (i, v) {
                     delete v.linkPid;
+
                 })
             }
 
             if(objectEditCtrl.changedProperty.details[0].conditions){
                 $.each(objectEditCtrl.changedProperty.details[0].conditions,function(i,v){
                     delete v.pid;
+                    delete v.geoLiveType;
                 })
             }
 

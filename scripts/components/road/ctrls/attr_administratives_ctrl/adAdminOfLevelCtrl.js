@@ -4,6 +4,10 @@
 var adAdminZone = angular.module("lazymodule", ['ui.tree', 'ngRoute', 'ui.bootstrap']);
 adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var outputCtrl = fastmap.uikit.OutPutController({});
+
+
+
 
 
     var param = {
@@ -13,7 +17,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             "projectId": Application.projectid
         }
     };
-   // var zNodes=[];
+    var newZNodes={};
     Application.functions.getCondition(JSON.stringify(param), function (data) {
         //zNodes=data.data;
         $scope.initF(data.data);
@@ -120,7 +124,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             }
         };
 
-        var newZNodes= $.extend({},data);
+         newZNodes= $.extend({},data);
         var log, className = "dark";
         function beforeDrag(treeId, treeNodes) {
             for (var i=0,l=treeNodes.length; i<l; i++) {
@@ -147,8 +151,6 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             zTree.selectNode(treeNode);
             if(confirm("确认删除 节点 -- " + treeNode.name + " 吗？")){
                 upStatus(newZNodes,treeNode,null,"delete",1);
-
-                console.log(newZNodes);
             }
             // return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
         }
@@ -208,8 +210,8 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             if (btn) btn.bind("click", function(){
                 var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                 var  chil={
-                    "regionId": selectRegion.rgion_Id,
-                    "name": (selectRegion.name!=""?selectRegion.name:"无"),
+                    "regionId": selectRegion.regionId,
+                    "name": (selectRegion.names[0].name!=""?selectRegion.names[0].name:"无"),
                     "group": null,
                     "part": {
                         "groupId": (treeNode.group!=null?treeNode.group.groupId:0),
@@ -220,11 +222,11 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
                 };
                 //加个方法判断是否重复的regionid，不重复才可以添加
                 if(selectRegion!=null){
-                    var bool=true;
-                    console.log(isRepeat(selectRegion.region_Id,newZNodes,bool))
-                    if(isRepeat(selectRegion.region_Id,newZNodes,bool)){
+                    if(isRepeatss(selectRegion.regionId,newZNodes)){
                         zTree.addNodes(treeNode, chil);
                         upStatus(newZNodes,treeNode,null,"insert",1);
+                    }else{
+                        alert("此编号已经存在");
                     }
                 }
                 return false;
@@ -232,25 +234,28 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
 
         };
 
+
         function isArray(object){
             return object && typeof object==='object' &&
                 Array == object.constructor;
         }
 
-        function isRepeat(regionIds,itemNodes,bool){
-            for(var j in itemNodes){
-                if(regionIds==itemNodes[j].regionId){
-                    bool=false;
-                }else{
-                    for(var i in itemNodes[j].children){
-                        if(regionIds==itemNodes[j].children[i].regionId){
-                            bool=false;
-                        }else if(i==itemNodes[j].children.length-1){
-                            isRepeat(regionIds,itemNodes[j].children,bool);
+        var bool = true;
+        function isRepeatss(regionIds,itemNodes) {
+            aa:for (var j in itemNodes) {
+                if (itemNodes[j].children.length > 0) {
+                    bb:for (var i in itemNodes[j].children) {
+                        if (regionIds == itemNodes[j].children[i].regionId) {
+                                bool = false;
+                                break bb;
+
+                        } else if (i == itemNodes[j].children.length - 1) {
+                            if (itemNodes[j].children[i].children.length > 0) {
+                                isRepeatss(regionIds, itemNodes[j].children);
+                            }
                         }
                     }
                 }
-
             }
             return bool;
         }
@@ -297,8 +302,8 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
                                 itemNodes[j]["group"].objType=status;
                             }
                             var  chil={
-                                "regionId": selectRegion.rgion_Id,
-                                "name": (selectRegion.name!=""?selectRegion.name:"无"),
+                                "regionId": selectRegion.regionId,
+                                "name": (selectRegion.names[0].name!=""?selectRegion.names[0].name:"无"),
                                 "group": null,
                                 "part": {
                                     "groupId": itemNodes[j]["group"].groupId,
@@ -338,8 +343,8 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
                                         itemNodes[j].children[i]["group"].objType=status;
                                     }
                                     var  chil={
-                                        "regionId": selectRegion.rgion_Id,
-                                        "name": (selectRegion.name!=""?selectRegion.name:"无"),
+                                        "regionId": selectRegion.regionId,
+                                        "name": (selectRegion.names[0].name!=""?selectRegion.names[0].name:"无"),
                                         "group": null,
                                         "part": {
                                             "groupId": itemNodes[j].children[i]["group"].groupId,
@@ -418,12 +423,49 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
         function zTreeOnDrop(event, treeId, treeNodes, targetNode, moveType) {
             // alert(treeNodes[0].regionId);
             upStatus(newZNodes,treeNodes,targetNode,"drop",3);
-            console.log(newZNodes);
         };
+
+
 
 
         $.fn.zTree.init($("#treeDemo"), setting, data);
     }
 
+    /*
+     保存tree 数组
+     */
+    $scope.saveTree=function(){
+        var param = {
+            "command": "UPDATE",
+            "type":"ADADMINGROUP",
+            "projectId": Application.projectid,
+            "data": {
+                "groupTree":newZNodes[0]
+            }
+        }
+        // var zNodes=[];
+        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+            var info = null;
+            if (data.errcode==0) {
+                var sinfo={
+                    "op":"修改行政区划代表点层级成功",
+                    "type":"",
+                    "pid": ""
+                };
+                data.data.log.push(sinfo);
+                info=data.data.log;
+                outputCtrl.pushOutput(info);
+                if (outputCtrl.updateOutPuts !== "") {
+                    outputCtrl.updateOutPuts();
+                }
+            }else{
+                info=[{
+                    "op":data.errcode,
+                    "type":data.errmsg,
+                    "pid": data.errid
+                }];
+            }
+        });
+    }
 
 })

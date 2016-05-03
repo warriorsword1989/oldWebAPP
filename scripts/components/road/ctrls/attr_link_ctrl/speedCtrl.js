@@ -3,7 +3,8 @@
  */
 var realtimeTrafficApp = angular.module("lazymodule", []);
 realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazyLoad) {
-    $scope.rticData =  $scope.linkData;
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.rticData =  objCtrl.data;
 
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
@@ -46,7 +47,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
 
     //普通限速
     $scope.showOridinarySpeedInfo= function (item) {
-        $scope.linkData["oridiRowId"] = item.rowId;
+        objCtrl.data["oridiRowId"] = item.rowId;
         var oridinarySpeedObj = {
             "loadType":"subAttrTplContainer",
             "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/speedOfOrdinaryCtrl',
@@ -57,7 +58,7 @@ realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazy
 
     //条件限速
     $scope.showspeedlimitInfo= function (cItem) {
-        $scope.linkData["oridiRowId"] = cItem.rowId;
+        objCtrl.data["oridiRowId"] = cItem.rowId;
         var speedlimitInfoObj = {
             "loadType":"subAttrTplContainer",
             "propertyCtrl": 'components/road/ctrls/attr_link_ctrl/speedOfConditionCtrl',
