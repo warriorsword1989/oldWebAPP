@@ -489,7 +489,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      */
     createUrl: function (bounds) {
         var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-
         if (this.url == "") {
             return;
         }
