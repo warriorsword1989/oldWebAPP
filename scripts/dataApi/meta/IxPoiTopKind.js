@@ -16,20 +16,13 @@ FM.dataApi.ixPoiTopKind = FM.dataApi.GeoDataModel.extend({
      */
     setAttributeData: function(data) {
         this.id = data["id"];
-        this.code = data["code"];
+        this.code = data["code"] || 0;
         this.name = data["name"];
     },
     /*
      *获取的一级菜单信息
      */
     getIntegrate: function() {
-        var data = {};
-        data["id"] = this.id;
-        data["code"] = this.code;
-        data["name"] = this.name;
-        return data;
-    },
-    getSnapShot: function() {
         var data = {};
         data["id"] = this.id;
         data["code"] = this.code;

@@ -57,7 +57,30 @@ FM.dataApi.GeoDataModel = FM.Class.extend({
      * @param integrate
      */
     getIntegrate: function(integrate) {
-        return null;
+        var ret = {};
+        var that = this;
+        for (var key in that) {
+            if (key == "_initHooksCalled" || key == "options" || key == "geoLiveType") {
+                continue;
+            }
+            if (that.hasOwnProperty(key)) {
+                if (that[key] != null && typeof that[key] == 'object') {
+                    if (that[key] instanceof FM.Class) {
+                        ret[key] = that[key].getIntegrate();
+                    } else if (FM.Util.isArray(that[key])) {
+                        ret[key] = [];
+                        for (var i = 0, n = that[key].length; i < n; i++) {
+                            ret[key].push(FM.Util.clone(that[key][i]));
+                        }
+                    } else {
+                        ret[key] = FM.Util.clone(that[key]);
+                    }
+                } else {
+                    ret[key] = that[key];
+                }
+            }
+        }
+        return ret;
     },
     getDiffProperties: function(integrateJson) {
         var difJson = {};

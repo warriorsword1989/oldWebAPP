@@ -41,19 +41,6 @@ FM.dataApi.ixPoiKind = FM.dataApi.GeoDataModel.extend({
         data["parent"] = this.parent;
         return data;
     },
-    getSnapShot: function() {
-        var data = {};
-        data["id"] = this.id;
-        data["mediumId"] = this.mediumId;
-        data["kindName"] = this.kindName;
-        data["kindCode"] = this.kindCode;
-        data["dispOnLink"] = this.dispOnLink;
-        data["chainFlag"] = this.chainFlag;
-        data["level"] = this.level;
-        data["extend"] = this.extend;
-        data["parent"] = this.parent;
-        return data;
-    },
     statics: {
         getList: function(param, callback) {
             FM.dataApi.ajax.get("fos/meta/queryKind", param, function(data) {

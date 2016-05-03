@@ -1,5 +1,4 @@
-var app = angular.module('app', ['oc.lazyLoad', 'ui.bootstrap']);
-app.controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', '$timeout', function($scope, $ocll, $rs, $q, $timeout) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
     $scope.meta = {};
     var ds = new App.dataService($q);
     var promises = [];
@@ -8,9 +7,18 @@ app.controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', '$
     }));
     promises.push(ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
+        var tmp = data.getIntegrate();
+        console.log(tmp);
+    }));
+    promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+        $scope.poi2 = data;
+    }));
+    promises.push(poi.getPoiList().then(function(data) {
+        $scope.poiList = data;
     }));
     $scope.test = function() {
         console.log("main");
+        poi.test();
     };
     $q.all(promises).then(function() {
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
@@ -32,6 +40,7 @@ app.controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', '$
 
     function realSave(evt, data) {
         console.log(data);
+        $scope.test();
     }
     $scope.$on("kindChange", function(event, data) {
         console.log($scope.poi.fid);
