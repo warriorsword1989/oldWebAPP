@@ -1502,7 +1502,6 @@ function transformDataForTips(data) {
  */
 function createUrl(url,requestType){
 
-
     var urlObj = {};
     if (requestType != "") {
         urlObj.url = Application.url + url;
@@ -1511,6 +1510,11 @@ function createUrl(url,requestType){
             gap:80,
             types:[requestType]
         }
+
+        if(requestType == "RDLINK"){
+            urlObj.hbaseUrl = Application.url + '/render/link/getByTileWithGap?';
+        }
+
     }else{
         urlObj.url = Application.url + url;
         urlObj.parameter = {
@@ -1518,6 +1522,15 @@ function createUrl(url,requestType){
             gap:80
         }
     }
+
+    //
+    //if (this._map.getZoom() >= this.showNodeLevel) {
+    //    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
+    //
+    //} else {
+    //    url = Application.url + '/render/link/getByTile?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
+    //}
+
 
     return urlObj;
 }
