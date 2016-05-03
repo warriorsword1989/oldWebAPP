@@ -1,19 +1,8 @@
 /**
  * Created by chenxiao on 2016/4/21.
  */
-FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
-    // options: {
-    //     test: "test"
-    // },
-    // includes: [FM.mapApi],
-    /*
-     * 初始化
-     */
-    initialize: function(data, options) {
-        FM.setOptions(this, options);
-        this.geoLiveType = "IXPOI";
-        this.setAttributes(data);
-    },
+FM.dataApi.IxTest = FM.dataApi.GeoDataModel.extend({
+    geoLiveType: "IX_POI",
     /*
      * 返回参数赋值
      */
@@ -43,7 +32,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 var ret = [],
                     poi;
                 for (var i = 0; i < data.data.data.length; i++) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[i]);
+                    poi = new FM.dataApi.IxTest(data.data.data[i]);
                     ret.push(poi);
                 }
                 callback(ret);
