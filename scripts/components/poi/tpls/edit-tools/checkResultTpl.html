@@ -1,0 +1,23 @@
+<div ng-controller="checkResultCtl">
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th ng-repeat="item in theadInfo">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="checkResult.length == 0">
+                <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
+            </tr>
+            <tr ng-repeat="item in checkResult">
+                <td>{{item.id}}</td>
+                <td>{{item.code}}</td>
+                <td>{{item.err}}</td>
+                <td>{{item.operate}}</td>
+                <td>{{item.poi}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
