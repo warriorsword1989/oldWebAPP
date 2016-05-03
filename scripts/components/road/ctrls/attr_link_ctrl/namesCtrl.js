@@ -16,7 +16,7 @@ basicApp.controller("nameController", function ($scope, $ocLazyLoad) {
     };
 
     $scope.addRdName = function () {
-        var newName = fastmap.dataApi.linkname({"linkPid": $scope.linkData.pid});
+        var newName = fastmap.dataApi.rdLinkName({"linkPid": $scope.linkData.pid});
         $scope.linkData.names.unshift(newName)
     };
 
