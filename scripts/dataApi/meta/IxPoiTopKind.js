@@ -16,7 +16,7 @@ FM.dataApi.ixPoiTopKind = FM.dataApi.GeoDataModel.extend({
      */
     setAttributeData: function(data) {
         this.id = data["id"];
-        this.code = data["code"];
+        this.code = data["code"] || 0;
         this.name = data["name"];
     },
     /*
