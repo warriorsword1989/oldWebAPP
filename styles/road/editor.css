@@ -740,3 +740,31 @@ div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
     z-index: 99;
 }
 
+
+.floatMenu{
+    display: none;
+    list-style-type: none;
+}
+.floatMenu>li{
+    position:absolute;
+    left:200px;
+    top:300px;
+    padding: 6px;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: blueviolet;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.floatMenu>li:hover{
+    color:blueviolet;
+    background-color: #00FF33;
+}
+
+.floatMenu>li>a{
+    font-size: 16px;
+    color:#FFF;
+}
