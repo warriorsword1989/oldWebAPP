@@ -47,7 +47,7 @@ fastmap.uikit.TransformDirection = L.Handler.extend({
         var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
         var len = this.distance(layerPoint, point);
-        if(len<10000) {
+        if(len<100) {
             if(this.type==="intRticMarker"){
                 switch (orientation) {
                     case "1":

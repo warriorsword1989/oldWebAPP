@@ -376,14 +376,12 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 else if (shapeCtrl.editType === 'drawPolygon') {
                     coordinate.push([geo.components[0].x, geo.components[0].y]);
-                    var test = [];
-                    test.push(coordinate);
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",
                         "projectId": Application.projectid,
                         "data": {
-                            "geometry": {"type": "Polygon", "coordinates": test}
+                            "geometry": {"type": "LineString", "coordinates": coordinate}
                         }
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {

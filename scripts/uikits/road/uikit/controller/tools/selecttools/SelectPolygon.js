@@ -72,7 +72,7 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
 
 
             var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
             for (var item in data) {
@@ -103,7 +103,7 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
      * @private
      */
     _containPoint: function (geo, x, y) {
-        var lineRing = fastmap.mapApi.linearRing(geo[0][0]);
+        var lineRing = fastmap.mapApi.linearRing(geo[0]);
         return lineRing.containsPoint(fastmap.mapApi.point(x, y));
     },
 

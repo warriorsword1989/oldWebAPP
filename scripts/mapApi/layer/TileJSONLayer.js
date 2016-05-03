@@ -495,6 +495,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             case "Marker":
             case "rdSpeedLimitPoint":
             case "rdlaneconnexityPoint":
+            case "rdGsc":
             case "rdCrossPoint":
             case "Diverge":
             case "rdrticPoint"://互联网RTIC

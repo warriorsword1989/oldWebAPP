@@ -196,7 +196,7 @@ fastmap.uikit.adAdminMove = L.Handler.extend({
             }
 
             var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
-            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data.features;
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
             var id = null;
             var transform = new fastmap.mapApi.MecatorTranform();
 

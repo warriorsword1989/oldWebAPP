@@ -272,9 +272,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             } else {
                 p =this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
-            if(type==="3") {
-                angleOfTran = angleOfTran + Math.PI;
-            }
+            //if(type==="3") {
+            //    angleOfTran = angleOfTran + Math.PI;
+            //}
             url = "../../images/road/img/" + type + ".svg";
             var g = self._ctx;
             loadImg(url, function (img) {
