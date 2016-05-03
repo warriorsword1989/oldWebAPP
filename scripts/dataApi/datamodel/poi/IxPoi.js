@@ -2,6 +2,8 @@
  * Created by chenxiao on 2016/4/21.
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
+
+    geoLiveType: "IX_POI",
     // options: {
     //     test: "test"
     // },
@@ -9,32 +11,239 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     /*
      * 初始化
      */
-    initialize: function(data, options) {
-        FM.setOptions(this, options);
-        this.geoLiveType = "IXPOI";
-        this.setAttributes(data);
-    },
+    // initialize: function(data, options) {
+    //     FM.setOptions(this, options);
+    //     this.geoLiveType = "IX_POI";
+    //     this.setAttributes(data);
+    // },
     /*
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.fid = data["fid"];
-        this.pid = data["pid"] || null;
-        this.name = data["name"];
-        this.kindCode = data["kindCode"];
-        this.lifecycle = data['lifecycle'];
-        this.auditStatus = data['auditStatus'];
-        this.rawFields = data['rawFields'];
+        this.relateParent = data["relateParent"] || null;
+        //this.attachments = data["attachments"] || [];
+        this.attachments = [];
+        if (data["attachments"].length > 0) {
+            for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
+                if (data["attachments"][i].type == 1) { //表示图片
+                    var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
+                    this.attachments.push(attachment);
+                }
+            }
+        }
+
+        this.contacts = [];
+        if (data["contacts"].length > 0) {
+            for (var i = 0 , len = data["contacts"].length ; i < len; i++) {
+                var contact = new FM.dataApi.IxPoiContact(data["contacts"][i]);
+                this.contacts.push(contact)
+            }
+        }
+
+        this.indoor = data["indoor"] || null;
+        this.pid = data["pid"] || 0;
+        this.checkResults = data["checkResults"] || [];
+        this.phaseHistory = data["phaseHistory"] || [];
+        this.synchronizeDate = data['synchronizeDate'];
+        this.regionInfo = data['regionInfo'] || 'D';
+        this.businessTime = data['businessTime'] || [];
+        this.sportsVenues = data['sportsVenues'] || null;
+        // 
+        this.projectHistory = data["projectHistory"] || null;
+        this.freshnessVerification = data["freshnessVerification"] || 0;
+        this.ckException = data["ckException"] || [];
+        this.operateDate = data["operateDate"] || null;
+        this.srcInformation = data["srcInformation"] || null;
+
+        this.batchModifyStatus = data['batchModifyStatus'] || 0;
+        this.hospital = data['hospital'] || null;
+        this.verifyFlags = data['verifyFlags'] || null;
+        this.chargingPole = data['chargingPole'] || [];
+        // 
+        this.kindCode = data["kindCode"] || null;
+        this.chargingStation = data["chargingStation"] || null;
+        this.attraction = data["attraction"] || null;
+        this.handler = data["handler"] || 1;
+        this.location = data["location"] || null;
+        this.fid = data["fid"] || null;
+        this.editHistory = data['editHistory'] || [];
+        this.fieldVerification = data['fieldVerification'] || 0;
+        this.sourceFlags = data['sourceFlags'] || null;
+        this.website = data['website'] || null;
+        // 
+        this.open24H = data["open24H"] || 2;
+        this.evaluateComment = data["evaluateComment"] || null;
+        this.latestBatchDate = data["latestBatchDate"] || null;
+        this.importance = data["importance"] || null;
+        this.parkings = data["parkings"] || null;
+        this.evaluatePlanning = data["evaluatePlanning"] || null;
+        this.airportCode = data['airportCode'] || null;
+        this.hwEntryExit = data['hwEntryExit'] || 0;
+        this.brands = data['brands'] || [];
+        this.foodtypes = data['foodtypes'] || null;
+        // 
+        this.evaluateQuality = data["evaluateQuality"] || null;
+        this.rawFields = data["rawFields"] || null;
+        this.rental = data["rental"] || null;
+        this.lifecycle = data["lifecycle"] || null;
+        this.submitStatus = data["submitStatus"] || 0;
+        this.gasStation = data["gasStation"] || null;
+        this.name = data['name'] || null;
+        this.meshid = data['meshid'] || null;
+        this.evaluateIntegrity = data['evaluateIntegrity'] || null;
+        this.adminReal = data['adminReal'] || null;
+        // 
+        this.hotel = data["hotel"] || null;
+        this.level = data["level"] || null;
+        this.relateChildren = data["relateChildren"] || [];
+        this.rowkey = data["rowkey"] || null;
+        this.vipFlag = data["vipFlag"] || null;
+        this.postCode = data["postCode"] || null;
+        this.adminCode = data['adminCode'] || null;
+        this.latestMergeDate = data['latestMergeDate'] || null;
+        this.address = data['address'] || null;
+        this.checkResultNum = data['checkResultNum'] || null;
+        // 
+        this.guide = data['guide'] || null;
+        this.auditStatus = data['auditStatus'] || 0;
     },
+    /*
+     *获取的POI的snapShot信息
+    */
     getSnapShot: function() {
+        var data = {};
+        data["fieldDate"] = this.fieldDate;
+        data["attachments"] = this.attachments;
+        data["pid"] = this.pid;
+        data["checkResults"] = this.checkResults;
+        data["rawFields"] = this.rawFields;
+        data["freshnessVerification"] = this.freshnessVerification;
+        data["contacts"] = this.contacts;
+        data["batchModifyStatus"] = this.batchModifyStatus;
+        data["kindCode"] = this.kindCode;
+        data["handler"] = this.handler;
+        data["location"] = this.location;
+        data["fid"] = this.fid;
+        data["rowkey"] = this.rowkey;
+        data["evaluateComment"] = this.evaluateComment;
+        data["vipFlag"] = this.vipFlag;
+        data["address"] = this.address;
+        data["brands"] = this.brands;
+        data["inputDate"] = this.inputDate;
+        data["lifecycle"] = this.lifecycle;
+        data["submitStatus"] = this.submitStatus;
+        data["name"] = this.name;
+        data["level"] = this.level;
+        data["auditStatus"] = this.auditStatus;
+        data["latestMergeDate"] = this.latestMergeDate;
+        data["checkResultNum"] = this.checkResultNum;
+        data["guide"] = this.guide;
+        return data;
+    },
+    /*
+     *获取的POI基本信息（包含扩展信息）
+     */
+    getBaseInfo: function() {
         var data = {};
         data["fid"] = this.fid;
         data["pid"] = this.pid;
         data["name"] = this.name;
-        data["kindCode"] = this.kindCode;
+        data["address"] = this.address;
+        data["contacts"] = this.contacts;
+        data["postcode"] = this.postcode;
+        data["kindcode"] = this.kindcode;
+        data["brandcode"] = this.brandcode;
+        data["level"] = this.level;
+        data["relateParent"] = this.relateParent;
+        data["relateChildren"] = this.relateChildren;
+        data["lifeCycle"] = this.lifeCycle;
+        data["auditStatus"] = this.auditStatus;
+        data["fressness"] = this.fressness;
+        data["rawFields"] = this.rawFields;
+        data["adminCode"] = this.adminCode;
         data["lifecycle"] = this.lifecycle;
         data["auditStatus"] = this.auditStatus;
         data["rawFields"] = this.rawFields;
+        data["open24H"] = this.open24H;
+        data["indoor"] = this.indoor;
+        return data;
+    },
+    getContacts: function (){
+        var data = [];
+        var contacts = this.contacts;
+        if (contacts && contacts.length > 0) {
+            for (var i = 0; i < contacts.length; i++) {
+                var contact = contacts[i].getIntegrate();
+                data.push(contact);
+            }
+        }
+        return data;
+    },
+    getPoiImage: function (){
+        var data = [];
+        var attachments = this.attachments;
+        if (attachments && attachments.length > 0) {
+            for (var i = 0; i < attachments.length; i++) {
+                var contact = attachments[i].getIntegrate();
+                data.push(contact);
+            }
+        }
+        return data;
+    },
+    getLocation: function() {
+        var data = {};
+        data["location"] = this.location;
+        return data;
+    },
+    getGuide: function() {
+        var data = {};
+        data["guide"] = this.guide;
+        return data;
+    },
+    getParkings: function (){
+        var data = {};
+        this.parkings.getIntegrate();
+        return this.parkings.getIntegrate();
+    },
+    getOilStation: function (){
+        var data = {};
+        return data;
+    },
+    getGasStation: function (){
+        var data = {};
+        return data;
+    },
+    getSportsVenue: function (){
+        var data = {};
+        return data;
+    },
+    getFoodType: function (){
+        var data = {};
+        return data;
+    },
+    /*
+     *获取旅游景点
+     */
+    getAttraction: function (){
+        var data = {};
+        return data;
+    },
+    getAirport: function (){
+        var data = {};
+        return data;
+    },
+    /*
+     *获取充电站信息
+     */
+    getChargingStation: function (){
+        var data = {};
+        return data;
+    },
+    /*
+     *获取充电桩信息
+     */
+    getChargingPole: function (){
+        var data = {};
         return data;
     },
     statics: {
