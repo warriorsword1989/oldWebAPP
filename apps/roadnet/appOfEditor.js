@@ -66,6 +66,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         if (!$scope.panelFlag) {
             $scope.attrTplContainerSwitch(true);
         }
+
     });
     $scope.panelFlag = false;//panelFlag属性面板状态
     $scope.outErrorArr = [false, true, true, false];//输出框样式控制

@@ -36,9 +36,10 @@ L.Control.FloatMenu = L.Class.extend({
         map.off('viewreset', this._reset, this);
     },
 
-    _createButton: function (html, title, className, container, fn, context) {
+    _createButton: function (html, title, type,className, container, fn, context) {
         var link = L.DomUtil.create('li', className, container);
         link.innerHTML = html;
+        link.type = type;
         link.title = title;
 
         var stop = L.DomEvent.stopPropagation;
