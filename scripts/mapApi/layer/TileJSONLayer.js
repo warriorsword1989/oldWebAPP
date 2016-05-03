@@ -492,14 +492,31 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if (this.url == "") {
             return;
         }
-        var url = this.url.url;
-        var parameter = this.url.parameter;
-        if (parameter != null) {
-            parameter.z = this._map.getZoom();
-            parameter.x = tiles[0];
-            parameter.y = tiles[1];
+        var url = null;
+        //从 oracle 获取
+        if(this._map.getZoom() >= this.showNodeLevel){
+            url = this.url.url;
+            var parameter = this.url.parameter;
+            if (parameter != null) {
+                parameter.z = this._map.getZoom();
+                parameter.x = tiles[0];
+                parameter.y = tiles[1];
+            }
+            url = url + 'parameter=' + JSON.stringify(parameter);
+
         }
-        url = url + 'parameter=' + JSON.stringify(parameter);
+
+        //rdlink 从hbase获取
+        if(this._map.getZoom()< this.showNodeLevel && this.requestType =='RDLINK'){
+            url = this.url.hbaseUrl;
+
+            if (parameter != null) {
+                parameter.z = this._map.getZoom();
+                parameter.x = tiles[0];
+                parameter.y = tiles[1];
+            }
+            url = url + 'parameter=' + JSON.stringify(parameter);
+        }
 
 
         return url;
