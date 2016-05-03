@@ -68,8 +68,10 @@ Application.layersConfig =
         }, {
         groupid: "dataLayers",
         groupname: "作业参考",
-        layers: [  {
-            url: Application.url + '/render/obj/getByTileWithGap?',
+        layers: [ {
+            //url: Application.url + '/render/obj/getByTileWithGap?',
+
+            url:createUrl('/render/obj/getByTileWithGap?','RDLINK'),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考线数据',
@@ -98,7 +100,7 @@ Application.layersConfig =
         },
 
             {
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','ADFACE'),
 
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -127,7 +129,7 @@ Application.layersConfig =
 
             } ,{
 
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','RDRESTRICTION'),
 
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -155,7 +157,7 @@ Application.layersConfig =
                 }
 
             }, {
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','RDBRANCH'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '高速分歧',
@@ -182,7 +184,7 @@ Application.layersConfig =
                 }
 
             }, {
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','RDSPEEDLIMIT'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '限速',
@@ -210,7 +212,7 @@ Application.layersConfig =
                 }
 
             },{
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','RDCROSS'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '路口',
@@ -237,7 +239,7 @@ Application.layersConfig =
                 }
 
             } , {
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','RDLANECONNEXITY'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '车信',
@@ -264,7 +266,7 @@ Application.layersConfig =
                 }
 
             }, {
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','RDLINKINTRTIC'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '互联网RTIC',
@@ -292,7 +294,7 @@ Application.layersConfig =
                 }
 
             },{
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','ADLINK'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '行政区划线',
@@ -318,7 +320,7 @@ Application.layersConfig =
                 }
 
             }, {
-                url: Application.url + '/render/obj/getByTileWithGap?',
+                url: createUrl('/render/obj/getByTileWithGap?','ADADMIN'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
                     layername: '行政区划代表点',
@@ -351,9 +353,9 @@ Application.layersConfig =
         , {
         groupid: 'worklayer',
         groupname: '编辑图层',
-        layers: [{
-            url: Application.url + '/render/tip/getByTileWithGap?',
+        layers: [ {
 
+            url:createUrl('/render/tip/getByTileWithGap?',12),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -379,8 +381,8 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
 
-        }, {
-            url: Application.url + '/render/tip/getByTileWithGap?',
+        },{
+            url: createUrl('/render/tip/getByTileWithGap?',""),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -407,7 +409,8 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/render/tip/getByTileWithGap?',
+            url: createUrl('/render/tip/getByTileWithGap?','2001,1510,1901'),
+            //url:Application.url + '/render/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '测线',
@@ -486,6 +489,7 @@ function transformData(data) {
         obj['properties'] = {};
         obj['properties']['style'] = {};
         obj['properties']['id'] = item.i;
+
         featArr.push(obj);
         switch (item.t) {
             case 2://照片
@@ -1158,6 +1162,18 @@ function transformDataForTips(data) {
 
         switch (item.t) {
             case 1101://限速
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+
+                    getIconStyle({
+                        iconName: '../../images/road/tips/normal/pending.png',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1301://车信
             case 1407://高速分歧
             case 1604://区域内道路
@@ -1204,7 +1220,7 @@ function transformDataForTips(data) {
                 break;
             case 1203://道路方向
 
-                obj['geometry']['coordinates'] = item.g[i];
+                obj['geometry']['coordinates'] = item.g;
 
                 obj['properties']['rotate'] = item.m.c;
                 if (item.m.d === 2) {
@@ -1281,4 +1297,36 @@ function transformDataForTips(data) {
     })
 
     return featArr;
+}
+
+
+/***
+ * 构造请求数据的url
+ * @param requestType
+ * @returns {{}}
+ */
+function createUrl(url,requestType){
+
+    //if (requestType === "") {
+    //    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":'+80+'}'
+    //} else {
+    //    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":'+80+',"type":["' + this.requestType + '"]}'
+    //}
+    var urlObj = {};
+    if (requestType != "") {
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId:Application.projectid,
+            gap:80,
+            types:[requestType]
+        }
+    }else{
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId:Application.projectid,
+            gap:80
+        }
+    }
+
+    return urlObj;
 }

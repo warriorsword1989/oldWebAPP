@@ -6,7 +6,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
     options: {
         debug: true
     },
-    includes: [L.Mixin.Events,fastmap.mapApi.LayerRender],
+    includes: [L.Mixin.Events, fastmap.mapApi.LayerRender],
     tileSize: 256,
 
     /***
@@ -21,6 +21,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         this.type = this.options.type || "";
         this.editable = this.options.editable || "";
         this.requestType = this.options.requestType || "";
+        this.gap = this.options.gap || 30;
         this.tiles = {};
         this.directColor = this.options.directColor || "#ff0000";
         this.mecator = this.options.mecator || "";
@@ -357,60 +358,63 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 case 'Point':
 
                     var icons = feature.properties.markerStyle.icon;
-                    for (var item in icons){
+                    for (var item in icons) {
 
-                        if(icons[item].iconName){
+                        if (icons[item].iconName) {
 
                             this._drawImg({
-                                ctx:ctx,
-                                geo:icons[item].location,
-                                style:{src:icons[item].iconName},
-                                boolPixelCrs:boolPixelCrs,
-                                rotate:icons[item].rotate?icons[item].rotate :"",
-                                drawx:icons[item].column*icons[item].dx,
-                                drawy:icons[item].row*icons[item].dy,
-                                scalex:icons[item].scalex?icons[item].scalex:1,
-                                scaley:icons[item].scaley?icons[item].scaley:1
+                                ctx: ctx,
+                                geo: icons[item].location,
+                                style: {src: icons[item].iconName},
+                                boolPixelCrs: boolPixelCrs,
+                                rotate: icons[item].rotate ? icons[item].rotate : "",
+                                drawx: icons[item].column * icons[item].dx,
+                                drawy: icons[item].row * icons[item].dy,
+                                scalex: icons[item].scalex ? icons[item].scalex : 1,
+                                scaley: icons[item].scaley ? icons[item].scaley : 1
                             });
-                        }else{
+                        } else {
                             var coords = geom.coordinates;
                             var arrowlist = [];
                             var direct = '';
                             for (var index = 0; index < coords.length; index++) {
                                 if (index < coords.length - 1) {
-                                    var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {x: coords[index+1][0], y: coords[index+1][1]}];
+                                    var oneArrow = [{
+                                        x: coords[index][0],
+                                        y: coords[index][1]
+                                    }, {x: coords[index + 1][0], y: coords[index + 1][1]}];
                                     arrowlist.push(oneArrow);
                                 }
                             }
-                            if (feature.properties.forwarddirect&&feature.properties.forwardtext) {
+                            if (feature.properties.forwarddirect && feature.properties.forwardtext) {
                                 direct = 2;//顺方向
-                                this._drawIntRticArrow(ctx, direct, arrowlist,feature.properties.color);
+                                this._drawIntRticArrow(ctx, direct, arrowlist, feature.properties.color);
                             } else if (feature.properties.reversedirect) {
                                 direct = 3;//逆方向
-                                this._drawIntRticArrow(ctx, direct, arrowlist,feature.properties.color);
+                                this._drawIntRticArrow(ctx, direct, arrowlist, feature.properties.color);
                             }
 
 
-                            if(direct == 2){
-                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.forwardtext,direct);
+                            if (direct == 2) {
+                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.forwardtext, direct);
                             }
-                            if(direct==3){
-                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.reversetext,direct);
+                            if (direct == 3) {
+                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.reversetext, direct);
                             }
 
                         }
 
 
-                        if(icons[item].text){
+                        if (icons[item].text) {
                             this._drawText({
-                                ctx:ctx,
-                                geo:geom.coordinates,
-                                text :icons[item].text,
-                                font:'bold 15px Courier New',
-                                rotate:icons[item].rotate?icons[item].rotate :"",
-                                align:'center',
-                                drawx:0,
-                                drawy:6
+                                ctx: ctx,
+                                geo: geom.coordinates,
+                                text: icons[item].text,
+                                font: 'bold 15px Courier New',
+                                rotate: icons[item].rotate ? icons[item].rotate : "",
+                                align: 'center',
+                                drawx: 0,
+                                drawy: 6
                             })
                         }
                     }
@@ -424,17 +428,20 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
                 case 'LineString':
                     this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                                    color: 'rgba(105,105,105,1)',
-                                    radius: 3
-                                }, feature.properties);
+                        color: 'rgba(105,105,105,1)',
+                        radius: 3
+                    }, feature.properties);
 
                     //如果属性中有direct属性则绘制箭头
-                    if(feature.properties.direct){
+                    if (feature.properties.direct) {
                         var coords = geom.coordinates;
                         var arrowlist = [];
                         for (var index = 0; index < coords.length; index++) {
                             if (index < coords.length - 1) {
-                                var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {x: coords[index+1][0], y: coords[index+1][1]}];
+                                var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {
+                                    x: coords[index + 1][0],
+                                    y: coords[index + 1][1]
+                                }];
                                 arrowlist.push(oneArrow);
                             }
                         }
@@ -442,7 +449,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
 
                     //如果属性中有name属性则绘制名称
-                    if(feature.properties.name){
+                    if (feature.properties.name) {
                         this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
                     }
                     break;
@@ -454,7 +461,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'Polygon':
-                    this._drawPolygon(ctx, geom.coordinates, style, true,feature.properties.id);
+                    this._drawPolygon(ctx, geom.coordinates, style, true, feature.properties.id);
                     break;
 
                 case 'MultiPolygon':
@@ -468,214 +475,38 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             }
         }
 
-        this.eventController.fire(this.eventController.eventTypes.TILEDRAWEND, {layer:this,id: ctx.tile.x + ":" + ctx.tile.y, zoom: ctx.zoom});
+        this.eventController.fire(this.eventController.eventTypes.TILEDRAWEND, {
+            layer: this,
+            id: ctx.tile.x + ":" + ctx.tile.y,
+            zoom: ctx.zoom
+        });
     },
-    // NOTE: a placeholder for a function that, given a tile context, returns a string to a GeoJSON service that retrieve features for that context
+
     /***
      * 根据瓦片bounds构建url
      * @param {Array}bounds 瓦片bounds
      * @returns {*}
      */
     createUrl: function (bounds) {
-        var url = null;
         var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-        switch (this.type) {
-            case "Point":
-                if (this._map.getZoom() >= this.showNodeLevel) {
 
-                    if (this.requestType === "") {
-                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}'
-                    } else {
-                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
-                    }
-                    //url = 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?'+'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20}'
-                    //url ='http://192.168.4.130/FosEngineWeb3/display/tip/getByTileWithGap?'+'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}';
-                }
-                break;
-            case "Marker":
-            case "rdSpeedLimitPoint":
-            case "rdlaneconnexityPoint":
-            case "rdCrossPoint":
-            case "Diverge":
-            case "rdrticPoint"://互联网RTIC
-            case "adAdminPoint":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-
-                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
-
-                }
-                break;
-            case "LineString":
-
-                if (this._map.getZoom() >= this.showNodeLevel) {
-                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
-
-                } else {
-                    url = Application.url + '/render/link/getByTileWithGap?parameter=' + '{"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + '}';
-                }
-
-                break;
-            case "adLink":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
-                }
-
-                break;
-            case "gpsLine":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-
-                    if (this.requestType === "") {
-                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}'
-                    } else {
-                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
-                    }
-                    //url ='http://192.168.4.130/FosEngineWeb3/display/tip/getByTileWithGap?'+'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType +']}';
-
-                }
-                break;
-            case "fusionroad":
-
-                break;
-            case "POI":
-
-                break;
-            case "AllList":
-                break;
-            case "Polygon":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
-
-                    //url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":["' + this.requestType + '"]}'
-                }
-
-                break;
+        if (this.url == "") {
+            return;
         }
+        var url = this.url.url;
+        var parameter = this.url.parameter;
+        if (parameter != null) {
+            parameter.z = this._map.getZoom();
+            parameter.x = tiles[0];
+            parameter.y = tiles[1];
+        }
+        url = url + 'parameter=' + JSON.stringify(parameter);
+
+
         return url;
     },
 
-    // NOTE: a placeholder for a function that, given a feature, returns a style object used to render the feature itself
 
-    /***
-     * 根据要素生成绘制样式
-     * @param {Object}feature
-     * @param {number}value
-     * @returns {*}
-     */
-    styleFor: function (feature, value) {
-
-        var pointRadius = 5;
-        switch (this.type) {
-            case 'Point':
-                if (feature.properties.srctype == "1") {//未处理
-                    return {src: '../../images/road/tips/normal/pending.png'}
-                } else {//已处理
-                    return {src: '../../images/road/tips/normal/processed.png'}
-                }
-                break;
-            case 'MultiPoint':
-                if (value != null) {
-                    switch (value) {
-                        case 1:
-                            return {
-                                color: 'rgba(255,0,0,1)',
-                                radius: pointRadius ? pointRadius : 1
-                            }
-                            break;
-                        case 2:
-                            return {
-                                color: 'rgba(0,0,255,1)',
-                                radius: pointRadius ? pointRadius : 1
-                            }
-                            break;
-                        case 3:
-                            return {
-                                color: 'rgba(105,105,105,1)',
-                                radius: pointRadius ? pointRadius : 1
-                            }
-                            break;
-
-                    }
-                } else {
-
-                    return {
-                        radius: 5,
-                        color: 'rgba(252,146,114,1)',
-                        mouseOverColor: 'rgba(255,0,0,1)',
-                        clickColor: 'rgba(252,0,0,1)'
-                    }
-                }
-                break;
-            case 'Marker':
-                var restrictObj = feature.properties.SpeedDivergenceinfo;
-                var geom = feature.geometry.coordinates;
-                if (restrictObj) {
-                    if (restrictObj.constructor === Array) {
-                        for (var theory = 0, theoryLen = restrictObj.length; theory < theoryLen; theory++) {
-                            if (theory > 0) {
-                                geom[0] = parseInt(geom[0]) + 16;
-                            }
-                            return {src: '../../images/road/limit/normal/' + restrictObj[theory] + restrictObj[theory] + '.png'};
-                        }
-                    } else {
-                        var restrictArr = restrictObj.split(",");
-                        for (var fact = 0, factLen = restrictArr.length; fact < factLen; fact++) {
-                            if (fact > 0) {
-                                geom[0] = parseInt(geom[0]) + 16;
-                            }
-                            return {src: '../../images/road/limit/normal/' + restrictArr[fact] + '.png'};
-                        }
-                    }
-                }
-                break;
-            case 'LineString':
-            case 'MultiLineString':
-                var RD_LINK_Colors = [
-                    '#646464', '#FFAAFF', '#E5C8FF', '#FF6364', '#FFC000', '#0E7892',
-                    '#63DC13', '#C89665', '#C8C864', '#000000', '#00C0FF', '#DCBEBE',
-                    '#000000', '#7364C8', '#000000', '#DCBEBE'
-                ];
-                var RD_LINK_TYPE = [this._drawBridge]
-                var c = feature.properties.color;
-                if (feature.properties.kind === '7') {
-                    var rdLinkType = RD_LINK_TYPE[0];
-                }
-
-                var color = RD_LINK_Colors[parseInt(c)];
-                return {
-                    size: 1,
-                    color: value,
-                    rdLinkType: rdLinkType,
-                    mouseOverColor: 'rgba(255,0,0,1)',
-                    clickColor: 'rgba(252,0,0,1)'
-                };
-                break;
-            case 'Polygon':
-                return {
-                    fillstyle:'#' + Number(feature.properties.id).toString(16)+'00',
-                    outline:{
-                        size:1,
-                        color: 'rgba(43,140,190,0.9)'
-                    }
-                }
-                break;
-            case 'MultiPolygon':
-                return {
-                    color: 'rgba(43,140,190,0.4)',
-                    outline: {
-                        color: 'rgb(0,0,0)',
-                        size: 1
-                    }
-                };
-                break;
-            case 'gpsLine':
-                return {
-                    size: 1,
-                    color: '#000000'
-                }
-            default:
-                return null;
-        }
-    },
     //两点之间的距离
     distance: function (pointA, pointB) {
         var len;
