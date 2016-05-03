@@ -29,7 +29,7 @@ L.Control.FloatMenu = L.Class.extend({
 
         // add a viewreset event listener for updating layer's position, do the latter
         map.on('viewreset', this._reset, this);
-        this._reset();
+        //this._reset();
 
     },
 
@@ -71,7 +71,8 @@ L.Control.FloatMenu = L.Class.extend({
         var stop = L.DomEvent.stopPropagation;
         if(fn){
             L.DomEvent
-                .on(link, 'click', stop)
+                .on(link, 'click', L.DomEvent.stopPropagation)
+                .on(link, 'mousedown', L.DomEvent.stopPropagation)
                 .on(link, 'click', L.DomEvent.preventDefault)
                 .on(link, 'click', fn, context)
         }
@@ -80,7 +81,7 @@ L.Control.FloatMenu = L.Class.extend({
     },
 
     _reset: function () {
-        var pos = this._map.latLngToLayerPoint(this._latlng);
+        var pos = this._map.latLngToContainerPoint(this._latlng);
         L.DomUtil.setPosition(this._el, pos);
     }
 });

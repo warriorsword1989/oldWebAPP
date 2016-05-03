@@ -489,45 +489,41 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      */
     createUrl: function (bounds) {
         var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-<<<<<<< HEAD:scripts/fastmap/mapApi/layer/TileJSONLayer.js
-=======
-        switch (this.type) {
-            case "Point":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-
-                    if (this.requestType === "") {
-                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}'
-                    } else {
-                        url = this.url + 'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30,"types":[' + this.requestType + ']}'
-                    }
-                    //url = 'http://192.168.4.130/FosEngineWeb3/display/obj/getByTileWithGap?'+'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20}'
-                    //url ='http://192.168.4.130/FosEngineWeb3/display/tip/getByTileWithGap?'+'parameter={"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":30}';
-                }
-                break;
-            case "Marker":
-            case "rdSpeedLimitPoint":
-            case "rdlaneconnexityPoint":
-            case "rdGsc":
-            case "rdCrossPoint":
-            case "Diverge":
-            case "rdrticPoint"://互联网RTIC
-            case "adAdminPoint":
-                if (this._map.getZoom() >= this.showNodeLevel) {
-
-                    url = this.url + 'parameter={"projectId":'+Application.projectid+',"z":' + this._map.getZoom() + ',"x":' + tiles[0] + ',"y":' + tiles[1] + ',"gap":20,"type":["' + this.requestType + '"]}'
->>>>>>> fm/master:scripts/mapApi/layer/TileJSONLayer.js
-
         if (this.url == "") {
             return;
         }
-        var url = this.url.url;
-        var parameter = this.url.parameter;
-        if (parameter != null) {
-            parameter.z = this._map.getZoom();
-            parameter.x = tiles[0];
-            parameter.y = tiles[1];
+        var url = null;
+        var parameter = null;
+        //从 oracle 获取
+        if(this._map.getZoom() >= this.showNodeLevel){
+            url = this.url.url;
+            parameter = this.url.parameter;
+            if (parameter != null) {
+                parameter.z = this._map.getZoom();
+                parameter.x = tiles[0];
+                parameter.y = tiles[1];
+            }
+            if(parameter ==undefined){
+                console.log(parameter);
+            }
+            url = url + 'parameter=' + JSON.stringify(parameter);
+
         }
-        url = url + 'parameter=' + JSON.stringify(parameter);
+
+        //rdlink 从hbase获取
+        if(this._map.getZoom()< this.showNodeLevel && this.requestType =='RDLINK'){
+            url = this.url.hbaseUrl;
+            parameter = this.url.parameter;
+            if(parameter ==undefined){
+                console.log(parameter);
+            }
+            if (parameter != null) {
+                parameter.z = this._map.getZoom();
+                parameter.x = tiles[0];
+                parameter.y = tiles[1];
+            }
+            url = url + 'parameter=' + JSON.stringify(parameter);
+        }
 
 
         return url;

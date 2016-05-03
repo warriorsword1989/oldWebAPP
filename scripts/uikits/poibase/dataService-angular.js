@@ -32,7 +32,11 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
             }
         }).success(function(data) {
             if (data.errcode == 0) {
-                var poi = new FM.dataApi.IxTest(data.data.data[0]);
+                //var poi = new FM.dataApi.IxTest(data.data.data[0]);
+                var poi = new FM.dataApi.IxPoi(data.data.data[0]);
+                console.info(poi.getIntegrate());
+                console.info(poi.getContacts());
+                console.info(poi.getPoiImage());
             }
         });
     };
@@ -47,7 +51,8 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
             "pagesize": 10,
             "pageno": 1
         };
-        FM.dataApi.IxTest.getList(params, function(data) {
+        //FM.dataApi.IxTest.getList(params, function(data) {
+        FM.dataApi.IxPoi.getList(params, function(data) {
             defer.resolve(data);
         });
         return defer.promise;
