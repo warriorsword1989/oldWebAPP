@@ -67,8 +67,11 @@ Application.layersConfig =
         }, {
         groupid: "dataLayers",
         groupname: "作业参考",
-        layers: [{
-            url: Application.url + '/render/obj/getByTileWithGap?',
+
+        layers: [ {
+
+            url:createUrl('/render/obj/getByTileWithGap?','RDLINK'),
+
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '参考线数据',
@@ -97,114 +100,253 @@ Application.layersConfig =
         },
 
             {
-            url: Application.url + '/render/obj/getByTileWithGap?',
 
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                layername: '交限',
-                id: 'restriction',
-                maxZoom: 20,
+                url: createUrl('/render/obj/getByTileWithGap?','ADFACE'),
 
-                debug: false,
-                // this value should be equal to 'radius' of your points
-                buffer: 10,
-                boolPixelCrs: true,
-                parse: transformData,
-                boundsArr: [],
-                unloadInvisibleTiles: true,
-                reuseTiles: false,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                updateWhenIdle: true,
-                tileSize: 256,
-                type: 'Marker',
-                zIndex: 6,
-                restrictZoom: 10,
-                visible: true,
-                requestType: 'RDRESTRICTION',
-                showNodeLevel: 17
-            }
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '行政区划面',
+                    id: 'adface',
+                    maxZoom: 20,
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 5,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'Polygon',
+                    zIndex: 0,
+                    restrictZoom: 10,
+                    editable: false,
+                    visible: false,
+                    requestType: 'ADFACE',
+                    showNodeLevel: 17
+                }
 
-        }, {
-            url: Application.url + '/render/obj/getByTileWithGap?',
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                layername: '高速分歧',
-                id: 'highSpeedDivergence',
-                maxZoom: 20,
+            } ,{
 
-                debug: false,
-                // this value should be equal to 'radius' of your points
-                buffer: 10,
-                boolPixelCrs: true,
-                parse: transformData,
-                boundsArr: [],
-                unloadInvisibleTiles: true,
-                reuseTiles: false,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                updateWhenIdle: true,
-                tileSize: 256,
-                type: 'Diverge',
-                zIndex: 10,
-                restrictZoom: 10,
-                visible: true,
-                requestType: 'RDBRANCH',
-                showNodeLevel: 17
-            }
+                url: createUrl('/render/obj/getByTileWithGap?','RDRESTRICTION'),
 
-        }, {
-            url: Application.url + '/render/obj/getByTileWithGap?',
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                layername: '限速',
-                id: 'speedlimit',
-                maxZoom: 20,
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '交限',
+                    id: 'restriction',
+                    maxZoom: 20,
 
-                debug: false,
-                // this value should be equal to 'radius' of your points
-                buffer: 10,
-                boolPixelCrs: true,
-                parse: transformData,
-                boundsArr: [],
-                unloadInvisibleTiles: true,
-                reuseTiles: false,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                updateWhenIdle: true,
-                tileSize: 256,
-                type: 'rdSpeedLimitPoint',
-                zIndex: 10,
-                showType: 1,
-                restrictZoom: 10,
-                visible: true,
-                requestType: 'RDSPEEDLIMIT',
-                showNodeLevel: 17
-            }
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'Marker',
+                    zIndex: 6,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'RDRESTRICTION',
+                    showNodeLevel: 17
+                }
 
-        }, {
-            url: Application.url + '/render/obj/getByTileWithGap?',
-            clazz: fastmap.mapApi.tileJSON,
-            options: {
-                layername: '路口',
-                id: 'rdcross',
-                maxZoom: 20,
+            }, {
+                url: createUrl('/render/obj/getByTileWithGap?','RDBRANCH'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '高速分歧',
+                    id: 'highSpeedDivergence',
+                    maxZoom: 20,
 
-                debug: false,
-                // this value should be equal to 'radius' of your points
-                buffer: 10,
-                boolPixelCrs: true,
-                parse: transformData,
-                boundsArr: [],
-                unloadInvisibleTiles: true,
-                reuseTiles: false,
-                mecator: new fastmap.mapApi.MecatorTranform(),
-                updateWhenIdle: true,
-                tileSize: 256,
-                type: 'rdCrossPoint',
-                zIndex: 18,
-                restrictZoom: 10,
-                visible: true,
-                requestType: 'RDCROSS',
-                showNodeLevel: 17
-            }
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'Diverge',
+                    zIndex: 10,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'RDBRANCH',
+                    showNodeLevel: 17
+                }
+
+            }, {
+                url: createUrl('/render/obj/getByTileWithGap?','RDSPEEDLIMIT'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '限速',
+                    id: 'speedlimit',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse:transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'rdSpeedLimitPoint',
+                    zIndex: 10,
+                    showType: 1,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'RDSPEEDLIMIT',
+                    showNodeLevel: 17
+                }
+
+            },{
+                url: createUrl('/render/obj/getByTileWithGap?','RDCROSS'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '路口',
+                    id: 'rdcross',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse:transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'rdCrossPoint',
+                    zIndex: 18,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'RDCROSS',
+                    showNodeLevel: 17
+                }
+
+            } , {
+                url: createUrl('/render/obj/getByTileWithGap?','RDLANECONNEXITY'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '车信',
+                    id: 'rdlaneconnexity',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'rdlaneconnexityPoint',
+                    zIndex: 10,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'RDLANECONNEXITY',
+                    showNodeLevel: 17
+                }
+
+            }, {
+                url: createUrl('/render/obj/getByTileWithGap?','RDLINKINTRTIC'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '互联网RTIC',
+                    id: 'rdrtic',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'rdrticPoint',
+                    zIndex: 11,
+                    restrictZoom: 10,
+                    visible: false,
+                    requestType: 'RDLINKINTRTIC',
+                    showNodeLevel: 17,
+                    isUpDirect: true
+                }
+
+            },{
+                url: createUrl('/render/obj/getByTileWithGap?','ADLINK'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '行政区划线',
+                    id: 'adLink',
+                    maxZoom: 20,
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse:transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'adLink',
+                    zIndex: 11,
+                    restrictZoom: 10,
+                    visible: false,
+                    requestType: 'ADLINK',
+                    showNodeLevel: 17
+                }
+
+            }, {
+                url: createUrl('/render/obj/getByTileWithGap?','ADADMIN'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '行政区划代表点',
+                    id: 'adAdmin',
+                    maxZoom: 20,
+
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 10,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'adAdminPoint',
+                    zIndex: 18,
+                    restrictZoom: 10,
+                    visible: true,
+                    requestType: 'ADADMIN',
+                    showNodeLevel: 17
+                }
+
 
         }, {
             url: Application.url + '/render/obj/getByTileWithGap?',
@@ -373,9 +515,9 @@ Application.layersConfig =
         , {
         groupid: 'worklayer',
         groupname: '编辑图层',
-        layers: [{
-            url: Application.url + '/render/tip/getByTileWithGap?',
+        layers: [ {
 
+            url:createUrl('/render/tip/getByTileWithGap?',12),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -401,8 +543,8 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
 
-        }, {
-            url: Application.url + '/render/tip/getByTileWithGap?',
+        },{
+            url: createUrl('/render/tip/getByTileWithGap?',""),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -429,7 +571,8 @@ Application.layersConfig =
             }
 
         }, {
-            url: Application.url + '/render/tip/getByTileWithGap?',
+            url: createUrl('/render/tip/getByTileWithGap?','2001,1510,1901'),
+            //url:Application.url + '/render/tip/getByTileWithGap?',
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '测线',
@@ -508,6 +651,7 @@ function transformData(data) {
         obj['properties'] = {};
         obj['properties']['style'] = {};
         obj['properties']['id'] = item.i;
+
         featArr.push(obj);
         switch (item.t) {
             case 2://照片
@@ -1212,6 +1356,18 @@ function transformDataForTips(data) {
 
         switch (item.t) {
             case 1101://限速
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+
+                    getIconStyle({
+                        iconName: '../../images/road/tips/normal/pending.png',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1301://车信
             case 1407://高速分歧
             case 1604://区域内道路
@@ -1258,7 +1414,7 @@ function transformDataForTips(data) {
                 break;
             case 1203://道路方向
 
-                obj['geometry']['coordinates'] = item.g[i];
+                obj['geometry']['coordinates'] = item.g;
 
                 obj['properties']['rotate'] = item.m.c;
                 if (item.m.d === 2) {
@@ -1335,4 +1491,33 @@ function transformDataForTips(data) {
     })
 
     return featArr;
+
+}
+
+
+/***
+ * 构造请求数据的url
+ * @param requestType
+ * @returns {{}}
+ */
+function createUrl(url,requestType){
+
+
+    var urlObj = {};
+    if (requestType != "") {
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId:Application.projectid,
+            gap:80,
+            types:[requestType]
+        }
+    }else{
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId:Application.projectid,
+            gap:80
+        }
+    }
+
+    return urlObj;
 }
