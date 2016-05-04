@@ -97,6 +97,35 @@ Application.layersConfig =
                 requestType: 'RDLINK',
                 showNodeLevel: 17
             }
+        }, {
+
+            url: createUrl('/render/obj/getByTileWithGap?', 'RDNODE'),
+
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: 'linknode',
+                id: 'referenceNode',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 5,
+                boolPixelCrs: true,
+                parse: transformData,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'Point',
+                zIndex: 17,
+                restrictZoom: 10,
+                editable: false,
+                visible: true,
+                requestType: 'RDNODE',
+                showNodeLevel: 17
+            }
         },
 
             {
@@ -1119,6 +1148,19 @@ function transformData(data) {
 
                     })
                 );
+
+                break;
+            case 16://node点
+                obj['properties']["featType"] = "RDNODE";
+                obj['geometry']['type'] = 'Point';
+                obj['properties']['markerStyle'] = {};
+                obj['properties']['style']['strokeColor'] = 'black';
+                obj['properties']['style']['strokeWidth'] = 1;
+                obj['properties']['style']['strokeOpacity'] = 1;;
+                obj['properties']['style']['radius'] = 3;
+
+                obj['properties']['style']['fillColor'] = 'black';
+                obj['properties']['style']['fillOpacity'] = 0.2;
 
                 break;
             case 1101://限速
