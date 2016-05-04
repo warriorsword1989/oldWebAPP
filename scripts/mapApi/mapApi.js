@@ -51,7 +51,7 @@
         "mapApi/MecatorTransform.js",
         "mapApi/Tile.js",
         "mapApi/ShapeOptionTypeEnum.js",
-         "mapApi/L.FloatMenu.js",
+        "mapApi/L.FloatMenu.js",
         //mapApi/layer
         "mapApi/layer/Layer.js",
         "mapApi/layer/WholeLayer.js",
