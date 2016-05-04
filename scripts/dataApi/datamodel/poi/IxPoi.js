@@ -3,6 +3,9 @@
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     geoLiveType: "IX_POI",
+    initialize: function(data) {
+        this.setAttributes(data);
+    },
     /*
      * 返回参数赋值
      */
@@ -18,8 +21,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.chargingPole = [];
         if (data["chargingPole"]&&data["chargingPole"].length > 0) {
             for (var i = 0, len = data["chargingPole"].length; i < len; i++) {
-                var name =fastmap.dataApi.adAdminName(data["chargingPole"][i]);
-                this.chargingPole.push(name);
+                var chargingPole = new FM.dataApi.IxPoiChargingPole(data["chargingPole"][i]);
+                this.chargingPole.push(chargingPole);
             }
         }
     },
@@ -46,5 +49,16 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                 callback(ret);
             });
         },
-    },
+        getPoiDetailByFid:function (param, callback) {
+            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
+                var poi;
+                if (data.errcode == 0) {
+                    poi = new FM.dataApi.IxPoi(data.data.data[0]);
+                } else {
+                    poi = "";
+                }
+                callback(poi);
+            });
+        }
+    }
 });
