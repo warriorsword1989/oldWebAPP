@@ -3,19 +3,21 @@
  */
 (function() {
             jsFiles = [
-                "dataApi/datamodel/common/DataModel.js",
-                "dataApi/datamodel/common/GeoDataModel.js",
-                "dataApi/datamodel/meta/CheckRule.js",
-                "dataApi/datamodel/meta/IxPoiBrand.js",
-                "dataApi/datamodel/meta/IxPoiKind.js",
-                "dataApi/datamodel/meta/IxPoiMediumKind.js",
-                "dataApi/datamodel/meta/IxPoiTopKind.js",
-                "dataApi/datamodel/poi/IxPoi.js",
-                "dataApi/datamodel/poi/IxPoiAddress.js",
-                "dataApi/datamodel/poi/IxPoiChargingPole.js",
-                "dataApi/datamodel/poi/IxPoiContact.js",
-                "dataApi/datamodel/poi/IxPoiImage.js",
-                "dataApi/datamodel/poi/IxPoiName.js"
+                "dataApi/common/dataApi-ajax",
+                "dataApi/common/DataModel.js",
+                "dataApi/common/GeoDataModel.js",
+                "dataApi/meta/CheckRule.js",
+                "dataApi/meta/IxPoiBrand.js",
+                "dataApi/meta/IxPoiKind.js",
+                "dataApi/meta/IxPoiMediumKind.js",
+                "dataApi/meta/IxPoiTopKind.js",
+                "dataApi/poi/IxPoi.js",
+                "dataApi/poi/IxPoiAddress.js",
+                "dataApi/poi/IxPoiChargingPole.js",
+                "dataApi/poi/IxPoiChargingStation.js",
+                "dataApi/poi/IxPoiContact.js",
+                "dataApi/poi/IxPoiImage.js",
+                "dataApi/poi/IxPoiName.js"
             ]; // etc.
         var scriptTags = new Array(jsFiles.length);
         var host = "../../scripts/";
