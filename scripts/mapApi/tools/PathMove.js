@@ -3,7 +3,7 @@
  * Class PathMove
  */
 
-fastmap.uikit.PathMove = L.Handler.extend({
+fastmap.mapApi.PathMove = L.Handler.extend({
     /***
      *
      * @param {Object}options

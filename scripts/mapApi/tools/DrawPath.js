@@ -3,7 +3,7 @@
  * Class DrawPath
  */
 
-fastmap.uikit.DrawPath = L.Handler.extend({
+fastmap.mapApi.DrawPath = L.Handler.extend({
     /***
      *
      * @param {Object}options
@@ -22,7 +22,7 @@ fastmap.uikit.DrawPath = L.Handler.extend({
         this.insertPoint = null;
         this.clickcount = 1;
         this.targetGeoIndex = 0;
-        this.snapHandler = new fastmap.uikit.Snap({
+        this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
             snapLine: true,
