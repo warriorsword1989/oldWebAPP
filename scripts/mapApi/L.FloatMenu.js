@@ -21,7 +21,7 @@ L.Control.FloatMenu = L.Class.extend({
 
         var buttons=[];
         for(var i=0;i<this.items.length;i++){
-            buttons.push(this._createButton(this.items[i].text,this.items[i].title,this.items[i].class||"",this.toolBarContainer,this.items[i].callback,this));
+            buttons.push(this._createButton(this.items[i].text,this.items[i].title,this.items[i].type,this.items[i].class||"",this.toolBarContainer,this.items[i].callback,this));
         }
 
         this._el.appendChild(this.toolBarContainer);
@@ -29,7 +29,7 @@ L.Control.FloatMenu = L.Class.extend({
 
         // add a viewreset event listener for updating layer's position, do the latter
         map.on('viewreset', this._reset, this);
-        this._reset();
+        //this._reset();
 
     },
 
@@ -62,15 +62,17 @@ L.Control.FloatMenu = L.Class.extend({
         }
     },
 
-    _createButton: function (html, title, className, container, fn, context) {
+    _createButton: function (html, title,type, className, container, fn, context) {
         var link = L.DomUtil.create('li', className, container);
         link.innerHTML = html;
+        link.type = type;
         link.title = title;
 
         var stop = L.DomEvent.stopPropagation;
         if(fn){
             L.DomEvent
-                .on(link, 'click', stop)
+                .on(link, 'click', L.DomEvent.stopPropagation)
+                .on(link, 'mousedown', L.DomEvent.stopPropagation)
                 .on(link, 'click', L.DomEvent.preventDefault)
                 .on(link, 'click', fn, context)
         }
@@ -79,7 +81,7 @@ L.Control.FloatMenu = L.Class.extend({
     },
 
     _reset: function () {
-        var pos = this._map.latLngToLayerPoint(this._latlng);
+        var pos = this._map.latLngToContainerPoint(this._latlng);
         L.DomUtil.setPosition(this._el, pos);
     }
 });

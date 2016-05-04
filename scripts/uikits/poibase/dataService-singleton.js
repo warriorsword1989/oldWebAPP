@@ -17,6 +17,7 @@ App.dataService = (function() {
             };
             FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
                 if (data.errcode == 0) {
+                    //var poi = new FM.dataApi.IxTest(data.data.data[0]);
                     var poi = new FM.dataApi.IxPoi(data.data.data[0]);
                     deferred.resolve(poi);
                 } else {

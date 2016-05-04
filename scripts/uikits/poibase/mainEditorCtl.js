@@ -23,6 +23,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     $q.all(promises).then(function() {
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function(){
+                $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
+            });
             $scope.$on('$includeContentLoaded', function($event) {
                 $scope.$broadcast("loadup", $scope.poi);
             });

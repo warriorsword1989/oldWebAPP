@@ -13,8 +13,11 @@ requirejs.config({
         'fastmap': 'fastmap/fastmap',
         'fm-util': 'fastmap/fastmap-util',
         'dataApi': 'dataApi/common/dataApi-ajax',
+        'dataModel': 'dataApi/datamodel/common/DataModel',
         'geoDataModel': 'dataApi/datamodel/common/GeoDataModel',
         'ixPoiModel': 'dataApi/datamodel/poi/IxPoi',
+        'ixPoiContactModel': 'dataApi/datamodel/poi/IxPoiContact',
+        'ixPoiImageModel': 'dataApi/datamodel/poi/IxPoiImage',
         'dataService': 'uikits/poibase/dataService-singleton',
         'poiService': 'uikits/poibase/dataService-angular'
     },
@@ -26,10 +29,13 @@ requirejs.config({
         'fastmap': ['application'],
         'appUtil': ['application'],
         'fm-util': ['fastmap'],
-        'geoDataModel': ['fastmap', 'fm-util'],
+        'dataModel': ['fastmap', 'fm-util'],
+        'geoDataModel': ['dataModel'],
         'dataApi': ['fastmap'],
         'ixPoiModel': ['geoDataModel', 'dataApi'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'ixPoiModel', 'dataService', 'poiService']
+        'ixPoiContactModel': ['geoDataModel', 'dataApi'],
+        'ixPoiImageModel':['geoDataModel', 'dataApi'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'ixPoiModel', 'dataService', 'poiService','ixPoiContactModel','ixPoiImageModel']
     }
 });
 // Start the main app logic.
