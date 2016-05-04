@@ -13,7 +13,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         this.eventController.on(this.eventController.eventTypes.TILEDRAWEND, function (e) {
             that.drawHighlight();
         })
-
     },
 
     /**

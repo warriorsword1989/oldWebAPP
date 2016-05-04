@@ -5,7 +5,7 @@
 
 
 
-fastmap.uikit.DrawPolygon = L.Handler.extend({
+fastmap.mapApi.DrawPolygon = L.Handler.extend({
     /***
      *
      * @param {Object}options
@@ -24,7 +24,7 @@ fastmap.uikit.DrawPolygon = L.Handler.extend({
         this.insertPoint = null;
         this.clickcount = 1;
         this.targetGeoIndex = 0;
-        this.snapHandler = new fastmap.uikit.Snap({
+        this.snapHandler = new fastmap.mapApi.Snap({
             map: this._map,
             shapeEditor: this.shapeEditor,
             snapLine: true,

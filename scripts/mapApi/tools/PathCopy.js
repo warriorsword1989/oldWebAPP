@@ -1,8 +1,9 @@
 /**
  * Created by zhongxiaoming on 2015/9/16.
- * Class PathSmooth
+ * Class PathCopy
  */
-fastmap.uikit.PathSmooth = L.Handler.extend({
+
+fastmap.mapApi.PathCopy = L.Handler.extend({
     /***
      *
      * @param {Object}options
@@ -11,12 +12,7 @@ fastmap.uikit.PathSmooth = L.Handler.extend({
         this.options = options || {};
         L.setOptions(this, options);
     },
-    disable: function () {
-        if (!this._enabled) { return; }
-        this._map.dragging.enable();
-        this._enabled = false;
-        this.removeHooks();
-    },
+
     /***
      * 添加事件处理
      */
@@ -28,9 +24,17 @@ fastmap.uikit.PathSmooth = L.Handler.extend({
      */
     removeHooks: function () {
     },
+    disable: function () {
+        if (!this._enabled) { return; }
+        this._map.dragging.enable();
+        this._enabled = false;
+        this.removeHooks();
+    },
 
 
     onMouseDown: function () {
+        //获取元素
+        //
     },
 
     onMouseMove: function () {

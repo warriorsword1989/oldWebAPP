@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/12/29.
  */
-fastmap.uikit.CrossingAdd = L.Handler.extend({
+fastmap.mapApi.CrossingAdd = L.Handler.extend({
     /**
      * 参数
      */

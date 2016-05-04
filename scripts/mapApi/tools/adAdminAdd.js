@@ -3,7 +3,7 @@
  * Class PathVertexAdd
  */
 
-fastmap.uikit.adAdminAdd = L.Handler.extend({
+fastmap.mapApi.adAdminAdd = L.Handler.extend({
 
     /***
      *
@@ -25,7 +25,7 @@ fastmap.uikit.adAdminAdd = L.Handler.extend({
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
+        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
         this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('adAdmin'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
