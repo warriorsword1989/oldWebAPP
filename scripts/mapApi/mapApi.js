@@ -60,7 +60,32 @@
         "mapApi/layer/TileJSONLayer.js",
         "mapApi/layer/EditLayer.js",
         "mapApi/layer/GridLayer.js",
-        "mapApi/ajaxConstruct.js"
+        "mapApi/ajaxConstruct.js",
+         //mapApi/tools
+         "mapApi/tools/adAdminAdd.js",
+         "mapApi/tools/adAdminMove.js",
+         "mapApi/tools/CrossingAdd.js",
+         "mapApi/tools/DrawPath.js",
+         "mapApi/tools/DrawPolygon.js",
+         "mapApi/tools/GeometryValidation.js",
+         "mapApi/tools/HighLightRender.js",
+         "mapApi/tools/PathBreak.js",
+         "mapApi/tools/PathCopy.js",
+         "mapApi/tools/PathCut.js",
+         "mapApi/tools/PathMove.js",
+         "mapApi/tools/PathNodeMove.js",
+         "mapApi/tools/PathSmooth.js",
+         "mapApi/tools/PathVertexAdd.js",
+         "mapApi/tools/PathVertexInsert.js",
+         "mapApi/tools/PathVertexMove.js",
+         "mapApi/tools/PathVertexRemove.js",
+         "mapApi/tools/PointVertexAdd.js",
+         "mapApi/tools/PointVertexMove.js",
+         "mapApi/tools/ShapeEditorFactory.js",
+         "mapApi/tools/ShapeEditorResult.js",
+         "mapApi/tools/ShapeEditorResultFeedback.js",
+         "mapApi/tools/Snap.js",
+         "mapApi/tools/TransformDirection.js"
     ]; // etc.
 
 

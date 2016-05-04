@@ -1,0 +1,184 @@
+<div ng-controller="chargingPoleCtl" style="min-width:420px;margin-bottom:20px;">
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.open">
+        <uib-accordion-heading>
+            <div class="form-inline">
+                <span style="font-weight:bold;">专有信息</span>
+                <div  class="form-group" style="margin:0px 20px;">
+                    <span class="label label-danger" style="padding:4px 15px;" ng-show="">无</span>
+                </div>
+                <div class="form-group form-inline pull-right">
+                    <div class="form-group" style="margin:0px 20px;">
+                        <img src="../../../../../images/poi/icon/prompt.png">
+                    </div>
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.open, 'glyphicon-chevron-down': !ctrl.open}"></i>
+                </div>
+            </div>
+        </uib-accordion-heading>
+        <div class="panel-bady" style="margin:-15px;">
+            <table class="table property-table" style="border:0px;">
+                <tr>
+                    <td width="20%">分组号</td>
+                    <td width="30%" >
+                        <input type="text" maxLength="20" class="form-control input-sm" id="charging-groupid" readonly>
+                    </td>
+                    <td width="20%">充电桩编号</td>
+                    <td width="30%">
+                        <input type="text" class="form-control input-sm" id="charging-plotnum">
+                    </td>
+                </tr>
+                <tr>
+                    <td>设备生产商</td>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="charging-manufacturer" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>出厂编号</td>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="charging-factorynum">
+                    </td>
+                </tr>
+                <tr>
+                    <td>产品型号</td>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="charging-productnum">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">泊位号码</td>
+                    <td width="30%">
+                        <input type="text" class="form-control input-sm" id="charging-parkingnum">
+                    </td>
+                    <td width="20%">楼层</td>
+                    <td width="30%">
+                        <input type="number"  min="-5" maxLength="6"
+                               class="form-control input-sm" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                               id="charging-floor">
+                    </td>
+                </tr>
+                <tr>
+                    <td>支付方式</td>
+                    <td id="charging-payment">
+                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.payment['0']"> 其他</div>
+                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="1" ng-model="charging.payment['1']"> 现金</div>
+                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="2" ng-model="charging.payment['2']"> 信用卡</div>
+                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="3" ng-model="charging.payment['3']"> 借记卡</div>
+                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="4" ng-model="charging.payment['4']"> 特制充值卡</div>
+                        <div class="col-sm-4" style="padding:0px;color:red"><input type='checkbox' value="5" ng-model="charging.payment['5']"> APP</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>充电模式</td>
+                    <td id="charging-mode">
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-mode' value="0" ng-model="charging.mode"> 慢速</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-mode' value="1" ng-model="charging.mode"> 快速</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>位置类型</td>
+                    <td id="charging-locationtype">
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="0" ng-model="charging.locationtype"> 室外</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="1" ng-model="charging.locationtype"> 室内地上</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="2" ng-model="charging.locationtype"> 地下</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>电流类型</td>
+                    <td id="charging-acdc">
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-acdc' value="0" ng-model="charging.acdc"> 交流</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-acdc' value="1" ng-model="charging.acdc"> 直流</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>插头类型</td>
+                    <td id="charging-plugType">
+                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.plugType['0']"> 交流电3孔家用</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="1" ng-model="charging.plugType['1']"> 国标交流电7孔插槽</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="2" ng-model="charging.plugType['2']"> 国标直流电9孔插槽</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="3" ng-model="charging.plugType['3']"> 特斯拉专用插槽</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="4" ng-model="charging.plugType['4']"> 其他</div>
+                        <div class="col-sm-6" style="padding:0px;color:red"><input type='checkbox' value="5" ng-model="charging.plugType['5']"> 无法采集</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">充电功率</td>
+                    <td width="30%">
+                        <input type="text" class="form-control input-sm" id="charging-power" >
+                    </td>
+                    <td width="20%">充电电压</td>
+                    <td width="30%">
+                        <input type="text" class="form-control input-sm" id="charging-voltage" >
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">充电电流</td>
+                    <td width="30%">
+                        <input type="text" class="form-control input-sm" id="charging-current">
+                    </td>
+                    <td width="20%">充电价格</td>
+                    <td width="30%">
+                        <input type="text" class="form-control input-sm" id="charging-prices">
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20%">同组桩数</td>
+                    <td width="30%" >
+                        <input type="text" class="form-control input-sm" id="charging-count" readonly>
+                    </td>
+                    <td width="20%">充电口数</td>
+                    <td width="30%">
+                        <input type="number"  min="0" maxLength="6"
+                               class="form-control input-sm" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                               id="charging-plugNum">
+                    </td>
+                </tr>
+                <tr>
+                    <td >开放状态</td>
+                    <td id="charging-openType" >
+                        <div class="row" style="margin:0px">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green">
+                                <input type="checkbox" value="1" name="charging-openType" mutex="1" ng-model="charging.openType['1']" ng-click="changeOpenType($event)">对所有车辆开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="2" name="charging-openType" ng-model="charging.openType['2']" ng-click="changeOpenType($event)">对环卫车开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="3" name="charging-openType" ng-model="charging.openType['3']" ng-click="changeOpenType($event)">对公交车开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="4" name="charging-openType" ng-model="charging.openType['4']" ng-click="changeOpenType($event)">对出租车开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="5" name="charging-openType" ng-model="charging.openType['5']" ng-click="changeOpenType($event)">对其他特种车辆开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="6" name="charging-openType" ng-model="charging.openType['6']" ng-click="changeOpenType($event)">对自有车辆开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="7" name="charging-openType" ng-model="charging.openType['7']" ng-click="changeOpenType($event)">个人充电桩
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <input type="checkbox" value="99" name="charging-openType" ng-model="charging.openType['99']" ng-click="changeOpenType($event)">对某品牌汽车开放
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
+                                <select select2 ng-model="chargingChain" name="chargingChain" select-model="" class="form-control input-sm" id="charging-chain"
+                                        style="width:80%"></select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>服务状态</td>
+                    <td id="charging-availableState">
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="0" ng-model="charging.availableState"> 可以使用（有电）</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="1" ng-model="charging.availableState"> 不可使用（没电）</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="2" ng-model="charging.availableState"> 维修中</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="3" ng-model="charging.availableState"> 建设中</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="4" ng-model="charging.availableState"> 规划中</div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </uib-accordion-group>
+</div>

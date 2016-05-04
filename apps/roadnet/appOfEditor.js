@@ -315,7 +315,6 @@ function appInit() {
         doubleClickZoom: false,
         zoomControl: false
     }).setView([40.012834, 116.476293], 17);
-
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var selectCtrl = new fastmap.uikit.SelectController();
     var outPutCtrl = new fastmap.uikit.OutPutController();
