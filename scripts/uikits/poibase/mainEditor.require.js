@@ -10,8 +10,8 @@ requirejs.config({
         'application': 'uikits/common/Application',
         'mainEditorCtl': 'uikits/poibase/mainEditorCtl',
         'fastmap': 'uikits/common/fastmap',
-        'geoDataModel': 'dataApi/datamodel/poi/GeoDataModel',
-        'ixPoiModel': 'dataApi/datamodel/poi/IxPoi',
+        'geoDataModel': 'dataApi/road/poi/GeoDataModel',
+        'ixPoiModel': 'dataApi/road/poi/IxPoi',
         'IxPoiContact': 'dataApi/poi/IxPoiContact',
         'dataService': 'uikits/poibase/appDataService'
     },
