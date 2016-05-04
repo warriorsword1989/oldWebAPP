@@ -6,8 +6,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
     $scope.itemsByPage = 1;
-    $scope.meshesId = [59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304];
-    console.log("test");
+    $scope.meshesId = [595671,595672,595673,595674,605603];
     //获取检查错误
     $scope.getCheckDate = function () {
         var param = {
@@ -42,9 +41,9 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             if (data.errcode == 0) {
                 $scope.checkTotalPage = Math.ceil(data.data / 5);
                 $scope.checkTotal = data.data;
+                $scope.getCheckDate();
             }
         });
-        $scope.getCheckDate();
     }
 
     eventController.on('editAjaxCompleted', $scope.getCheckDateAndCount);
