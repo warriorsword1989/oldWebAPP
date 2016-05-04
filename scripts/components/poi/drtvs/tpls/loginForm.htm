@@ -1,4 +1,7 @@
 <div class="login_ui" ng-controller="poiLogin">
+    <!--<div class="container login_part">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-5 col-md-offset-4 col-xs-5 col-xs-offset-4">-->
                 <div class="company-logo" style="margin-left: -15px">
                     <img alt="四维图新" class="img-responsive" src="../../images/poi/main/navi_logo.png"/>
                 </div>
@@ -24,6 +27,10 @@
                     </div>
                     <!-- loginButton part -->
                     <div class="form-group">
+                        <button ng-click="submitData('rowEditor')" ng-disabled='myForm.$invalid && show_type!=3' class="btn btn-primary btn-block" type="submit">登 录</button>
                     </div>
                 </form>
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
