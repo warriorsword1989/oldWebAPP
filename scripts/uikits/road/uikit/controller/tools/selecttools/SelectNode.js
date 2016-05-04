@@ -86,21 +86,6 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             this.drawGeomCanvasHighlight(tileCoordinate, event);
         }
 
-        //if(!this.floatMenu){
-        //    this.floatMenu = new L.Control.FloatMenu("000",event.originalEvent,{items:[{text:"<a class='glyphicon glyphicon-apple'></a>",title:"ddd","class":"feaf",callback:function(){alert()}},{text:"<a class='glyphicon glyphicon-apple'></a>",title:"ddd","class":"feaf",callback:function(){alert()}},{text:"<a class='glyphicon glyphicon-apple'></a>",title:"ddd","class":"feaf",callback:function(){alert()}}]})
-        //    this._map.addLayer(this.floatMenu);
-        //    this.floatMenu.setVisible(true);
-        //}
-        //else{
-        //    if(this.floatVisible){
-        //        this.floatMenu.setVisible(false);
-        //        this.floatVisible=false
-        //    }
-        //    else{
-        //        this.floatMenu.setVisible(true);
-        //        this.floatVisible=true
-        //    }
-        //}
     },
     getadAdminId: function (tilePoint, event) {
         //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
@@ -137,14 +122,16 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 if (touchIds[0] == 0) {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.snode,
-                        optype:"RDNODE"
+                        optype:"RDNODE",
+                        event:event
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.snode;
                     break;
                 } else {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.enode,
-                        optype:"RDNODE"
+                        optype:"RDNODE",
+                        event:event
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.enode;
                     break;

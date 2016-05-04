@@ -1,86 +1,33 @@
 /**
- * Created by zhongxiaoming on 2015/9/10.
- * Class GeoDataModel 数据模型基类
+ * Created by chenxiao on 2016/5/3.
+ * Class GeoDataModel GIS数据模型基类，继承于DataModel类
+ * 继承后可重写相关的方法，一般要求重写geoLiveType属性，setAttributes、getSnapShot方法
  */
-FM.dataApi.GeoDataModel = FM.Class.extend({
+FM.dataApi.GeoDataModel = FM.dataApi.DataModel.extend({
     options: {},
-    /***
-     *
-     * @param id
-     * 模型ID
-     */
-    id: null,
     /***
      *
      * @param id
      * 模型几何
      */
-    geometry: null,
+    // geometry: null,
     /***
      *
-     * @param attributes
-     * 对象属性
+     * @param id
+     * 模型类型
      */
-    attributes: null,
-    /***
-     *
-     * @param snapShot
-     * 对象简要属性
-     */
-    snapShot: null,
-    /***
-     *
-     * @param integrate
-     * 对象全部属性
-     */
-    integrate: null,
+    geoLiveType: "GLM",
     /***
      *
      * @param options
      */
-    initialize: function(geometry, attributes, options) {
-        this.options = options || {};
-        L.setOptions(this, options);
-        this.geometry = geometry;
-        this.snapShot = this.getSnapShot(attributes);
-        this.integrate = this.getIntegrate(attributes);
-    },
-    /***
-     * 设置对象概要属性信息
-     * @param snapshot
-     */
-    getSnapShot: function(snapshot) {
-        return null;
-    },
-    /***
-     * 设置对象完整信息
-     * @param integrate
-     */
-    getIntegrate: function(integrate) {
-        var ret = {};
-        var that = this;
-        for (var key in that) {
-            if (key == "_initHooksCalled" || key == "options" || key == "geoLiveType") {
-                continue;
-            }
-            if (that.hasOwnProperty(key)) {
-                if (that[key] != null && typeof that[key] == 'object') {
-                    if (that[key] instanceof FM.Class) {
-                        ret[key] = that[key].getIntegrate();
-                    } else if (FM.Util.isArray(that[key])) {
-                        ret[key] = [];
-                        for (var i = 0, n = that[key].length; i < n; i++) {
-                            ret[key].push(FM.Util.clone(that[key][i]));
-                        }
-                    } else {
-                        ret[key] = FM.Util.clone(that[key]);
-                    }
-                } else {
-                    ret[key] = that[key];
-                }
-            }
+    initialize: function(data, options) {
+        if (options) {
+            this.options = options || {};
+            FM.setOptions(this, options);
         }
-        return ret;
+        // this.geometry = geometry;
+        this.setAttributes(data);
     },
     getDiffProperties: function(integrateJson) {
         var difJson = {};

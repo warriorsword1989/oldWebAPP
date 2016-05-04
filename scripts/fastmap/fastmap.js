@@ -20,6 +20,7 @@
         return this;
     };
     window.FM = FM;
+    window.fastmap = FM; // 兼容道路里的fastmap
     /*
      * FM.Util contains various utility functions used throughout fastmap code.
      */
