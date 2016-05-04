@@ -1,4 +1,5 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, uibBtnCfg) {
+    uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
     var ds = new App.dataService($q);
     var promises = [];
@@ -23,7 +24,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     $q.all(promises).then(function() {
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function(){
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
             });
             $scope.$on('$includeContentLoaded', function($event) {
@@ -45,6 +46,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         console.log(data);
         $scope.test();
     }
+    $scope.loadAdditionInfo = function() {
+        $scope.additionInfoTpl = $scope.radioModel;
+    };
     $scope.$on("kindChange", function(event, data) {
         console.log($scope.poi.fid);
         $scope.poi.parkings = {
