@@ -25,7 +25,7 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.transform = new fastmap.mapApi.MecatorTranform();
         this.redrawTiles = [];
         this.linksFlag = this.options.linksFlag;
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:false,snapVertex:false});
+        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,snapLine:true,snapNode:false,snapVertex:false});
         this.snapHandler.enable();
         //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.eventController = fastmap.uikit.EventController();

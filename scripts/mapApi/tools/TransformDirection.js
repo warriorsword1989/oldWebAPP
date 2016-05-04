@@ -1,7 +1,7 @@
 /**
  * Created by lwc on 2015/12/22.
  */
-fastmap.uikit.TransformDirection = L.Handler.extend({
+fastmap.mapApi.TransformDirection = L.Handler.extend({
     /***
      *
      * @param {Object}options

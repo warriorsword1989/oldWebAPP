@@ -3,9 +3,7 @@
  * Class PathVertexInsert
  */
 
-fastmap.uikit.PathVertexInsert = L.Handler.extend({
-
-
+fastmap.mapApi.PathBreak = L.Handler.extend({
     /***
      *
      * @param {Object}options
@@ -16,11 +14,11 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
-        this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
+
+        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
         this.snapHandler.enable();
-        this.eventController = fastmap.uikit.EventController();
+        this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
 
@@ -48,30 +46,30 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
     },
 
     onMouseDown: function(event){
+        var layerPoint = event.layerPoint;
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
+
         if(this.snapHandler.snaped == true){
-            //var layerPoint = event.layerPoint;
-            this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
+            layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
+            this.resetVertex(layerPoint);
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+            this.disable();
         }
 
     },
 
     onMouseMove: function(event){
-
         this.snapHandler.setTargetIndex(0);
-        var that = this;
         if(this.snapHandler.snaped == true){
-            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
+            this.shapeEditor.fire('snaped',{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});
         }else{
-            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
+            this.shapeEditor.fire('snaped',{'snaped':false});
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-
     },
     //两点之间的距离
     distance:function(pointA, pointB) {
@@ -81,7 +79,7 @@ fastmap.uikit.PathVertexInsert = L.Handler.extend({
 
     resetVertex:function(layerPoint){
 
-        var index = 0;
+        var index = 0
         var segments = this.shapeEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
         for(var i = 0,len = segments.length; i< len; i++){
             var distance =  L.LineUtil.pointToSegmentDistance(layerPoint,this._map.latLngToLayerPoint(L.latLng(segments[i].y1,segments[i].x1)),this._map.latLngToLayerPoint(L.latLng(segments[i].y2,segments[i].x2)))

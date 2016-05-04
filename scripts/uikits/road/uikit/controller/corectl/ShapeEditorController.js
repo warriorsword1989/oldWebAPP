@@ -28,8 +28,8 @@ fastmap.uikit.ShapeEditorController=(function() {
                 this.editFeatType = null;
                 this.currentEditinGeometry = {};
                 this.currentTool = {"disable":function(){return -1;}};
-                this.shapeEditorResultFeedback = new fastmap.uikit.ShapeEditResultFeedback({shapeEditor:this});
-                this.shapeEditorResult = this.options.shapeEditorResult || new fastmap.uikit.ShapeEditorResult();
+                this.shapeEditorResultFeedback = new fastmap.mapApi.ShapeEditResultFeedback({shapeEditor:this});
+                this.shapeEditorResult = this.options.shapeEditorResult || new fastmap.mapApi.ShapeEditorResult();
 
             },
 
@@ -109,7 +109,7 @@ fastmap.uikit.ShapeEditorController=(function() {
              */
              toolsSeparateOfEditor: function (type, options) {
                 this.editType = type;
-                this.currentTool = new fastmap.uikit.CrossingAdd(options);
+                this.currentTool = new fastmap.mapApi.CrossingAdd(options);
                 this.currentTool.enable();
              },
             /***
@@ -120,7 +120,7 @@ fastmap.uikit.ShapeEditorController=(function() {
              */
             _tools: function (type) {
                 this.currentTool = null;
-                var toolsObj  = fastmap.uikit.shapeeditorfactory({shapeEditor:this}).toolObjs;
+                var toolsObj  = fastmap.mapApi.shapeeditorfactory({shapeEditor:this}).toolObjs;
                 this.currentTool = toolsObj[type];
                 this.currentTool.enable();
             }

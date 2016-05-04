@@ -3,7 +3,7 @@
  * Class ShapeEditorResult
  */
 
-fastmap.uikit.ShapeEditorResult = L.Class.extend({
+fastmap.mapApi.ShapeEditorResult = L.Class.extend({
     initialize: function (options) {
         this.options = options || {};
         L.setOptions(this, options);
