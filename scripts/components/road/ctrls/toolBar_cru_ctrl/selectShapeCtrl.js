@@ -325,14 +325,14 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 })
                 break;
         }
-        if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
-            map.addLayer(map.floatMenu);
-            map.floatMenu.setVisible(true);
-        }
+        //if (!map.floatMenu && toolsObj) {
+        //    map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+        //    map.addLayer(map.floatMenu);
+        //    map.floatMenu.setVisible(true);
+        //}
     }
     $scope.modifyTools = function (event) {
-        event.stopPropagation();
+        //event.stopPropagation();
         var type = event.currentTarget.type;
         $scope.$emit("SWITCHCONTAINERSTATE",
             {

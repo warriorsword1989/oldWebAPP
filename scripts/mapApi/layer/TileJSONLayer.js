@@ -489,18 +489,41 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
      */
     createUrl: function (bounds) {
         var tiles = this.mecator.lonlat2Tile((bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2, this._map.getZoom());
-
         if (this.url == "") {
             return;
         }
-        var url = this.url.url;
-        var parameter = this.url.parameter;
-        if (parameter != null) {
-            parameter.z = this._map.getZoom();
-            parameter.x = tiles[0];
-            parameter.y = tiles[1];
+        var url = null;
+        var parameter = null;
+        //从 oracle 获取
+        if(this._map.getZoom() >= this.showNodeLevel){
+            url = this.url.url;
+            parameter = this.url.parameter;
+            if (parameter != null) {
+                parameter.z = this._map.getZoom();
+                parameter.x = tiles[0];
+                parameter.y = tiles[1];
+            }
+            if(parameter ==undefined){
+                console.log(parameter);
+            }
+            url = url + 'parameter=' + JSON.stringify(parameter);
+
         }
-        url = url + 'parameter=' + JSON.stringify(parameter);
+
+        //rdlink 从hbase获取
+        if(this._map.getZoom()< this.showNodeLevel && this.requestType =='RDLINK'){
+            url = this.url.hbaseUrl;
+            parameter = this.url.parameter;
+            if(parameter ==undefined){
+                console.log(parameter);
+            }
+            if (parameter != null) {
+                parameter.z = this._map.getZoom();
+                parameter.x = tiles[0];
+                parameter.y = tiles[1];
+            }
+            url = url + 'parameter=' + JSON.stringify(parameter);
+        }
 
 
         return url;
