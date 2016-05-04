@@ -322,7 +322,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $scope.photos = [];
         }
 
-        //$scope.photoTipsData =  $scope.dataTipsData.feedback.f_array;
+        $scope.photoTipsData =  $scope.dataTipsData.feedback.f_array;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
                 var content = Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.photoTipsData[i].content + '",type:"thumbnail"}';
