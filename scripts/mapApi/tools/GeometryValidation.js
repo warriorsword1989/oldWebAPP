@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2016/1/4.
  * Class GeometryValidation
  */
-fastmap.uikit.GeometryValidation = L.Class.extend({
+fastmap.mapApi.GeometryValidation = L.Class.extend({
     /***
      *
      * @param {Object}options
@@ -21,5 +21,5 @@ fastmap.uikit.GeometryValidation = L.Class.extend({
 });
 
 fastmap.uikit.geometryValidation = function(options){
-    return new fastmap.uikit.GeometryValidation(options);
+    return new fastmap.mapApi.GeometryValidation(options);
 }

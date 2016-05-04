@@ -1,15 +1,8 @@
 /**
  * Created by liuyang on 2016/4/29.
  */
-FM.dataApi.IxPoiBrand = FM.dataApi.GeoDataModel.extend({
-    /*
-
-     */
-    initialize: function(data, options) {
-        FM.setOptions(this, options);
-        this.geoLiveType = "IXPOIBRAND";
-        this.setAttributeData(data);
-    },
+FM.dataApi.IxPoiBrand = FM.dataApi.DataModel.extend({
+    dataModelType: "IX_POIBRAND",
     /*
      * 返回参数赋值
      */
@@ -19,17 +12,30 @@ FM.dataApi.IxPoiBrand = FM.dataApi.GeoDataModel.extend({
         this.chainName = data["chainName"] || null;
         this.weight = data["weight"] || 0;
     },
-
-    /*
-     *获取的道路信息
-     */
-    getChain: function () {
-        var data = {};
-        data["category"] = this.category;
-        data["chainCode"] = this.chainCode;
-        data["chainName"] = this.chainName;
-        data["weight"] = this.weight;
-        return data;
+    statics: {
+        getChain: function(param, callback) {
+            FM.dataApi.ajax.get("meta/queryChain/", param, function(data) {
+                var ret = [],
+                    poi;
+                for (var i = 0; i < data.data.length; i++) {
+                    poi = new FM.dataApi.IxPoiBrand(data.data[i]);
+                    ret.push(poi);
+                }
+                callback(ret);
+            });
+        },
+        getChargeChain: function(param, callback) {
+            FM.dataApi.ajax.get("charge/row_edit/queryChain/", param, function(data) {
+                var ret = [],
+                    poi;
+                for (var i = 0; i < data.data.length; i++) {
+                    poi = new FM.dataApi.IxPoiBrand(data.data[i]);
+                    ret.push(poi);
+                }
+                callback(ret);
+            });
+        }
     }
+
 
 });

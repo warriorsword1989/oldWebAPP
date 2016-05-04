@@ -3,7 +3,7 @@
  * Class Snap
  * SnapPoint or SnapLine
  */
-fastmap.uikit.Snap = L.Handler.extend({
+fastmap.mapApi.Snap = L.Handler.extend({
 
     /***
      *

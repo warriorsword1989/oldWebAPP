@@ -2,7 +2,7 @@
  * Created by zhongxiaoming on 2015/9/17.
  * Class PointVertexAdd
  */
-fastmap.uikit.PointVertexAdd = L.Handler.extend({
+fastmap.mapApi.PointVertexAdd = L.Handler.extend({
 
     /***
      *
@@ -20,7 +20,7 @@ fastmap.uikit.PointVertexAdd = L.Handler.extend({
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
         this.eventController = fastmap.uikit.EventController();
-        this.snapHandler = new fastmap.uikit.Snap({
+        this.snapHandler = new fastmap.mapApi.Snap({
             map:this._map,
             shapeEditor:this.shapeEditor,
             selectedSnap:false,

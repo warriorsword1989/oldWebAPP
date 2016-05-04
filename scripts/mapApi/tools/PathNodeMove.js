@@ -3,7 +3,7 @@
  * Class PathNodeMove
  */
 
-fastmap.uikit.PathNodeMove = L.Handler.extend({
+fastmap.mapApi.PathNodeMove = L.Handler.extend({
     /***
      *
      * @param {Object}options
@@ -19,7 +19,7 @@ fastmap.uikit.PathNodeMove = L.Handler.extend({
         this.targetPoint = null;
         this.targetIndexs = [];
         this.selectCtrl = fastmap.uikit.SelectController();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:false});
+        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:false});
         this.snapHandler.enable();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
     },
