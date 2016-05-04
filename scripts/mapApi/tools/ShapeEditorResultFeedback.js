@@ -3,7 +3,7 @@
  * Class ShapeEditorResultFeedback
  */
 
-fastmap.uikit.ShapeEditResultFeedback = L.Class.extend({
+fastmap.mapApi.ShapeEditResultFeedback = L.Class.extend({
 
 
     initialize: function (options) {

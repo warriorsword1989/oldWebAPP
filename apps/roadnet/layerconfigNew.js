@@ -996,7 +996,7 @@ function transformData(data) {
 
                         } else if (item.m.a[key].type == 3) {
                             obj['properties']['markerStyle']["icon"].push(getIconStyle({
-                                iconName: '../../images/road/tips/3d/' + item.m.a[key].type + 'D.svg',
+                                iconName: '../../images/road/tips/3D/' + item.m.a[key].type + 'D.svg',
                                 row: 0,
                                 column: 1,
                                 location: obj['geometry']['coordinates'],

@@ -2,18 +2,7 @@
  * Created by chenxiao on 2016/4/21.
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
-    // options: {
-    //     test: "test"
-    // },
-    // includes: [FM.mapApi],
-    /*
-     * 初始化
-     */
-    initialize: function(data, options) {
-        FM.setOptions(this, options);
-        this.geoLiveType = "IXPOI";
-        this.setAttributes(data);
-    },
+    geoLiveType: "IX_POI",
     /*
      * 返回参数赋值
      */
@@ -25,6 +14,14 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.lifecycle = data['lifecycle'];
         this.auditStatus = data['auditStatus'];
         this.rawFields = data['rawFields'];
+
+        this.chargingPole = [];
+        if (data["chargingPole"]&&data["chargingPole"].length > 0) {
+            for (var i = 0, len = data["chargingPole"].length; i < len; i++) {
+                var name =fastmap.dataApi.adAdminName(data["chargingPole"][i]);
+                this.chargingPole.push(name);
+            }
+        }
     },
     getSnapShot: function() {
         var data = {};

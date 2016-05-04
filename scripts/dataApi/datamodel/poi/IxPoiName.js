@@ -2,14 +2,16 @@
  * Created by linglong on 2016/4/29.
  */
 FM.dataApi.IxPoiName = FM.dataApi.GeoDataModel.extend({
+    
+    geoLiveType: "IX_POI_NAME",
     /*
      * 初始化
      */
-    initialize: function(data, options) {
-        FM.setOptions(this, options);
-        this.geoLiveType = "IxPoiName";
-        this.setAttributeData(data);
-    },
+    // initialize: function(data, options) {
+    //     FM.setOptions(this, options);
+    //     this.geoLiveType = "IxPoiName";
+    //     this.setAttributeData(data);
+    // },
     /*
      * 设置参数赋值;
      */
@@ -22,18 +24,4 @@ FM.dataApi.IxPoiName = FM.dataApi.GeoDataModel.extend({
         this.type = data["type"] || 2;
         this.nameGrpId = data['nameGrpId'] || null;
     },
-    /*
-     *获取的poi Name信息
-     */
-    getIntegrate: function() {
-        var data = {};
-        data["nameId"] = this.nameId;
-        data["langCode"] = this.langCode;
-        data["nameStr"] = this.nameStr;
-        data["nameStrPinyin"] = this.nameStrPinyin;
-        data["nameClass"] = this.nameClass;
-        data["type"] = this.type;
-        data["nameGrpId"] = this.nameGrpId;
-        return data;
-    }
 });

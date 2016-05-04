@@ -3,7 +3,7 @@
  * Class PathVertexMove
  */
 
-fastmap.uikit.PathVertexMove = L.Handler.extend({
+fastmap.mapApi.adAdminMove = L.Handler.extend({
 
     /***
      *
@@ -20,11 +20,15 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         this.targetIndex = null;
         this.interLinks = [];
         this.interNodes = [];
+        this.transform = new fastmap.mapApi.MecatorTranform();
         this.selectCtrl = fastmap.uikit.SelectController();
-        this.snapHandler = new fastmap.uikit.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
+        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
         this.snapHandler.enable();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
         this.eventController = fastmap.uikit.EventController();
+        var layerCtrl = fastmap.uikit.LayerController();
+        this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
+        this.tiles = this.currentEditLayer.tiles;
     },
 
     /***
@@ -64,14 +68,14 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         }
         var layerPoint = event.layerPoint;
 
-        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
 
-        for (var j = 0, len = points.length; j < len; j++) {
-            var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-            if (disAB < 5) {
-                this.targetIndex = j;
+        //for (var j = 0, len = points.length; j < len; j++) {
+            var disAB = this.distance(this._map.latLngToLayerPoint([points.y,points.x]), layerPoint);
+            if (disAB < 20) {
+                this.targetIndex = 0;
             }
-        }
+        //}
         this.snapHandler.setTargetIndex(this.targetIndex);
     },
 
@@ -120,6 +124,9 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
 
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
         var nodePid = null;
+
+        var tileCoordinate = this.transform.lonlat2Tile(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
+        this.drawGeomCanvasHighlight(tileCoordinate, event);
         if(this.snapHandler.snaped == true){
             if(this.snapHandler){
                 if(this.snapHandler.targetIndex == 0){
@@ -132,7 +139,7 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
             }
 
             if(this.snapHandler.selectedVertex == true){
-                if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes)){
+                if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes )){
                 if(this.snapHandler.snapIndex == 0){
 
                     this.snapHandler.interNodes.push({pid:parseInt(this.snapHandler.properties.snode),nodePid:nodePid});
@@ -154,6 +161,8 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
                 this.snapHandler.interNodes = [];
                 this.snapHandler.interLinks = [];
             }
+
+
         }
     },
 
@@ -167,7 +176,7 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
      * 重新设置节点
      */
     resetVertex:function(){
-        this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+        this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
         //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
         //distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
         //distance = distance1<distance2?distance1:distance2
@@ -175,5 +184,96 @@ fastmap.uikit.PathVertexMove = L.Handler.extend({
         //    console.log('形状点之间距离不能小于2米！')
         //}
 
+
+    },
+    drawGeomCanvasHighlight: function (tilePoint, event) {
+        if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
+            var pixels = null;
+            if(this.snapHandler.snaped == true){
+                pixels = this.transform.lonlat2Pixel(this.targetPoint.lng, this.targetPoint.lat,this._map.getZoom());
+            }else{
+                pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat,this._map.getZoom());
+            }
+
+            var x = pixels[0]-tilePoint[0]*256,y=pixels[1]-tilePoint[1]*256
+            var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
+            var id = null;
+            var transform = new fastmap.mapApi.MecatorTranform();
+
+            var temp = 0;
+            for (var i = 0; i < data.length; i++)
+            {
+                for (var j = 0; j < data.length - i; j++)
+                {
+                    if((j+1)<(data.length - i-1)){
+                        if (this._TouchesPath(data[j].geometry.coordinates, x, y) > this._TouchesPath(data[j+1].geometry.coordinates, x, y))
+                        {
+                            temp = data[j+1];
+                            data[j + 1] = data[j];
+                            data[j] = temp;
+                        }
+                    }
+
+                }
+            }
+            var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
+            point= new fastmap.mapApi.Point(point[0], point[1]);
+            //id = data[0].properties.id;
+            this.selectCtrl.selectedFeatures.linkPid = data[0].properties.id;
+        }
+    },
+    /***
+     *
+     * @param {Array}d 几何图形
+     * @param {number}x 鼠标x
+     * @param {number}y 鼠标y
+     * @param {number}r 半径
+     * @returns {number}
+     * @private
+     */
+    _TouchesPath: function (d, x, y) {
+        var N = d.length;
+        var p1x = d[0][0][0];
+        var p1y = d[0][0][1];
+        var arr=[];
+        for (var i = 1; i < N; i += 1) {
+            var p2x = d[i][0][0];
+            var p2y = d[i][0][1];
+            var dirx = p2x - p1x;
+            var diry = p2y - p1y;
+            var diffx = x - p1x;
+            var diffy = y - p1y;
+            var t = 1 * (diffx * dirx + diffy * diry * 1) / (dirx * dirx + diry * diry * 1);
+            if (t < 0) {
+                t = 0
+            }
+            if (t > 1) {
+                t = 1
+            }
+            var closestx = p1x + t * dirx;
+            var closesty = p1y + t * diry;
+            var dx = x - closestx;
+            var dy = y - closesty;
+            //if ((dx * dx + dy * dy) <= r * r) {
+            //    return (dx * dx + dy * dy)
+            //}
+            p1x = p2x;
+            p1y = p2y
+            arr.push(dx * dx + dy * dy)
+        }
+        var temp = 0;
+        for (var i = 0; i < arr.length; i++)
+        {
+            for (var j = 0; j < arr.length - i; j++)
+            {
+                if (arr[j] > arr[j + 1])
+                {
+                    temp = arr[j + 1];
+                    arr[j + 1] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr[0];
     }
 })
