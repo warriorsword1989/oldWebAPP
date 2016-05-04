@@ -3,7 +3,7 @@
  * Class PathVertexAdd
  */
 
-fastmap.uikit.PathVertexAdd = L.Handler.extend({
+fastmap.mapApi.PathVertexAdd = L.Handler.extend({
 
     /***
      *
