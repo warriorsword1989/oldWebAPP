@@ -1,0 +1,46 @@
+<div class="tab-header">
+                                <div class="btn-group btn-group-justified btn-tab-header">
+                                    <div class="btn-group">
+                                        <a href="#currProjTab" class="btn btn-success" data-toggle="tab">我的项目</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a href="#hisProjTab" class="btn btn-default" data-toggle="tab">历史项目</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="currProjTab">
+                                    <table id="currProjList">
+                                        <thead>
+                                            <tr>
+                                                <th data-formatter="formatRowNumber" data-width="40">序号</th>
+                                                <th data-field="projectId" data-visible="false" data-width="50">编 号</th>
+                                                <th data-field="projectName" data-sortable="true" data-formatter="formatProjName">项目名称</th>
+                                                <th data-field="projectType" data-sortable="true" data-formatter="formatProjType" data-width="80">项目类型</th>
+                                                <th data-field="projectScheduleCreate" data-sortable="true" data-width="160">创建时间</th>
+                                                <th data-field="projectScheduleBegin" data-sortable="true" data-width="160">开始时间</th>
+                                                <th data-field="projectScheduleFinish" data-sortable="true" data-width="160">结束时间</th>
+                                                <th data-field="projectPhase" data-sortable="true" data-formatter="formatProjPhase" data-width="80">状 态</th>
+                                                <th data-field="editSupportId" data-visible="false" data-width="80">编辑池</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="hisProjTab">
+                                    <table id="hisProjList">
+                                        <thead>
+                                            <tr>
+                                                <th data-formatter="formatRowNumber" data-width="40">序号</th>
+                                                <th data-field="projectId" data-visible="false" data-width="50">编 号</th>
+                                                <th data-field="projectName" data-sortable="true" data-formatter="formatProjName">项目名称</th>
+                                                <th data-field="projectType" data-sortable="true" data-formatter="formatProjType" data-width="80">项目类型</th>
+                                                <th data-field="projectScheduleCreate" data-sortable="true" data-width="160">创建时间</th>
+                                                <th data-field="projectScheduleBegin" data-sortable="true" data-width="160">开始时间</th>
+                                                <th data-field="projectScheduleFinish" data-sortable="true" data-width="160">结束时间</th>
+                                                <th data-field="projectPhase" data-sortable="true" data-formatter="formatProjPhase" data-width="80">状 态</th>
+                                                <th data-field="editSupportId" data-visible="false" data-width="80">编辑池</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
