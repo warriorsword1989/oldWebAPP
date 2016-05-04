@@ -97,38 +97,7 @@ Application.layersConfig =
                 requestType: 'RDLINK',
                 showNodeLevel: 17
             }
-        },
-
-            {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'ADFACE'),
-
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划面',
-                    id: 'adface',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 5,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'Polygon',
-                    zIndex: 0,
-                    restrictZoom: 10,
-                    editable: false,
-                    visible: false,
-                    requestType: 'ADFACE',
-                    showNodeLevel: 17
-                }
-
-            }, {
+        }, {
 
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDRESTRICTION'),
 
@@ -349,33 +318,6 @@ Application.layersConfig =
 
 
             }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDLANECONNEXITY'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '车信',
-                    id: 'rdlaneconnexity',
-                    maxZoom: 20,
-
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdlaneconnexityPoint',
-                    zIndex: 10,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDLANECONNEXITY',
-                    showNodeLevel: 17
-                }
-
-            }, {
 
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDGSC'),
                 clazz: fastmap.mapApi.tileJSON,
@@ -458,60 +400,6 @@ Application.layersConfig =
                     visible: false,
                     requestType: 'ADFACE',
                     showNodeLevel: 13
-                }
-            }, {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'ADLINK'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划线',
-                    id: 'adLink',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'adLink',
-                    zIndex: 11,
-                    restrictZoom: 10,
-                    visible: false,
-                    requestType: 'ADLINK',
-                    showNodeLevel: 17
-                }
-
-            }, {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'ADLINK'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划代表点',
-                    id: 'adAdmin',
-                    maxZoom: 20,
-
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'adAdminPoint',
-                    zIndex: 18,
-                    restrictZoom: 10,
-                    visible: false,
-                    requestType: 'ADADMIN',
-                    showNodeLevel: 17
                 }
             }
         ]
@@ -656,7 +544,12 @@ function transformData(data) {
         obj['properties'] = {};
         obj['properties']['style'] = {};
         obj['properties']['id'] = item.i;
-
+        if(item.t==13) {
+            console.log("行政区划线的长度:" + item.t);
+        }
+        if(!obj['geometry']['coordinates']) {
+            console.log(item.length);
+        }
         featArr.push(obj);
         switch (item.t) {
             case 2://照片

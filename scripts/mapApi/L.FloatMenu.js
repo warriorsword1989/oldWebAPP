@@ -71,8 +71,8 @@ L.Control.FloatMenu = L.Class.extend({
         var stop = L.DomEvent.stopPropagation;
         if(fn){
             L.DomEvent
-                .on(link, 'click', L.DomEvent.stopPropagation)
-                .on(link, 'mousedown', L.DomEvent.stopPropagation)
+                .on(link, 'click',stop)
+                .on(link, 'mousedown',stop)
                 .on(link, 'click', L.DomEvent.preventDefault)
                 .on(link, 'click', fn, context)
         }
@@ -81,7 +81,7 @@ L.Control.FloatMenu = L.Class.extend({
     },
 
     _reset: function () {
-        var pos = this._map.latLngToContainerPoint(this._latlng);
-        L.DomUtil.setPosition(this._el, pos);
+        var pos = this._map.latLngToLayerPoint(this._latlng);
+        L.DomUtil.setPosition( this.toolBarContainer, pos);
     }
 });
