@@ -1,16 +1,8 @@
 /**
  * Created by mali on 2016/4/29.
  */
-FM.dataApi.CheckRule = FM.dataApi.GeoDataModel.extend({
-
-    /*
-     * 初始化
-     */
-    initialize: function(data, options) {
-        FM.setOptions(this, options);
-        this.geoLiveType = "IXPOIKIND";
-        this.setAttributeData(data);
-    },
+FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
+	dataModelType: "CHECK_RULE",
     /*
      * 返回参数赋值
      */
@@ -20,20 +12,9 @@ FM.dataApi.CheckRule = FM.dataApi.GeoDataModel.extend({
         this.ruleDesc = data["ruleDesc"];
         this.ruleId = data["ruleId"];
     },
-    /*
-     *获取检查规则的信息
-     */
-    getAttribute: function() {
-        var data = {};
-        data["severity"] = this.severity;
-        data["ruleType"] = this.ruleType;
-        data["ruleDesc"] = this.ruleDesc;
-        data["ruleId"] = this.ruleId;
-        return data;
-    },
     statics: {
         getList: function(param, callback) {
-            FM.dataApi.ajax.get("/fos/meta/queryRule", param, function(data) {
+            FM.dataApi.ajax.get("fos/meta/queryRule/", param, function(data) {
                 var checkRules = [],
                     checkRule;
                 for (var i = 0; i < data.data.length; i++) {
