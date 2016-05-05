@@ -104,7 +104,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             newGeom[1] = (parseInt(geom[1]));
             if (this._TouchesPoint(newGeom, x, y, 20)) {
                 id = data[item].properties.id;
-                this.eventController.fire(this.eventController.eventTypes.GETADADMINNODEID, {id: id, optype:"RDADMINNODE"})
+                this.eventController.fire(this.eventController.eventTypes.GETADADMINNODEID, {id: id, optype:"RDADMINNODE",event:event})
                 break;
             }
         }
@@ -122,7 +122,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 if (touchIds[0] == 0) {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.snode,
-                        optype:"RDNODE",
+                        optype:"NODE",
                         event:event
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.snode;
@@ -130,7 +130,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
                 } else {
                     this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
                         id: data[item].properties.enode,
-                        optype:"RDNODE",
+                        optype:"NODE",
                         event:event
                     })
                     this.selectCtrl.selectedFeatures =data[item].properties.enode;
