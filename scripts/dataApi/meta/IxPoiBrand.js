@@ -6,7 +6,7 @@ FM.dataApi.IxPoiBrand = FM.dataApi.DataModel.extend({
     /*
      * 返回参数赋值
      */
-    setAttributeData:function(data){
+    setAttributes:function(data){
         this.category = data["category"] || 0;
         this.chainCode = data["chainCode"] || null;
         this.chainName = data["chainName"] || null;

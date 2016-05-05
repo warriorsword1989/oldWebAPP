@@ -7,7 +7,7 @@ FM.dataApi.ixPoiTopKind = FM.dataApi.DataModel.extend({
     /*
      * 返回参数赋值
      */
-    setAttributeData: function(data) {
+    setAttributes: function(data) {
         this.id = data["id"];
         this.code = data["code"] || 0;
         this.name = data["name"];
