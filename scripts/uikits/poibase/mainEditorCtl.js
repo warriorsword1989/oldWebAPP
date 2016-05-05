@@ -12,7 +12,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $scope.poiList = data;
     }));
     $scope.test = function() {
-        console.log("main");
+        console.log("main test");
         poi.test();
     };
     $q.all(promises).then(function() {
