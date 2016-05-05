@@ -6,7 +6,7 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
     /*
      * 返回参数赋值
      */
-    setAttributeData: function(data) {
+	setAttributes: function(data) {
         this.severity = data["severity"];
         this.ruleType = data["ruleType"];
         this.ruleDesc = data["ruleDesc"];
