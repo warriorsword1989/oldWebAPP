@@ -1,4 +1,5 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi','meta', function($scope, $ocll, $rs, $q, poi,meta) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+    uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
     var promises = [];
     promises.push(meta.getKindList().then(function(data) {
@@ -20,6 +21,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $scope.$on('$includeContentLoaded', function($event) {
                 $scope.$broadcast("loadup", $scope.poi);
             });
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
+                $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
+                $scope.$on('$includeContentLoaded', function($event) {
+                    $scope.$broadcast("loadup", $scope.poi);
+                });
+            });
         });
     });
     $scope.nextPoi = function() {
@@ -35,7 +42,28 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     function realSave(evt, data) {
         console.log(data);
         $scope.test();
-    }
+    };
+
+    $scope.loadAdditionInfo = function() {
+        $scope.additionInfoTpl = $scope.radioModel;
+    };
+    // $scope.$on("kindChange", function(event, data) {
+    //     console.log($scope.poi.fid);
+    //     $scope.poi.parkings = {
+    //         tollStd: "1|2|3",
+    //         buildingType: 4,
+    //     };
+    //     if (data.extend > 0) {
+    //         $ocll.load("components/poi/ctrls/attr-deep/generalParkingsCtl").then(function() {
+    //             $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/generalParkingsTpl.html";
+    //             // $scope.$on("$includeContentLoaded", function() {
+    //             //     $scope.$broadcast("loadup", $scope.poi);
+    //             // });
+    //         });
+    //     } else {
+    //         $scope.deepInfoTpl = '';
+    //     }
+    // });
     $scope.$on("kindChange", function(event, data) {
         switch (data.extend) {
             case 1://停车场
