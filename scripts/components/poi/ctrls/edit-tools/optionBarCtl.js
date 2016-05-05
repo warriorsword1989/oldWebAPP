@@ -3,7 +3,7 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
     tags.optionBars = [
         {code:'checkResult',label:'检查结果'},
         {code:'confusionResult',label:'冲突检测'},
-        {code:'resume',label:'作业履历'},
+        {code:'editHistory',label:'作业履历'},
         {code:'fileUpload',label:'文件上传'},
         {code:'remarks',label:'备注'}
     ];
@@ -22,9 +22,9 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
                     $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
-            case 'resume':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/resumeCtl').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/resumeTpl.html';
+            case 'editHistory':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
+                    $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
                 });
                 break;
             case 'fileUpload':

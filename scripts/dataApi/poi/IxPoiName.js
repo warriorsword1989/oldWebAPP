@@ -1,9 +1,9 @@
 /**
  * Created by linglong on 2016/4/29.
  */
-FM.dataApi.IxPoiName = FM.dataApi.GeoDataModel.extend({
+FM.dataApi.IxPoiName = FM.dataApi.DataModel.extend({
     
-    geoLiveType: "IX_POI_NAME",
+    dataModelType: "IX_POI_NAME",
     /*
      * 初始化
      */
