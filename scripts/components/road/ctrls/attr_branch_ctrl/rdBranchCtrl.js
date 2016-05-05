@@ -412,7 +412,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 rdBranch.redraw();
 
-                swal("操作成功", "高速分歧属性值修改成功！", "success");
+                swal("操作成功", "分歧属性值修改成功！", "success");
                 var sinfo = {
                     "op": "修改RDBRANCH成功",
                     "type": "",

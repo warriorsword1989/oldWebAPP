@@ -234,6 +234,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
+                shapeCtrl.editFeatType = 0;
                 ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
