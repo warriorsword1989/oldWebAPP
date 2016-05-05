@@ -1,9 +1,9 @@
 /**
  * Created by wuzhen on 2016/5/3.
  */
-FM.dataApi.IxPoiContact = FM.dataApi.GeoDataModel.extend({
+FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 
-    geoLiveType: "IX_POI_CONTACT",
+    dataModelType: "IX_POI_CONTACT",
 
     /*
      * 初始化
