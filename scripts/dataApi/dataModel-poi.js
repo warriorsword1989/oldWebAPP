@@ -3,7 +3,7 @@
  */
 (function() {
             jsFiles = [
-                "dataApi/common/dataApi-ajax",
+                "dataApi/common/dataApi-ajax.js",
                 "dataApi/common/DataModel.js",
                 "dataApi/common/GeoDataModel.js",
                 "dataApi/meta/CheckRule.js",
