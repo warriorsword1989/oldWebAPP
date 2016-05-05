@@ -1,9 +1,9 @@
 /**
  * Created by linglong on 2016/4/29.
  */
- FM.dataApi.IxPoiImage = FM.dataApi.GeoDataModel.extend({
+ FM.dataApi.IxPoiImage = FM.dataApi.DataModel.extend({
 
-    geoLiveType: "IX_POI_IMAGE",
+    dataModelType: "IX_POI_IMAGE",
     
     /*
      * 初始化
