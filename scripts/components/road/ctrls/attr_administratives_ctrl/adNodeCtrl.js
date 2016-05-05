@@ -19,7 +19,9 @@ adNodeApp.controller("adNodeController",function($scope) {
         {"id": 0, "label": "不可编辑"},
         {"id": 1, "label": "可编辑"}
     ];
-
+    $scope.kind = [
+        {"id": 1, "label": "平面交叉点"}
+    ];
     $scope.initializeData = function(){
         $scope.adNodeData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
