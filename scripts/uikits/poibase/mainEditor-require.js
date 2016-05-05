@@ -1,5 +1,5 @@
 /**
- * Created by liwanchong on 2016/2/18.
+ * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
     baseUrl: '../../scripts/',
@@ -13,29 +13,24 @@ requirejs.config({
         'fastmap': 'fastmap/fastmap',
         'fm-util': 'fastmap/fastmap-util',
         'dataApi': 'dataApi/common/dataApi-ajax',
-        'dataModel': 'dataApi/datamodel/common/DataModel',
-        'geoDataModel': 'dataApi/datamodel/common/GeoDataModel',
-        'ixPoiModel': 'dataApi/datamodel/poi/IxPoi',
-        'ixPoiContactModel': 'dataApi/datamodel/poi/IxPoiContact',
-        'ixPoiImageModel': 'dataApi/datamodel/poi/IxPoiImage',
+        'dataModel': 'dataApi/common/DataModel',
+        'geoDataModel': 'dataApi/common/GeoDataModel',
+        'ixPoiModel': 'dataApi/poi/IxPoi',
+        'ixPoiContactModel': 'dataApi/poi/IxPoiContact',
+        'ixPoiImageModel': 'dataApi/poi/IxPoiImage',
         'dataService': 'uikits/poibase/dataService-singleton',
-        'poiService': 'uikits/poibase/dataService-angular'
+        'poiService': 'uikits/poibase/dataService-angular',
+        'select2':'libs/select2/js/select2',
+        'jquery':'libs/jquery/jquery-1.11.1'
     },
     shim: {
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
-        'dataService': ['application', 'ixPoiModel'],
         'poiService': ['angular'],
         'fastmap': ['application'],
         'appUtil': ['application'],
-        'fm-util': ['fastmap'],
-        'dataModel': ['fastmap', 'fm-util'],
-        'geoDataModel': ['dataModel'],
-        'dataApi': ['fastmap'],
-        'ixPoiModel': ['geoDataModel', 'dataApi'],
-        'ixPoiContactModel': ['geoDataModel', 'dataApi'],
-        'ixPoiImageModel':['geoDataModel', 'dataApi'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'ixPoiModel', 'dataService', 'poiService','ixPoiContactModel','ixPoiImageModel']
+        'select2':['jquery'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2']
     }
 });
 // Start the main app logic.

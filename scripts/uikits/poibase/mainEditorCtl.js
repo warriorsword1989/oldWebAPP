@@ -1,17 +1,12 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+    uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
-    var ds = new App.dataService($q);
     var promises = [];
-    promises.push(ds.meta.getKindList().then(function(data) {
+    promises.push(meta.getKindList().then(function(data) {
         $scope.meta.kindList = data;
     }));
-    promises.push(ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    promises.push(poi.getPoiDetailByFid("00005920160427213444").then(function(data) {
         $scope.poi = data;
-        var tmp = data.getIntegrate();
-        console.log(tmp);
-    }));
-    promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
-        $scope.poi2 = data;
     }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
@@ -23,16 +18,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     $q.all(promises).then(function() {
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function(){
-                $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
-            });
             $scope.$on('$includeContentLoaded', function($event) {
                 $scope.$broadcast("loadup", $scope.poi);
+            });
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
+                $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
+                $scope.$on('$includeContentLoaded', function($event) {
+                    $scope.$broadcast("loadup", $scope.poi);
+                });
             });
         });
     });
     $scope.nextPoi = function() {
-        ds.getPoiDetailByFid("0010060815LML01224").then(function(data) {
+        ds.getPoiDetailByFid("00005920160427213444").then(function(data) {
             $scope.poi = data;
             $scope.$broadcast("loadup", $scope.poi);
         });
@@ -45,15 +43,36 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         console.log(data);
         $scope.test();
     }
+    $scope.loadAdditionInfo = function() {
+        $scope.additionInfoTpl = $scope.radioModel;
+    };
+    // $scope.$on("kindChange", function(event, data) {
+    //     console.log($scope.poi.fid);
+    //     $scope.poi.parkings = {
+    //         tollStd: "1|2|3",
+    //         buildingType: 4,
+    //     };
+    //     if (data.extend > 0) {
+    //         $ocll.load("components/poi/ctrls/attr-deep/generalParkingsCtl").then(function() {
+    //             $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/generalParkingsTpl.html";
+    //             // $scope.$on("$includeContentLoaded", function() {
+    //             //     $scope.$broadcast("loadup", $scope.poi);
+    //             // });
+    //         });
+    //     } else {
+    //         $scope.deepInfoTpl = '';
+    //     }
+    // });
     $scope.$on("kindChange", function(event, data) {
         console.log($scope.poi.fid);
-        $scope.poi.parkings = {
-            tollStd: "1|2|3",
-            buildingType: 4,
-        };
+        // $scope.poi.charging = {
+        //     openType: "4|2|3",
+        //     payment: "1",
+        //     locationtype:"1"
+        // };
         if (data.extend > 0) {
-            $ocll.load("components/poi/ctrls/attr-deep/generalParkingsCtl").then(function() {
-                $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/generalParkingsTpl.html";
+            $ocll.load("components/poi/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
                 // $scope.$on("$includeContentLoaded", function() {
                 //     $scope.$broadcast("loadup", $scope.poi);
                 // });
