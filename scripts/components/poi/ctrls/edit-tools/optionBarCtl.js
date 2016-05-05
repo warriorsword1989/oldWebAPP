@@ -3,7 +3,6 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
         editHistoryData = [],
         checkResultData = [],
         confusionResultData = [];
-        checkRule = new FM.dataApi.CheckRule.getList();
     FM.dataApi.CheckRule.getList(function(data){
         console.log(data)
     })
