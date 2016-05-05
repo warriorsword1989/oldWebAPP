@@ -127,6 +127,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'intRticMarker':
                 drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false,self);
                 break;
+            case 'Buffer':
+                drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth ,self);
+                break;
         }
 
         function drawCross(geom, style, boolPixelCrs,self) {
@@ -146,6 +149,38 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             drawLineString(horLineArr, {color: 'blue', size: 1}, true,null,null,null,self);
         }
 
+        function  drawBuffer(geom, width, self){
+            var proj = [];
+            for (var i = 0;i< geom.length;i++) {
+                proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
+            }
+            var ctx = self._ctx;
+            ctx.lineWidth = width;
+            ctx.save();
+            ctx.beginPath();
+            ctx.lineCap="round";
+            for (i = 0; i < proj.length; i++) {
+                var method = (i === 0 ? 'move' : 'line') + 'To';
+                ctx[method](proj[i].x, proj[i].y);
+            }
+            ctx.stroke();
+            for (i = 0; i < proj.length; i++) {
+                var method = (i === 0 ? 'move' : 'line') + 'To';
+                ctx[method](proj[i].x, proj[i].y);
+            }
+            ctx.lineWidth = width-1;
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
+            ctx.clip();
+            ctx.restore();
+            for (i = 0; i < proj.length; i++) {
+                var method = (i === 0 ? 'move' : 'line') + 'To';
+                ctx[method](proj[i].x, proj[i].y);
+            }
+            ctx.lineWidth =1;
+            ctx.stroke();
+
+        }
         function drawPoint(geom, style, boolPixelCrs) {
             if (!geom) {
                 return;
