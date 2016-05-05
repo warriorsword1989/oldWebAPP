@@ -12,6 +12,17 @@ adLinkApp.controller("adLinkController",function($scope) {
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var selectCtrl = fastmap.uikit.SelectController();
+    $scope.kind = [
+        {"id": 0, "label": "假想线"},
+        {"id": 1, "label": "省,直辖市边界"},
+        {"id": 2, "label": "市行政区界"},
+        {"id": 3, "label": "区县边界"},
+        {"id": 4, "label": "乡镇边界"},
+        {"id": 5, "label": "村边界"},
+        {"id": 6, "label": "国界"},
+        {"id": 7, "label": "百万产品范围框"}
+
+    ];
     $scope.form = [
         {"id": 0, "label": "未调查"},
         {"id": 1, "label": "无属性"},
@@ -19,7 +30,7 @@ adLinkApp.controller("adLinkController",function($scope) {
         {"id": 6, "label": "特别行政区界(K)"},
         {"id": 7, "label": "特别行政区界(G)"},
         {"id": 8, "label": "未定行政区划界"},
-        {"id": 9, "label": "南海诸岛范围线"},
+        {"id": 9, "label": "南海诸岛范围线"}
 
     ];
     $scope.scale = [
