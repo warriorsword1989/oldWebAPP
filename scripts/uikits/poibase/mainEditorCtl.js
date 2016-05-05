@@ -21,7 +21,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $scope.$on('$includeContentLoaded', function($event) {
                 $scope.$broadcast("loadup", $scope.poi);
             });
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
                     $scope.$broadcast("loadup", $scope.poi);
