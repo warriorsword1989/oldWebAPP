@@ -129,8 +129,8 @@
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div ><label class="control-label">种别</label></div>
-            <div class="inline" style="text-align: left">
-                <input type="text" value="平面交叉点" disabled="disabled">
+            <div class="inline" style="text-align: left" ng-repeat="item in kind | filter:{id:adNodeData.kind}">
+                <input type="text" ng-model="item.label" disabled="disabled">
             </div>
 
         </li>
