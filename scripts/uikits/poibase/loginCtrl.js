@@ -1,7 +1,7 @@
 /**
  * Created by Administrator on 2016/5/4.
  */
-var myApp =  angular.module('login', ['fastmap.uikit']);
+var myApp =  angular.module('login', []);
 
 myApp.controller('poiLogin',function($scope,$http){
 
