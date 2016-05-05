@@ -188,7 +188,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
         };
         $scope.addShape = function (type, num, event) {
-
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
             if (event) {
                 event.stopPropagation();
             }

@@ -80,11 +80,11 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
                     var point = transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
                     point = new fastmap.mapApi.Point(point[0], point[1]);
                     id = data[item].properties.id;
-                    this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id, point: point});
+                    this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id, point: point,optype:"ADFACE",event:event});
                     this.currentEditLayer.selectedid = id;
                     this._cleanHeight();
                     this._drawHeight(id);
-                    this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id});
+                    this.eventController.fire(this.eventController.eventTypes.GETOUTLINKSPID, {id: id,optype:"ADFACE",event:event});
                     break;
                 }
             }

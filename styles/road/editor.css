@@ -746,10 +746,10 @@ div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
     list-style-type: none;
 }
 .floatMenu>li{
-    position:absolute;
+    /*position:absolute;*/
     left:200px;
     top:300px;
-    padding: 6px;
+    padding: 8px;
     text-align: center;
     width: 32px;
     height: 32px;

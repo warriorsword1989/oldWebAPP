@@ -544,12 +544,6 @@ function transformData(data) {
         obj['properties'] = {};
         obj['properties']['style'] = {};
         obj['properties']['id'] = item.i;
-        if(item.t==13) {
-            console.log("行政区划线的长度:" + item.t);
-        }
-        if(!obj['geometry']['coordinates']) {
-            console.log(item.length);
-        }
         featArr.push(obj);
         switch (item.t) {
             case 2://照片
