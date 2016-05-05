@@ -1,5 +1,5 @@
 /**
- * Created by zhaohang on 2016/4/12.
+ * Created by zhaohang on 2016/04/12.
  */
 var selectAdApp = angular.module("mapApp", ['oc.lazyLoad']);
 selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
@@ -28,47 +28,123 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
         shapeCtrl.stopEditing();
         editLayer.bringToBack();
         $(editLayer.options._div).unbind();
-        $scope.changeBtnClass("");
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
     };
-
-    $scope.showTipsOrProperty = function (data, type, objCtrl, propertyId, propertyCtrl, propertyTpl) {
-        var ctrlAndTplParams = {
-            loadType: 'tipsTplContainer',
-            propertyCtrl: "ctrl/sceneAllTipsCtrl",
-            propertyHtml: "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-            callback: function () {
-                if (data.t_lifecycle === 2) { //外业修改
-                    $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
+    $scope.modifyTools = function (event) {
+        var type = event.currentTarget.type;
+        $scope.$emit("SWITCHCONTAINERSTATE",
+            {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            })
+        $scope.$apply();
+        $("#popoverTips").hide();
+        if (shapeCtrl.getCurrentTool()['options']) {
+            shapeCtrl.stopEditing();
+        }
+        var feature = null;
+        if (map.currentTool) {
+            map.currentTool.disable();
+        }
+        if (shapeCtrl.shapeEditorResult) {
+            if (tooltipsCtrl.getCurrentTooltip()) {
+                tooltipsCtrl.onRemoveTooltip();
+            }
+            if(type==="ADADMINMOVE") {
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('moveDot');
+                    tooltipsCtrl.setCurrentTooltip('开始移动行政区划代表点！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('先选择行政区划代表点！');
+                    return;
                 }
-                else {//3新增或1删除
-                    var stageLen = data.t_trackInfo.length;
-                    var stage = parseInt(data.t_trackInfo[stageLen - 1]["stage"]);
-                    if (stage === 1) { // 未作业
-                        if (data.s_sourceType === "1201") {
-                            $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                        } else {
-                            if (data.t_lifecycle === 1) {
-                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                            }
-                        }
-                    } else if (stage === 3) {  //已作业
-                        if (data.t_lifecycle === 3) {
-                            if (data.f) {
-                                $scope.getFeatDataCallback(data, propertyId, type, propertyCtrl, propertyTpl);
-                            }
-                        }
-                    }
+            }else if (type === "PATHVERTEXINSERT") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setEditEventType('insertDot');
+                    tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
+                    return;
+                }
+            }else if(type==="PATHVERTEXREMOVE") {
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('deleteDot');
+                    tooltipsCtrl.setCurrentTooltip('删除此形状点！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                    return;
+                }
+            }else if(type==="PATHVERTEXMOVE") {
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('moveDot');
+                    tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
+                    return;
+                }
+            }else if(type==="PATHBREAK") {
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('pathBreak');
+                    tooltipsCtrl.setCurrentTooltip('开始打断link！');
+
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
+                    return;
+                }
+            }else if(type==="PATHNODEMOVE") {
+                if(selectCtrl.selectedFeatures){
+                    tooltipsCtrl.setEditEventType('pathNodeMove');
+                    tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                }else{
+                    tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
+                    return;
                 }
             }
+            if (!selectCtrl.selectedFeatures){
+                return;
+            }
+            feature = selectCtrl.selectedFeatures.geometry;
+            layerCtrl.pushLayerFront('edit');
+            var sObj = shapeCtrl.shapeEditorResult;
+            editLayer.drawGeometry = feature;
+            editLayer.draw(feature, editLayer);
+            sObj.setOriginalGeometry(feature);
+            sObj.setFinalGeometry(feature);
+
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+            shapeCtrl.startEditing();
+            map.currentTool = shapeCtrl.getCurrentTool();
+            if(type==="ADADMINMOVE") {
+                shapeCtrl.editFeatType = "adAdmin";
+                map.currentTool.snapHandler.addGuideLayer(adAdmin);
+            }else {
+                shapeCtrl.editFeatType = "adLink";
+                map.currentTool.snapHandler.addGuideLayer(adLink);
+            }
+
+
+
+            //shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
+            //shapeCtrl.on("stopshapeeditresultfeedback",function(){
+            //    shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
+            //});
+            //function saveOrEsc (event) {
+            //    if(event.changeTooltips){
+            //        tooltipsCtrl.setStyleTooltip("color:black;");
+            //        tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+            //    }
+            //
+            //}
         }
-        //先load Tips面板和控制器
-        $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
     }
     $scope.selectAddShape = function (type, num) {
         $scope.resetToolAndMap();
+        if (map.floatMenu) {
+            map.removeLayer(map.floatMenu);
+            map.floatMenu = null;
+        }
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
 
@@ -92,12 +168,9 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.enable();
             //初始化鼠标提示
             $scope.toolTipText = '请选择线！';
-            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                selectCtrl.onSelected({
-                    point: data.point
-                });
-                $scope.getFeatDataCallback(data, data.id, "ADLINK", 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html");
-            })
+            adLink.options.editable = true;
+            eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }
         else if (type === "adAdmin") {
             layerCtrl.pushLayerFront('edit');
@@ -107,19 +180,13 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 currentEditLayer: adAdmin,
                 shapeEditor: shapeCtrl
             });
-            map.currentTool.snapHandler.addGuideLayer(adAdmin);
-            map.currentTool.enable();
+            map.currentTool.enable()
             map.currentTool.snapHandler.addGuideLayer(adAdmin);
             $scope.toolTipText = '请选择行政区划代表点！';
-            eventController.on(eventController.eventTypes.GETADADMINNODEID, function (data) {
-                selectCtrl.onSelected({
-                    point: data.point
-                });
-                $scope.getFeatDataCallback(data, data.id, "ADADMIN", 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html");
-            });
+            eventController.off(eventController.eventTypes.GETADADMINNODEID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETADADMINNODEID, $scope.selectObjCallback);
         }
        else if (type === "adFace") {
-           /* layerCtrl.pushLayerFront('edit');*/
             map.currentTool = new fastmap.uikit.SelectPolygon(
                 {
                     map: map,
@@ -130,13 +197,9 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             editLayer.bringToBack();
             //初始化鼠标提示
             $scope.toolTipText = '请选择面！';
-           /* adFace.options.selectType = 'face';
-            adFace.options.editable = true;*/
-            eventController.on(eventController.eventTypes.GETLINKID, function (data) {
-                $scope.getFeatDataCallback(data, data.id, "ADFACE", 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html");
-            })
+            eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }else if(type==="adNode") {
-          /*  layerCtrl.pushLayerFront('edit');*/
             adLink.options.selectType = 'node';
             adLink.options.editable = true;
             map.currentTool = new fastmap.uikit.SelectNode({
@@ -148,9 +211,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.enable();
             map.currentTool.snapHandler.addGuideLayer(adLink);
             $scope.toolTipText = '请选择node！';
-            eventController.on(eventController.eventTypes.GETNODEID, function (data) {
-                $scope.getFeatDataCallback(data, data.id, "ADNODE", 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl', "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html");
-            });
+            eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
@@ -170,5 +232,89 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             $scope.$emit("transitCtrlAndTpl", options);
         }, selectedData.detailid);
     }
+    $scope.selectObjCallback = function (data) {
+        var ctrlAndTplParams = {
+            propertyCtrl: "",
+            propertyHtml: ""
+        }, toolsObj = null;
+        $scope.type=null;
+        switch (data.optype) {
+            case "NODE":
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "移动ADNODE点",
+                        'type': "PATHNODEMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adNodeCtrl';
+                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adNodeTpl.html";
+                $scope.type = "ADNODE";
+                break;
+            case "LINK":
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-plus'></a>",
+                        'title': "插入形状点",
+                        'type': 'PATHVERTEXINSERT',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-remove'></a>",
+                        'title': "删除形状点",
+                        'type': 'PATHVERTEXREMOVE',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "修改形状点",
+                        'type': 'PATHVERTEXMOVE',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                        'title': "打断link",
+                        'type': 'PATHBREAK',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adLinkCtrl';
+                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adLinkTpl.html";
+                $scope.type = "ADLINK";
+                break;
+            case "RDADMINNODE" :
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "移动行政区划代表点",
+                        'type': "ADADMINMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adAdminCtrl';
+                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminTpl.html";
+                $scope.type = "ADADMIN";
+                break;
+            case "ADFACE":
+                ctrlAndTplParams.propertyCtrl = 'components/road/ctrls/attr_administratives_ctrl/adFaceCtrl';
+                ctrlAndTplParams.propertyHtml = "../../scripts/components/road/tpls/attr_adminstratives_tpl/adFaceTpl.html";
+                $scope.type = "ADFACE";
+                break;
+        }
+        $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
+        if (!map.floatMenu && toolsObj) {
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.addLayer(map.floatMenu);
+            map.floatMenu.setVisible(true);
+        }
+    };
 
 }])

@@ -18,7 +18,14 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
         this.container = this._map._container;
         this._map._container.style.cursor = 'pointer';
         this._mapDraggable = this._map.dragging.enabled();
-        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:true,snapLine:true});
+        this.targetPoint = null;
+        this.targetIndex = null;
+        this.snapHandler = new fastmap.mapApi.Snap({
+            map:this._map,
+            shapeEditor:this.shapeEditor,
+            selectedSnap:false,
+            snapLine:true
+        });
         this.snapHandler.enable();
         this.eventController = fastmap.uikit.EventController();
         this.validation =fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
@@ -51,7 +58,7 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             //var layerPoint = event.layerPoint;
             this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
@@ -63,7 +70,7 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
 
         this.snapHandler.setTargetIndex(0);
         var that = this;
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({point:{x:this.targetPoint.lng,y:this.targetPoint.lat}});

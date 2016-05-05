@@ -19,7 +19,14 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
         this._mapDraggable = this._map.dragging.enabled();
         this.targetPoint = null;
         this.targetIndex = null;
-        this.snapHandler = new fastmap.mapApi.Snap({map:this._map,shapeEditor:this.shapeEditor,selectedSnap:false,snapLine:true,snapNode:true,snapVertex:true});
+        this.snapHandler = new fastmap.mapApi.Snap({
+            map:this._map,
+            shapeEditor:this.shapeEditor,
+            selectedSnap:false,
+            snapLine:true,
+            snapNode:true,
+            snapVertex:true
+        });
         this.snapHandler.enable();
         this.eventController = fastmap.uikit.EventController();
     },
