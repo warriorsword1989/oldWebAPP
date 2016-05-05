@@ -17,7 +17,7 @@
     <body ng-controller="mainEditorCtl" style="overflow-y:hidden;">
         <div class="container-fluid" style="margin-bottom:50px;">
             <div class="row-fluid">
-                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-container">
+                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-container" my-resize>
                     <div class="row-fluid">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 content-box" style="height: 500px;">
                             <div class="tab-header form-inline">
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-container">
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-container" my-resize>
                     <uib-accordion close-others="false">
                         <div ng-include="baseInfoTpl"></div>
                         <div ng-include="deepInfoTpl"></div>
