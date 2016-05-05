@@ -1,7 +1,7 @@
 /**
  * Created by wangmingdong on 2016/4/29.
  */
-FM.dataApi.ixPoiTopKind = FM.dataApi.DataModel.extend({
+FM.dataApi.IxPoiTopKind = FM.dataApi.DataModel.extend({
     dataModelType: "IX_POI_TOP_KIND",
 
     /*

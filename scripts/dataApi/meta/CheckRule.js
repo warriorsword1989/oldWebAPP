@@ -14,7 +14,7 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
     },
     statics: {
         getList: function(callback) {
-            FM.dataApi.ajax.get("fos/meta/queryRule/", {}, function(data) {
+            FM.dataApi.ajax.get("meta/queryRule/", {}, function(data) {
                 var checkRules = [],
                     checkRule;
                 for (var i = 0; i < data.data.length; i++) {
