@@ -57,6 +57,10 @@ fastmap.mapApi.ShapeOptionType={
     /*
     移动行政区划代表点
      */
-    'ADADMINMOVE':"adAdminMove"
+    'ADADMINMOVE':"adAdminMove",
+    /*
+     上下线分离
+     */
+    'PATHBUFFER':"pathBuffer"
 
 }
