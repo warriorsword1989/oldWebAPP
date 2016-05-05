@@ -1,12 +1,8 @@
 /**
- * Created by liuyang on 2016/4/29.
+ * Created by liuyang on 2016/5/4.
  */
 FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     dataModelType: "IX_PoiChargingPole",
-    //
-    initialize: function(data) {
-        this.setAttributes(data);
-    },
     /*
      * 返回参数赋值
      */
@@ -32,9 +28,5 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
         this.locationType = data["locationType"] || 0;
         this.payment = data["payment"] || "4";
     }
-
 });
-//
-// FM.dataApi.IxPoiChargingPole = function (data) {
-//     return new FM.dataApi.IxPoiChargingPole(data);
-// };
+
