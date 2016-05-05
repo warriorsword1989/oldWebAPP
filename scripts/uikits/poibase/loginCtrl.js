@@ -7,7 +7,6 @@ myApp.controller('poiLogin',function($scope,$http){
 
     var interface_url = App.Config.serviceUrl+'/user/login/';
     $scope.submitData = function(type){
-        alert(type)
         $scope.show_error = true;
 
         //var interface_url = App.Util.getFullUrl('user/login/');
