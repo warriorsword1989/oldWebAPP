@@ -27,6 +27,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                     $scope.$broadcast("loadup", $scope.poi);
                 });
             });
+            $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
+                $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
+                $scope.$on('$includeContentLoaded', function($event) {
+                    $scope.$broadcast("loadup", $scope.poi);
+                });
+            });
         });
     });
     $scope.nextPoi = function() {
@@ -107,12 +113,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 break;
             case 9:
                 $ocll.load("components/poi/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
+                    // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
                         $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
                         $scope.$on('$includeContentLoaded', function($event) {
                             $scope.$broadcast("loaded", data);
                         });
-                    });
+                    // });
                 });
                 break;
             default:

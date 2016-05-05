@@ -1,11 +1,11 @@
 /**
  * Created by Administrator on 2016/5/4.
  */
-angular.module('loginApp', ['fastmap.uikit']).controller('poiLogin',function($scope,$http){
+angular.module('loginApp', ['fastmap.uikit']).controller('loginCtrl',function($scope,$http){
 
-    var interface_url = App.Config.serviceUrl+'/user/login/';
+    var interface_url = App.Util.getFullUrl('user/login/');
 
-    $scope.$on("startLogin", function(event, parma){
+    $scope.$on("startLogin", function(event){
         $scope.show_error = true;
 
         if($scope.valid_type==3&&!$scope.username||!$scope.pwd){
@@ -18,7 +18,7 @@ angular.module('loginApp', ['fastmap.uikit']).controller('poiLogin',function($sc
             params:{
                 id: $scope.username,
                 secret: $scope.pwd,
-                moduleCode: parma,
+                moduleCode: 'rowEditor',
                 parameter: "",
                 access_token:null
             }
