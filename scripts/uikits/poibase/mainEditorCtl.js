@@ -82,4 +82,4 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         }
     });
     $scope.$on("saveMe", realSave);
-}]);
+}]).constant();
