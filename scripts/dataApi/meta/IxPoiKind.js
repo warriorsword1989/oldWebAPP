@@ -7,7 +7,7 @@ FM.dataApi.ixPoiKind = FM.dataApi.DataModel.extend({
     /*
      * 返回参数赋值
      */
-    setAttributeData: function(data) {
+    setAttributes: function(data) {
         this.id = data["id"];
         this.mediumId = data["mediumId"];
         this.kindName = data["kindName"];
