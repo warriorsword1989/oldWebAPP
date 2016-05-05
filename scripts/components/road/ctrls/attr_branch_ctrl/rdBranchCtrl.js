@@ -15,6 +15,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         //如果是3d分歧则关系类型改为3
         if(shapeCtrl.editFeatType == 3){
             objCtrl.data.details[0].branchType = 3;
+            $('[data-toggle="tooltip"]').tooltip();
         }
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
