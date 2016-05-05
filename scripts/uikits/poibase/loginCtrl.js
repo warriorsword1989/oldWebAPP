@@ -33,7 +33,7 @@ myApp.controller('poiLogin',function($scope,$http){
                     document.cookie="FM_USER_TYPE="+data.data.userType+';path=/';
                     document.cookie="FM_USER_ROLES="+data.data.roleCode.join(",")+';path=/';
                     document.cookie="FM_USER_GROUPS="+(data.data.userGroups ? data.data.userGroups : []).join(",")+';path=/';
-                    window.location.href = "./projectList.html?access_token=" + data.data.access_token;
+                    window.location.href = "./projectManage.html?access_token=" + data.data.access_token;
                 }
             }
             if(data.errcode=='-1'){
