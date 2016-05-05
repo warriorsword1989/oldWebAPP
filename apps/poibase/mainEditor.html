@@ -8,6 +8,7 @@
         <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
         <link href="../../styles/poi/rowEditor.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/select2/css/select2.css" rel="stylesheet" type="text/css"/>
+        <link href="../../scripts/libs/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
@@ -35,6 +36,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <div ng-include="mapTpl"></div>
                         </div>
                     </div>
                     <div class="row-fluid">
