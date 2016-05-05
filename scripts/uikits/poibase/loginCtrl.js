@@ -1,17 +1,14 @@
 /**
  * Created by Administrator on 2016/5/4.
  */
-var myApp =  angular.module('login', []);
-
-myApp.controller('poiLogin',function($scope,$http){
+angular.module('loginApp', ['fastmap.uikit']).controller('poiLogin',function($scope,$http){
 
     var interface_url = App.Config.serviceUrl+'/user/login/';
-    $scope.submitData = function(type){
+
+    $scope.$on("startLogin", function(event, parma){
         $scope.show_error = true;
 
-        //var interface_url = App.Util.getFullUrl('user/login/');
-
-        if($scope.show_type==3&&!$scope.username||!$scope.pwd){
+        if($scope.valid_type==3&&!$scope.username||!$scope.pwd){
             return false;
         }
         //请求登录接口;
@@ -21,7 +18,7 @@ myApp.controller('poiLogin',function($scope,$http){
             params:{
                 id: $scope.username,
                 secret: $scope.pwd,
-                moduleCode: type,
+                moduleCode: parma,
                 parameter: "",
                 access_token:null
             }
@@ -40,5 +37,5 @@ myApp.controller('poiLogin',function($scope,$http){
                 alert(data.errmsg+'用户！')
             }
         })
-    }
+    });
 });
