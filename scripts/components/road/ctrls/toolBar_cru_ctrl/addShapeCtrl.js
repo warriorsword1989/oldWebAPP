@@ -384,7 +384,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     })
                 });
             } else if (type === "RDBRANCH") {
-                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH)
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 0;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -691,6 +692,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightFeatures = [],
                     linkDirect = 0;
                 shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 3;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
