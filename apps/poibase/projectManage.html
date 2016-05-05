@@ -9,15 +9,13 @@
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
         <link href="../../styles/poi/sideMenu.css" rel="stylesheet" type="text/css"/>
-        <script type="text/javascript" data-main="../../scripts/uikits/poibase/mainEditor-require" src="../../scripts/libs/require/require.js"></script>
+        <script type="text/javascript" data-main="../../scripts/uikits/poibase/projectManage-require" src="../../scripts/libs/require/require.js"></script>
     </head>
     <body ng-controller="projectManageCtl">
-    	<div ng-include="">
-    		
-    	</div>
+    	<div ng-include="headTpl"></div>
         <div class="container-fluid">
             <div class="row-fluid">
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-container" ng-include="">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-container" >
                     <div id="mainMenuBar" class="side-menu">
                         <dl class="menu-block">
 							<dt class="menu-label">
