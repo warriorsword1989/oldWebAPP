@@ -110,7 +110,7 @@
             <div class="list-line"></div>
         </li>
         <li class="list-group-item" ng-repeat="cItem in rticData.speedlimits">
-            <div ng-if="cItem.speedType==3" ng-click="showspeedlimitInfo(cItem)" style="cursor: pointer;">
+            <div ng-if="cItem.speedType==3" ng-click="showspeedlimitInfo(cItem)" style="cursor: pointer;pointer;padding-left: 15px;">
                 <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 0">特定条件</label>
                 <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 1">雨天&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>
                 <label style="padding-top: 5px;cursor: pointer;" class="control-label" ng-if="cItem.speedDependent == 2">雪天&nbsp; <label ng-if="cItem.fromSpeedLimit!=0">{{cItem.fromSpeedLimit}}</label><label ng-if="cItem.fromSpeedLimit==0">{{cItem.toSpeedLimit}}</label></label>

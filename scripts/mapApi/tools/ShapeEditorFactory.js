@@ -31,7 +31,8 @@ fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
                     'pathNodeMove':new fastmap.mapApi.PathNodeMove({shapeEditor:shapeEditor}),
                     'pointVertexAdd':new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor}),
                     'addAdAdmin':new fastmap.mapApi.adAdminAdd({shapeEditor:shapeEditor}),
-                    'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor})
+                    'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor}),
+                    'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor})
                 };
                 return toolsObject;
             }
