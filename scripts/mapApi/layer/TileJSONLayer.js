@@ -503,9 +503,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 parameter.x = tiles[0];
                 parameter.y = tiles[1];
             }
-            if(parameter ==undefined){
-                console.log(parameter);
-            }
             url = url + 'parameter=' + JSON.stringify(parameter);
 
         }
@@ -514,9 +511,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         if(this._map.getZoom()< this.showNodeLevel && this.requestType =='RDLINK'){
             url = this.url.hbaseUrl;
             parameter = this.url.parameter;
-            if(parameter ==undefined){
-                console.log(parameter);
-            }
             if (parameter != null) {
                 parameter.z = this._map.getZoom();
                 parameter.x = tiles[0];

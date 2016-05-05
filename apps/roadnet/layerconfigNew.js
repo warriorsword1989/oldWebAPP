@@ -264,6 +264,90 @@ Application.layersConfig =
                 }
 
             }, {
+
+            url: createUrl('/render/obj/getByTileWithGap?', 'RDGSC'),
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '立交',
+                id: 'rdGsc',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: transformData,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'rdlaneconnexityPoint',
+                zIndex: 10,
+                restrictZoom: 10,
+                visible: true,
+                requestType: 'RDGSC',
+                showNodeLevel: 17
+            }
+
+        }, {
+
+            url: createUrl('/render/obj/getByTileWithGap?', 'RDLINKINTRTIC'),
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '互联网RTIC',
+                id: 'rdrtic',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: transformData,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'rdrticPoint',
+                zIndex: 11,
+                restrictZoom: 10,
+                visible: false,
+                requestType: 'RDLINKINTRTIC',
+                showNodeLevel: 17,
+                isUpDirect: true
+            }
+
+        },{
+            url: createUrl('/render/obj/getByTileWithGap?', 'ADADMIN'),
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: '行政区划代表点',
+                id: 'adAdmin',
+                maxZoom: 20,
+
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: transformData,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'adAdminPoint',
+                zIndex: 18,
+                restrictZoom: 10,
+                visible: true,
+                requestType: 'ADADMIN',
+                showNodeLevel: 17
+            }
+        },
+            {
                 url: createUrl('/render/obj/getByTileWithGap?', 'ADLINK'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -289,92 +373,8 @@ Application.layersConfig =
                     showNodeLevel: 17
                 }
 
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'ADADMIN'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划代表点',
-                    id: 'adAdmin',
-                    maxZoom: 20,
-
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'adAdminPoint',
-                    zIndex: 18,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'ADADMIN',
-                    showNodeLevel: 17
-                }
-
-
-            }, {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDGSC'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '立交',
-                    id: 'rdGsc',
-                    maxZoom: 20,
-
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdlaneconnexityPoint',
-                    zIndex: 10,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDGSC',
-                    showNodeLevel: 17
-                }
-
-            }, {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDLINKINTRTIC'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '互联网RTIC',
-                    id: 'rdrtic',
-                    maxZoom: 20,
-
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdrticPoint',
-                    zIndex: 11,
-                    restrictZoom: 10,
-                    visible: false,
-                    requestType: 'RDLINKINTRTIC',
-                    showNodeLevel: 17,
-                    isUpDirect: true
-                }
-
-            }, {
+            },
+             {
 
                 url: createUrl('/render/obj/getByTileWithGap?', 'ADFACE'),
                 clazz: fastmap.mapApi.tileJSON,
@@ -544,12 +544,6 @@ function transformData(data) {
         obj['properties'] = {};
         obj['properties']['style'] = {};
         obj['properties']['id'] = item.i;
-        if(item.t==13) {
-            console.log("行政区划线的长度:" + item.t);
-        }
-        if(!obj['geometry']['coordinates']) {
-            console.log(item.length);
-        }
         featArr.push(obj);
         switch (item.t) {
             case 2://照片

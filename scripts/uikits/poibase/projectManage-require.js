@@ -1,5 +1,5 @@
 /**
- * modified by liuyang on 2016/05/04.
+ * Created by mali on 2016/5/5.
  */
 requirejs.config({
     baseUrl: '../../scripts/',
@@ -9,10 +9,15 @@ requirejs.config({
         'uiBootstrap': 'libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
         'application': 'uikits/Application',
         'appUtil': 'uikits/common/app-util',
-        'mainEditorCtl': 'uikits/poibase/mainEditorCtl',
+        'projectManageCtl': 'uikits/poibase/projectManageCtl',
+        'fastmap': 'fastmap/fastmap',
+        'fm-util': 'fastmap/fastmap-util',
+        'dataApi': 'dataApi/common/dataApi-ajax',
+        'dataModel': 'dataApi/common/DataModel',
+        'dataService': 'uikits/poibase/dataService-singleton',
         'poiService': 'uikits/poibase/dataService-angular',
         'select2':'libs/select2/js/select2',
-        'jquery':'libs/jquery/2.1.1/jquery-2.1.1'
+        'jquery':'libs/jquery/jquery-1.11.1'
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -21,10 +26,10 @@ requirejs.config({
         'fastmap': ['application'],
         'appUtil': ['application'],
         'select2':['jquery'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2']
+        'projectManageCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2']
     }
 });
 // Start the main app logic.
-requirejs(['mainEditorCtl'], function() {
+requirejs(['projectManageCtl'], function() {
     angular.bootstrap(document.body, ['app']);
 });

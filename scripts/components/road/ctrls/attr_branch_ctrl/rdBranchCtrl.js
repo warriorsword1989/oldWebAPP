@@ -14,7 +14,6 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        $('[data-toggle="tooltip"]').tooltip();
     }
     if (objCtrl.data) {
         $scope.initializeData();

@@ -1,4 +1,4 @@
-angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('checkResultCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
+angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('CheckResultCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
 
     $scope.$on("loadup", function(event, data) {
         $scope.poi = data.getSnapShot();
