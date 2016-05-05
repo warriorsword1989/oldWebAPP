@@ -130,7 +130,9 @@
         <li class="list-group-item">
             <div ><label class="control-label">种别</label></div>
             <div class="inline" style="text-align: left">
-                <input type="text"  ng-model="adLinkData.kind">
+                <select  ng-model="adLinkData.kind"
+                         ng-options="value.id as value.label for value in kind" >
+                </select>
             </div>
         </li>
         <li class="list-group-item">
