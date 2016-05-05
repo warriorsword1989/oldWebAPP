@@ -151,6 +151,10 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
         function  drawBuffer(geom, width, self){
             var proj = [];
+            this.transform = new fastmap.mapApi.MecatorTranform();
+            var scale =  this.transform.scale( map);
+            var linkWidth = parseFloat(width*scale);
+            linkWidth = linkWidth.toFixed(2);
             for (var i = 0;i< geom.length;i++) {
                 proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
             }
@@ -179,6 +183,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
             ctx.lineWidth =1;
             ctx.stroke();
+            ctx.fillText(linkWidth+"m",proj[0].x, proj[0].y)
+
 
         }
         function drawPoint(geom, style, boolPixelCrs) {
