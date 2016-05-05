@@ -84,6 +84,7 @@
          "mapApi/tools/ShapeEditorFactory.js",
          "mapApi/tools/ShapeEditorResult.js",
          "mapApi/tools/ShapeEditorResultFeedback.js",
+         "mapApi/tools/PathBuffer.js",
          "mapApi/tools/Snap.js",
          "mapApi/tools/TransformDirection.js"
     ]; // etc.

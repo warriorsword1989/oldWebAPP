@@ -42,9 +42,6 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
 
 
     $scope.showOnMap = function (targets) {
-        if (highLightLayer.highLightLayersArr.length !== 0) {
-            highLightLayer.removeHighLightLayers();
-        }
         var value = targets.replace("[", "");
         var value1 = value.replace("]", "");
 

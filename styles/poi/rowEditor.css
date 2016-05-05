@@ -114,3 +114,7 @@
 .olControlLayerSwitcher .layersDiv {
     border-radius: 5px 0 0 5px;
 }
+
+.btn-success {
+    text-shadow: 0 0 0 #fff;
+}

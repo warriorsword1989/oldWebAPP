@@ -6,29 +6,78 @@
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
+        <link href="../../styles/poi/rowEditor.css" rel="stylesheet" type="text/css"/>
+        <link href="../../scripts/libs/select2/css/select2.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
+        <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
+        <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
         <script type="text/javascript" data-main="../../scripts/uikits/poibase/mainEditor-require" src="../../scripts/libs/require/require.js"></script>
+
     </head>
-    <body ng-controller="mainEditorCtl">
+    <body ng-controller="mainEditorCtl" style="overflow-y:hidden;">
         <div class="container-fluid" style="margin-bottom:50px;">
             <div class="row-fluid">
                 <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-container">
                     <div class="row-fluid">
-                        <div id="imgContainer" data-toolbar="#imgTools" class="content-box col-xs-6 col-sm-6 col-md-6 col-lg-6" style="border-right-width: 0px; height: 501px; display: block;">
-                        </div>
-                        <div id="mapContainer" class="content-box col-xs-6 col-sm-6 col-md-6 col-lg-6" style="height: 501px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 content-box" style="height: 500px;">
+                            <div class="tab-header form-inline">
+                                <div class="form-group">
+                                    <div id="mapBtnGroup" class="btn-group">
+                                        <button type="button" class="btn btn-primary" onclick="addPointInMap()">打点</button>
+                                        <button type="button" class="btn btn-primary" onclick="locateEditingFeature()">定位</button>
+                                        <button type="button" class="btn btn-primary" onclick="resetLocation()">重置</button>
+                                        <div class="btn-group" uib-dropdown>
+                                            <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">框选 <span class="caret"></span></button>
+                                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" style="min-width:100px;">
+                                                <li class="active"><a href="#" onclick="startRectChoose()">矩形框</a></li>
+                                                <li><a href="#" onclick="startPolyChoose()">多边形</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div ng-include="optionBarTpl"></div>
+                    <div class="row-fluid">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 content-box" style="height: 300px;border-top: 0px;">
+                            <div ng-include="optionBarTpl"></div>
+                            <!--<div class="tab-header form-inline">
+                                <div class="btn-group btn-group-justified">
+                                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'checkResult'" ng-click="loadAdditionInfo()">检查结果</label>
+                                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'confusionInfo'" ng-click="loadAdditionInfo()">冲突检测</label>
+                                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'editHistory'" ng-click="loadAdditionInfo()">作业履历</label>
+                                    <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'fileUpload'" uncheckable ng-click="loadAdditionInfo()">文件上传</label>
+                                </div>
+                            </div>
+                            <div ng-bind="additionInfoTpl"></div>-->
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-container">
                     <uib-accordion close-others="false">
                         <div ng-include="baseInfoTpl"></div>
                         <div ng-include="deepInfoTpl"></div>
                     </uib-accordion>
-                    <button class="btn btn-primary" ng-click="doSave()">保 存</button>
-                    <button class="btn btn-warning" ng-click="nextPoi()">下一个</button>
                 </div>
             </div>
         </div>
+        <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+            <div class="container-fluid">
+                <button type="button" class="btn btn-default navbar-btn navbar-left" id="prevBtn" onclick="prev()"><< 上一条</button>
+                <p class="navbar-text" style="margin-left:100px;">第 <span id="dataIdx" style="color:red"></span> 条 共 <span id="dataCnt" style="color:blue"></span> 条 </p>
+                <p class="navbar-text" id="qtMsg" style="margin-left:50px;color:red;"></p>
+                <div class="navbar-form navbar-right">
+                    <div id="operateBtnGroup" class="form-group">
+                        <button type="button" class="btn btn-primary func-btn" id="saveBtn" ng-click="doSave()">保 存</button>
+                        <button type="button" class="btn btn-success func-btn" id="addPoiBtn" onclick="doAddPoi()">新 增</button>
+                        <button type="button" class="btn btn-danger func-btn" id="deleteBtn" onclick="doDelete()">删 除</button>
+                        <button type="button" class="btn btn-info func-btn" id="restoreBtn" style="display:none" onclick="doRestore()">还 原</button>
+                        <button type="button" class="btn btn-warning func-btn" id="superviseBtn" style="display:none" onclick="doSupervise()">监 察</button>
+                        <button type="button" class="btn btn-warning func-btn" id="qualityCheckingBtn" style="display:none;" onclick="doQualityChecking()">质 检</button>
+                    </div>
+                    <button type="button" class="btn btn-default" id="nextBtn" style="margin-left: 50px;" ng-click="nextPoi()">下一条 >></button>
+                </div>
+            </div>
+        </nav>
     </body>
 </html>

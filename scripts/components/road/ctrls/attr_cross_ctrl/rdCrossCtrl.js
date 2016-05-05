@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
-selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad) {
+selectApp.controller("rdCrossController", function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();

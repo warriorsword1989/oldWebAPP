@@ -948,19 +948,19 @@ function transformData(data) {
                     if (item.g[gscNum].z === 0) {
                         gscObj['properties']['style'] = {
                             'strokeColor': '#14B7FC',
-                            'strokeWidth': 12,
+                            'strokeWidth': 5,
                             'strokeOpacity': 0.8
                         };
                     } else if (item.g[gscNum].z === 1) {
                         gscObj['properties']['style'] = {
                             'strokeColor': '#4FFFB6',
-                            'strokeWidth': 12,
+                            'strokeWidth': 5,
                             'strokeOpacity': 0.8
                         };
                     } else {
                         gscObj['properties']['style'] = {
                             'strokeColor': '#F8B19C',
-                            'strokeWidth': 12,
+                            'strokeWidth': 5,
                             'strokeOpacity': 0.8
                         };
                     }

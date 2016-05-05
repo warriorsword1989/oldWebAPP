@@ -437,7 +437,9 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功", 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
                 }
-
+                else if(shapeCtrl.editType === "upAndDown"){
+                   alert(11);
+                }
             }
         });
 }
