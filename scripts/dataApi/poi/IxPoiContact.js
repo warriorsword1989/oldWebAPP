@@ -22,5 +22,16 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
         this.linkman = data["linkman"] || null;
         this.priority = data["priority"] || 1;
         this.weChatUrl = data["weChatUrl"] || null;
+        this.numRre = "";
+        this.numSuf = "";
+        this.flag = false;
+        if (this.type == 1) {
+            if (this.number) {
+                var temp = this.number.split("-");
+                this.numRre = temp[0];
+                this.numSuf = temp[1];
+            }
+            this.flag = true
+        }
     }
 });
