@@ -1,13 +1,13 @@
 /**
  * Created by wangmingdong on 2016/4/29.
  */
-FM.dataApi.ixPoiKind = FM.dataApi.DataModel.extend({
+FM.dataApi.IxPoiKind = FM.dataApi.DataModel.extend({
     dataModelType: "IX_POI_KIND",
 
     /*
      * 返回参数赋值
      */
-    setAttributeData: function(data) {
+    setAttributes: function(data) {
         this.id = data["id"];
         this.mediumId = data["mediumId"];
         this.kindName = data["kindName"];

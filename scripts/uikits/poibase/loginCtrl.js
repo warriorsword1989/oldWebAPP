@@ -1,44 +1,41 @@
 /**
  * Created by Administrator on 2016/5/4.
  */
-var myApp =  angular.module('login', []);
+angular.module('loginApp', ['fastmap.uikit']).controller('loginCtrl',function($scope,$http){
 
-myApp.controller('poiLogin',function($scope,$http){
+    var interface_url = App.Util.getFullUrl('user/login/');
 
-    var interface_url = App.Config.serviceUrl+'/user/login/';
-    $scope.submitData = function(type){
+    $scope.$on("startLogin", function(event){
         $scope.show_error = true;
 
-        //var interface_url = App.Util.getFullUrl('user/login/');
-
-        if($scope.show_type==3&&!$scope.username||!$scope.pwd){
+        if($scope.valid_type==3&&!$scope.username||!$scope.pwd){
             return false;
         }
-        //«Î«Ûµ«¬ºΩ”ø⁄;
+        //ËØ∑Ê±ÇÁôªÂΩïÊé•Âè£;
         $http({
-                method:'GET',
-                url:interface_url,
-                params:{
-                    id: $scope.username,
-                    secret: $scope.pwd,
-                    moduleCode: type,
-                    parameter: "",
-                    access_token:null
+            method:'GET',
+            url:interface_url,
+            params:{
+                id: $scope.username,
+                secret: $scope.pwd,
+                moduleCode: 'rowEditor',
+                parameter: "",
+                access_token:null
+            }
+        }).success(function(data) {
+            if(data.errcode=='0'){
+                if (data) {
+                    document.cookie="FM_USER_ID="+escape(data.data.userId)+';path=/';
+                    document.cookie="FM_USER_NAME="+data.data.realName+';path=/';
+                    document.cookie="FM_USER_TYPE="+data.data.userType+';path=/';
+                    document.cookie="FM_USER_ROLES="+data.data.roleCode.join(",")+';path=/';
+                    document.cookie="FM_USER_GROUPS="+(data.data.userGroups ? data.data.userGroups : []).join(",")+';path=/';
+                    window.location.href = "./projectManage.html?access_token=" + data.data.access_token;
                 }
-            }).success(function(data) {
-                if(data.errcode=='0'){
-                    if (data) {
-                        document.cookie="FM_USER_ID="+escape(data.data.userId)+';path=/';
-                        document.cookie="FM_USER_NAME="+data.data.realName+';path=/';
-                        document.cookie="FM_USER_TYPE="+data.data.userType+';path=/';
-                        document.cookie="FM_USER_ROLES="+data.data.roleCode.join(",")+';path=/';
-                        document.cookie="FM_USER_GROUPS="+(data.data.userGroups ? data.data.userGroups : []).join(",")+';path=/';
-                        window.location.href = "../pages/projectList.html?access_token=" + data.data.access_token;
-                    }
-                }
-                if(data.errcode=='-1'){
-                    alert(data.errmsg+'”√ªß£°')
-                }
-            })
-    }
+            }
+            if(data.errcode=='-1'){
+                alert(data.errmsg+'Áî®Êà∑ÔºÅ')
+            }
+        })
+    });
 });

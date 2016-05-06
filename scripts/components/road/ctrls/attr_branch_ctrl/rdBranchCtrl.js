@@ -8,13 +8,18 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
     var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
+        //如果是3d分歧则关系类型改为3
+        if(shapeCtrl.editFeatType == 3){
+            objCtrl.data.details[0].branchType = 3;
+            $('[data-toggle="tooltip"]').tooltip();
+        }
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        $('[data-toggle="tooltip"]').tooltip();
     }
     if (objCtrl.data) {
         $scope.initializeData();
@@ -407,7 +412,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 rdBranch.redraw();
 
-                swal("操作成功", "高速分歧属性值修改成功！", "success");
+                swal("操作成功", "分歧属性值修改成功！", "success");
                 var sinfo = {
                     "op": "修改RDBRANCH成功",
                     "type": "",

@@ -10,6 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdnode = layerCtrl.getLayerById('referenceNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.flagId = 0;
@@ -68,6 +69,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
     }
     $scope.selectShape = function (type, num) {
+
         $scope.resetToolAndMap();
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
@@ -106,11 +108,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: rdLink,
+                currentEditLayer: rdnode,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
-            map.currentTool.snapHandler.addGuideLayer(rdLink);
+            //需要捕捉的图层
+            map.currentTool.snapHandler.addGuideLayer(rdnode);
             $scope.toolTipText = '请选择node！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
@@ -149,28 +152,32 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             propertyHtml: ""
         }, toolsObj = null;
         switch (data.optype) {
-            case "RDLINK":
+            case "LINK":
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 toolsObj = {
                     items: [{
-                        'text': "<a class='glyphicon glyphicon-apple'></a>",
+                        'text': "<a class='glyphicon glyphicon-plus'></a>",
                         'title': "插入形状点",
                         'type': 'PATHVERTEXINSERT',
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }, {
-                        'text': "<a class='glyphicon glyphicon-apple'></a>",
+                        'text': "<a class='glyphicon glyphicon-remove'></a>",
                         'title': "删除形状点",
                         'type': 'PATHVERTEXREMOVE',
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }, {
-                        'text': "<a class='glyphicon glyphicon-apple'></a>",
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
                         'title': "修改形状点",
                         'type': 'PATHVERTEXMOVE',
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }, {
-                        'text': "<a class='glyphicon glyphicon-apple' type=''></a>",
+                        'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
                         'title': "打断link",
                         'type': 'PATHBREAK',
                         'class': "feaf",
@@ -184,12 +191,16 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
-            case "RDNODE":
+            case "NODE":
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 toolsObj = {
                     items: [{
-                        'text': "<a class='glyphicon glyphicon-apple'></a>",
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
                         'title': "移动端点",
-                        'type': "NODE",
+                        'type': "PATHNODEMOVE",
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }]
@@ -225,6 +236,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
+                shapeCtrl.editFeatType = 0;
                 ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -325,20 +337,20 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 })
                 break;
         }
-        //if (!map.floatMenu && toolsObj) {
-        //    map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
-        //    map.addLayer(map.floatMenu);
-        //    map.floatMenu.setVisible(true);
-        //}
+        if (!map.floatMenu && toolsObj) {
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.addLayer(map.floatMenu);
+            map.floatMenu.setVisible(true);
+        }
     }
     $scope.modifyTools = function (event) {
-        //event.stopPropagation();
         var type = event.currentTarget.type;
         $scope.$emit("SWITCHCONTAINERSTATE",
             {
                 "attrContainerTpl": false,
                 "subAttrContainerTpl": false
             })
+        $scope.$apply();
         $("#popoverTips").hide();
         if (shapeCtrl.getCurrentTool()['options']) {
             shapeCtrl.stopEditing();

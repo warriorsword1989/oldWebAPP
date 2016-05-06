@@ -3,8 +3,14 @@
  * Class ShapeEditorFactory
  */
 
-fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
+//fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
+fastmap.mapApi.ShapeEditorFactory = (function() {
+    var instantiated;
 
+    function init(options) {
+
+
+        var createShapeTools = L.Class.extend({
             /***
              *
              * @param {Object}options
@@ -17,6 +23,7 @@ fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
 
             CreateShapeToolsObject: function (shapeEditor) {
                 var toolsObject = {
+
                     'drawPath': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawAdLink': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawPolygon': new fastmap.mapApi.DrawPolygon({shapeEditor:shapeEditor}),
@@ -31,12 +38,22 @@ fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
                     'pathNodeMove':new fastmap.mapApi.PathNodeMove({shapeEditor:shapeEditor}),
                     'pointVertexAdd':new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor}),
                     'addAdAdmin':new fastmap.mapApi.adAdminAdd({shapeEditor:shapeEditor}),
-                    'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor})
+                    'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor}),
+                    'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor})
                 };
                 return toolsObject;
             }
-        });
+        })
 
-fastmap.mapApi.shapeeditorfactory = function (options) {
-    return new fastmap.mapApi.ShapeEditorFactory(options);
-}
+
+        return new createShapeTools(options);
+    }
+
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+
+})()

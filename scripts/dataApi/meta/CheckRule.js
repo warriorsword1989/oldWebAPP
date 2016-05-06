@@ -6,15 +6,15 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
     /*
      * 返回参数赋值
      */
-    setAttributeData: function(data) {
+	setAttributes: function(data) {
         this.severity = data["severity"];
         this.ruleType = data["ruleType"];
         this.ruleDesc = data["ruleDesc"];
         this.ruleId = data["ruleId"];
     },
     statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("fos/meta/queryRule/", param, function(data) {
+        getList: function(callback) {
+            FM.dataApi.ajax.get("meta/queryRule/", {}, function(data) {
                 var checkRules = [],
                     checkRule;
                 for (var i = 0; i < data.data.length; i++) {

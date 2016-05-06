@@ -33,7 +33,13 @@ FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
 
         this.indoor = data["indoor"] || null;
         this.pid = data["pid"] || 0;
-        this.checkResults = data["checkResults"] || [];
+        this.checkResults = [];
+        if(data['checkResults'] && data['checkResults'].length > 0){
+            for (var i = 0, len = data["checkResults"].length; i < len; i++) {
+                var checkResult = new FM.dataApi.IxCheckResult(data["checkResults"][i]);
+                this.checkResults.push(checkResult);
+            }
+        }
         this.phaseHistory = data["phaseHistory"] || [];
         this.synchronizeDate = data['synchronizeDate'];
         this.regionInfo = data['regionInfo'] || 'D';
@@ -65,7 +71,13 @@ FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
         this.handler = data["handler"] || 1;
         this.location = data["location"] || null;
         this.fid = data["fid"] || null;
-        this.editHistory = data['editHistory'] || [];
+        this.editHistory = [];
+        if(data['editHistory'] && data['editHistory'].length > 0){
+            for (var i = 0, len = data["editHistory"].length; i < len; i++) {
+                var editHistory = new FM.dataApi.IxEditHistory(data["editHistory"][i]);
+                this.editHistory.push(editHistory);
+            }
+        }
         this.fieldVerification = data['fieldVerification'] || 0;
         this.sourceFlags = data['sourceFlags'] || null;
         this.website = data['website'] || null;

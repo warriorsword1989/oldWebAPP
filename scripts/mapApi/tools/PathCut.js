@@ -149,7 +149,6 @@ fastmap.mapApi.PathCut = L.Handler.extend({
         this.targetIndex = null;
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
         fastmap.uikit.ShapeEditorController().stopEditing();
-        console.log("cut");
     },
 
     //两点之间的距离

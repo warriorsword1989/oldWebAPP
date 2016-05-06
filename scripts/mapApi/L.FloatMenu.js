@@ -29,7 +29,7 @@ L.Control.FloatMenu = L.Class.extend({
 
         // add a viewreset event listener for updating layer's position, do the latter
         map.on('viewreset', this._reset, this);
-        //this._reset();
+        this._reset();
 
     },
 
@@ -41,14 +41,14 @@ L.Control.FloatMenu = L.Class.extend({
     setVisible:function(flag){
         var buttons=$(".floatMenu>li");
         this.visible=flag;
-        var r=100,n= 5;
+        var r=50,n= 5;
         if(flag){
             $(".floatMenu").show();
             setTimeout(function(){
                 for(var i= 0,len=buttons.length;i<len;i++){
-                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'1s')
+                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'0.5s')
                 }
-            },100)
+            },10)
 
         }
         else{
@@ -81,7 +81,7 @@ L.Control.FloatMenu = L.Class.extend({
     },
 
     _reset: function () {
-        var pos = this._map.latLngToLayerPoint(this._latlng);
-        L.DomUtil.setPosition( this.toolBarContainer, pos);
+        var pos = this._map.latLngToContainerPoint(this._latlng);
+        L.DomUtil.setPosition(this._el, pos);
     }
 });

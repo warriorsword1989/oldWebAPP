@@ -12,7 +12,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $scope.poiList = data;
     }));
     $scope.test = function() {
-        console.log("main");
+        console.log("main test");
         poi.test();
     };
     $q.all(promises).then(function() {
@@ -21,8 +21,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $scope.$on('$includeContentLoaded', function($event) {
                 $scope.$broadcast("loadup", $scope.poi);
             });
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
+                $scope.$on('$includeContentLoaded', function($event) {
+                    $scope.$broadcast("loadup", $scope.poi);
+                });
+            });
+            $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
+                $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
                     $scope.$broadcast("loadup", $scope.poi);
                 });
@@ -50,7 +56,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     $scope.$on('showChildrenPoisInMap',function (obj){
         alert("显示子");
     })
-
     $scope.loadAdditionInfo = function() {
         $scope.additionInfoTpl = $scope.radioModel;
     };
@@ -73,49 +78,54 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     // });
     $scope.$on("kindChange", function(event, data) {
         switch (data.extend) {
-            case 1://停车场
+            case 1: //停车场
                 $ocll.load("components/poi/ctrls/attr-deep/parkingCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
-            case 2://加油站
+            case 2: //加油站
                 $ocll.load("components/poi/ctrls/attr-deep/oilStationCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/oilStationTpl.html";
                 });
                 break;
-            case 3://充电站
+            case 3: //充电站
                 $ocll.load("components/poi/ctrls/attr-deep/chargingStationCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingStationTpl.html";
                 });
                 break;
-            case 4://宾馆酒店
+            case 4: //宾馆酒店
                 $ocll.load("components/poi/ctrls/attr-deep/hotelCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/hotelTpl.html";
                 });
                 break;
-            case 5://运动场馆
+            case 5: //运动场馆
                 $ocll.load("components/poi/ctrls/attr-deep/sportsVenuesCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/sportsVenuesTpl.html";
                 });
                 break;
-            case 6://餐馆
+            case 6: //餐馆
                 $ocll.load("components/poi/ctrls/attr-deep/foodTypeCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/foodTypeTpl.html";
                 });
                 break;
-            case 7://加气站
+            case 7: //加气站
                 $ocll.load("components/poi/ctrls/attr-deep/gasStationCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
                 });
                 break;
-            case 8://旅游景点
+            case 8: //旅游景点
                 $ocll.load("components/poi/ctrls/attr-deep/chargingPoleCtl").then(function() {
                     $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
                 });
                 break;
             case 9:
                 $ocll.load("components/poi/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
+                    // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
+                        $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
+                        $scope.$on('$includeContentLoaded', function($event) {
+                            $scope.$broadcast("loaded", data);
+                        });
+                    // });
                 });
                 break;
             default:
@@ -124,4 +134,43 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         }
     });
     $scope.$on("saveMe", realSave);
+}]).directive("myResize", ["$timeout", function($timeout) {
+    function _resize(elem) {
+        var vh = 0;
+        if (window.innerHeight) {
+            vh = window.innerHeight;
+        } else if (document.documentElement.clientHeight) {
+            vh = document.documentElement.clientHeight;
+        } else {
+            vh = document.getElementsByTagName("body")[0].clientHeight;
+        }
+        var h = vh - elem.offsetTop - 56;
+        console.log("window height:" + vh);
+        console.log("elem.offsetTop:" + elem.offsetTop);
+        console.log("elem.scrollHeight:" + elem.scrollHeight);
+        if (h > 0) {
+            if (h < elem.scrollHeight) {
+                elem.style.height = h + "px";
+            } else if (h >= elem.scrollHeight) {
+                elem.style.height = elem.scrollHeight + "px";
+            }
+        }
+    }
+    return {
+        restrict: 'A',
+        scope: true,
+        controller: function($scope, $element) {
+            $scope.$on("$includeContentLoaded", function() {
+                // 稍微延迟一下下，为htm片段加载生成高度信息提供时间
+                $timeout(function() {
+                    $element.triggerHandler("resize");
+                }, 1);
+            });
+        },
+        link: function(scope, element) {
+            element.on("resize", function() {
+                _resize(element[0]);
+            });
+        }
+    };
 }]);

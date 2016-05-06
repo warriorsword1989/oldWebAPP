@@ -79,7 +79,6 @@ fastmap.uikit.SelectPath = L.Handler.extend({
         this.drawGeomCanvasHighlight(tileCoordinate, event);
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
-
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
             var pixels = null;
             if(!this.snapHandler.snaped){
@@ -97,9 +96,9 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
                     point= new fastmap.mapApi.Point(point[0], point[1]);
                     id = data[item].properties.id;
-
+                    console.log('........................'+id);
                     if (this.linksFlag) {
-                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point,optype:"RDLINK",event:event});
+                        this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point,optype:"LINK",event:event});
                         this.currentEditLayer.selectedid = id;
                         if (this.redrawTiles.length != 0) {
                             this._cleanHeight();
