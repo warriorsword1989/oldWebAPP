@@ -409,6 +409,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
                         if (icons[item].text) {
+                            console.log('---------------'+icons[item].text)
                             this._drawText({
                                 ctx: ctx,
                                 geo: geom.coordinates,
@@ -416,8 +417,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 font: 'bold 15px Courier New',
                                 rotate: icons[item].rotate ? icons[item].rotate : "",
                                 align: 'center',
-                                drawx: 0,
-                                drawy: 6
+                                drawx: icons[item].column * icons[item].dx,
+                                drawy: (icons[item].row+1) * icons[item].dy
                             })
                         }
                     }

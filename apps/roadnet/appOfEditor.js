@@ -325,7 +325,7 @@ function appInit() {
     var eventCtrl = new fastmap.uikit.EventController();
     var speedLimit = layerCtrl.getLayerById("speedlimit")
     tooltipsCtrl.setMap(map, 'tooltip');
-    shapeCtrl.setMap(map);
+    //shapeCtrl.setMap(map);
     layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
         if (event.flag == true) {
             map.addLayer(event.layer);
