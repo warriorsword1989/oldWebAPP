@@ -859,11 +859,15 @@ function transformData(data) {
 
 
                 featArr.pop();
-                for (var key in item.m.a) {
 
+                for (var key in item.m.a) {
+                    var count =0;
                     for (var j in item.m.a[key].ids) {
+                        
+                        var obj = {};
                         obj['geometry'] = {};
-                        obj['geometry']['coordinates'] = item.g;
+                        obj['geometry']['coordinates'] = [item.g[0] +count*30,item.g[1]];
+
                         obj['properties'] = {};
                         obj['properties']['style'] = {};
                         obj['properties']['id'] = item.m.a[key].ids[j].detailId;
@@ -892,6 +896,7 @@ function transformData(data) {
                             }));
 
                         }
+                        count++
                         featArr.push(obj);
                     }
                 }
