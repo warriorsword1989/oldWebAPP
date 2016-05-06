@@ -14,7 +14,7 @@ FM.Util.extend(FM.Util, {
         for (var key in obj) {
             if (obj[key] && typeof obj[key] == 'object') {
                 if (this.isArray(obj[key])) {
-                    ret[key] = new Array();
+                    ret[key] = [];
                     for (var i = 0, n = obj[key].length; i < n; i++) {
                         ret[key].push(this.clone(obj[key][i]));
                     }

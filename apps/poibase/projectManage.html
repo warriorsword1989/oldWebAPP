@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FastMap-POI室内作业系统-项目信息</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
+        <link href="../../styles/poi/sideMenu.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" data-main="../../scripts/uikits/poibase/projectManage-require" src="../../scripts/libs/require/require.js"></script>
+    </head>
+    <body ng-controller="projectManageCtl">
+    	<div ng-include="headTpl"></div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-container" >
+                    <div id="mainMenuBar" class="side-menu">
+                        <dl class="menu-block">
+							<dt class="menu-label">
+								<i class="glyphicon glyphicon-tasks"></i>我的任务
+							</dt>
+							<dd id="commonProjectMenu" ng-click="menuChange('common');" ng-class="{'common': 'active'}[isActive]">
+								<a href="#commonProject" data-toggle="tab">常规项目</a>
+							</dd>
+							<dd id="agentProjectMenu" ng-click="menuChange('agent');" ng-class="{'agent': 'active'}[isActive]">
+								<a href="#agentProject" data-toggle="tab">代理店项目</a>
+							</dd>
+							<dd id="specItemMenu" ng-click="menuChange('spec');" ng-class="{'spec': 'active'}[isActive]">
+								<a href="#specialProject" data-toggle="tab">专项作业</a>
+							</dd>
+						</dl>
+						<dl class="menu-block">
+							<dt>
+								<a href="#userProfile" data-toggle="tab"><i
+									class="glyphicon glyphicon-folder-close"></i>个人资料</a>
+							</dt>
+						</dl>
+						<dl class="menu-block">
+							<dt>
+								<a href="#userMessage" data-toggle="tab"><i
+									class="glyphicon glyphicon-envelope"></i>我的消息</a>
+							</dt>
+						</dl>
+                    </div>
+                </div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-container">
+                    <div class="tab-content">
+                        <!-- 常规项目 -->
+                        <div id="commonProject" class="tab-pane content-box" ng-include="commonProject">
+                            
+                        </div>
+                        <!-- 代理店项目 -->
+                        <div id="agentProject"  class="tab-pane content-box" ng-include="agentProject">
+
+                        </div>
+                        <!-- 专项作业项目 -->
+                        <div id="specialProject"  class="tab-pane content-box" ng-include="specialProject">
+                        
+                        </div>
+                        <div id="userProfile" class="tab-pane content-box" style="width:100%">
+                            
+                        </div>
+                        <div id="userMessage" class="tab-pane content-box" style="width:100%">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

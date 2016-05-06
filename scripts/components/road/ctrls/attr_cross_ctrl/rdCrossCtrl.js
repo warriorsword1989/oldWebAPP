@@ -47,7 +47,7 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
     $scope.showCrossNames=function(nameItem) {
         var crossNamesObj = {
             "loadType":"subAttrTplContainer",
-            "propertyCtrl":'components/road/ctrls/attr_cross_components/road/ctrls/namesCtrl',
+            "propertyCtrl":'components/road/ctrls/attr_cross_ctrl/namesCtrl',
             "propertyHtml":'../../scripts/components/road/tpls/attr_cross_tpl/namesTpl.html'
         };
         $scope.$emit("transitCtrlAndTpl", crossNamesObj);

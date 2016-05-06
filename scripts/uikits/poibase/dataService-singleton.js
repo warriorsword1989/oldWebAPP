@@ -6,7 +6,7 @@ App.dataService = (function() {
         ds.getPoiDetailByFid = function(fid) {
             var deferred = $q.defer();
             var param = {
-                "projectId": 2016013086,
+                "projectId": 6,
                 "condition": {
                     "fid": fid
                 },

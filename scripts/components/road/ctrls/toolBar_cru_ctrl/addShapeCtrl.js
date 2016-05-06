@@ -187,8 +187,55 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 nodes: nodeArr
             }
         };
-        $scope.addShape = function (type, num, event) {
+    $scope.upAndDown=function(event) {
+        var type = event.currentTarget.type;
+        if(type==="RETRYLINK") {
+            alert(11);
+        }else if(type===fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
+            if(selectCtrl.selectedFeatures){
+                tooltipsCtrl.setCurrentTooltip('上下线分离请用鼠标滚轮调整间距！');
+            }else{
+                tooltipsCtrl.setCurrentTooltip('上下线分离,先选择link！');
+                return;
+            }
+            map.scrollWheelZoom.disable();
+            map.currentTool.disable();
+            Application.functions.getRdObjectById($scope.linkPid,'RDLINK', function (data) {
+                var linkArr =data.data.geometry.coordinates, points= [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                    points.push(pointOfLine);
+                }
+                var line = fastmap.mapApi.lineString(points);
+                this.transform = new fastmap.mapApi.MecatorTranform();
+                 var scale =  this.transform.scale( map);
+                var linwidth = 6.6/scale;
+                selectCtrl.onSelected({
+                    geometry: line,
+                    id: data.data.pid,
+                    linkWidth : linwidth,
+                    type : 'Buffer'
+                });
+                feature = selectCtrl.selectedFeatures;
 
+                layerCtrl.pushLayerFront('edit');
+                var sObj = shapeCtrl.shapeEditorResult;
+                editLayer.drawGeometry = feature;
+                editLayer.draw(feature, editLayer);
+                sObj.setOriginalGeometry(feature);
+                sObj.setFinalGeometry(feature);
+
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType["PATHBUFFER"]);
+                shapeCtrl.startEditing();
+            });
+
+        }
+    };
+        $scope.addShape = function (type, num, event) {
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
             if (event) {
                 event.stopPropagation();
             }
@@ -337,7 +384,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     })
                 });
             } else if (type === "RDBRANCH") {
-                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH)
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 0;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -644,6 +692,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightFeatures = [],
                     linkDirect = 0;
                 shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 3;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -698,9 +747,47 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
             }else if(type==='RDMULTIDIGITIZED') {
-                map.scrollWheelZoom._enabled = false;
-                map.off('mousewheel', $scope.addRdMultidDgitized, this);
-                map.on('mousewheel', $scope.addRdMultidDgitized, this);
+                layerCtrl.pushLayerFront('edit');
+                map.currentTool = new fastmap.uikit.SelectPath(
+                    {
+                        map: map,
+                        currentEditLayer: rdLink,
+                        linksFlag: true,
+                        shapeEditor: shapeCtrl
+                    });
+                map.currentTool.enable();
+                //初始化鼠标提示
+                $scope.toolTipText = '请选择线！';
+                //rdLink.options.selectType = 'link';
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
+                rdLink.options.editable = true;
+                eventController.on(eventController.eventTypes.GETLINKID,function(data){
+                    $scope.linkPid = data.id;
+                    selectCtrl.onSelected({
+                        point: data.point
+                    });
+                    tooltipsCtrl.setEditEventType('upAndDown');
+                    tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
+                   if(! map.floatMenu) {
+                       map.floatMenu=new L.Control.FloatMenu("000", data.event.originalEvent, {
+                           items: [{
+                               'text': "<a class='glyphicon glyphicon-apple'></a>",
+                               'title': "重新选择线",
+                               'type': 'RETRYLINK',
+                               'class': "feaf",
+                               callback: $scope.upAndDown
+                           }, {
+                               'text': "<a class='glyphicon glyphicon-apple'></a>",
+                               'title': "上下线分离",
+                               'type': 'pathBuffer',
+                               'class': "feaf",
+                               callback: $scope.upAndDown
+                           }]
+                       })
+                       map.addLayer(map.floatMenu);
+                       map.floatMenu.setVisible(true);
+                   }
+                });
             }
         }
 

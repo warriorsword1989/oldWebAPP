@@ -1,5 +1,5 @@
 /**
- * Created by liwanchong on 2016/2/18.
+ * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
     baseUrl: '../../scripts/',
@@ -10,26 +10,19 @@ requirejs.config({
         'application': 'uikits/Application',
         'appUtil': 'uikits/common/app-util',
         'mainEditorCtl': 'uikits/poibase/mainEditorCtl',
-        'fastmap': 'fastmap/fastmap',
-        'fm-util': 'fastmap/fastmap-util',
-        'dataApi': 'dataApi/common/dataApi-ajax',
-        'geoDataModel': 'dataApi/datamodel/common/GeoDataModel',
-        'ixPoiModel': 'dataApi/datamodel/poi/IxPoi',
-        'dataService': 'uikits/poibase/dataService-singleton',
-        'poiService': 'uikits/poibase/dataService-angular'
+        'poiService': 'uikits/poibase/dataService-angular',
+        'select2':'libs/select2/js/select2',
+        'jquery':'libs/jquery/2.1.1/jquery-2.1.1',
+        'leaflet':'libs/leaflet-0.7.3/leaflet-src'
     },
     shim: {
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
-        'dataService': ['application', 'ixPoiModel'],
         'poiService': ['angular'],
         'fastmap': ['application'],
         'appUtil': ['application'],
-        'fm-util': ['fastmap'],
-        'geoDataModel': ['fastmap', 'fm-util'],
-        'dataApi': ['fastmap'],
-        'ixPoiModel': ['geoDataModel', 'dataApi'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'ixPoiModel', 'dataService', 'poiService']
+        'select2':['jquery'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','leaflet']
     }
 });
 // Start the main app logic.

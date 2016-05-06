@@ -1,0 +1,16 @@
+<div ng-controller="OptionBarCtl">
+    <div class="content-box" style="border-top:0px;width:100%;">
+        <div class="tab-header">
+            <div class="btn-group btn-group-justified">
+                <label ng-repeat="tagBar in tags.optionBars"
+                       ng-class="{btn: true, 'btn-default': tagBar.code != tags.selection.code, 'btn-success': tagBar.code == tags.selection.code}">
+                    <input type="radio" class="hidden" name="optionsTagName" ng-click="changeTag();" ng-model="tags.selection" ng-value="tagBar"/>{{tagBar.label}}
+                </label>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div ng-include="tagContent"></div>
+        </div>
+    </div>
+</div>
+

@@ -66,6 +66,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
         if (!$scope.panelFlag) {
             $scope.attrTplContainerSwitch(true);
         }
+
     });
     $scope.panelFlag = false;//panelFlag属性面板状态
     $scope.outErrorArr = [false, true, true, false];//输出框样式控制
@@ -314,7 +315,6 @@ function appInit() {
         doubleClickZoom: false,
         zoomControl: false
     }).setView([40.012834, 116.476293], 17);
-
     var layerCtrl = new fastmap.uikit.LayerController({config: Application.layersConfig});
     var selectCtrl = new fastmap.uikit.SelectController();
     var outPutCtrl = new fastmap.uikit.OutPutController();

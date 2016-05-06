@@ -10,14 +10,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var adFace = layerCtrl.getLayerById('adface');
-    var rdCross = layerCtrl.getLayerById("rdcross")
+    var rdnode = layerCtrl.getLayerById('referenceNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
-        if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
+        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
 
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -30,7 +29,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         shapeCtrl.stopEditing();
         editLayer.bringToBack();
         $(editLayer.options._div).unbind();
-        $scope.changeBtnClass("");
+        //$scope.changeBtnClass("");
         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
@@ -70,7 +69,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         $scope.$emit("transitCtrlAndTpl", ctrlAndTplParams);
     }
     $scope.selectShape = function (type, num) {
+
         $scope.resetToolAndMap();
+        if (map.floatMenu) {
+            map.removeLayer(map.floatMenu);
+            map.floatMenu = null;
+        }
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         $("#popoverTips").hide();
         $scope.changeBtnClass(num);
@@ -104,11 +108,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: rdLink,
+                currentEditLayer: rdnode,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
-            map.currentTool.snapHandler.addGuideLayer(rdLink);
+            //需要捕捉的图层
+            map.currentTool.snapHandler.addGuideLayer(rdnode);
             $scope.toolTipText = '请选择node！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
@@ -136,35 +141,78 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.enable();
             workPoint.options.selectType = 'tips';
             workPoint.options.editable = true;
-            eventController.on(eventController.eventTypes.GETTIPSID,$scope.selectObjCallback);
-            eventController.on(eventController.eventTypes.GETTIPSID,$scope.selectObjCallback)
+            eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback);
+            eventController.on(eventController.eventTypes.GETTIPSID, $scope.selectObjCallback)
         }
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
-
-    $scope.selectObjCallback = function(data){
+    $scope.selectObjCallback = function (data) {
         var ctrlAndTmplParams = {
             propertyCtrl: "",
             propertyHtml: ""
-        }
-        switch (data.optype){
-            case "RDLINK":
+        }, toolsObj = null;
+        switch (data.optype) {
+            case "LINK":
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-plus'></a>",
+                        'title': "插入形状点",
+                        'type': 'PATHVERTEXINSERT',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-remove'></a>",
+                        'title': "删除形状点",
+                        'type': 'PATHVERTEXREMOVE',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "修改形状点",
+                        'type': 'PATHVERTEXMOVE',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }, {
+                        'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                        'title': "打断link",
+                        'type': 'PATHBREAK',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
                 selectCtrl.onSelected({
                     point: data.point
                 });
-                ctrlAndTmplParams.propertyCtrl='components/road/ctrls/attr_link_ctrl/rdLinkCtrl';
-                ctrlAndTmplParams.propertyHtml="../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
+                ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_link_ctrl/rdLinkCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDLINK", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
-            case "RDNODE":
-                ctrlAndTmplParams.propertyCtrl= 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
-                ctrlAndTmplParams.propertyHtml= "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
+            case "NODE":
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
+                toolsObj = {
+                    items: [{
+                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'title': "移动端点",
+                        'type': "PATHNODEMOVE",
+                        'class': "feaf",
+                        callback: $scope.modifyTools
+                    }]
+                }
+                ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDRESTRICTION':
                 //if (data.restrictionType === 1) {
-                    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
-                    ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
+                ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html";
                 //}
                 //else {
                 //    ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_restriction_ctrl/rdRestriction";
@@ -188,6 +236,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
+                shapeCtrl.editFeatType = 0;
                 ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html";
                 $scope.getFeatDataCallback(data, null, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -288,8 +337,106 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 })
                 break;
         }
+        if (!map.floatMenu && toolsObj) {
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.addLayer(map.floatMenu);
+            map.floatMenu.setVisible(true);
+        }
     }
+    $scope.modifyTools = function (event) {
+        var type = event.currentTarget.type;
+        $scope.$emit("SWITCHCONTAINERSTATE",
+            {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            })
+        $scope.$apply();
+        $("#popoverTips").hide();
+        if (shapeCtrl.getCurrentTool()['options']) {
+            shapeCtrl.stopEditing();
+        }
+        var feature = null;
+        if (map.currentTool) {
+            map.currentTool.disable();
+        }
+        if (shapeCtrl.shapeEditorResult) {
+            if (tooltipsCtrl.getCurrentTooltip()) {
+                tooltipsCtrl.onRemoveTooltip();
+            }
+            if (type === "PATHVERTEXINSERT") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setEditEventType('insertDot');
+                    tooltipsCtrl.setCurrentTooltip('开始插入形状点！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('正要插入形状点,先选择线！');
+                    return;
+                }
+            } else if (type === "PATHVERTEXREMOVE") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setEditEventType('deleteDot');
+                    tooltipsCtrl.setCurrentTooltip('删除此形状点！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
+                    return;
+                }
+            } else if (type === "PATHVERTEXMOVE") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setEditEventType('moveDot');
+                    tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('正要移动形状点先选择线！');
+                    return;
+                }
+            } else if (type === "PATHBREAK") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setEditEventType('pathBreak');
+                    tooltipsCtrl.setCurrentTooltip('开始打断link！');
 
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('正要开始打断link,先选择线！');
+                    return;
+                }
+            } else if (type === "PATHNODEMOVE") {
+                if (selectCtrl.selectedFeatures) {
+                    tooltipsCtrl.setEditEventType('pathNodeMove');
+                    tooltipsCtrl.setCurrentTooltip('开始移动node！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('正要开始移动node,先选择node！');
+                    return;
+                }
+            }
+            if (!selectCtrl.selectedFeatures) {
+                return;
+            }
+            feature = selectCtrl.selectedFeatures.geometry;
+
+            layerCtrl.pushLayerFront('edit');
+            var sObj = shapeCtrl.shapeEditorResult;
+            editLayer.drawGeometry = feature;
+            editLayer.draw(feature, editLayer);
+            sObj.setOriginalGeometry(feature);
+            sObj.setFinalGeometry(feature);
+
+            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+            shapeCtrl.startEditing();
+            map.currentTool = shapeCtrl.getCurrentTool();
+            shapeCtrl.editFeatType = "rdLink";
+            map.currentTool.snapHandler.addGuideLayer(rdLink);
+
+            shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);
+            shapeCtrl.on("stopshapeeditresultfeedback", function () {
+                shapeCtrl.off("startshapeeditresultfeedback", saveOrEsc);
+            });
+            function saveOrEsc(event) {
+                if (event.changeTooltips) {
+                    tooltipsCtrl.setStyleTooltip("color:black;");
+                    tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
+                }
+
+            }
+
+        }
+    };
     $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
         Application.functions.getRdObjectById(id, type, function (data) {
             if (data.errcode === -1) {
