@@ -26,6 +26,7 @@ FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
         if (data["contacts"].length > 0) {
             for (var i = 0 , len = data["contacts"].length ; i < len; i++) {
                 var contact = new FM.dataApi.IxPoiContact(data["contacts"][i]);
+                contact.index = i;
                 this.contacts.push(contact)
             }
         }
