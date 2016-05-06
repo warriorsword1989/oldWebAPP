@@ -6,6 +6,10 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");
     var eventController = fastmap.uikit.EventController();
+    var editLayer = layerCtrl.getLayerById('edit');
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var hLayer = layerCtrl.getLayerById("highlightlayer");
     $scope.flag = true;
     $scope.scenceArr = [
         {"id": 1, "label": "线限速场景", "selected": false},
@@ -104,7 +108,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].options.id === "adLink" || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin") {
+                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin"||$scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = true;
             } else {
                 $scope.items[i].options.visible = false;
@@ -131,8 +135,38 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         }
         $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
     };
-    $scope.showScene = function (item, event) {
 
+    $scope.resetToolAndMap = function () {
+        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+            map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+        }
+        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+        highLightLink._cleanHightlight();
+        if (tooltipsCtrl.getCurrentTooltip()) {
+            tooltipsCtrl.onRemoveTooltip();
+        }
+        editLayer.drawGeometry = null;
+        shapeCtrl.stopEditing();
+        editLayer.bringToBack();
+        $(editLayer.options._div).unbind();
+        //$scope.changeBtnClass("");
+        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+        editLayer.clear();
+    };
+
+    $scope.showScene = function (item, event) {
+        $scope.resetToolAndMap();
+        $scope.$emit("SWITCHCONTAINERSTATE",
+            {
+                "attrContainerTpl": false,
+                "subAttrContainerTpl": false
+            })
+        if (map.floatMenu) {
+            map.removeLayer(map.floatMenu);
+            map.floatMenu = null;
+        }
         for (var scene in $scope.scenceArr) {
             if (item['selected'] != true) {
                 $scope.scenceArr[scene]['selected'] = false

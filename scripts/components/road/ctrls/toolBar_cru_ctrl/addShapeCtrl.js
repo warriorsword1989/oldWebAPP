@@ -396,7 +396,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     })
                 });
             } else if (type === "RDBRANCH") {
-                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH)
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 0;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -703,6 +704,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightFeatures = [],
                     linkDirect = 0;
                 shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 3;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建3D分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -779,7 +781,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     tooltipsCtrl.setEditEventType('upAndDown');
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                    if(! map.floatMenu) {
-                       map.floatMenu=new L.Control.FloatMenu("000", data.event.originalEvent, {
+                       map.floatMenu=new L.Control.FloatMenu(data.id, data.event.originalEvent, {
                            items: [{
                                'text': "<a class='glyphicon glyphicon-apple'></a>",
                                'title': "重新选择线",

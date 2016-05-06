@@ -11,6 +11,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin = layerCtrl.getLayerById("adAdmin");
     var selectCtrl = fastmap.uikit.SelectController();
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
     $scope.isbase=true;
 
     $scope.adminType = [
@@ -50,6 +51,17 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             geometry: points,
             id: $scope.adAdminData.pid
         });
+
+        var highLightFeatures=[];
+        highLightFeatures.push({
+            id:$scope.adAdminData.pid.toString(),
+            layerid:'adAdmin',
+            type:'adadmin',
+            style:{src: '../../images/road/img/heightStar.svg'}
+        })
+        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
+        highLightRender.highLightFeatures = highLightFeatures;
+        highLightRender.drawHighlight();
     };
     if(objCtrl.data){
         $scope.initializeData();
@@ -71,17 +83,13 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
 
-    $scope.clickBasic=function(boolValue){
-        $scope.isbase=boolValue;
-        if($scope.isbase==false){
+    $scope.openTree=function(){
             var showOrdinaryObj={
                 "loadType":"subAttrTplContainer",
                 "propertyCtrl":'components/road/ctrls/attr_administratives_ctrl/adAdminOfLevelCtrl',
                 "propertyHtml":'../../scripts/components/road/tpls/attr_adminstratives_tpl/adAdminOfLevelTpl.html'
             }
             $scope.$emit("transitCtrlAndTpl", showOrdinaryObj);
-        }
-
     }
 
     $scope.save = function(){

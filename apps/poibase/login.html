@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app='login'>
+<html ng-app='loginApp'>
 <head>
     <title>FastMap-POI室内作业系统-登录</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -12,10 +12,12 @@
 
     <script src="../../scripts/uikits/Application.js"></script>
     <script src="../../scripts/libs/angularjs/1.4.4/angular.min.js"></script>
+    <script src="../../scripts/uikits/common/app-util.js"></script>
     <script src="../../scripts/uikits/poibase/loginCtrl.js"></script>
-    <script src="../../scripts/components/poi/drtvs/directives/loginFormDrtvs.js"></script>
+    <script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>
+
 </head>
-<body>
+<body ng-controller="loginCtrl">
 <div id="navibar" class="container-fluid">
     <div class="navbar-header">
         <h1>FastMap <small>室内作业系统</small></h1>

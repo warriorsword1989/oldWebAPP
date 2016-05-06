@@ -88,17 +88,30 @@ fastmap.mapApi.Snap = L.Handler.extend({
         var tilePixcel = new fastmap.mapApi.Point(pixels[0] - tiles[0] * 256, pixels[1] - tiles[1] * 256);
 
         for (var layerindex in this._guides) {
+            this.selectedId = this._guides[layerindex].selectedid;
+
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
             if (this.currentTileData&&this.currentTileData.data&&this.currentTileData.data) {
 
-                var closest = this.closeestLineSnap(this._map, this.currentTileData.data, tilePixcel, 10, this.snapVertex, this._guides[layerindex].selectedid);
+                var closest = null;
+
+                    closest = this.closeestSnap({
+                        tolerance:10,
+                        point:tilePixcel,
+                        data:this.currentTileData.data,
+                        candidateId:this._guides[layerindex].selectedid
+                    })
+
+
                 if (closest) {
                     this.snaped = true;
                     this.properties = closest.properties;
                     this.snapIndex = closest.index;
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
+
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
+
                     break;
                 } else {
                     //this.selectedVertex = closest.selectedVertexe;
@@ -119,113 +132,166 @@ fastmap.mapApi.Snap = L.Handler.extend({
     },
 
 
-    closeestLineSnap: function (map, data, point, tolerance, withVertices, selectedid) {
-        tolerance = typeof tolerance == 'number' ? tolerance : Infinity;
-        withVertices = typeof withVertices == 'boolean' ? withVertices : true;
-         var result = this.closestLine(map, data, point, selectedid);
-        if (!result || result.distance > tolerance)
-            return null;
-        var isSnapVertices = false;
+    /***
+     * 捕捉实现
+     * @param options
+     * @returns {*}
+     */
+    closeestSnap:function(options){
+        //捕捉的阈值
+        var tolerance = typeof options.tolerance == 'number' ? options.tolerance : Infinity;
+        //鼠标在当前瓦片中的坐标
+        var mousePoint = options.point;
+        //当前瓦片中缓存的数据
+        var data = options.data;
+        //捕捉候选id
+        var candidateId = options.candidateId?options.candidateId:null;
 
-        //If snapped layer is linear, try to snap on vertices (extremities and middle points)
-        if (withVertices /**&& typeof result.layer.getLatLngs == 'function'**/) {
-
-            var closest = this.closest(map, result.layer, result.latlng, withVertices);
-            if (closest.distance < tolerance) {
-                result.latlng = closest;
-                result.distance = point.distanceTo(new fastmap.mapApi.Point(closest[0], closest[1]));
-                result.index = closest.index;
-                result.selectedVertexe = true;
-                isSnapVertices = true;
-            }
-        }
-
-        if (!this.snapLine && isSnapVertices == false) {
-            return null;
-        }
-
-        return result;
-    },
-
-    closestLine: function (map, data, point, selectedid) {
         var mindist = Infinity,
             result = null,
-            ll = null,
+            distaceResult = null,
             distance = Infinity;
-
         for (var i = 0, n = data.length; i < n; i++) {
-            if (this.selectedSnap) {
-                if (selectedid == data[i].properties.id) {
-                    var layer = data[i].geometry.coordinates;
 
-                    ll = this.closest(map, layer, point);
-                    if (ll) distance = ll.distance.distance;  // Can return null if layer has no points.
+            var geometry = null;
+            //根据几何类型判断计算距离的方法；点/线；如果用户将三种捕捉全部打开，则优先捕捉node，然后是vertex，最后是line
+            //捕捉线
+            if(this.snapLine && data[i].geometry.type =="LineString"){
+
+                if(this.selectedSnap ==true ){
+                    if(data[i].properties.id ==this.selectedId){
+                        geometry = data[i].geometry.coordinates;
+
+                        distaceResult = this.closest(geometry, mousePoint);
+
+                        if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
+                        if (distance < mindist) {
+                            mindist = distance;
+                            result = {
+                                layer: geometry,
+                                latlng: [distaceResult.x, distaceResult.y],
+                                index: distaceResult.index,
+                                distance: distance,
+                                properties: data[i].properties
+                            };
+                        }
+                    }
+
+                }else{
+                    geometry = data[i].geometry.coordinates;
+
+                    distaceResult = this.closest(geometry, mousePoint);
+
+                    if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
                     if (distance < mindist) {
                         mindist = distance;
                         result = {
-                            layer: layer,
-                            latlng: [ll.x, ll.y],
+                            layer: geometry,
+                            latlng: [distaceResult.x, distaceResult.y],
+                            index: distaceResult.index,
                             distance: distance,
                             properties: data[i].properties
                         };
                     }
                 }
-            } else {
-                var layer = data[i].geometry.coordinates;
 
-                ll = this.closest(map, layer, point);
-                if (ll) distance = ll.distance.distance;  // Can return null if layer has no points.
-                if (distance < mindist) {
-                    mindist = distance;
+            }
+            //捕捉vertex
+            if(this.snapVertex && data[i].geometry.type == 'LineString'){
+
+                if(this.selectedSnap ==true ){
+                    if(data[i].properties.id ==this.selectedId){
+                        geometry = data[i].geometry.coordinates;
+
+                        distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
+                        if (distaceResult.distance < tolerance) {
+
+                            result = {
+                                latlng:[distaceResult.x, distaceResult.y],
+                                distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
+                                index: distaceResult.index,
+                                selectedVertexe:true
+                            }
+
+                        }
+                    }
+                }else{
+                    geometry = data[i].geometry.coordinates;
+
+                    distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
+                    if (distaceResult.distance < tolerance) {
+
+                        result = {
+                            latlng:[distaceResult.x, distaceResult.y],
+                            distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
+                            index: distaceResult.index,
+                            selectedVertexe:true
+                        }
+
+                    }
+                }
+
+
+            }
+
+            //捕捉node
+            if(this.snapNode && data[i].geometry.type =="Point"){
+
+                geometry = data[i].geometry.coordinates;
+
+                distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0],geometry[1]));
+
+                if (distaceResult < mindist) {
+                    mindist = distaceResult;
                     result = {
-                        layer: layer,
-                        latlng: [ll.x, ll.y],
-                        index: ll.index,
-                        distance: distance,
+                        latlng:geometry,
+                        distance: distaceResult,
                         properties: data[i].properties
                     };
                 }
+
             }
 
-
         }
+
+
+        if (!result || result.distance > tolerance)
+            return null;
+
         return result;
     },
 
-    closest: function (map, layer, p, vertices) {
+    /***
+     * 计算点到线的最近距离
+     * @param layer
+     * @param p
+     * @param vertices
+     * @returns {*}
+     */
+    closest: function ( layer, p, vertices) {
         if (typeof layer.getLatLngs != 'function')
 
-            var latlngs = layer,
-                mindist = Infinity,
-                result = null,
-                i, n, distance;
+        var latlngs = layer,
+            mindist = Infinity,
+            result = null,
+            i, n, distance;
 
         // Lookup vertices
         if (vertices) {
+            result = {};
             for (i = 0, n = latlngs.length; i < n; i++) {
-                if (this.snapNode) {
-                    if (i == 0 || i == n - 1) {
-                        var ll = latlngs[i];
-                        var point = new fastmap.mapApi.Point(ll[0], ll[1]);
 
-                        distance = point.distanceTo(new fastmap.mapApi.Point(p[0], p[1]));
-                        if (distance < mindist) {
-                            mindist = distance;
-                            result = ll;
-                            result.distance = distance;
-                            result.index = i;
-                        }
-                    }
-                } else {
-                    var ll = latlngs[i][0];
+                if (i != 0 || i != n - 1) {
+                    var ll = latlngs[i];
                     var point = new fastmap.mapApi.Point(ll[0], ll[1]);
 
-                    distance = point.distanceTo(new fastmap.mapApi.Point(p[0], p[1]));
+                    distance = point.distanceTo(new fastmap.mapApi.Point(p.x, p.y));
                     if (distance < mindist) {
                         mindist = distance;
-                        result = ll;
-                        result.index = i;
+                        result.x = ll[0];
+                        result.y = ll[1];
                         result.distance = distance;
+                        result.index = i;
                     }
                 }
 

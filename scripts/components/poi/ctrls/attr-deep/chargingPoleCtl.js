@@ -1,11 +1,11 @@
 angular.module('app').controller('chargingPoleCtl', function($scope) {
+    var chargeChain = {
+        data:[]
+    };
     $scope.ctrl = {
         open: true,
         btShow: true
     };
-    // $scope.test = function() {
-    //     console.log("parkings");
-    // };
     $scope.changeOpenType = function(event) {
         if (event.target.value == "1") {
             if (event.target.checked) {
@@ -14,6 +14,14 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
                         $scope.charging.openType[key] = false;
                     }
                 }
+            }
+        } else if(event.target.value == "99"){
+            if (event.target.checked) {
+                $scope.charging.openType["1"] = false;
+                $scope.charging.chain = chargeChain;
+            }
+            else {
+                $scope.charging.chain = {};
             }
         } else {
             if (event.target.checked) {
@@ -29,16 +37,26 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
     };
     $scope.charging = $scope.poi.chargingPole[0];
     $scope.initCheckbox($scope.charging.openType, $scope.charging.openType = {});
-    // var test = $scope.poi;
-    // $scope.test();
-    // $scope.$on("loadup", function(event, data) {
-    //     $scope.parkings = data.getSnapShot();
-    //     $scope.parkings = {
-    //         tollStd: "1|2|3",
-    //         buildingType: 4,
-    //     };
-    //     $scope.initCheckbox($scope.parkings.tollStd, $scope.parkings.tollStdObj = {});
-    // });
+    $scope.initCheckbox($scope.charging.plugType, $scope.charging.plugType = {});
+    $scope.initCheckbox($scope.charging.payment, $scope.charging.payment = {});
+    //查询充电桩品牌列表
+    $scope.$on("loaded",function (event, data) {
+        FM.dataApi.ajax.get("charge/row_edit/queryChain/", {
+            kindCode: data.kindCode
+        }, function(data) {
+            if (data.errcode == 0) {
+                for(var i = 0;i<data.data.length;i++){
+                    chargeChain.data.push({
+                        id:data.data[i].chainCode,
+                        text:data.data[i].chainName
+                    });
+                }
+            } else {
+                chargeChain = {};
+            }
+            console.log(chargeChain);
+        });
+    });
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "deepInfo");
     });

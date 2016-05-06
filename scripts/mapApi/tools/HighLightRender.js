@@ -116,7 +116,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
                                 var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
-                                this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
+                                //this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
+                                this.layer._drawPoint({
+                                    boolPixelCrs:true,
+                                    ctx:ctx,
+                                    fillColor:'red',
+                                    radius:3,
+                                    geom:geo
+                                })
                             }
                             else if (this.highLightFeatures[item].type == 'speedlimit') {
 
@@ -150,6 +157,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
+                            }else if(this.highLightFeatures[item].type == 'adadmin'){
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx );
                             }
                             break;
                         }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
@@ -158,7 +168,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
                             };
                             var geoOfSNode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
-                            this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
+                            //this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
+                            this.layer._drawPoint({
+                                boolPixelCrs:true,
+                                ctx:ctxOfSNode,
+                                fillColor:'yellow',
+                                radius:3,
+                                geom:geoOfSNode
+                            })
                             break;
                         }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
                             var ctxOfENode = {
@@ -167,7 +184,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             };
                             var len = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates.length - 1;
                             var geoOfENode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[len];
-                            this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
+                            //this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
+                            this.layer._drawPoint({
+                                boolPixelCrs:true,
+                                ctx:ctxOfENode,
+                                fillColor:'yellow',
+                                radius:3,
+                                geom:geoOfENode
+                            })
                             break;
                         }
                     }
@@ -396,6 +420,26 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 color: '#696969',
                 radius: 3
             }, feature.properties);
+        }
+
+    },
+    drawAdAdmin: function (id, feature, ctx) {
+        if (feature.properties.id == id) {
+            if (feature.properties.id === undefined) {
+                return;
+            }
+                var geo = feature.geometry.coordinates;
+                this.layer._drawImg({
+                    ctx: ctx,
+                    geo: geo,
+                    boolPixelCrs: true,
+                    style: {src: '../../images/road/img/heightStar.svg'},
+                    drawx: "",
+                    drawy: "",
+                    scalex: 1,
+                    scaley: 1
+
+                })
         }
 
     },

@@ -6,7 +6,7 @@ html, body {
     font-family: "Microsoft Yahei", Verdana, Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
-/******************************************µ¼º½**************************************************/
+/******************************************å¯¼èˆª**************************************************/
 
 #navibar {
     background-color: #AEAEAE;
@@ -18,24 +18,27 @@ html, body {
 #navibar div.navbar-header h1>small {
     color: #FFF;
 }
-/*******************************************µÇÂ½¿ò*****************************************************/
-
-.login_ui {
+/*******************************************ç™»é™†æ¡†*****************************************************/
+.company-logo{
+    background: url('../../images/poi/main/navi_logo.png') 0 10px;
+    background-repeat: no-repeat
+}
+.login {
     position: absolute;
     width: 300px;
 }
-.login_ui .company-logo {
+.login .company-logo {
     height: 60px;
     padding: 10px 0px;
 }
-.login_ui input{
+.login input{
     max-width: 300px
 }
-.login_ui button{
+.login button{
     max-width: 300px
 }
 
-/*****************************************µ×²¿**************************************************/
+/*****************************************åº•éƒ¨**************************************************/
 
 footer.bs-docs-footer {
     position: fixed;
