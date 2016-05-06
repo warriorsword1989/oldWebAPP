@@ -2,7 +2,7 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
     this.getPoiDetailByFid = function(fid) {
         var defer = $q.defer();
         var params = {
-            "projectId": 6,
+            "projectId": 2016013086,
             "condition": {
                 "fid": fid
             },
