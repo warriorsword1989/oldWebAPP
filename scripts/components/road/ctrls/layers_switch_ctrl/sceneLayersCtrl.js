@@ -108,7 +108,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].options.id === "adLink" || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin") {
+                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin"||$scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = true;
             } else {
                 $scope.items[i].options.visible = false;
