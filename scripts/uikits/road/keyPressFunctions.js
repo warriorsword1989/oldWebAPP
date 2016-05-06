@@ -191,6 +191,7 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         if(param["type"]==="RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
+                            layerCtrl.getLayerById("referenceNode").redraw();
                         }else if(param["type"]==="ADLINK") {
                             layerCtrl.getLayerById("adLink").redraw();
                         }
@@ -328,6 +329,7 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         if(param["type"] === "RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
+                            layerCtrl.getLayerById("referenceNode").redraw();
                         }else{
                             layerCtrl.getLayerById("adLink").redraw();
                         }
