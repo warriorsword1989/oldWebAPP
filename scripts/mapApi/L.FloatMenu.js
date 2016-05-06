@@ -29,7 +29,7 @@ L.Control.FloatMenu = L.Class.extend({
 
         // add a viewreset event listener for updating layer's position, do the latter
         map.on('viewreset', this._reset, this);
-        //this._reset();
+        this._reset();
 
     },
 
@@ -41,14 +41,14 @@ L.Control.FloatMenu = L.Class.extend({
     setVisible:function(flag){
         var buttons=$(".floatMenu>li");
         this.visible=flag;
-        var r=100,n= 5;
+        var r=50,n= 5;
         if(flag){
             $(".floatMenu").show();
             setTimeout(function(){
                 for(var i= 0,len=buttons.length;i<len;i++){
-                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'1s')
+                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'0.5s')
                 }
-            },100)
+            },10)
 
         }
         else{
@@ -71,8 +71,8 @@ L.Control.FloatMenu = L.Class.extend({
         var stop = L.DomEvent.stopPropagation;
         if(fn){
             L.DomEvent
-                .on(link, 'click', L.DomEvent.stopPropagation)
-                .on(link, 'mousedown', L.DomEvent.stopPropagation)
+                .on(link, 'click',stop)
+                .on(link, 'mousedown',stop)
                 .on(link, 'click', L.DomEvent.preventDefault)
                 .on(link, 'click', fn, context)
         }

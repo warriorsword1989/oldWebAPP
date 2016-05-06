@@ -8,12 +8,19 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var eventController = fastmap.uikit.EventController();
     $scope.flag = true;
     $scope.scenceArr = [
-        {"id": 1, "label": "普通限速", "selected": false},
+        {"id": 1, "label": "线限速场景", "selected": false},
         {"id": 2, "label": "条件限速", "selected": false},
-        {"id": 3, "label": "互联网Rtic", "selected": false},
-        {"id": 4, "label": "行政区划", "selected": false},
+        {"id": 3, "label": "互联网RTIC场景", "selected": false},
+        {"id": 4, "label": "行政区划场景", "selected": false},
         {"id": 5, "label": "复杂要素", "selected": false},
         {"id": 6, "label": "常规场景", "selected": false},
+        {"id": 7, "label": "车场RTIC场景", "selected": false},
+        {"id": 8, "label": "TMC", "selected": false},
+        {"id": 9, "label": "自然语音场景", "selected": false},
+        {"id": 10, "label": "13cy-HW场景", "selected": false},
+        {"id": 11, "label": "NBT高速出入口场景", "selected": false},
+        {"id": 12, "label": "CRF场景", "selected": false},
+        {"id": 13, "label": "同一关系场景", "selected": false}
     ]
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
@@ -83,7 +90,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     $scope.rticSecne = function () {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
-            if ($scope.items[i].options.id === "rdrtic" || $scope.items[i].options.id === "referenceLine") {
+            if ($scope.items[i].options.id === "rdrtic" || $scope.items[i].options.id === "referenceLine" ||  $scope.items[i].options.id ==="rdcross") {
                 $scope.items[i].options.visible = true;
             } else {
                 $scope.items[i].options.visible = false;

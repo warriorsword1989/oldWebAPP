@@ -1,10 +1,12 @@
 /**
  * Created by liwanchong on 2015/10/10.
  */
-var errorCheckModule = angular.module('lazymodule', ['smart-table']);
-errorCheckModule.controller('errorCheckPageController', function ($scope, $timeout) {
-    var checkResultC=fastmap.uikit.CheckResultController();
+var errorCheckModule = angular.module('lazymodule', []);
+errorCheckModule.controller('errorCheckPageController', function ($scope) {
+    var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
+    $scope.itemsByPage = 1;
+    $scope.meshesId = [595671,595672,595673,595674,605603];
     //获取检查错误
     $scope.getCheckDate = function () {
         var param = {
@@ -17,9 +19,9 @@ errorCheckModule.controller('errorCheckPageController', function ($scope, $timeo
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
                 var errorCheckObj = {
-                    "loadType":"errorCheckTab",
-                    "propertyCtrl":'components/road/ctrls/log_show_ctrl/errorCheckCtrl',
-                    "propertyHtml":'../../scripts/components/road/tpls/log_show_tpl/errorCheckTpl.html'
+                    "loadType": "errorCheckTab",
+                    "propertyCtrl": 'components/road/ctrls/log_show_ctrl/errorCheckCtrl',
+                    "propertyHtml": '../../scripts/components/road/tpls/log_show_tpl/errorCheckTpl.html'
                 };
                 $scope.$emit("transitCtrlAndTpl", errorCheckObj);
                 $scope.goPaging();
@@ -39,14 +41,14 @@ errorCheckModule.controller('errorCheckPageController', function ($scope, $timeo
             if (data.errcode == 0) {
                 $scope.checkTotalPage = Math.ceil(data.data / 5);
                 $scope.checkTotal = data.data;
+                $scope.getCheckDate();
             }
         });
-        $scope.getCheckDate();
     }
 
-    eventController.on('editAjaxCompleted',$scope.getCheckDateAndCount);
+    eventController.on('editAjaxCompleted', $scope.getCheckDateAndCount);
 
-    if($scope.itemsByPage===1){
+    if ($scope.itemsByPage === 1) {
         $scope.getCheckDateAndCount();
     }
 
@@ -82,7 +84,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope, $timeo
     }
 
 
-    $scope.refCheck=function(){
+    $scope.refCheck = function () {
         $scope.getCheckDateAndCount();
     }
 

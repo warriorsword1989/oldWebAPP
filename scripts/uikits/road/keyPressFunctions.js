@@ -47,6 +47,10 @@ function keyEvent(ocLazyLoad, scope) {
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
                 }
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 editLayer.drawGeometry = null;
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
@@ -64,6 +68,7 @@ function keyEvent(ocLazyLoad, scope) {
                 //结束编辑状态
                 shapeCtrl.stopEditing();
                 if (data.errcode == 0) {
+
                     var sInfo = {
                         "op": op,
                         "type": "",
@@ -434,7 +439,9 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功", 'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
                 }
-
+                else if(shapeCtrl.editType === "upAndDown"){
+                   alert(11);
+                }
             }
         });
 }

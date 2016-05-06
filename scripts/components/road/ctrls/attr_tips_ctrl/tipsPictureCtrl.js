@@ -19,23 +19,34 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
         }
         return num;
     };
+    /*图片加载完毕执行回调*/
+    var imgLoad = function (url,callback) {
+        var img = new Image();
+        img.src = url;
+        if (img.complete) {
+            callback();
+        } else {
+            img.onload = function () {
+                img.onload = null;
+                callback();
+            };
+        };
+    };
     $scope.openOrigin = function (id) {
-        if ( $scope.picData&&  id<= $scope.picData.length - 1) {
+        if ( $scope.picData && id <= $scope.picData.length - 1) {
             $scope.photoId =  id;
-            $scope.openshotoorigin =   $scope.picData[id];
+            $scope.openshotoorigin =  $scope.picData[id];
             $scope.imgPageNow =  id + 1;
+            $scope.showLoading = true;
             var originImg = $("#dataTipsOriginImg");
             originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
-            $("#dataTipsOriginImg").bind('load',function(){
-                originImg.hide();
-                originImg.smartZoom('destroy');
-                if($(".zoomableContainer").length == 0){
-                    $("#dataTipsOriginModal").width(parseInt($("#mainContent").width())-244);
-                    originImg.smartZoom({'containerClass':'zoomableContainer'});
-                }
-                $("#dataTipsOriginModal").show();
-                originImg.show();
-            })
+            //加载完显示图片,
+            // var imgUrl = originImg.attr('src');
+            /*imgLoad(imgUrl,function(){
+                $scope.showLoading = false;
+            });*/
+            originImg.smartZoom({'containerClass':'zoomableContainer'});
+            document.getElementById("dataTipsOriginModal").style.display = 'block';
         }
     }
     if (selectCtrl.rowKey) {
@@ -64,7 +75,7 @@ tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $
     $scope.closePicContainer=function() {
         selectCtrl.rowKey["pictureId"] = null;
         $("#dataTipsOriginModal").hide();
-        $("#dataTipsOriginImg").hide();
+        // $("#dataTipsOriginImg").hide();
     };
 
    $scope.$on("TRANSITTIPSPICTURE",function(event,data) {

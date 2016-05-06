@@ -1,0 +1,53 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    min-width: 400px;
+    font-family: "Microsoft Yahei", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+/******************************************导航**************************************************/
+
+#navibar {
+    background-color: #AEAEAE;
+    color: white;
+}
+#navibar div.navbar-header h1 {
+    color: #FFF;
+}
+#navibar div.navbar-header h1>small {
+    color: #FFF;
+}
+/*******************************************登陆框*****************************************************/
+.company-logo{
+    background: url('../../images/poi/main/navi_logo.png') 0 10px;
+    background-repeat: no-repeat
+}
+.login {
+    position: absolute;
+    width: 300px;
+}
+.login .company-logo {
+    height: 60px;
+    padding: 10px 0px;
+}
+.login input{
+    max-width: 300px
+}
+.login button{
+    max-width: 300px
+}
+
+/*****************************************底部**************************************************/
+
+footer.bs-docs-footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    color: #444;
+    padding: 10px;
+    text-align: center;
+    background-color: #AEAEAE;
+}
+

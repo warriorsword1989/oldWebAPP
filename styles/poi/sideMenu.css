@@ -1,0 +1,87 @@
+.side-menu {
+    border: 1px solid #ddd;
+    padding: 0px 0px;
+    font-size: 14px;
+    color: #333;
+}
+.side-menu a {
+    display: block;
+    overflow: hidden;
+    width: auto;
+    color: #555;
+    /*text-overflow: ellipsis;*/
+    white-space: nowrap;
+    word-wrap: normal;
+    text-decoration: none;
+}
+.side-menu .menu-title {
+    height: 40px;
+    line-height: 40px;
+    background-color: #bbb;
+    padding: 0px 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.side-menu .menu-title > a {
+    color: #777;
+}
+.side-menu .menu-title > a:hover {
+    color: #333;
+}
+.side-menu dl.menu-block {
+    margin: 0px;
+    padding: 8px 0px;
+    border-top: 1px solid #ddd;
+}
+.menu-block:first-child {
+    border-top: 0px !important;
+}
+.menu-block > dt > a {
+    padding: 8px 26px;
+}
+.menu-block > dd > a {
+    padding: 8px 60px;
+}
+.menu-block a:hover {
+    background-color: #ddd;
+}
+.menu-block .active > a {
+    background-color: #44B549;
+    color: white;
+}
+.menu-block dt.menu-label {
+    padding: 6px 26px;
+}
+.menu-block .disabled {
+    color: #999;
+}
+.menu-block dt.disabled {
+    padding: 14px 26px;
+}
+.menu-block dd.disabled {
+    padding: 6px 60px;
+}
+.menu-block i {
+    margin: 0px 7px;
+}
+.mini-menu-bar {
+    left: 0px;
+    top: 113px;
+    z-index: 999;
+    position: absolute;
+    width: 20px;
+    background-color: #bbb;
+    padding: 5px 2px;
+    border-radius: 0px 5px 5px 0px;
+    display: none;
+}
+.mini-menu-bar a {
+    display: block;
+    width: auto;
+    color: #777;
+    text-decoration: none;
+    font-weight: bold;
+}
+.mini-menu-bar a:hover {
+    color: #333;
+}
