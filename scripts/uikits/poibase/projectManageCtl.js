@@ -2,6 +2,26 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
 	$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
         $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
     });
-	
+	$scope.isActive = 'common';
+	$scope.menuChange = function(menuName){
+		switch(menuName){
+			case 'common':
+				$ocll.load('').then(function(){
+                    $scope.commonProject = '';
+                });
+                break;
+			case 'agent': 
+				$ocll.load('').then(function(){
+                    $scope.agentProject = '';
+                });
+                break;
+			case 'spec':
+				$ocll.load('').then(function(){
+                    $scope.specialProject = '';
+                });
+                break; 
+		}
+		$scope.isActive = menuName;
+	}
 
 }]);
