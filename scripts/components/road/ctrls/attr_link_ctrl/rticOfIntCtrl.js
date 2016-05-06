@@ -8,7 +8,11 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     $scope.realtimeData = objCtrl.data;
 
-
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.ordinaryRticForm.$setPristine();
+        });
+    }
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
         {"id": 1,"label":"顺方向"},

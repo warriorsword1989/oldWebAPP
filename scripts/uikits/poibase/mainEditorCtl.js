@@ -13,7 +13,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $scope.poiList = data;
     }));
     $scope.test = function() {
-        console.log("main test");
+        // console.log("main test");
         poi.test();
     };
     $q.all(promises).then(function() {
@@ -22,12 +22,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $scope.$on('$includeContentLoaded', function($event) {
                 $scope.$broadcast("loadup", $scope.poi);
             });
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
+            distinguishResult($scope.poi);
+            /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
                     $scope.$broadcast("loadup", $scope.poi);
                 });
-            });
+            });*/
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
@@ -36,6 +37,82 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             });
         });
     });
+    var resultAllData = [],
+        editHistoryData = [],
+        checkResultData = [],
+        confusionInfoData = [],
+        checkRuleObj = {};
+    var distinguishResult = function(data){
+        /*由于没有数据，这是假数据，有正式数据后放开后面的注释*/
+        resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
+        resultAllData[1] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Win-01-02", "errorMsg": "重新确认成果中的设施名称是否正确", "fields": ["name"]});
+        resultAllData[2] = new FM.dataApi.IxCheckResult({"errorCode": "FM-YW-20-215", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
+        // editHistoryData[0] = new FM.dataApi.IxEditHistory({"mergeDate": "20160112145422","sourceName": "Android","sourceProject": "2015111243","sourceTask": "","validationMethod": 1, "mergeContents": [{"newValue": "{\"attachments\": [{\"url\": \"2015111243/20160112/365520160112145410.jpg\", \"tag\": 3, \"type\": 1}]}", "oldValue": "{\"attachments\": []}"},{ "newValue": "{\"lifecycle\": 2}","oldValue": "{\"lifecycle\": 0}"},{"newValue": "{\"brands\": [{\"code\": \"4012\"}]}","oldValue": "{\"brands\": []}"},{"newValue": "{\"indoor\": {\"open\": 1, \"type\": 3, \"floor\": null}}","oldValue": "{\"indoor\": {\"open\": 1, \"type\": 0, \"floor\": null}}"},{"newValue": "{\"level\": \"B1\"}","oldValue": "{\"level\": \"B3\"}"},{"newValue": "{\"postCode\": \"235566\"}","oldValue": "{\"postCode\": null}"}],"operator": {"role": 0,"user": 3655},"operation": 2});
+        // resultAllData = data.checkResults;
+        editHistoryData = data.editHistory;
+        for(var i=0,len=resultAllData.length;i<len;i++){
+            if(resultAllData[i].errorCode == 'FM-YW-20-215' || resultAllData[i].errorCode == 'FM-YW-20-216'){
+                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
+                confusionInfoData.push(resultAllData[i]);
+            }else{
+                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
+                checkResultData.push(resultAllData[i])
+            }
+        }
+    }
+
+    /*切换tag按钮*/
+    $scope.changeTag = function(tagName){
+        switch(tagName) {
+            case 'checkResult':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('checkResultData',checkResultData);
+                    });
+                });
+                break;
+            case 'confusionInfo':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/ConfusionResultCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('confusionInfoData',confusionInfoData);
+                    });
+                });
+                break;
+            case 'editHistory':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/EditHistoryCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('editHistoryData',editHistoryData);
+                    });
+                });
+                break;
+            case 'fileUpload':
+                $scope.tagContentTpl = '';
+                break;
+            case 'remarks':
+                $scope.tagContentTpl = '';
+                break;
+            default:
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                });
+                break;
+        }
+    };
+    /*所有初始化执行方法放在此*/
+    $scope.initializeData = function(){
+        /*获取检查规则*/
+        FM.dataApi.CheckRule.getList(function(data){
+            for(var i=0,len=data.length;i<data.length;i++){
+                checkRuleObj[data[i].ruleId] = data[i].severity;
+            }
+        })
+        $scope.tagSelect = 'checkResult';
+        $scope.changeTag('checkResult');
+    }
+    $scope.initializeData();
     $scope.nextPoi = function() {
         ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
             $scope.poi = data;
@@ -47,7 +124,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     };
 
     function realSave(evt, data) {
-        console.log(data);
+        // console.log(data);
         $scope.test();
     };
 
@@ -146,9 +223,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             vh = document.getElementsByTagName("body")[0].clientHeight;
         }
         var h = vh - elem.offsetTop - 56;
-        console.log("window height:" + vh);
-        console.log("elem.offsetTop:" + elem.offsetTop);
-        console.log("elem.scrollHeight:" + elem.scrollHeight);
         if (h > 0) {
             if (h < elem.scrollHeight) {
                 elem.style.height = h + "px";

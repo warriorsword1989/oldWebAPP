@@ -27,7 +27,9 @@ requirejs.config({
         'uitree':'libs/ui-tree/angular-ui-tree',
         'uibootstrap':'libs/ui-tree/ui-bootstrap-tpls',
         'jqmin':'libs/jquery/2.1.1/jquery-2.1.1.min',
-        'z-tree':'libs/z-tree/jquery.ztree.all'
+        'z-tree':'libs/z-tree/jquery.ztree.all',
+        //'z-treeexcheck':'libs/z-tree/jquery.ztree.excheck',
+        //'z-treeexedit':'libs/z-tree/jquery.ztree.exedit'
     },
     shim: {
         'bootstrap':['jquery'],
@@ -48,6 +50,8 @@ requirejs.config({
         'uitree':['angular'],
         'uibootstrap':['angular'],
         'z-tree':['jquery'],
+        //'z-treeexcheck':['jquery'],
+        //'z-treeexedit':['jquery'],
         'appMain': ['ocLazyLoad','ngLayout','bootstrap', 'application','layers','applicationfuns','keyPressFunctions','bootspopover','bootstrapDatepicker','bootstrapDatepickerCN','timepicki','sweet-alert','poi-msg','e-smart-zoom','angular-route','uitree','uibootstrap','jqmin','z-tree']
     }
 });

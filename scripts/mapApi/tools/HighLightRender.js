@@ -157,9 +157,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
-                            }else if(this.highLightFeatures[item].type == 'adadmin'){
-                                var feature = this.currentEditLayer.tiles[tile].data[feature];
-                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx );
                             }
                             break;
                         }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
@@ -420,26 +417,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 color: '#696969',
                 radius: 3
             }, feature.properties);
-        }
-
-    },
-    drawAdAdmin: function (id, feature, ctx) {
-        if (feature.properties.id == id) {
-            if (feature.properties.id === undefined) {
-                return;
-            }
-                var geo = feature.geometry.coordinates;
-                this.layer._drawImg({
-                    ctx: ctx,
-                    geo: geo,
-                    boolPixelCrs: true,
-                    style: {src: '../../images/road/img/heightStar.svg'},
-                    drawx: "",
-                    drawy: "",
-                    scalex: 1,
-                    scaley: 1
-
-                })
         }
 
     },

@@ -122,6 +122,12 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     ];
 
     $scope.initOtherData = function(){
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.basicFrom.$setPristine();
+            });
+
+        }
         $scope.linkData = objectEditCtrl.data;
         $scope.newFromOfWRoadDate = [];
         if($scope.linkData.forms.length>0){
