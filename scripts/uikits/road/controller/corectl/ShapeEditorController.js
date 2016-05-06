@@ -39,6 +39,7 @@ fastmap.uikit.ShapeEditorController=(function() {
              */
             setMap:function(map){
                 this.map = map;
+                this.toolsObjFac  = fastmap.mapApi.ShapeEditorFactory({shapeEditor:this});
             },
 
             /***
@@ -120,8 +121,7 @@ fastmap.uikit.ShapeEditorController=(function() {
              */
             _tools: function (type) {
                 this.currentTool = null;
-                var toolsObj  = fastmap.mapApi.shapeeditorfactory({shapeEditor:this}).toolObjs;
-                this.currentTool = toolsObj[type];
+                this.currentTool =this.toolsObjFac.toolObjs[type];
                 this.currentTool.enable();
             }
         });
