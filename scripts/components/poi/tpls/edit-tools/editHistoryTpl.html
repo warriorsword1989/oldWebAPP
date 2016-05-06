@@ -11,12 +11,12 @@
             <tr ng-if="checkResult.length == 0" class="no-records-found">
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
-            <tr ng-repeat="item in checkResult">
-                <td>{{item.id}}</td>
-                <td>{{item.code}}</td>
-                <td>{{item.err}}</td>
+            <tr ng-repeat="item in editHistory">
+                <td>{{$index + 1}}</td>
+                <td>{{item.operator.user}}</td>
+                <td>{{item.mergeDate}}</td>
                 <td>{{item.operate}}</td>
-                <td>{{item.poi}}</td>
+                <td>{{item.sourceName}}</td>
             </tr>
         </tbody>
     </table>
