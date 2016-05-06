@@ -10,6 +10,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var rdnode = layerCtrl.getLayerById('referenceNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.flagId = 0;
@@ -106,11 +107,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: rdLink,
+                currentEditLayer: rdnode,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
-            map.currentTool.snapHandler.addGuideLayer(rdLink);
+            //需要捕捉的图层
+            map.currentTool.snapHandler.addGuideLayer(rdnode);
             $scope.toolTipText = '请选择node！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);

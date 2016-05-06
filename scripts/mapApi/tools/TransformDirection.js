@@ -11,8 +11,8 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
-        this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry().flag;
-        this.type=this.shapeEditor.shapeEditorResult.getFinalGeometry().type;
+        this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry()?this.shapeEditor.shapeEditorResult.getFinalGeometry().flag:null;
+        this.type=this.shapeEditor.shapeEditorResult.getFinalGeometry()?this.shapeEditor.shapeEditorResult.getFinalGeometry().type:null;
         this.angle = this.shapeEditor.angle;
         this.sign = 0;
     },

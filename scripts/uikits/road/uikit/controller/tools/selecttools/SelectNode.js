@@ -32,7 +32,7 @@ fastmap.uikit.SelectNode = L.Handler.extend({
             shapeEditor:this.shapeEditor,
             snapLine:false,
             snapNode:true,
-            snapVertex:true
+            snapVertex:false
         });
         this.snapHandler.enable();
         //this.floatVisible=false;
@@ -115,27 +115,17 @@ fastmap.uikit.SelectNode = L.Handler.extend({
         var data = this.tiles[tilePoint[0] + ":" + tilePoint[1]].data;
 
         for (var item in data) {
-            var touchIds = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
-            if (touchIds.length) {
+            var touched = this._TouchesNodePoint(data[item].geometry.coordinates, x, y, 5)
+            if (touched) {
                 var id = data[item].properties.id;
+                    this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
+                        id: id,
+                        optype:"RDNODE",
+                        event:event
+                    })
+                    this.selectCtrl.selectedFeatures =id;
+                    break;
 
-                if (touchIds[0] == 0) {
-                    this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
-                        id: data[item].properties.snode,
-                        optype:"RDNODE",
-                        event:event
-                    })
-                    this.selectCtrl.selectedFeatures =data[item].properties.snode;
-                    break;
-                } else {
-                    this.eventController.fire(this.eventController.eventTypes.GETNODEID, {
-                        id: data[item].properties.enode,
-                        optype:"RDNODE",
-                        event:event
-                    })
-                    this.selectCtrl.selectedFeatures =data[item].properties.enode;
-                    break;
-                }
             }
         }
     },
@@ -184,14 +174,12 @@ fastmap.uikit.SelectNode = L.Handler.extend({
     _TouchesNodePoint: function (d, x, y, r) {
         var touched = false;
         for (var i = 0, len = d.length; i < len; i++) {
-            if (i == 0 || i == len - 1) {
-                var dx = x - d[i][0];
-                var dy = y - d[i][1];
-                if ((dx * dx + dy * dy) <= r * r) {
-                    return [i];
-                }
+            var dx = x - d[0];
+            var dy = y - d[1];
+            if ((dx * dx + dy * dy) <= r * r) {
+                touched =true;
             }
         }
-        return [];
+        return touched;
     }
 });
