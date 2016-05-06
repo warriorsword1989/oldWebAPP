@@ -48,23 +48,7 @@
                 </div>
                 <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-container">
                     <div class="tab-content">
-                        <!-- 常规项目 -->
-                        <div id="commonProject" class="tab-pane content-box" ng-include="commonProject">
-                        </div>
-                        <!-- 代理店项目 -->
-                        <div id="agentProject"  class="tab-pane content-box" ng-include="agentProject">
-
-                        </div>
-                        <!-- 专项作业项目 -->
-                        <div id="specialProject"  class="tab-pane content-box" ng-include="specialProject">
-                        
-                        </div>
-                        <div id="userProfile" class="tab-pane content-box" style="width:100%">
-                            
-                        </div>
-                        <div id="userMessage" class="tab-pane content-box" style="width:100%">
-                            
-                        </div>
+                        <div class="content-box" ng-include="tagContent" style="width:100%">
                     </div>
                 </div>
             </div>
