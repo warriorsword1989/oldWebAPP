@@ -264,7 +264,20 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
 
             if (type === "RDRESTRICTION") {
-                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION)
+                $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": true})
+                var obj = {};
+                obj["showTransitData"] = []
+                obj["showAdditionalData"] = [];
+                obj["showNormalData"] = [];
+                obj["inLaneInfoArr"] = [];
+                objCtrl.setOriginalData(obj);
+                var addLaneObj = {
+                    "loadType": "attrTplContainer",
+                    "propertyCtrl": 'components/road/ctrls/toolBar_cru_ctrl/addRestrictionCtrl/addRdrestrictionCtrl',
+                    "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
+                }
+                $scope.$emit("transitCtrlAndTpl", addLaneObj);
+              /*  shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION)
                 tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION);
                 tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -289,8 +302,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
-                })
-
+                })*/
             }
             else if (type === "RDLINK") {
                 if (shapeCtrl.shapeEditorResult) {
