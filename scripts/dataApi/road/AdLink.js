@@ -23,7 +23,11 @@ fastmap.dataApi.AdLink = fastmap.dataApi.GeoDataModel.extend({
         this.length = data["length"] || 0;
         this.scale = data["scale"] || 0;
         this.editFlag = data["editFlag"] || 1;
-        this.meshId = data["mesh"] || 0;
+        var str = [];
+        for (var i = 0; i<data.meshes.length;i++) {
+            str.push(data.meshes[i].meshId)
+        }
+        this.meshId = str.join(',');
     },
 
     /*
