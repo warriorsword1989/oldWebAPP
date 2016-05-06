@@ -1,5 +1,11 @@
 /**
- * Created by Administrator on 2016/5/4.
+ * Created by linglong on 2016/5/4.
+ *
+ * 该登录表单支持三种前台报错的方式：
+ * valid_type == 1 在不合法是输入框标红;
+ * valid_type == 2 在不合法时输入框标红并提示错误信息;
+ * valid_type == 3 在提交时统一显示错误信息;
+
  */
 angular.module('fastmap.uikit').directive('loginForm', function() {
     return {
@@ -8,7 +14,7 @@ angular.module('fastmap.uikit').directive('loginForm', function() {
         templateUrl: '../../scripts/components/directives/loginForm/loginForm.htm',
         controller: function($scope, $element) {
             $scope.handleEvent = function(){
-                $scope.$emit("startLogin",'rowEditor');
+                $scope.$emit("startLogin");
             }
         },
         link: function(scope, element, attrs){

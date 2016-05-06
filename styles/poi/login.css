@@ -23,18 +23,18 @@ html, body {
     background: url('../../images/poi/main/navi_logo.png') 0 10px;
     background-repeat: no-repeat
 }
-.login_ui {
+.login {
     position: absolute;
     width: 300px;
 }
-.login_ui .company-logo {
+.login .company-logo {
     height: 60px;
     padding: 10px 0px;
 }
-.login_ui input{
+.login input{
     max-width: 300px
 }
-.login_ui button{
+.login button{
     max-width: 300px
 }
 
