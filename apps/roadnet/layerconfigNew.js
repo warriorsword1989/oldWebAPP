@@ -975,7 +975,7 @@ function transformData(data) {
 
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
-                        iconName: '../../images/road/img/star.png',
+                        iconName: '../../images/road/img/star.svg',
                         row: 0,
                         column: 1,
                         location: obj['geometry']['coordinates']
