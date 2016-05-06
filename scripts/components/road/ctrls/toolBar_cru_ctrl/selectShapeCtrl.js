@@ -335,7 +335,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
         }
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu(data.id, data.event.originalEvent, toolsObj)
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }

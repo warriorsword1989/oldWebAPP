@@ -767,7 +767,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     tooltipsCtrl.setEditEventType('upAndDown');
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                    if(! map.floatMenu) {
-                       map.floatMenu=new L.Control.FloatMenu("000", data.event.originalEvent, {
+                       map.floatMenu=new L.Control.FloatMenu(data.id, data.event.originalEvent, {
                            items: [{
                                'text': "<a class='glyphicon glyphicon-apple'></a>",
                                'title': "重新选择线",

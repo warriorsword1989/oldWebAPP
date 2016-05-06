@@ -311,7 +311,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
         }
         $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu(data.id, data.event.originalEvent, toolsObj)
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
