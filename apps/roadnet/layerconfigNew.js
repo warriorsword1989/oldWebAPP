@@ -190,7 +190,7 @@ Application.layersConfig =
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDBRANCH'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
-                    layername: '高速分歧',
+                    layername: '分歧',
                     id: 'highSpeedDivergence',
                     maxZoom: 20,
 
@@ -1034,7 +1034,7 @@ function transformData(data) {
                 obj['properties']['snode'] = item.m.a;
                 obj['properties']['enode'] = item.m.b;
                 obj['properties']['style']['strokeColor'] = '#FBD356';
-                obj['properties']['style']['strokeWidth'] = 1;
+                obj['properties']['style']['strokeWidth'] = 3;
                 obj['properties']['style']['strokeOpacity'] = 1;
 
                 break;
