@@ -130,7 +130,7 @@ Application.layersConfig =
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDBRANCH'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
-                    layername: '高速分歧',
+                    layername: '分歧',
                     id: 'highSpeedDivergence',
                     maxZoom: 20,
 
