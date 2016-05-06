@@ -127,37 +127,7 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
         },
-
-            {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'ADFACE'),
-
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划面',
-                    id: 'adface',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 5,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'Polygon',
-                    zIndex: 0,
-                    restrictZoom: 10,
-                    editable: false,
-                    visible: false,
-                    requestType: 'ADFACE',
-                    showNodeLevel: 17
-                }
-
-            }, {
+        {
 
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDRESTRICTION'),
 
