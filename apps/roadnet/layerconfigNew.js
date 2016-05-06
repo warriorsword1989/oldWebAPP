@@ -127,37 +127,7 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
         },
-
-            {
-
-                url: createUrl('/render/obj/getByTileWithGap?', 'ADFACE'),
-
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '行政区划面',
-                    id: 'adface',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 5,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'Polygon',
-                    zIndex: 0,
-                    restrictZoom: 10,
-                    editable: false,
-                    visible: false,
-                    requestType: 'ADFACE',
-                    showNodeLevel: 17
-                }
-
-            }, {
+        {
 
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDRESTRICTION'),
 
@@ -190,7 +160,7 @@ Application.layersConfig =
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDBRANCH'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
-                    layername: '高速分歧',
+                    layername: '分歧',
                     id: 'highSpeedDivergence',
                     maxZoom: 20,
 
@@ -889,11 +859,15 @@ function transformData(data) {
 
 
                 featArr.pop();
-                for (var key in item.m.a) {
 
+                for (var key in item.m.a) {
+                    var count =0;
                     for (var j in item.m.a[key].ids) {
+                        
+                        var obj = {};
                         obj['geometry'] = {};
-                        obj['geometry']['coordinates'] = item.g;
+                        obj['geometry']['coordinates'] = [item.g[0] +count*30,item.g[1]];
+
                         obj['properties'] = {};
                         obj['properties']['style'] = {};
                         obj['properties']['id'] = item.m.a[key].ids[j].detailId;
@@ -922,6 +896,7 @@ function transformData(data) {
                             }));
 
                         }
+                        count++
                         featArr.push(obj);
                     }
                 }
@@ -1034,7 +1009,7 @@ function transformData(data) {
                 obj['properties']['snode'] = item.m.a;
                 obj['properties']['enode'] = item.m.b;
                 obj['properties']['style']['strokeColor'] = '#FBD356';
-                obj['properties']['style']['strokeWidth'] = 1;
+                obj['properties']['style']['strokeWidth'] = 3;
                 obj['properties']['style']['strokeOpacity'] = 1;
 
                 break;
@@ -1059,7 +1034,7 @@ function transformData(data) {
 
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
-                        iconName: '../../images/road/img/star.png',
+                        iconName: '../../images/road/img/star.svg',
                         row: 0,
                         column: 1,
                         location: obj['geometry']['coordinates']

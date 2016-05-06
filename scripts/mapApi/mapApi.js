@@ -51,7 +51,6 @@
         "mapApi/MecatorTransform.js",
         "mapApi/Tile.js",
         "mapApi/ShapeOptionTypeEnum.js",
-        "mapApi/L.FloatMenu.js",
         //mapApi/layer
         "mapApi/layer/Layer.js",
         "mapApi/layer/WholeLayer.js",
@@ -61,6 +60,7 @@
         "mapApi/layer/EditLayer.js",
         "mapApi/layer/GridLayer.js",
         "mapApi/ajaxConstruct.js",
+         "mapApi/L.FloatMenu.js",
          //mapApi/tools
          "mapApi/tools/adAdminAdd.js",
          "mapApi/tools/adAdminMove.js",
@@ -93,7 +93,7 @@
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
     var scriptTags = new Array(jsFiles.length);
-    var host = "scripts/";
+    var host = "../../scripts/";
     for (var i=0, len=jsFiles.length; i<len; i++) {
         scriptTags[i] = "<script src='" + host + jsFiles[i] +
             "'></script>";
