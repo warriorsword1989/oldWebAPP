@@ -13,7 +13,9 @@ requirejs.config({
         'poiService': 'uikits/poibase/dataService-angular',
         'select2':'libs/select2/js/select2',
         'jquery':'libs/jquery/2.1.1/jquery-2.1.1',
-        'leaflet':'libs/leaflet-0.7.3/leaflet-src'
+        'leaflet':'libs/leaflet-0.7.3/leaflet-src',
+        'wkt':'libs/leaflet-0.7.3/plugins/wicket',
+        'leafletUtil':'fastmap/leaflet-poiUtil'
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -22,7 +24,8 @@ requirejs.config({
         'fastmap': ['application'],
         'appUtil': ['application'],
         'select2':['jquery'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','leaflet']
+        'leafletUtil':['leaflet','wkt'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','leafletUtil']
     }
 });
 // Start the main app logic.

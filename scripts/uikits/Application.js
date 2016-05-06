@@ -4,7 +4,8 @@ var App = {};
 // web app全局配置信息
 App.Config = {
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "0000001N00O6QE479F62C7BEFDC5626EEEFFBCE8345C7C76",
+    accessToken: "000002TJ00O6SD5C37DC4DD27BFDEE099A6546E0F1E5C193",
+    hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum"
 };
 // web app的公用函数命名空间
 App.Util = {};
