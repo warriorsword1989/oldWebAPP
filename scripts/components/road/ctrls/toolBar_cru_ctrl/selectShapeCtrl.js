@@ -17,10 +17,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
-
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
-
         }
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
