@@ -5,6 +5,11 @@ var truckLimitApp = angular.module("myApp", []);
 truckLimitApp.controller("truckLimitInfoController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data;
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.truckLimitForm.$setPristine();
+        });
+    }
     $scope.limitDirOptions = [
         {"id": 0, "label": "未调查"},
         {"id": 1, "label": "双方向"},
