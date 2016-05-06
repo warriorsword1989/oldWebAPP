@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var namesOfCross = angular.module("mapApp", []);
+var namesOfCross = angular.module("mapApp");
 namesOfCross.controller("namesController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.names = objCtrl.data.names;
