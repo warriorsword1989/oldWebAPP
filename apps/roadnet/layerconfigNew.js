@@ -974,7 +974,7 @@ function transformData(data) {
                 obj['properties']['snode'] = item.m.a;
                 obj['properties']['enode'] = item.m.b;
                 obj['properties']['style']['strokeColor'] = '#FBD356';
-                obj['properties']['style']['strokeWidth'] = 1;
+                obj['properties']['style']['strokeWidth'] = 3;
                 obj['properties']['style']['strokeOpacity'] = 1;
 
                 break;
