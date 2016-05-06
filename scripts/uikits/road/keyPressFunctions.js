@@ -157,6 +157,29 @@ function keyEvent(ocLazyLoad, scope) {
                     })
 
                 }  else if (shapeCtrl.editType === "RDRESTRICTION") {
+                    var laneData = objEditCtrl.originalData["inLaneInfoArr"],
+                        laneInfo = objEditCtrl.originalData["limitRelation"];
+                    var laneStr = "";
+                    if (laneData.length === 0) {
+                        laneStr = laneData[0];
+                    } else {
+                        laneStr = laneData.join(",");
+                    }
+                    laneInfo["infos"] = laneStr;
+                    param = {
+                        "command": "CREATE",
+                        "type":"RDRESTRICTION",
+                        "projectId": Application.projectid,
+                        "data": laneInfo
+                    };
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("restriction").redraw();
+                        map.currentTool.disable();
+                        treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
+                    })
+
+                /*
+
                     param = {
                         "command": "CREATE",
                         "type": "RDRESTRICTION",
@@ -169,7 +192,7 @@ function keyEvent(ocLazyLoad, scope) {
                         map.currentTool.disable();
                         treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
 
-                    });
+                    });*/
                 } else if (shapeCtrl.editType === "pathBreak") {
                     var breakPoint = null,breakPathContent,ctrl,tpl;
                     for (var item in geo.components) {

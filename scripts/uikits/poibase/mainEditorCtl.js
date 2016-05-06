@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','NgTableParams', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
     var promises = [];
@@ -7,6 +7,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
+        $scope.snapshotPoi = data.getSnapShot();
     }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
@@ -30,7 +31,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
-                    $scope.$broadcast("loadup_poiMap", $scope.poi);
+                    $scope.$broadcast("loadup_poiMap", $scope.snapshotPoi);
                 });
             });
         });

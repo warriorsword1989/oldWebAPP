@@ -18,8 +18,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
         }
         var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
         highLightLink._cleanHightlight();
@@ -339,7 +341,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 break;
         }
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu(data.id, data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
