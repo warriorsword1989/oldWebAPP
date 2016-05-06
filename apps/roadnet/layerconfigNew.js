@@ -126,6 +126,32 @@ Application.layersConfig =
                 requestType: 'RDNODE',
                 showNodeLevel: 17
             }
+        },{
+            url: createUrl('/render/obj/getByTileWithGap?', 'ADNODE'),
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: 'AdNode',
+                id: 'adnode',
+                maxZoom: 20,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 5,
+                boolPixelCrs: true,
+                parse: transformData,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'Point',
+                zIndex: 17,
+                restrictZoom: 10,
+                editable: false,
+                visible: false,
+                requestType: 'ADNODE',
+                showNodeLevel: 17
+            }
         },
 
             {
@@ -190,7 +216,7 @@ Application.layersConfig =
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDBRANCH'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
-                    layername: '分歧',
+                    layername: '高速分歧',
                     id: 'highSpeedDivergence',
                     maxZoom: 20,
 
@@ -883,6 +909,53 @@ function transformData(data) {
                     );
 
                 }
+                //车道限速
+                else if (type == 4){
+                    console.log(resArray);
+                    var limitSpeed = item.m.b.split(",")[0];
+                    var laneSpeed = item.m.b.split(",")[1];
+                    iconName = '../../images/road/1101/lane_speedlimit' + '.svg';
+                    obj['properties']['markerStyle']["icon"].push(
+                        {
+                            iconName: iconName,
+                            text: limitSpeed,
+                            row: 0,
+                            column: 0,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c -270) * (Math.PI / 180),
+                            dx:0,
+                            dy:5
+                        }
+                    );
+
+                    //方向箭头
+                    startEndArrow = "../../images/road/1101/lane_speedlimit_arrow.svg";
+                    obj['properties']['markerStyle']["icon"].push(
+                        getIconStyle({
+                                iconName: startEndArrow,
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates'],
+                                rotate: (item.m.c - 90) * (Math.PI / 180),
+                                dx: 12,//箭头间距
+                                dy: 0
+                            }
+                        )
+                    );
+                    //车道限速值
+                    obj['properties']['markerStyle']["icon"].push(
+                        {
+
+                            text: laneSpeed,
+                            row: 0,
+                            column: 2,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c -270) * (Math.PI / 180),
+                            dx:25,
+                            dy:6
+                        }
+                    );
+                }
 
                 break;
             case 7://分歧
@@ -1072,14 +1145,26 @@ function transformData(data) {
                 obj['properties']["featType"] = "RDNODE";
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
-                obj['properties']['style']['strokeColor'] = 'black';
+                obj['properties']['style']['strokeColor'] = '#808080';
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;;
                 obj['properties']['style']['radius'] = 3;
 
+                obj['properties']['style']['fillColor'] = '#808080';
+                obj['properties']['style']['fillOpacity'] = 0.2;
+                break;
+            case 18:
+                obj['properties']["featType"] = "ADNODE";
+                obj['geometry']['type'] = 'Point';
+                obj['properties']['markerStyle'] = {};
+                obj['properties']['style']['strokeColor'] = 'black';
+                obj['properties']['style']['strokeWidth'] = 1;
+                obj['properties']['style']['strokeOpacity'] = 1;
+                ;
+                obj['properties']['style']['radius'] = 3;
+
                 obj['properties']['style']['fillColor'] = 'black';
                 obj['properties']['style']['fillOpacity'] = 0.2;
-
                 break;
             case 1101://限速
                 break;

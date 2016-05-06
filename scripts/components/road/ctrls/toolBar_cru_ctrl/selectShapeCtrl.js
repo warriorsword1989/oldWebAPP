@@ -13,6 +13,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var rdnode = layerCtrl.getLayerById('referenceNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
+    var hLayer = layerCtrl.getLayerById("highlightlayer");
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
@@ -22,6 +23,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
 
         }
+        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
+        highLightLink._cleanHightlight();
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
