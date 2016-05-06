@@ -13,21 +13,30 @@ fastmap.mapApi.LayerRender = {
      * @param boolPixelCrs 是否是像素坐标
      * @private
      */
-    _drawPoint: function (ctx, geom, style, boolPixelCrs) {
-        if (!style) {
-            return;
-        }
+    _drawPoint: function (options) {
         var p = null;
-        if (boolPixelCrs) {
-            p = {x: geom[0], y: geom[1]}
+        if (options.boolPixelCrs) {
+            p = {x: options.geom[0], y: options.geom[1]}
         } else {
-            p = this._tilePoint(ctx, geom);
+            p = this._tilePoint(options.ctx, options.geom);
         }
-        var c = ctx.canvas;
+        var c = options.ctx.canvas;
         var g = c.getContext('2d');
         g.beginPath();
-        g.fillStyle = style.color;
-        g.arc(p.x, p.y, style.radius, 0, Math.PI * 2);
+        if(options.fillColor){
+            g.fillStyle = options.fillColor;
+        }
+        if(options.fillOpacity){
+            g.fillOpacity = options.fillOpacity;
+        }
+
+        if(options.strokeColor){
+            g.strokeColor = options.strokeColor;
+        }
+        if(options.strokeOpacity){
+            g.strokeOpacity = options.strokeOpacity;
+        }
+        g.arc(p.x, p.y, options.radius, 0, Math.PI * 2);
         g.closePath();
         g.fill();
         g.restore();
@@ -451,9 +460,9 @@ fastmap.mapApi.LayerRender = {
         coords = this._clip(ctx, geom);
 
         for (var i = 0; i < coords.length; i++) {
-            if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
-                this._drawPoint(ctx, coords[i], nodestyle, true);
-            }
+            //if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
+            //    this._drawPoint(ctx, coords[i], nodestyle, true);
+            //}
 
             if (boolPixelCrs) {
                 proj.push({x: coords[i][0], y: coords[i][1]});

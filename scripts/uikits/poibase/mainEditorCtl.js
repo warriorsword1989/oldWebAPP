@@ -1,11 +1,11 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','NgTableParams', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
     var promises = [];
     promises.push(meta.getKindList().then(function(data) {
         $scope.meta.kindList = data;
     }));
-    promises.push(poi.getPoiDetailByFid("00005920160427213444").then(function(data) {
+    promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
     }));
     promises.push(poi.getPoiList().then(function(data) {
@@ -36,7 +36,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         });
     });
     $scope.nextPoi = function() {
-        ds.getPoiDetailByFid("00005920160427213444").then(function(data) {
+        ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
             $scope.poi = data;
             $scope.$broadcast("loadup", $scope.poi);
         });
@@ -49,6 +49,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         console.log(data);
         $scope.test();
     };
+
+    $scope.$on('showParentPoiInMap',function (obj){
+        alert("显示父");
+    })
+    $scope.$on('showChildrenPoisInMap',function (obj){
+        alert("显示子");
+    })
     $scope.loadAdditionInfo = function() {
         $scope.additionInfoTpl = $scope.radioModel;
     };

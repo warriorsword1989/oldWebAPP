@@ -3,8 +3,14 @@
  * Class ShapeEditorFactory
  */
 
-fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
+//fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
+fastmap.mapApi.ShapeEditorFactory = (function() {
+    var instantiated;
 
+    function init(options) {
+
+
+        var createShapeTools = L.Class.extend({
             /***
              *
              * @param {Object}options
@@ -17,6 +23,7 @@ fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
 
             CreateShapeToolsObject: function (shapeEditor) {
                 var toolsObject = {
+
                     'drawPath': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawAdLink': new fastmap.mapApi.DrawPath({shapeEditor:shapeEditor}),
                     'drawPolygon': new fastmap.mapApi.DrawPolygon({shapeEditor:shapeEditor}),
@@ -36,8 +43,17 @@ fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
                 };
                 return toolsObject;
             }
-        });
+        })
 
-fastmap.mapApi.shapeeditorfactory = function (options) {
-    return new fastmap.mapApi.ShapeEditorFactory(options);
-}
+
+        return new createShapeTools(options);
+    }
+
+    return function(options) {
+        if (!instantiated) {
+            instantiated = init(options);
+        }
+        return instantiated;
+    }
+
+})()
