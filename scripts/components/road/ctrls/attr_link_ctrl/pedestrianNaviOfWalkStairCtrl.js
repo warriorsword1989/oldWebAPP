@@ -7,6 +7,12 @@ walkstairApp.controller("walkstairController",function($scope) {
     $scope.walkstairData = objCtrl.data.walkstairs;
     $scope.linkData = objCtrl.data;
 
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.walkStairForm.$setPristine();
+        });
+
+    }
     for(var i= 0,len=$scope.walkstairData.length;i<len;i++) {
         if($scope.walkstairData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
             $scope.oridiData = $scope.walkstairData[i];

@@ -12,26 +12,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable']).controller('pr
                 break;
 			case 'agent': 
 				$ocll.load('').then(function(){
-                    $scope.tagContent = '';
+                    $scope.agentProject = '';
                 });
                 break;
 			case 'spec':
 				$ocll.load('').then(function(){
-                    $scope.tagContent = '';
+                    $scope.specialProject = '';
                 });
                 break; 
-			case 'userProfile':
-//				$ocll.load('').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userProfile.html';
-//                });
-                break;
-			case 'userMessage':
-//				$ocll.load('').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userMessage.html';
-//                });
-                break;
 		}
 		$scope.isActive = menuName;
-	};
-	$scope.menuChange('common');
+	}
+
 }]);

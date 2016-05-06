@@ -431,17 +431,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    if(feature.properties.featType==="ADLINK"){
-                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                            color: 'red',
-                            radius: 3
-                        }, feature.properties);
-                    }else{
-                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                            color: 'rgba(105,105,105,1)',
-                            radius: 3
-                        }, feature.properties);
-                    }
+                    this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                        color: 'rgba(105,105,105,1)',
+                        radius: 3
+                    }, feature.properties);
 
                     //如果属性中有direct属性则绘制箭头
                     if (feature.properties.direct) {

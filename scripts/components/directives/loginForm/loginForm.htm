@@ -1,28 +1,28 @@
 <div class="login">
     <div class="company-logo" style="margin-left: -15px"></div>
-    <form name="loginForm" class="form-horizontal" novalidate>
+    <form name="myForm" class="form-horizontal" novalidate>
         <!-- username part -->
-        <div class="form-group has-feedback" ng-class="{'has-error':loginForm.user.$invalid && loginForm.user.$dirty && valid_type!=3,'has-success':loginForm.user.$valid && loginForm.user.$dirty && valid_type!=3}">
+        <div class="form-group has-feedback" ng-class="{'has-error':myForm.user.$invalid && myForm.user.$dirty && valid_type!=3,'has-success':myForm.user.$valid && myForm.user.$dirty && valid_type!=3}">
             <input type="text" ng-model="username" name="user" class="form-control" required ng-pattern='/^[a-zA-z]/' minlength="3" maxlength="50" placeholder="用户名" autofocus />
-            <div style="color: red;padding: 5px 0" ng-show="loginForm.user.$error&&(loginForm.user.$dirty||valid_type==3)&&show_error">
-                <div ng-show="loginForm.user.$error.required">用户名不能为空</div>
-                <div ng-show="loginForm.user.$error.minlength">用户名不能小于3位</div>
-                <div ng-show="loginForm.user.$error.maxlength">用户名不能大于50位</div>
-                <div ng-show="loginForm.user.$error.pattern">用户名必须是以英文字母开头</div>
+            <div style="color: red;padding: 5px 0" ng-show="myForm.user.$error&&(myForm.user.$dirty||valid_type==3)&&show_error">
+                <div ng-show="myForm.user.$error.required">用户名不能为空</div>
+                <div ng-show="myForm.user.$error.minlength">用户名不能小于3位</div>
+                <div ng-show="myForm.user.$error.maxlength">用户名不能大于50位</div>
+                <div ng-show="myForm.user.$error.pattern">用户名必须是以英文字母开头</div>
             </div>
         </div>
         <!-- password part -->
-        <div class="form-group has-feedback" ng-class="{'has-error':loginForm.userpassword.$invalid && loginForm.userpassword.$dirty && valid_type!=3,'has-success':loginForm.userpassword.$valid && loginForm.userpassword.$dirty && valid_type!=3}">
+        <div class="form-group has-feedback" ng-class="{'has-error':myForm.userpassword.$invalid && myForm.userpassword.$dirty && valid_type!=3,'has-success':myForm.userpassword.$valid && myForm.userpassword.$dirty && valid_type!=3}">
             <input type="password" ng-model="pwd" name="userpassword" class="form-control" required minlength="6" maxlength="16" placeholder="密 码" />
-            <div style="color: red;padding: 5px 0" ng-show="loginForm.userpassword.$error&&(loginForm.userpassword.$dirty||valid_type==3)&&show_error">
-                <div ng-show="loginForm.userpassword.$error.required">密码不能为空</div>
-                <div ng-show="loginForm.userpassword.$error.minlength">密码名不能小于5位</div>
-                <div ng-show="loginForm.userpassword.$error.maxlength">密码名不能大于16位</div>
+            <div style="color: red;padding: 5px 0" ng-show="myForm.userpassword.$error&&(myForm.userpassword.$dirty||valid_type==3)&&show_error">
+                <div ng-show="myForm.userpassword.$error.required">密码不能为空</div>
+                <div ng-show="myForm.userpassword.$error.minlength">密码名不能小于5位</div>
+                <div ng-show="myForm.userpassword.$error.maxlength">密码名不能大于16位</div>
             </div>
         </div>
         <!-- loginButton part -->
         <div class="form-group">
-            <button ng-click="handleEvent()" ng-disabled='loginForm.$invalid && valid_type!=3' class="btn btn-primary btn-block" type="submit">登 录</button>
+            <button ng-click="handleEvent()" ng-disabled='myForm.$invalid && valid_type!=3' class="btn btn-primary btn-block" type="submit">登 录</button>
         </div>
     </form>
 </div>
