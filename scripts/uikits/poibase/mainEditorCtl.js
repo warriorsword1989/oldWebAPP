@@ -30,7 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
-                    $scope.$broadcast("loadup", $scope.poi);
+                    $scope.$broadcast("loadup_poiMap", $scope.poi);
                 });
             });
         });

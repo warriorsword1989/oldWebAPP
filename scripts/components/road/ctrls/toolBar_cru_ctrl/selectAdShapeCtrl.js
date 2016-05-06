@@ -10,6 +10,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var adNode = layerCtrl.getLayerById('adnode');
     var adFace = layerCtrl.getLayerById('adface');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
@@ -196,21 +197,22 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.enable();
             editLayer.bringToBack();
             //初始化鼠标提示
-            $scope.toolTipText = '请选择面！';
+            $scope.toolTipText = '请选择行政区划面！';
             eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }else if(type==="adNode") {
-            adLink.options.selectType = 'node';
+            adLink.options.selectType = 'adnode';
             adLink.options.editable = true;
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: adLink,
+                currentEditLayer: adNode,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
             map.currentTool.snapHandler.addGuideLayer(adLink);
-            $scope.toolTipText = '请选择node！';
+            map.currentTool.snapHandler.addGuideLayer(adNode);
+            $scope.toolTipText = '请选择Adnode！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
         }
