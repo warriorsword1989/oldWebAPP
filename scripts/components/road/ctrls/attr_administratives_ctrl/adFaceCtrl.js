@@ -4,6 +4,7 @@
 var adFaceApp = angular.module("lazymodule", []);
 adFaceApp.controller("adFaceController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
+    var outputCtrl = fastmap.uikit.OutPutController({});
     var eventController = fastmap.uikit.EventController();
     $scope.initializeData = function(){
         $scope.adFaceData = objCtrl.data;
