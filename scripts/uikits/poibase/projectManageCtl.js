@@ -7,21 +7,31 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
 		switch(menuName){
 			case 'common':
 				$ocll.load('').then(function(){
-                    $scope.commonProject = '';
+                    $scope.tagContent = '';
                 });
                 break;
 			case 'agent': 
 				$ocll.load('').then(function(){
-                    $scope.agentProject = '';
+                    $scope.tagContent = '';
                 });
                 break;
 			case 'spec':
 				$ocll.load('').then(function(){
-                    $scope.specialProject = '';
+                    $scope.tagContent = '';
                 });
                 break; 
+			case 'userProfile':
+				$ocll.load('').then(function(){
+                    $scope.tagContent = '';
+                });
+                break;
+			case 'userMessage':
+				$ocll.load('').then(function(){
+                    $scope.tagContent = '';
+                });
+                break;
 		}
 		$scope.isActive = menuName;
-	}
-
+	};
+	$scope.menuChange('common');
 }]);
