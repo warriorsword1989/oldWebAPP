@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','NgTableParams', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
     var promises = [];
