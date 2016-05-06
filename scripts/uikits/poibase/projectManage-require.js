@@ -21,7 +21,7 @@ requirejs.config({
         'ngTable':'libs/ng-table/ng-table'
     },
     shim: {
-        'angular':{exports:'angular'},                   //ngTableÐèÒªÓÃangularµÄÃû×Ö;
+        'angular':{exports:'angular'},                   //ngTableï¿½ï¿½Òªï¿½ï¿½angularï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
         'poiService': ['angular'],
