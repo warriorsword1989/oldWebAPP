@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var braName = angular.module("mapApp", ['oc.lazyLoad']);
+var braName = angular.module("mapApp");
 braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;

@@ -1,7 +1,7 @@
 /**
  * Created by wangtun on 2016/3/31.
  */
-L.Control.FloatMenu = L.Class.extend({
+L.Control.FloatMenu = fastmap.mapApi.Layer.extend({
     initialize: function (pid,mouseEvent, options) {
         this.selectObjPid = pid;
         this._mouseEvent = mouseEvent;
@@ -13,7 +13,7 @@ L.Control.FloatMenu = L.Class.extend({
     onAdd: function (map) {
         this._latlng = map.mouseEventToLatLng(this._mouseEvent);
 
-        this._el = L.DomUtil.create('div', 'my-custom-layer leaflet-zoom-hide');
+        this._el = L.DomUtil.create('div', 'leaflet-layer leaflet-zoom-hide');
 
 
         this.toolBarContainer = L.DomUtil.create('ul', 'floatMenu');
@@ -24,18 +24,31 @@ L.Control.FloatMenu = L.Class.extend({
             buttons.push(this._createButton(this.items[i].text,this.items[i].title,this.items[i].type,this.items[i].class||"",this.toolBarContainer,this.items[i].callback,this));
         }
 
+
+        var pos = this._map.latLngToLayerPoint(this._latlng);
+        L.DomUtil.setPosition(this.toolBarContainer, pos);
+
         this._el.appendChild(this.toolBarContainer);
         map.getPanes().overlayPane.appendChild(this._el);
 
         // add a viewreset event listener for updating layer's position, do the latter
         map.on('viewreset', this._reset, this);
+        map.on('moveend',this._reset,this);
         this._reset();
-
     },
 
     onRemove: function (map) {
         map.getPanes().overlayPane.removeChild(this._el);
         map.off('viewreset', this._reset, this);
+        map.off('moveend',this._reset,this);
+        this._el=null;
+        this.toolBarContainer=null;
+        this._latlng=null;
+        this._mouseEvent=null;
+        this.items=null;
+        this.visible=false;
+        this.selectObjPid=null;
+        this._map=null;
     },
 
     setVisible:function(flag){
@@ -81,7 +94,11 @@ L.Control.FloatMenu = L.Class.extend({
     },
 
     _reset: function () {
+        var bounds = this._map.getBounds();
+        var topLeft = this._map.latLngToLayerPoint(bounds.getNorthWest());
+        L.DomUtil.setPosition(this._el, topLeft);
+
         var pos = this._map.latLngToContainerPoint(this._latlng);
-        L.DomUtil.setPosition(this._el, pos);
+        L.DomUtil.setPosition(this.toolBarContainer, pos);
     }
 });

@@ -127,6 +127,8 @@ FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
         data["lifecycle"] = this.lifecycle;
         data["auditStatus"] = this.auditStatus;
         data["rawFields"] = this.rawFields;
+        data["location"] = this.location;
+        data["guide"] = this.guide;
         return data;
     },
     getBaseInfo: function(){
