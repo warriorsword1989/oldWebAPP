@@ -65,7 +65,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     $scope.changeTag = function(tagName){
         switch(tagName) {
             case 'checkResult':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
                     $scope.$on('$includeContentLoaded', function($event) {
                         $scope.$broadcast('checkResultData',checkResultData);
@@ -73,7 +73,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 });
                 break;
             case 'confusionInfo':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/ConfusionResultCtl').then(function(){
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
                     $scope.$on('$includeContentLoaded', function($event) {
                         $scope.$broadcast('confusionInfoData',confusionInfoData);
@@ -81,7 +81,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 });
                 break;
             case 'editHistory':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/EditHistoryCtl').then(function(){
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
                     $scope.$on('$includeContentLoaded', function($event) {
                         $scope.$broadcast('editHistoryData',editHistoryData);
@@ -95,7 +95,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 $scope.tagContentTpl = '';
                 break;
             default:
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
