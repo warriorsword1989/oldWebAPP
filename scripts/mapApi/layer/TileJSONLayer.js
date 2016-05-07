@@ -313,14 +313,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             };
             if (x.xdomain) {
                 x.onerror = function () {
-                    //if (active_loaders[this.seq]) {
-                    //    delete active_loaders[this.seq]
-                    //}
+
                 };
                 x.ontimeout = function () {
-                    //if (active_loaders[this.seq]) {
-                    //    delete active_loaders[this.seq]
-                    //}
+
                 };
                 x.onprogress = function () {
                 };
@@ -334,13 +330,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
         return x;
     },
-    _loadImg: function (url, callBack) {
-        var img = new Image();
-        img.onload = function () {
-            callBack(img);
-        };
-        img.src = url;
-    },
+
     /***
      * 绘制要素
      * @param data data绘制的数据
@@ -357,6 +347,18 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             switch (type) {
                 case 'Point':
 
+                    //没有图片样式情况
+                    if(style&&style.radius){
+                        this._drawPoint({
+                            ctx: ctx,
+                            boolPixelCrs:true,
+                            fillColor:'black',
+                            radius:feature.properties.style.radius,
+                            geom:geom.coordinates
+                        })
+                    }
+
+                    //有图片样式的情况
                     var icons = feature.properties.markerStyle.icon;
                     for (var item in icons) {
 
@@ -373,7 +375,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 scalex: icons[item].scalex ? icons[item].scalex : 1,
                                 scaley: icons[item].scaley ? icons[item].scaley : 1
                             });
-                        } else {
+                        }
+                        else {
                             var coords = geom.coordinates;
                             var arrowlist = [];
                             var direct = '';
@@ -406,6 +409,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
                         if (icons[item].text) {
+                            console.log('---------------'+icons[item].text)
                             this._drawText({
                                 ctx: ctx,
                                 geo: geom.coordinates,
@@ -413,8 +417,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 font: 'bold 15px Courier New',
                                 rotate: icons[item].rotate ? icons[item].rotate : "",
                                 align: 'center',
-                                drawx: 0,
-                                drawy: 6
+                                drawx: icons[item].column * icons[item].dx,
+                                drawy: (icons[item].row+1) * icons[item].dy
                             })
                         }
                     }

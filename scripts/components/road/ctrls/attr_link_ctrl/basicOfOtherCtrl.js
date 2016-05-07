@@ -72,6 +72,12 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
         {"id":3,"label":"收费道路的免费区间"}
     ];
     $scope.initOtherData = function(){
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.basicOtherForm.$setPristine();
+            });
+
+        }
         $scope.newFromOfWRoadDate = [];
         if($scope.roadlinkData.forms.length>0){
             $scope.auxiFlag=$scope.roadlinkData.forms[0].auxiFlag;

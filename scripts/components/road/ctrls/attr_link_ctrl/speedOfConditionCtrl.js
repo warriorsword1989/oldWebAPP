@@ -5,6 +5,11 @@ var conditionSpeedApp = angular.module("myApp",[]);
 conditionSpeedApp.controller("conditionSpeedController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.conditForm.$setPristine();
+        });
+    }
     $scope.realtimeData = objCtrl.data;
     for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
         if($scope.speedLimitsData[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {

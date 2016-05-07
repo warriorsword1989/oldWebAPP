@@ -47,6 +47,16 @@
         background-color: #333;
     }
 
+    #oridinarySpeedDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
     #oridinarySpeedDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
@@ -90,6 +100,7 @@
     }
 </style>
 <div ng-controller="ordinarySpeedController" id="oridinarySpeedDiv">
+    <form name="ordinarySpeedForm">
     <ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===0" style="margin-bottom: 5px">
         <li class="list-group-item">
             <div class="list-name">
@@ -154,4 +165,5 @@
             </div>
         </li>
     </ul>
+    </form>
 </div>

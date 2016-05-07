@@ -7,6 +7,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var adNode = layerCtrl.getLayerById('adNode');
     var adAdmin = layerCtrl.getLayerById('adAdmin');
     var tooltipsCtrl=fastmap.uikit.ToolTipsController();
     var editLayer = layerCtrl.getLayerById('edit');
@@ -109,6 +110,7 @@ modifyAdApp.controller("modifyAdToolController", function ($scope) {
             }else {
                 shapeCtrl.editFeatType = "adLink";
                 map.currentTool.snapHandler.addGuideLayer(adLink);
+                map.currentTool.snapHandler.addGuideLayer(adNode);
             }
             shapeCtrl.startEditing();
             map.currentTool = shapeCtrl.getCurrentTool();

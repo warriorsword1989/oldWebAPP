@@ -49,6 +49,16 @@
         background-color: #333;
     }
 
+    #conditionSpeedDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
     #conditionSpeedDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
@@ -85,6 +95,7 @@
 
 </style>
 <div ng-controller="conditionSpeedController" id="conditionSpeedDiv">
+    <form name="conditForm">
     <ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===3">
         <li class="list-group-item">
             <div><label class="control-label">限速类型</label></div>
@@ -153,4 +164,5 @@
             </div>
         </li>
     </ul>
+    </form>
 </div>

@@ -7,6 +7,8 @@
                 "dataApi/common/DataModel.js",
                 "dataApi/common/GeoDataModel.js",
                 "dataApi/meta/CheckRule.js",
+                "dataApi/meta/IxCheckResult.js",
+                "dataApi/meta/IxEditHistory.js",
                 "dataApi/meta/IxPoiBrand.js",
                 "dataApi/meta/IxPoiKind.js",
                 "dataApi/meta/IxPoiMediumKind.js",
