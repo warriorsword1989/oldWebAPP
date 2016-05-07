@@ -222,8 +222,8 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
 
     //重画引导坐标
     $scope.repeatGuidPoint = function ($event) {
-        FM.leafletUtil.removeLine(pMap,e.target.id.replace("-@-gp","-@-gl"));
-        var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp"));
+        FM.leafletUtil.removeLine(pMap,$event.target.id.replace("-@-gp","-@-gl"));
+        var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp")[0]);
         $scope.drawNewline(locPoint,$event.target);
     };
 
@@ -256,10 +256,11 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
     //设置最近的点并画link
     $scope.setClosestPoint = function ($event) {
         var point = $scope.closestPoint($event);
+        var latlng = new L.latLng(point.x,point.y);
         if(point){
             FM.leafletUtil.removeLine(pMap,$event.target.id.replace("-@-gp","-@-gl"));
-            var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp"));
-            var guidePoint = L.marker(point,{
+            var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp")[0]);
+            var guidePoint = L.marker(latlng,{
                 icon:FM.iconStyles.pointIcon,
                 draggable:true
             }).on("drag",$scope.repeatGuidPoint).on("dragend",$scope.setClosestPoint);
@@ -269,7 +270,7 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         }
         else{
             FM.leafletUtil.removeLine(pMap,$event.target.id.replace("-@-gp","-@-gl"));
-            var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp"));
+            var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp")[0]);
             $scope.drawNewline(locPoint,pGuideGeo);
             // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
         }
@@ -314,6 +315,11 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         var guidePoint = FM.leafletUtil.getLayerById(pMap,$event.target.id+"-@-gp");
         $scope.drawNewline($event.target,guidePoint);
     };
+
+    //拖动完后的操作
+    $scope.completeDraw = function ($event) {
+        $event.target.openPopup();
+    }
 
     //创建显示坐标
     $scope.createPoiFeature = function (poiJson) {
