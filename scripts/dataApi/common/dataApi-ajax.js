@@ -63,4 +63,21 @@
             return _ajaxConstruct(this.getUrl(url, param), "POST", callback);
         }
     };
+    FM.dataApi.getFromHbase = {
+        getUrl: function(url, param) {
+            var remoteUrl = !App ? "" : (!App.Config ? (App.hbaseServiceUrl || "") : (App.Config.hbaseServiceUrl || ""));
+            var token = !App ? "" : (!App.Config ? (App.accessToken || "") : (App.Config.accessToken || ""));
+            var fullUrl = remoteUrl + "/" + url + "?";
+            if (token) {
+                fullUrl += "access_token=" + token;
+            }
+            if (param) {
+                fullUrl += (token ? "&" : "") + "parameter=" + param;
+            }
+            return fullUrl;
+        },
+        get: function(url, param, callback) {
+            return _ajaxConstruct(this.getUrl(url, param), "GET", callback);
+        }
+    };
 }());
