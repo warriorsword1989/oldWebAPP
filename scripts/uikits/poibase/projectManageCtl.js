@@ -7,21 +7,31 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable']).controller('pr
 		switch(menuName){
 			case 'common':
 				$ocll.load('../../scripts/components/poi/ctrls/data-list/commonCtrl.js').then(function(){
-					$scope.tagContent = '../../scripts/components/poi/tpls/data-list/common.html';
-				});
+                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/common.html';
+                });
                 break;
 			case 'agent': 
 				$ocll.load('').then(function(){
-                    $scope.agentProject = '';
+                    $scope.tagContent = '';
                 });
                 break;
 			case 'spec':
 				$ocll.load('').then(function(){
-                    $scope.specialProject = '';
+                    $scope.tagContent = '';
                 });
                 break; 
+			case 'userProfile':
+//				$ocll.load('').then(function(){
+                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userProfile.html';
+//                });
+                break;
+			case 'userMessage':
+//				$ocll.load('').then(function(){
+                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userMessage.html';
+//                });
+                break;
 		}
 		$scope.isActive = menuName;
-	}
-
+	};
+	$scope.menuChange('common');
 }]);
