@@ -42,8 +42,132 @@ FM.leafletUtil = {
     clearMapLayer:function (map,layerId) {
         var layer = this.getLayerById(pMap,layerId);
         layer.clearLayers();
+    },
+    //获取地图边界
+    getMapBounds:function (map) {
+        var bounds = map.getBounds(),
+            southWest = bounds.getSouthWest(),
+            southEast = bounds.getSouthEast(),
+            northWest = bounds.getNorthWest(),
+            northEast = bounds.getNorthEast();
+        var pointsArray = [];
+        var ppArray = [];
+        ppArray.push([northWest.lng + " " + northWest.lat]);
+        ppArray.push([southWest.lng + " " + southWest.lat]);
+        ppArray.push([southEast.lng + " " + southEast.lat]);
+        ppArray.push([northEast.lng + " " + northEast.lat]);
+        ppArray.push([northWest.lng + " " + northWest.lat]);
+        pointsArray.push(ppArray);
+        return ppArray;
+    },
+    loadLayers:function (map) {
+        var qqLayer = new L.TileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
+            layername: '腾讯',
+            subdomains: ["rt0", "rt1", "rt2", "rt3"],
+            tms: true,
+            maxZoom: 20,
+            selected: false,
+            id: 'qqLayer',
+            visible: true,
+            added: true,
+            singleselect: true,
+            zIndex: 2
+        });
+        map.addLayer(qqLayer);
+        var drawnItems = new L.layerGroup();
+        drawnItems.id = "drawnItems";
+        map.addLayer(drawnItems);
+        var polygonGroup = new L.layerGroup();
+        polygonGroup.id = "regionLayer";
+        map.addLayer(polygonGroup);
+        var navBaseLayer = new L.layerGroup();
+        navBaseLayer.id = "navBaseLayer";
+        navBaseLayer.name = "道路和测线";
+        map.addLayer(navBaseLayer);
+        var mainPoiLayer = new L.layerGroup();
+        mainPoiLayer.id = "mainPoiLayer";
+        map.addLayer(mainPoiLayer);
+        var parentPoiGroup = new L.layerGroup();
+        parentPoiGroup.id = "parentPoiLayer";
+        map.addLayer(parentPoiGroup);
+        var childPoiLayer = new L.layerGroup();
+        childPoiLayer.id = "childPoiLayer";
+        map.addLayer(childPoiLayer);
+        var checkResultLayer = new L.layerGroup();
+        checkResultLayer.id = "checkResultLayer";
+        map.addLayer(checkResultLayer);
+        var rectChooseLayer = new L.layerGroup();
+        rectChooseLayer.id = "rectChooseLayer";
+        map.addLayer(rectChooseLayer);
+        var poiEditLayer = new L.layerGroup();
+        poiEditLayer.id = "poiEditLayer";
+        map.addLayer(poiEditLayer);
+        var overLayers = {
+            "道路": navBaseLayer,
+            "腾讯": qqLayer
+        };
+        L.control.layers('', overLayers).addTo(map);//右上角的图层
+        L.control.zoom({//左上角的zoom
+            position: 'topleft',
+            zoomInTitle: '放大',
+            zoomOutTitle: '缩小'
+        }).addTo(map);
     }
-}
+};
+
+FM.lineStyles = {
+    //初始化线型
+    line1 : {
+        color: "#FFA8FF",
+        opacity: 0.5,
+        weight: 2
+    },
+    line2 : {
+        color: "#F0DFFF",
+        opacity: 0.5,
+        weight: 2
+    },
+    line3 : {
+        color: "#FF8F8F",
+        opacity: 0.5,
+        weight: 2
+    },
+    line4 : {
+        color: "#FFD247",
+        opacity: 0.5,
+        weight: 2
+    },
+    line6 : {
+        color: "#99E865",
+        opacity: 0.5,
+        weight: 2
+    },
+    line7 : {
+        color: "#D1A87F",
+        opacity: 0.5,
+        weight: 2
+    },
+    line8 : {
+        color: "#E7E7BB",
+        opacity: 0.5,
+        weight: 2
+    },
+    line9 : {
+        color: "#232323",
+        opacity: 0.5,
+        weight: 2
+    },
+    line10 : {
+        color: "#8FE3FF",
+        opacity: 0.5,
+        weight: 2
+    },
+    line99 : { //测线
+        color: "#2F39C8",
+        opacity: 0.5,
+        weight: 2
+    }
+};
 
 FM.iconStyles = {
     yellowIcon: L.icon({
@@ -88,4 +212,17 @@ FM.iconStyles = {
         iconAnchor: [12, 30],
         popupAnchor: [0, -32]
     })
+};
+
+FM.layerConf = {
+    "mainPoiLayer": "周边POI",
+    "parentPoiLayer": "候选父POI",
+    "childPoiLayer": "子POI",
+    "checkResultLayer": "关联POI"
+};
+
+FM.mapConf = {
+    pSelectMarker:null,
+    pGuideGeo:null,
+    pLocationGeo:null
 }
