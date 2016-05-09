@@ -58,5 +58,24 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
             }
         });
         return deferred.promise;
+    };
+    this.getCiParaIcon = function (fid){
+        var deferred = $q.defer();
+        var param = {
+            idCode: fid
+        };
+        FM.dataApi.ajax.get("meta/queryCiParaIcon/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
+                if (data.data){
+                    deferred.resolve(true);
+                } else {
+                    deferred.resolve(false);
+                }
+            } else {
+                deferred.reject(false);
+            }
+        });
+        return deferred.promise;
     }
 }]);
