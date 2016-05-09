@@ -7,7 +7,7 @@ rdGscApp.controller("rdGscController",function($scope, $timeout) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdgsc = layerCtrl.getLayerById('rdgsc');
+    var rdgsc = layerCtrl.getLayerById('rdGsc');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var hLayer = layerCtrl.getLayerById('highlightlayer');
@@ -120,6 +120,7 @@ rdGscApp.controller("rdGscController",function($scope, $timeout) {
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
                 data.data.log.push(sinfo);
                 info=data.data.log;
+                rdgsc.redraw();
                 swal("操作成功", "修改立交成功！", "success");
             }else{
                 info=[{
