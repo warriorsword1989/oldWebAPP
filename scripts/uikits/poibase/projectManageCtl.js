@@ -29,7 +29,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService'])
 //				$ocll.load('').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userProfile.html';
 //                });
-                break;
+                break;	
 			case 'userMessage':
 //				$ocll.load('').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userMessage.html';
