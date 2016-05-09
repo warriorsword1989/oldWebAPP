@@ -2,8 +2,6 @@ angular.module('app').controller('headCtl', ['$scope', function($scope) {
     $scope.goback = function() {
         var pathName = window.document.location.pathname;
         var appName = pathName.substring(0, pathName.indexOf('/poibase'));
-        alert('pathName:' +pathName)
-        alert('appName:'+appName)
         if (pathName == appName + "/poibase/projecManage.html") {
             this.logout();
         } else {

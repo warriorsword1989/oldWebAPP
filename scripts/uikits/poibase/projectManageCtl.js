@@ -10,9 +10,37 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService'])
 				$ocll.load('../../scripts/components/poi/ctrls/data-list/commonCtrl.js').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/common.html';
                 });
-				poi.getProjectList("","","",function(data){
-					$scope.projectList = data;
-					$scope.$broadcast("currentProjectList", $scope.projectList);
+				var currparam = {
+		                parameter: JSON.stringify({
+		                    from: "app",
+		                    projectStatus: [3, 6, 7],
+		                    projectType: [1, 3],
+		                    pageno: null, // 取全部数据
+//		                    pagesize: null,
+		                    // pagesize: "20",
+		                    snapshot: "snapshot"
+		                })
+		            };
+				var hisparam = {
+		                parameter: JSON.stringify({
+		                    from: "app",
+		                    projectStatus: [5],
+		                    projectType: [1, 3],
+		                    pageno: null, // 取全部数据
+//		                    pagesize: null,
+		                    // pagesize: "20",
+		                    snapshot: "snapshot"
+		                })
+		            };
+				poi.getProjectList(currparam,function(data){
+					$scope.currProjectList = data;
+					console.log('当前项目数'+data.length);
+					$scope.$broadcast("currentProjectList", $scope.currProjectList);
+				});
+				poi.getProjectList(hisparam,function(data){
+					$scope.hisProjectList = data;
+					console.log('历史项目数'+data.length);
+					$scope.$broadcast("hisProjectList", $scope.hisProjectList);
 				});
                 break;
 			case 'agent': 
