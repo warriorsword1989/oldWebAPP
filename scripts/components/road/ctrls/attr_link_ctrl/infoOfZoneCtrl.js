@@ -11,6 +11,12 @@ oridinaryInfoApp.controller("zoneInfoController",function($scope) {
         {"id":2,"label":"KDZone"},
         {"id":3,"label":"GCZone"}
     ];
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.zoneInfoForm.$setPristine();
+        });
+
+    }
 
     for(var i= 0,len=$scope.zoneData.zones.length;i<len;i++) {
 

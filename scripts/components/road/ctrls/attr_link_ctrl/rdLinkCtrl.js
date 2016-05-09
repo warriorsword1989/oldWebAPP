@@ -7,6 +7,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
+    var referenceNode=layerCtrl.getLayerById("referenceNode");
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -339,11 +340,13 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                           "pid": data.errid
                     }];
             }
+            rdLink.redraw();
+            rdCross.redraw();
+            referenceNode.redraw();
 
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
-                rdLink.redraw();
-                rdCross.redraw();
+
                 outputCtrl.pushOutput(info);
                 if (outputCtrl.updateOutPuts !== "") {
                     outputCtrl.updateOutPuts();
