@@ -57,6 +57,6 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
                 this.refFeatures.push(refFt);
             }
         }
-        this.type = data['type'] || 1;
+        this.type = data['type'] || 0;
     }
 });

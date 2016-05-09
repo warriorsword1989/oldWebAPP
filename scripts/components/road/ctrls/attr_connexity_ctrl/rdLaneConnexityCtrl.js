@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2015/12/23.
  */
-var otherApp = angular.module('mapApp');
+var otherApp = angular.module('mapApp', ['oc.lazyLoad']);
 otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, $document) {
 
     var objCtrl = fastmap.uikit.ObjectEditController();

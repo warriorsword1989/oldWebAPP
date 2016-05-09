@@ -16,15 +16,12 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
         window.location.href = appName + "/poibase/login.html";
         this.clearCookie();
     };
-    $scope.realName = (function () {
-    	var realName = "";
-    	var arr = document.cookie.split('; ');
-    	for(var i=0;i<arr.length;i++){
-    		if(arr[i].indexOf('FM_USER_NAME') > -1){
-    			realName = arr[i].split('=')[1];
-    			break;
-    		}
-    	}
-    	return realName;
-    }());
+        var arr = document.cookie.split('; ');
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].indexOf('FM_USER_NAME') > -1){
+                realName = arr[i].split('=')[1];
+                break;
+            }
+        }
+    $scope.realName = realName
 }]);

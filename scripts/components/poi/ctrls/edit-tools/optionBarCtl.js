@@ -2,10 +2,8 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
     var resultAllData = [],
         editHistoryData = [],
         checkResultData = [],
-        confusionResultData = [];
-    FM.dataApi.CheckRule.getList(function(data){
-        console.log(data)
-    })
+        confusionResultData = [],
+        checkRuleObj = {};
     var tags = $scope.tags = {};
     tags.optionBars = [
         {code:'checkResult',label:'检查结果'},
@@ -14,6 +12,13 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
         {code:'fileUpload',label:'文件上传'},
         {code:'remarks',label:'备注'}
     ];
+    /*获取检查规则*/
+    FM.dataApi.CheckRule.getList(function(data){
+        for(var i=0,len=data.length;i<data.length;i++){
+            checkRuleObj[data[i].ruleId] = data[i].severity;
+        }
+        console.log(checkRuleObj)
+    })
     var distinguishResult = function(data){
         for(var i,len=data.length;i<len;i++){
             if(data[i].errcode){}
@@ -28,7 +33,7 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
     tags.selection = tags.optionBars[0];
     /*切换tag按钮*/
     $scope.changeTag = function(){
-        switch(tags.selection.code) {
+        switch($scope.tagSelect) {
             case 'checkResult':
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
