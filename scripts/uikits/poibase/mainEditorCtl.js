@@ -20,6 +20,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
+                console.log("baseinfo");
                 $scope.$broadcast("loadup", $scope.poi);
             });
             distinguishResult($scope.poi);
@@ -32,6 +33,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
+                    console.log("map");
                     $scope.$broadcast("loadup_poiMap", $scope.snapshotPoi);
                 });
             });

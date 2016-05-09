@@ -215,9 +215,12 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + pMap.getZoom();
         if (pMap.getZoom() > 13) {
             $scope.loadNavBaseData();
+        }else {
+            FM.leafletUtil.clearMapLayer(pMap,"navBaseLayer");
         }
     };
 
+    //注册地图的moveend事件
     pMap.on("moveend", $scope.loadNewRoad);
 
     //重画引导坐标
@@ -352,7 +355,6 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
     }
 
     $scope.$on("loadup_poiMap",function (event, data) {
-        console.log("_________________________");
         var editPoi = $scope.createPoiFeature(data);
         editPoi.parentLayer = "poiEditLayer";
         FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(editPoi);

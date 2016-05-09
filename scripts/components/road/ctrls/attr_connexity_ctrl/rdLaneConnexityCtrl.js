@@ -91,7 +91,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             id:objCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
             type:'line',
-            style:{}
+            style:{
+                color: '#3A5FCD'
+            }
         });
 
         for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
@@ -99,7 +101,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 id:objCtrl.data.topos[i].outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
         }
 

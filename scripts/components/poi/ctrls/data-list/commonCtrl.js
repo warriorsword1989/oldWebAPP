@@ -380,7 +380,19 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                 { field: "projectPhase", title: "状态", show: true }
             ];
 
-            _self.tableParams = new NgTableParams({count: 10}, {dataset: data});
+            //_self.tableParams = new NgTableParams({count: 10}, {dataset: data});
+            var initialParams = {
+                count: 5 // initial page size
+            };
+            var initialSettings = {
+                // page size buttons (right set of buttons in demo)
+                counts: [],
+                // determines the pager buttons (left set of buttons in demo)
+                paginationMaxBlocks:13,
+                paginationMinBlocks: 2,
+                dataset: data
+            };
+            _self.tableParams = new NgTableParams(initialParams, initialSettings);
         }else if(newValue=='historyProject'){
             console.log("初始化表2")
             var data = [{ name: '凌龍', age: 21 }, { name: '卡卡', age: 88 }];

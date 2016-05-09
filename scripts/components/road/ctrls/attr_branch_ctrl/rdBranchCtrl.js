@@ -250,14 +250,18 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 id:$scope.diverObj.inLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#3A5FCD'
+                }
             });
             highLightLink.highLightFeatures.push({
 
                 id:$scope.diverObj.outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
 
             highLightLink.highLightFeatures.push({

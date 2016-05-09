@@ -110,8 +110,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             };
                             var hightlightfeature = this.currentEditLayer.tiles[tile].data[feature];
                             var id = this.highLightFeatures[item].id;
+                            var style=this.highLightFeatures[item].style;
                             if (this.highLightFeatures[item].type == 'line') {
-                                this.drawOfLink(id, hightlightfeature, ctx);
+                                this.drawOfLink(id, hightlightfeature, ctx,style);
 
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
@@ -157,6 +158,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
                                     cusFeature = this.highLightFeatures[item];
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
+                            }else if(this.highLightFeatures[item].type == 'adadmin'){
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx );
                             }
                             break;
                         }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
@@ -196,9 +200,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             }
         }
 
-    }
+    },
 
-    ,
 
     /**
      * 高亮link
@@ -206,7 +209,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param feature
      * @param ctx
      */
-    drawOfLink: function (id, feature, ctx) {
+    drawOfLink: function (id, feature, ctx,inOutStyle) {
 
         var color = null;
         if (feature.hasOwnProperty('properties')) {
@@ -217,13 +220,24 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
-            this.layer._drawLineString(ctx, geom, true, {
-                strokeWidth: 3,
-                strokeColor: '#00F5FF'
-            }, {
-                color: '#00F5FF',
-                radius: 3
-            }, feature.properties);
+            if(inOutStyle.color!=null){
+                this.layer._drawLineString(ctx, geom, true, {
+                    strokeWidth: 3,
+                    strokeColor: inOutStyle.color
+                }, {
+                    color: '#00F5FF',
+                    radius: 3
+                }, feature.properties);
+            }else{
+                this.layer._drawLineString(ctx, geom, true, {
+                    strokeWidth: 3,
+                    strokeColor: '#00F5FF'
+                }, {
+                    color: '#00F5FF',
+                    radius: 3
+                }, feature.properties);
+            }
+
         } else {
             this.layer._drawLineString(ctx, geom, true, style, {
                 color: '#696969',
@@ -417,6 +431,26 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 color: '#696969',
                 radius: 3
             }, feature.properties);
+        }
+
+    },
+    drawAdAdmin: function (id, feature, ctx) {
+        if (feature.properties.id == id) {
+            if (feature.properties.id === undefined) {
+                return;
+            }
+            var geo = feature.geometry.coordinates;
+            this.layer._drawImg({
+                ctx: ctx,
+                geo: geo,
+                boolPixelCrs: true,
+                style: {src: '../../images/road/img/heightStar.svg'},
+                drawx: "",
+                drawy: "",
+                scalex: 1,
+                scaley: 1
+
+            })
         }
 
     },

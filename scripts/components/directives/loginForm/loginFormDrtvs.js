@@ -12,6 +12,7 @@ angular.module('fastmap.uikit').directive('loginForm', function() {
         restrict: 'EA',
         replace: true,
         templateUrl: '../../scripts/components/directives/loginForm/loginForm.htm',
+        scope: true,
         controller: function($scope, $element) {
             $scope.handleEvent = function(){
                 $scope.$emit("startLogin");
