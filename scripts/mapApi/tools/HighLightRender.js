@@ -110,8 +110,9 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             };
                             var hightlightfeature = this.currentEditLayer.tiles[tile].data[feature];
                             var id = this.highLightFeatures[item].id;
+                            var style=this.highLightFeatures[item].style;
                             if (this.highLightFeatures[item].type == 'line') {
-                                this.drawOfLink(id, hightlightfeature, ctx);
+                                this.drawOfLink(id, hightlightfeature, ctx,style);
 
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
@@ -199,9 +200,8 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             }
         }
 
-    }
+    },
 
-    ,
 
     /**
      * 高亮link
@@ -209,7 +209,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param feature
      * @param ctx
      */
-    drawOfLink: function (id, feature, ctx) {
+    drawOfLink: function (id, feature, ctx,inOutStyle) {
 
         var color = null;
         if (feature.hasOwnProperty('properties')) {
@@ -220,13 +220,24 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
-            this.layer._drawLineString(ctx, geom, true, {
-                strokeWidth: 3,
-                strokeColor: '#00F5FF'
-            }, {
-                color: '#00F5FF',
-                radius: 3
-            }, feature.properties);
+            if(inOutStyle.color!=null){
+                this.layer._drawLineString(ctx, geom, true, {
+                    strokeWidth: 3,
+                    strokeColor: inOutStyle.color
+                }, {
+                    color: '#00F5FF',
+                    radius: 3
+                }, feature.properties);
+            }else{
+                this.layer._drawLineString(ctx, geom, true, {
+                    strokeWidth: 3,
+                    strokeColor: '#00F5FF'
+                }, {
+                    color: '#00F5FF',
+                    radius: 3
+                }, feature.properties);
+            }
+
         } else {
             this.layer._drawLineString(ctx, geom, true, style, {
                 color: '#696969',
