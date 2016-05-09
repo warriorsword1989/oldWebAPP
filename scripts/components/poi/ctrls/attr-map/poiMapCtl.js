@@ -259,8 +259,8 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
     //设置最近的点并画link
     $scope.setClosestPoint = function ($event) {
         var point = $scope.closestPoint($event);
-        var latlng = new L.latLng(point.x,point.y);
-        if(point){
+        if(point != undefined){
+            var latlng = new L.latLng(point.x,point.y);
             FM.leafletUtil.removeLine(pMap,$event.target.id.replace("-@-gp","-@-gl"));
             var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp")[0]);
             var guidePoint = L.marker(latlng,{
@@ -284,8 +284,7 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         var fid = poiFid + "-@-gp";
         var point =new L.LatLng(guide.latitude,guide.longitude );
         var guidePoint = L.marker(point,{
-            icon:FM.iconStyles.pointIcon,
-            draggable:true
+            icon:FM.iconStyles.pointIcon
         }).on("drag",$scope.repeatGuidPoint).on("dragend",$scope.setClosestPoint);
         guidePoint.id = fid;
         guidePoint.name="guide-point";
@@ -322,13 +321,13 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
     //拖动完后的操作
     $scope.completeDraw = function ($event) {
         $event.target.openPopup();
-    }
+    };
 
     //创建显示坐标
     $scope.createPoiFeature = function (poiJson) {
         var point =new L.LatLng(poiJson.location.latitude,poiJson.location.longitude );
         var poiFeature = L.marker(point,{
-                draggable: true,
+                // draggable: true,
                 opacity: 0.8,
                 riseOnHover: true,
                 riseOffset:300,
@@ -352,9 +351,29 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         linePoints.push(spoint);
         linePoints.push(epoint);
         return $scope.drawGuideLine(fid,linePoints);
-    }
+    };
 
-    $scope.$on("loadup_poiMap",function (event, data) {
+    $scope.initEditablePoiInMap = function (data) {
+        var editPoi = $scope.createPoiFeature(data);
+        editPoi.options.draggable = true;
+        editPoi.parentLayer = "poiEditLayer";
+        FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(editPoi);
+        editPoi.openPopup();
+        pMap.setView([editPoi._latlng.lat,editPoi._latlng.lng],17);
+        if (data.guide) {
+            var guidePoint = $scope.createGuidePoint(data.fid, data.guide);
+            guidePoint.options.draggable = true;
+            pGuideGeo = $scope.createGuidePoint(data.fid, data.guide);
+            pGuideGeo.options.draggable = true;
+            FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer( guidePoint);
+            var guideLine = $scope.createGuideLine(data.fid, data.location, data.guide);
+            FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(guideLine);
+        }else {
+            console.log("guide missing");
+        }
+    };
+
+    $scope.initEneditablePoiInMap = function (data) {
         var editPoi = $scope.createPoiFeature(data);
         editPoi.parentLayer = "poiEditLayer";
         FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(editPoi);
@@ -362,12 +381,20 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         pMap.setView([editPoi._latlng.lat,editPoi._latlng.lng],17);
         if (data.guide) {
             var guidePoint = $scope.createGuidePoint(data.fid, data.guide);
-            pGuideGeo = guidePoint;
+            pGuideGeo = $scope.createGuidePoint(data.fid, data.guide);
             FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer( guidePoint);
             var guideLine = $scope.createGuideLine(data.fid, data.location, data.guide);
             FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(guideLine);
         }else {
             console.log("guide missing");
+        }
+    };
+
+    $scope.$on("loadup_poiMap",function (event, data) {
+        if(data.lifecycle == 1){
+            $scope.initEneditablePoiInMap(data);
+        }else {
+            $scope.initEditablePoiInMap(data);
         }
     });
 
