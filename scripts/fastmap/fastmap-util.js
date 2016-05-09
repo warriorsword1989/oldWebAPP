@@ -27,4 +27,21 @@ FM.Util.extend(FM.Util, {
         }
         return ret;
     },
+    stringToJson: function (str){
+        var ret = str;
+        try {
+            ret = JSON.parse(str);
+        } catch (e) {
+            try {
+                ret = JSON.parse(str.replace(/\\"/g, '"'));
+            } catch (e) {
+                try {
+                    ret = JSON.parse(str.replace(/'/g, '"'));
+                } catch (e) {
+                    ret = str;
+                }
+            }
+        }
+        return ret;
+    }
 });
