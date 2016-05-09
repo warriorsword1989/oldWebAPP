@@ -121,7 +121,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-
+                swal("操作成功",'修改成功！', "success");
                 objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
                 info=data.data.log;
                 speedLimit.redraw();
