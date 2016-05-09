@@ -33,17 +33,7 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         return defer.promise;
     };
     
-    this.getProjectList = function(projectType, projectStatus, module, callback){
-    	var param = {
-                parameter: JSON.stringify({
-                    from: module,
-                    projectStatus: projectStatus,
-                    projectType: projectType,
-                    pageno: null, // 取全部数据
-                    // pagesize: "20",
-                    snapshot: "snapshot"
-                })
-            };
+    this.getProjectList = function(param, callback){
         FM.dataApi.ajax.get("project/list/", param, function(data) {
         	var ret = [];
         	if (data.errcode == 0) {
@@ -65,6 +55,25 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
                 deferred.resolve(ret);
             } else {
                 deferred.reject(data.errmsg);
+            }
+        });
+        return deferred.promise;
+    };
+    this.getCiParaIcon = function (fid){
+        var deferred = $q.defer();
+        var param = {
+            idCode: fid
+        };
+        FM.dataApi.ajax.get("meta/queryCiParaIcon/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
+                if (data.data){
+                    deferred.resolve(true);
+                } else {
+                    deferred.resolve(false);
+                }
+            } else {
+                deferred.reject(false);
             }
         });
         return deferred.promise;
