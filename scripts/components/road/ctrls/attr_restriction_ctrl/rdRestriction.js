@@ -94,6 +94,12 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         if($scope.rdSubRestrictData.type == 2){
             $scope.changeLimitType(2);
         }
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.restricOrdinaryForm.$setPristine();
+            });
+        }
     };
 
 

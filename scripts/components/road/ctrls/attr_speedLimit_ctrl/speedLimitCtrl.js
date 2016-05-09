@@ -33,6 +33,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         })
         highLightLink.drawHighlight();
 
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.speedLimitForm.$setPristine();
+            });
+        }
+
     }
     if(objectEditCtrl.data){
         $scope.initializeData();
