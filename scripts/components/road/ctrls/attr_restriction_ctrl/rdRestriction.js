@@ -54,7 +54,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             id:objectEditCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
             type:'line',
-            style:{}
+            style:{
+                color: '#3A5FCD'
+            }
 
         });
         for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
@@ -62,7 +64,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 id:objectEditCtrl.data.details[i].outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
 
         }
