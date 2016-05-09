@@ -17,7 +17,7 @@
                         <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li ng-repeat="item in cols" role="menuitem"><label><input ng-click="ctrl_cols(this)" type="checkbox" value="{{item.field}}" checked="checked"> {{item.title}}</label></li>
+                        <li ng-repeat="item in cols" role="menuitem"><label style="padding: 3px 20px;"><input type="checkbox" value="{{item.field}}" ng-model='item.show'> {{item.title}}</label></li>
                     </ul>
                 </div>
             </div>
