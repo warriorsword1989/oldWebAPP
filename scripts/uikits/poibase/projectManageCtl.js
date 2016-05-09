@@ -1,7 +1,8 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable']).controller('projectManageCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', function($scope, $ocll, $rs, $q) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService']).controller('projectManageCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi',function($scope, $ocll, $rs, $q, poi ) {
 	$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
         $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
     });
+	var promises = [];
 	$scope.isActive = 'common';
 	$scope.menuChange = function(menuName){
 		switch(menuName){
@@ -9,6 +10,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable']).controller('pr
 				$ocll.load('../../scripts/components/poi/ctrls/data-list/generalProjectListCtrl.js').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/generalProjectListTpl.html';
                 });
+				poi.getProjectList("","","",function(data){
+					$scope.projectList = data;
+					$scope.$broadcast("currentProjectList", $scope.projectList);
+				});
                 break;
 			case 'agent': 
 				$ocll.load('').then(function(){

@@ -1,4 +1,4 @@
-angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('headCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
+angular.module('app').controller('headCtl', ['$scope', function($scope) {
     $scope.goback = function() {
         var pathName = window.document.location.pathname;
         var appName = pathName.substring(0, pathName.indexOf('/poibase'));
@@ -16,12 +16,13 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
         window.location.href = appName + "/poibase/login.html";
         this.clearCookie();
     };
-        var arr = document.cookie.split('; ');
-        for(var i=0;i<arr.length;i++){
-            if(arr[i].indexOf('FM_USER_NAME') > -1){
-                realName = arr[i].split('=')[1];
-                break;
-            }
+    var realName = "";
+    var arr = document.cookie.split('; ');
+    for(var i=0;i<arr.length;i++){
+        if(arr[i].indexOf('FM_USER_NAME') > -1){
+            realName = arr[i].split('=')[1];
+            break;
         }
-    $scope.realName = realName
+    }
+    $scope.realName = realName;
 }]);
