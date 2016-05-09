@@ -6,8 +6,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable']).controller('pr
 	$scope.menuChange = function(menuName){
 		switch(menuName){
 			case 'common':
-				$ocll.load('../../scripts/components/poi/ctrls/data-list/commonCtrl.js').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/common.html';
+				$ocll.load('../../scripts/components/poi/ctrls/data-list/generalProjectListCtrl.js').then(function(){
+                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/generalProjectListTpl.html';
                 });
                 break;
 			case 'agent': 
