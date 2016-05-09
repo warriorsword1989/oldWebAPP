@@ -9,6 +9,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $scope.poi = data;
         $scope.snapshotPoi = data.getSnapShot();
     }));
+    //查询3DIcon
+    promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
+        $scope.poiIcon = data;
+    }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
@@ -21,7 +25,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
                 console.log("baseinfo");
-                $scope.$broadcast("loadup", $scope.poi);
+                $scope.$broadcast("loadup", $scope.poi,$scope.poiIcon);
             });
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {

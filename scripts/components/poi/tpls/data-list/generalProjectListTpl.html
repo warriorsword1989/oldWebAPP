@@ -7,24 +7,17 @@
         </div>
     </div>
 
-    <div class="boot-Table">
+    <div class="boot-Table" ng-click="haha()">
         <div class="table-header">
             <div style="margin: 10px" class="columns columns-right btn-group pull-right">
                 <button class="btn btn-default" type="button" name="refresh" title="刷新"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button>
                 <button class="btn btn-default" type="button" name="toggle" title="切换"><i class="glyphicon glyphicon-list-alt icon-list-alt"></i></button>
-                <div class="btn-group dropdown" uib-dropdown>
+                <div class="btn-group dropdown" uib-dropdown auto-close="disabled">
                     <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
                         <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li role="menuitem"><label><input type="checkbox" data-field="0" value="0" checked="checked"> 序号</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectId" value="1"> 编 号</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectName" value="2" checked="checked"> 项目名称</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectType" value="3" checked="checked"> 项目类型</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectScheduleCreate" value="4" checked="checked"> 创建时间</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectScheduleBegin" value="5" checked="checked"> 开始时间</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectScheduleFinish" value="6" checked="checked"> 结束时间</label></li>
-                        <li role="menuitem"><label><input type="checkbox" data-field="projectPhase" value="7" checked="checked"> 状 态</label></li>
+                        <li ng-repeat="item in cols" role="menuitem"><label style="padding: 3px 20px;"><input type="checkbox" value="{{item.field}}" ng-model='item.show'> {{item.title}}</label></li>
                     </ul>
                 </div>
             </div>
@@ -32,17 +25,16 @@
             <div class="columns columns-right btn-group pull-right input-group" style="margin: 10px 0">
                 <div class="btn-group dropdown" uib-dropdown>
                     <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
-                        项目名称 <span class="caret"></span>
+                        {{radio_select}} <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li role="menuitem"><a href="#">项目名称</a></li>
-                        <li role="menuitem"><a href="#">项目名称</a></li>
-                        <li role="menuitem"><a href="#">项目名称</a></li>
-                        <li class="divider"></li>
-                        <li role="menuitem"><a href="#">项目名称</a></li>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+                        <li ng-model="radio_select" uib-btn-radio="'全局搜索'" role="menuitem"><a href="#">全局搜索</a></li>
+                        <li ng-model="radio_select" uib-btn-radio="'项目名称'" role="menuitem"><a href="#">项目名称</a></li>
+                        <li ng-model="radio_select" uib-btn-radio="'项目类型'" role="menuitem"><a href="#">项目类型</a></li>
+                        <li ng-model="radio_select" uib-btn-radio="'项目状态'" role="menuitem"><a href="#">项目状态</a></li>
                     </ul>
                 </div>
-                <div class="pull-right search"><input class="form-control" type="text" placeholder="关键词搜索..."></div>
+                <div class="pull-right search"><input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索..."></div>
             </div>
         </div>
         <table ng-table-dynamic="tableParams with cols" ng-table="tableParams" class="table table-condensed table-bordered table-striped" show-filter="true">
