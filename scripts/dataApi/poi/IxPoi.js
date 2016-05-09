@@ -1,8 +1,8 @@
 /**
  * Created by chenxiao on 2016/4/21.
  */
-FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
-    dataModelType: "IX_POI",
+FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
+    geoLiveType: "IX_POI",
     initialize: function(data) {
         this.setAttributes(data);
     },

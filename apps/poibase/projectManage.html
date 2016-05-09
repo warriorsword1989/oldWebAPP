@@ -34,13 +34,13 @@
 						</dl>
 						<dl class="menu-block">
 							<dt>
-								<a href="#userProfile" data-toggle="tab"><i
+								<a href="#userProfile" data-toggle="tab" ng-click="menuChange('userProfile');" ng-class="{'userProfile': 'active'}[isActive]"><i
 									class="glyphicon glyphicon-folder-close"></i>个人资料</a>
 							</dt>
 						</dl>
 						<dl class="menu-block">
 							<dt>
-								<a href="#userMessage" data-toggle="tab"><i
+								<a href="#userMessage" data-toggle="tab" ng-click="menuChange('userMessage');" ng-class="{'userMessage': 'active'}[isActive]"><i
 									class="glyphicon glyphicon-envelope"></i>我的消息</a>
 							</dt>
 						</dl>
