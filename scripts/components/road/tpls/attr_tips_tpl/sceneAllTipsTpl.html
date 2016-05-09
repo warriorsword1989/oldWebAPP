@@ -136,7 +136,7 @@
     <div class="topTitle">
         <label class="col-sm-12 control-label" ng-if="allTipsType==1101" style="padding: 7px;">Tips--限速</label>
         <label class="col-sm-12 control-label" ng-if="allTipsType==1201" style="padding: 7px;">Tips--道路种别</label>
-        <label class="col-sm-12 control-label" ng-if="allTipsType==1203" style="padding: 7px;">Tips--道路方向</label>
+        <label class="col-sm-12 control-label" ng-if="allTipsType==1203" style="padding: 7px    ;">Tips--道路方向</label>
         <label class="col-sm-12 control-label" ng-if="allTipsType==1301" style="padding: 7px;">Tips--车信</label>
         <label class="col-sm-12 control-label" ng-if="allTipsType==1302" style="padding: 7px;">Tips--交限</label>
         <label class="col-sm-12 control-label" ng-if="allTipsType==1407" style="padding: 7px;">Tips--高速分歧</label>
@@ -183,9 +183,11 @@
 
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label">{{dataTipsData.f.id}}</span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 6">
+                                <span class="label " ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}"></span>
+                            </div>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 6">
+                                <span class="label " ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
                             </div>
                         </div>
 
@@ -244,9 +246,11 @@
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="fData.id"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length > 6">
+                                <span class="label " ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
+                            </div>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length <= 6">
+                                <span class="label " ng-bind="fData.id" title="{{fData.id}}"></span>
                             </div>
                         </div>
 
@@ -481,9 +485,11 @@
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="fData.f.id"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.f.id.length > 6">
+                                <span class="label " ng-bind="fData.f.id.substring(0,6)+'...'" title="{{fData.f.id}}"></span>
+                            </div>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.f.id.length <= 6">
+                                <span class="label " ng-bind="fData.f.id" title="{{fData.f.id}}"></span>
                             </div>
                         </div>
 
@@ -509,8 +515,11 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
 
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-bind="dataTipsData.f.id"></span>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 6">
+                                <span class="label " ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}"></span>
+                            </div>
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 6">
+                                <span class="label " ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
                             </div>
                         </div>
 

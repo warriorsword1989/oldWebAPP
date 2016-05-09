@@ -405,34 +405,25 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      */
     drawOverpass: function (id, feature, ctx ,cusFeature) {
 
-        var COLORTABLE = ['#33FFFF','#3399FF','#3366CC','#333366','#330000'];
-
-        var color = null;
-        if (feature.hasOwnProperty('properties')) {
-            color = feature.properties.c;
-        }
-
-        var style = this.layer.styleFor(feature, color);
-
+        var COLORTABLE = ['#33FFFF','#3399FF','#3366CC','#333366','#330000'],
+            style = feature.properties.style,
+            /*根据index高低link的高亮也不一样*/
+            cusColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
-            var cusStyle = {
-                strokeWidth: 3,
-                strokeColor: '#00F5FF'
-            };
-            /*如果有层级关系和自定义粗细则不使用默认值*/
-            if(cusFeature){
-                cusStyle.strokeWidth = cusFeature.style.strokeWidth ? cusFeature.style.strokeWidth : 3;
-                cusStyle.strokeColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
-            }
-            this.layer._drawLineString(ctx, geom, true, cusStyle, cusStyle, feature.properties);
+            this.layer._drawLineString(ctx, geom, true, {
+                strokeWidth: 6,
+                strokeColor: cusColor
+            }, {
+                color: cusColor,
+                radius: 3
+            }, feature.properties);
         } else {
             this.layer._drawLineString(ctx, geom, true, style, {
                 color: '#696969',
                 radius: 3
             }, feature.properties);
         }
-
     },
     drawAdAdmin: function (id, feature, ctx) {
         if (feature.properties.id == id) {
