@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html ng-app='loginApp'>
-<head>
-    <title>FastMap-POI室内作业系统-登录</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta http-equiv="content-script-type" content="text/javascript">
-    <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-    <link href="../../styles/poi/login.css" rel="stylesheet" type="text/css" />
-
-    <script src="../../scripts/uikits/Application.js"></script>
-    <script src="../../scripts/libs/angularjs/1.4.4/angular.min.js"></script>
-    <script src="../../scripts/uikits/common/app-util.js"></script>
-    <script src="../../scripts/uikits/poibase/loginCtrl.js"></script>
-    <script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>
-
-</head>
-<body ng-controller="loginCtrl">
-<div id="navibar" class="container-fluid">
-    <div class="navbar-header">
-        <h1>FastMap <small>室内作业系统</small></h1>
-    </div>
-</div>
-
-<!-- login-Form directive  -->
-<login-Form showstyle='2'></login-Form>
-
-<footer class="bs-docs-footer">
-    <small>Copyright©2014 北京四维图新科技股份有限公司</small>
-</footer>
-
-</body>
+    <head>
+        <title>FastMap-POI室内作业系统-登录</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta http-equiv="content-script-type" content="text/javascript">
+        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../../scripts/libs/sweet-alert/css/sweet-alert.css" rel="stylesheet" type="text/css"/>
+        <link href="../../styles/poi/login.css" rel="stylesheet" type="text/css" />
+        <script src="../../scripts/libs/sweet-alert/js/sweet-alert.js"></script>
+        <script src="../../scripts/uikits/Application.js"></script>
+        <script src="../../scripts/uikits/common/app-util.js"></script>
+        <script src="../../scripts/libs/angularjs/1.4.4/angular.min.js"></script>
+        <script src="../../scripts/components/directives/fastmap-uikit-all.js"></script>
+        <script src="../../scripts/uikits/poibase/loginCtrl.js"></script>
+    </head>
+    <body ng-controller="loginCtrl">
+        <div id="navibar" class="container-fluid">
+            <div class="navbar-header">
+                <h1>FastMap <small>室内作业系统</small></h1>
+            </div>
+        </div>
+        <!-- login-Form directive  -->
+        <login-Form valid-type="2"></login-Form>
+        <footer class="bs-docs-footer">
+            <small>Copyright©2014 北京四维图新科技股份有限公司</small>
+        </footer>
+    </body>
 </html>
