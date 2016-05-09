@@ -721,6 +721,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
+                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
@@ -735,7 +736,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                         type: 'rdnode',
                                         style: {}
                                     });
-                                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
                                     highLightRender.highLightFeatures = highLightFeatures;
                                     highLightRender.drawHighlight();
                                     map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
