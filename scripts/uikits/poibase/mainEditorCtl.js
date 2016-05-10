@@ -66,12 +66,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 checkResultData.push(resultAllData[i])
             }
         }
-        /*取最后一条履历*/
-        editHistoryData = data.editHistory[data.editHistory.length-1];
-        /*根据履历作业员id查找真实姓名*/
-        new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
-            editHistoryData.operator.name = userInfo.realName;
-        });
+        if(data.lifeCycle != 2){
+            /*取最后一条履历*/
+            editHistoryData = data.editHistory[data.editHistory.length-1];
+            /*根据履历作业员id查找真实姓名*/
+            new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
+                editHistoryData.operator.name = userInfo.realName;
+            });
+        }else{
+            editHistoryData = false;
+        }
+
     }
 
     var initKindFormat = function (kindData){
@@ -123,7 +128,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
                     $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('editHistoryData',editHistoryData);
+                        var param = {
+                            historyData:editHistoryData,
+                            kindFormat:metaData.kindFormat
+                        };
+                        $scope.$broadcast('editHistoryData',param);
                     });
                 });
                 break;
