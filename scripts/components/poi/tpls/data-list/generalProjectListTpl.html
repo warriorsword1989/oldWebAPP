@@ -35,7 +35,9 @@
                         <li ng-model="radio_select" uib-btn-radio="'项目状态'" role="menuitem"><a href="#">项目状态</a></li>
                     </ul>
                 </div>
-                <div class="pull-right search"><input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索..."></div>
+                <div class="pull-right search">
+                    <input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索...">
+                </div>
             </div>
         </div>
         <table ng-table-dynamic="tableParams with cols" ng-table="tableParams" class="table table-bordered table-striped">

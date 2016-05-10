@@ -46,11 +46,11 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
             //格式化项目名称
             function handleProjectName($scope,row){
                 var value = row[this.field];
-                value = value.length>20?value.substr(0,20)+'...':value;
+                var newvalue = value.length>20?value.substr(0,20)+'...':value;
                 if(value.length>20){
-                    var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+value+'</a>'
+                    var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
                 }else{
-                    var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+value+'</a>'
+                    var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
                 }
                 return $sce.trustAsHtml(html);
             }
