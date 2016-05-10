@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/5/6.
  */
-var addDirectOfRestriction = angular.module("myApp", []);
+var addDirectOfRestriction = angular.module("myApp");
 addDirectOfRestriction.controller("addDirectOfRestrictionController", function ($scope, $timeout) {
         var objCtrl = fastmap.uikit.ObjectEditController();
         $scope.showData = objCtrl.originalData;

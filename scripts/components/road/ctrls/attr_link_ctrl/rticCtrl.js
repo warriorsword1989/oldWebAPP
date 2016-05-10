@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var realtimeTrafficApp = angular.module("lazymodule", []);
+var realtimeTrafficApp = angular.module("mapApp");
 realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var selectCtrl = new fastmap.uikit.SelectController();

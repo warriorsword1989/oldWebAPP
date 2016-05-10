@@ -2,7 +2,7 @@
  * Created by navinfo on 2015/11/3.
  */
 
-var otherApp = angular.module("mapApp", ['oc.lazyLoad']);
+var otherApp = angular.module("mapApp");
 otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     $scope.roadlinkData = objectEditCtrl.data;

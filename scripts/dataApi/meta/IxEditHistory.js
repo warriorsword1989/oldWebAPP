@@ -14,6 +14,7 @@ FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
         if(data['operator']){
             this.operator.user = data['operator'].user;
             this.operator.role = data['operator'].role;
+            this.operator.name = '';
         }
         this.operation = data['operation'];
         this.mergeDate = data['mergeDate'];
@@ -26,6 +27,14 @@ FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
         }
         this.validationMethod = data['validationMethod'] || 1;
         this.comment = data['comment'] || null;
+    },
+    statics: {
+        getList: function(id,callback) {
+            var params = {'userId':id};
+            FM.dataApi.ajax.get("/user/query/", params, function(data) {
+                callback(data.data.rows[0]);
+            });
+        }
     }
 
 });

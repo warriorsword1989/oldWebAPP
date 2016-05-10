@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/10.
  */
-var outPutModule = angular.module('lazymodule', []);
+var outPutModule = angular.module('mapApp');
 outPutModule.controller('outPutController', function ($scope) {
     $scope.outputtext = ""
     var layerCtrl = fastmap.uikit.LayerController();

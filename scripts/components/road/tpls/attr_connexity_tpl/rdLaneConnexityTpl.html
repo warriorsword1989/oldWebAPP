@@ -54,7 +54,15 @@
 
     }
 
-
+    #rdLaneConnexityDiv ul > li > div > input.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
 
     #rdLaneConnexityDiv ul > li > div > select {
         color: #F3F6FA;
@@ -66,6 +74,16 @@
         background-color: #333;
     }
 
+
+    #rdLaneConnexityDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
     #rdLaneConnexityDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
@@ -110,6 +128,7 @@
             </div>
         </form>
     </div>
+    <form name="rdLaneConnexityForm">
     <ul  class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div style="width: 100%;text-align: right;margin-bottom: 10px;"> <span style="float:right;font-size: 14px;color: #FFF;" class="glyphicon glyphicon-plus" ng-click="addLane()"></span></div>
@@ -173,4 +192,5 @@
         </li>
 
     </ul>
+    </form>
 </div>
