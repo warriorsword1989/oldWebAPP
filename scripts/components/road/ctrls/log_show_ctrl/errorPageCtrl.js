@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/10.
  */
-var errorCheckModule = angular.module('lazymodule', []);
+var errorCheckModule = angular.module('mapApp');
 errorCheckModule.controller('errorCheckPageController', function ($scope) {
     var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();

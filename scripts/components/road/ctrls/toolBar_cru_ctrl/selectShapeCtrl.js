@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
+var selectApp = angular.module("mapApp");
 selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();

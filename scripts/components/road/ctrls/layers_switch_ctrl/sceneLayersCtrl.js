@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/24.
  */
-var sceneLayersModule = angular.module('lazymodule', []);
+var sceneLayersModule = angular.module('mapApp');
 sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");

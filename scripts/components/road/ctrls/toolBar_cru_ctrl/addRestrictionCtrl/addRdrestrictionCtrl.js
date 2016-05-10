@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/5/6.
  */
-var rdRestrictionApp = angular.module("mapApp", ['oc.lazyLoad']);
+var rdRestrictionApp = angular.module("mapApp");
 rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();

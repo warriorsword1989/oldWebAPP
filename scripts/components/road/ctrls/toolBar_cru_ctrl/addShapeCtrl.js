@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
+var addShapeApp = angular.module('mapApp');
 addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/10.
  */
-var referenceModule = angular.module('lazymodule', []);
+var referenceModule = angular.module('mapApp');
 referenceModule.controller('referenceLayersController',function($scope) {
 
 

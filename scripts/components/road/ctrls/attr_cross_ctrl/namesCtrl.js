@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var namesOfCross = angular.module("mapApp", []);
+var namesOfCross = angular.module("mapApp");
 namesOfCross.controller("namesController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.names = objCtrl.data.names;
@@ -41,6 +41,12 @@ namesOfCross.controller("namesController",function($scope) {
 
     $scope.names = objCtrl.data.names;
     $scope.realtimeData = objCtrl.data;
+
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.nameCrossForm.$setPristine();
+        });
+    }
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {

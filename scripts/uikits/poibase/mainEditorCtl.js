@@ -1,9 +1,13 @@
 angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
+
+    var metaData = {}; //存放元数据
+    metaData.kindFormat = {} , metaData.kindList = [] ;
     var promises = [];
-    promises.push(meta.getKindList().then(function(data) {
-        $scope.meta.kindList = data;
+    promises.push(meta.getKindList().then(function(kindData) {
+        //$scope.meta.kindList = [];
+        initKindFormat(kindData);
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
@@ -13,19 +17,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poiIcon = data;
     }));
+
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
-    $scope.test = function() {
-        // console.log("main test");
-        poi.test();
-    };
+
     $q.all(promises).then(function() {
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
                 console.log("baseinfo");
-                $scope.$broadcast("loadup", $scope.poi,$scope.poiIcon);
+                $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":metaData.kindList});
             });
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
@@ -71,6 +73,32 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             editHistoryData.operator.name = userInfo.realName;
         });
     }
+
+    var initKindFormat = function (kindData){
+        for (var i = 0; i < kindData.length; i++) {
+            if (kindData[i].kindCode == "230218" || kindData[i].kindCode == "230227") {
+                kindData.splice(i, 1);
+                i--;
+                continue;
+            }
+            metaData.kindFormat[kindData[i].kindCode] = {
+                kindId: kindData[i].id,
+                kindName: kindData[i].kindName,
+                level: kindData[i].level,
+                extend: kindData[i].extend,
+                parentFlag: kindData[i].parent,
+                chainFlag: kindData[i].chainFlag,
+                dispOnLink: kindData[i].dispOnLink,
+                mediumId: kindData[i].mediumId
+            };
+            metaData.kindList.push({
+                value: kindData[i].kindCode,
+                text: kindData[i].kindName,
+                mediumId: kindData[i].mediumId
+            });
+            //$scope.meta.kindList.push(kindData[i]);
+        }
+    };
 
     /*切换tag按钮*/
     $scope.changeTag = function(tagName){
@@ -139,11 +167,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $scope.test();
     };
 
-    $scope.$on('showParentPoiInMap',function (obj){
-        alert("显示父");
+    $scope.$on('emitMainEditorTransParent',function (obj){
+        $scope.$broadcast("showParentPoiInMap", $scope.snapshotPoi);
     })
-    $scope.$on('showChildrenPoisInMap',function (obj){
-        alert("显示子");
+    $scope.$on('emitMainEditorTransChildren',function (obj){
+        $scope.$broadcast("showChildrenPoisInMap", $scope.snapshotPoi);
     })
     $scope.loadAdditionInfo = function() {
         $scope.additionInfoTpl = $scope.radioModel;

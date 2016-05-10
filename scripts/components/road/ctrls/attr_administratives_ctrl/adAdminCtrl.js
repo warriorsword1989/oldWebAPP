@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-var adAdminZone = angular.module("lazymodule", ['ui.tree', 'ngRoute', 'ui.bootstrap']);
+var adAdminZone = angular.module("mapApp");
 adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -62,6 +62,11 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.adAdminForm.$setPristine();
+            });
+        }
     };
     if(objCtrl.data){
         $scope.initializeData();

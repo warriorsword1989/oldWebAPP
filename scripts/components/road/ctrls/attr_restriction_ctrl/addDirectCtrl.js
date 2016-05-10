@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var addDirectOfRest = angular.module("myApp", []);
+var addDirectOfRest = angular.module("myApp");
 addDirectOfRest.controller("addDirectOfRestController", function ($scope, $timeout) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.addDirectData = objCtrl.data;

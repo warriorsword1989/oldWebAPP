@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var oridinaryInfoApp = angular.module("myApp", []);
+var oridinaryInfoApp = angular.module("mapApp");
 oridinaryInfoApp.controller("oridinaryCarController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.realtimeData = objCtrl.data;

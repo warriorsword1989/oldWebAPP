@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 
-var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
+var selectApp = angular.module("mapApp");
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -32,6 +32,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             style:{}
         })
         highLightLink.drawHighlight();
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.speedLimitForm.$setPristine();
+            });
+        }
 
     }
     if(objectEditCtrl.data){
