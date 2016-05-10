@@ -16,8 +16,6 @@ requirejs.config({
         'dataModel': 'dataApi/common/DataModel',
         'dataService': 'uikits/poibase/dataService-singleton',
         'poiService': 'uikits/poibase/dataService-angular',
-        'select2':'libs/select2/js/select2',
-        'jquery':'libs/jquery/jquery-1.11.1',
         'ngTable':'libs/ng-table/ng-table',
         'ngSanitize':'libs/angularjs/1.4.4/angular-sanitize'
     },
@@ -31,7 +29,8 @@ requirejs.config({
         'select2':['jquery'],
         'ngTable':['angular'],
         'ngSanitize':['angular'],
-        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','select2', 'ngTable','ngSanitize']
+        'dataApi':['fastmap'],
+        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','ngTable','ngSanitize','dataApi']
     }
 });
 // Start the main app logic.
