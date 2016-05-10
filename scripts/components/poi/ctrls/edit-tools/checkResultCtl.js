@@ -4,4 +4,8 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
     $scope.$on("checkResultData", function(event, data) {
         $scope.checkResults = data;
     });
+    /*检查结果忽略操作*/
+    $scope.ignoreCheckResult = function(item){
+        $scope.$emit('ignoreItem',item);
+    }
 }]);
