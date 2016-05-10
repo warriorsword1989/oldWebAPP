@@ -6,10 +6,7 @@
                 "dataApi/common/dataApi-ajax.js",
                 "dataApi/common/DataModel.js",
                 "dataApi/common/GeoDataModel.js",
-                "dataApi/common/PoiConstant.js",
                 "dataApi/meta/CheckRule.js",
-                "dataApi/meta/IxCheckResult.js",
-                "dataApi/meta/IxEditHistory.js",
                 "dataApi/meta/IxPoiBrand.js",
                 "dataApi/meta/IxPoiKind.js",
                 "dataApi/meta/IxPoiMediumKind.js",
@@ -20,7 +17,10 @@
                 "dataApi/poi/IxPoiChargingStation.js",
                 "dataApi/poi/IxPoiContact.js",
                 "dataApi/poi/IxPoiImage.js",
-                "dataApi/poi/IxPoiName.js"
+                "dataApi/poi/IxPoiName.js",
+                "dataApi/poi/IxPoiConstant.js",
+                "dataApi/poi/IxCheckResult.js",
+                "dataApi/poi/IxEditHistory.js"
             ]; // etc.
         var scriptTags = new Array(jsFiles.length);
         var host = "../../scripts/";
