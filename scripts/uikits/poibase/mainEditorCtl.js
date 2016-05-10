@@ -93,7 +93,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             });
             //$scope.meta.kindList.push(kindData[i]);
         }
-        console.info("dddddddddddd");
     };
 
     /*切换tag按钮*/
