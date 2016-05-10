@@ -401,3 +401,7 @@ dl.property > dd {
     background-repeat: repeat-x;
     color: #fff;
 }
+
+.ng-table-pager{
+    text-align: right;
+}
