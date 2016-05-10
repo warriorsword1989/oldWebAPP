@@ -128,7 +128,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
                     $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('editHistoryData',editHistoryData);
+                        var param = {
+                            historyData:editHistoryData,
+                            kindFormat:metaData.kindFormat
+                        };
+                        $scope.$broadcast('editHistoryData',param);
                     });
                 });
                 break;
