@@ -51,6 +51,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         confusionInfoData = [],
         checkRuleObj = {};
     var distinguishResult = function(data){
+        checkResultData = [];
+        confusionInfoData = [];
         /*由于没有数据，这是假数据，有正式数据后放开后面的注释*/
         resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
         resultAllData[1] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Win-01-02", "errorMsg": "重新确认成果中的设施名称是否正确", "fields": ["name"]});
@@ -79,31 +81,28 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
 
     }
 
-    var initKindFormat = function (kindData){
-        for (var i = 0; i < kindData.length; i++) {
-            if (kindData[i].kindCode == "230218" || kindData[i].kindCode == "230227") {
-                kindData.splice(i, 1);
-                i--;
-                continue;
+    /*检查结果忽略请求*/
+    $scope.$on('ignoreItem',function(event,data){
+        console.log(data)
+        var param = {
+            fid:$scope.poi.fid,
+            project_id:2016013086,
+            ckException:{
+                errorCode:data.errorCode,
+                description:data.errorMsg
             }
-            metaData.kindFormat[kindData[i].kindCode] = {
-                kindId: kindData[i].id,
-                kindName: kindData[i].kindName,
-                level: kindData[i].level,
-                extend: kindData[i].extend,
-                parentFlag: kindData[i].parent,
-                chainFlag: kindData[i].chainFlag,
-                dispOnLink: kindData[i].dispOnLink,
-                mediumId: kindData[i].mediumId
-            };
-            metaData.kindList.push({
-                value: kindData[i].kindCode,
-                text: kindData[i].kindName,
-                mediumId: kindData[i].mediumId
-            });
-            //$scope.meta.kindList.push(kindData[i]);
-        }
-    };
+        };
+        poi.ignoreCheck(param,function(data){
+            /*操作成功后刷新poi数据*/
+            poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+                $scope.poi = data;
+                $scope.snapshotPoi = data.getSnapShot();
+                distinguishResult($scope.poi);
+                $scope.$broadcast('checkResultData',checkResultData);
+                $scope.$broadcast('confusionInfoData',confusionInfoData);
+            })
+        });
+    });
 
     /*切换tag按钮*/
     $scope.changeTag = function(tagName){
@@ -139,9 +138,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             case 'fileUpload':
                 $scope.tagContentTpl = '';
                 break;
-            case 'remarks':
-                $scope.tagContentTpl = '';
-                break;
             default:
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
@@ -161,6 +157,31 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         $scope.changeTag('checkResult');
     }
     $scope.initializeData();
+    var initKindFormat = function (kindData){
+        for (var i = 0; i < kindData.length; i++) {
+            if (kindData[i].kindCode == "230218" || kindData[i].kindCode == "230227") {
+                kindData.splice(i, 1);
+                i--;
+                continue;
+            }
+            metaData.kindFormat[kindData[i].kindCode] = {
+                kindId: kindData[i].id,
+                kindName: kindData[i].kindName,
+                level: kindData[i].level,
+                extend: kindData[i].extend,
+                parentFlag: kindData[i].parent,
+                chainFlag: kindData[i].chainFlag,
+                dispOnLink: kindData[i].dispOnLink,
+                mediumId: kindData[i].mediumId
+            };
+            metaData.kindList.push({
+                value: kindData[i].kindCode,
+                text: kindData[i].kindName,
+                mediumId: kindData[i].mediumId
+            });
+            //$scope.meta.kindList.push(kindData[i]);
+        }
+    };
     $scope.nextPoi = function() {
         ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
             $scope.poi = data;
