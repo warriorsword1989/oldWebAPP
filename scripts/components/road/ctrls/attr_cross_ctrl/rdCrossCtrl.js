@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
+var selectApp = angular.module("mapApp");
 selectApp.controller("rdCrossController", function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -34,6 +34,12 @@ selectApp.controller("rdCrossController", function ($scope) {
         var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.rdCrossForm.$setPristine();
+            });
+        }
     };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();

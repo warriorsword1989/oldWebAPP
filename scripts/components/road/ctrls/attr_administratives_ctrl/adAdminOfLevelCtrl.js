@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2016/4/21.
  */
-var adAdminZone = angular.module("lazymodule", ['ui.tree', 'ngRoute', 'ui.bootstrap']);
+var adAdminZone = angular.module("mapApp");
 adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});

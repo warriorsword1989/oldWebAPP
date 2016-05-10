@@ -109,12 +109,20 @@
         border-radius: 3px;
         padding-top: 0;
     }
+
+    input[type="text"].ng-dirty {
+        border: 1px solid #FFFFFF;
+        border-style: ridge;
+        color: #fff;
+        background-color: #307BA3;
+    }
 </style>
 <div id="braNameDiv" class="detail-info-box" ng-controller="BraNameCtrl">
     <div class="detail-info-title">
     名称信息（共 <span ng-bind="details[0].names.length">0</span> 条）
                 <span class="glyphicon glyphicon-plus-sign" style="float: right;opacity: .8;margin-right:10px;font-size: 20px;cursor: pointer;color: #fff;" ng-click="nameInfoAdd()"></span>
     </div>
+    <form name="branchNameForm">
     <div id="loadPropertyDiv" class="panel-collapse col-sm-12">
         <div class="info-well" id="nameInfo{{item[0].nameGroupid}}" ng-repeat="item in nameGroup | orderBy: 'nameGroupid'">
             <div class="info-head-well">
@@ -189,4 +197,5 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
