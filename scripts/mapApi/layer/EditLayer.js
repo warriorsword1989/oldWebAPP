@@ -238,10 +238,12 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                                 }, true);
                             }
                         }else{
-                            drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                                color: 'blue',
-                                radius: 4
-                            }, true);
+
+                                drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                                    color: 'blue',
+                                    radius: 4
+                                }, true);
+
                         }
                     }
 

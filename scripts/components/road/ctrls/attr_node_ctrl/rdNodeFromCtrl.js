@@ -235,6 +235,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             rdLink.redraw();
+            layerCtrl.getLayerById("referenceNode").redraw();
             var info = [];
             if (data.errcode == 0) {
                 var sinfo = {

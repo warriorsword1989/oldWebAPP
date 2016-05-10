@@ -353,7 +353,6 @@ function keyEvent(ocLazyLoad, scope) {
                        }else if(param ["type"] === "ADNODE") {
                            layerCtrl.getLayerById("adLink").redraw();
                            layerCtrl.getLayerById("adnode").redraw();
-
                        }
                         treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
