@@ -18,7 +18,8 @@ requirejs.config({
         'poiService': 'uikits/poibase/dataService-angular',
         'select2':'libs/select2/js/select2',
         'jquery':'libs/jquery/jquery-1.11.1',
-        'ngTable':'libs/ng-table/ng-table'
+        'ngTable':'libs/ng-table/ng-table',
+        'ngSanitize':'libs/angularjs/1.4.4/angular-sanitize'
     },
     shim: {
         'angular':{exports:'angular'},                   //ngTable需要用angular的名字;
@@ -29,7 +30,8 @@ requirejs.config({
         'appUtil': ['application'],
         'select2':['jquery'],
         'ngTable':['angular'],
-        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','select2', 'ngTable']
+        'ngSanitize':['angular'],
+        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','select2', 'ngTable','ngSanitize']
     }
 });
 // Start the main app logic.

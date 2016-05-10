@@ -46,7 +46,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         });
     });
     var resultAllData = [],
-        editHistoryData = [],
+        editHistoryData = {},
         checkResultData = [],
         confusionInfoData = [],
         checkRuleObj = {};
@@ -57,7 +57,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         resultAllData[2] = new FM.dataApi.IxCheckResult({"errorCode": "FM-YW-20-215", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
         // editHistoryData[0] = new FM.dataApi.IxEditHistory({"mergeDate": "20160112145422","sourceName": "Android","sourceProject": "2015111243","sourceTask": "","validationMethod": 1, "mergeContents": [{"newValue": "{\"attachments\": [{\"url\": \"2015111243/20160112/365520160112145410.jpg\", \"tag\": 3, \"type\": 1}]}", "oldValue": "{\"attachments\": []}"},{ "newValue": "{\"lifecycle\": 2}","oldValue": "{\"lifecycle\": 0}"},{"newValue": "{\"brands\": [{\"code\": \"4012\"}]}","oldValue": "{\"brands\": []}"},{"newValue": "{\"indoor\": {\"open\": 1, \"type\": 3, \"floor\": null}}","oldValue": "{\"indoor\": {\"open\": 1, \"type\": 0, \"floor\": null}}"},{"newValue": "{\"level\": \"B1\"}","oldValue": "{\"level\": \"B3\"}"},{"newValue": "{\"postCode\": \"235566\"}","oldValue": "{\"postCode\": null}"}],"operator": {"role": 0,"user": 3655},"operation": 2});
         // resultAllData = data.checkResults;
-        editHistoryData = data.editHistory;
         for(var i=0,len=resultAllData.length;i<len;i++){
             if(resultAllData[i].errorCode == 'FM-YW-20-215' || resultAllData[i].errorCode == 'FM-YW-20-216'){
                 resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
@@ -67,6 +66,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 checkResultData.push(resultAllData[i])
             }
         }
+        /*取最后一条履历*/
+        editHistoryData = data.editHistory[data.editHistory.length-1];
+        /*根据履历作业员id查找真实姓名*/
+        new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
+            editHistoryData.operator.name = userInfo.realName;
+        });
     }
 
     var initKindFormat = function (kindData){
