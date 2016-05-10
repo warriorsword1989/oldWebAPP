@@ -426,6 +426,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             } else if (type === "RDCROSS") {
                 var linksArr = [], nodesArr = [], nodes = [], links = [], options = {};
+                tooltipsCtrl.setCurrentTooltip('正要新建路口,请框选点！');
                 shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDCROSS, {
                     map: map,
                     layer: rdLink,
@@ -467,6 +468,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
                         }
                     }
+                    tooltipsCtrl.setCurrentTooltip("已选路口,点击空格键保存!");
                     linksArr = $scope.distinctArr(linksArr);
                     nodesArr = $scope.distinctArr(nodesArr);
                     for(var i= 0,lenI=linksArr.length;i<lenI;i++) {
@@ -490,6 +492,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     highLightLink.drawHighlight();
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
                     selectCtrl.onSelected(options);
+
                 });
 
 
