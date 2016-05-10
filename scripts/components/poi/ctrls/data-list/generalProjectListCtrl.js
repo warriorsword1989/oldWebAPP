@@ -48,9 +48,9 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                 var value = row[this.field];
                 value = value.length>20?value.substr(0,20)+'...':value;
                 if(value.length>20){
-                    var html = '<a uib-tooltip="Hello, World!" title="row[this.field]" tooltip-trigger="focus" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+value+'</a>'
+                    var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+value+'</a>'
                 }else{
-                    var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="focus" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+value+'</a>'
+                    var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+value+'</a>'
                 }
                 return $sce.trustAsHtml(html);
             }
@@ -74,10 +74,10 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
             //初始化ng-table;
             if(newValue=='myProject'){
                 console.log('myProject')
-                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'projectName':''}}, {counts: [],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset: _self.currentData});
+                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.currentData});
             }else{
                 console.log('historyProject')
-                _self.tableParams = new NgTableParams({count:10,filter:{'projectName':''}}, {counts: [],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset: _self.historytData});
+                _self.tableParams = new NgTableParams({count:10,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.historytData});
             }
             var timeout = null;
             scope.$watch('search_text',function(newValue,oldValue,scope){
