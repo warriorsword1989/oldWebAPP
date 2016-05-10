@@ -342,8 +342,10 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
                        if( param ["type"] === "RDNODE") {
                            layerCtrl.getLayerById("referenceLine").redraw();
+                           layerCtrl.getLayerById("referenceNode").redraw();
                        }else if(param ["type"] === "ADNODE") {
                            layerCtrl.getLayerById("adLink").redraw();
+                           layerCtrl.getLayerById("adnode").redraw();
                        }
                         treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
