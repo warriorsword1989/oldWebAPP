@@ -45,7 +45,9 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
 }]).service("meta", ["$http", "$q", function($http, $q) {
     this.getKindList = function() {
         var deferred = $q.defer();
-        var param = {};
+        var param = {
+            region:0
+        };
         FM.dataApi.ajax.get("meta/queryKind/", param, function(data) {
             var ret = [];
             if (data.errcode == 0) {

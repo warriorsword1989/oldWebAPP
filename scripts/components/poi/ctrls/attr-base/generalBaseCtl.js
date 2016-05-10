@@ -1,4 +1,4 @@
-angular.module('app').controller('generalBaseCtl', function($scope) {
+angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
     var regionCode = "010"
     var lifecycle = {
         1: "删 除",
@@ -16,37 +16,21 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
     };
 
     var _conf_origin_prop = {
-        "location": 0,
-        "guide": 0,
-        "meshid": 1,
         "name": 1,
         "address": 1,
-        "contacts": 0,
+        "contacts": 1,
         "postCode": 1,
         "adminCode": 1,
         "kindCode": 1,
-        "brands": 0,
+        "brands": 1,
         "level": 1,
         "open24H": 1,
-        "adminReal": 1,
-        "importance": 1,
-        "airportCode": 1,
-        "website": 1,
-        "relateParent": 0,
-        "relateChildren": 0,
-        "names": 0,
-        "addresses": 0,
-        "foodtypes": 0,
-        "parkings": 0,
-        "hotel": 0,
-        "sportsVenues": 0,
-        "chargingStation": 0,
-        "gasStation": 0,
-        "attraction": 0,
-        "rental": 0,
-        "indoor": 0
+        "relateParent": 1,
+        "relateChildren": 1,
+        "names": 1,
+        "indoor": 1
     }
-    var setOptionStyle = function (poiJson){
+    var initOptionStyle = function (poiJson){
         var editedProperty = new Object();
         var data = [];
         if (poiJson.lifecycle == 1) { //删除 
@@ -59,7 +43,7 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
                             tt = _conf_origin_prop[kk];
-                            if (tt != undefined) {
+                            if (tt) {
                                 editedProperty[kk] = kk;
                             }
                         }
@@ -75,7 +59,10 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            editedProperty[kk] = kk;
+                            tt = _conf_origin_prop[kk];
+                            if (tt) {
+                                editedProperty[kk] = kk;
+                            }
                         }
                     }
                 }
@@ -89,19 +76,21 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            editedProperty[kk] = kk;
+                            tt = _conf_origin_prop[kk];
+                            if (tt) {
+                                editedProperty[kk] = kk;
+                            }
                         }
                     }
                 }
             }
         }
-        console.info(editedProperty);
         for (var t in editedProperty){
             $scope[t+'StyleFlag'] = true;
         }
     }
 
-    var setBaseInfoIcon = function (icon , vipFlag){
+    var initBaseInfoIcon = function (icon , vipFlag){
         $scope.poi3DIcon = icon;
         if(vipFlag){
             var tmp = vipFlag.split("|");
@@ -113,6 +102,13 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
                     $scope.poiRmbIcon = true;
                 }
             }
+        }
+    }
+
+    var initLevel = function (poi){
+        $scope.levelArr = [];
+        if(poi.level){
+            $scope.levelArr = poi.level.split("|");
         }
     }
 
@@ -134,19 +130,23 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
         $scope.ctrl.lifeCycleName = lifecycle[value];
         $scope.ctrl.lifeCycleLabel = label[value];
     };
+
     $scope.switchRawFields = function(value) {
         var conf = {
             1: "name",
-            2: "telephone",
+            2: "contacts",
             3: "kindCode",
             4: "brands",
             5: "address",
             6: "postCode",
             7: "deepInfo"
         }
-        var list = App.Util.split(!value ? "" : value);
-        for (key in conf) {
-            $scope.ctrl.fieldLabel[conf[key]] = (list.indexOf(key) >= 0);
+        
+        if(value){
+            var list = App.Util.split(value,"|");
+            for (key in conf) {
+                $scope.ctrl.fieldLabel[conf[key]] = (list.indexOf(key) >= 0);
+            }
         }
     };
     /*  
@@ -205,32 +205,45 @@ angular.module('app').controller('generalBaseCtl', function($scope) {
     }
 
     $scope.kindChange = function(evt, obj) {
+
+
         $scope.$emit("kindChange", obj.selectedKind);
     };
     $scope.showChildrenPoisInMap = function() {
-        $scope.$emit('showChildrenPoisInMap', {});
+        $scope.$emit('emitMainEditorTransChildren', {});
     };
     $scope.showParentPoiInMap = function() {
-        $scope.$emit('showParentPoiInMap', {});
+        $scope.$emit('emitMainEditorTransParent', {});
     };
-
+    //初始化时让品牌默认选中
     $scope.$watch('poi.kindCode', function() {
-        for (var i = 0; i < $scope.meta.kindList.length; i++) {
-            if ($scope.meta.kindList[i].kindCode == $scope.poi.kindCode) {
-                $scope.selectedKind = $scope.meta.kindList[i];
+        // for (var i = 0; i < $scope.meta.kindList.length; i++) {
+        //     if ($scope.meta.kindList[i].kindCode == $scope.poi.kindCode) {
+        //         $scope.selectedKind = $scope.meta.kindList[i];
+        //         break;
+        //     }
+        // }
+        for (var i = 0; i < $scope.kindList.length; i++) {
+            if ($scope.kindList[i].value == $scope.poi.kindCode) {
+                $scope.selectedKind = $scope.kindList[i];
                 break;
             }
         }
-        //$scope.$emit("kindChange", $scope.selectedKind);
     });
-    $scope.$on("loadup", function(event, data,icon) {
-        $scope.poi = data;
+
+
+    $scope.$on("loadup", function(event, data) {
+        $scope.poi = data.poi;
+        $scope.kindList = data.kindList;
         $scope.switchLifeCycle($scope.poi.lifecycle);
         $scope.switchRawFields($scope.poi.rawFields);
-        setBaseInfoIcon(icon,$scope.poi.vipFlag);
-        setOptionStyle($scope.poi);
+        initBaseInfoIcon(data.poiIcon,$scope.poi.vipFlag);
+        initOptionStyle($scope.poi);
+        //initKindCode($scope.poi);
+        initLevel($scope.poi);
         resetBtnHeight();
     });
+
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "baseInfo");
     });
