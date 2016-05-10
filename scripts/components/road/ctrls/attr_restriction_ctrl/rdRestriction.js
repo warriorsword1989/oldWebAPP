@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-var objectEditApp = angular.module("mapApp", ['oc.lazyLoad']);
+var objectEditApp = angular.module("mapApp");
 objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();

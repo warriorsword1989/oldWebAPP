@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/1/25.
  */
-var laneConnexityApp = angular.module("mapApp", ['oc.lazyLoad']);
+var laneConnexityApp = angular.module("mapApp");
 laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();

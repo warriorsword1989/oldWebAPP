@@ -27,7 +27,7 @@ requirejs.config({
         'uitree':'libs/ui-tree/angular-ui-tree',
         'uibootstrap':'libs/ui-tree/ui-bootstrap-tpls',
         'jqmin':'libs/jquery/2.1.1/jquery-2.1.1.min',
-        'z-tree':'libs/z-tree/jquery.ztree.all',
+        'z-tree':'libs/z-tree/jquery.ztree.all'
         //'z-treeexcheck':'libs/z-tree/jquery.ztree.excheck',
         //'z-treeexedit':'libs/z-tree/jquery.ztree.exedit'
     },

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var truckLimitApp = angular.module("myApp", []);
+var truckLimitApp = angular.module("mapApp");
 truckLimitApp.controller("truckLimitInfoController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data;

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var sidewalkApp = angular.module("mapApp", []);
+var sidewalkApp = angular.module("mapApp");
 sidewalkApp.controller("sidewalkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.sidewalkData = objCtrl.data.sidewalks;

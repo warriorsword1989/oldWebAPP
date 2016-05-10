@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/12.
  */
-var modifyAdApp = angular.module("lazymodule", []);
+var modifyAdApp = angular.module("mapApp");
 modifyAdApp.controller("modifyAdToolController", function ($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();

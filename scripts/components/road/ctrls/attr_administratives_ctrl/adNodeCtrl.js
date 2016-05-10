@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/25.
  */
-var adNodeApp = angular.module("lazymodule", []);
+var adNodeApp = angular.module("mapApp");
 adNodeApp.controller("adNodeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -24,6 +24,12 @@ adNodeApp.controller("adNodeController",function($scope) {
     ];
     $scope.initializeData = function(){
         $scope.adNodeData = objCtrl.data;
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.adNodeForm.$setPristine();
+            });
+        }
+
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var highlightFeatures = [];
         Application.functions.getByCondition(JSON.stringify({

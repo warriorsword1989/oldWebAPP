@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/4/5.
  */
-var adLinkApp = angular.module("lazymodule", []);
+var adLinkApp = angular.module("mapApp");
 adLinkApp.controller("adLinkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -42,6 +42,11 @@ adLinkApp.controller("adLinkController",function($scope) {
 
     $scope.initializeData = function(){
         $scope.adLinkData = objCtrl.data;
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.adLinkForm.$setPristine();
+            });
+        }
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
         for (var i = 0, len = linkArr.length; i < len; i++) {
