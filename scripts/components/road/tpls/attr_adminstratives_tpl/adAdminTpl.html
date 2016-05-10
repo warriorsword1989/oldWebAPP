@@ -234,6 +234,10 @@
                 <a ng-click="otherAdminName()" style="cursor: pointer;color:#FFF;">行政区划名称</a>
             </div>
         </li>
+        <li class="list-group-item" ng-if="adAdminData.names.length>0">
+            <div  ng-click="otherAdminName()" style="cursor: pointer;width: 180px"><label style="padding-left: 15px;padding-top: 5px;cursor: pointer;width:160px" class="control-label" ng-repeat="item in adAdminData.names">{{item.name}}</label>
+            </div>
+        </li>
     </ul>
     </form>
 </div>
