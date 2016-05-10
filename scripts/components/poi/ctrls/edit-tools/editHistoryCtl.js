@@ -29,7 +29,9 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
                             oldVal = oldContent[attr];
                         }
                     }
-                    msg += '，修改前：' + oldVal;
+                    if (attr != "brands") {
+                        msg += '，修改前：' + oldVal;
+                    }
                 }
                 return msg;
             }
