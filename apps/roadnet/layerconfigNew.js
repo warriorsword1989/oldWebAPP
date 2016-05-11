@@ -367,7 +367,7 @@ Application.layersConfig =
                     type: 'adAdminPoint',
                     zIndex: 18,
                     restrictZoom: 10,
-                    visible: true,
+                    visible: false,
                     requestType: 'ADADMIN',
                     showNodeLevel: 17
                 }

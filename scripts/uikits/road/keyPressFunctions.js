@@ -235,11 +235,11 @@ function keyEvent(ocLazyLoad, scope) {
                     var startPoint = feature.geometry[0],
                         point = feature.point;
                     if (geo) {
-                        if (geo.flag) {
+                        if (!geo.flag) {
                             var directOfLink = {
                                 "objStatus": "UPDATE",
-                                "pid": geo.pid,
-                                "direct": parseInt(geo.orientation)
+                                "pid": selectCtrl.selectedFeatures.id,
+                                "direct": parseInt(selectCtrl.selectedFeatures.direct)
                             };
                             param = {
                                 "type": "RDLINK",
