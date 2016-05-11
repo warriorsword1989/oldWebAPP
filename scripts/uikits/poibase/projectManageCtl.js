@@ -11,7 +11,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/generalProjectListTpl.html';
                 });
 				var currparam = {
-		                parameter: JSON.stringify({
 		                    from: "app",
 		                    projectStatus: [3, 6, 7],
 		                    projectType: [1, 3],
@@ -19,10 +18,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 //		                    pagesize: null,
 		                    // pagesize: "20",
 		                    snapshot: "snapshot"
-		                })
 		            };
 				var hisparam = {
-		                parameter: JSON.stringify({
 		                    from: "app",
 		                    projectStatus: [5],
 		                    projectType: [1, 3],
@@ -30,7 +27,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 //		                    pagesize: null,
 		                    // pagesize: "20",
 		                    snapshot: "snapshot"
-		                })
 		            };
 				poi.getProjectList(currparam,function(data){
 					$scope.currProjectList = data;
