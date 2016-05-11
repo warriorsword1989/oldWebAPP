@@ -14,7 +14,9 @@ requirejs.config({
         'select2':'libs/select2/js/select2',
         'jquery':'libs/jquery/2.1.1/jquery-2.1.1',
         'leaflet':'libs/leaflet-0.7.3/leaflet-src',
-        'leafletUtil':'fastmap/leaflet-poiUtil'
+        'leafletUtil':'fastmap/leaflet-poiUtil',
+        "chosenJquery":"libs/angular-chosen/chosen.jquery.min",
+        "angularChosen":"libs/angular-chosen/angular-chosen.min"
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -24,7 +26,10 @@ requirejs.config({
         'appUtil': ['application'],
         'select2':['jquery'],
         'leafletUtil':['leaflet'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','leafletUtil']
+        'chosenJquery':['jquery'],
+        'angularChosen':['angular'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','leafletUtil','chosenJquery','angularChosen'],
+        
     }
 });
 // Start the main app logic.

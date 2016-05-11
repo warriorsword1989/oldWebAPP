@@ -61,6 +61,19 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         });
         return deferred.promise;
     };
+    this.getAllBrandList = function (){
+        var deferred = $q.defer();
+        FM.dataApi.ajax.get("meta/queryChain/", {}, function(data) {
+            var ret ;
+            if (data.errcode == 0) {
+                ret = data.data
+                deferred.resolve(ret);
+            } else {
+                deferred.reject(data.errmsg);
+            }
+        });
+        return deferred.promise;
+    }
     this.getCiParaIcon = function (fid){
         var deferred = $q.defer();
         var param = {
