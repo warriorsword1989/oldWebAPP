@@ -4,16 +4,12 @@ module.exports = function (config) {
         basePath: '../',
 
         files: [
-            {pattern: 'scripts/libs/jquery/2.1.1/jquery-2.1.1.js', included: false},
-            {pattern: 'scripts/libs/angularjs/1.4.4/angular.js', included: false},
-            {pattern: 'scripts/libs/angularjs/1.4.4/angular-mocks.js', included: false},
-            {pattern: 'scripts/libs/ocLazyLoad/ocLazyLoad.require.js', included: false},
-            {pattern: 'scripts/libs/ui-layout/ui-layout.js', included: false},
-            {pattern: 'scripts/libs/leaflet-0.7.3/leaflet-src.js', included: false},
+            {pattern: 'scripts/libs/*/*/*.js', included: false},
+            {pattern: 'scripts/libs/*/*.js', included: false},
             {pattern: 'test/libs.js', included: false},
-            {pattern: 'apps/roadnet/Application.js', included: false},
-            {pattern: 'apps/roadnet/appOfEditor.js', included: false},
-            {pattern: 'apps/roadnet/layerConfigNew.js', included: false},
+            {pattern: 'apps/roadnet/*.js', included: false},
+            {pattern: "scripts/uikits/road/*.js", included: false},
+            {pattern: "scripts/components/road/ctrls/*/*.js", included: false},
             {pattern: 'test/unit/*Spec.js', included: false},
 
             'test/unit/test-main.js'
@@ -23,7 +19,7 @@ module.exports = function (config) {
 
         frameworks: ['jasmine', 'requirejs'],
 
-        browsers: [],
+        browsers: ['Chrome'],
 
         singleRun: false,
 
