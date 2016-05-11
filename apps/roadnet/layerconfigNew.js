@@ -1032,13 +1032,13 @@ function transformData(data) {
                 obj['properties']["featType"] = "ADNODE";
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
-                obj['properties']['style']['strokeColor'] = 'black';
+                obj['properties']['style']['strokeColor'] = '#CD0000';
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
                 ;
                 obj['properties']['style']['radius'] = 3;
 
-                obj['properties']['style']['fillColor'] = 'black';
+                obj['properties']['style']['fillColor'] = '#CD0000';
                 obj['properties']['style']['fillOpacity'] = 0.2;
                 break;
             case 1101://限速
