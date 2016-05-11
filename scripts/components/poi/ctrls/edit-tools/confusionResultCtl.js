@@ -3,4 +3,8 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
     $scope.$on("confusionInfoData", function(event, data) {
         $scope.confusionInfo = data;
     });
+    /*检查结果忽略操作*/
+    $scope.ignoreConfusionResult = function(item){
+        $scope.$emit('ignoreItem',item);
+    }
 }]);

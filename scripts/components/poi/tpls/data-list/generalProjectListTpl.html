@@ -9,9 +9,9 @@
 
     <div class="boot-Table">
         <div class="table-header">
-            <div style="margin: 10px" class="columns columns-right btn-group pull-right">
+            <div style="margin: 10px" class="btn-group pull-right">
                 <button class="btn btn-default" type="button" name="refresh" title="刷新"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button>
-                <button class="btn btn-default" type="button" name="toggle" title="切换"><i class="glyphicon glyphicon-list-alt icon-list-alt"></i></button>
+                <button class="btn btn-default" type="button" name="toggle" ng-click="changeStyle()" title="切换"><i class="glyphicon glyphicon-list-alt icon-list-alt"></i></button>
                 <div class="btn-group dropdown" uib-dropdown auto-close="disabled">
                     <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
                         <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
@@ -21,12 +21,13 @@
                     </ul>
                 </div>
             </div>
-
-            <div class="columns columns-right btn-group pull-right input-group" style="margin: 10px 0">
+            <div class="btn-group pull-right input-group" style="margin: 10px 0">
                 <div class="btn-group dropdown" uib-dropdown>
-                    <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
-                        {{radio_select}} <span class="caret"></span>
-                    </button>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+                            {{radio_select}} <span class="caret"></span>
+                        </button>
+                    </span>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
                         <li ng-model="radio_select" uib-btn-radio="'全局搜索'" role="menuitem"><a href="#">全局搜索</a></li>
                         <li ng-model="radio_select" uib-btn-radio="'项目名称'" role="menuitem"><a href="#">项目名称</a></li>
@@ -34,14 +35,16 @@
                         <li ng-model="radio_select" uib-btn-radio="'项目状态'" role="menuitem"><a href="#">项目状态</a></li>
                     </ul>
                 </div>
-                <div class="pull-right search"><input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索..."></div>
+                <div class="pull-right search">
+                    <input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索...">
+                </div>
             </div>
         </div>
         <table ng-table-dynamic="tableParams with cols" ng-table="tableParams" class="table table-bordered table-striped">
             <tbody>
-            <tr ng-repeat="row in $data">
-                <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
-            </tr>
+                <tr ng-repeat="row in $data">
+                    <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
+                </tr>
             </tbody>
         </table>
     </div>
