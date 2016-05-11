@@ -71,6 +71,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             $.each($('.ng-dirty'), function (i, v) {
                 $scope.nodeForm.$setPristine();
             });
+
         }
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());

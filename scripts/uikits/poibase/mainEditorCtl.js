@@ -51,6 +51,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
         confusionInfoData = [],
         checkRuleObj = {};
     var distinguishResult = function(data){
+        checkResultData = [];
+        confusionInfoData = [];
         /*由于没有数据，这是假数据，有正式数据后放开后面的注释*/
         resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
         resultAllData[1] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Win-01-02", "errorMsg": "重新确认成果中的设施名称是否正确", "fields": ["name"]});
@@ -66,14 +68,95 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 checkResultData.push(resultAllData[i])
             }
         }
-        /*取最后一条履历*/
-        editHistoryData = data.editHistory[data.editHistory.length-1];
-        /*根据履历作业员id查找真实姓名*/
-        new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
-            editHistoryData.operator.name = userInfo.realName;
-        });
+        if(data.lifeCycle != 2){
+            /*取最后一条履历*/
+            editHistoryData = data.editHistory[data.editHistory.length-1];
+            /*根据履历作业员id查找真实姓名*/
+            new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
+                editHistoryData.operator.name = userInfo.realName;
+            });
+        }else{
+            editHistoryData = false;
+        }
+
     }
 
+    /*检查结果忽略请求*/
+    $scope.$on('ignoreItem',function(event,data){
+        console.log(data)
+        var param = {
+            fid:$scope.poi.fid,
+            project_id:2016013086,
+            ckException:{
+                errorCode:data.errorCode,
+                description:data.errorMsg
+            }
+        };
+        poi.ignoreCheck(param,function(data){
+            /*操作成功后刷新poi数据*/
+            poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+                $scope.poi = data;
+                $scope.snapshotPoi = data.getSnapShot();
+                distinguishResult($scope.poi);
+                $scope.$broadcast('checkResultData',checkResultData);
+                $scope.$broadcast('confusionInfoData',confusionInfoData);
+            })
+        });
+    });
+
+    /*切换tag按钮*/
+    $scope.changeTag = function(tagName){
+        switch(tagName) {
+            case 'checkResult':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('checkResultData',checkResultData);
+                    });
+                });
+                break;
+            case 'confusionInfo':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('confusionInfoData',confusionInfoData);
+                    });
+                });
+                break;
+            case 'editHistory':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        var param = {
+                            historyData:editHistoryData,
+                            kindFormat:metaData.kindFormat
+                        };
+                        $scope.$broadcast('editHistoryData',param);
+                    });
+                });
+                break;
+            case 'fileUpload':
+                $scope.tagContentTpl = '';
+                break;
+            default:
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                });
+                break;
+        }
+    };
+    /*所有初始化执行方法放在此*/
+    $scope.initializeData = function(){
+        /*获取检查规则*/
+        FM.dataApi.CheckRule.getList(function(data){
+            for(var i=0,len=data.length;i<data.length;i++){
+                checkRuleObj[data[i].ruleId] = data[i].severity;
+            }
+        })
+        $scope.tagSelect = 'checkResult';
+        $scope.changeTag('checkResult');
+    }
+    $scope.initializeData();
     var initKindFormat = function (kindData){
         for (var i = 0; i < kindData.length; i++) {
             if (kindData[i].kindCode == "230218" || kindData[i].kindCode == "230227") {
@@ -99,59 +182,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
             //$scope.meta.kindList.push(kindData[i]);
         }
     };
-
-    /*切换tag按钮*/
-    $scope.changeTag = function(tagName){
-        switch(tagName) {
-            case 'checkResult':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('checkResultData',checkResultData);
-                    });
-                });
-                break;
-            case 'confusionInfo':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('confusionInfoData',confusionInfoData);
-                    });
-                });
-                break;
-            case 'editHistory':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('editHistoryData',editHistoryData);
-                    });
-                });
-                break;
-            case 'fileUpload':
-                $scope.tagContentTpl = '';
-                break;
-            case 'remarks':
-                $scope.tagContentTpl = '';
-                break;
-            default:
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-                });
-                break;
-        }
-    };
-    /*所有初始化执行方法放在此*/
-    $scope.initializeData = function(){
-        /*获取检查规则*/
-        FM.dataApi.CheckRule.getList(function(data){
-            for(var i=0,len=data.length;i<data.length;i++){
-                checkRuleObj[data[i].ruleId] = data[i].severity;
-            }
-        })
-        $scope.tagSelect = 'checkResult';
-        $scope.changeTag('checkResult');
-    }
-    $scope.initializeData();
     $scope.nextPoi = function() {
         ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
             $scope.poi = data;

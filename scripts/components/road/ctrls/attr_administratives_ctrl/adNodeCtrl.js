@@ -7,6 +7,7 @@ adNodeApp.controller("adNodeController",function($scope) {
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById("referenceLine");
+    var adnode = layerCtrl.getLayerById("adnode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var hLayer = layerCtrl.getLayerById('highlightlayer');
@@ -100,6 +101,7 @@ adNodeApp.controller("adNodeController",function($scope) {
 
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
+
             if (data.errcode==0) {
                 swal("操作成功",'保存成功！', "success");
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -112,6 +114,7 @@ adNodeApp.controller("adNodeController",function($scope) {
                 info=data.data.log;
                 var restrict = layerCtrl.getLayerById("adLink");
                 restrict.redraw();
+                adnode.redraw();
             }else{
                 info=[{
                     "op":data.errcode,
@@ -148,6 +151,7 @@ adNodeApp.controller("adNodeController",function($scope) {
                 info = data.data.log;
                 var restrict = layerCtrl.getLayerById("adLink");
                 restrict.redraw();
+                adnode.redraw();
             } else {
                 info = [{
                     "op": data.errcode,
