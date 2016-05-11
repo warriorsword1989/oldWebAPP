@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/10.
  */
 //var otherApp=angular.module("lazymodule", []);
-var otherApp=angular.module("lazymodule", []);
+var otherApp=angular.module("mapApp");
 otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();

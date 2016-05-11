@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var pedestrianNaviApp = angular.module("lazymodule", ['oc.lazyLoad']);
+var pedestrianNaviApp = angular.module("mapApp");
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyLoad) {
     $scope.naviData =  $scope.linkData;
     $scope.walkFlag = 0;

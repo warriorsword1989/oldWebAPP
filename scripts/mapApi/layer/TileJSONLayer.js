@@ -352,7 +352,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         this._drawPoint({
                             ctx: ctx,
                             boolPixelCrs:true,
-                            fillColor:'black',
+                            fillColor:style.fillColor,
                             radius:feature.properties.style.radius,
                             geom:geom.coordinates
                         })
@@ -409,7 +409,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
                         if (icons[item].text) {
-                            console.log('---------------'+icons[item].text)
                             this._drawText({
                                 ctx: ctx,
                                 geo: geom.coordinates,
@@ -437,7 +436,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }, feature.properties);
 
                     //如果属性中有direct属性则绘制箭头
-                    if (feature.properties.direct) {
+                    if (feature.properties.direct&&this._map.getZoom()>14) {
                         var coords = geom.coordinates;
                         var arrowlist = [];
                         for (var index = 0; index < coords.length; index++) {
@@ -453,7 +452,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
 
                     //如果属性中有name属性则绘制名称
-                    if (feature.properties.name) {
+                    if (feature.properties.name&&this._map.getZoom()>14) {
                         this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
                     }
                     break;

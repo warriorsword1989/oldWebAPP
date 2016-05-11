@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/24.
  */
-var sceneLayersModule = angular.module('lazymodule', []);
+var sceneLayersModule = angular.module('mapApp');
 sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");
@@ -123,7 +123,8 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             if ($scope.items[i].options.id === "rdrtic"
                 || $scope.items[i].options.id === "adLink"
                 || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "adAdmin") {
+                || $scope.items[i].options.id === "adAdmin"
+                || $scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = false;
             } else if (layerCtrl.layers[i].options.id === "speedlimit") {
                 $scope.items[i].options.showType = 1;

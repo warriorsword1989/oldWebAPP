@@ -41,10 +41,10 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             that.drawGeometry = that.shapeEditor.shapeEditorResult.getFinalGeometry();
             that.clear();
             that.draw(that.drawGeometry, that, event.index);
-            if(that.snaped == true){
-                var crosspoint = ( event.index!=null&&that.drawGeometry&&that.drawGeometry.components[event.index])?that.drawGeometry.components[event.index]:event.point;
-                if(crosspoint!=undefined){
-                    crosspoint = fastmap.mapApi.point(crosspoint.x,crosspoint.y);
+            if (that.snaped == true) {
+                var crosspoint = ( event.index != null && that.drawGeometry && that.drawGeometry.components[event.index]) ? that.drawGeometry.components[event.index] : event.point;
+                if (crosspoint != undefined) {
+                    crosspoint = fastmap.mapApi.point(crosspoint.x, crosspoint.y);
                     crosspoint.type = 'Cross';
                     that.draw(crosspoint, that);
                 }
@@ -100,6 +100,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
      * @param index 鼠标拖动的当前点
      */
     draw: function (currentGeo, self, index) {
+        //this.clear();
         if (!currentGeo) {
             return;
         }
@@ -107,7 +108,14 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         switch (currentGeo.type) {
 
             case 'LineString':
-                drawLineString(currentGeo.components, {color: 'red', size: 2}, false,null,false,false,self);
+                drawLineString(currentGeo.components, null, {color: 'red', size: 2}, false, null, false, false, self);
+                break;
+            case 'Link':
+                self.clear();
+                drawLineString(currentGeo.geometry.components, currentGeo.direct, {
+                    color: 'red',
+                    size: 2
+                }, false, null, false, true, self);
                 break;
             case 'Point':
                 drawPoint(currentGeo, {color: 'red', radius: 3}, false);
@@ -116,23 +124,23 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawPolygon(currentGeo, {color: 'red', outline: 3}, false);
                 break;
             case 'Cross':
-                drawCross(currentGeo, {color: 'blue', width: 1}, false,self);
+                drawCross(currentGeo, {color: 'blue', width: 1}, false, self);
                 break;
             case 'marker':
-                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false,self);
+                drawMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
                 break;
             case 'MultiPolyline':
-                drawMultiPolyline(currentGeo.coordinates,{color: 'red', width: 2},self);
+                drawMultiPolyline(currentGeo.coordinates, {color: 'red', width: 2}, self);
                 break;
             case 'intRticMarker':
-                drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false,self);
+                drawRticMarker(currentGeo.point, currentGeo.orientation, currentGeo.angle, false, self);
                 break;
             case 'Buffer':
-                drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth ,self);
+                drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
                 break;
         }
 
-        function drawCross(geom, style, boolPixelCrs,self) {
+        function drawCross(geom, style, boolPixelCrs, self) {
             if (!geom) {
                 return;
             }
@@ -144,25 +152,25 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
 
             var verLineArr = [{x: p.x, y: p.y + 20}, {x: p.x, y: p.y - 20}];
-            drawLineString(verLineArr, {color: 'blue', size: 1}, true,null,null,null,self);
+            drawLineString(verLineArr, null, {color: 'blue', size: 1}, true, null, null, null, self);
             var horLineArr = [{x: p.x - 20, y: p.y}, {x: p.x + 20, y: p.y}];
-            drawLineString(horLineArr, {color: 'blue', size: 1}, true,null,null,null,self);
+            drawLineString(horLineArr, null, {color: 'blue', size: 1}, true, null, null, null, self);
         }
 
-        function  drawBuffer(geom, width, self){
+        function drawBuffer(geom, width, self) {
             var proj = [];
             this.transform = new fastmap.mapApi.MecatorTranform();
-            var scale =  this.transform.scale( map);
-            var linkWidth = parseFloat(width*scale);
+            var scale = this.transform.scale(map);
+            var linkWidth = parseFloat(width * scale);
             linkWidth = linkWidth.toFixed(2);
-            for (var i = 0;i< geom.length;i++) {
+            for (var i = 0; i < geom.length; i++) {
                 proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
             }
             var ctx = self._ctx;
             ctx.lineWidth = width;
             ctx.save();
             ctx.beginPath();
-            ctx.lineCap="round";
+            ctx.lineCap = "round";
             for (i = 0; i < proj.length; i++) {
                 var method = (i === 0 ? 'move' : 'line') + 'To';
                 ctx[method](proj[i].x, proj[i].y);
@@ -172,7 +180,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 var method = (i === 0 ? 'move' : 'line') + 'To';
                 ctx[method](proj[i].x, proj[i].y);
             }
-            ctx.lineWidth = width-1;
+            ctx.lineWidth = width - 1;
             ctx.strokeStyle = 'white';
             ctx.stroke();
             ctx.clip();
@@ -181,12 +189,13 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 var method = (i === 0 ? 'move' : 'line') + 'To';
                 ctx[method](proj[i].x, proj[i].y);
             }
-            ctx.lineWidth =1;
+            ctx.lineWidth = 1;
             ctx.stroke();
-            ctx.fillText(linkWidth+"m",proj[0].x, proj[0].y)
+            ctx.fillText(linkWidth + "m", proj[0].x, proj[0].y)
 
 
         }
+
         function drawPoint(geom, style, boolPixelCrs) {
             if (!geom) {
                 return;
@@ -208,7 +217,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
 
-        function drawLineString(geom, style, boolPixelCrs, index,boolnode,boolselectnode,self) {
+        function drawLineString(geom, direct, style, boolPixelCrs, index, boolnode, boolselectnode, self) {
             if (!geom) {
                 return;
             }
@@ -222,26 +231,28 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
 
                     proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
 
-                    if(boolselectnode&&self.selectCtrl)    {
-                        if(self.selectCtrl.selectedFeatures.latlng&&self.selectCtrl.selectedFeatures.latlng.lat == geom[i].y && self.selectCtrl.selectedFeatures.latlng.lng == geom[i].x){
+                    if (boolselectnode && self.selectCtrl) {
+                        if (self.selectCtrl.selectedFeatures.latlng && self.selectCtrl.selectedFeatures.latlng.lat == geom[i].y && self.selectCtrl.selectedFeatures.latlng.lng == geom[i].x) {
                             drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
                                 color: 'blue',
                                 radius: 4
                             }, true);
                         }
-                    }else{
-                        if(boolnode){
-                            if(i==0 || i==geom.length-1){
+                    } else {
+                        if (boolnode) {
+                            if (i == 0 || i == geom.length - 1) {
                                 drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
                                     color: 'blue',
                                     radius: 4
                                 }, true);
                             }
-                        }else{
+                        } else {
+
                             drawPoint(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
                                 color: 'blue',
                                 radius: 4
                             }, true);
+
                         }
                     }
 
@@ -260,13 +271,27 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
             g.stroke();
             g.restore();
+            if (direct == 2 || direct == 3) {
+                var coords = proj;
+                var arrowList = [];
+                for (var k = 0; k < coords.length; k++) {
+                    if (k < coords.length - 1) {
+                        var oneArrow = [{x: coords[k]['x'], y: coords[k]['y']}, {
+                            x: coords[k + 1]['x'],
+                            y: coords[k + 1]['y']
+                        }];
+                        arrowList.push(oneArrow);
+                    }
+                }
+                drawArrow(self._ctx,direct, arrowList,self)
+            }
         }
 
 
-        function drawMultiPolyline(geom,style,self){
+        function drawMultiPolyline(geom, style, self) {
 
-            for(var i = 0,len = geom.length;i < len;i++){
-                drawLineString(geom[i].components, style, false, null, true,true,self);
+            for (var i = 0, len = geom.length; i < len; i++) {
+                drawLineString(geom[i].components, style, false, null, true, true, self);
             }
         }
 
@@ -276,34 +301,34 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 return;
             }
 
-                var coords = geom.components, proj = [], i;
+            var coords = geom.components, proj = [], i;
 
-                for (i = 0; i < coords.length; i++) {
-                    proj.push(this.map.latLngToContainerPoint([coords[i].y, coords[i].x]));
-                }
+            for (i = 0; i < coords.length; i++) {
+                proj.push(this.map.latLngToContainerPoint([coords[i].y, coords[i].x]));
+            }
 
-                var g = self._ctx;
-                var outline = style.outline;
-                g.fillStyle = style.color;
-                if (outline) {
-                    g.strokeStyle = outline.color;
-                    g.lineWidth = outline.size;
-                }
-                g.beginPath();
-                for (i = 0; i < proj.length; i++) {
-                    var method = (i === 0 ? 'move' : 'line') + 'To';
-                    g[method](proj[i].x, proj[i].y);
-                }
-                g.closePath();
-                g.fill();
-                if (outline) {
-                    g.stroke();
-                }
+            var g = self._ctx;
+            var outline = style.outline;
+            g.fillStyle = style.color;
+            if (outline) {
+                g.strokeStyle = outline.color;
+                g.lineWidth = outline.size;
+            }
+            g.beginPath();
+            for (i = 0; i < proj.length; i++) {
+                var method = (i === 0 ? 'move' : 'line') + 'To';
+                g[method](proj[i].x, proj[i].y);
+            }
+            g.closePath();
+            g.fill();
+            if (outline) {
+                g.stroke();
+            }
 
         }
 
-        function drawMarker(geom, type, angle, boolPixelCrs,self) {
-            var url, p = null,angleOfTran=angle,that=this;
+        function drawMarker(geom, type, angle, boolPixelCrs, self) {
+            var url, p = null, angleOfTran = angle, that = this;
             if (!geom) {
                 return;
             }
@@ -311,7 +336,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
-                p =this.map.latLngToContainerPoint([geom.y, geom.x]);
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
             //if(type==="3") {
             //    angleOfTran = angleOfTran + Math.PI;
@@ -324,14 +349,14 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 g.rotate(angleOfTran);
                 g.drawImage(img, 0, 0);
                 g.restore();
-                currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
-                self.eventController.fire(self.eventController.eventTypes.DIRECTEVENT,{"geometry":currentGeo})
+                currentGeo.pointForDirect = directOfPoint(p, 61, 32, angle);
+                self.eventController.fire(self.eventController.eventTypes.DIRECTEVENT, {"geometry": currentGeo})
             })
 
         }
 
-        function drawRticMarker(geom, type, angle, boolPixelCrs,self) {
-            var url, p = null,angleOfTran=angle,that=this;
+        function drawRticMarker(geom, type, angle, boolPixelCrs, self) {
+            var url, p = null, angleOfTran = angle, that = this;
             if (!geom) {
                 return;
             }
@@ -339,9 +364,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             if (boolPixelCrs) {
                 p = {x: geom.x, y: geom.y}
             } else {
-                p =this.map.latLngToContainerPoint([geom.y, geom.x]);
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
             }
-            if(type==="2") {
+            if (type === "2") {
                 angleOfTran = angleOfTran + Math.PI;
             }
             url = "../../images/road/intRtic/" + type + ".svg";
@@ -352,8 +377,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 g.rotate(angleOfTran);
                 g.drawImage(img, 0, 0);
                 g.restore();
-                currentGeo.pointForDirect = directOfPoint(p,61, 32, angle);
-                self.eventController.fire(self.eventController.eventTypes.DIRECTEVENT,{"geometry":currentGeo})
+                currentGeo.pointForDirect = directOfPoint(p, 61, 32, angle);
+                self.eventController.fire(self.eventController.eventTypes.DIRECTEVENT, {"geometry": currentGeo})
             })
 
         }
@@ -365,13 +390,81 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             };
             img.src = url;
         }
-        function directOfPoint(point,length,width,angle) {
+
+        function directOfPoint(point, length, width, angle) {
             point.x = point.x + length;
             point.y = point.y + width / 2;
             point.x = point.x + Math.tan(angle);
             point.y = point.y + Math.tan(angle);
             //point=this.map.containerPointToLatLng(point);
             return point;
+        }
+
+        function drawArrow(ctx, direct, data,self) {
+            var g = ctx.canvas.getContext('2d');
+            g.linewidth = 2;
+            g.strokeStyle = "#ff0000";
+            if (direct == 0 || direct == 1) {
+                return;
+            }
+
+            for (var i = 0, len = data.length; i < len; i++) {
+                for (var j = 0, len2 = data[i].length; j < len2 - 1; j = j + 2) {
+
+                    g.beginPath();
+                    g.translate(0, 0, 0);
+
+                    var point1 = data[i][j];
+                    var point2 = data[i][j + 1];
+                    var distance = self.distance(point1, point2);
+                    if (distance < 30) {
+                        return;
+                    }
+
+                    g.save()
+                    var centerPoint = L.point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+
+                    g.translate(centerPoint.x, centerPoint.y);
+                    //先计算向量与y轴负方向向量(0,-1)的夹角
+
+
+                    var ang = 0;
+                    if (point1.y - point2.y == 0) {
+                        if (point1.x - point2.x > 0) {
+                            ang = Math.PI / -2;
+                        }
+                        else {
+                            ang = Math.PI / 2;
+                        }
+                    }
+                    else {
+                        ang = (point1.x - point2.x) / (point1.y - point2.y);
+                        ang = Math.atan(ang);
+                    }
+                    if (point2.y - point1.y >= 0) {
+                        if (direct == 2) {
+                            g.rotate(-ang);
+                        } else if (direct == 3) {
+                            g.rotate(-ang + Math.PI);
+                        }
+                    } else {
+                        if (direct == 2) {
+                            g.rotate(Math.PI - ang); //加个180度，反过来
+                        } else if (direct == 3) {
+                            g.rotate(-ang);
+                        }
+
+                    }
+                    g.lineTo(-6, -12);
+                    g.lineTo(0, 2);
+                    g.lineTo(6, -12);
+                    g.lineTo(0, 0);
+                    g.stroke();
+                    g.fill(); //箭头是个封闭图形
+                    g.closePath();
+                    g.restore();   //恢复到堆的上一个状态，其实这里没什么用。
+                }
+            }
         }
     },
 
@@ -381,7 +474,16 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
     clear: function () {
         this.canv.getContext("2d").clearRect(0, 0, this.canv.width, this.canv.height);
     },
+    distance:function (pointA, pointB) {
+    var len;
+    if (pointA.x) {
+        len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
+    } else {
+        len = Math.pow((pointA[0] - pointB[0]), 2) + Math.pow((pointA[1] - pointB[1]), 2);
+    }
 
+    return Math.sqrt(len);
+},
     _redraw: function () {
 
         this.clear();

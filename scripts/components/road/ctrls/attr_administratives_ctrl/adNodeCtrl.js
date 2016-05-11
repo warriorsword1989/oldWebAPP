@@ -1,12 +1,13 @@
 /**
  * Created by zhaohang on 2016/4/25.
  */
-var adNodeApp = angular.module("lazymodule", []);
+var adNodeApp = angular.module("mapApp");
 adNodeApp.controller("adNodeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById("referenceLine");
+    var adnode = layerCtrl.getLayerById("adnode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var hLayer = layerCtrl.getLayerById('highlightlayer');
@@ -24,6 +25,12 @@ adNodeApp.controller("adNodeController",function($scope) {
     ];
     $scope.initializeData = function(){
         $scope.adNodeData = objCtrl.data;
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.adNodeForm.$setPristine();
+            });
+        }
+
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         var highlightFeatures = [];
         Application.functions.getByCondition(JSON.stringify({
@@ -94,6 +101,7 @@ adNodeApp.controller("adNodeController",function($scope) {
 
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
+
             if (data.errcode==0) {
                 swal("操作成功",'保存成功！', "success");
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -106,6 +114,7 @@ adNodeApp.controller("adNodeController",function($scope) {
                 info=data.data.log;
                 var restrict = layerCtrl.getLayerById("adLink");
                 restrict.redraw();
+                adnode.redraw();
             }else{
                 info=[{
                     "op":data.errcode,
@@ -142,6 +151,7 @@ adNodeApp.controller("adNodeController",function($scope) {
                 info = data.data.log;
                 var restrict = layerCtrl.getLayerById("adLink");
                 restrict.redraw();
+                adnode.redraw();
             } else {
                 info = [{
                     "op": data.errcode,

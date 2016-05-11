@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var myApp = angular.module("mapApp", ['oc.lazyLoad']);
+var myApp = angular.module("mapApp");
 myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -104,6 +104,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         selectCtrl.onSelected({
             geometry: line,
             id: $scope.linkData.pid,
+            type:"Link",
             direct: $scope.linkData.direct,
             snode: $scope.linkData.sNodePid,
             enode: $scope.linkData.eNodePid,

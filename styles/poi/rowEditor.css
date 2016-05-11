@@ -122,3 +122,33 @@
 .btn-success {
     text-shadow: 0 0 0 #fff;
 }
+/*文件上传*/
+.upload-option-group{
+    position: relative;
+    margin-top: -4px;
+}
+.upload-btn{
+    position: relative;
+    z-index: 1;
+    padding: 2px;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 0px 5px;
+}
+.dom-hide{
+    display:none !important;
+}
+.upload-add {
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    cursor: pointer;
+}
+.upload-add input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}

@@ -19,7 +19,6 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
         this._map = this.options.map;
         this.editLayerIds = ['speedlimit','rdcross','rdlaneconnexity','restriction','highSpeedDivergence']
-        //this.editLayerIds = ['speedlimit']
 
         this.currentEditLayers = [];
         this.tiles = [];

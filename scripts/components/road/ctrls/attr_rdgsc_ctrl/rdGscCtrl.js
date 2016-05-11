@@ -2,8 +2,8 @@
  * Created by zhaohang on 2016/4/7.
  */
 
-var rdGscApp = angular.module("lazymodule", []);
-rdGscApp.controller("rdGscController",function($scope, $timeout) {
+var rdGscApp = angular.module("mapApp");
+rdGscApp.controller("rdGscController",function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
@@ -31,6 +31,13 @@ rdGscApp.controller("rdGscController",function($scope, $timeout) {
         var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.rdGscForm.$setPristine();
+            });
+
+        }
     };
     $scope.initializeData();
     $scope.refreshData = function () {

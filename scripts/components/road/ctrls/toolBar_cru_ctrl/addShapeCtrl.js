@@ -426,6 +426,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             } else if (type === "RDCROSS") {
                 var linksArr = [], nodesArr = [], nodes = [], links = [], options = {};
+                tooltipsCtrl.setCurrentTooltip('请框选路口组成Node！');
                 shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDCROSS, {
                     map: map,
                     layer: rdLink,
@@ -434,6 +435,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
+                    tooltipsCtrl.setCurrentTooltip('已选择路口，按空格保存或者esc取消！');
                     var data = $scope.getDataFromRectangleForCross(event),highlightFeatures=[];
                     if (nodesArr.length === 0) {
                         for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
@@ -566,7 +568,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             id:data[i].data.properties.id.toString(),
                             layerid:'referenceLine',
                             type:'rdgsc',
-                            index:i
+                            index:i,
+                            style:{
+                                size:5
+                            }
                         })
                     }
                     highLightLinkOfOverPass.highLightFeatures = highlightFeatures;
@@ -681,9 +686,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         })
                     }
                     //判断相交点数
-                    if(!crossGeos){
-                        tooltipsCtrl.setCurrentTooltip('选择有误，请重新选择立交点位！');
-                    }else if(crossGeos.length == 0){
+                    if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     }else if(crossGeos.length > 1){
                         tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
@@ -721,7 +724,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
-                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
@@ -736,6 +738,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                         type: 'rdnode',
                                         style: {}
                                     });
+                                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
                                     highLightRender.highLightFeatures = highLightFeatures;
                                     highLightRender.drawHighlight();
                                     map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());

@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/4/6.
  */
 
-var otherApp = angular.module("mapApp", []);
+var otherApp = angular.module("mapApp");
 otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
