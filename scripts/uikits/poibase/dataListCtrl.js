@@ -27,17 +27,31 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
         }
         $scope.projRemainTime = day + "天" + hour + "小时" + min + "分钟";
 	}));
-	promises.push(poi.getPoiInfo("",function(data){
-		
+	var param = {
+	        projectId: "2016013086",
+	        condition: {
+	            handler: "2925"
+	        },
+	        phase: "4",
+	        featcode: "poi",
+	        type: "count",
+	        pagesize: 0
+	    };
+	promises.push(poi.getPoiInfo(param,function(data){
+		$scope.taskCnt = data;
 	}));
 	$q.all(promises).then(function() {
+		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,"taskCnt":$scope.taskCnt});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
 	        $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
 	    });
 		$ocll.load("components/poi/ctrls/data-list/projectInfoCtrl").then(function() {
 	        $scope.projectInfoTpl = "../../scripts/components/poi/tpls/data-list/projectInfo.html";
+//	        $scope.$on('$includeContentLoaded', function($event) {
+//	        	$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
+//            });
 	    });
-		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
+//		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 	});
 	
 }]);
