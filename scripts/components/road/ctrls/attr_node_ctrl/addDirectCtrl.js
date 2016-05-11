@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var addDirectOfRest = angular.module("myApp");
+var addDirectOfRest = angular.module("lazymodule",[]);
 addDirectOfRest.controller("addDirectOfRestController",function($scope,$timeout){
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     $scope.closeWin= function () {
