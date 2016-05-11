@@ -352,7 +352,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         this._drawPoint({
                             ctx: ctx,
                             boolPixelCrs:true,
-                            fillColor:'black',
+                            fillColor:style.fillColor,
                             radius:feature.properties.style.radius,
                             geom:geom.coordinates
                         })
