@@ -115,7 +115,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             no_results_text: "SO SORRY"
         };
 
-        $scope.levelArr = [];
+        $scope.levelArr = []; //用于存放等级的数组
         var kind = pKindFormat[poi.kindCode]
         $scope.levelArr = kind.level.split("|");
     }
@@ -205,7 +205,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         if (chainArray) {
             for (var i = 0, len = chainArray.length; i < len; i++) {
                 var cha = chainArray[i];
-                $scope.chainList[cha.chainCode] = {
+                $scope.chainList[cha.chainCode] = { //转换成chosen-select可以解析的格式
                     "category": cha.category,
                     "chainCode": cha.chainCode,
                     "weight": cha.weight,
@@ -226,7 +226,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         var contact = $scope.poi.contacts[index]
         if (contact.numSuf && contact.numSuf.length == 11 && /^1/.test(contact.numSuf)) {
             contact.number = contact.numSuf;
-            contact.flag = false
+            contact.flag = false; // 用于控制电话控件是否隐藏区号
         } else {
             contact.number = regionCode + contact.numSuf;
             if (contact.numSuf) {
@@ -238,7 +238,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     contact.numRre = regionCode;
                 }
             }
-
             contact.flag = true
         }
     }
@@ -254,12 +253,11 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.kindChange = function(evt, obj) {
         if (obj.selectedKind) {
             initChain(obj.selectedKind);
-            $scope.selectedKind = obj.selectedKind;
+            $scope.selectedKind = obj.selectedKind; //此处会触发selectedKind的监听方法
             var level = pKindFormat[obj.selectedKind].level;
+            $scope.levelArr = [];
             if (level) {
                 $scope.levelArr = level.split("|");
-            } else {
-                $scope.levelArr = [];
             }
             $scope.poi.level = "";
             //$scope.$emit("kindChange", pKindFormat[obj.selectedKind]);

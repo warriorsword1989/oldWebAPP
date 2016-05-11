@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
 
@@ -54,6 +54,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         confusionInfoData = [],
         checkRuleObj = {};
     var distinguishResult = function(data){
+        checkResultData = [];
+        confusionInfoData = [];
         /*由于没有数据，这是假数据，有正式数据后放开后面的注释*/
         resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
         resultAllData[1] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Win-01-02", "errorMsg": "重新确认成果中的设施名称是否正确", "fields": ["name"]});
@@ -69,39 +71,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 checkResultData.push(resultAllData[i])
             }
         }
-        /*取最后一条履历*/
-        editHistoryData = data.editHistory[data.editHistory.length-1];
-        /*根据履历作业员id查找真实姓名*/
-        new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
-            editHistoryData.operator.name = userInfo.realName;
-        });
+        if(data.lifeCycle != 2){
+            /*取最后一条履历*/
+            editHistoryData = data.editHistory[data.editHistory.length-1];
+            /*根据履历作业员id查找真实姓名*/
+            new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
+                editHistoryData.operator.name = userInfo.realName;
+            });
+        }else{
+            editHistoryData = false;
+        }
+
     }
 
-    var initKindFormat = function (kindData){
-        for (var i = 0; i < kindData.length; i++) {
-            /*if (kindData[i].kindCode == "230218" || kindData[i].kindCode == "230227") { //充电站，充电桩
-                kindData.splice(i, 1);
-                i--;
-                continue;
-            }*/
-            metaData.kindFormat[kindData[i].kindCode] = {
-                kindId: kindData[i].id,
-                kindName: kindData[i].kindName,
-                level: kindData[i].level,
-                extend: kindData[i].extend,
-                parentFlag: kindData[i].parent,
-                chainFlag: kindData[i].chainFlag,
-                dispOnLink: kindData[i].dispOnLink,
-                mediumId: kindData[i].mediumId
-            };
-            metaData.kindList.push({
-                value: kindData[i].kindCode,
-                text: kindData[i].kindName,
-                mediumId: kindData[i].mediumId
-            });
-            //$scope.meta.kindList.push(kindData[i]);
-        }
-    };
+    /*检查结果忽略请求*/
+    $scope.$on('ignoreItem',function(event,data){
+        console.log(data)
+        var param = {
+            fid:$scope.poi.fid,
+            project_id:2016013086,
+            ckException:{
+                errorCode:data.errorCode,
+                description:data.errorMsg
+            }
+        };
+        poi.ignoreCheck(param,function(data){
+            /*操作成功后刷新poi数据*/
+            poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+                $scope.poi = data;
+                $scope.snapshotPoi = data.getSnapShot();
+                distinguishResult($scope.poi);
+                $scope.$broadcast('checkResultData',checkResultData);
+                $scope.$broadcast('confusionInfoData',confusionInfoData);
+            })
+        });
+    });
 
     /*切换tag按钮*/
     $scope.changeTag = function(tagName){
@@ -126,15 +130,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
                     $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('editHistoryData',editHistoryData);
+                        var param = {
+                            historyData:editHistoryData,
+                            kindFormat:metaData.kindFormat
+                        };
+                        $scope.$broadcast('editHistoryData',param);
                     });
                 });
                 break;
             case 'fileUpload':
-                $scope.tagContentTpl = '';
-                break;
-            case 'remarks':
-                $scope.tagContentTpl = '';
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/fileUploadCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/fileUploadTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('confusionInfoData',confusionInfoData);
+                    });
+                });
                 break;
             default:
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
@@ -155,6 +165,26 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         $scope.changeTag('checkResult');
     }
     $scope.initializeData();
+    var initKindFormat = function (kindData){
+        for (var i = 0; i < kindData.length; i++) {
+            metaData.kindFormat[kindData[i].kindCode] = {
+                kindId: kindData[i].id,
+                kindName: kindData[i].kindName,
+                level: kindData[i].level,
+                extend: kindData[i].extend,
+                parentFlag: kindData[i].parent,
+                chainFlag: kindData[i].chainFlag,
+                dispOnLink: kindData[i].dispOnLink,
+                mediumId: kindData[i].mediumId
+            };
+            metaData.kindList.push({
+                value: kindData[i].kindCode,
+                text: kindData[i].kindName,
+                mediumId: kindData[i].mediumId
+            });
+            //$scope.meta.kindList.push(kindData[i]);
+        }
+    };
     $scope.nextPoi = function() {
         ds.getPoiDetailByFid("0010060815LML01353").then(function(data) {
             $scope.poi = data;
