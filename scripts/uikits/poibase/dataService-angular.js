@@ -52,7 +52,6 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
             callback(ret);
         });
     };
-
 }]).service("meta", ["$http", "$q", function($http, $q) {
     this.getKindList = function() {
         var deferred = $q.defer();
