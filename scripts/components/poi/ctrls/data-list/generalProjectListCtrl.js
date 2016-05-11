@@ -29,7 +29,7 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                 //格式化项目名称
                 function handleProjectName($scope,row){
                     var value = row[this.field];
-                    var html = "<a href='https://www.google.co.uk/search?q=" + value + "' target='_blank'>" + value + "</a>";
+                    var html = "<a href='../../apps/poibase/dataList.html?q=" + value + "' target='_blank'>" + value + "</a>";
                     return $sce.trustAsHtml(html);
                 }
                 //格式化项目类型
