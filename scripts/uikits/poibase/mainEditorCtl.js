@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
 
@@ -136,7 +136,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller
                 });
                 break;
             case 'fileUpload':
-                $scope.tagContentTpl = '';
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/fileUploadCtl').then(function(){
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/fileUploadTpl.html';
+                    $scope.$on('$includeContentLoaded', function($event) {
+                        $scope.$broadcast('confusionInfoData',confusionInfoData);
+                    });
+                });
                 break;
             default:
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/28.
  */
-var addShapeApp = angular.module('mapApp');
+var addShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
 addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
         var layerCtrl = fastmap.uikit.LayerController();
         var featCodeCtrl = fastmap.uikit.FeatCodeController();
@@ -277,6 +277,32 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     "propertyHtml": '../../scripts/components/road/tpls/toolBar_cru_tpl/addRestrictionTepl/addRdrestrictionTpl.html'
                 }
                 $scope.$emit("transitCtrlAndTpl", addLaneObj);
+              /*  shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION)
+                tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION);
+                tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createRestrictFlag: true,
+                    currentEditLayer: rdLink
+                });
+                map.currentTool.enable();
+                $scope.excitLineArr = [];
+                eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                    if (data.index === 0) {
+                        $scope.limitRelation.inLinkPid = parseInt(data.id);
+                        tooltipsCtrl.setStyleTooltip("color:black;");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
+                    } else if (data.index === 1) {
+                        $scope.limitRelation.nodePid = parseInt(data.id);
+                        tooltipsCtrl.setStyleTooltip("color:red;");
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                    } else if (data.index > 1) {
+                        $scope.excitLineArr.push(parseInt(data.id));
+                        $scope.limitRelation.outLinkPids = $scope.excitLineArr;
+                        tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
+                    }
+                    featCodeCtrl.setFeatCode($scope.limitRelation);
+                })*/
             }
             else if (type === "RDLINK") {
                 if (shapeCtrl.shapeEditorResult) {
@@ -372,8 +398,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === "RDBRANCH") {
                 shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
                 shapeCtrl.editFeatType = 0;
-                var highRdBranch = new fastmap.uikit.HighLightRender(hLayer), highRdBranchFeatures = [];
-
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
                 map.currentTool = new fastmap.uikit.SelectForRestriction({
@@ -386,39 +410,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
-                        highRdBranchFeatures.push({
-                            id:  $scope.limitRelation.inLinkPid.toString(),
-                            layerid: 'referenceLine',
-                            type: 'line',
-                            style: {}
-                        });
-                        highRdBranch.highLightFeatures = highRdBranchFeatures;
-                        highRdBranch.drawHighlight();
                         tooltipsCtrl.setStyleTooltip("color:black;");
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
-                        highRdBranchFeatures.push({
-                            id:  $scope.limitRelation.nodePid.toString(),
-                            layerid: 'referenceLine',
-                            type: 'rdnode',
-                            style: {}
-                        });
-                        highRdBranch.drawHighlight();
                         tooltipsCtrl.setStyleTooltip("color:red;");
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                     } else if (data.index > 1) {
-                        $scope.limitRelation.outLinkPid = parseInt(data.id);
-                        if(highRdBranchFeatures.length===3) {
-                            highRdBranchFeatures.pop();
-                        }
-                        highRdBranchFeatures.push({
-                            id:  $scope.limitRelation.outLinkPid.toString(),
-                            layerid: 'referenceLine',
-                            type: 'line',
-                            style: {}
-                        });
-                        highRdBranch.drawHighlight();
+                        $scope.excitLineArr.push(parseInt(data.id));
+                        $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
                         tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
@@ -426,6 +426,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             } else if (type === "RDCROSS") {
                 var linksArr = [], nodesArr = [], nodes = [], links = [], options = {};
+                tooltipsCtrl.setCurrentTooltip('请框选路口组成Node！');
                 shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDCROSS, {
                     map: map,
                     layer: rdLink,
@@ -434,6 +435,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
+                    tooltipsCtrl.setCurrentTooltip('已选择路口，按空格保存或者esc取消！');
                     var data = $scope.getDataFromRectangleForCross(event),highlightFeatures=[];
                     if (nodesArr.length === 0) {
                         for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
@@ -566,7 +568,10 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             id:data[i].data.properties.id.toString(),
                             layerid:'referenceLine',
                             type:'rdgsc',
-                            index:i
+                            index:i,
+                            style:{
+                                size:5
+                            }
                         })
                     }
                     highLightLinkOfOverPass.highLightFeatures = highlightFeatures;
@@ -681,9 +686,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         })
                     }
                     //判断相交点数
-                    if(!crossGeos){
-                        tooltipsCtrl.setCurrentTooltip('选择有误，请重新选择立交点位！');
-                    }else if(crossGeos.length == 0){
+                    if(crossGeos.length == 0){
                         tooltipsCtrl.setCurrentTooltip('所选区域无相交点，请重新选择立交点位！');
                     }else if(crossGeos.length > 1){
                         tooltipsCtrl.setCurrentTooltip('不能有多个相交点，请重新选择立交点位！');
@@ -702,7 +705,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === '3dBranch'){
                 var highLightFeatures = [],
                     linkDirect = 0;
-                var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
                 shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
                 shapeCtrl.editFeatType = 3;
                 tooltipsCtrl.setEditEventType('rdBranch');
@@ -713,52 +715,41 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     currentEditLayer: rdLink
                 });
                 map.currentTool.enable();
+                $scope.excitLineArr = [];
                 /*获取退出线*/
                 $scope.getOutLink = function(dataId){
-                    $scope.limitRelation.outLinkPid = parseInt(dataId);
-                    if(highLightFeatures.length===3) {
-                        highLightFeatures.pop();
-                    }
-                    highLightFeatures.push({
-                        id:  $scope.limitRelation.outLinkPid.toString(),
-                        layerid: 'referenceLine',
-                        type: 'line',
-                        style: {}
-                    });
-                    highLightRender.drawHighlight();
+                    $scope.excitLineArr.push(parseInt(dataId));
+                    $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
                     tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                 }
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
 
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
-                        highLightFeatures.push({
-                            id:  $scope.limitRelation.inLinkPid.toString(),
-                            layerid: 'referenceLine',
-                            type: 'line',
-                            style: {}
-                        });
-                        highLightRender.highLightFeatures = highLightFeatures;
-                        highLightRender.drawHighlight();
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
-                        linkDirect = data["properties"]["direct"];
-                        if(linkDirect == 2 || linkDirect == 3){
-                            $scope.limitRelation.nodePid = parseInt(linkDirect==2 ? data["properties"]['enode'] : data["properties"]['snode']);
-                            highLightFeatures.push({
-                                id: $scope.limitRelation.nodePid.toString(),
-                                layerid: 'referenceLine',
-                                type: 'rdnode',
-                                style: {}
-                            });
-                            highLightRender.drawHighlight();
-                            map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
-                            tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
-                        }
+                        Application.functions.getRdObjectById(data.id, 'RDLINK', function (linkData) {
+                            if (linkData.errcode == 0) {
+                                linkDirect = linkData.data.direct;
+                                if(linkDirect == 2 || linkDirect == 3){
+                                    $scope.limitRelation.nodePid = parseInt(linkDirect==2 ? linkData.data.eNodePid : linkData.data.sNodePid);
+                                    highLightFeatures.push({
+                                        id: $scope.limitRelation.nodePid.toString(),
+                                        layerid: 'referenceLine',
+                                        type: 'rdnode',
+                                        style: {}
+                                    });
+                                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
+                                    highLightRender.highLightFeatures = highLightFeatures;
+                                    highLightRender.drawHighlight();
+                                    map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
+                                    tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
+                                }
+                            }
+                        });
                     } else if (data.index === 1) {
                         if(linkDirect == 2 || linkDirect == 3){
                             $scope.getOutLink(data.id);
-                            //map.currentTool.disable();
-                            //return;
+                            return;
                         }
                         else {
                             $scope.limitRelation.nodePid = parseInt(data.id);
@@ -766,9 +757,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
-                        //map.currentTool.disable();
-                        //return;
-
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
