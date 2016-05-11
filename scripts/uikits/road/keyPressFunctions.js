@@ -453,9 +453,8 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": selectCtrl.selectedFeatures
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("adface").redraw();
-                        layerCtrl.getLayerById("adLine").redraw();
-                        layerCtrl.getLayerById("adnode").redraw();
+                        layerCtrl.getLayerById("rdGsc").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){
