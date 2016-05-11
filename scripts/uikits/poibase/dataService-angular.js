@@ -42,6 +42,15 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         	callback(ret);
         });
     };
+    this.getProjectInfo = function(projId, callback){
+        FM.dataApi.ajax.get("project/query/", {projectId: projId}, function(data) {
+        	var ret = [];
+        	if (data.errcode == 0) {
+                ret = data.data;
+            }
+        	callback(ret);
+        });
+    };
     /*忽略检查项*/
     this.ignoreCheck = function(param, callback){
         FM.dataApi.ajax.get("check/poi/ignore/", param, function(data) {
@@ -50,6 +59,24 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
                 ret = data.data;
             }
             callback(ret);
+        });
+    };
+    this.getOperSeason = function(projId, callback){
+        FM.dataApi.ajax.get("project/queryOperSeason/", {projectId: projId}, function(data) {
+        	var ret = [];
+        	if (data.errcode == 0) {
+                ret = data.data;
+            }
+        	callback(ret);
+        });
+    };
+    this.getPoiInfo = function(param, callback){
+        FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
+        	var ret;
+        	if (data.errcode == 0) {
+                ret = data.data.total;
+            }
+        	callback(ret);
         });
     };
 

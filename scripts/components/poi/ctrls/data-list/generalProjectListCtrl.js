@@ -48,9 +48,9 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                 var value = row[this.field];
                 var newvalue = value.length>20?value.substr(0,20)+'...':value;
                 if(value.length>20){
-                    var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
+                    var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="../../apps/poibase/dataList.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
                 }else{
-                    var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="./projectInfo.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
+                    var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="../../apps/poibase/dataList.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
                 }
                 return $sce.trustAsHtml(html);
             }
