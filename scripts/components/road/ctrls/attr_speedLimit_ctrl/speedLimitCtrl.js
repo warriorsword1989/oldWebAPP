@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 
-var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
+var selectApp = angular.module("mapApp");
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -32,6 +32,12 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             style:{}
         })
         highLightLink.drawHighlight();
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.speedLimitForm.$setPristine();
+            });
+        }
 
     }
     if(objectEditCtrl.data){
@@ -121,7 +127,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-
+                swal("操作成功",'修改成功！', "success");
                 objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
                 info=data.data.log;
                 speedLimit.redraw();
@@ -189,8 +195,8 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         map.currentTool = shapeCtrl.getCurrentTool();
         map.currentTool.disable();
         var containerPoint;
-        var point= {x:$scope.speedLimitData.geometry.coordinates[0][0], y:$scope.speedLimitData.geometry.coordinates[0][1]};
-        var pointVertex= {x:$scope.speedLimitData.geometry.coordinates[1][0], y:$scope.speedLimitData.geometry.coordinates[1][1]};
+        var point= {x:$scope.speedLimitData.geometry.coordinates[0], y:$scope.speedLimitData.geometry.coordinates[1]};
+        var pointVertex= {x:$scope.speedLimitData.geometry.coordinates[0], y:$scope.speedLimitData.geometry.coordinates[1]};
         containerPoint = map.latLngToContainerPoint([point.y, point.x]);
         pointVertex = map.latLngToContainerPoint([pointVertex.y, pointVertex.x]);
         var angle = $scope.angleOfLink(containerPoint, pointVertex);
@@ -212,6 +218,18 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         shapeCtrl.setEditingType("transformDirect");
         shapeCtrl.startEditing();
     };
+
+    $scope.angleOfLink=function(pointA,pointB) {
+        var PI = Math.PI,angle;
+        if((pointA.x-pointB.x)===0) {
+            angle = PI / 2;
+        }else{
+            angle = Math.atan((pointA.y - pointB.y) / (pointA.x - pointB.x));
+        }
+        return angle;
+
+    };
+
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

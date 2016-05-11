@@ -3,7 +3,7 @@
  */
 /*var limitedApp = angular.module("lazymodule", []);
 limitedApp.controller("limitedController",function($scope) {*/
-var limitedApp = angular.module("mapApp", ['oc.lazyLoad']);
+var limitedApp = angular.module("mapApp");
 limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad) {
     $scope.linkLimitData = $scope.linkData;
     $scope.truckFlagarray=[];

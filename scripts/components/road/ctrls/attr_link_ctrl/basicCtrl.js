@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var basicApp = angular.module("mapApp", ['oc.lazyLoad']);
+var basicApp = angular.module("mapApp");
 basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
@@ -122,6 +122,12 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     ];
 
     $scope.initOtherData = function(){
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.basicFrom.$setPristine();
+            });
+
+        }
         $scope.linkData = objectEditCtrl.data;
         $scope.newFromOfWRoadDate = [];
         if($scope.linkData.forms.length>0){

@@ -12,6 +12,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
 
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
+
         //如果是3d分歧则关系类型改为3
         if(shapeCtrl.editFeatType == 3){
             objCtrl.data.details[0].branchType = 3;
@@ -20,6 +21,12 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.nameBranchForm.$setPristine();
+            });
+        }
+
     }
     if (objCtrl.data) {
         $scope.initializeData();
@@ -250,14 +257,18 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 id:$scope.diverObj.inLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#3A5FCD'
+                }
             });
             highLightLink.highLightFeatures.push({
 
                 id:$scope.diverObj.outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
 
             highLightLink.highLightFeatures.push({

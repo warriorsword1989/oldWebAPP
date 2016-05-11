@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/04/12.
  */
-var selectAdApp = angular.module("mapApp", ['oc.lazyLoad']);
+var selectAdApp = angular.module("mapApp");
 selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
     var selectCtrl = new fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
@@ -10,6 +10,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var adNode = layerCtrl.getLayerById('adnode');
     var adFace = layerCtrl.getLayerById('adface');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
@@ -196,21 +197,22 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.enable();
             editLayer.bringToBack();
             //初始化鼠标提示
-            $scope.toolTipText = '请选择面！';
+            $scope.toolTipText = '请选择行政区划面！';
             eventController.off(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETLINKID, $scope.selectObjCallback);
         }else if(type==="adNode") {
-            adLink.options.selectType = 'node';
+            adLink.options.selectType = 'adnode';
             adLink.options.editable = true;
             map.currentTool = new fastmap.uikit.SelectNode({
                 map: map,
                 nodesFlag: true,
-                currentEditLayer: adLink,
+                currentEditLayer: adNode,
                 shapeEditor: shapeCtrl
             });
             map.currentTool.enable();
             map.currentTool.snapHandler.addGuideLayer(adLink);
-            $scope.toolTipText = '请选择node！';
+            map.currentTool.snapHandler.addGuideLayer(adNode);
+            $scope.toolTipText = '请选择Adnode！';
             eventController.off(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
             eventController.on(eventController.eventTypes.GETNODEID, $scope.selectObjCallback);
         }
@@ -311,7 +313,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
         }
         $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu(data.id, data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }

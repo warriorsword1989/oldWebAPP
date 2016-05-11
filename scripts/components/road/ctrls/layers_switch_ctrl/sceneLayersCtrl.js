@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/24.
  */
-var sceneLayersModule = angular.module('lazymodule', []);
+var sceneLayersModule = angular.module('mapApp');
 sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");
@@ -9,7 +9,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var editLayer = layerCtrl.getLayerById('edit');
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var hLayer = layerCtrl.getLayerById("highlightlayer");
+    var hLayer = layerCtrl.getLayerById("highlightlayer")
     $scope.flag = true;
     $scope.scenceArr = [
         {"id": 1, "label": "线限速场景", "selected": false},
@@ -108,7 +108,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         $scope.changeBtnClass("");
         for (var i = 0, len = $scope.items.length; i < len; i++) {
             if ($scope.items[i].options.id === "adLink" || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin") {
+                || $scope.items[i].options.id === "referenceLine" || $scope.items[i].options.id === "adAdmin"||$scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = true;
             } else {
                 $scope.items[i].options.visible = false;
@@ -167,6 +167,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             map.removeLayer(map.floatMenu);
             map.floatMenu = null;
         }
+
         for (var scene in $scope.scenceArr) {
             if (item['selected'] != true) {
                 $scope.scenceArr[scene]['selected'] = false

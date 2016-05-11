@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../../scripts/libs/ng-table/ng-table.min.css" rel="stylesheet" type="text/css" />
         <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
         <link href="../../styles/poi/sideMenu.css" rel="stylesheet" type="text/css"/>
         <script type="text/javascript" data-main="../../scripts/uikits/poibase/projectManage-require" src="../../scripts/libs/require/require.js"></script>
@@ -32,14 +33,14 @@
 							</dd>
 						</dl>
 						<dl class="menu-block">
-							<dt ng-class="{'userProfile': 'active'}[isActive]">
-								<a href="#userProfile" data-toggle="tab" ng-click="menuChange('userProfile');"><i
+							<dt>
+								<a href="#userProfile" data-toggle="tab" ng-click="menuChange('userProfile');" ng-class="{'userProfile': 'active'}[isActive]"><i
 									class="glyphicon glyphicon-folder-close"></i>个人资料</a>
 							</dt>
 						</dl>
 						<dl class="menu-block">
-							<dt ng-class="{'userMessage': 'active'}[isActive]">
-								<a href="#userMessage" data-toggle="tab" ng-click="menuChange('userMessage');"><i
+							<dt>
+								<a href="#userMessage" data-toggle="tab" ng-click="menuChange('userMessage');" ng-class="{'userMessage': 'active'}[isActive]"><i
 									class="glyphicon glyphicon-envelope"></i>我的消息</a>
 							</dt>
 						</dl>
@@ -47,24 +48,7 @@
                 </div>
                 <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-container">
                     <div class="tab-content">
-                        <!-- 常规项目 -->
-                        <div class="content-box" ng-include="tagContent">
-                            
-                        </div>
-                        <!-- 代理店项目 -->
-                        <!-- <div id="agentProject"  class="tab-pane content-box" ng-include="agentProject">
-
-                        </div>
-                        专项作业项目
-                        <div id="specialProject"  class="tab-pane content-box" ng-include="specialProject">
-                        
-                        </div>
-                        <div id="userProfile" class="tab-pane content-box" style="width:100%" ng-include="userProfile">
-                            
-                        </div>
-                        <div id="userMessage" class="tab-pane content-box" style="width:100%" ng-include="userMessage">
-                            
-                        </div> -->
+                        <div class="content-box" ng-include="tagContent" style="width:100%">
                     </div>
                 </div>
             </div>

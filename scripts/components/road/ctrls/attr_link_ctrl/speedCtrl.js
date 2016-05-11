@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var realtimeTrafficApp = angular.module("lazymodule", []);
+var realtimeTrafficApp = angular.module("mapApp");
 realtimeTrafficApp.controller("speedController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.rticData =  objCtrl.data;

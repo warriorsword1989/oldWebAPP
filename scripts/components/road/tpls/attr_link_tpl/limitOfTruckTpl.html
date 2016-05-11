@@ -40,6 +40,17 @@
 
     }
 
+    #truckLimitInfoDiv ul > li > div > input.ng-dirty {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
     #truckLimitInfoDiv ul > li > div > select {
         color: #F3F6FA;
         margin-left: -3px;
@@ -50,6 +61,15 @@
         background-color: #333;
     }
 
+    #truckLimitInfoDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
     #truckLimitInfoDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
@@ -86,6 +106,7 @@
 
 </style>
 <div ng-controller="truckLimitInfoController" id="truckLimitInfoDiv" style="font-size: 12px">
+    <form name="truckLimitForm">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div><label class="control-label">验证标识</label></div>
@@ -160,4 +181,5 @@
             </div>
         </li>
     </ul>
+    </form>
 </div>

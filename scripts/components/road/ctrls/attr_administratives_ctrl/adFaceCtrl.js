@@ -1,13 +1,19 @@
 /**
  * Created by zhaohang on 2016/4/7.
  */
-var adFaceApp = angular.module("lazymodule", []);
+var adFaceApp = angular.module("mapApp");
 adFaceApp.controller("adFaceController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     $scope.initializeData = function(){
         $scope.adFaceData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.adFaceForm.$setPristine();
+            });
+        }
+
     };
     if(objCtrl.data) {
         $scope.initializeData();

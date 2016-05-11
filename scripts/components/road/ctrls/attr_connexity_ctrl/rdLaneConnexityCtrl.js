@@ -84,6 +84,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         $scope.lanesData = objCtrl.data;
         $scope.lanesArr = $scope.lanesData["laneInfo"].split(",");
 
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.rdLaneConnexityForm.$setPristine();
+            });
+        }
+
+
         //高亮进入线和退出线
         var highLightFeatures = [];
 
@@ -91,7 +98,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             id:objCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
             type:'line',
-            style:{}
+            style:{
+                color: '#3A5FCD'
+            }
         });
 
         for (var i = 0, len = (objCtrl.data.topos).length; i < len; i++) {
@@ -99,7 +108,9 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 id:objCtrl.data.topos[i].outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
         }
 

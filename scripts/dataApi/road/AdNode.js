@@ -20,7 +20,11 @@ fastmap.dataApi.AdNode = fastmap.dataApi.GeoDataModel.extend({
         this.form = data["form"] || 0;
         this.geometry = data["geometry"];
         this.editFlag = data["editFlag"] || 1;
-        this.meshId = data["meshId"] || 0;
+        var str = [];
+        for (var i = 0; i<data.meshes.length;i++) {
+            str.push(data.meshes[i].meshId)
+        }
+        this.meshId = str.join(',');
 
     },
 

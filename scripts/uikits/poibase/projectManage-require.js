@@ -16,17 +16,21 @@ requirejs.config({
         'dataModel': 'dataApi/common/DataModel',
         'dataService': 'uikits/poibase/dataService-singleton',
         'poiService': 'uikits/poibase/dataService-angular',
-        'select2':'libs/select2/js/select2',
-        'jquery':'libs/jquery/jquery-1.11.1'
+        'ngTable':'libs/ng-table/ng-table',
+        'ngSanitize':'libs/angularjs/1.4.4/angular-sanitize'
     },
     shim: {
+        'angular':{exports:'angular'},                   //ngTable需要用angular的名字;
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
         'poiService': ['angular'],
         'fastmap': ['application'],
         'appUtil': ['application'],
         'select2':['jquery'],
-        'projectManageCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2']
+        'ngTable':['angular'],
+        'ngSanitize':['angular'],
+        'dataApi':['fastmap'],
+        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','ngTable','ngSanitize','dataApi']
     }
 });
 // Start the main app logic.

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/24.
  */
-var objectEditApp = angular.module("mapApp", ['oc.lazyLoad']);
+var objectEditApp = angular.module("mapApp");
 objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazyLoad) {
 
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
@@ -54,7 +54,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             id:objectEditCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
             type:'line',
-            style:{}
+            style:{
+                color: '#3A5FCD'
+            }
 
         });
         for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
@@ -62,7 +64,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 id:objectEditCtrl.data.details[i].outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
 
         }
@@ -89,6 +93,12 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         /*如果默认限制类型为时间段禁止，显示时间段控件*/
         if($scope.rdSubRestrictData.type == 2){
             $scope.changeLimitType(2);
+        }
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.restricOrdinaryForm.$setPristine();
+            });
         }
     };
 

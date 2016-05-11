@@ -409,6 +409,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
                         if (icons[item].text) {
+                            console.log('---------------'+icons[item].text)
                             this._drawText({
                                 ctx: ctx,
                                 geo: geom.coordinates,
@@ -416,8 +417,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                                 font: 'bold 15px Courier New',
                                 rotate: icons[item].rotate ? icons[item].rotate : "",
                                 align: 'center',
-                                drawx: 0,
-                                drawy: 6
+                                drawx: icons[item].column * icons[item].dx,
+                                drawy: (icons[item].row+1) * icons[item].dy
                             })
                         }
                     }
@@ -430,17 +431,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    if(feature.properties.featType==="ADLINK"){
-                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                            color: 'red',
-                            radius: 3
-                        }, feature.properties);
-                    }else{
-                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                            color: 'rgba(105,105,105,1)',
-                            radius: 3
-                        }, feature.properties);
-                    }
+                    this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                        color: 'rgba(105,105,105,1)',
+                        radius: 3
+                    }, feature.properties);
 
                     //如果属性中有direct属性则绘制箭头
                     if (feature.properties.direct) {

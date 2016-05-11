@@ -49,6 +49,17 @@
         background-color: #333;
     }
 
+    #basicDiv ul > li > div > input.ng-dirty {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
     #basicDiv ul > li > div > select {
         color: #F3F6FA;
         margin-left: -3px;
@@ -57,6 +68,15 @@
         margin-top: 5px;
         border: 1px ridge #FFFFFF;
         background-color: #333;
+    }
+    #basicDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
     }
 
     #basicDiv ul > li > div:first-child {
@@ -123,6 +143,7 @@
     }
 </style>
 <div id="basicDiv" ng-controller="basicController" >
+    <from name="basicFrom">
     <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item1">
             <div  class="list-name text-left">
@@ -289,6 +310,7 @@
             </div>
         </li>
         </ul>
+    </from>
         <ul class="list-group list-group-lg m-b-none">
             <li class="list-group-item1">
                 <div  class="inline" style="text-align: left;width: 120px;">

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/9/25.
  */
-var filedsModule = angular.module('mapApp', ['oc.lazyLoad']);
+var filedsModule = angular.module('mapApp');
 filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocLazyLoad', '$timeout',
         function ($rootScope, $scope, $ocLazyLoad, $timeout) {
             var objCtrl = fastmap.uikit.ObjectEditController();
@@ -325,6 +325,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage, event) {
+                $("#dataTipsOriginModal").css("display", "none");
                 event.stopPropagation();
                 $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
                 if ($scope.showOrHideId !== "") {
@@ -471,6 +472,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
                 $("#popoverTips").css("display", "block");
+
                 Application.functions.getTipsResult(item.i, function (data) {
                     if (data.rowkey === "undefined") {
                         return;

@@ -34,6 +34,12 @@ selectApp.controller("rdCrossController", function ($scope) {
         var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
         highLightRender.highLightFeatures = highLightFeatures;
         highLightRender.drawHighlight();
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.rdCrossForm.$setPristine();
+            });
+        }
     };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();

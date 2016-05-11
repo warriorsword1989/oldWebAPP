@@ -1,12 +1,17 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var sidewalkApp = angular.module("mapApp", []);
+var sidewalkApp = angular.module("mapApp");
 sidewalkApp.controller("sidewalkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.sidewalkData = objCtrl.data.sidewalks;
     $scope.linkData = objCtrl.data;
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.sideWalkForm.$setPristine();
+        });
 
+    }
     for(var i= 0,len=$scope.sidewalkData.length;i<len;i++) {
         if($scope.sidewalkData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
             $scope.oridiData = $scope.sidewalkData[i];

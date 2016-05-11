@@ -102,7 +102,7 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                             zoom: this._map.getZoom()
                         }
 
-                        this._drawPointHeight(ctx, point);
+                        //this._drawPointHeight(ctx, point);
                     }
                 }
             }
@@ -110,19 +110,23 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
             for (var item in data) {
                 if (this._TouchesPath(data[item].geometry.coordinates, x, y, 5)) {
                     var id = data[item].properties.id;
-                    this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id, index: this.selectedFeatures.length})
+                    this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
+                        id: id,
+                        properties:data[item].properties,
+                        index: this.selectedFeatures.length
+                    })
                     this.selectedFeatures.push(id)
-                    if (this.selectedFeatures.length === 1) {
-                        this._drawLineHeight(id, {
-                            strokeWidth: 3,
-                            strokeColor: '#F63428'
-                        });
-                    } else {
-                        this._drawLineHeight(id, {
-                            strokeWidth: 3,
-                            strokeColor: '#253B76'
-                        });
-                    }
+                    //if (this.selectedFeatures.length === 1) {
+                    //    this._drawLineHeight(id, {
+                    //        strokeWidth: 3,
+                    //        strokeColor: '#F63428'
+                    //    });
+                    //} else {
+                    //    this._drawLineHeight(id, {
+                    //        strokeWidth: 3,
+                    //        strokeColor: '#253B76'
+                    //    });
+                    //}
 
                 }
 

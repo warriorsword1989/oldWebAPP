@@ -24,10 +24,6 @@ L.Control.FloatMenu = fastmap.mapApi.Layer.extend({
             buttons.push(this._createButton(this.items[i].text,this.items[i].title,this.items[i].type,this.items[i].class||"",this.toolBarContainer,this.items[i].callback,this));
         }
 
-
-        var pos = this._map.latLngToLayerPoint(this._latlng);
-        L.DomUtil.setPosition(this.toolBarContainer, pos);
-
         this._el.appendChild(this.toolBarContainer);
         map.getPanes().overlayPane.appendChild(this._el);
 
