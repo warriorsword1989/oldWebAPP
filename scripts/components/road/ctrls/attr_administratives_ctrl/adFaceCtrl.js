@@ -5,6 +5,9 @@ var adFaceApp = angular.module("mapApp");
 adFaceApp.controller("adFaceController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
+    var layerCtrl = fastmap.uikit.LayerController();
+    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var adface = layerCtrl.getLayerById("adface");
     $scope.initializeData = function(){
         $scope.adFaceData = objCtrl.data;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -13,6 +16,17 @@ adFaceApp.controller("adFaceController",function($scope) {
                 $scope.adFaceForm.$setPristine();
             });
         }
+
+        var highLightFeatures=[];
+        highLightFeatures.push({
+            id:$scope.adFaceData.pid.toString(),
+            layerid:'adface',
+            type:'adface',
+            style:{color:'#3A5FCD'}
+        })
+        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
+        highLightRender.highLightFeatures = highLightFeatures;
+        highLightRender.drawHighlight();
 
     };
     if(objCtrl.data) {
@@ -32,6 +46,7 @@ adFaceApp.controller("adFaceController",function($scope) {
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
+            adface.redraw();
             if (data.errcode==0) {
                 var sinfo={
                     "op":"删除行政区划面成功",
