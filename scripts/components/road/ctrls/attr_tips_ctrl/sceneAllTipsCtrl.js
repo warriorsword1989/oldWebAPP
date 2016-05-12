@@ -55,9 +55,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         switch ($scope.allTipsType) {
             case "1101":
                 $scope.speedDirectTypeOptions = [
-                    {"id": 0, "label": "0  未调查"},
-                    {"id": 2, "label": "2 顺方向"},
-                    {"id": 3, "label": "3 逆方向"}
+                    {"id": 0, "label": "未调查"},
+                    {"id": 2, "label": "顺方向"},
+                    {"id": 3, "label": "逆方向"}
                 ];
                 for (var i in $scope.speedDirectTypeOptions) {
                     if ($scope.speedDirectTypeOptions[i].id == $scope.dataTipsData.rdDir) {
@@ -125,6 +125,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     $scope.drs = "单方向";
                 }
                 $scope.fData = $scope.dataTipsData.f;
+                $scope.time = $scope.dataTipsData.time;
                 break;
             case "1301"://车信
                 $scope.oarrayData = $scope.dataTipsData.o_array;
@@ -138,7 +139,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1302":
                 //高亮
-                $scope.restrictOutLinks = [];
+               /* $scope.restrictOutLinks = [];*/
+                $scope.restrictOutLinks =  $scope.dataTipsData.o_array[0].out;
                 var detailsOfHigh = $scope.dataTipsData.o_array;
                 //linksObj["inLink"] = $scope.dataTipsData.in.id;
                 highLightFeatures.push({
@@ -288,6 +290,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
                     /*车道数*/
                     $scope.carNumber = $scope.dataTipsData.ln;
+                    /*长度*/
+                    $scope.lineLength = $scope.dataTipsData.len;
                 }
 
                 highLightFeatures.push({
