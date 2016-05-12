@@ -1282,7 +1282,7 @@ function transformDataForTips(data) {
 
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
-                        iconName: '../../images/road/tips/normal/pending.png',
+                        iconName: '../../images/road/tips/1101/0.svg',
                         row: 0,
                         column: 1,
                         location: obj['geometry']['coordinates']
@@ -1349,7 +1349,9 @@ function transformDataForTips(data) {
                         iconName: '../../images/road/tips/2001/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
+                        scalex: 0.7,
+                        scaley: 0.7
                     })
                 );
                 break;
