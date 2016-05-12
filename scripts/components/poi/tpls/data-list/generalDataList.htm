@@ -29,10 +29,7 @@
                         </button>
                     </span>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li ng-model="radio_select" uib-btn-radio="'全局搜索'" role="menuitem"><a href="#">全局搜索</a></li>
-                        <li ng-model="radio_select" uib-btn-radio="'项目名称'" role="menuitem"><a href="#">项目名称</a></li>
-                        <li ng-model="radio_select" uib-btn-radio="'项目类型'" role="menuitem"><a href="#">项目类型</a></li>
-                        <li ng-model="radio_select" uib-btn-radio="'项目状态'" role="menuitem"><a href="#">项目状态</a></li>
+                        <li ng-repeat="item in searchField" ng-model="$parent.radio_select" uib-btn-radio="'{{item.key}}'" role="menuitem"><a href="#">{{item.key}}</a></li>
                     </ul>
                 </div>
                 <div class="pull-right search">

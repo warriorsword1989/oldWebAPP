@@ -641,7 +641,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                     }
                     else if(pItemId==="1501") {//上下线分离
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        if(data.geo!=null){
+                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        }else{
+                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        }
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",

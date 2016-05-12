@@ -24,6 +24,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
 
         }
         highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }

@@ -9,7 +9,7 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var editLayer = layerCtrl.getLayerById('edit');
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var hLayer = layerCtrl.getLayerById("highlightlayer")
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.flag = true;
     $scope.scenceArr = [
         {"id": 1, "label": "线限速场景", "selected": false},
@@ -142,8 +142,8 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLink._cleanHightlight();
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
