@@ -10,7 +10,7 @@ rdGscApp.controller("rdGscController",function($scope) {
     var rdgsc = layerCtrl.getLayerById('rdGsc');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var highRenderCtrl = fastmap.uikit.HighRenderController();
+    // var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.reGscData = objCtrl.data;
@@ -26,8 +26,8 @@ rdGscApp.controller("rdGscController",function($scope) {
                 }
             })
         }
-        highRenderCtrl.highLightFeatures = highLightFeatures;
-        highRenderCtrl.drawHighlight();
+        /*highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();*/
 
 
         if($(".ng-dirty")) {
