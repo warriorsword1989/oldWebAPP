@@ -1,5 +1,7 @@
 angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
     uibBtnCfg.activeClass = "btn-success";
+    //$scope.isShowImages = false;
+    $scope.mapColumn = 12;
     $scope.meta = {};
 
     var metaData = {}; //存放元数据
@@ -26,6 +28,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     }));
 
     $q.all(promises).then(function() {
+        initImages();
+
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
@@ -48,6 +52,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             });
         });
     });
+
+    var initImages = function (){
+        var attachments = $scope.poi.attachments;
+        var imageArr = [];
+        for (var i = 0 , len = attachments.length; i < len; i ++){
+            if (attachments[i].type == 1){
+                imageArr.push(attachments[i]);
+            }
+        }
+        //控制是否显示图片
+        if(imageArr.length > 0 ){
+            $scope.mapColumn = 6;
+            $scope.isShowImages = true;
+            $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
+            $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
+        } else {
+            $scope.mapColumn = 12;
+            $scope.isShowImages = false;
+            $scope.isShowArrow = false;
+        }
+
+    };
+    
+    $scope.doLeftRight = function (){
+        if ($scope.mapColumn == 6) {
+            $scope.mapColumn = 12;
+            $scope.isShowImages = false;
+            $scope.arrowStyle = "arrow_right";
+        } else {
+            $scope.mapColumn = 6;
+            $scope.isShowImages = true;
+            $scope.arrowStyle = "arrow_left";
+        }
+    };
+
     var resultAllData = [],
         editHistoryData = {},
         checkResultData = [],
