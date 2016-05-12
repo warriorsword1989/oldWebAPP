@@ -1369,11 +1369,11 @@ function transformDataForTips(data) {
                 obj['properties']['rotate'] = item.m.c;
                 if (item.m.d === 2) {
                     obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle('../../images/road/tips/road/2.svg', 1, 0, obj['geometry']['coordinates'][0])
+                        getIconStyle('../../images/road/tips/road/1.svg', 1, 0, obj['geometry']['coordinates'][0])
                     );
                 } else {
                     obj['properties']['markerStyle']["icon"].push(
-                        getIconStyle('../../images/road/tips/road/1.svg', 1, 0, obj['geometry']['coordinates'][0])
+                        getIconStyle('../../images/road/tips/road/2.svg', 1, 0, obj['geometry']['coordinates'][0])
                     );
                 }
                 break;

@@ -235,11 +235,11 @@ function keyEvent(ocLazyLoad, scope) {
                     var startPoint = feature.geometry[0],
                         point = feature.point;
                     if (geo) {
-                        if (geo.flag) {
+                        if (!geo.flag) {
                             var directOfLink = {
                                 "objStatus": "UPDATE",
-                                "pid": geo.pid,
-                                "direct": parseInt(geo.orientation)
+                                "pid": selectCtrl.selectedFeatures.id,
+                                "direct": parseInt(selectCtrl.selectedFeatures.direct)
                             };
                             param = {
                                 "type": "RDLINK",
@@ -453,9 +453,8 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": selectCtrl.selectedFeatures
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("adface").redraw();
-                        layerCtrl.getLayerById("adLine").redraw();
-                        layerCtrl.getLayerById("adnode").redraw();
+                        layerCtrl.getLayerById("rdGsc").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){
