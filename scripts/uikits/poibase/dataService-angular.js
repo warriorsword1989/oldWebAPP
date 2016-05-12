@@ -74,7 +74,7 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
         	var ret;
         	if (data.errcode == 0) {
-                ret = data.data.total;
+                ret = data.data;
             }
         	callback(ret);
         });
