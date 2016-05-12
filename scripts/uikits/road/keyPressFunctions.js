@@ -356,6 +356,7 @@ function keyEvent(ocLazyLoad, scope) {
                        }else if(param ["type"] === "ADNODE") {
                            layerCtrl.getLayerById("adLink").redraw();
                            layerCtrl.getLayerById("adnode").redraw();
+                           layerCtrl.getLayerById("adface").redraw();
                        }
                         treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
@@ -443,8 +444,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adface").redraw();
-                        layerCtrl.getLayerById("adLine").redraw();
-                        layerCtrl.getLayerById("adnode").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
                 }

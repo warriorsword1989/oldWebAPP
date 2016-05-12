@@ -430,7 +430,7 @@ Application.layersConfig =
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
-            url: createUrl('/render/tip/getByTileWithGap?', 12),
+            url: createUrl('/render/tip/getByTileWithGap?', '12'),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -986,10 +986,19 @@ function transformData(data) {
 
                 break;
             case 13 ://行政区划面
+                //console.log(Number(obj['properties'].id).toString(16) );
+                var color="";
                 obj['properties']["featType"] = "ADFACE";
                 obj['geometry']['type'] = 'Polygon';
+                if(Number(obj['properties'].id).toString(16).length>6){
+                    color=Number(obj['properties'].id).toString(16).substring(Number(obj['properties'].id).toString(16).length-4);
+                }else{
+                    color=Number(obj['properties'].id).toString(16);
+                }
                 obj['properties']['style'] = {
-                    'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
+                   //'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
+                    //'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
+                    'fillColor':'#'+color+'00',
                     'fillOpacity': 0.2,
                     'strokeColor': '#FBD356',
                     'strokeWidth': 1,
@@ -1282,7 +1291,7 @@ function transformDataForTips(data) {
 
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
-                        iconName: '../../images/road/tips/normal/pending.png',
+                        iconName: '../../images/road/tips/1101/0.svg',
                         row: 0,
                         column: 1,
                         location: obj['geometry']['coordinates']
@@ -1349,7 +1358,9 @@ function transformDataForTips(data) {
                         iconName: '../../images/road/tips/2001/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
+                        scalex: 0.7,
+                        scaley: 0.7
                     })
                 );
                 break;
@@ -1464,7 +1475,7 @@ function createUrl(url, requestType) {
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80,
-            types: [requestType]
+            types: requestType.split(',')
         }
 
         if (requestType == "RDLINK") {
