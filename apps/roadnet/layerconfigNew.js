@@ -986,10 +986,20 @@ function transformData(data) {
 
                 break;
             case 13 ://行政区划面
+                //console.log(Number(obj['properties'].id).toString(16) );
+                var color="";
                 obj['properties']["featType"] = "ADFACE";
                 obj['geometry']['type'] = 'Polygon';
+                if(Number(obj['properties'].id).toString(16).length>6){
+                    color=Number(obj['properties'].id).toString(16).substring(Number(obj['properties'].id).toString(16).length-4);
+                }else{
+                    color=Number(obj['properties'].id).toString(16);
+                }
+                console.log(color);
                 obj['properties']['style'] = {
-                    'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
+                   //'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
+                    //'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
+                    'fillColor':'#'+color+'00',
                     'fillOpacity': 0.2,
                     'strokeColor': '#FBD356',
                     'strokeWidth': 1,
