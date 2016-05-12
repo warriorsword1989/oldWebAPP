@@ -96,7 +96,6 @@ fastmap.uikit.SelectPath = L.Handler.extend({
                     var point= transform.PixelToLonlat(tilePoint[0] * 256 + x, tilePoint[1] * 256 + y, this._map.getZoom());
                     point= new fastmap.mapApi.Point(point[0], point[1]);
                     id = data[item].properties.id;
-                    console.log('........................'+id);
                     if (this.linksFlag) {
                         this.eventController.fire(this.eventController.eventTypes.GETLINKID, {id: id,point:point,optype:"LINK",event:event});
                         this.currentEditLayer.selectedid = id;
