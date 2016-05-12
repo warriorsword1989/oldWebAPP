@@ -995,7 +995,6 @@ function transformData(data) {
                 }else{
                     color=Number(obj['properties'].id).toString(16);
                 }
-                console.log(color);
                 obj['properties']['style'] = {
                    //'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
                     //'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
