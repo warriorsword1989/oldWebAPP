@@ -56,9 +56,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 //	        	$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 //            });
 	    });
-//		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
+		$ocll.load("components/poi/ctrls/data-list/generalDataListCtrl").then(function() {
 	        $scope.generalDataListTpl = "../../scripts/components/poi/tpls/data-list/generalDataList.htm";
-//	    });
+	    });
 //		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 	});
 	
