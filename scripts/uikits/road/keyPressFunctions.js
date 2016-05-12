@@ -15,6 +15,8 @@ function keyEvent(ocLazyLoad, scope) {
             var objEditCtrl = fastmap.uikit.ObjectEditController();
             var selectCtrl = fastmap.uikit.SelectController();
             var editLayer = layerCtrl.getLayerById('edit');
+            var hLayer = layerCtrl.getLayerById('highlightlayer');
+            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
@@ -22,6 +24,7 @@ function keyEvent(ocLazyLoad, scope) {
             if (event.keyCode == 27) {
                 resetPage();
                 map._container.style.cursor = '';
+                highLightLink._cleanHightlight();
             }
 
 
@@ -454,7 +457,8 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdGsc").redraw();
-                        layerCtrl.getLayerById("adLink").redraw();
+                        layerCtrl.getLayerById("referenceLine").redraw();
+                        highLightLink._cleanHightlight();
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){
