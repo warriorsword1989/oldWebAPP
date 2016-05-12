@@ -9,13 +9,12 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var hLayer = layerCtrl.getLayerById("highlightlayer");
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
     $scope.limitRelation = {};
     $scope.clickFlag = true;
     $scope.excitLineArr = [];
-    $scope.highRender = new fastmap.uikit.HighLightRender(hLayer);
     $scope.highFeatures = [];
     var changedDirectObj = {
         "loadType": "subAttrTplContainer",
@@ -59,8 +58,8 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 type: 'line',
                 style: {}
             });
-            $scope.highRender.highLightFeatures = $scope.highFeatures;
-            $scope.highRender.drawHighlight();
+            highRenderCtrl.highLightFeatures = $scope.highFeatures;
+            highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
@@ -71,7 +70,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 type: 'rdnode',
                 style: {}
             });
-            $scope.highRender.drawHighlight();
+            highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
         } else if (data.index > 1) {
@@ -82,7 +81,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
                 type: 'line',
                 style: {}
             });
-            $scope.highRender.drawHighlight();
+            highRenderCtrl.drawHighlight();
             $scope.limitRelation.outLinkPids = $scope.excitLineArr;
             tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
         }
