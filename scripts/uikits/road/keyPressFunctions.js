@@ -16,8 +16,6 @@ function keyEvent(ocLazyLoad, scope) {
             var selectCtrl = fastmap.uikit.SelectController();
             var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
-            var hLayer = layerCtrl.getLayerById('highlightlayer');
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
@@ -25,7 +23,6 @@ function keyEvent(ocLazyLoad, scope) {
             if (event.keyCode == 27) {
                 resetPage();
                 map._container.style.cursor = '';
-                highLightLink._cleanHightlight();
             }
             //是否包含点
             function _contains(point, components) {
@@ -444,7 +441,8 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdGsc").redraw();
                         layerCtrl.getLayerById("referenceLine").redraw();
-                        highLightLink._cleanHightlight();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){

@@ -10,11 +10,72 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
-
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var gpsLine = layerCtrl.getLayerById("gpsLine");
+    var editLayer = layerCtrl.getLayerById('edit');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
+
+    $scope.resetToolAndMap = function () {
+        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+
+            map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
+        }
+
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+
+        if(selectCtrl.rowKey) {
+            selectCtrl.rowKey = null;
+        }
+        editLayer.drawGeometry = null;
+        shapeCtrl.stopEditing();
+        editLayer.bringToBack();
+        $(editLayer.options._div).unbind();
+        //$scope.changeBtnClass("");
+        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+        editLayer.clear();
+    };
+    $scope.getFeatDataCallback = function ( id, type) {
+        $scope.resetToolAndMap();
+        Application.functions.getRdObjectById(id, type, function (data) {
+            if (data.errcode === -1) {
+                swal("", data.errmsg, "提示信息");
+                return;
+            }
+            if(type==="RDLINK") {
+                var linkArr = data.data.geometry.coordinates, points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                    points.push(point);
+                }
+                 map.panTo({lat: points[0].y, lon: points[0].x});
+                var line = fastmap.mapApi.lineString(points);
+                selectCtrl.onSelected({geometry: line, id: $scope.dataId});
+
+                highRenderCtrl.highLightFeatures.push({
+                    id:data.data.pid.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                });
+                highRenderCtrl.drawHighlight();
+            }
+
+            objCtrl.setCurrentObject(type, data.data);
+            var options = {
+                "loadType": 'attrTplContainer',
+                "propertyCtrl": "components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                "propertyHtml": "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+            }
+            $scope.$emit("transitCtrlAndTpl", options);
+        });
+    }
 
     //初始化DataTips相关数据
     $scope.initializeDataTips = function (data) {
