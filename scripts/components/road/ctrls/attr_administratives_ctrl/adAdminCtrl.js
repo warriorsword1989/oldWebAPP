@@ -36,11 +36,6 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         {"id": 2, "label": "省会/直辖市"},
         {"id": 3, "label": "地级市"}
     ];
-    $scope.population = [
-        {"id": "0", "label": "100w"},
-        {"id": "1", "label": "200w"}
-
-    ];
 
     $scope.initializeData = function(){
         $scope.adAdminData = objCtrl.data;
