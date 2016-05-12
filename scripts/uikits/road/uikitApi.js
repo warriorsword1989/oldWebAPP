@@ -14,6 +14,7 @@
         "controller/corectl/SelectController.js",
         "controller/corectl/ShapeEditorController.js",
         "controller/corectl/ToolTipsController.js",
+        "controller/corectl/HighRenderController.js",
 
         "controller/corectl/EventController.js",
 

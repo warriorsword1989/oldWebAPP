@@ -14,9 +14,8 @@ function keyEvent(ocLazyLoad, scope) {
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var objEditCtrl = fastmap.uikit.ObjectEditController();
             var selectCtrl = fastmap.uikit.SelectController();
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
-            var hLayer = layerCtrl.getLayerById('highlightlayer');
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
@@ -24,10 +23,7 @@ function keyEvent(ocLazyLoad, scope) {
             if (event.keyCode == 27) {
                 resetPage();
                 map._container.style.cursor = '';
-                highLightLink._cleanHightlight();
             }
-
-
             //是否包含点
             function _contains(point, components) {
                 var boolExit = false;
@@ -54,6 +50,8 @@ function keyEvent(ocLazyLoad, scope) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 editLayer.drawGeometry = null;
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
@@ -183,21 +181,6 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
                     })
 
-                /*
-
-                    param = {
-                        "command": "CREATE",
-                        "type": "RDRESTRICTION",
-                        "projectId": Application.projectid,
-                        "data": featCodeCtrl.getFeatCode()
-                    };
-                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("restriction").redraw();
-                        //清空上一次的操作
-                        map.currentTool.disable();
-                        treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
-
-                    });*/
                 } else if (shapeCtrl.editType === "pathBreak") {
                     var breakPoint = null,breakPathContent,ctrl,tpl;
                     for (var item in geo.components) {
@@ -458,7 +441,8 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdGsc").redraw();
                         layerCtrl.getLayerById("referenceLine").redraw();
-                        highLightLink._cleanHightlight();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){

@@ -12,7 +12,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var workPoint = layerCtrl.getLayerById("workPoint");
 
     var gpsLine = layerCtrl.getLayerById("gpsLine");
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
 
@@ -24,8 +24,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
         var highLightFeatures = [];
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-
         highLightFeatures.push({
             id:$scope.dataTipsData.rowkey,
             layerid:'workPoint',
@@ -321,8 +319,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
 
         }
-        highLightLink.highLightFeatures = highLightFeatures;
-        highLightLink.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
         //获取数据中的图片数组
         if (!$scope.photos) {
             $scope.photos = [];
