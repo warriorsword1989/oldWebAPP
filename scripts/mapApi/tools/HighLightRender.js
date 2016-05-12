@@ -157,7 +157,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 this.drawOverpass(this.highLightFeatures[item].id, feature, ctx, cusFeature);
                             } else if (this.highLightFeatures[item].type == 'adadmin') {
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
-                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
+                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx );
+                            }else if(this.highLightFeatures[item].type == 'adface'){
+                                var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                this.drawPolygon(this.highLightFeatures[item].id, feature, ctx );
                             }
                             break;
                         } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
@@ -411,7 +414,26 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             })
         }
     },
-    _cleanHighLight: function () {
+    drawPolygon:function(id, feature, ctx){
+        if (feature.properties.id == id) {
+            if (feature.properties.id === undefined) {
+                return;
+            }
+            var geo = feature.geometry.coordinates;
+            this.layer._drawPolygon(
+                 ctx,
+                 geo,
+                {
+                    'fillColor': '#FFFF00',
+                    'fillOpacity': 0.2,
+                    'strokeColor': '#FFFF00',
+                    'strokeWidth': 1,
+                    'backgroundImage': ""
+                },true
+            )
+        }
+    },
+    _cleanHightlight: function () {
         for (var index in this.layer._tiles) {
             this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
         }

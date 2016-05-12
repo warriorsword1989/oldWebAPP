@@ -10,6 +10,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var rdnode=layerCtrl.getLayerById('referenceNode');
         var hLayer = layerCtrl.getLayerById('highlightlayer');
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();

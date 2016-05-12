@@ -16,6 +16,8 @@ function keyEvent(ocLazyLoad, scope) {
             var selectCtrl = fastmap.uikit.SelectController();
             var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
+            var hLayer = layerCtrl.getLayerById('highlightlayer');
+            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
@@ -23,6 +25,7 @@ function keyEvent(ocLazyLoad, scope) {
             if (event.keyCode == 27) {
                 resetPage();
                 map._container.style.cursor = '';
+                highLightLink._cleanHightlight();
             }
             //是否包含点
             function _contains(point, components) {
@@ -339,6 +342,7 @@ function keyEvent(ocLazyLoad, scope) {
                        }else if(param ["type"] === "ADNODE") {
                            layerCtrl.getLayerById("adLink").redraw();
                            layerCtrl.getLayerById("adnode").redraw();
+                           layerCtrl.getLayerById("adface").redraw();
                        }
                         treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
@@ -426,8 +430,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adface").redraw();
-                        layerCtrl.getLayerById("adLine").redraw();
-                        layerCtrl.getLayerById("adnode").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
                 }
@@ -440,7 +443,8 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdGsc").redraw();
-                        layerCtrl.getLayerById("adLink").redraw();
+                        layerCtrl.getLayerById("referenceLine").redraw();
+                        highLightLink._cleanHightlight();
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){

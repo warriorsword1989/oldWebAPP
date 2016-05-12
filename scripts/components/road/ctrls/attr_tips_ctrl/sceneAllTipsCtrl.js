@@ -228,6 +228,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "2001":
                 /*种别*/
+                highLightFeatures.push({
+                    id:$scope.dataTipsData.rowkey,
+                    layerid:'gpsLine',
+                    type:'line',
+                    style:{}
+                });
                 $scope.returnLineType = function (code) {
                     switch (code) {
                         case 0:
