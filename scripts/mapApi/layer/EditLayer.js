@@ -417,8 +417,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                     var point1 = data[i][j];
                     var point2 = data[i][j + 1];
                     var distance = self.distance(point1, point2);
-                    if (distance < 30) {
-                        return;
+                    if (distance < 20) {
+                        break;
                     }
 
                     g.save()

@@ -8,14 +8,14 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
-    var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     $scope.laneConnexity = {};
     $scope.clickFlag = true;
     $scope.excitLineArr = [];
-    $scope.highRender = new fastmap.uikit.HighLightRender(hLayer);
     $scope.highFeatures = [];
 
 
@@ -83,8 +83,8 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 type: 'line',
                 style: {}
             });
-            $scope.highRender.highLightFeatures = $scope.highFeatures;
-            $scope.highRender.drawHighlight();
+            highRenderCtrl .highLightFeatures = $scope.highFeatures;
+            highRenderCtrl .drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
@@ -95,7 +95,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 type: 'rdnode',
                 style: {}
             });
-            $scope.highRender.drawHighlight();
+            highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入点,请选择方向!");
         } else if (data.index > 1) {
@@ -106,7 +106,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
                 type: 'line',
                 style: {}
             });
-            $scope.highRender.drawHighlight();
+            highRenderCtrl .drawHighlight();
             $scope.laneConnexity.outLinkPids = $scope.excitLineArr;
             tooltipsCtrl.setChangeInnerHtml("已选退出线,请选择方向或者选择退出线!");
         }

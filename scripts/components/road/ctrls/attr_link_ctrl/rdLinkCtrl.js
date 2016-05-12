@@ -15,7 +15,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
     $scope.modelArray=[false,false,false,false,false,false];
@@ -79,19 +79,16 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 })
             }
 
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures = highLightFeatures;
-            highLightLink.drawHighlight();
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
         }else{
-
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures.push({
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.linkData.pid.toString(),
                 layerid:'referenceLine',
                 type:'line',
                 style:{}
             });
-            highLightLink.drawHighlight();
+            highRenderCtrl.drawHighlight();
         }
 
         var linkArr =$scope.linkData.geometry.coordinates, points = [];

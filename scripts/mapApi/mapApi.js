@@ -68,7 +68,7 @@
          "mapApi/tools/DrawPath.js",
          "mapApi/tools/DrawPolygon.js",
          "mapApi/tools/GeometryValidation.js",
-         "mapApi/tools/HighLightRender.js",
+         //"mapApi/tools/HighLightRender.js",
          "mapApi/tools/PathBreak.js",
          "mapApi/tools/PathCopy.js",
          "mapApi/tools/PathCut.js",

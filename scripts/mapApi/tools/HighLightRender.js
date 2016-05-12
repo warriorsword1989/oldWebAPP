@@ -24,7 +24,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
     drawTips: function (id, feature, ctx) {
 
         var geom = feature.geometry.coordinates;
-        if(geom) {
+        if (geom) {
             var newGeom = [];
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
@@ -90,13 +90,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             }
         }
     },
-
-
     drawHighlight: function (tile) {
         //绘制钱清除高亮
-        this._cleanHightlight();
+        this._cleanHighLight();
         if (tile) {
-
         } else {
             for (var item in this.highLightFeatures) {
                 this.currentEditLayer = fastmap.uikit.LayerController().getLayerById(this.highLightFeatures[item].layerid);
@@ -110,20 +107,20 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             };
                             var hightlightfeature = this.currentEditLayer.tiles[tile].data[feature];
                             var id = this.highLightFeatures[item].id;
-                            var style=this.highLightFeatures[item].style;
+                            var style = this.highLightFeatures[item].style;
                             if (this.highLightFeatures[item].type == 'line') {
-                                this.drawOfLink(id, hightlightfeature, ctx,style);
+                                this.drawOfLink(id, hightlightfeature, ctx, style);
 
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
                                 var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                                 //this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
                                 this.layer._drawPoint({
-                                    boolPixelCrs:true,
-                                    ctx:ctx,
-                                    fillColor:'red',
-                                    radius:3,
-                                    geom:geo
+                                    boolPixelCrs: true,
+                                    ctx: ctx,
+                                    fillColor: 'red',
+                                    radius: 3,
+                                    geom: geo
                                 })
                             }
                             else if (this.highLightFeatures[item].type == 'speedlimit') {
@@ -156,14 +153,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                                 this.drawTips(this.highLightFeatures[item].id, feature, ctx);
                             } else if (this.highLightFeatures[item].type == 'rdgsc') {
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
-                                    cusFeature = this.highLightFeatures[item];
-                                this.drawOverpass(this.highLightFeatures[item].id, feature, ctx ,cusFeature);
-                            }else if(this.highLightFeatures[item].type == 'adadmin'){
+                                cusFeature = this.highLightFeatures[item];
+                                this.drawOverpass(this.highLightFeatures[item].id, feature, ctx, cusFeature);
+                            } else if (this.highLightFeatures[item].type == 'adadmin') {
                                 var feature = this.currentEditLayer.tiles[tile].data[feature];
-                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx );
+                                this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
                             }
                             break;
-                        }else if( this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
+                        } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                             var ctxOfSNode = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
@@ -171,14 +168,14 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             var geoOfSNode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
                             //this.layer._drawPoint(ctxOfSNode, geoOfSNode, {color: 'yellow', radius: 3}, true);
                             this.layer._drawPoint({
-                                boolPixelCrs:true,
-                                ctx:ctxOfSNode,
-                                fillColor:'yellow',
-                                radius:3,
-                                geom:geoOfSNode
+                                boolPixelCrs: true,
+                                ctx: ctxOfSNode,
+                                fillColor: 'yellow',
+                                radius: 3,
+                                geom: geoOfSNode
                             })
                             break;
-                        }else if(this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
+                        } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.enode) {
                             var ctxOfENode = {
                                 canvas: this.layer._tiles[tile],
                                 tile: L.point(tile.split(':')[0], tile.split(':')[1])
@@ -187,11 +184,11 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             var geoOfENode = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[len];
                             //this.layer._drawPoint(ctxOfENode, geoOfENode, {color: 'yellow', radius: 3}, true);
                             this.layer._drawPoint({
-                                boolPixelCrs:true,
-                                ctx:ctxOfENode,
-                                fillColor:'yellow',
-                                radius:3,
-                                geom:geoOfENode
+                                boolPixelCrs: true,
+                                ctx: ctxOfENode,
+                                fillColor: 'yellow',
+                                radius: 3,
+                                geom: geoOfENode
                             })
                             break;
                         }
@@ -201,16 +198,13 @@ fastmap.uikit.HighLightRender = L.Class.extend({
         }
 
     },
-
-
     /**
      * 高亮link
      * @param id
      * @param feature
      * @param ctx
      */
-    drawOfLink: function (id, feature, ctx,inOutStyle) {
-
+    drawOfLink: function (id, feature, ctx, inOutStyle) {
         var color = null;
         if (feature.hasOwnProperty('properties')) {
             color = feature.properties.style.strokeColor;
@@ -220,7 +214,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
-            if(inOutStyle.color!=null){
+            if (inOutStyle.color != null) {
                 this.layer._drawLineString(ctx, geom, true, {
                     strokeWidth: 3,
                     strokeColor: inOutStyle.color
@@ -228,7 +222,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     color: '#00F5FF',
                     radius: 3
                 }, feature.properties);
-            }else{
+            } else {
                 this.layer._drawLineString(ctx, geom, true, {
                     strokeWidth: 3,
                     strokeColor: '#00F5FF'
@@ -244,7 +238,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 radius: 3
             }, feature.properties);
         }
-
     },
 
     /**
@@ -254,10 +247,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param ctx
      */
     drawRestrict: function (id, feature, ctx) {
-
-
         if (feature.properties.id == id) {
-
             if (id !== undefined) {
                 var laneObjArr = feature.properties.markerStyle.icon;
                 for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
@@ -278,29 +268,21 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             scalex: 2 / 3,
                             scaley: 2 / 3
                         })
-
                 }
             }
         }
-
-
-
     },
-
     drawLane: function (id, feature, ctx) {
-
         if (feature.properties.id == id) {
-
             if (id !== undefined) {
                 var laneObjArr = feature.properties.markerStyle.icon;
                 for (var fact = 0, factLen = laneObjArr.length; fact < factLen; fact++) {
-
                     this.layer._drawBackground(
                         {
                             ctx: ctx,
                             geo: laneObjArr[fact].location,
                             boolPixelCrs: true,
-                            rotate: feature.properties.rotate* (Math.PI / 180),
+                            rotate: feature.properties.rotate * (Math.PI / 180),
                             lineColor: 'rgb(4, 187, 245)',
                             fillColor: 'rgba(4, 187, 245, 0)',
                             lineWidth: 1,
@@ -311,23 +293,18 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             scalex: 2 / 3,
                             scaley: 2 / 3
                         })
-
                 }
             }
         }
     },
     drawSpeedLimit: function (id, feature, ctx) {
-
         var type = feature.geometry.type;
         var geom = feature.geometry.coordinates;
         if (feature.properties.id == id) {
             if (type == "Point") {
-
                 var newGeom = [];
-
                 newGeom[0] = (parseInt(geom[0]));
                 newGeom[1] = (parseInt(geom[1]));
-
                 this.layer._drawBackground({
                     ctx: ctx,
                     geo: newGeom,
@@ -340,26 +317,20 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                     drawx: -10,
                     drawy: -10
                 })
-
             }
         }
-
     },
 
     drawBranch: function (id, feature, context) {
-
         var geom = feature.geometry.coordinates;
         if (feature.properties.id && feature.properties.id == id) {
-
             var newGeom = [];
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
-
             this.layer._drawBackground({
                 ctx: context,
                 geo: newGeom,
                 boolPixelCrs: true,
-
                 lineColor: 'rgb(4, 187, 245)',
                 fillColor: 'rgba(4, 187, 245, 0.5)',
                 lineWidth: 1,
@@ -368,7 +339,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 drawx: -15,
                 drawy: -15
             })
-
         }
 
     },
@@ -393,9 +363,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
                 })
             }
-
         }
-
     },
     /**
      * 高亮立交
@@ -403,11 +371,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
      * @param feature
      * @param ctx
      */
-    drawOverpass: function (id, feature, ctx ,cusFeature) {
-
-        var COLORTABLE = ['#33FFFF','#3399FF','#3366CC','#333366','#330000'],
+    drawOverpass: function (id, feature, ctx, cusFeature) {
+        var COLORTABLE = ['#33FFFF', '#3399FF', '#3366CC', '#333366', '#330000'],
             style = feature.properties.style,
-            /*根据index高低link的高亮也不一样*/
+        /*根据index高低link的高亮也不一样*/
             cusColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
         var geom = feature.geometry.coordinates;
         if (feature.properties.id === id) {
@@ -443,14 +410,10 @@ fastmap.uikit.HighLightRender = L.Class.extend({
 
             })
         }
-
     },
-    _cleanHightlight: function () {
+    _cleanHighLight: function () {
         for (var index in this.layer._tiles) {
             this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
         }
-
     }
-
-
 });

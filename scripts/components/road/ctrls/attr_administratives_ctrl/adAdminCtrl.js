@@ -11,7 +11,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin = layerCtrl.getLayerById("adAdmin");
     var selectCtrl = fastmap.uikit.SelectController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.isbase=true;
 
     $scope.adminType = [
@@ -59,9 +59,8 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             type:'adadmin',
             style:{src: '../../images/road/img/heightStar.svg'}
         })
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
                 $scope.adAdminForm.$setPristine();
