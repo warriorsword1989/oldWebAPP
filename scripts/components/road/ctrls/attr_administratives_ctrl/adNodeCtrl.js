@@ -10,7 +10,7 @@ adNodeApp.controller("adNodeController",function($scope) {
     var adnode = layerCtrl.getLayerById("adnode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.form = [
         {"id": 0, "label": "无"},
         {"id": 1, "label": "图廓点"},
@@ -66,9 +66,8 @@ adNodeApp.controller("adNodeController",function($scope) {
                 type:'node',
                 style:{}
             })
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures =highlightFeatures;
-            highLightLink.drawHighlight();
+            highRenderCtrl .highLightFeatures =highlightFeatures;
+            highRenderCtrl .drawHighlight();
 
         });
     };

@@ -15,6 +15,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var gpsLine = layerCtrl.getLayerById("gpsLine");
     var hLayer = layerCtrl.getLayerById('highlightlayer');
     var editLayer = layerCtrl.getLayerById('edit');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
 
@@ -25,8 +26,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
 
         }
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLink._cleanHightlight();
+
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
 
         if(selectCtrl.rowKey) {
             selectCtrl.rowKey = null;
@@ -56,14 +58,14 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                  map.panTo({lat: points[0].y, lon: points[0].x});
                 var line = fastmap.mapApi.lineString(points);
                 selectCtrl.onSelected({geometry: line, id: $scope.dataId});
-                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-                highLightLink.highLightFeatures.push({
+
+                highRenderCtrl.highLightFeatures.push({
                     id:data.data.pid.toString(),
                     layerid:'referenceLine',
                     type:'line',
                     style:{}
                 });
-                highLightLink.drawHighlight();
+                highRenderCtrl.drawHighlight();
             }
 
             objCtrl.setCurrentObject(type, data.data);
@@ -84,8 +86,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
         var highLightFeatures = [];
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-
         highLightFeatures.push({
             id:$scope.dataTipsData.rowkey,
             layerid:'workPoint',
@@ -290,6 +290,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "2001":
                 /*种别*/
+                highLightFeatures.push({
+                    id:$scope.dataTipsData.rowkey,
+                    layerid:'gpsLine',
+                    type:'line',
+                    style:{}
+                });
                 $scope.returnLineType = function (code) {
                     switch (code) {
                         case 0:
@@ -375,8 +381,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
 
         }
-        highLightLink.highLightFeatures = highLightFeatures;
-        highLightLink.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
         //获取数据中的图片数组
         if (!$scope.photos) {
             $scope.photos = [];

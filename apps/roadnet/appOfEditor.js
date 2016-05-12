@@ -322,6 +322,7 @@ function appInit() {
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var highLayerCtrl = new fastmap.uikit.HighRenderController();
     var eventCtrl = new fastmap.uikit.EventController();
     var speedLimit = layerCtrl.getLayerById("speedlimit")
     tooltipsCtrl.setMap(map, 'tooltip');
