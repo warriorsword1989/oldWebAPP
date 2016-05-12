@@ -40,9 +40,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 	promises.push(poi.getPoiInfo(countParam,function(data){
 		$scope.taskCnt = data.total;
 	}));
+
 	//promises.push(poi.getPoiInfo(param,function(data){
 	//
 	//}));
+	
 	$q.all(promises).then(function() {
 		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,"taskCnt":$scope.taskCnt});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
@@ -54,6 +56,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 //	        	$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 //            });
 	    });
+//		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
+	        $scope.generalDataListTpl = "../../scripts/components/poi/tpls/data-list/generalDataList.htm";
+//	    });
 //		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 	});
 	
