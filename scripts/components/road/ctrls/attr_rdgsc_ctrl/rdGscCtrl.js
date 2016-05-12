@@ -165,18 +165,15 @@ rdGscApp.controller("rdGscController",function($scope) {
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
-                $timeout(function () {
-                    swal("删除成功", "删除RDGSC成功！", "success");
-                }, 500)
+                rdgsc.redraw();
+                swal("删除成功", "删除RDGSC成功！", "success");
             }else{
                 info=[{
                     "op":data.errcode,
                     "type":data.errmsg,
                     "pid": data.errid
                 }];
-                $timeout(function () {
-                    swal("删除失败", "问题原因：" + data.errmsg, "error");
-                })
+                swal("删除失败", "问题原因：" + data.errmsg, "error");
             }
 
             outPutCtrl.pushOutput(info);
