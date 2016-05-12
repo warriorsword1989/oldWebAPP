@@ -440,7 +440,8 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdGsc").redraw();
                         layerCtrl.getLayerById("referenceLine").redraw();
-                        highLightLink._cleanHightlight();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){
