@@ -155,7 +155,7 @@
             <div class="panel panel-default " style="background-color: transparent;border:0;">
                 <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
                     行政区划代表点
-                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adAdminData.adminId}}</span>
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adAdminData.regionId}}</span>
                 </div>
             </div>
         </form>
@@ -218,13 +218,10 @@
             </div>
         </li>
         <li class="list-group-item" >
-            <div>
-                <label class="control-label">人口数量</label>
-            </div>
+            <div><label class="control-label">人口数量</label></div>
             <div class="inline">
-                <select  ng-model="adAdminData.population"
-                         ng-options="value.id as value.label for value in population">
-                </select>
+                <input type="text" ng-model="adAdminData.population" style="width: 140px"/>
+                <label>万人</label>
             </div>
         </li>
     </ul>

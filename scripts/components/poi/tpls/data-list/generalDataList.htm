@@ -1,236 +1,49 @@
-<center>
-<div class="btn-group btn-group-justified" id="jobTabHeader" style="width:400px;margin-bottom:5px;">
-    <div class="btn-group">
-        <a href="#normalJobTab" class="btn btn-warning" data-toggle="tab">常规作业</a>
-    </div>
-    <div class="btn-group">
-        <a href="#qtJobTab" class="btn btn-default" data-toggle="tab">质检作业 <img id="iconqt" src="../images/main/u03.png" class="iconqt" style="display:none;"></a>
-    </div>
-</div>
-</center>
-<div class="tab-content">
-    <div id="normalJobTab" class="tab-pane active">
-        <div class="tab-header">
-            <div class="btn-group btn-group-justified btn-tab-header" id="dataListTab">
-                <div class="btn-group">
-                    <a href="#rawDataTab" class="btn btn-success" data-toggle="tab">待作业</a>
-                </div>
-                <div class="btn-group">
-                    <a href="#dealedDataTab" class="btn btn-default" data-toggle="tab">待提交</a>
-                </div>
-                <div class="btn-group">
-                    <a href="#submitedDataTab" class="btn btn-default" data-toggle="tab">已提交</a>
-                </div>
-            </div>
-        </div>
-        <div class="tab-content" id="tabContent">
-            <div class="tab-pane active" id="rawDataTab">
-                <div id="rawDataTab-toolbar">
-                    <button type="button" class="btn btn-warning func-btn" id="addPoiBtn" onclick="doAddPoi()">新增POI</button>
-                    <button type="button" class="btn btn-primary func-btn" id="preCheckBtn" onclick="doPreCheck()" data-loading-text="检查中...">在线检查</button>
-                    <button type="button" class="btn btn-info func-btn" style="display:none" id="dcsTrackPoint" onclick="dcsTrackPoint()">DCS轨迹点</button>
-                    <button type="button" class="btn btn-success func-btn" id="relationEditBtn1" onclick="doRelationEdit()">关系作业 <span class="btn-loading"></span></button>
-                    <div class="progress" style="width:300px;float:right;margin:8px 0px 0px 20px;">
-                        <div id="rawProgressBar"></div>
-                    </div>
-                </div>
-                <table id="rawDataList" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-id-field="fid" data-toolbar="#rawDataTab-toolbar" data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true"
-                    data-page-size="20" data-page-list="[20, 50, 100, 200]">
-                    <thead>
-                        <tr>
-                            <th data-formatter="formatRowNumber" data-width="40">序号</th>
-                            <th data-field="fid" data-width="80" data-visible="false">FID</th>
-                            <th data-field="pid" data-width="60" data-visible="false">PID</th>
-                            <th data-field="lifecycle" data-width="40" data-align="center" data-formatter="formatLifeCycle" data-sortable="true">状态</th>
-                            <th data-field="name" data-formatter="formatName" data-sortable="true">名称</th>
-                            <th data-field="kindCode" data-width="120" data-formatter="formatKindCode" data-sortable="true">分类</th>
-                            <th data-field="auditStatus" data-width="70" data-align="center" data-formatter="formatAuditStatus" data-sortable="true">审核状态</th>
-                            <th data-field="checkResultNum" data-width="60" data-align="right" data-sortable="true">检查错误</th>
-                            <th data-field="checkResults" data-width="70" data-align="center" data-formatter="formatCheckResults" data-sortable="true">错误类型</th>
-                            <th data-field="rawFields" data-width="30" data-align="center" data-formatter="formatRawFields" data-sortable="true">标记</th>
-                            <!--<th data-field="attachments" data-width="50" data-align="right" data-formatter="formatAttachment" data-sortable="true">附件</th>  -->
-                            <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatPhoto" data-sortable="true">照片</th>
-                            <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatRemark" data-sortable="true">备注</th>
-                            <th data-field="evaluateComment" data-width="80" data-align="right" data-formatter="formatEvaluateComment" data-sortable="true" data-visible="false">监察问题</th>
-                            <th data-field="fieldDate" data-width="160" data-sortable="true" data-formatter="formatTime">采集时间</th>
-                            <th data-field="inputDate" data-width="160" data-sortable="true" data-formatter="formatTime">预处理时间</th>
-                            <th data-field="freshnessVerification" data-width="60" data-sortable="true" data-formatter="formatFreshnessVerification">鲜度验证</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="tab-pane" id="dealedDataTab">
-                <div id="dealedDataTab-toolbar">
-                    <button type="button" class="btn btn-primary func-btn" id="postCheckBtn" data-loading-text="检查中..." onclick="doPostCheck()">在线检查</button>
-                    <button type="button" class="btn btn-success func-btn" id="relationEditBtn2" onclick="doRelationEdit()">关系作业 <span class="btn-loading"></span></button>
-                    <button type="button" class="btn btn-danger func-btn" id="submitBtn" data-loading-text="提交中..." onclick="doSubmit()">数据提交</button>
-                    <div class="progress" style="width:300px;float:right;margin:8px 0px 0px 20px;">
-                        <div id="dealedProgressBar"></div>
-                    </div>
-                </div>
-                <table id="dealedDataList" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-id-field="fid" data-toolbar="#dealedDataTab-toolbar" data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true"
-                    data-page-size="20" data-page-list="[20, 50, 100, 200]">
-                    <thead>
-                        <tr>
-                            <th data-formatter="formatRowNumber" data-width="40">序号</th>
-                            <th data-field="fid" data-width="80" data-visible="false">FID</th>
-                            <th data-field="pid" data-width="60" data-visible="false">PID</th>
-                            <th data-field="lifecycle" data-width="40" data-align="center" data-formatter="formatLifeCycle" data-sortable="true">状态</th>
-                            <th data-field="name" data-formatter="formatName" data-sortable="true">名称</th>
-                            <th data-field="kindCode" data-width="120" data-formatter="formatKindCode" data-sortable="true">分类</th>
-                            <th data-field="auditStatus" data-width="70" data-align="center" data-formatter="formatAuditStatus" data-sortable="true">审核状态</th>
-                            <th data-field="checkResultNum" data-width="60" data-align="right" data-sortable="true">检查错误</th>
-                            <th data-field="checkResults" data-width="70" data-align="center" data-formatter="formatCheckResults" data-sortable="true">错误类型</th>
-                            <th data-field="rawFields" data-width="30" data-align="center" data-formatter="formatRawFields" data-sortable="true">标记</th>
-                            <!-- <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatAttachment" data-sortable="true">附件</th> -->
-                            <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatPhoto" data-sortable="true">照片</th>
-                            <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatRemark" data-sortable="true">备注</th>
-                            <th data-field="evaluateComment" data-width="80" data-align="right" data-formatter="formatEvaluateComment" data-sortable="true" data-visible="false">监察问题</th>
-                            <th data-field="quesState" data-width="30" data-align="center" data-formatter="formatQuesState" data-visible="false" data-sortable="true">问题状态</th>
-                            <th data-field="fieldDate" data-width="160" data-sortable="true" data-formatter="formatTime">采集时间</th>
-                            <th data-field="inputDate" data-width="160" data-sortable="true" data-formatter="formatTime">预处理时间</th>
-                            <th data-field="freshnessVerification" data-width="60" data-sortable="true" data-formatter="formatFreshnessVerification">鲜度验证</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="tab-pane" id="submitedDataTab">
-                <table id="submitedDataList" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-id-field="fid" data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true" data-page-size="20" data-page-list="[20, 50, 100, 200]">
-                    <thead>
-                        <tr>
-                            <th data-formatter="formatRowNumber" data-width="60">序号</th>
-                            <th data-field="fid" data-width="80" data-visible="false">FID</th>
-                            <th data-field="pid" data-width="60" data-visible="false">PID</th>
-                            <th data-field="lifecycle" data-width="60" data-align="center" data-formatter="formatLifeCycle" data-sortable="true">状态</th>
-                            <th data-field="name" data-formatter="formatName" data-sortable="true">名称</th>
-                            <th data-field="kindCode" data-width="200" data-formatter="formatKindCode" data-sortable="true">分类</th>
-                            <th data-field="rawFields" data-width="30" data-align="center" data-formatter="formatRawFields" data-sortable="true">标记</th>
-                            <!--  <th data-field="attachments" data-width="60" data-align="right" data-formatter="formatAttachment" data-sortable="true">附件</th>-->
-                            <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatPhoto" data-sortable="true">照片</th>
-                            <th data-field="attachments" data-width="50" data-align="right" data-formatter="formatRemark" data-sortable="true">备注</th>
-                            <th data-field="evaluateComment" data-width="80" data-align="right" data-formatter="formatEvaluateComment" data-sortable="true" data-visible="false">问题数</th>
-                            <th data-field="fieldDate" data-width="160" data-sortable="true" data-formatter="formatTime">采集时间</th>
-                            <th data-field="inputDate" data-width="160" data-sortable="true" data-formatter="formatTime">预处理时间</th>
-                            <th data-field="freshnessVerification" data-width="60" data-sortable="true" data-formatter="formatFreshnessVerification">鲜度验证</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+<div class="tab-pane" ng-controller="generalDataListCtrl">
+    <div class="tab-header form-inline">
+        <div class="btn-group btn-group-justified">
+            <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'workWait'" ng-click="">待作业</label>
+            <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'submitWait'" ng-click="">待提交</label>
+            <label class="btn btn-default" ng-model="radioModel" uib-btn-radio="'submitDone'" ng-click="">已提交</label>
         </div>
     </div>
-    <div id="qtJobTab" class="tab-pane">
-        <div class="tab-header">
-            <div class="btn-group btn-group-justified btn-tab-header" id="dataListQtTab">
-                <div class="btn-group">
-                    <a href="#rawQtDataTab" class="btn btn-success" data-toggle="tab">待质检</a>
-                </div>
-                <div class="btn-group">
-                    <a href="#submitedQtDataTab" class="btn btn-default" data-toggle="tab">已质检</a>
+
+    <div class="boot-Table">
+        <div class="table-header">
+            <div style="margin: 10px" class="btn-group pull-right">
+                <button class="btn btn-default" type="button" name="refresh" title="刷新"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button>
+                <button class="btn btn-default" type="button" name="toggle" ng-click="changeStyle()" title="切换"><i class="glyphicon glyphicon-list-alt icon-list-alt"></i></button>
+                <div class="btn-group dropdown" uib-dropdown auto-close="outsideClick">
+                    <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+                        <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+                        <li ng-repeat="item in cols" role="menuitem"><label style="padding: 3px 20px;"><input type="checkbox" value="{{item.field}}" ng-model='item.show'> {{item.title}}</label></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <div class="tab-content" id="qtTabContent">
-            <div class="tab-pane active" id="rawQtDataTab">
-                <div id="rawQtDataTab-toolbar">
-                    <button type="button" class="btn btn-warning func-btn" id="addPoiQtBtn" onclick="doAddQtPoi()">新增POI</button>
-                    <div class="btn-group data-filter" role="group" data-target="rawQtDataList">
-                        <button type="button" class="btn btn-default disabled"><i class="glyphicon glyphicon-filter"></i></button>
-                        <div class="btn-group btn-select" role="group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-name="evaluatePlanning" data-value="1">
-                            <span class="menu-name">质检数据</span>
-                            <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="disabled"><a href="javascript:void(0);">质检类型</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);" data-value="">全 部</a></li>
-                                <li><a href="javascript:void(0);" data-value="1">质检数据</a></li>
-                                <li><a href="javascript:void(0);" data-value="0">非质检数据</a></li>
-                            </ul>
-                        </div>
-                        <div class="btn-group btn-select" role="group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-name="evaluateComment" data-value="">
-                            <span class="menu-name">全 部</span>
-                            <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li class="disabled"><a href="javascript:void(0);">质检问题</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="javascript:void(0);" data-value="">全 部</a></li>
-                                <li><a href="javascript:void(0);" data-value="1">有问题</a></li>
-                                <li><a href="javascript:void(0);" data-value="0">无问题</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <table id="rawQtDataList" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-id-field="fid" data-toolbar="#rawQtDataTab-toolbar" data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true"
-                    data-page-size="20" data-page-list="[20, 50, 100, 200]">
-                    <thead>
-                        <tr>
-                            <th data-formatter="formatRowNumber" data-width="40">序号</th>
-                            <th data-field="fid" data-width="80" data-visible="false">FID</th>
-                            <th data-field="pid" data-width="60" data-visible="false">PID</th>
-                            <th data-field="lifecycle" data-width="40" data-align="center" data-formatter="formatLifeCycle" data-sortable="true">状态</th>
-                            <th data-field="name" data-formatter="formatName" data-sortable="true">名称</th>
-                            <th data-field="kindCode" data-width="240" data-formatter="formatKindCode" data-sortable="true">分类</th>
-                            <th data-field="commonTaskHandler" data-width="100" data-formatter="formatQtOperator" data-sortable="true">作业员</th>
-                            <th data-field="evaluatePlanning" data-width="100" data-align="center" data-formatter="fmtEvaluatePlanning" data-sortable="true">质检类型</th>
-                            <th data-field="evaluateComment" data-width="80" data-align="right" data-formatter="formatQtComment" data-sortable="true">质检问题</th>
-                            <th data-field="latestMergeDate" data-width="160" data-sortable="true" data-formatter="formatQtDate">质检时间</th>
-                            <th data-field="freshnessVerification" data-width="60" data-sortable="true" data-formatter="formatFreshnessVerification">鲜度验证</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="tab-pane" id="submitedQtDataTab" data-target="submitedQtDataList">
-                <div class="btn-group data-filter" role="group" id="submitedQtDataTab-toolbar" data-target="submitedQtDataList">
-                    <button type="button" class="btn btn-default disabled"><i class="glyphicon glyphicon-filter"></i></button>
-                    <div class="btn-group btn-select" role="group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-name="evaluatePlanning" data-value="1">
-                        <span class="menu-name">质检数据</span>
-                        <span class="caret"></span>
+            <div class="btn-group pull-right input-group" style="margin: 10px 0">
+                <div class="btn-group dropdown" uib-dropdown>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+                            {{radio_select}} <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu">
-                            <li class="disabled"><a href="javascript:void(0);">质检类型</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:void(0);" data-value="">全 部</a></li>
-                            <li><a href="javascript:void(0);" data-value="1">质检数据</a></li>
-                            <li><a href="javascript:void(0);" data-value="0">非质检数据</a></li>
-                        </ul>
-                    </div>
-                    <div class="btn-group btn-select" role="group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-name="evaluateComment" data-value="">
-                        <span class="menu-name">全 部</span>
-                        <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li class="disabled"><a href="javascript:void(0);">质检问题</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="javascript:void(0);" data-value="">全 部</a></li>
-                            <li><a href="javascript:void(0);" data-value="1">有问题</a></li>
-                            <li><a href="javascript:void(0);" data-value="0">无问题</a></li>
-                        </ul>
-                    </div>
+                    </span>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+                        <li ng-repeat="item in searchField" ng-model="$parent.radio_select" uib-btn-radio="'{{item.key}}'" role="menuitem"><a href="#">{{item.key}}</a></li>
+                    </ul>
                 </div>
-                <table id="submitedQtDataList" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-id-field="fid" data-toolbar="#submitedQtDataTab-toolbar" data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true"
-                    data-page-size="20" data-page-list="[20, 50, 100, 200]">
-                    <thead>
-                        <tr>
-                            <th data-formatter="formatRowNumber" data-width="60">序号</th>
-                            <th data-field="fid" data-width="80" data-visible="false">FID</th>
-                            <th data-field="pid" data-width="60" data-visible="false">PID</th>
-                            <th data-field="lifecycle" data-width="60" data-align="center" data-formatter="formatLifeCycle" data-sortable="true">状态</th>
-                            <th data-field="name" data-formatter="formatName" data-sortable="true">名称</th>
-                            <th data-field="kindCode" data-width="240" data-formatter="formatKindCode" data-sortable="true">分类</th>
-                            <th data-field="commonTaskHandler" data-width="100" data-formatter="formatQtOperator" data-sortable="true">作业员</th>
-                            <th data-field="evaluatePlanning" data-width="100" data-align="center" data-formatter="fmtEvaluatePlanning" data-sortable="true">质检类型</th>
-                            <th data-field="evaluateComment" data-width="80" data-align="right" data-formatter="formatQtComment" data-sortable="true">质检问题</th>
-                            <th data-field="latestMergeDate" data-width="160" data-sortable="true" data-formatter="formatQtDate">质检时间</th>
-                            <th data-field="freshnessVerification" data-width="60" data-sortable="true" data-formatter="formatFreshnessVerification">鲜度验证</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="pull-right search">
+                    <input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索...">
+                </div>
             </div>
         </div>
+        <table ng-table-dynamic="tableParams with cols" ng-table="tableParams" class="table table-bordered table-striped">
+            <tbody>
+            <tr ng-repeat="row in $data">
+                <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
 </div>

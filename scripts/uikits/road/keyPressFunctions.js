@@ -14,6 +14,7 @@ function keyEvent(ocLazyLoad, scope) {
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var objEditCtrl = fastmap.uikit.ObjectEditController();
             var selectCtrl = fastmap.uikit.SelectController();
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
@@ -23,8 +24,6 @@ function keyEvent(ocLazyLoad, scope) {
                 resetPage();
                 map._container.style.cursor = '';
             }
-
-
             //是否包含点
             function _contains(point, components) {
                 var boolExit = false;
@@ -51,6 +50,8 @@ function keyEvent(ocLazyLoad, scope) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 editLayer.drawGeometry = null;
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
@@ -180,21 +181,6 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
                     })
 
-                /*
-
-                    param = {
-                        "command": "CREATE",
-                        "type": "RDRESTRICTION",
-                        "projectId": Application.projectid,
-                        "data": featCodeCtrl.getFeatCode()
-                    };
-                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("restriction").redraw();
-                        //清空上一次的操作
-                        map.currentTool.disable();
-                        treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
-
-                    });*/
                 } else if (shapeCtrl.editType === "pathBreak") {
                     var breakPoint = null,breakPathContent,ctrl,tpl;
                     for (var item in geo.components) {
@@ -353,6 +339,7 @@ function keyEvent(ocLazyLoad, scope) {
                        }else if(param ["type"] === "ADNODE") {
                            layerCtrl.getLayerById("adLink").redraw();
                            layerCtrl.getLayerById("adnode").redraw();
+                           layerCtrl.getLayerById("adface").redraw();
                        }
                         treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
@@ -440,8 +427,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adface").redraw();
-                        layerCtrl.getLayerById("adLine").redraw();
-                        layerCtrl.getLayerById("adnode").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
                 }
@@ -454,7 +440,9 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("rdGsc").redraw();
-                        layerCtrl.getLayerById("adLink").redraw();
+                        layerCtrl.getLayerById("referenceLine").redraw();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){

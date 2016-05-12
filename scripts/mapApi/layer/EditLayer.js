@@ -291,7 +291,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
         function drawMultiPolyline(geom, style, self) {
 
             for (var i = 0, len = geom.length; i < len; i++) {
-                drawLineString(geom[i].components, style, false, null, true, true, self);
+                drawLineString(geom[i].components, style, false, null, true, true,true, self);
             }
         }
 
@@ -417,8 +417,8 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                     var point1 = data[i][j];
                     var point2 = data[i][j + 1];
                     var distance = self.distance(point1, point2);
-                    if (distance < 30) {
-                        return;
+                    if (distance < 20) {
+                        break;
                     }
 
                     g.save()
