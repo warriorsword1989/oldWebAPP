@@ -480,7 +480,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
-                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         var Limit={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -511,12 +511,40 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     } else if (pItemId === "1301") {//车信
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
+                        var Limit={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                $scope.getFeatDataCallback(data,data.in.id,"RDLINK","components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", Limit);
+                        //$scope.showTipsOrProperty(data, "RDLANECONNEXITY", objCtrl, data.id, "components/road/ctrls/attr_connexity_ctrl/rdLaneConnexityCtrl", "../../scripts/components/road/tpls/attr_connexity_tpl/rdLaneConnexityTpl.html");
                     } else if (pItemId === "1302") {//交限
-                        $scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "components/road/ctrls/attr_restriction_ctrl/rdRestriction", "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var Limit={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                $scope.getFeatDataCallback(data,data.in.id,"RDLINK","components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", Limit);
+                        //$scope.showTipsOrProperty(data, "RDRESTRICTION", objCtrl, data.id, "components/road/ctrls/attr_restriction_ctrl/rdRestriction", "../../scripts/components/road/tpls/attr_restrict_tpl/rdRestricOfOrdinaryTpl.html");
                     } else if (pItemId === "1407") {//高速分歧
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
+                        var HighSpeed={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                $scope.getFeatDataCallback(data,data.in.id,"RDLINK","components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", HighSpeed);
+                        //$scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                     } else if (pItemId === "1510") {//桥1510
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
@@ -674,7 +702,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                             points.push(point);
                         }
-                        map.panTo({lat: points[0].y, lon: points[0].x});
+                       /* map.panTo({lat: points[0].y, lon: points[0].x});*/
                         var line = fastmap.mapApi.lineString(points);
                         selectCtrl.onSelected({geometry: line, id: $scope.dataId});
                     }
