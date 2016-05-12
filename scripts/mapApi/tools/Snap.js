@@ -73,7 +73,6 @@ fastmap.mapApi.Snap = L.Handler.extend({
         return obj;
     },
     onMouseMove: function (event) {
-
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
@@ -84,54 +83,40 @@ fastmap.mapApi.Snap = L.Handler.extend({
         var pixels = this.transform.lonlat2Pixel(latlng.lng, latlng.lat, this._map.getZoom());
         //根据鼠标点计算所在的瓦片坐标
         var tiles = this.transform.lonlat2Tile(latlng.lng, latlng.lat, this._map.getZoom());
-
         var tilePixcel = new fastmap.mapApi.Point(pixels[0] - tiles[0] * 256, pixels[1] - tiles[1] * 256);
-
         for (var layerindex in this._guides) {
             this.selectedId = this._guides[layerindex].selectedid;
-
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
-            if (this.currentTileData&&this.currentTileData.data&&this.currentTileData.data) {
-
+            if (this.currentTileData&&this.currentTileData.data) {
                 var closest = null;
-
                     closest = this.closeestSnap({
                         tolerance:10,
                         point:tilePixcel,
                         data:this.currentTileData.data,
                         candidateId:this._guides[layerindex].selectedid
                     })
-
-
                 if (closest) {
                     this.snaped = true;
                     this.properties = closest.properties;
                     this.snapIndex = closest.index;
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
-
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
-
                     break;
                 } else {
                     //this.selectedVertex = closest.selectedVertexe;
                     this.snaped = false;
-
                 }
             }
         }
     },
-
     setPoint: function (point) {
         this.point = point;
     },
-
     enable: function () {
         this.disable();
         this.addHooks();
     },
-
-
     /***
      * 捕捉实现
      * @param options
@@ -204,22 +189,20 @@ fastmap.mapApi.Snap = L.Handler.extend({
                         geometry = data[i].geometry.coordinates;
 
                         distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
-                        if (distaceResult.distance < tolerance) {
-
+                        if (distaceResult.distance < tolerance&&(distaceResult.index>0&&distaceResult.index<geometry.length-1)) {
                             result = {
                                 latlng:[distaceResult.x, distaceResult.y],
                                 distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
                                 index: distaceResult.index,
                                 selectedVertexe:true
                             }
-
                         }
                     }
                 }else{
                     geometry = data[i].geometry.coordinates;
 
                     distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
-                    if (distaceResult.distance < tolerance) {
+                    if (distaceResult.distance < tolerance&&(distaceResult.index>0&&distaceResult.index<geometry.length-1)) {
 
                         result = {
                             latlng:[distaceResult.x, distaceResult.y],
@@ -257,7 +240,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
         if (!result || result.distance > tolerance)
             return null;
-
+        console.log( result)
         return result;
     },
 

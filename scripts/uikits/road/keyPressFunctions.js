@@ -16,8 +16,6 @@ function keyEvent(ocLazyLoad, scope) {
             var selectCtrl = fastmap.uikit.SelectController();
             var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
-            var hLayer = layerCtrl.getLayerById('highlightlayer');
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
             var properties = shapeCtrl.shapeEditorResult.getProperties();
@@ -25,7 +23,6 @@ function keyEvent(ocLazyLoad, scope) {
             if (event.keyCode == 27) {
                 resetPage();
                 map._container.style.cursor = '';
-                highLightLink._cleanHightlight();
             }
             //是否包含点
             function _contains(point, components) {
@@ -37,7 +34,6 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 return boolExit;
             }
-
             function distance(pointA, pointB) {
                 var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
                 return Math.sqrt(len);
@@ -45,6 +41,7 @@ function keyEvent(ocLazyLoad, scope) {
             function resetPage(data) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
+                    map.currentTool.disable();
                 }
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
@@ -64,7 +61,6 @@ function keyEvent(ocLazyLoad, scope) {
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
-
             }
 
             function treatmentOfChanged(data, type, op, ctrl, tpl) {

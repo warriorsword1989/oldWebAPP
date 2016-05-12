@@ -181,9 +181,7 @@ rdGscApp.controller("rdGscController",function($scope) {
         })
     };
     $scope.cancel = function(){
-
     };
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
