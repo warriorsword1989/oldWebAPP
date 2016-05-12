@@ -430,7 +430,7 @@ Application.layersConfig =
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
-            url: createUrl('/render/tip/getByTileWithGap?', 12),
+            url: createUrl('/render/tip/getByTileWithGap?', '12'),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -995,7 +995,6 @@ function transformData(data) {
                 }else{
                     color=Number(obj['properties'].id).toString(16);
                 }
-                console.log(color);
                 obj['properties']['style'] = {
                    //'fillColor': '#' + Number(obj['properties'].id).toString(16) + '00',
                     //'fillColor':'#'+('00000'+(Math.random()*0x1000000<<0).toString(16)).substr(-6),
@@ -1476,7 +1475,7 @@ function createUrl(url, requestType) {
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80,
-            types: [requestType]
+            types: requestType.split(',')
         }
 
         if (requestType == "RDLINK") {

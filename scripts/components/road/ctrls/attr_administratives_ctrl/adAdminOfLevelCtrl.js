@@ -5,11 +5,6 @@ var adAdminZone = angular.module("mapApp");
 adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
-
-
-
-
-
     var param = {
         "type":"ADADMINGROUP",
         "projectId": Application.projectid,

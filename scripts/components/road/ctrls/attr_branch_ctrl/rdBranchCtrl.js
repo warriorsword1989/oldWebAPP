@@ -7,7 +7,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     $scope.divergenceIds = objCtrl.data;
@@ -250,10 +250,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         /*经过线*/
         if (dObj) {
-
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures.push({
-
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
@@ -261,8 +258,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                     color: '#3A5FCD'
                 }
             });
-            highLightLink.highLightFeatures.push({
-
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
@@ -271,13 +267,13 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
                 }
             });
 
-            highLightLink.highLightFeatures.push({
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.details[0].pid.toString(),
                 layerid:'highSpeedDivergence',
                 type:'highSpeedDivergence',
                 style:{}
             });
-            highLightLink.drawHighlight();
+            highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
                 if ($scope.diverObj.details[0].arrowCode) {
