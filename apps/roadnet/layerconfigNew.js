@@ -430,7 +430,7 @@ Application.layersConfig =
         groupid: 'worklayer',
         groupname: '编辑图层',
         layers: [{
-            url: createUrl('/render/tip/getByTileWithGap?', 12),
+            url: createUrl('/render/tip/getByTileWithGap?', '12'),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业线数据',
@@ -1476,7 +1476,7 @@ function createUrl(url, requestType) {
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80,
-            types: [requestType]
+            types: requestType.split(',')
         }
 
         if (requestType == "RDLINK") {
