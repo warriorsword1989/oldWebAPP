@@ -95,7 +95,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		$scope.submitedData = data.data;
 	}));
 	$q.all(promises).then(function() {
-		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
+		$scope.$broadcast("initPageInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
 						  "taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
 	        $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
