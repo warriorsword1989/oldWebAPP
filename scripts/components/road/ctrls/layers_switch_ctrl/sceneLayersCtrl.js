@@ -123,7 +123,8 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             if ($scope.items[i].options.id === "rdrtic"
                 || $scope.items[i].options.id === "adLink"
                 || $scope.items[i].options.id === "adface"
-                || $scope.items[i].options.id === "adAdmin") {
+                || $scope.items[i].options.id === "adAdmin"
+                || $scope.items[i].options.id === "adnode") {
                 $scope.items[i].options.visible = false;
             } else if (layerCtrl.layers[i].options.id === "speedlimit") {
                 $scope.items[i].options.showType = 1;

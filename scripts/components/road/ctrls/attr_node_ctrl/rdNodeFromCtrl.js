@@ -71,6 +71,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             $.each($('.ng-dirty'), function (i, v) {
                 $scope.nodeForm.$setPristine();
             });
+
         }
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
@@ -235,7 +236,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
         //结束编辑状态
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             rdLink.redraw();
-            layerCtrl.getLayerById("referenceNode").redraw();
             var info = [];
             if (data.errcode == 0) {
                 var sinfo = {

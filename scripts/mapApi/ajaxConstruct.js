@@ -17,7 +17,8 @@ fastmap.mapApi.ajaxConstruct = function (url, func) {
                 var d = 0;
                 var el;
                 if (x.xdomain || x.status == 200) {
-                    if(url.match(/\/edit\?/)!=null && url.match(/\/edit\?/).length >0){
+                    //if(url.match(/\/edit\?/)!=null && url.match(/\/edit\?/).length >0){
+                    if(url.match("CREATE")!=null||url.match("UPDATE")!=null||url.match("DELETE")!=null){
                         var eventController = fastmap.uikit.EventController();
                         eventController.fire('editAjaxCompleted',{});
                     }

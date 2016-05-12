@@ -373,6 +373,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                 //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
                 Application.functions.getTipsListItems([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
+
                     if (stage === 0) {
                         $scope.$apply(function () {
                             $scope.showOrHideId = item.id;
@@ -469,7 +470,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 if ($scope.solvedStyleArr && $scope.solvedStyleArr.length >= 1) {
                     $scope.changeStyleArr($scope.solvedStyleArr, index);
                 }
-
+                $("#dataTipsOriginModal").css("display", "none");
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
                 $("#popoverTips").css("display", "block");
 
@@ -479,8 +480,18 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var Limit={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", Limit);
+
+
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");

@@ -1,4 +1,7 @@
-angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
+angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
+
+    var pKindFormat = {},
+        pAllChain = {};
     var regionCode = "010"
     var lifecycle = {
         1: "删 除",
@@ -30,7 +33,7 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
         "names": 1,
         "indoor": 1
     }
-    var initOptionStyle = function (poiJson){
+    var initOptionStyle = function(poiJson) {
         var editedProperty = new Object();
         var data = [];
         if (poiJson.lifecycle == 1) { //删除 
@@ -85,14 +88,14 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
                 }
             }
         }
-        for (var t in editedProperty){
-            $scope[t+'StyleFlag'] = true;
+        for (var t in editedProperty) {
+            $scope[t + 'StyleFlag'] = true;
         }
     }
 
-    var initBaseInfoIcon = function (icon , vipFlag){
+    var initBaseInfoIcon = function(icon, vipFlag) {
         $scope.poi3DIcon = icon;
-        if(vipFlag){
+        if (vipFlag) {
             var tmp = vipFlag.split("|");
             for (var i = 0; i < tmp.length; i++) {
                 if (tmp[i] == 1) {
@@ -105,11 +108,30 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
         }
     }
 
-    var initLevel = function (poi){
-        $scope.levelArr = [];
-        if(poi.level){
-            $scope.levelArr = poi.level.split("|");
+    var initKindBrandLevel = function(poi) {
+        $scope.kindFormat = pKindFormat;
+
+        $scope.directiveOptions = {
+            no_results_text: "SO SORRY"
+        };
+
+        $scope.levelArr = []; //用于存放等级的数组
+        var kind = pKindFormat[poi.kindCode]
+        $scope.levelArr = kind.level.split("|");
+    }
+    //等级的默认选中
+    $scope.isLevelSelected = function(val) {
+        var kind = pKindFormat[$scope.selectedKind]
+        if (kind && kind.level.split("|").length == 1){ //如果只有一个等级默认选中
+            return true;
+        }else {
+           return $scope.poi.level == val; 
         }
+        
+    }
+    //改变等级
+    $scope.updateLevelSelected = function(val) {
+        $scope.poi.level = val;
     }
 
     $scope.ctrl = {
@@ -141,9 +163,9 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
             6: "postCode",
             7: "deepInfo"
         }
-        
-        if(value){
-            var list = App.Util.split(value,"|");
+
+        if (value) {
+            var list = App.Util.split(value, "|");
             for (key in conf) {
                 $scope.ctrl.fieldLabel[conf[key]] = (list.indexOf(key) >= 0);
             }
@@ -177,6 +199,22 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
         $scope.addBtnHeight = height;
     }
 
+    var initChain = function(kindCode) {
+        var chainArray = pAllChain[kindCode];
+        $scope.chainList = {};
+        if (chainArray) {
+            for (var i = 0, len = chainArray.length; i < len; i++) {
+                var cha = chainArray[i];
+                $scope.chainList[cha.chainCode] = { //转换成chosen-select可以解析的格式
+                    "category": cha.category,
+                    "chainCode": cha.chainCode,
+                    "weight": cha.weight,
+                    "chainName": cha.chainName
+                }
+            }
+        }
+    }
+
     $scope.removeTelElem = function(index) {
         if ($scope.poi.contacts.length > 1) {
             $scope.poi.contacts.splice(index, 1);
@@ -188,26 +226,42 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
         var contact = $scope.poi.contacts[index]
         if (contact.numSuf && contact.numSuf.length == 11 && /^1/.test(contact.numSuf)) {
             contact.number = contact.numSuf;
-            contact.flag = false
+            contact.flag = false; // 用于控制电话控件是否隐藏区号
         } else {
             contact.number = regionCode + contact.numSuf;
-            contact.numRre = regionCode;
+            if (contact.numSuf) {
+                var p = contact.numSuf.split("-");
+                if (p.length > 1) {
+                    contact.numRre = p[0];
+                    contact.numSuf = p[1];
+                } else {
+                    contact.numRre = regionCode;
+                }
+            }
             contact.flag = true
         }
     }
 
-    $scope.showEvalutePlanning = function (){
-        if ($scope.poi.evaluatePlanning == 1 || $scope.poi.evaluatePlanning== 2){
+    $scope.showEvalutePlanning = function() {
+        if ($scope.poi.evaluatePlanning == 1 || $scope.poi.evaluatePlanning == 2) {
             return true;
-        }else {
+        } else {
             return false
         }
     }
 
     $scope.kindChange = function(evt, obj) {
-
-
-        $scope.$emit("kindChange", obj.selectedKind);
+        if (obj.selectedKind) {
+            initChain(obj.selectedKind);
+            $scope.selectedKind = obj.selectedKind; //此处会触发selectedKind的监听方法
+            var level = pKindFormat[obj.selectedKind].level;
+            $scope.levelArr = [];
+            if (level) {
+                $scope.levelArr = level.split("|");
+            }
+            $scope.poi.level = "";
+            //$scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
+        }
     };
     $scope.showChildrenPoisInMap = function() {
         $scope.$emit('emitMainEditorTransChildren', {});
@@ -215,32 +269,41 @@ angular.module('app').controller('generalBaseCtl', function($scope,$timeout) {
     $scope.showParentPoiInMap = function() {
         $scope.$emit('emitMainEditorTransParent', {});
     };
+
+    //初始化时监听selectedKind,后续都是通过$scope.kindChange方法监听的
+    $scope.$watch("selectedKind", function() {
+        if ($scope.selectedKind && pKindFormat[$scope.selectedKind]) {
+            $scope.$emit("kindChange", pKindFormat[$scope.selectedKind]);
+        }
+    });
+
     //初始化时让品牌默认选中
     $scope.$watch('poi.kindCode', function() {
-        // for (var i = 0; i < $scope.meta.kindList.length; i++) {
-        //     if ($scope.meta.kindList[i].kindCode == $scope.poi.kindCode) {
-        //         $scope.selectedKind = $scope.meta.kindList[i];
-        //         break;
-        //     }
-        // }
         for (var i = 0; i < $scope.kindList.length; i++) {
             if ($scope.kindList[i].value == $scope.poi.kindCode) {
-                $scope.selectedKind = $scope.kindList[i];
+                $scope.selectedKind = $scope.kindList[i].value;
+                initChain($scope.selectedKind);
+                if ($scope.poi.brands.length > 0) { //如果存在品牌则显示品牌
+                    $scope.selectedChain = $scope.poi.brands[0].code;
+                } else {
+                    $scope.selectedChain = ""
+                }
                 break;
             }
         }
     });
 
-
     $scope.$on("loadup", function(event, data) {
+        console.info("loadup----------");
         $scope.poi = data.poi;
         $scope.kindList = data.kindList;
+        pKindFormat = data.kindFormat;
+        pAllChain = data.allChain;
         $scope.switchLifeCycle($scope.poi.lifecycle);
         $scope.switchRawFields($scope.poi.rawFields);
-        initBaseInfoIcon(data.poiIcon,$scope.poi.vipFlag);
+        initBaseInfoIcon(data.poiIcon, $scope.poi.vipFlag);
         initOptionStyle($scope.poi);
-        //initKindCode($scope.poi);
-        initLevel($scope.poi);
+        initKindBrandLevel($scope.poi);
         resetBtnHeight();
     });
 
