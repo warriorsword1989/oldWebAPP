@@ -10,15 +10,15 @@
 	</div>
 	<div id="desc_normal" class="desc-block">
 	    <p class="title"><i class="glyphicon glyphicon-stats"></i>作业进展</p>
-	    <p>任务数据共 <span id="taskCnt" class="text-loading"></span> 条</p>
-	    <p>外业已处理 <span id="fieldCnt1" class="text-loading" style="color:green"></span> 条</p>
-	    <p>外业未处理 <span id="fieldCnt2" class="text-loading" style="color:red"></span> 条</p>
-	    <p>室内已提交 <span id="indoorCnt1" class="text-loading" style="color:green"></span> 条</p>
-	    <p>室内待提交 <span id="indoorCnt2" class="text-loading" style="color:green"></span> 条</p>
-	    <p>室内待作业 <span id="indoorCnt3" class="text-loading" style="color:red"></span> 条</p>
-	    <p>外业进度： <span id="fieldPercent" class="text-loading" style="color:blue"></span></p>
-	    <p>室内进度： <span id="indoorPercent" class="text-loading" style="color:blue"></span></p>
-	    <p>任务总体进度： <span id="taskPercent" class="text-loading" style="color:blue"></span></p>
+	    <p>任务数据共 <span id="taskCnt" ng-bind="taskCnt" style="font-weight:bold;"></span> 条</p>
+	    <p>外业已处理 <span id="fieldCnt1"  style="color:green;font-weight:bold;">133</span>条</p>
+	    <p>外业未处理 <span id="fieldCnt2"  style="color:red;font-weight:bold;">11901</span> 条</p>
+	    <p>室内已提交 <span id="indoorCnt1"  style="color:green;font-weight:bold;">122</span> 条</p>
+	    <p>室内待提交 <span id="indoorCnt2"  style="color:green;font-weight:bold;">9</span> 条</p>
+	    <p>室内待作业 <span id="indoorCnt3"  style="color:red;font-weight:bold;">2</span> 条</p>
+	    <p>外业进度： <span id="fieldPercent"  style="color:blue;font-weight:bold;">1%</span></p>
+	    <p>室内进度： <span id="indoorPercent"  style="color:blue;font-weight:bold;">91%</span></p>
+	    <p>任务总体进度： <span id="taskPercent"  style="color:blue;font-weight:bold;">0%</span></p>
 	</div>
 	<div id="desc_qt" class="desc-block" style="display:none;">
 	    <p class="title"><i class="glyphicon glyphicon-stats"></i>作业进展</p>

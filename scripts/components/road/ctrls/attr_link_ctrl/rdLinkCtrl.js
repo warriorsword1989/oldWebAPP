@@ -106,6 +106,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         selectCtrl.onSelected({
             geometry: line,
             id: $scope.linkData.pid,
+            type:"Link",
             direct: $scope.linkData.direct,
             snode: $scope.linkData.sNodePid,
             enode: $scope.linkData.eNodePid,

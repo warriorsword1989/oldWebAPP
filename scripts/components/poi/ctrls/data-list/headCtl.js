@@ -2,8 +2,8 @@ angular.module('app').controller('headCtl', ['$scope', function($scope) {
     $scope.goback = function() {
         var pathName = window.document.location.pathname;
         var appName = pathName.substring(0, pathName.indexOf('/poibase'));
-        if (pathName == appName + "/poibase/projecManage.html") {
-            this.logout();
+        if (pathName == appName + "/poibase/projectManage.html") {
+        	$scope.logout();
         } else {
             window.document.location.href = window.document.referrer;
         }
@@ -12,7 +12,9 @@ angular.module('app').controller('headCtl', ['$scope', function($scope) {
     	var appPath = window.document.location.pathname;
         var appName = appPath.substring(0, appPath.indexOf('/poibase'));
         window.location.href = appName + "/poibase/login.html";
-        this.clearCookie();
+        $scope.clearCookie();
+    };
+    $scope.clearCookie = function() {
     };
     var realName = "";
     var arr = document.cookie.split('; ');
