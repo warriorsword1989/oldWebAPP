@@ -27,7 +27,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
         }
         $scope.projRemainTime = day + "天" + hour + "小时" + min + "分钟";
 	}));
-	var param = {
+	var countParam = {
 	        projectId: "2016013086",
 	        condition: {
 	            handler: "2925"
@@ -37,11 +37,66 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 	        type: "count",
 	        pagesize: 0
 	    };
-	promises.push(poi.getPoiInfo(param,function(data){
-		$scope.taskCnt = data;
+	promises.push(poi.getPoiInfo(countParam,function(data){
+		$scope.taskCnt = data.total;
+	}));
+	var rawDataParam = {
+	        projectId: "2016013086",
+	        condition: {
+	            handler: "2925",
+	            auditStatus: 1
+	        },
+	        sortby: [
+	                 ["latestMergeDate", -1]
+	                 ],
+	        phase: "4",
+	        featcode: "poi",
+	        type: "snapshot",
+	        pagesize: 0
+	    };
+	promises.push(poi.getPoiInfo(rawDataParam,function(data){
+		$scope.rawData = data.data;
+	}));
+	var dealedDataParam = {
+	        projectId: "2016013086",
+	        condition: {
+	            handler: "2925",
+	            auditStatus: {
+	                '$in': [2, 5]
+	            }
+	        },
+	        sortby: [
+	                 ["latestMergeDate", -1]
+	                 ],
+	        phase: "4",
+	        featcode: "poi",
+	        type: "snapshot",
+	        pagesize: 0
+	    };
+	promises.push(poi.getPoiInfo(dealedDataParam,function(data){
+		$scope.dealedData = data.data;
+	}));
+	var submitedDataParam = {
+	        projectId: "2016013086",
+	        condition: {
+	            handler: "2925",
+	        	auditStatus: 0,
+	            submitStatus: 1
+	        },
+	        sortby: [
+	                 ["latestMergeDate", -1]
+	                 ],
+	        phase: "4",
+	        featcode: "poi",
+	        type: "snapshot",
+	        pagesize: 0
+	    };
+	promises.push(poi.getPoiInfo(submitedDataParam,function(data){
+		$scope.submitedData = data.data;
 	}));
 	$q.all(promises).then(function() {
-		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,"taskCnt":$scope.taskCnt});
+		$scope.$broadcast("initPageInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
+						  "taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
 	        $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
 	    });
@@ -50,6 +105,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 //	        $scope.$on('$includeContentLoaded', function($event) {
 //	        	$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 //            });
+	    });
+		$ocll.load("components/poi/ctrls/data-list/generalDataListCtrl").then(function() {
+	        $scope.generalDataListTpl = "../../scripts/components/poi/tpls/data-list/generalDataList.htm";
 	    });
 //		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 	});
