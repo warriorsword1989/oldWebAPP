@@ -23,15 +23,7 @@
         "controller/tools/selecttools/SelectObject.js",
         "controller/tools/selecttools/SelectPath.js",
         "controller/tools/selecttools/SelectPolygon.js",
-        "controller/tools/selecttools/SelectRelation.js",
-
-
-        "ctlmodel/CheckResult.js",
-        "ctlmodel/ContentStyle.js",
-        "ctlmodel/DataTip.js",
-        "ctlmodel/FeatCode.js",
-        "ctlmodel/OutPut.js",
-        "ctlmodel/ToolTip.js"
+        "controller/tools/selecttools/SelectRelation.js"
 
     ]; // etc.
 
