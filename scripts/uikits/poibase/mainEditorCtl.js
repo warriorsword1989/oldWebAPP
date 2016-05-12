@@ -1,13 +1,16 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
 
     var metaData = {}; //存放元数据
-    metaData.kindFormat = {} , metaData.kindList = [] ;
+    metaData.kindFormat = {} , metaData.kindList = [] ,metaData.allChain = {};
     var promises = [];
     promises.push(meta.getKindList().then(function(kindData) {
         //$scope.meta.kindList = [];
         initKindFormat(kindData);
+    }));
+    promises.push(meta.getAllBrandList().then(function(chainData) {
+        metaData.allChain = chainData;
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
@@ -27,7 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','angularFile
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
                 console.log("baseinfo");
-                $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":metaData.kindList});
+                $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":metaData.kindList,'kindFormat':metaData.kindFormat,"allChain":metaData.allChain});
             });
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
@@ -164,11 +167,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','angularFile
     $scope.initializeData();
     var initKindFormat = function (kindData){
         for (var i = 0; i < kindData.length; i++) {
-            if (kindData[i].kindCode == "230218" || kindData[i].kindCode == "230227") {
-                kindData.splice(i, 1);
-                i--;
-                continue;
-            }
             metaData.kindFormat[kindData[i].kindCode] = {
                 kindId: kindData[i].id,
                 kindName: kindData[i].kindName,

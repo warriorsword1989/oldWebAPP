@@ -480,8 +480,18 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
+                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        var Limit={
+                            "loadType":"tipsTplContainer",
+                            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                            callback:function(){
+                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                            }
+                        }
+                        $scope.$emit("transitCtrlAndTpl", Limit);
+
+
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");

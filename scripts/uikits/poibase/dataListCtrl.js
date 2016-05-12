@@ -27,7 +27,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
         }
         $scope.projRemainTime = day + "天" + hour + "小时" + min + "分钟";
 	}));
-	var param = {
+	var countParam = {
 	        projectId: "2016013086",
 	        condition: {
 	            handler: "2925"
@@ -37,8 +37,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 	        type: "count",
 	        pagesize: 0
 	    };
+	promises.push(poi.getPoiInfo(countParam,function(data){
+		$scope.taskCnt = data.total;
+	}));
 	promises.push(poi.getPoiInfo(param,function(data){
-		$scope.taskCnt = data;
+		
 	}));
 	$q.all(promises).then(function() {
 		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,"taskCnt":$scope.taskCnt});
