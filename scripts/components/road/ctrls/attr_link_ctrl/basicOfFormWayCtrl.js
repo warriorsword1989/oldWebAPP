@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/5.
  */
-var formOfWayApp = angular.module("mapApp", []);
+var formOfWayApp = angular.module("mapApp");
 formOfWayApp.controller("formOfWayController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
     if(objCtrl.data.data) {

@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/2/29.
  */
-var namesOfBranch = angular.module("mapApp", ['oc.lazyLoad']);
+var namesOfBranch = angular.module("mapApp");
 namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -12,6 +12,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
 
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
+
         //如果是3d分歧则关系类型改为3
         if(shapeCtrl.editFeatType == 3){
             objCtrl.data.details[0].branchType = 3;
@@ -20,6 +21,12 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.nameBranchForm.$setPristine();
+            });
+        }
+
     }
     if (objCtrl.data) {
         $scope.initializeData();

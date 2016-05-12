@@ -1,11 +1,16 @@
 /**
  * Created by liuzhaoxia on 2015/12/11.
  */
-var braName = angular.module("mapApp", ['oc.lazyLoad']);
+var braName = angular.module("mapApp");
 braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
      $scope.nameGroup = [];
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.branchNameForm.$setPristine();
+        });
+    }
      /*根据nameGroupid排序*/
      $scope.details[0].names.sort(function(a,b){
         return b.nameGroupid >= a.nameGroupid;

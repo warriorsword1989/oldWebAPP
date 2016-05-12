@@ -6,11 +6,22 @@
         margin-right: 0px;
     }
     input[type="text"] {
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
+        border: 1px ridge #FFFFFF;
         color: #fff;
         background-color: #333;
     }
+    input[type="text"].ng-dirty {
+        border: 1px ridge #FFFFFF;
+        color: #fff;
+        background-color: #307BA3;
+    }
+
+    select.ng-dirty {
+        border: 1px ridge #FFFFFF;
+        color: #fff;
+        background-color: #307BA3;
+    }
+
     label {
         font-weight: normal;
     }
@@ -254,11 +265,13 @@
             </div>
         </form>
     </div>
+
     <div id="picMapShow">
         <img id="picMapImg">
         <img id="picModalImg" alt="无此模式图">
         <div id="picMapDesc"></div>
     </div>
+    <form name="nameBranchForm">
     <!--begin 模式图信息-->
     <div class="module-fix-box">
         <div id="detailChart" class="panel-collapse col-sm-12 collapse in" aria-expanded="true">
@@ -382,6 +395,7 @@
             </div>
         </div>
     </div>
+    </form>
     <!--end 模式图信息-->
     <!--begin 名称信息-->
     <div ng-if="diverObj.details[0].branchType != 3">

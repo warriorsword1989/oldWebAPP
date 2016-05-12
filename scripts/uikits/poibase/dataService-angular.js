@@ -42,10 +42,23 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         	callback(ret);
         });
     };
+    /*忽略检查项*/
+    this.ignoreCheck = function(param, callback){
+        FM.dataApi.ajax.get("check/poi/ignore/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
+                ret = data.data;
+            }
+            callback(ret);
+        });
+    };
+
 }]).service("meta", ["$http", "$q", function($http, $q) {
     this.getKindList = function() {
         var deferred = $q.defer();
-        var param = {};
+        var param = {
+            region:0
+        };
         FM.dataApi.ajax.get("meta/queryKind/", param, function(data) {
             var ret = [];
             if (data.errcode == 0) {

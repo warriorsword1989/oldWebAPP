@@ -1,7 +1,7 @@
 /**
  * Created by zhaohang on 2016/5/6.
  */
-var rdRestrictionApp = angular.module("mapApp", ['oc.lazyLoad']);
+var rdRestrictionApp = angular.module("mapApp");
 rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -9,12 +9,14 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    var hLayer = layerCtrl.getLayerById("highlightlayer");
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
-    var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     $scope.limitRelation = {};
     $scope.clickFlag = true;
     $scope.excitLineArr = [];
+    $scope.highRender = new fastmap.uikit.HighLightRender(hLayer);
+    $scope.highFeatures = [];
     var changedDirectObj = {
         "loadType": "subAttrTplContainer",
         "propertyCtrl": 'components/road/ctrls/toolBar_cru_ctrl/addRestrictionCtrl/directOfRestrictionCtrl',
@@ -33,9 +35,6 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
         }
 
     };
-
-    shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDLANECONNEXITY)
-
     if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
         map.currentTool.cleanHeight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
@@ -54,14 +53,36 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     eventController.on(eventController.eventTypes.GETLINKID, function (data) {
         if (data.index === 0) {
             $scope.limitRelation.inLinkPid = parseInt(data.id);
+            $scope.highFeatures.push({
+                id:  $scope.limitRelation.inLinkPid.toString(),
+                layerid: 'referenceLine',
+                type: 'line',
+                style: {}
+            });
+            $scope.highRender.highLightFeatures = $scope.highFeatures;
+            $scope.highRender.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
             $scope.limitRelation.nodePid = parseInt(data.id);
+            $scope.highFeatures.push({
+                id:  $scope.limitRelation.nodePid.toString(),
+                layerid: 'referenceLine',
+                type: 'rdnode',
+                style: {}
+            });
+            $scope.highRender.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
         } else if (data.index > 1) {
             $scope.excitLineArr.push(parseInt(data.id));
+            $scope.highFeatures.push({
+                id:  data.id.toString(),
+                layerid: 'referenceLine',
+                type: 'line',
+                style: {}
+            });
+            $scope.highRender.drawHighlight();
             $scope.limitRelation.outLinkPids = $scope.excitLineArr;
             tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
         }

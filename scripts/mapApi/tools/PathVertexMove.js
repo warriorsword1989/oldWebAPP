@@ -66,7 +66,7 @@ fastmap.mapApi.PathVertexMove = L.Handler.extend({
 
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
 
-        for (var j = 0, len = points.length; j < len; j++) {
+        for (var j = 1, len = points.length-1; j < len; j++) {
             var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
             if (disAB < 5) {
                 this.targetIndex = j;
