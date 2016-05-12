@@ -13,7 +13,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var gpsLine = layerCtrl.getLayerById("gpsLine");
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
     var editLayer = layerCtrl.getLayerById('edit');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
