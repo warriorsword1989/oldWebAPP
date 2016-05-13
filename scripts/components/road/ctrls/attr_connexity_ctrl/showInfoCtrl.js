@@ -5,6 +5,7 @@ var infoOfConnexityApp = angular.module("mapApp");
 infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.infoData = objCtrl.data;
     $scope.directArr = $scope.infoData.laneInfo.split(",");
     var eventController = fastmap.uikit.EventController();
@@ -15,8 +16,9 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.laneNum = $scope.infoData["laneInfo"].split(",").length;
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
-
+   //清除高亮
+    highRenderCtrl._cleanHighLight();
+    highRenderCtrl.highLightFeatures.length = 0;
     if($(".ng-dirty")) {
         $.each($('.ng-dirty'), function (i, v) {
             $scope.infoConnexityForm.$setPristine();
@@ -125,9 +127,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             }
         }
     }
-    var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
-    highLightLinks.highLightFeatures = highLightFeatures;
-    highLightLinks.drawHighlight();
+    highRenderCtrl.highLightFeatures = highLightFeatures;
+    highRenderCtrl.drawHighlight();
     $scope.getChangedDirect = function () {
         var direct = $scope.directArr[$scope.infoData["selectNum"]];
         if (direct.length === 1) {
@@ -153,6 +154,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     $scope.getChangedDirect();
     $scope.currentValue();
     $scope.getLanesInfo = function (item) {
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         highLightFeatures.length = 0;
         if (eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID]) {
             for (var ii = 0, lenII = eventController.eventTypesMap[eventController.eventTypes.GETOUTLINKSPID].length; ii < lenII; ii++) {
@@ -181,7 +184,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             type:'line',
             style:{}
         })
-        highLightLinks.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         map.currentTool = new fastmap.uikit.SelectPath(
             {
@@ -192,6 +196,9 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
             });
         map.currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
+            highLightFeatures.length = 0;
             if (outLinkObj[data.id]) {
                 for (var k = 0, lenK = $scope.showLaneInfo.length; k < lenK; k++) {
                     if (parseInt($scope.showLaneInfo[k]["outLinkPid"]) === parseInt(data.id)) {
@@ -266,7 +273,8 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
                 type:'line',
                 style:{}
             })
-            highLightLinks.drawHighlight();
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
 
             //高亮车信
 

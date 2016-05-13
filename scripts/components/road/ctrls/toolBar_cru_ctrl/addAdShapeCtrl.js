@@ -44,7 +44,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     event.stopPropagation();
                 }
                 highRenderCtrl._cleanHighLight();
-                highRenderCtrl.highLightFeatures.length = 0;
+                if(highRenderCtrl.highLightFeatures!=undefined) {
+                    highRenderCtrl.highLightFeatures.length = 0;
+                }
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 $("#popoverTips").hide();
                 editLayer.clear();
@@ -59,7 +61,6 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     map.currentTool.cleanHeight();
                     map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 }
-                map.currentTool.disable();
                 $scope.changeBtnClass(num);
                 if (type === "adLink") {
                     if (shapeCtrl.shapeEditorResult) {

@@ -135,7 +135,8 @@
         <li class="list-group-item">
             <div><label>限速值</label></div>
             <div class="inline">
-                <input type="text" ng-model="speedLimitData.speedValue"/>
+                <input type="text" ng-model="speedLimitData.speedValue" style="width:130px;"/>
+                <span style="color: #F3F6FA;font-weight: normal;">km/h</span>
             </div>
         </li>
         <li class="list-group-item">
@@ -172,7 +173,7 @@
             </div>
 
         </li>
-        <li class="list-group-item">
+        <li class="list-group-item" ng-if="speedLimitData.speedType==3">
             <div>
                 <label>限速条件</label>
             </div>
@@ -252,7 +253,8 @@
         <li class="list-group-item" ng-if="speedLimitData.speedType==4">
             <div><label>车道限速值</label></div>
             <div class="inline ">
-                <input type="text" ng-model="speedLimitData.laneSpeedValue">
+                <input type="text" ng-model="speedLimitData.laneSpeedValue" style="width: 130px">
+                <span style="color: #F3F6FA;font-weight: normal;">km/h</span>
             </div>
         </li>
         <li class="list-group-item" style="padding:7px;">

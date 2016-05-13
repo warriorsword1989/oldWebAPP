@@ -97,12 +97,12 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
-                                this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
+                                this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
                             }
                         }
                     } else {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
+                            this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
                         }
                     }
                 }
@@ -114,9 +114,9 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
             frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].layer.requestType);
         } else if (this.overlays.length > 1) {
             var html = '<ul id="layerpopup">';
-            this.overlays = this.unique(this.overlays);
+            //this.overlays = this.unique(this.overlays);
             for (var item in this.overlays) {
-                html += '<li><a href="#" id="' + this.overlays[item].layer.options.requestType + '">' + this.overlays[item].layer.options.layername + '</a></li>';
+                html += '<li><a href="#" id="' + this.overlays[item].layer.options.requestType + this.overlays[item].id+'">' + this.overlays[item].layer.options.layername + '</a></li>';
             }
             html += '</ul>';
             this.popup
@@ -128,23 +128,25 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                     if (e.target.tagName == 'A') {
                         var layer = '';
                         var d = '';
+                        var layertype = ''
                         for (var key in that.overlays) {
-                            if (e.target.id == that.overlays[key].layer.requestType) {
+                            if (e.target.id == that.overlays[key].layer.requestType+that.overlays[key].id) {
                                 layer = that.overlays[key].layer;
+                                layertype = that.overlays[key].layer.requestType
                                 d = that.overlays[key].data;
                             }
                         }
 
                         frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
                         frs.tiles = that.tiles;
-                        frs.drawGeomCanvasHighlight(d, e.target.id);
+                        frs.drawGeomCanvasHighlight(d, layertype);
                     }
                 }
             });
 
             //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
             var that = this;
-            if (this.overlays && this.overlays.length > 1) {
+            if (this.overlays && this.overlays.length >= 1) {
                 setTimeout(function () {
                     that._map.openPopup(that.popup);
                 }, 200)
