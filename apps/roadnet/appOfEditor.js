@@ -27,6 +27,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.subAttrTplContainerSwitch(false);
             $scope.attrTplContainer = '../../scripts/components/road/tpls/blank_tpl/blankTpl.html';
             objectCtrl.setOriginalData(null);
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
         }, data.errmsg, "error");
 
