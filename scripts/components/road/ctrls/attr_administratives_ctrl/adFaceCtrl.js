@@ -6,7 +6,7 @@ adFaceApp.controller("adFaceController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var adface = layerCtrl.getLayerById("adface");
     $scope.initializeData = function(){
         $scope.adFaceData = objCtrl.data;
@@ -24,9 +24,8 @@ adFaceApp.controller("adFaceController",function($scope) {
             type:'adface',
             style:{color:'#3A5FCD'}
         })
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 
     };
     if(objCtrl.data) {

@@ -44,10 +44,10 @@
 
 #info {
     position: absolute;
-    top: 70px;
+    top: 55px;
     right: 15px;
     width: 300px;
-    z-index: 999;
+    z-index: 10;
     background-color: white;
 }
 
@@ -151,6 +151,9 @@
     right: 0;
     top: 0;
     opacity: 0;
+}
+.nowrap-text {
+    white-space: nowrap;
 }
 
 /*刘杨新增

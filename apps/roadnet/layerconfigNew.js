@@ -1306,7 +1306,9 @@ function transformDataForTips(data) {
                         iconName: '../../images/road/tips/1301/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
+                        scalex: 0.7,
+                        scaley:0.7
                     })
                 );
                 break;
