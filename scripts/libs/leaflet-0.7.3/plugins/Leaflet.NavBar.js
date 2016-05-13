@@ -1,5 +1,6 @@
 /*
 *  Simple navigation control that allows back and forward navigation through map's view history
+*  modified by liuyang
 */
 
 (function() {
@@ -34,23 +35,13 @@
       return container;
     },
 
-    onRemove: function(map) {
-      map.off('moveend', this._updateHistory, this);
-    },
-
     //重新定位到中心点
     _goCenter: function() {
       this._map.setView(this.options.center, this.options.zoom);
     },
 
     _resetMap: function() {
-      var poiJson = FM.mapConf.pPoiJson;
-      FM.leafletUtil.clearMapLayer(pMap,"poiEditLayer");
-      if(poiJson.lifecycle == 1){
-        FM.leafletUtil.createEneditablePoiInMap(poiJson,"poiEditLayer","redIcon");
-      }else {
-        FM.leafletUtil.createEditablePoiInMap(poiJson,"poiEditLayer","redIcon");
-      }
+      
     },
 
     _createButton: function(title, className, container, fn) {

@@ -97,17 +97,38 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 	var checkRuleObj = {};
 	FM.dataApi.CheckRule.getList(function(data){
         for(var i=0,len=data.length;i<data.length;i++){
-            checkRuleObj[data[i].ruleId] = data[i];
+        	checkRuleObj[data[i].ruleId] = data[i];
         }
     });
+	$scope.checkRuleObj = checkRuleObj;
+	FM.dataApi.IxPoiTopKind.getList(function(data){
+		$scope.pKindFormat = new Object();
+        for (var i = 0; i < data.length; i++) {
+//            if (data[i].kindCode == "230218" || data[i].kindCode == "230227") {
+//                data.splice(i, 1);
+//                i--;
+//                continue;
+//            }
+        	$scope.pKindFormat[data[i].kindCode] = {
+                kindId: data[i].id,
+                kindName: data[i].kindName,
+                level: data[i].level,
+                extend: data[i].extend,
+                parentFlag: data[i].parent,
+                chainFlag: data[i].chainFlag,
+                dispOnLink: data[i].dispOnLink,
+                mediumId: data[i].mediumId
+            };
+        }
+	});
 	$scope.$on('getPageData',function(event, data){
 		poi.getPoiInfo(data,function(data){
 			$scope.$broadcast('getPageDataResult',data);
 		});
     });
 	$q.all(promises).then(function() {
-//		$scope.$broadcast("initPageInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
-//			"taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData,"checkRule":checkRuleObj});
+		$scope.$broadcast("initPageInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
+			"taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData,"checkRule":$scope.checkRuleObj});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
 			$scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
 		});
