@@ -94,10 +94,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 	promises.push(poi.getPoiInfo(submitedDataParam,function(data){
 		$scope.submitedData = data.data;
 	}));
-	var checkRuleObj = {};
+	$scope.checkRuleObj = {};
 	FM.dataApi.CheckRule.getList(function(data){
         for(var i=0,len=data.length;i<data.length;i++){
-            checkRuleObj[data[i].ruleId] = data[i];
+        	$scope.checkRuleObj[data[i].ruleId] = data[i];
         }
     });
 	$scope.$on('getPageData',function(event, data){
