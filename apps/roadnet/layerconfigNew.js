@@ -831,7 +831,6 @@ function transformData(data) {
 
                 //车道限速
                 else if (type == 4){
-                    console.log(resArray);
                     var limitSpeed = item.m.b.split(",")[0];
                     var laneSpeed = item.m.b.split(",")[1];
                     iconName = '../../images/road/1101/lane_speedlimit' + '.svg';
