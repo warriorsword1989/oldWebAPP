@@ -290,6 +290,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 }
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 shapeCtrl.startEditing();
+                shapeCtrl.getCurrentTool().clickcount =1;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
                 shapeCtrl.editFeatType = "rdLink";
