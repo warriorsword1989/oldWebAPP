@@ -200,33 +200,20 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         })
     };
 
-    $scope.loadNavBar = function (map) {
-        L.control.navbar().addTo(map);
+    $scope.loadNavBar = function () {
+        var navBar = L.control.navbar();
+        navBar.__proto__._resetMap = function () {
+            var poiJson = FM.mapConf.pPoiJson;
+            FM.leafletUtil.clearMapLayer(pMap,"poiEditLayer");
+            if(poiJson.lifecycle == 1){
+                FM.leafletUtil.createEneditablePoiInMap(poiJson,"poiEditLayer","redIcon");
+            }else {
+                FM.leafletUtil.createEditablePoiInMap(poiJson,"poiEditLayer","redIcon");
+            }
+        };
+        navBar.addTo(pMap);
     };
 
-    $scope.searchPoiInMap = function (cond,data, callback) {
-        var param = {
-            projectId: data.projectId,
-            condition: cond,
-            phase:"4",
-            featcode: data.featCode,
-            type: "snapshot",
-            pagesize: 0
-        };
-        FM.dataApi.ajax.post("editsupport/poi/query",param,function (data) {
-            var ret;
-            if (data.errcode == 0) {
-                ret = data.data.data;
-            } else {
-                ret = [];
-                console.log("wrong request!")
-            }
-            if (callback) {
-                callback(ret);
-            }
-        });
-    };
-    
     $scope.loadRelatedLayer = function (layerId, dataArray, title) {
         console.log("aaaaaaa");
     };
@@ -238,7 +225,6 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         //L.drawLocal.draw.toolbar.buttons.polyline = '画线';
         L.drawLocal.draw.toolbar.buttons.rectangle = '画矩形';
         //L.drawLocal.draw.toolbar.buttons.circle = '画圆';
-
 
         var drawControl = new L.Control.Draw({
             position: 'topleft',
@@ -289,16 +275,140 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
                         }
                     }
                 };
-                $scope.searchPoiInMap(cond, data, function (data) {
-                    if (data.length == 0) {
-                        FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
+                var param = {
+                    projectId: data.projectId,
+                    condition: cond,
+                    phase:"4",
+                    featcode: data.featCode,
+                    type: "snapshot",
+                    pagesize: 0
+                };
+                FM.dataApi.ajax.post("editsupport/poi/query",param,function (data) {
+                    if (data.errcode == 0) {
+                        var ret = data.data.data;
+                        if (ret.length == 0) {
+                            FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
+                        } else {
+                            $scope.emit("drawPois",ret);
+                            $scope.showPoisInMap("parentPoiLayer", ret);
+                        }
                     } else {
-                        $scope.showPoisInMap("parentPoiLayer", data);
+                        ret = [];
+                        console.log("wrong request!")
                     }
                 });
             }
             FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").addLayer(layer);
         });
+    };
+
+    $scope.initSearch = function (data) {
+        var layer = FM.leafletUtil.getLayerById(pMap,"mainPoiLayer");
+        var controlSearch = new L.Control.Search({data: data, initial: false, position:'topright'});
+        controlSearch.__proto__.searchPoiAround = function (type,val,data) {
+            var loc = FM.mapConf.pLocation;
+            if (!loc) {
+                loc = FM.leafletUtil.latLngToLoc(pMap.getCenter());
+            }
+            var condObj;
+            if (type == "名称") {
+                condObj = {
+                    "$and": [{
+                        "loc": {
+                            "$near": {
+                                "$geometry": {
+                                    "type": "Point",
+                                    "coordinates": [loc.longitude, loc.latitude]
+                                },
+                                "$maxDistance": FM.mapConf.geomRadius
+                            }
+                        }
+                    }, {
+                        "lifecycle": {
+                            "$ne": 1
+                        }
+                    }, {
+                        "$or": [{
+                            "name": {
+                                "$regex": val
+                            }
+                        }, {
+                            "name": {
+                                "$regex": App.Util.ToDBC(val)
+                            }
+                        }]
+                    }]
+                };
+            } else if (type == "分类") {
+                var tmp = new Array();
+                for (var key in data.kindFormat) {
+                    if (data.kindFormat[key].kindName.indexOf(val) >= 0) {
+                        tmp.push(key);
+                    }
+                }
+                condObj = {
+                    "loc": {
+                        "$near": {
+                            "$geometry": {
+                                "type": "Point",
+                                "coordinates": [loc.longitude, loc.latitude]
+                            },
+                            "$maxDistance": FM.mapConf.geomRadius
+                        }
+                    },
+                    "kindCode": {
+                        '$in': tmp
+                    },
+                    "lifecycle": {
+                        "$ne": 1
+                    }
+                };
+            } else if (type == "FID") {
+                condObj = {
+                    "fid": val,
+                    "lifecycle": {
+                        "$ne": 1
+                    }
+                };
+            } else {
+                condObj = {
+                    "loc": {
+                        "$near": {
+                            "$geometry": {
+                                "type": "Point",
+                                "coordinates": [loc.longitude, loc.latitude]
+                            },
+                            "$maxDistance": FM.mapConf.geomRadius
+                        }
+                    },
+                    "lifecycle": {
+                        "$ne": 1
+                    }
+                };
+            }
+            var param = {
+                projectId: data.projectId,
+                condition: condObj,
+                phase: "4",
+                featcode: data.featCode,
+                type: "snapshot",
+                pagesize: 0
+            };
+            FM.dataApi.ajax.post("editsupport/poi/query", param, function (data) {
+                if (data.errcode == 0) {
+                    var ret = data.data.data;
+                    if (ret.length == 0) {
+                        console.log("no data!");
+                    } else {
+                        $scope.emit("searchPois",ret);
+                        $scope.showPoisInMap("parentPoiLayer", ret);
+                    }
+                } else {
+                    console.log("wrong request!");
+                }
+            });
+        };
+        pMap.addControl(controlSearch);
     };
 
     //接收基础的poi信息并显示
@@ -311,8 +421,10 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
             FM.leafletUtil.createEditablePoiInMap(data.data,"poiEditLayer","redIcon");
         }
         // $scope.loadTaskPoiData(data.projectId,data.featcode);
-        $scope.loadNavBar(pMap);
+        $scope.loadNavBar();
         $scope.initDraw(pMap,data);
+        $scope.initSearch(data);
+
     });
 
     //接收父信息并显示
