@@ -3,7 +3,8 @@
  */
 var pedestrianNaviApp = angular.module("mapApp");
 pedestrianNaviApp.controller("pedestrianNaviController",function($scope,$ocLazyLoad) {
-    $scope.naviData =  $scope.linkData;
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.naviData =  objCtrl.data;
     $scope.walkFlag = 0;
     $scope.sidewalkLocoptions=[
         {"id": 0, "label":"无"},

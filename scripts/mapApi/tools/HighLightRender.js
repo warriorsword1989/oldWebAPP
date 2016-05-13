@@ -447,7 +447,7 @@ fastmap.uikit.HighLightRender = L.Class.extend({
             )
         }
     },
-    _cleanHightlight: function () {
+    _cleanHighLight: function () {
         for (var index in this.layer._tiles) {
             this.layer._tiles[index].getContext('2d').clearRect(0, 0, 256, 256);
         }

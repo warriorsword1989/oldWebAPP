@@ -29,7 +29,7 @@
                         </button>
                     </span>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li ng-repeat="item in searchField" ng-model="$parent.radio_select" uib-btn-radio="'{{item.key}}'" role="menuitem"><a href="#">{{item.key}}</a></li>
+                        <li ng-repeat="item in cols" ng-show="item.show" ng-model="$parent.radio_select" uib-btn-radio="'{{item.title}}'" role="menuitem"><a href="#">{{item.title}}</a></li>
                     </ul>
                 </div>
                 <div class="pull-right search">
@@ -39,9 +39,10 @@
         </div>
         <table ng-table-dynamic="tableParams with cols" ng-table="tableParams" class="table table-bordered table-striped">
             <tbody>
-            <tr ng-repeat="row in $data">
-                <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
-            </tr>
+                <tr ng-repeat="row in $data">
+                    <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
+                </tr>
+                <tr style="text-align: center" ng-show="!$data.length"><td colspan="10">没有一条数据!!!</td></tr>
             </tbody>
         </table>
     </div>
