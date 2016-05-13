@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig',function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.meta = {};
 
@@ -26,6 +26,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     }));
 
     $q.all(promises).then(function() {
+        var poiMap = {
+            data:$scope.snapshotPoi,
+            projectId:2016013086,
+            featcode:"poi"
+        };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
@@ -43,7 +48,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
                     console.log("map");
-                    $scope.$broadcast("loadup_poiMap", $scope.snapshotPoi);
+                    $scope.$broadcast("loadup_poiMap", poiMap);
                 });
             });
         });
@@ -57,7 +62,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         checkResultData = [];
         confusionInfoData = [];
         /*由于没有数据，这是假数据，有正式数据后放开后面的注释*/
-        resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
+        resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"],'refFeatures':[{"name": "５５５中信银行ＡＴＭ", "level": "B1", "auditStatus": 2, "rowkey": "005956730006697336", "pid": 6697336, "guide": {"latitude": 39.9199, "linkPid": 49143560, "longitude": 116.45111}, "location": {"latitude": 39.9199, "longitude": 116.45113}, "fid": "0010060811LLJ02257", "address": "东大桥路８号院１", "checkResultNum": 2, "lifecycle": 2, "kindCode": "150101", "attachments": [{"url": "/15win/2016013086/20160314/292520160314131656_48465.JPG", "tag": "4", "type": 1}, {"url": "98798", "tag": 0, "type": 4}]}]});
         resultAllData[1] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Win-01-02", "errorMsg": "重新确认成果中的设施名称是否正确", "fields": ["name"]});
         resultAllData[2] = new FM.dataApi.IxCheckResult({"errorCode": "FM-YW-20-215", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
         // editHistoryData[0] = new FM.dataApi.IxEditHistory({"mergeDate": "20160112145422","sourceName": "Android","sourceProject": "2015111243","sourceTask": "","validationMethod": 1, "mergeContents": [{"newValue": "{\"attachments\": [{\"url\": \"2015111243/20160112/365520160112145410.jpg\", \"tag\": 3, \"type\": 1}]}", "oldValue": "{\"attachments\": []}"},{ "newValue": "{\"lifecycle\": 2}","oldValue": "{\"lifecycle\": 0}"},{"newValue": "{\"brands\": [{\"code\": \"4012\"}]}","oldValue": "{\"brands\": []}"},{"newValue": "{\"indoor\": {\"open\": 1, \"type\": 3, \"floor\": null}}","oldValue": "{\"indoor\": {\"open\": 1, \"type\": 0, \"floor\": null}}"},{"newValue": "{\"level\": \"B1\"}","oldValue": "{\"level\": \"B3\"}"},{"newValue": "{\"postCode\": \"235566\"}","oldValue": "{\"postCode\": null}"}],"operator": {"role": 0,"user": 3655},"operation": 2});
@@ -106,6 +111,38 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             })
         });
     });
+
+    /*获取关联poi数据*/
+    $scope.$on('getRefFtInMap',function(event,data){
+        for(var i=0,len=data.length;i<len;i++){
+            data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
+        }
+        $scope.refFt = {
+            title:'检查结果',
+            refList:data
+        };
+        $scope.showRelatedPoiInfo = true;
+        console.log(data)
+    });
+
+    /*显示关联poi详细信息*/
+    $scope.showPoiDetailInfo = function(poi,index){
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.$on('$includeContentLoaded', function($event) {
+                var poiDetail = {
+                    poi:poi,
+                    kindName:$scope.refFt.refList[index].kindInfo.kindName
+                };
+                $scope.$broadcast('poiInfoData',poiDetail);
+            });
+        });
+    };
+
+    /*关闭关联poi数据*/
+    $scope.closeRelatedPoiInfo = function(){
+        $scope.showRelatedPoiInfo = false;
+    };
 
     /*切换tag按钮*/
     $scope.changeTag = function(tagName){
