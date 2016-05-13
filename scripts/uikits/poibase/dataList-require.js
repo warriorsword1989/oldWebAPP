@@ -10,9 +10,9 @@ requirejs.config({
         'application': 'uikits/Application',
         'appUtil': 'uikits/common/app-util',
         'DataListCtl': 'uikits/poibase/dataListCtrl',
-        'fastmap': 'fastmap/fastmap',
-        'fm-util': 'fastmap/fastmap-util',
-        'dataApi': 'dataApi/common/dataApi-ajax',
+//        'fastmap': 'fastmap/fastmap',
+//        'fm-util': 'fastmap/fastmap-util',
+//        'dataApi': 'dataApi/common/dataApi-ajax',
         'dataModel': 'dataApi/common/DataModel',
         'dataService': 'uikits/poibase/dataService-singleton',
         'poiService': 'uikits/poibase/dataService-angular',
@@ -29,8 +29,8 @@ requirejs.config({
         'select2':['jquery'],
         'ngTable':['angular'],
         'ngSanitize':['angular'],
-        'dataApi':['fastmap'],
-        'DataListCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','ngTable','ngSanitize','dataApi']
+//        'dataApi':['fastmap'],
+        'DataListCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','ngTable','ngSanitize']
     }
 });
 // Start the main app logic.
