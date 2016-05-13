@@ -59,7 +59,6 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     map.currentTool.cleanHeight();
                     map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 }
-                map.currentTool.disable();
                 $scope.changeBtnClass(num);
                 if (type === "adLink") {
                     if (shapeCtrl.shapeEditorResult) {
