@@ -30,7 +30,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
                 this.guide.longitude = data['location'].longitude || 0;
             }
             this.attachments = [];
-            if (data["attachments"].length && data["attachments"].length > 0) {
+            if (data["attachments"] && data["attachments"].length > 0) {
                 for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                     if (data["attachments"][i].type == 1) { //表示图片
                         var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
