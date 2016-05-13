@@ -3,19 +3,23 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     uibBtnCfg.activeClass = "btn-success";
     scope.radioModel = 'workWait';
     scope.radio_select = '状态';
-    console.log(scope)
-    //scope.$on("initPageInfo", function(event, data) {
-    //    alert('')
-    //    _self.currentData = data;
-    //    ////_self.filterData(_self.currentData)
-    //    ////_self.constructTable();
-    //})
 
     //切换搜索条件清空输入;
     scope.$watch('radio_select',function(newValue,oldValue,scope){
         scope.search_text = '';
     })
-
+    //动态计算表格列数;
+    scope.gitVisibleFieldNum = function(){
+        var count = 0;
+        if(_self.cols!='undefined'){
+            for(var i=0;i<_self.cols.length;i++){
+                if(_self.cols[i].show){
+                    count+=1;
+                }
+            }
+            return count;
+        }
+    }
     //scope.constructTable = function(){
         scope.$watch('radioModel',function(newValue,oldValue,scope){
             //初始化ng-table;
