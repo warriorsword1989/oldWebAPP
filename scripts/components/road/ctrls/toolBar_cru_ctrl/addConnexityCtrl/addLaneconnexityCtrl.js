@@ -78,19 +78,19 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         if (data.index === 0) {
             $scope.laneConnexity.inLinkPid = parseInt(data.id);
             $scope.highFeatures.push({
-                id:  $scope.limitRelation.inLinkPid.toString(),
+                id:   $scope.laneConnexity.inLinkPid.toString(),
                 layerid: 'referenceLine',
                 type: 'line',
                 style: {}
             });
-            highRenderCtrl .highLightFeatures = $scope.highFeatures;
-            highRenderCtrl .drawHighlight();
+            highRenderCtrl.highLightFeatures = $scope.highFeatures;
+            highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
             $scope.laneConnexity.nodePid = parseInt(data.id);
             $scope.highFeatures.push({
-                id:  $scope.limitRelation.nodePid.toString(),
+                id:   $scope.laneConnexity.nodePid.toString(),
                 layerid: 'referenceLine',
                 type: 'rdnode',
                 style: {}

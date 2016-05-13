@@ -4,12 +4,7 @@
 var formOfWayApp = angular.module("mapApp");
 formOfWayApp.controller("formOfWayController",function($scope){
     var objCtrl = fastmap.uikit.ObjectEditController();
-    if(objCtrl.data.data) {
-        $scope.formsData = objCtrl.data.forms;
-    }else{
-        $scope.formsData = objCtrl.data.forms;
-    }
-
+    $scope.formsData = objCtrl.data.forms;
     $scope.fromOfWayOption = [
         {"id": "0", "label": "未调查","isCheck":false},
         {"id": "1", "label": "无属性","isCheck":false},
