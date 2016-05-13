@@ -26,8 +26,9 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             map: this._map,
             shapeEditor: this.shapeEditor,
             snapLine: true,
-            snapNode: true,
-            snapVertex: true
+            snapVertex: true,
+            snapNode: true
+
         });
         this.snapHandler.enable();
         //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
@@ -87,7 +88,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             mousePoint = this.targetPoint;
             if (this.snapHandler.snapIndex == 0) {
                 this.catches.push({
-                    nodePid: parseInt(this.snapHandler.properties.snode),
+                    nodePid:parseInt(this.snapHandler.properties.snode),
                     lon: mousePoint.lng,
                     lat: mousePoint.lat
                 });

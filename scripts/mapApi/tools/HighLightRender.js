@@ -401,15 +401,29 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                 return;
             }
             var geo = feature.geometry.coordinates;
-            this.layer._drawImg({
+            //this.layer._drawImg({
+            //    ctx: ctx,
+            //    geo: geo,
+            //    boolPixelCrs: true,
+            //    style: {src: '../../images/road/img/heightStar.svg'},
+            //    drawx: 0,
+            //    drawy: 0,
+            //    scalex: 1,
+            //    scaley: 1
+            //
+            //})
+
+            this.layer._drawBackground({
                 ctx: ctx,
                 geo: geo,
                 boolPixelCrs: true,
-                style: {src: '../../images/road/img/heightStar.svg'},
-                drawx: "",
-                drawy: "",
-                scalex: 1,
-                scaley: 1
+                lineColor: 'rgb(4, 187, 245)',
+                fillColor: 'rgba(4, 187, 245, 0.5)',
+                lineWidth: 1,
+                width: 20,
+                height: 20,
+                drawx: -10,
+                drawy: -10
 
             })
         }
