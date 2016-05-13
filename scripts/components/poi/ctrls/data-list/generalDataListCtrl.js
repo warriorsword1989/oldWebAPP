@@ -23,12 +23,12 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 { field: "num_index", title: "序号", sortable: "num_index", show: false},
                 { field: "fid", title: "FID", sortable: "fid", show: false},
                 { field: "pid", title: "PID", sortable: "pid", show: false},
-                { field: "lifecycle", title: "状态", sortable: "lifecycle", show: true,getValue:formatKindCode},
+                { field: "lifecycle", title: "状态", sortable: "lifecycle", show: true,getValue:formatStatus},
                 { field: "name", title: "名称", sortable: "name", show: true,getValue:handleName},
-                { field: "kindCode", title: "分类	", sortable: "kindCode", show: true},
+                { field: "kindCode", title: "分类	", sortable: "kindCode", show: true, getValue:formatKindCode},
                 { field: "auditStatus", title: "审核状态", sortable: "auditStatus", show: true,getValue:formatAuditStatus},
                 { field: "checkResultNum", title: "检查错误", sortable: "checkResultNum", show: true},
-                { field: "checkResults", title: "错误类型", sortable: "checkResults", show: true},
+                { field: "checkResults", title: "错误类型", sortable: "checkResults", show: true,getValue:formatCheckResults},
                 { field: "rawFields", title: "标记", sortable: "rawFields", show: false,getValue:formatRawFields},
                 { field: "attachments", title: "照片", sortable: "editSupportId", show: false,getValue:formatPhoto},
                 { field: "attachments", title: "备注", sortable: "editSupportId", show: false,getValue:formatRemark},
@@ -41,11 +41,27 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
             if(newValue=='workWait'){
                 console.log('workWait')
                 _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                    _self.tableParams.total(10);
-                    $defer.resolve(_self.$parent.$parent.dealedData);
+                    var rawDataParam = {
+                        projectId: "2016013086",
+                        condition: {handler: "2925", auditStatus: 1},
+                        sortby: [["latestMergeDate", -1]],
+                        phase: "4",
+                        featcode: "poi",
+                        type: "snapshot",
+                        pagesize: params.count(),
+                        pageno:params.page()
+                    };
+                    scope.$emit("getPageData",rawDataParam);
+                    scope.$on('getPageDataResult',function(event, data){
+                        _self.tableParams.total(data.total);
+                        if(data.data.length){
+                            $defer.resolve(data.data);
+                        }else{
+                            $defer.resolve(null);
+                        }
+                    });
                 }});
             }else if(newValue=='submitWait'){
-                console.log('submitWait')
                 _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
                     var dealedDataParam = {
                         projectId: "2016013086",
@@ -65,7 +81,23 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 }});
 
             }else{
-                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.submitedData});
+                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    var submitedDataParam = {
+                        projectId: "2016013086",
+                        condition: {handler: "2925", auditStatus: 0, submitStatus: 1},
+                        sortby: [["latestMergeDate", -1]],
+                        phase: "4",
+                        featcode: "poi",
+                        type: "snapshot",
+                        pagesize: params.count(),
+                        pageno:params.page()
+                    };
+                    scope.$emit("getPageData",submitedDataParam);
+                    scope.$on('getPageDataResult',function(event, data){
+                        _self.tableParams.total(data.total);
+                        $defer.resolve(data.data);
+                    });
+                }});
             }
 
             var timeout = null;
@@ -120,7 +152,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         return $sce.trustAsHtml(html);
     }
     //格式化状态
-    function formatKindCode($scope,row) {
+    function formatStatus($scope,row) {
         var retStr = row.lifecycle;
         switch (retStr) {
             case 0: retStr = '无';break;
@@ -222,45 +254,56 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         return ifConfirm;
     }
     //格式化错误类型;
-    //function formatCheckResults($scope,row) {
-    //    var value = row[this.field];
-    //    var ret = "无";
-    //    if (value && value.length > 0) {
-    //        var flag = 0;
-    //        var tmp;
-    //        for (var i = 0; i < value.length; i++) {
-    //            tmp = pCheckRuleFormat[value[i].errorCode].ruleType;
-    //            if (tmp == 1) {
-    //                if (flag == 2 || flag == 3) {
-    //                    flag = 3;
-    //                    break;
-    //                } else {
-    //                    flag = 1;
-    //                }
-    //            } else if (tmp == 2) {
-    //                if (flag == 1 || flag == 3) {
-    //                    flag = 3;
-    //                    break;
-    //                } else {
-    //                    flag = 2;
-    //                }
-    //            } else if (tmp == 3) {
-    //                flag = 3;
-    //                break;
-    //            }
-    //        }
-    //        if (flag == 0) {
-    //            ret = "未分类";
-    //        } else if (flag == 1) {
-    //            ret = "内容错误";
-    //        } else if (flag == 2) {
-    //            ret = "关系错误";
-    //        } else {
-    //            ret = "两者都有";
-    //        }
-    //    }
-    //    return ret;
-    //}
+    function formatCheckResults($scope,row) {
+        var value = row[this.field];
+        var ret = "无";
+        if (value && value.length > 0) {
+            var flag = 0;
+            var tmp;
+            for (var i = 0; i < value.length; i++) {
+                tmp = $scope.checkRuleObj[value[i].errorCode].ruleType;
+                if (tmp == 1) {
+                    if (flag == 2 || flag == 3) {
+                        flag = 3;
+                        break;
+                    } else {
+                        flag = 1;
+                    }
+                } else if (tmp == 2) {
+                    if (flag == 1 || flag == 3) {
+                        flag = 3;
+                        break;
+                    } else {
+                        flag = 2;
+                    }
+                } else if (tmp == 3) {
+                    flag = 3;
+                    break;
+                }
+            }
+            if (flag == 0) {
+                ret = "未分类";
+            } else if (flag == 1) {
+                ret = "内容错误";
+            } else if (flag == 2) {
+                ret = "关系错误";
+            } else {
+                ret = "两者都有";
+            }
+        }
+        return ret;
+    }
+    // 格式化分类显示
+    function formatKindCode($scope,row) {
+        var value = row[this.field];
+        console.log(value)
+        var temp = $scope.checkRuleObj[value];
+        if (temp) {
+            return temp.kindName;
+        } else {
+            return value;
+        }
+    }
 
 }]);
 
