@@ -1,9 +1,65 @@
-angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonConfig', 'NgTableParams','$timeout','$sce',  function (scope, uibBtnCfg, NgTableParams,$timeout,$sce) {
+angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonConfig', 'NgTableParams','$timeout','$sce','ngTableEventsChannel',  function (scope, uibBtnCfg, NgTableParams,$timeout,$sce,ngTableEventsChannel) {
     var _self = scope;
     uibBtnCfg.activeClass = "btn-success";
     scope.radioModel = 'workWait';
     scope.radio_select = '状态';
 
+    ngTableEventsChannel.onAfterReloadData(logAfterCreatedEvent, scope);
+    function logAfterCreatedEvent(parmas){
+        if(scope.radioModel=='workWait'){
+            var rawDataParam = {
+                projectId: "2016013086",
+                condition: {
+                    handler: "2925",
+                    auditStatus: 1
+                },
+                sortby: [
+                    ["latestMergeDate", -1]
+                ],
+                phase: "4",
+                featcode: "poi",
+                type: "snapshot",
+                pagesize: parmas.count(),
+                pagenum:parmas.page()
+            };
+            scope.$emit("getPageData",rawDataParam);
+        }else if(scope.radioModel=='submitWait'){
+            var rawDataParam = {
+                projectId: "2016013086",
+                condition: {
+                    handler: "2925",
+                    auditStatus: 1
+                },
+                sortby: [
+                    ["latestMergeDate", -1]
+                ],
+                phase: "4",
+                featcode: "poi",
+                type: "snapshot",
+                pagesize: parmas.count(),
+                pagenum:parmas.page()
+            };
+            scope.$emit("getPageData",rawDataParam);
+        }else{
+            var rawDataParam = {
+                projectId: "2016013086",
+                condition: {
+                    handler: "2925",
+                    auditStatus: 1
+                },
+                sortby: [
+                    ["latestMergeDate", -1]
+                ],
+                phase: "4",
+                featcode: "poi",
+                type: "snapshot",
+                pagesize: parmas.count(),
+                pagenum:parmas.page()
+            };
+            scope.$emit("getPageData",rawDataParam);
+        }
+
+    }
     console.log(scope)
     //scope.$on("initPageInfo", function(event, data) {
     //    alert('')
@@ -11,12 +67,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     //    ////_self.filterData(_self.currentData)
     //    ////_self.constructTable();
     //})
-    //给返回数据增加序号索引;
-    scope.filterData = function(data){
-        for(var i=0;i<data.length;i++){
-            data[i].num_index = i+1;
-        }
-    }
+
     //切换搜索条件清空输入;
     scope.$watch('radio_select',function(newValue,oldValue,scope){
         scope.search_text = '';
@@ -34,31 +85,47 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 { field: "kindCode", title: "分类	", sortable: "kindCode", show: true},
                 { field: "auditStatus", title: "审核状态", sortable: "auditStatus", show: true,getValue:formatAuditStatus},
                 { field: "checkResultNum", title: "检查错误", sortable: "checkResultNum", show: true},
-                { field: "checkResults", title: "错误类型", sortable: "checkResults", show: true,getValue:formatCheckResults},
-                { field: "rawFields", title: "标记", sortable: "rawFields", show: true,getValue:formatRawFields},
-                { field: "attachments", title: "照片", sortable: "editSupportId", show: true,getValue:formatPhoto},
-                { field: "attachments", title: "备注", sortable: "editSupportId", show: true,getValue:formatRemark},
+                { field: "checkResults", title: "错误类型", sortable: "checkResults", show: true},
+                { field: "rawFields", title: "标记", sortable: "rawFields", show: false,getValue:formatRawFields},
+                { field: "attachments", title: "照片", sortable: "editSupportId", show: false,getValue:formatPhoto},
+                { field: "attachments", title: "备注", sortable: "editSupportId", show: false,getValue:formatRemark},
                 { field: "evaluateComment", title: "监察问题", sortable: "evaluateComment", show: false,getValue:formatEvaluateComment},
                 { field: "quesState", title: "问题状态", sortable: "quesState", show: true,getValue:formatQuesState},
                 { field: "fieldDate", title: "采集时间", sortable: "fieldDate", show: true,getValue:formatTime},
                 { field: "inputDate", title: "预处理时间", sortable: "inputDate", show: true,getValue:formatTime},
                 { field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: true,getValue:formatFreshnessVerification}
             ];
-            //初始化搜索字段下拉列表
-            scope.searchField = [];
-            for(var i=0;i<_self.cols.length;i++){
-                var temp = {}
-                temp.key = _self.cols[i].title;
-                temp.show = _self.cols[i].show;
-                scope.searchField.push(temp);
-            }
-
             if(newValue=='workWait'){
-                console.log('myProject')
-                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.rawData});
+                console.log('workWait')
+                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    _self.tableParams.total(10);
+                    $defer.resolve(_self.$parent.$parent.dealedData);
+                }});
             }else if(newValue=='submitWait'){
                 console.log('submitWait')
-                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.dealedData});
+                _self.tableParams = new NgTableParams({count:3,filter:{'name':''}}, {counts: [3,6,9],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    var rawDataParam = {
+                        projectId: "2016013086",
+                        condition: {
+                            handler: "2925",
+                            auditStatus: 1
+                        },
+                        sortby: [
+                            ["latestMergeDate", -1]
+                        ],
+                        phase: "4",
+                        featcode: "poi",
+                        type: "snapshot",
+                        pagesize: params.count(),
+                        pagenum:1
+                    };
+                    scope.$emit("getPageData",rawDataParam);
+                    scope.$on('getPageDataResult',function(event, data){
+                        _self.tableParams.total(10);
+                        $defer.resolve(data);
+                    });
+                }});
+
             }else{
                 _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.submitedData});
             }
@@ -75,9 +142,22 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                         }else{
                             var filter = {};
                             switch (scope.radio_select){
-                                case '项目名称':search_type = 'projectName';break;
-                                case '项目类型':search_type = 'projectType';break;
-                                case '项目状态':search_type = 'projectPhase';break;
+                                case 'FID':search_type = 'fid';break;
+                                case 'PID':search_type = 'pid';break;
+                                case '状态':search_type = 'lifecycle';break;
+                                case '名称':search_type = 'name';break;
+                                case '分类':search_type = 'kindCode';break;
+                                case '审核状态':search_type = 'auditStatus';break;
+                                case '检查错误':search_type = 'checkResultNum';break;
+                                case '错误类型':search_type = 'checkResults';break;
+                                case '标记':search_type = 'rawFields';break;
+                                case '照片':search_type = 'attachments';break;
+                                case '备注':search_type = 'attachments';break;
+                                case '监察问题':search_type = 'evaluateComment';break;
+                                case '问题状态':search_type = 'quesState';break;
+                                case '采集时间':search_type = 'fieldDate';break;
+                                case '预处理时间':search_type = 'inputDate';break;
+                                case '鲜度验证':search_type = 'freshnessVerification';break;
                             }
                             filter[search_type] = newValue;
                             angular.extend(_self.tableParams.filter(), filter);
@@ -101,7 +181,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         }
         return $sce.trustAsHtml(html);
     }
-    //格式化分类
+    //格式化状态
     function formatKindCode($scope,row) {
         var retStr = row.lifecycle;
         switch (retStr) {
@@ -133,7 +213,6 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     }
     //格式化备注显示
     function formatRemark($scope,row) {
-        console.log(row.attachments)
         var remark = "无";
         if (row.attachments && row.attachments.length > 0) {
             for (var i = 0; i < row.attachments.length; i++) {
@@ -191,7 +270,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         }
     }
     //格式化问题状态
-    function formatQuesState(value, row) {
+    function formatQuesState($scope,row) {
         var ifConfirm = '已确认';
         var evaluateComment = row[this.field];
         if (evaluateComment && evaluateComment.length > 0) {
@@ -205,44 +284,45 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         return ifConfirm;
     }
     //格式化错误类型;
-    function formatCheckResults(value) {
-        var ret = "无";
-        if (value && value.length > 0) {
-            var flag = 0;
-            var tmp;
-            for (var i = 0; i < value.length; i++) {
-                tmp = pCheckRuleFormat[value[i].errorCode].ruleType;
-                if (tmp == 1) {
-                    if (flag == 2 || flag == 3) {
-                        flag = 3;
-                        break;
-                    } else {
-                        flag = 1;
-                    }
-                } else if (tmp == 2) {
-                    if (flag == 1 || flag == 3) {
-                        flag = 3;
-                        break;
-                    } else {
-                        flag = 2;
-                    }
-                } else if (tmp == 3) {
-                    flag = 3;
-                    break;
-                }
-            }
-            if (flag == 0) {
-                ret = "未分类";
-            } else if (flag == 1) {
-                ret = "内容错误";
-            } else if (flag == 2) {
-                ret = "关系错误";
-            } else {
-                ret = "两者都有";
-            }
-        }
-        return ret;
-    }
+    //function formatCheckResults($scope,row) {
+    //    var value = row[this.field];
+    //    var ret = "无";
+    //    if (value && value.length > 0) {
+    //        var flag = 0;
+    //        var tmp;
+    //        for (var i = 0; i < value.length; i++) {
+    //            tmp = pCheckRuleFormat[value[i].errorCode].ruleType;
+    //            if (tmp == 1) {
+    //                if (flag == 2 || flag == 3) {
+    //                    flag = 3;
+    //                    break;
+    //                } else {
+    //                    flag = 1;
+    //                }
+    //            } else if (tmp == 2) {
+    //                if (flag == 1 || flag == 3) {
+    //                    flag = 3;
+    //                    break;
+    //                } else {
+    //                    flag = 2;
+    //                }
+    //            } else if (tmp == 3) {
+    //                flag = 3;
+    //                break;
+    //            }
+    //        }
+    //        if (flag == 0) {
+    //            ret = "未分类";
+    //        } else if (flag == 1) {
+    //            ret = "内容错误";
+    //        } else if (flag == 2) {
+    //            ret = "关系错误";
+    //        } else {
+    //            ret = "两者都有";
+    //        }
+    //    }
+    //    return ret;
+    //}
 
 }]);
 

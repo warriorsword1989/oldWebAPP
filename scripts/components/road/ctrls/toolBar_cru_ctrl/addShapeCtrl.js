@@ -719,6 +719,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 });
                 map.currentTool.enable();
                 $scope.excitLineArr = [];
+                $scope.limitRelation.branchType = 3;
                 /*获取退出线*/
                 $scope.getOutLink = function(dataId){
                     $scope.excitLineArr.push(parseInt(dataId));
@@ -741,9 +742,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                         type: 'rdnode',
                                         style: {}
                                     });
-                                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-                                    highLightRender.highLightFeatures = highLightFeatures;
-                                    highLightRender.drawHighlight();
+                                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                                    highRenderCtrl.drawHighlight();
                                     map.currentTool.selectedFeatures.push($scope.limitRelation.nodePid.toString());
                                     tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                                 }
