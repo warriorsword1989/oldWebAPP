@@ -198,6 +198,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         callback: $scope.modifyTools
                     }]
                 }
+
+                if(L.Browser.touch){
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function(){
+                            var e = $.Event("keydown");
+                            e.keyCode=32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+                
                 selectCtrl.onSelected({
                     point: data.point
                 });
@@ -219,6 +234,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         callback: $scope.modifyTools
                     }]
                 }
+
+                if(L.Browser.touch){
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function(){
+                            var e = $.Event("keydown");
+                            e.keyCode=32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+
                 ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);

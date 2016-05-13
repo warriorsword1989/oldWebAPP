@@ -29,7 +29,7 @@
                         </button>
                     </span>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li ng-repeat="item in searchField" ng-model="$parent.radio_select" uib-btn-radio="'{{item.key}}'" role="menuitem"><a href="#">{{item.key}}</a></li>
+                        <li ng-repeat="item in cols" ng-show="item.show" ng-model="$parent.radio_select" uib-btn-radio="'{{item.title}}'" role="menuitem"><a href="#">{{item.title}}</a></li>
                     </ul>
                 </div>
                 <div class="pull-right search">

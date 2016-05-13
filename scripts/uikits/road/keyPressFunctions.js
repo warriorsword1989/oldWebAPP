@@ -245,9 +245,6 @@ function keyEvent(ocLazyLoad, scope) {
                             Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                                 treatmentOfChanged(data, fastmap.dataApi.GeoLiveModelType.RDLINK, "修改link道路方向成功");
                                 if (data.errcode === 0) {
-                                    objEditCtrl.data["direct"] = geo.orientation;
-                                    objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
-                                    scope.$apply();
                                     layerCtrl.getLayerById("referenceLine").redraw();
                                     layerCtrl.getLayerById("referenceNode").redraw();
                                 }

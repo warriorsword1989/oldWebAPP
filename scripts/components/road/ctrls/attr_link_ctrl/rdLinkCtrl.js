@@ -325,6 +325,12 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         }
         Application.functions.saveProperty(JSON.stringify(param), function (data) {
             var info = null;
+            rdLink.redraw();
+            referenceNode.redraw();
+            rdCross.redraw();
+            restriction.redraw();
+            rdlaneconnexity.redraw();
+
             if (data.errcode==0) {
                 var sinfo={
                     "op":"删除道路link成功",
@@ -340,11 +346,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                           "pid": data.errid
                     }];
             }
-            rdLink.redraw();
-            rdCross.redraw();
-            restriction.redraw();
-            rdlaneconnexity.redraw();
-            referenceNode.redraw();
+
 
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {

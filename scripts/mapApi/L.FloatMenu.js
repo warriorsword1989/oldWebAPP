@@ -50,19 +50,42 @@ L.Control.FloatMenu = fastmap.mapApi.Layer.extend({
     setVisible:function(flag){
         var buttons=$(".floatMenu>li");
         this.visible=flag;
-        var r=50,n= 5;
+        var r=50,n=buttons.length;
         if(flag){
             $(".floatMenu").show();
             setTimeout(function(){
                 for(var i= 0,len=buttons.length;i<len;i++){
-                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'0.5s')
+                    var transformStr="translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px)";
+                    $(buttons[i]).css("display","block").css({
+                                 "-ms-transform":transformStr,
+                                 "-webkit-transform":transformStr,
+                                "-moz-transform":transformStr,
+                                 "-o-transform":transformStr,
+                                 "transform":transformStr,
+                                 "-ms-transition":'0.5s',
+                                "-webkit-transition":'0.5s',
+                                "-moz-transition":'0.5s',
+                                "-o-transition":'0.5s',
+                                "transition":'0.5s'
+                              })
                 }
             },10)
 
         }
         else{
             for(var i= 0,len=buttons.length;i<len;i++){
-                $(buttons[i]).css("transform","translate(0px,0px").css("transition",'1s')
+                $(buttons[i]).css({
+                    "-ms-transform":"translate(0px,0px)",
+                    "-webkit-transform": "translate(0px,0px)",
+                    "-moz-transform": "translate(0px,0px)",
+                    "-o-transform": "translate(0px,0px)",
+                    "transform": "translate(0px,0px)",
+                    "-ms-transition":"1s",
+                    "-webkit-transition":'1s',
+                    "-moz-transition":'1s',
+                    "-o-transition":'1s',
+                    "transition":'1s'
+                })
             }
 
             setTimeout(function(){
