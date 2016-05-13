@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var zonePeopertyApp = angular.module("lazymodule", []);
+var zonePeopertyApp = angular.module("mapApp");
 zonePeopertyApp.controller("zonePeopertyController", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.zoneData = objCtrl.data;

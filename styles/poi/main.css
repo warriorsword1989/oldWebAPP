@@ -5,7 +5,7 @@ html, body {
     /*min-height: 768px;*/
     margin: 0;
     padding: 0;
-    font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "Î¢ÈíÑÅºÚ", "ºÚÌå", Arial, sans-serif;
+    font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "Î¢ï¿½ï¿½ï¿½Åºï¿½", "ï¿½ï¿½ï¿½ï¿½", Arial, sans-serif;
 }
 
 body {
@@ -14,7 +14,7 @@ body {
 
 
 /************************************************************************************************************
-*¶¥²¿µ¼º½À¸                                                                                                 *
+*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½                                                                                                 *
 ************************************************************************************************************/
 
 .navbar-top {
@@ -115,7 +115,6 @@ body {
     min-width: 100px;
     background-color: #FDFBBA;
     border: 1px solid #A39E05;
-    display: none;
 }
 
 .info-tip div.title {
@@ -133,6 +132,7 @@ body {
     margin: 5px;
     padding: 5px;
     overflow: auto;
+    max-height:240px;
 }
 
 .info-tip div.content span.label {
@@ -183,7 +183,7 @@ dl.property > dd {
 }
 
 
-/*×ó²àµÄÃèÊöÇøÓòµÄÑùÊ½£¬Ö÷ÒªÓÃÓÚÏîÄ¿ÏêÇéÒ³Ãæ*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½*/
 
 .desc-block {
     margin: 15px 5px;
@@ -271,7 +271,7 @@ dl.property > dd {
 }
 
 .text-loading {
-    background: url("../images/icon/loading-cycle.gif") no-repeat center center;
+    background: url("../../images/poi/icon/loading-cycle.gif") no-repeat center center;
     min-width: 14px;
     height: 14px;
     display: inline-block;
@@ -288,7 +288,7 @@ dl.property > dd {
 }
 
 .btn-loading {
-    background: url("../images/icon/loading-dotted.gif") no-repeat center center;
+    background: url("../../images/poi/icon/loading-dotted.gif") no-repeat center center;
     width: 14px;
     height: 14px;
     display: inline-block;
@@ -337,7 +337,7 @@ dl.property > dd {
 }
 
 
-/******************************************¶à¼¶ÏÂÀ­²Ëµ¥**************************************************/
+/******************************************ï¿½à¼¶ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½**************************************************/
 
 .dropdown-submenu {
     position: relative;

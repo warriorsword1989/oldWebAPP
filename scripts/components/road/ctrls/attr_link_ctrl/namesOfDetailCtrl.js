@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/2.
  */
-var namesOfLinkApp = angular.module("myApp", []);
+var namesOfLinkApp = angular.module("mapApp");
 namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
     $scope.srcFlagOptions = [
         {"id": 0, "label": "0 现场道路名标牌"},
@@ -26,6 +26,15 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
 
     $scope.names = objCtrl.data.names;
     $scope.realtimeData = objCtrl.data;
+
+
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.nameDetailForm.$setPristine();
+            });
+
+        }
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {

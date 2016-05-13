@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var basicApp = angular.module("mapApp", ['oc.lazyLoad']);
+var basicApp = angular.module("mapApp");
 basicApp.controller("nameController", function ($scope, $ocLazyLoad) {
 
 

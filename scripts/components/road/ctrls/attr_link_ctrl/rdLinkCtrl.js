@@ -1,12 +1,15 @@
 /**
  * Created by liwanchong on 2015/10/29.
  */
-var myApp = angular.module("mapApp", ['oc.lazyLoad']);
+var myApp = angular.module("mapApp");
 myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($scope, $ocLazyLoad) {
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
+    var referenceNode=layerCtrl.getLayerById("referenceNode");
+    var restriction=layerCtrl.getLayerById("restriction");
+    var rdlaneconnexity=layerCtrl.getLayerById("rdlaneconnexity");
     var editLayer = layerCtrl.getLayerById('edit');
     var rdCross = layerCtrl.getLayerById("rdcross")
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -14,7 +17,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.brigeIndex=0;
     $scope.modelArray=[false,false,false,false,false,false];
@@ -78,19 +81,16 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                 })
             }
 
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures = highLightFeatures;
-            highLightLink.drawHighlight();
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
         }else{
-
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures.push({
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.linkData.pid.toString(),
                 layerid:'referenceLine',
                 type:'line',
                 style:{}
             });
-            highLightLink.drawHighlight();
+            highRenderCtrl.drawHighlight();
         }
 
         var linkArr =$scope.linkData.geometry.coordinates, points = [];
@@ -103,6 +103,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         selectCtrl.onSelected({
             geometry: line,
             id: $scope.linkData.pid,
+            type:"Link",
             direct: $scope.linkData.direct,
             snode: $scope.linkData.sNodePid,
             enode: $scope.linkData.eNodePid,
@@ -339,11 +340,15 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
                           "pid": data.errid
                     }];
             }
+            rdLink.redraw();
+            rdCross.redraw();
+            restriction.redraw();
+            rdlaneconnexity.redraw();
+            referenceNode.redraw();
 
             //"errmsg":"此link上存在交限关系信息，删除该Link会对应删除此组关系"
             if (data.errmsg != "此link上存在交限关系信息，删除该Link会对应删除此组关系") {
-                rdLink.redraw();
-                rdCross.redraw();
+
                 outputCtrl.pushOutput(info);
                 if (outputCtrl.updateOutPuts !== "") {
                     outputCtrl.updateOutPuts();

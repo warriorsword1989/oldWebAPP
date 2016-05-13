@@ -10,7 +10,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var selectCtrl = fastmap.uikit.SelectController();
         var tooltipsCtrl = fastmap.uikit.ToolTipsController();
         var rdLink = layerCtrl.getLayerById('referenceLine');
+        var rdnode=layerCtrl.getLayerById('referenceNode');
         var hLayer = layerCtrl.getLayerById('highlightlayer');
+        var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
         $scope.limitRelation = {};
@@ -239,6 +241,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             if (event) {
                 event.stopPropagation();
             }
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
             $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
             $("#popoverTips").hide();
             editLayer.clear();
@@ -315,6 +319,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool = shapeCtrl.getCurrentTool();
                 shapeCtrl.editFeatType = "rdLink";
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
+                map.currentTool.snapHandler.addGuideLayer(rdnode);
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 tooltipsCtrl.setCurrentTooltip('开始画线！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
@@ -426,14 +431,15 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
 
             } else if (type === "RDCROSS") {
                 var linksArr = [], nodesArr = [], nodes = [], links = [], options = {};
+                tooltipsCtrl.setCurrentTooltip('请框选路口组成Node！');
                 shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDCROSS, {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
                 })
-                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
+                    tooltipsCtrl.setCurrentTooltip('已选择路口，按空格保存或者esc取消！');
                     var data = $scope.getDataFromRectangleForCross(event),highlightFeatures=[];
                     if (nodesArr.length === 0) {
                         for (var nodeNum = 0, nodeLen = data["nodes"].length; nodeNum < nodeLen; nodeNum++) {
@@ -486,8 +492,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             style:{}
                         })
                     }
-                    highLightLink.highLightFeatures =highlightFeatures;
-                    highLightLink.drawHighlight();
+                    highRenderCtrl.highLightFeatures =highlightFeatures;
+                    highRenderCtrl.drawHighlight();
                     options = {"nodePids": nodesArr, "linkPids": linksArr};
                     selectCtrl.onSelected(options);
                 });
@@ -532,7 +538,6 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     layer: rdLink,
                     type: "rectangle"
                 });
-                var highLightLinkOfOverPass = new fastmap.uikit.HighLightRender(hLayer);
                 map.currentTool = shapeCtrl.getCurrentTool();
                 eventController.on(eventController.eventTypes.GETBOXDATA, function (event) {
                     var data = event.data,highlightFeatures=[],
@@ -572,8 +577,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                             }
                         })
                     }
-                    highLightLinkOfOverPass.highLightFeatures = highlightFeatures;
-                    highLightLinkOfOverPass.drawHighlight();
+                    highRenderCtrl.highLightFeatures = highlightFeatures;
+                    highRenderCtrl.drawHighlight();
                     /*运算两条线的交点坐标*/
                     $scope.segmentsIntr = function(a,b){    //([{x:_,y:_},{x:_,y:_}],[{x:_,y:_},{x:_,y:_}]) a,b为两条直线
                         var area_abc = (a[0].x - b[0].x) * (a[1].y - b[0].y) - (a[0].y - b[0].y) * (a[1].x - b[0].x);
@@ -637,6 +642,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     /*点击调整link层级高低*/
                     $scope.changeLevel = function(){
                         editLayer.drawGeometry = null;
+                        map.currentTool.options.repeatMode=false;
                         shapeCtrl.stopEditing();
                         editLayer.bringToBack();
                         $(editLayer.options._div).unbind();
@@ -674,12 +680,11 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     layerid:'referenceLine',
                                     type:'rdgsc',
                                     index:jsonData.linkObjs[i].level_index,
-                                    style:{
-                                        size:5
+                                    style:{size:5
                                     }
                                 });
-                                highLightLinkOfOverPass.highLightFeatures = highlightFeatures;
-                                highLightLinkOfOverPass.drawHighlight();
+                                highRenderCtrl.highLightFeatures = highlightFeatures;
+                                highRenderCtrl.drawHighlight();
                             }
                         })
                     }
@@ -781,7 +786,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     tooltipsCtrl.setEditEventType('upAndDown');
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                    if(! map.floatMenu) {
-                       map.floatMenu=new L.Control.FloatMenu(data.id, data.event.originalEvent, {
+                       map.floatMenu=new L.Control.FloatMenu("000", data.event.originalEvent, {
                            items: [{
                                'text': "<a class='glyphicon glyphicon-apple'></a>",
                                'title': "重新选择线",

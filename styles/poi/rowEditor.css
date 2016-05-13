@@ -44,10 +44,10 @@
 
 #info {
     position: absolute;
-    top: 70px;
+    top: 55px;
     right: 15px;
     width: 300px;
-    z-index: 999;
+    z-index: 10;
     background-color: white;
 }
 
@@ -115,6 +115,54 @@
     border-radius: 5px 0 0 5px;
 }
 
+.textColorRed {
+    color: red;
+}
+
 .btn-success {
     text-shadow: 0 0 0 #fff;
+}
+/*文件上传*/
+.upload-option-group{
+    position: relative;
+    margin-top: -4px;
+}
+.upload-btn{
+    position: relative;
+    z-index: 1;
+    padding: 2px;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 0px 5px;
+}
+.dom-hide{
+    display:none !important;
+}
+.upload-add {
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    cursor: pointer;
+}
+.upload-add input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.nowrap-text {
+    white-space: nowrap;
+}
+
+/*刘杨新增
+for 地图上的两个按钮*/
+.leaflet-control-navbar-reset {
+    background-image: url(../../images/poi/icon/undo.png);
+}
+
+.leaflet-control-navbar-center {
+    background-image: url(../../images/poi/icon/location.png);
+    /*background-image: url("/WebApp/images/poi/icon/location.png");*/
 }

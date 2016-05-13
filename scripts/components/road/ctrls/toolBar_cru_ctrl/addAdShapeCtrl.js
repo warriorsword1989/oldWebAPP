@@ -2,7 +2,7 @@
  * Created by zhaohang on 2016/4/12.
  */
 
-var addAdShapeApp = angular.module('mapApp', ['oc.lazyLoad']);
+var addAdShapeApp = angular.module('mapApp');
 addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
 
             var layerCtrl = fastmap.uikit.LayerController();
@@ -17,6 +17,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             var objCtrl = fastmap.uikit.ObjectEditController();
             var eventController = fastmap.uikit.EventController();
             var adAdmin=layerCtrl.getLayerById('adAdmin');
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
             $scope.limitRelation = {};
             //两点之间的距离
             $scope.distance = function (pointA, pointB) {
@@ -35,17 +36,22 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 return angle;
             };
             $scope.addShape = function (type, num, event) {
-
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 if (event) {
                     event.stopPropagation();
                 }
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 $("#popoverTips").hide();
                 editLayer.clear();
                 editLayer.bringToBack();
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                rdLink.clearAllEventListeners()
+                adLink.clearAllEventListeners()
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
@@ -53,6 +59,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     map.currentTool.cleanHeight();
                     map.currentTool.disable();//禁止当前的参考线图层的事件捕获
                 }
+                map.currentTool.disable();
                 $scope.changeBtnClass(num);
                 if (type === "adLink") {
                     if (shapeCtrl.shapeEditorResult) {

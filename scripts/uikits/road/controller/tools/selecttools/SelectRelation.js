@@ -18,8 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['speedlimit','rdcross','rdlaneconnexity','restriction','highSpeedDivergence']
-        //this.editLayerIds = ['speedlimit']
+        this.editLayerIds = ['speedlimit', 'rdcross', 'rdlaneconnexity', 'restriction', 'highSpeedDivergence']
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -28,7 +27,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         this.redrawTiles = [];
         this.layerController = new fastmap.uikit.LayerController();
         this.highlightLayer = this.layerController.getLayerById('highlightlayer');
-        for(var item in this.editLayerIds){
+        for (var item in this.editLayerIds) {
             this.currentEditLayers.push(this.layerController.getLayerById(this.editLayerIds[item]))
         }
         this.popup = L.popup();
@@ -40,8 +39,8 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
-        if(L.Browser.touch){
-            this._map.on('click', this.onMouseDown,this);
+        if (L.Browser.touch) {
+            this._map.on('click', this.onMouseDown, this);
         }
     },
 
@@ -51,8 +50,8 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
-        if(L.Browser.touch){
-            this._map.off('click', this.onMouseDown,this);
+        if (L.Browser.touch) {
+            this._map.off('click', this.onMouseDown, this);
         }
     },
     onMouseDown: function (event) {
@@ -69,10 +68,10 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
      * @param tilePoint
      * @returns {Array}
      */
-    getRoundTile:function(layer, tilePoint){
+    getRoundTile: function (layer, tilePoint) {
         var tiles = [];
-        for( var index in layer.tiles){
-            if(Math.abs(layer.tiles[index].options.context.name.split('_')[0] - tilePoint[0])<=1&&Math.abs(layer.tiles[index].options.context.name.split('_')[1] - tilePoint[1])<=1){
+        for (var index in layer.tiles) {
+            if (Math.abs(layer.tiles[index].options.context.name.split('_')[0] - tilePoint[0]) <= 1 && Math.abs(layer.tiles[index].options.context.name.split('_')[1] - tilePoint[1]) <= 1) {
                 tiles.push(layer.tiles[index]);
             }
         }
@@ -80,63 +79,63 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
     },
 
     drawGeomCanvasHighlight: function (tilePoint, event) {
-        this.overlays=[];
-        var  frs = null;
-        for(var layer in this.currentEditLayers){
+        this.overlays = [];
+        var frs = null;
+        for (var layer in this.currentEditLayers) {
 
-            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer],tilePoint))
+            this.tiles = this.tiles.concat(this.getRoundTile(this.currentEditLayers[layer], tilePoint))
 
-            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&!this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
+            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && !this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
                 return;
             }
-            if(this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]]&&this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data){
+            if (this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]] && this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data) {
                 var data = this.currentEditLayers[layer].tiles[tilePoint[0] + ":" + tilePoint[1]].data;
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
-                    if(this.currentEditLayers[layer].requestType =='RDCROSS'){
+                    if (this.currentEditLayers[layer].requestType == 'RDCROSS') {
 
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
-                                this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});
+                                this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
                             }
                         }
-                    }else{
+                    } else {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
-                            this.overlays.push({layer:this.currentEditLayers[layer],data:data[item]});
+                            this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
                         }
                     }
                 }
             }
-       }
-        if(this.overlays.length == 1){
-            frs = new fastmap.uikit.SelectObject({highlightLayer:this.highlightLayer,map:this._map});
+        }
+        if (this.overlays.length == 1) {
+            frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
             frs.tiles = this.tiles;
-            frs.drawGeomCanvasHighlight(this.overlays[0].data ,this.overlays[0].layer.requestType);
-        }else if (this.overlays.length > 1){
+            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].layer.requestType);
+        } else if (this.overlays.length > 1) {
             var html = '<ul id="layerpopup">';
             this.overlays = this.unique(this.overlays);
-            for(var item in this.overlays){
-                html += '<li><a href="#" id="'+this.overlays[item].layer.options.requestType+'">'+this.overlays[item].layer.options.layername+'</a></li>';
+            for (var item in this.overlays) {
+                html += '<li><a href="#" id="' + this.overlays[item].layer.options.requestType + '">' + this.overlays[item].layer.options.layername + '</a></li>';
             }
-            html +='</ul>';
+            html += '</ul>';
             this.popup
                 .setLatLng(event.latlng)
                 .setContent(html);
             var that = this;
-            this._map.on('popupopen',function(){
-                document.getElementById('layerpopup').onclick=function(e){
-                    if(e.target.tagName == 'A'){
+            this._map.on('popupopen', function () {
+                document.getElementById('layerpopup').onclick = function (e) {
+                    if (e.target.tagName == 'A') {
                         var layer = '';
                         var d = '';
-                        for(var key in that.overlays){
-                            if(e.target.id == that.overlays[key].layer.requestType){
+                        for (var key in that.overlays) {
+                            if (e.target.id == that.overlays[key].layer.requestType) {
                                 layer = that.overlays[key].layer;
                                 d = that.overlays[key].data;
                             }
                         }
 
-                        frs = new fastmap.uikit.SelectObject({highlightLayer:this.highlightLayer,map:this._map});
+                        frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
                         frs.tiles = that.tiles;
                         frs.drawGeomCanvasHighlight(d, e.target.id);
                     }
@@ -145,16 +144,16 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
 
             //弹出popup，这里如果不用settimeout,弹出的popup会消失，后期在考虑优化  王屯+
             var that = this;
-            if(this.overlays &&this.overlays.length > 1){
-                setTimeout(function(){
+            if (this.overlays && this.overlays.length > 1) {
+                setTimeout(function () {
                     that._map.openPopup(that.popup);
-                },200)
+                }, 200)
             }
         }
     },
-     unique:function(arr) {
+    unique: function (arr) {
         var result = [], hash = {};
-        for (var i = 0; i<arr.length; i++) {
+        for (var i = 0; i < arr.length; i++) {
             var elem = arr[i].layer.requestType;
             if (!hash[elem]) {
                 result.push(arr[i]);

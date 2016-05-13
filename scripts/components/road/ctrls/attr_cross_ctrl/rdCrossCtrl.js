@@ -2,18 +2,14 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 var selectApp = angular.module("mapApp");
-<<<<<<< HEAD
 selectApp.controller("rdCrossController", function ($scope) {
-=======
-selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad) {
->>>>>>> webApp/master
     var layerCtrl = fastmap.uikit.LayerController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdcross = layerCtrl.getLayerById('rdcross');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeRdCrossData = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
@@ -35,9 +31,14 @@ selectApp.controller("rdCrossController", function ($scope,$timeout,$ocLazyLoad)
             type:'rdcross',
             style:{}
         })
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.rdCrossForm.$setPristine();
+            });
+        }
     };
     if (objCtrl.data) {
         $scope.initializeRdCrossData();

@@ -1,5 +1,5 @@
 (function() {
-    var _ajaxConstruct = function(url, reqType, callback) {
+    var _ajaxConstruct = function(url, reqType,callback,data) {
         if (document.getElementById) {
             var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
             if (window.XDomainRequest) {
@@ -38,7 +38,11 @@
             }
             x.open(reqType, url);
             x._url = url;
-            x.send()
+            if(reqType =="GET"){
+                x.send()
+            }else {
+                x.send("parameter="+data.parameter +"&access_token="+data.access_token)
+            }
         }
         return x;
     };
@@ -56,11 +60,28 @@
             }
             return fullUrl;
         },
+        postUrl: function(url, param) {
+            var remoteUrl = !App ? "" : (!App.Config ? (App.serviceUrl || "") : (App.Config.serviceUrl || ""));
+
+            var fullUrl = remoteUrl + "/" + url;
+            // if (token) {
+            //     param.access_token = token;
+            //     // fullUrl += "access_token=" + token;
+            // }
+            // if (param) {
+            //     fullUrl += (token ? "&" : "") + "parameter=" + encodeURIComponent(JSON.stringify(param));
+            // }
+            return fullUrl;
+        },
         get: function(url, param, callback) {
-            return _ajaxConstruct(this.getUrl(url, param), "GET", callback);
+            return _ajaxConstruct(this.getUrl(url, param), "GET", callback, null);
         },
         post: function(url, param, callback) {
-            return _ajaxConstruct(this.getUrl(url, param), "POST", callback);
+            var token = !App ? "" : (!App.Config ? (App.accessToken || "") : (App.Config.accessToken || ""));
+            return _ajaxConstruct(this.postUrl(url, param), "POST",callback, {
+                parameter: JSON.stringify(param),
+                access_token:token
+            });
         }
     };
     FM.dataApi.getFromHbase = {

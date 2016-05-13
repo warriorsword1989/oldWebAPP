@@ -352,7 +352,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         this._drawPoint({
                             ctx: ctx,
                             boolPixelCrs:true,
-                            fillColor:'black',
+                            fillColor:style.fillColor,
                             radius:feature.properties.style.radius,
                             geom:geom.coordinates
                         })
@@ -431,20 +431,13 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    if(feature.properties.featType==="ADLINK"){
-                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                            color: 'red',
-                            radius: 3
-                        }, feature.properties);
-                    }else{
-                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                            color: 'rgba(105,105,105,1)',
-                            radius: 3
-                        }, feature.properties);
-                    }
+                    this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                        color: 'rgba(105,105,105,1)',
+                        radius: 3
+                    }, feature.properties);
 
                     //如果属性中有direct属性则绘制箭头
-                    if (feature.properties.direct) {
+                    if (feature.properties.direct&&this._map.getZoom()>14) {
                         var coords = geom.coordinates;
                         var arrowlist = [];
                         for (var index = 0; index < coords.length; index++) {
@@ -460,7 +453,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
 
                     //如果属性中有name属性则绘制名称
-                    if (feature.properties.name) {
+                    if (feature.properties.name&&this._map.getZoom()>14) {
                         this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
                     }
                     break;

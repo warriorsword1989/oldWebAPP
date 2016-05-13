@@ -1,20 +1,22 @@
 /**
  * Created by liwanchong on 2016/1/25.
  */
-var laneConnexityApp = angular.module("mapApp", ['oc.lazyLoad']);
+var laneConnexityApp = angular.module("mapApp");
 laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoad', function ($scope, $ocLazyLoad) {
     var layerCtrl = fastmap.uikit.LayerController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     var rdLink = layerCtrl.getLayerById('referenceLine');
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;
-    var rdlaneconnexity = layerCtrl.getLayerById('rdlaneconnexity');
     $scope.laneConnexity = {};
     $scope.clickFlag = true;
     $scope.excitLineArr = [];
+    $scope.highFeatures = [];
 
 
     var changedDirectObj = {
@@ -75,14 +77,36 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
     eventController.on(eventController.eventTypes.GETLINKID, function (data) {
         if (data.index === 0) {
             $scope.laneConnexity.inLinkPid = parseInt(data.id);
+            $scope.highFeatures.push({
+                id:  $scope.limitRelation.inLinkPid.toString(),
+                layerid: 'referenceLine',
+                type: 'line',
+                style: {}
+            });
+            highRenderCtrl .highLightFeatures = $scope.highFeatures;
+            highRenderCtrl .drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:black;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
         } else if (data.index === 1) {
             $scope.laneConnexity.nodePid = parseInt(data.id);
+            $scope.highFeatures.push({
+                id:  $scope.limitRelation.nodePid.toString(),
+                layerid: 'referenceLine',
+                type: 'rdnode',
+                style: {}
+            });
+            highRenderCtrl.drawHighlight();
             tooltipsCtrl.setStyleTooltip("color:red;");
             tooltipsCtrl.setChangeInnerHtml("已经选择进入点,请选择方向!");
         } else if (data.index > 1) {
             $scope.excitLineArr.push(parseInt(data.id));
+            $scope.highFeatures.push({
+                id:  data.id.toString(),
+                layerid: 'referenceLine',
+                type: 'line',
+                style: {}
+            });
+            highRenderCtrl .drawHighlight();
             $scope.laneConnexity.outLinkPids = $scope.excitLineArr;
             tooltipsCtrl.setChangeInnerHtml("已选退出线,请选择方向或者选择退出线!");
         }

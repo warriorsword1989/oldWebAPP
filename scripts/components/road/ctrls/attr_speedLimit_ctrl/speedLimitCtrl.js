@@ -2,7 +2,7 @@
  * Created by liuzhaoxia on 2015/12/11.
  */
 
-var selectApp = angular.module("mapApp", ['oc.lazyLoad']);
+var selectApp = angular.module("mapApp");
 selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $ocLazyLoad) {
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
@@ -10,29 +10,31 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
     var speedLimit = layerCtrl.getLayerById('speedlimit');
     var eventController = fastmap.uikit.EventController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.carSpeedType=false;
     $scope.initializeData = function () {
         $scope.speedLimitData = objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.speedLimitGeometryData = objectEditCtrl.data.geometry;
-
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLink.highLightFeatures.push({
+        highRenderCtrl.highLightFeatures.push({
 
             id:$scope.speedLimitData.linkPid.toString(),
             layerid:'referenceLine',
             type:'line',
             style:{}
         });
-        highLightLink.highLightFeatures.push({
+        highRenderCtrl.highLightFeatures.push({
             id:$scope.speedLimitData.pid,
             layerid:'speedlimit',
             type:'speedlimit',
             style:{}
         })
-        highLightLink.drawHighlight();
-
+        highRenderCtrl.drawHighlight();
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.speedLimitForm.$setPristine();
+            });
+        }
     }
     if(objectEditCtrl.data){
         $scope.initializeData();
@@ -121,7 +123,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
                     "pid": ""
                 };
                 data.data.log.push(sinfo);
-
+                swal("操作成功",'修改成功！', "success");
                 objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
                 info=data.data.log;
                 speedLimit.redraw();

@@ -49,6 +49,18 @@
         background-color: #333;
     }
 
+    #basicDiv ul > li > div > input.ng-dirty {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
+
     #basicDiv ul > li > div > select {
         color: #F3F6FA;
         margin-left: -3px;
@@ -58,6 +70,17 @@
         border: 1px solid #FFFFFF;
         border-style: ridge;
         background-color: #333;
+    }
+
+    #basicDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
     }
 
     #basicDiv ul > li > div:first-child {
@@ -132,30 +155,31 @@
             <div class="panel panel-default " style="background-color: transparent;border:0;">
                 <div class="panel-heading font-bold" style=" border:0;height: 100%; background-color: transparent;color:#FFF;padding: 10px 15px;">
                     行政区划代表点
-                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adAdminData.adminId}}</span>
+                    <span ng-if="brigeLinkArrays==null" class="label label-info" >{{adAdminData.regionId}}</span>
                 </div>
             </div>
         </form>
     </div>
+    <form name="adAdminForm">
     <ul class="list-group list-group-lg m-b-none">
-        <!--<li class="list-group-item">-->
-            <!--<div class="btn-group btn-group-justified" style="width: 150px" role="group"-->
-                 <!--aria-label="">-->
-                <!--<div class="btn-group" role="group">-->
-                    <!--<button id="liout" type="button" ng-class="{'btn btn-xs selected':isbase==true,'btn btn-xs ':isbase==false}"-->
-                            <!--ng-click="clickBasic(true)">-->
-                        <!--基础属性-->
-                    <!--</button>-->
-                <!--</div>-->
-                <!--<div class="btn-group" role="group"-->
-                     <!--style="border-left: 1px solid #404040;border-right: 1px solid #404040">-->
-                    <!--<button id="lierror" type="button"  ng-class="{'btn btn-xs':isbase==true,'btn btn-xs selected':isbase==false}"-->
-                            <!--ng-click="clickBasic(false)"> 层级关系-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="list-line"></div>-->
-        <!--</li>-->
+        <li class="list-group-item">
+            <div class="btn-group btn-group-justified" style="width: 150px" role="group"
+                 aria-label="">
+                <div class="btn-group" role="group">
+                    <button id="liout" type="button" ng-class="{'btn btn-xs selected':isbase==true,'btn btn-xs ':isbase==false}"
+                            ng-click="clickBasic(true)">
+                        基础属性
+                    </button>
+                </div>
+                <div class="btn-group" role="group"
+                     style="border-left: 1px solid #404040;border-right: 1px solid #404040">
+                    <button id="lierror" type="button"  ng-class="{'btn btn-xs':isbase==true,'btn btn-xs selected':isbase==false}"
+                            ng-click="clickBasic(false)"> 层级关系
+                    </button>
+                </div>
+            </div>
+            <div class="list-line"></div>
+        </li>
         <li class="list-group-item" >
             <div><label class="control-label">行政代码</label></div>
             <div class="inline"><input type="text" ng-model="adAdminData.adminId" />
@@ -194,13 +218,10 @@
             </div>
         </li>
         <li class="list-group-item" >
-            <div>
-                <label class="control-label">人口数量</label>
-            </div>
+            <div><label class="control-label">人口数量</label></div>
             <div class="inline">
-                <select  ng-model="adAdminData.population"
-                         ng-options="value.id as value.label for value in population">
-                </select>
+                <input type="text" ng-model="adAdminData.population" style="width: 140px"/>
+                <label>万人</label>
             </div>
         </li>
     </ul>
@@ -210,12 +231,10 @@
                 <a ng-click="otherAdminName()" style="cursor: pointer;color:#FFF;">行政区划名称</a>
             </div>
         </li>
-    </ul>
-    <ul class="list-group list-group-lg m-b-none">
-        <li class="list-group-item">
-            <div  class="inline" style="text-align: left;width: 120px;">
-                <a ng-click="openTree()" style="cursor: pointer;color:#FFF;">层级关系</a>
+        <li class="list-group-item" ng-if="adAdminData.names.length>0">
+            <div  ng-click="otherAdminName()" style="cursor: pointer;width: 180px"><label style="padding-left: 15px;padding-top: 5px;cursor: pointer;width:160px" class="control-label" ng-repeat="item in adAdminData.names">{{item.name}}</label>
             </div>
         </li>
     </ul>
+    </form>
 </div>

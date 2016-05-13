@@ -7,11 +7,12 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
     var layerCtrl = fastmap.uikit.LayerController();
     var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
     var eventController = fastmap.uikit.EventController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
 
     $scope.divergenceIds = objCtrl.data;
     $scope.initializeData = function () {
+
         //如果是3d分歧则关系类型改为3
         if(shapeCtrl.editFeatType == 3){
             objCtrl.data.details[0].branchType = 3;
@@ -20,6 +21,12 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                $scope.nameBranchForm.$setPristine();
+            });
+        }
+
     }
     if (objCtrl.data) {
         $scope.initializeData();
@@ -243,30 +250,30 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         /*经过线*/
         if (dObj) {
-
-            var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLink.highLightFeatures.push({
-
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.inLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#3A5FCD'
+                }
             });
-            highLightLink.highLightFeatures.push({
-
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.outLinkPid.toString(),
                 layerid:'referenceLine',
                 type:'line',
-                style:{}
+                style:{
+                    color: '#CD0000'
+                }
             });
 
-            highLightLink.highLightFeatures.push({
+            highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.details[0].pid.toString(),
                 layerid:'highSpeedDivergence',
                 type:'highSpeedDivergence',
                 style:{}
             });
-            highLightLink.drawHighlight();
+            highRenderCtrl.drawHighlight();
             /*模式图信息条数*/
             if (dObj.details.length > 0) {
                 if ($scope.diverObj.details[0].arrowCode) {

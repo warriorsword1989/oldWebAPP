@@ -1,7 +1,7 @@
 /**
  * Created by liwanchong on 2016/3/1.
  */
-var infoOfConnexityApp = angular.module("myApp");
+var infoOfConnexityApp = angular.module("mapApp");
 infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -16,6 +16,12 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var hLayer = layerCtrl.getLayerById('highlightlayer');
+
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.infoConnexityForm.$setPristine();
+        });
+    }
     $scope.reachDirOptions = [
         {"id": 0, "label": "0 未调查"},
         {"id": 1, "label": "1 直"},

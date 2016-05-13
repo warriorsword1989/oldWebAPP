@@ -1,11 +1,9 @@
-angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('headCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
+angular.module('app').controller('headCtl', ['$scope', function($scope) {
     $scope.goback = function() {
         var pathName = window.document.location.pathname;
         var appName = pathName.substring(0, pathName.indexOf('/poibase'));
-        alert('pathName:' +pathName)
-        alert('appName:'+appName)
-        if (pathName == appName + "/poibase/projecManage.html") {
-            this.logout();
+        if (pathName == appName + "/poibase/projectManage.html") {
+        	$scope.logout();
         } else {
             window.document.location.href = window.document.referrer;
         }
@@ -14,17 +12,17 @@ angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller(
     	var appPath = window.document.location.pathname;
         var appName = appPath.substring(0, appPath.indexOf('/poibase'));
         window.location.href = appName + "/poibase/login.html";
-        this.clearCookie();
+        $scope.clearCookie();
     };
-    $scope.realName = (function () {
-    	var realName = "";
-    	var arr = document.cookie.split('; ');
-    	for(var i=0;i<arr.length;i++){
-    		if(arr[i].indexOf('FM_USER_NAME') > -1){
-    			realName = arr[i].split('=')[1];
-    			break;
-    		}
-    	}
-    	return realName;
-    }());
+    $scope.clearCookie = function() {
+    };
+    var realName = "";
+    var arr = document.cookie.split('; ');
+    for(var i=0;i<arr.length;i++){
+        if(arr[i].indexOf('FM_USER_NAME') > -1){
+            realName = arr[i].split('=')[1];
+            break;
+        }
+    }
+    $scope.realName = realName;
 }]);

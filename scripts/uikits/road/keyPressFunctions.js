@@ -14,6 +14,7 @@ function keyEvent(ocLazyLoad, scope) {
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var objEditCtrl = fastmap.uikit.ObjectEditController();
             var selectCtrl = fastmap.uikit.SelectController();
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
 
@@ -23,8 +24,6 @@ function keyEvent(ocLazyLoad, scope) {
                 resetPage();
                 map._container.style.cursor = '';
             }
-
-
             //是否包含点
             function _contains(point, components) {
                 var boolExit = false;
@@ -35,7 +34,6 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 return boolExit;
             }
-
             function distance(pointA, pointB) {
                 var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
                 return Math.sqrt(len);
@@ -43,6 +41,7 @@ function keyEvent(ocLazyLoad, scope) {
             function resetPage(data) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
+                    map.currentTool.disable();
                 }
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
@@ -51,6 +50,8 @@ function keyEvent(ocLazyLoad, scope) {
                     map.removeLayer(map.floatMenu);
                     map.floatMenu = null;
                 }
+                highRenderCtrl._cleanHighLight();
+                highRenderCtrl.highLightFeatures.length = 0;
                 editLayer.drawGeometry = null;
                 shapeCtrl.stopEditing();
                 editLayer.bringToBack();
@@ -60,7 +61,6 @@ function keyEvent(ocLazyLoad, scope) {
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
-
             }
 
             function treatmentOfChanged(data, type, op, ctrl, tpl) {
@@ -150,8 +150,10 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         if(param["type"]==="RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
+                            layerCtrl.getLayerById("referenceNode").redraw();
                         }else if(param["type"]==="ADLINK") {
                             layerCtrl.getLayerById("adLink").redraw();
+                            layerCtrl.getLayerById("adnode").redraw();
                         }
                         treatmentOfChanged(data,param["type"],showContent, ctrl, tpl)
                     })
@@ -178,21 +180,6 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
                     })
 
-                /*
-
-                    param = {
-                        "command": "CREATE",
-                        "type": "RDRESTRICTION",
-                        "projectId": Application.projectid,
-                        "data": featCodeCtrl.getFeatCode()
-                    };
-                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("restriction").redraw();
-                        //清空上一次的操作
-                        map.currentTool.disable();
-                        treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功", 'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
-
-                    });*/
                 } else if (shapeCtrl.editType === "pathBreak") {
                     var breakPoint = null,breakPathContent,ctrl,tpl;
                     for (var item in geo.components) {
@@ -223,6 +210,7 @@ function keyEvent(ocLazyLoad, scope) {
                             layerCtrl.getLayerById("referenceNode").redraw();
                         }else if(param["type"]==="ADLINK") {
                             layerCtrl.getLayerById("adLink").redraw();
+                            layerCtrl.getLayerById("adnode").redraw();
                         }
                         treatmentOfChanged(data, param["type"] ,breakPathContent);
                     })
@@ -232,11 +220,11 @@ function keyEvent(ocLazyLoad, scope) {
                     var startPoint = feature.geometry[0],
                         point = feature.point;
                     if (geo) {
-                        if (geo.flag) {
+                        if (!geo.flag) {
                             var directOfLink = {
                                 "objStatus": "UPDATE",
-                                "pid": geo.pid,
-                                "direct": parseInt(geo.orientation)
+                                "pid": selectCtrl.selectedFeatures.id,
+                                "direct": parseInt(selectCtrl.selectedFeatures.direct)
                             };
                             param = {
                                 "type": "RDLINK",
@@ -251,6 +239,7 @@ function keyEvent(ocLazyLoad, scope) {
                                     objEditCtrl.setCurrentObject("RDLINK", objEditCtrl.data);
                                     scope.$apply();
                                     layerCtrl.getLayerById("referenceLine").redraw();
+                                    layerCtrl.getLayerById("referenceNode").redraw();
                                 }
 
                             });
@@ -319,8 +308,11 @@ function keyEvent(ocLazyLoad, scope) {
                         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                             if(param["type"]==="RDLINK") {
                                 layerCtrl.getLayerById("referenceLine").redraw();
+                                layerCtrl.getLayerById("referenceNode").redraw();
                             }else if(param["type"]==="ADLINK") {
                                 layerCtrl.getLayerById("adLink").redraw();
+                                layerCtrl.getLayerById("adface").redraw();
+                                layerCtrl.getLayerById("adnode").redraw();
                             }
                             treatmentOfChanged(data, param["type"], repairContent,ctrl,tpl);
 
@@ -342,8 +334,11 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.saveNodeMove(JSON.stringify(param), function (data) {
                        if( param ["type"] === "RDNODE") {
                            layerCtrl.getLayerById("referenceLine").redraw();
+                           layerCtrl.getLayerById("referenceNode").redraw();
                        }else if(param ["type"] === "ADNODE") {
                            layerCtrl.getLayerById("adLink").redraw();
+                           layerCtrl.getLayerById("adnode").redraw();
+                           layerCtrl.getLayerById("adface").redraw();
                        }
                         treatmentOfChanged(data,param ["type"] , "移动link成功");
                     })
@@ -370,8 +365,8 @@ function keyEvent(ocLazyLoad, scope) {
                             layerCtrl.getLayerById("referenceNode").redraw();
                         }else{
                             layerCtrl.getLayerById("adLink").redraw();
+                            layerCtrl.getLayerById("adnode").redraw();
                         }
-
                         treatmentOfChanged(data, param["type"], "插入点成功",ctrl,tpl);
                     })
                 } else if (shapeCtrl.editType === "RDBRANCH") {
@@ -431,6 +426,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         layerCtrl.getLayerById("adface").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功", 'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
                 }
@@ -442,7 +438,10 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": selectCtrl.selectedFeatures
                     }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("adface").redraw();
+                        layerCtrl.getLayerById("rdGsc").redraw();
+                        layerCtrl.getLayerById("referenceLine").redraw();
+                        highRenderCtrl._cleanHighLight();
+                        highRenderCtrl.highLightFeatures.length = 0;
                         treatmentOfChanged(data, "RDGSC", "创建RDGSC成功", 'attr_rdgsc_ctrl/rdGscCtrl', 'attr_gsc_tpl/rdGscTpl.html');
                     })
                 }else if(shapeCtrl.editType === "addAdAdmin"){

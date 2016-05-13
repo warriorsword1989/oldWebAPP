@@ -2,7 +2,7 @@
  * 其他属性中的普通限速
  * Created by liwanchong on 2016/3/3.
  */
-var oridinarySpeedApp = angular.module("mapApp", []);
+var oridinarySpeedApp = angular.module("mapApp");
 oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -11,7 +11,11 @@ oridinarySpeedApp.controller("ordinarySpeedController", function ($scope) {
     $scope.speedAndDirect=shapeCtrl.shapeEditorResult.getFinalGeometry();
     $scope.speedLimitsData = objCtrl.data.speedlimits;
     $scope.roadlinkData = objCtrl.data;
-
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            $scope.ordinarySpeedForm.$setPristine();
+        });
+    }
 
     for(var i= 0,len=$scope.speedLimitsData.length;i<len;i++) {
         if($scope.speedLimitsData[i]["rowId"]===$scope.roadlinkData["oridiRowId"]) {

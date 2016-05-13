@@ -4,135 +4,9 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         attributionControl: false,
         zoomControl: false
     }).setView([40.012834, 116.476293], 17);
+
     //加载各个图层
-    $scope.loadLayers = function (map) {
-        var qqLayer = new L.TileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
-            layername: '腾讯',
-            subdomains: ["rt0", "rt1", "rt2", "rt3"],
-            tms: true,
-            maxZoom: 20,
-            selected: false,
-            id: 'qqLayer',
-            visible: true,
-            added: true,
-            singleselect: true,
-            zIndex: 2
-        });
-        map.addLayer(qqLayer);
-        var drawnItems = new L.layerGroup();
-        drawnItems.id = "drawnItems";
-        map.addLayer(drawnItems);
-        var polygonGroup = new L.layerGroup();
-        polygonGroup.id = "regionLayer";
-        map.addLayer(polygonGroup);
-        var navBaseLayer = new L.layerGroup();
-        navBaseLayer.id = "navBaseLayer";
-        navBaseLayer.name = "道路和测线";
-        map.addLayer(navBaseLayer);
-        var mainPoiLayer = new L.layerGroup();
-        mainPoiLayer.id = "mainPoiLayer";
-        map.addLayer(mainPoiLayer);
-        var parentPoiGroup = new L.layerGroup();
-        parentPoiGroup.id = "parentPoiLayer";
-        map.addLayer(parentPoiGroup);
-        var childPoiLayer = new L.layerGroup();
-        childPoiLayer.id = "childPoiLayer";
-        map.addLayer(childPoiLayer);
-        var checkResultLayer = new L.layerGroup();
-        checkResultLayer.id = "checkResultLayer";
-        map.addLayer(checkResultLayer);
-        var rectChooseLayer = new L.layerGroup();
-        rectChooseLayer.id = "rectChooseLayer";
-        map.addLayer(rectChooseLayer);
-        var poiEditLayer = new L.layerGroup();
-        poiEditLayer.id = "poiEditLayer";
-        map.addLayer(poiEditLayer);
-        var overLayers = {
-            "道路": navBaseLayer,
-            "腾讯": qqLayer
-        };
-        L.control.layers('', overLayers).addTo(map);//右上角的图层
-        L.control.zoom({//左上角的zoom
-            position: 'topleft',
-            zoomInTitle: '放大',
-            zoomOutTitle: '缩小'
-        }).addTo(map);
-    };
-
-    //获取地图边界
-    $scope.getMapBounds = function (map) {
-        var bounds = map.getBounds(),
-            southWest = bounds.getSouthWest(),
-            southEast = bounds.getSouthEast(),
-            northWest = bounds.getNorthWest(),
-            northEast = bounds.getNorthEast();
-        var pointsArray = [];
-        var ppArray = [];
-        ppArray.push([northWest.lng + " " + northWest.lat]);
-        ppArray.push([southWest.lng + " " + southWest.lat]);
-        ppArray.push([southEast.lng + " " + southEast.lat]);
-        ppArray.push([northEast.lng + " " + northEast.lat]);
-        ppArray.push([northWest.lng + " " + northWest.lat]);
-        pointsArray.push(ppArray);
-        return ppArray;
-    };
-    $scope.loadLayers(pMap);
-
-    //初始化线型
-    $scope.initLines = function () {
-        var lineList = {};
-        lineList.line1 = {
-            color: "#FFA8FF",
-            opacity: 0.5,
-            weight: 2
-        },
-            lineList.line2 = {
-                color: "#F0DFFF",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line3 = {
-                color: "#FF8F8F",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line4 = {
-                color: "#FFD247",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line6 = {
-                color: "#99E865",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line7 = {
-                color: "#D1A87F",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line8 = {
-                color: "#E7E7BB",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line9 = {
-                color: "#232323",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line10 = {
-                color: "#8FE3FF",
-                opacity: 0.5,
-                weight: 2
-            },
-            lineList.line99 = { //测线
-                color: "#2F39C8",
-                opacity: 0.5,
-                weight: 2
-            }
-        return lineList;
-    };
+    FM.leafletUtil.loadLayers(pMap);
 
     //将wkt格式的线分割成点
     $scope.splitPolyline = function (wkt, strline) {
@@ -147,38 +21,37 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
 
     // 分配线型
     $scope.getLineStyle = function (kind) {
-        var lineList = $scope.initLines();
         var lstype;
         switch (kind) {
             case 1:
-                lstype = lineList.line1;
+                lstype = FM.lineStyles.line1;
                 break;
             case 2:
-                lstype = lineList.line2;
+                lstype = FM.lineStyles.line2;
                 break;
             case 3:
-                lstype = lineList.line3;
+                lstype = FM.lineStyles.line3;
                 break;
             case 4:
-                lstype = lineList.line4;
+                lstype = FM.lineStyles.line4;
                 break;
             case 6:
-                lstype = lineList.line6;
+                lstype = FM.lineStyles.line6;
                 break;
             case 7:
-                lstype = lineList.line7;
+                lstype = FM.lineStyles.line7;
                 break;
             case 8:
-                lstype = lineList.line9;
+                lstype = FM.lineStyles.line9;
                 break;
             case 10:
-                lstype = lineList.line10;
+                lstype = FM.lineStyles.line10;
                 break;
             case 99:
-                lstype = lineList.line99;
+                lstype = FM.lineStyles.line99;
                 break;
             default:
-                lstype = lineList.line10;
+                lstype = FM.lineStyles.line10;
                 break;
         }
         return lstype;
@@ -203,7 +76,7 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
     //加载地图的道路数据
     $scope.loadNavBaseData = function () {
         FM.leafletUtil.clearMapLayer(pMap,"navBaseLayer");
-        var mapBounds = $scope.getMapBounds(pMap);
+        var mapBounds = FM.leafletUtil.getMapBounds(pMap);
         var cond = "POLYGON((" + mapBounds.join(",") + "))";
         FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data) {
             $scope.showLinkInMap("navBaseLayer", data, "rdLink");
@@ -215,152 +88,269 @@ angular.module('app').controller('poiMapCtl', function ($scope) {
         document.getElementById('zoomLevelBar').innerHTML = "缩放等级:" + pMap.getZoom();
         if (pMap.getZoom() > 13) {
             $scope.loadNavBaseData();
+        }else {
+            FM.leafletUtil.clearMapLayer(pMap,"navBaseLayer");
         }
     };
 
+    //注册地图的moveend事件
     pMap.on("moveend", $scope.loadNewRoad);
 
-    //重画引导坐标
-    $scope.repeatGuidPoint = function ($event) {
-        FM.leafletUtil.removeLine(pMap,e.target.id.replace("-@-gp","-@-gl"));
-        var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp"));
-        $scope.drawNewline(locPoint,$event.target);
+    //将点的icon改变并高亮显示
+    $scope.highlightFeatureInMap = function (feature) {
+        if(FM.mapConf.pSelectMarker){
+            FM.mapConf.pSelectMarker.setIcon(FM.iconStyles.dotIcon);
+            FM.mapConf.pSelectMarker.update();
+            feature.setIcon(FM.iconStyles.blueIcon);
+            feature.openPopup();
+            feature.update();
+            FM.mapConf.pSelectMarker= feature;
+        }else {
+            feature.setIcon(FM.iconStyles.blueIcon);
+            feature.openPopup();
+            feature.update();
+            FM.mapConf.pSelectMarker= feature;
+        }
     };
 
-    //找道路上距离最近的点
-    $scope.closestPoint = function ($event) {
-        var minDis=50;
-        var p0= L.point();
-        var allLine=FM.leafletUtil.getLayerById(pMap,"navBaseLayer").getLayers();
-        var line = FM.leafletUtil.getLayerById(pMap,$event.target.id.replace("-@-gp","-@-gl"));
-        for(var i=0;i<allLine.length;i++){
-            for(var j=0;j<allLine[i]._originalPoints.length-1;j++){
-                var p1 = L.point(line._originalPoints[1].x,line._originalPoints[1].y);
-                var p2=L.point(allLine[i]._originalPoints[j].x,allLine[i]._originalPoints[j].y);
-                var p3=L.point(allLine[i]._originalPoints[j+1].x,allLine[i]._originalPoints[j+1].y);
-                var ll= L.LineUtil.pointToSegmentDistance(p1,p2,p3);
-                //console.log(ll);
-                if(ll<=minDis){
-                    var p1 = L.point(line._latlngs[1].lat,line._latlngs[1].lng);
-                    var p2=L.point(allLine[i]._latlngs[j].lat,allLine[i]._latlngs[j].lng);
-                    var p3=L.point(allLine[i]._latlngs[j+1].lat,allLine[i]._latlngs[j+1].lng);
-                    var point= L.LineUtil.closestPointOnSegment(p1,p2,p3);
-                    minDis=ll;
-                    p0=point;
-                }
+    //选择同位点
+    $scope.selectSamePoi = function ($event) {
+        var pois = [];
+        pois.push($event.target);
+        for (var key in FM.layerConf) {
+            if (key != $event.target.parentLayer) {
+                var layers = FM.leafletUtil.getLayerById(key);
+                pois.concat(layers._layers);
             }
         }
-        return p0;
-    };
-
-    //设置最近的点并画link
-    $scope.setClosestPoint = function ($event) {
-        var point = $scope.closestPoint($event);
-        if(point){
-            FM.leafletUtil.removeLine(pMap,$event.target.id.replace("-@-gp","-@-gl"));
-            var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp"));
-            var guidePoint = L.marker(point,{
-                icon:FM.iconStyles.pointIcon,
-                draggable:true
-            }).on("drag",$scope.repeatGuidPoint).on("dragend",$scope.setClosestPoint);
-            guidePoint.id = $event.target.id;
-            guidePoint.name="guide-point";
-            $scope.drawNewline(locPoint,guidePoint);
+        var data = [];
+        for (var i = 0; i < pois.length; i++) {
+            if (FM.leafletUtil.isSamePoint($event.target._latlng, pois[i]._latlng)) {
+                pois[i].parentLayer = $event.target.parentLayer;
+                data.push(pois[i]);
+            }
         }
-        else{
-            FM.leafletUtil.removeLine(pMap,$event.target.id.replace("-@-gp","-@-gl"));
-            var locPoint = FM.leafletUtil.getLayerById(pMap,$event.target.id.split("-@-gp"));
-            $scope.drawNewline(locPoint,pGuideGeo);
-            // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
+        if (data.length == 1) {
+            $scope.highlightFeatureInMap(data[0]);
+        } else if (data.length > 1) {
+            $scope.$emit("samePois", data);//将同位点数据抛给父页面，显示在popover中
         }
     };
 
-    //画引导点
-    $scope.createGuidePoint = function (poiFid, guide) {
-        var fid = poiFid + "-@-gp";
-        var point =new L.LatLng(guide.latitude,guide.longitude );
-        var guidePoint = L.marker(point,{
-            icon:FM.iconStyles.pointIcon,
-            draggable:true
-        }).on("drag",$scope.repeatGuidPoint).on("dragend",$scope.setClosestPoint);
-        guidePoint.id = fid;
-        guidePoint.name="guide-point";
-        return guidePoint;
-    };
-
-    //画引导线
-    $scope.drawGuideLine = function (fid,points) {
-        var guideLine=L.polyline(points,{
-            color: 'red',
-            weight: 3,
-            dashArray:"5, 10"
-        }).addTo(pMap);
-        guideLine.id = fid;
-        guideLine.name="guide-line";
-        return guideLine;
-    };
-
-    //画引导线
-    $scope.drawNewline = function (loc,guide) {
-        var newLine=[];
-        newLine.push([loc.getLatLng().lat,loc.getLatLng().lng]);
-        newLine.push([guide.getLatLng().lat,guide.getLatLng().lng]);
-        FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer($scope.drawGuideLine(loc.id+"-@-gl",newLine));
-    };
-
-    //重新画线
-    $scope.repeatDraw = function ($event) {
-        FM.leafletUtil.removeLine(pMap,$event.target.id+"-@-gl");
-        var guidePoint = FM.leafletUtil.getLayerById(pMap,$event.target.id+"-@-gp");
-        $scope.drawNewline($event.target,guidePoint);
-    };
-
-    //创建显示坐标
-    $scope.createPoiFeature = function (poiJson) {
+    //创建一个能点击的同位点
+    $scope.createPoiPointFeature = function (poiJson,iconName) {
         var point =new L.LatLng(poiJson.location.latitude,poiJson.location.longitude );
-        var poiFeature = L.marker(point,{
-                draggable: true,
+        var iconType = FM.iconStyles.redIcon;
+        if(FM.iconStyles.hasOwnProperty(iconName)){
+            iconType = FM.iconStyles[iconName];
+        }
+        var poiMarker = L.marker(point,
+            { draggable: false,
                 opacity: 0.8,
                 riseOnHover: true,
                 riseOffset:300,
                 rotate: false,
                 angle:20,
-                icon:FM.iconStyles.redIcon
+                icon:iconType
             }
-        ).bindPopup('<span style="display:block;width:100px;text-align:center">' + poiJson.name + '</span>').openPopup().on("drag",$scope.repeatDraw).on("dragend",$scope.completeDraw);
-        poiFeature.id=poiJson.fid;
-        poiFeature.name="poi";
-        poiFeature.attributes = poiJson;
-        return poiFeature;
+        ).bindPopup('<span style="display:block;width:100px;text-align:center">' + poiJson.name + '</span>').on("click",$scope.selectSamePoi);
+        poiMarker.id = poiJson.fid;
+        poiMarker.type = "poi";
+        poiMarker.attributes = poiJson;
+        return poiMarker;
     };
 
-    //画引导线
-    $scope.createGuideLine = function (poiFid, location, guide) {
-        var fid = poiFid + "-@-gl";
-        var linePoints=[];
-        var spoint =new L.LatLng(location.latitude,location.longitude );
-        var epoint =new L.LatLng(guide.latitude,guide.longitude );
-        linePoints.push(spoint);
-        linePoints.push(epoint);
-        return $scope.drawGuideLine(fid,linePoints);
-    }
+    //将点显示在地图上
+    $scope.showPoisInMap = function (layerId, poiArray) {
+        for (var i = 0; i < poiArray.length; i++) {
+            var poiLayer = $scope.createPoiPointFeature(poiArray[i],"dotIcon");
+            poiLayer.parentLayer = layerId;
+            FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
+        }
+    };
 
+    //创建视野范围内其他的poi点
+    $scope.loadTaskPoiData = function (projectId,featcode) {
+        var mapBounds = FM.leafletUtil.getMapBounds(pMap);
+        var cond = {
+            loc: {
+                "$geoWithin": {
+                    "$geometry": {
+                        "type": "Polygon",
+                        "coordinates": mapBounds
+                    }
+                }
+            }
+        };
+        var param = {
+            projectId: projectId,
+            condition: cond,
+            phase:"4",
+            featcode: featcode,
+            type: "snapshot",
+            pagesize: 0
+        };
+        FM.dataApi.ajax.post("editsupport/poi/query",param,function (data) {
+            if (data.errcode == 0) {
+                FM.leafletUtil.getLayerById(pMap,"mainPoiLayer").clearLayers();
+                $scope.showPoisInMap("mainPoiLayer",data.data.data);
+            } else {
+                console.log("wrong request!")
+            }
+        })
+    };
+
+    $scope.loadNavBar = function (map) {
+        L.control.navbar().addTo(map);
+    };
+
+    $scope.searchPoiInMap = function (cond,data, callback) {
+        var param = {
+            projectId: data.projectId,
+            condition: cond,
+            phase:"4",
+            featcode: data.featCode,
+            type: "snapshot",
+            pagesize: 0
+        };
+        FM.dataApi.ajax.post("editsupport/poi/query",param,function (data) {
+            var ret;
+            if (data.errcode == 0) {
+                ret = data.data.data;
+            } else {
+                ret = [];
+                console.log("wrong request!")
+            }
+            if (callback) {
+                callback(ret);
+            }
+        });
+    };
+    
+    $scope.loadRelatedLayer = function (layerId, dataArray, title) {
+        console.log("aaaaaaa");
+    };
+
+    $scope.initDraw = function (map, data) {
+        // Set the title to show on the polygon button
+        L.drawLocal.draw.toolbar.buttons.marker = '打点';
+        L.drawLocal.draw.toolbar.buttons.polygon = '画多边形';
+        //L.drawLocal.draw.toolbar.buttons.polyline = '画线';
+        L.drawLocal.draw.toolbar.buttons.rectangle = '画矩形';
+        //L.drawLocal.draw.toolbar.buttons.circle = '画圆';
+
+
+        var drawControl = new L.Control.Draw({
+            position: 'topleft',
+            draw: {
+                polyline: false,
+                polygon: {
+                    allowIntersection: false,
+                    showArea: true,
+                    drawError: {
+                        color: '#b00b00',
+                        timeout: 1000
+                    },
+                    shapeOptions: {
+                        color: '#bada55'
+                    }
+                },
+                circle: false,
+                marker: {
+                    draggable: true
+                }
+            }
+        });
+        map.addControl(drawControl);
+        map.on('draw:created', function (e) {
+            var type = e.layerType,
+                layer = e.layer;
+            layer.id = "drawlayer";
+            if (type === 'marker') {
+                layer.bindPopup('新增点');
+                layer.options.draggable = true;
+            }
+            else if (type === "rectangle" || type === 'polygon') {
+                FM.leafletUtil.getLayerById(pMap, "drawnItems").clearLayers();
+                var pointsArray = [];
+                var ppArray = [];
+                for (var i = 0; i < layer._latlngs.length; i++) {
+                    pointsArray.push([layer._latlngs[i].lng, layer._latlngs[i].lat]);
+                }
+                pointsArray.push([layer._latlngs[0].lng, layer._latlngs[0].lat]);
+                ppArray.push(pointsArray);
+                var cond = {
+                    "loc": {
+                        "$geoWithin": {
+                            "$geometry": {
+                                "type": "Polygon",
+                                "coordinates": ppArray
+                            }
+                        }
+                    }
+                };
+                $scope.searchPoiInMap(cond, data, function (data) {
+                    if (data.length == 0) {
+                        FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
+                    } else {
+                        $scope.showPoisInMap("parentPoiLayer", data);
+                    }
+                });
+            }
+            FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").addLayer(layer);
+        });
+    };
+
+    //接收基础的poi信息并显示
     $scope.$on("loadup_poiMap",function (event, data) {
-        console.log("_________________________");
-        var editPoi = $scope.createPoiFeature(data);
-        editPoi.parentLayer = "poiEditLayer";
-        FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(editPoi);
-        editPoi.openPopup();
-        pMap.setView([editPoi._latlng.lat,editPoi._latlng.lng],17);
-        if (data.guide) {
-            var guidePoint = $scope.createGuidePoint(data.fid, data.guide);
-            pGuideGeo = guidePoint;
-            FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer( guidePoint);
-            var guideLine = $scope.createGuideLine(data.fid, data.location, data.guide);
-            FM.leafletUtil.getLayerById(pMap,"poiEditLayer").addLayer(guideLine);
+        FM.mapConf.pPoiJson = data.data;
+        FM.leafletUtil.clearMapLayer(pMap,"poiEditLayer");
+        if(data.data.lifecycle == 1){
+            FM.leafletUtil.createEneditablePoiInMap(data.data,"poiEditLayer","redIcon");
         }else {
-            console.log("guide missing");
+            FM.leafletUtil.createEditablePoiInMap(data.data,"poiEditLayer","redIcon");
+        }
+        // $scope.loadTaskPoiData(data.projectId,data.featcode);
+        $scope.loadNavBar(pMap);
+        $scope.initDraw(pMap,data);
+    });
+
+    //接收父信息并显示
+    $scope.$on("showParentPoiInMap",function (event, data) {
+        FM.leafletUtil.clearMapLayer(pMap,"parentPoiLayer");
+        if(data.lifecycle == 1){
+            FM.leafletUtil.createEneditablePoiInMap(data,"parentPoiLayer","blueIcon");
+        }else if(data.lifecycle == 2||data.lifecycle == 3) {
+            FM.leafletUtil.createEditablePoiInMap(data,"parentPoiLayer","blueIcon");
+        }else {
+            console.log("wrong data !");
         }
     });
+
+    //接收子poi信息并显示
+    $scope.$on("showChildrenPoisInMap",function (event, datas) {
+        FM.leafletUtil.clearMapLayer(pMap,"childPoiLayer");
+        for(var i = 0;i<datas.length;i++){
+            if(datas[i].lifecycle == 1){
+                FM.leafletUtil.createEneditablePoiInMap(datas[i],"childPoiLayer","greenIcon");
+            }else if(datas[i].lifecycle == 2||datas[i].lifecycle == 3) {
+                FM.leafletUtil.createEditablePoiInMap(datas[i],"childPoiLayer","greenIcon");
+            }else {
+                console.log("wrong datas !");
+            }
+        }
+    });
+
+    //高亮显示指定的子poi
+    $scope.$on("highlightChildInMap",function (event, poiFid) {
+        var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
+        marker.openPopup();
+    });
+
+    //接收同位点信息并显示
+    $scope.$on("showSamePoiInMap",function (event, data) {
+        $scope.highlightFeatureInMap(data);
+    });
+
 
 });

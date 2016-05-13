@@ -1,8 +1,8 @@
 /**
  * Created by chenxiao on 2016/4/21.
  */
-FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
-    dataModelType: "IX_POI",
+FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
+    geoLiveType: "IX_POI",
     initialize: function(data) {
         this.setAttributes(data);
     },
@@ -146,7 +146,7 @@ FM.dataApi.IxPoi = FM.dataApi.DataModel.extend({
         data["relateChildren"] = this.relateChildren;
         data["lifeCycle"] = this.lifeCycle;
         data["auditStatus"] = this.auditStatus;
-        data["fressness"] = this.fressness;
+        data["freshnessVerification"] = this.freshnessVerification;
         data["rawFields"] = this.rawFields;
         data["adminCode"] = this.adminCode;
         data["lifecycle"] = this.lifecycle;

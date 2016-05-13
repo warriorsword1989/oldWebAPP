@@ -41,6 +41,17 @@
         background-color: #333;
     }
 
+    #namesOfLinkDiv ul > li > div > input.ng-dirty {
+        color: #F3F6FA;
+        width:170px;
+        margin-left: -3px;
+        padding-left: 5px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
     #namesOfLinkDiv ul > li > div > select {
         color: #F3F6FA;
         margin-left: -3px;
@@ -49,6 +60,16 @@
         border: 1px solid #FFFFFF;
         border-style: ridge;
         background-color: #333;
+    }
+
+    #namesOfLinkDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
     }
 
     #namesOfLinkDiv ul > li > div:first-child {
@@ -161,6 +182,7 @@
 
 </style>
 <div ng-controller="namesOfLinkController" id="namesOfLinkDiv">
+    <form name="nameDetailForm">
     <ul  class="list-group list-group-lg m-b-none" style="margin-bottom: 5px">
         <li class="list-group-item">
             <div><label class="control-label">名称组号</label></div>
@@ -260,5 +282,5 @@
             <div class="inline"><input type="text" ng-model="oridiData.inputTime" disabled/></div>
         </li>
     </ul>
-
+    </form>
 </div>

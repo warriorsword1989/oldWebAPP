@@ -42,11 +42,31 @@
         background-color: #333;
     }
 
+    #traffiLimitedDiv ul > li > div > input.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
+    }
+
     #traffiLimitedDiv ul > li > div > select {
         color: #F3F6FA;
         background-color: #000;
         margin-left: -3px;
         border: 1px none;
+    }
+
+    #traffiLimitedDiv ul > li > div > select.ng-dirty {
+        color: #F3F6FA;
+        margin-left: -3px;
+        width:170px;
+        border-radius: 4px;
+        margin-top: 5px;
+        border: 1px ridge #FFFFFF;
+        background-color: #307BA3;
     }
 
     #traffiLimitedDiv ul > li > div:first-child {
@@ -102,6 +122,7 @@
             </div>
         </form>
     </div>
+    <form name="restricOrdinaryForm">
     <ul  class="list-group list-group-lg m-b-none">
         <li class="list-group-item">
             <div ng-repeat="item in rdRestrictData.details" class="inline">
@@ -175,5 +196,5 @@
         </li>
 
     </ul>
-
+    </form>
 </div>

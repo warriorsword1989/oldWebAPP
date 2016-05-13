@@ -1,7 +1,7 @@
 /**
  * Created by liuzhaoxia on 2016/3/31.
  */
-var oridinaryInfoApp = angular.module("myApp", []);
+var oridinaryInfoApp = angular.module("myApp",[]);
 oridinaryInfoApp.controller("carController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data;

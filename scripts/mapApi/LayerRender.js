@@ -328,7 +328,7 @@ fastmap.mapApi.LayerRender = {
     _drawArrow: function (ctx, direct, data) {
         var g = ctx.canvas.getContext('2d');
         g.linewidth = 2;
-        g.strokeStyle = this.directColor;
+        g.strokeStyle = "#ff0000";
         if (direct == 0 || direct == 1) {
             return;
         }
