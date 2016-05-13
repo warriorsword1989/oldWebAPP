@@ -44,10 +44,10 @@
 
 #info {
     position: absolute;
-    top: 70px;
+    top: 55px;
     right: 15px;
     width: 300px;
-    z-index: 999;
+    z-index: 10;
     background-color: white;
 }
 
@@ -151,4 +151,18 @@
     right: 0;
     top: 0;
     opacity: 0;
+}
+.nowrap-text {
+    white-space: nowrap;
+}
+
+/*刘杨新增
+for 地图上的两个按钮*/
+.leaflet-control-navbar-reset {
+    background-image: url(../../images/poi/icon/undo.png);
+}
+
+.leaflet-control-navbar-center {
+    background-image: url(../../images/poi/icon/location.png);
+    /*background-image: url("/WebApp/images/poi/icon/location.png");*/
 }

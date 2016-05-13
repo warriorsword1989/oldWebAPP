@@ -13,7 +13,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var rdnode = layerCtrl.getLayerById('referenceNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
-    var hLayer = layerCtrl.getLayerById("highlightlayer");
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
@@ -23,8 +23,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
 
         }
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLink._cleanHightlight();
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
@@ -153,6 +153,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
     $scope.selectObjCallback = function (data) {
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         var ctrlAndTmplParams = {
             propertyCtrl: "",
             propertyHtml: ""
@@ -183,7 +185,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'class': "feaf",
                         callback: $scope.modifyTools
                     },  {
-                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
                         'title': "修改道路方向",
                         'type': 'TRANSFORMDIRECT',
                         'class': "feaf",
@@ -196,6 +198,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         callback: $scope.modifyTools
                     }]
                 }
+
+                if(L.Browser.touch){
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function(){
+                            var e = $.Event("keydown");
+                            e.keyCode=32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+                
                 selectCtrl.onSelected({
                     point: data.point
                 });
@@ -217,6 +234,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         callback: $scope.modifyTools
                     }]
                 }
+
+                if(L.Browser.touch){
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function(){
+                            var e = $.Event("keydown");
+                            e.keyCode=32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+
                 ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);

@@ -480,18 +480,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     $scope.eventController.fire($scope.eventController.eventTypes.SELECTBYATTRIBUTE, {feather: data});
                     if (pItemId === "1101") {//限速
-                        //map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
-                        var Limit={
-                            "loadType":"tipsTplContainer",
-                            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
-                            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
-                            callback:function(){
-                                    $scope.getFeatDataCallback(data,data.f.id,"RDLINK","components/road/ctrls/attr_link_ctrl/rdLinkCtrl","../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
-                            }
-                        }
-                        $scope.$emit("transitCtrlAndTpl", Limit);
-
-
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                     } else if (pItemId === "1201") {//道路种别
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
@@ -518,6 +508,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                     } else if (pItemId === "1510") {//桥1510
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 19});
+
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -599,6 +598,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 19});
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -613,7 +620,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                     }
                     else if(pItemId==="1501") {//上下线分离
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        if(data.geo!=null){
+                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        }else{
+                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        }
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -674,7 +685,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                             points.push(point);
                         }
-                        map.panTo({lat: points[0].y, lon: points[0].x});
+                       /* map.panTo({lat: points[0].y, lon: points[0].x});*/
                         var line = fastmap.mapApi.lineString(points);
                         selectCtrl.onSelected({geometry: line, id: $scope.dataId});
                     }

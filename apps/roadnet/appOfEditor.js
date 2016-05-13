@@ -27,6 +27,9 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             $scope.subAttrTplContainerSwitch(false);
             $scope.attrTplContainer = '../../scripts/components/road/tpls/blank_tpl/blankTpl.html';
             objectCtrl.setOriginalData(null);
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
+            highRenderCtrl._cleanHighLight();
+            highRenderCtrl.highLightFeatures.length = 0;
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
         }, data.errmsg, "error");
 
@@ -322,6 +325,7 @@ function appInit() {
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var featCode = new fastmap.uikit.FeatCodeController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var highLayerCtrl = new fastmap.uikit.HighRenderController();
     var eventCtrl = new fastmap.uikit.EventController();
     var speedLimit = layerCtrl.getLayerById("speedlimit")
     tooltipsCtrl.setMap(map, 'tooltip');

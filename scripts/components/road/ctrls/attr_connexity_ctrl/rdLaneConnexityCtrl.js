@@ -10,7 +10,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     var layerCtrl = fastmap.uikit.LayerController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var rdConnexity = layerCtrl.getLayerById("rdlaneconnexity");
 
     var linksObj = {};//存放需要高亮的进入线和退出线的id
@@ -83,17 +83,13 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var reg = new RegExp("/\<|\>|\&/g");
         $scope.lanesData = objCtrl.data;
         $scope.lanesArr = $scope.lanesData["laneInfo"].split(",");
-
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
                 $scope.rdLaneConnexityForm.$setPristine();
             });
         }
-
-
         //高亮进入线和退出线
         var highLightFeatures = [];
-
         highLightFeatures.push({
             id:objCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
@@ -120,11 +116,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             type:'rdlaneconnexity',
             style:{}
         });
-
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 
         for (var j = 0, lenJ = $scope.lanesArr.length; j < lenJ; j++) {
             if (j === 0 || j === lenJ - 1) {

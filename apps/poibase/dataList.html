@@ -10,6 +10,10 @@
         <link href="../../scripts/libs/ng-table/ng-table.min.css" rel="stylesheet" type="text/css" />
         <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
         <link href="../../styles/poi/sideMenu.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
+        <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
+        <script type="text/javascript" src="../../scripts/dataApi/common/dataApi-ajax.js"></script>
+        <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
         <script type="text/javascript" data-main="../../scripts/uikits/poibase/dataList-require" src="../../scripts/libs/require/require.js"></script>
     </head>
     <body ng-controller="DataListCtl">
@@ -22,7 +26,7 @@
                     </div>
                 </div>
                 <div id="jobContentContainer" class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-container">
-                    <div class="content-box" style="width:100%;min-height:500px;">
+                    <div class="content-box" style="width:100%;min-height:500px;" ng-include="generalDataListTpl">
                         
                     </div>
                 </div>
