@@ -130,6 +130,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
     },
 
     onMouseMove: function (event) {
+        console.log('-------------------'+this.clickcount);
         this.container.style.cursor = 'crosshair';
         var layerPoint = event.layerPoint;
 

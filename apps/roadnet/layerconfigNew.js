@@ -831,6 +831,7 @@ function transformData(data) {
 
                 //车道限速
                 else if (type == 4){
+
                     var limitSpeed = item.m.b.split(",")[0];
                     var laneSpeed = item.m.b.split(",")[1];
                     iconName = '../../images/road/1101/lane_speedlimit' + '.svg';
@@ -1458,7 +1459,7 @@ function transformDataForTips(data) {
                                 iconName: '../../images/road/tips/1510/0.svg',
                                 row: 0,
                                 column: 1,
-                                location: obj['geometry']['coordinates'],
+                                location: obj['geometry']['coordinates']
                             })
                         );
                     }else {
@@ -1468,7 +1469,7 @@ function transformDataForTips(data) {
                                 iconName: '../../images/road/tips/1510/0.svg',
                                 row: 0,
                                 column: 1,
-                                location: obj['geometry']['coordinates'],
+                                location: obj['geometry']['coordinates']
                             })
                         );
                     }
@@ -1483,7 +1484,7 @@ function transformDataForTips(data) {
                                 iconName: '../../images/road/tips/1504/0.svg',
                                 row: 0,
                                 column: 1,
-                                location: obj['geometry']['coordinates'],
+                                location: obj['geometry']['coordinates']
                             })
                         );
                     }else {
@@ -1493,7 +1494,7 @@ function transformDataForTips(data) {
                                 iconName: '../../images/road/tips/1504/0.svg',
                                 row: 0,
                                 column: 1,
-                                location: obj['geometry']['coordinates'],
+                                location: obj['geometry']['coordinates']
                             })
                         );
                     }
