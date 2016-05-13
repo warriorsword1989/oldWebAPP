@@ -546,6 +546,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", HighSpeed);
                         //$scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                     } else if (pItemId === "1510") {//桥1510
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 19});
+
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -627,6 +636,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 19});
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
