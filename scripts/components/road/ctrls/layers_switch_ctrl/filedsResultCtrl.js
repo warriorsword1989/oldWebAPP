@@ -48,10 +48,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
-                  /*  transArr.push({1514:3});
-                    transArr.push({1501:5});
-                    transArr.push({1403:4});
-                    transArr.push({1801:1});*/
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
