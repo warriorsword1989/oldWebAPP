@@ -16,7 +16,7 @@
                 <td>{{item.errorCode}}</td>
                 <td>{{item.errorMsg}}</td>
                 <td>
-                    <a ng-if="item.type == 0" class="text-danger" href="javascript:void(0);" ng-click="ignoreConfusionResult(item);">忽略</a>
+                    <a ng-if="item.type == 0" class="textColorRed" href="javascript:void(0);" ng-click="ignoreConfusionResult(item);">忽略</a>
                     <p ng-if="item.type == 1" class="text-muted">忽略</p>
                 </td>
                 <td>
