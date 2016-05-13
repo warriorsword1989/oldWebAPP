@@ -3,9 +3,62 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     uibBtnCfg.activeClass = "btn-success";
     scope.radioModel = 'workWait';
     scope.radio_select = '状态';
+
     ngTableEventsChannel.onAfterReloadData(logAfterCreatedEvent, scope);
-    function logAfterCreatedEvent(a,b,c){
-        console.log(a.page())
+    function logAfterCreatedEvent(parmas){
+        if(scope.radioModel=='workWait'){
+            var rawDataParam = {
+                projectId: "2016013086",
+                condition: {
+                    handler: "2925",
+                    auditStatus: 1
+                },
+                sortby: [
+                    ["latestMergeDate", -1]
+                ],
+                phase: "4",
+                featcode: "poi",
+                type: "snapshot",
+                pagesize: parmas.count(),
+                pagenum:parmas.page()
+            };
+            scope.$emit("getPageData",rawDataParam);
+        }else if(scope.radioModel=='submitWait'){
+            var rawDataParam = {
+                projectId: "2016013086",
+                condition: {
+                    handler: "2925",
+                    auditStatus: 1
+                },
+                sortby: [
+                    ["latestMergeDate", -1]
+                ],
+                phase: "4",
+                featcode: "poi",
+                type: "snapshot",
+                pagesize: parmas.count(),
+                pagenum:parmas.page()
+            };
+            scope.$emit("getPageData",rawDataParam);
+        }else{
+            var rawDataParam = {
+                projectId: "2016013086",
+                condition: {
+                    handler: "2925",
+                    auditStatus: 1
+                },
+                sortby: [
+                    ["latestMergeDate", -1]
+                ],
+                phase: "4",
+                featcode: "poi",
+                type: "snapshot",
+                pagesize: parmas.count(),
+                pagenum:parmas.page()
+            };
+            scope.$emit("getPageData",rawDataParam);
+        }
+
     }
     console.log(scope)
     //scope.$on("initPageInfo", function(event, data) {
@@ -14,12 +67,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     //    ////_self.filterData(_self.currentData)
     //    ////_self.constructTable();
     //})
-    //给返回数据增加序号索引;
-    //scope.filterData = function(data){
-    //    for(var i=0;i<data.length;i++){
-    //        data[i].num_index = i+1;
-    //    }
-    //}
+
     //切换搜索条件清空输入;
     scope.$watch('radio_select',function(newValue,oldValue,scope){
         scope.search_text = '';
@@ -51,11 +99,32 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 console.log('workWait')
                 _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
                     _self.tableParams.total(10);
-                    $defer.resolve(_self.$parent.$parent.submitedData);
+                    $defer.resolve(_self.$parent.$parent.dealedData);
                 }});
             }else if(newValue=='submitWait'){
                 console.log('submitWait')
-                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.dealedData});
+                _self.tableParams = new NgTableParams({count:3,filter:{'name':''}}, {counts: [3,6,9],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    var rawDataParam = {
+                        projectId: "2016013086",
+                        condition: {
+                            handler: "2925",
+                            auditStatus: 1
+                        },
+                        sortby: [
+                            ["latestMergeDate", -1]
+                        ],
+                        phase: "4",
+                        featcode: "poi",
+                        type: "snapshot",
+                        pagesize: params.count(),
+                        pagenum:1
+                    };
+                    scope.$emit("getPageData",rawDataParam);
+                    scope.$on('getPageDataResult',function(event, data){
+                        _self.tableParams.total(10);
+                        $defer.resolve(data);
+                    });
+                }});
 
             }else{
                 _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.submitedData});
