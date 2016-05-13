@@ -22,7 +22,7 @@ adFaceApp.controller("adFaceController",function($scope) {
             id:$scope.adFaceData.pid.toString(),
             layerid:'adface',
             type:'adface',
-            style:{color:'#3A5FCD'}
+            style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
