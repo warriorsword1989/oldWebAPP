@@ -135,7 +135,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 var search_type = '';
                 if(timeout)$timeout.cancel(timeout);
                 if(newValue!=oldValue){
-                    console.log('变化')
+                    console.log('变化了')
                     timeout = $timeout(function() {
                         if(scope.radio_select=='全局搜索'){
                             _self.tableParams.filter({$: _self.search_text});
