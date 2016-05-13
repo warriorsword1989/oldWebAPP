@@ -354,11 +354,7 @@
 
                             <div class="col-sm-8" style="padding: 4px">
                                 <div ng-repeat="restrictOutLink in restrictOutLinks" style="padding-top: 7px;display:inline">
-<<<<<<< HEAD
-                                    <span class="label" style="padding: 4px">{{restrictOutLink.id}}</span>
-=======
                                     <span class="label" style="padding: 4px;cursor:pointer;"  ng-click="getFeatDataCallback(restrictOutLink,'RDLINK')">{{restrictOutLink}}</span>
->>>>>>> webapp/master
                                 </div>
                             </div>
                         </div>
@@ -409,14 +405,8 @@
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">出口编号:</label>
-
-<<<<<<< HEAD
-                            <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-default" ng-bind="scheName"></span>
-=======
                             <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
                                 <span class="label label-default" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
->>>>>>> webapp/master
                             </div>
                         </div>
                     </form>
