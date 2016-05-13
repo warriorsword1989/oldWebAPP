@@ -184,7 +184,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'class': "feaf",
                         callback: $scope.modifyTools
                     },  {
-                        'text': "<a class='glyphicon glyphicon-move'></a>",
+                        'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
                         'title': "修改道路方向",
                         'type': 'TRANSFORMDIRECT',
                         'class': "feaf",
