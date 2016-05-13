@@ -15,6 +15,7 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var adAdmin=layerCtrl.getLayerById('adAdmin');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
@@ -22,6 +23,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
             map.currentTool.cleanHeight();
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
         }
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
         }
@@ -235,6 +238,8 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
         }, selectedData.detailid);
     }
     $scope.selectObjCallback = function (data) {
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         var ctrlAndTplParams = {
             propertyCtrl: "",
             propertyHtml: ""

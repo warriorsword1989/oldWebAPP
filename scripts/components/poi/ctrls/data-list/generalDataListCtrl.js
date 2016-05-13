@@ -1,9 +1,12 @@
-angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonConfig', 'NgTableParams','$timeout','$sce',  function (scope, uibBtnCfg, NgTableParams,$timeout,$sce) {
+angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonConfig', 'NgTableParams','$timeout','$sce','ngTableEventsChannel',  function (scope, uibBtnCfg, NgTableParams,$timeout,$sce,ngTableEventsChannel) {
     var _self = scope;
     uibBtnCfg.activeClass = "btn-success";
     scope.radioModel = 'workWait';
     scope.radio_select = '状态';
-
+    ngTableEventsChannel.onAfterReloadData(logAfterCreatedEvent, scope);
+    function logAfterCreatedEvent(a,b,c){
+        console.log(a.page())
+    }
     console.log(scope)
     //scope.$on("initPageInfo", function(event, data) {
     //    alert('')
@@ -12,11 +15,11 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     //    ////_self.constructTable();
     //})
     //给返回数据增加序号索引;
-    scope.filterData = function(data){
-        for(var i=0;i<data.length;i++){
-            data[i].num_index = i+1;
-        }
-    }
+    //scope.filterData = function(data){
+    //    for(var i=0;i<data.length;i++){
+    //        data[i].num_index = i+1;
+    //    }
+    //}
     //切换搜索条件清空输入;
     scope.$watch('radio_select',function(newValue,oldValue,scope){
         scope.search_text = '';
@@ -35,22 +38,25 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 { field: "auditStatus", title: "审核状态", sortable: "auditStatus", show: true,getValue:formatAuditStatus},
                 { field: "checkResultNum", title: "检查错误", sortable: "checkResultNum", show: true},
                 { field: "checkResults", title: "错误类型", sortable: "checkResults", show: true},
-                { field: "rawFields", title: "标记", sortable: "rawFields", show: true,getValue:formatRawFields},
-                { field: "attachments", title: "照片", sortable: "editSupportId", show: true,getValue:formatPhoto},
-                { field: "attachments", title: "备注", sortable: "editSupportId", show: true,getValue:formatRemark},
+                { field: "rawFields", title: "标记", sortable: "rawFields", show: false,getValue:formatRawFields},
+                { field: "attachments", title: "照片", sortable: "editSupportId", show: false,getValue:formatPhoto},
+                { field: "attachments", title: "备注", sortable: "editSupportId", show: false,getValue:formatRemark},
                 { field: "evaluateComment", title: "监察问题", sortable: "evaluateComment", show: false,getValue:formatEvaluateComment},
                 { field: "quesState", title: "问题状态", sortable: "quesState", show: true,getValue:formatQuesState},
                 { field: "fieldDate", title: "采集时间", sortable: "fieldDate", show: true,getValue:formatTime},
                 { field: "inputDate", title: "预处理时间", sortable: "inputDate", show: true,getValue:formatTime},
                 { field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: true,getValue:formatFreshnessVerification}
             ];
-
             if(newValue=='workWait'){
-                console.log('myProject')
-                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.rawData});
+                console.log('workWait')
+                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    _self.tableParams.total(10);
+                    $defer.resolve(_self.$parent.$parent.submitedData);
+                }});
             }else if(newValue=='submitWait'){
                 console.log('submitWait')
                 _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.dealedData});
+
             }else{
                 _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.$parent.$parent.submitedData});
             }
