@@ -174,9 +174,9 @@
             </div>
         </li>
     </ul>
-    <ul class="list-group list-group-lg m-b-none" >
+    <ul class="list-group list-group-lg m-b-none">
         <li class="list-group-item"  ng-repeat="cItem in rdCrossData.names">
-            <div ng-click="showCrossNames(cItem)" style="cursor: pointer;width: 180px;"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
+            <div ng-click="showCrossNames(cItem)" style="cursor: pointer;width: 180px;margin-left: 15px"><label style="padding-top: 5px;cursor: pointer;" class="control-label">{{cItem.name}}</label>
                 <span id="crossnameSpan{{$index}}" class="glyphicon glyphicon-remove-sign" style="padding-top:7px;float: right;color: darkgray;float: right;cursor:pointer;" ng-mouseover="changeColor($index)" ng-mouseleave="backColor($index)" ng-click="minuscrossName($index)"></span>
             </div>
         </li>

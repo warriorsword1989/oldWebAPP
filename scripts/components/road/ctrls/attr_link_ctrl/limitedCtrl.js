@@ -5,7 +5,8 @@
 limitedApp.controller("limitedController",function($scope) {*/
 var limitedApp = angular.module("mapApp");
 limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad) {
-    $scope.linkLimitData = $scope.linkData;
+    var objCtrl = fastmap.uikit.ObjectEditController();
+    $scope.linkLimitData = objCtrl.data;
     $scope.truckFlagarray=[];
     $scope.truckFlagarray.push($scope.linkLimitData.truckFlag);
 

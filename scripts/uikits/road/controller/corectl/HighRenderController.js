@@ -382,10 +382,10 @@ fastmap.uikit.HighRenderController=(function() {
              * @param ctx
              */
             drawOverpass: function (id, feature, ctx, cusFeature) {
-                var COLORTABLE = ['#33FFFF', '#3399FF', '#3366CC', '#333366', '#330000'],
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'],
                     style = feature.properties.style,
                 /*根据index高低link的高亮也不一样*/
-                    cusColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
+                    cusColor = COLORTABLE[cusFeature.index];
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id === id) {
                     this.layer._drawLineString(ctx, geom, true, {

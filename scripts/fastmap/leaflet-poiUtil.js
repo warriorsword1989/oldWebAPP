@@ -52,6 +52,12 @@ FM.leafletUtil = {
         pointsArray.push(ppArray);
         return ppArray;
     },
+    latLngToLoc:function (latlng) {
+        return{
+            longitude: parseFloat(latlng.lng.toFixed(5)),
+            latitude: parseFloat(latlng.lat.toFixed(5))
+        }
+    },
     loadLayers:function (map) {
         var qqLayer = new L.TileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
             layername: '腾讯',
@@ -356,8 +362,11 @@ FM.layerConf = {
 };
 
 FM.mapConf = {
+    geomRadius:1000,
     pSelectMarker:null,
     pGuideGeo:null,
     pLocationGeo:null,
-    pPoiJson:null
+    pPoiJson:null,
+    pLocation:null,
+    pGuide:null
 };

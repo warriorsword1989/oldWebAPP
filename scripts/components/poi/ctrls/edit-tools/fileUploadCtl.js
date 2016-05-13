@@ -1,6 +1,6 @@
 angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', function($scope,FileUploader) {
     var uploader = $scope.uploader = new FileUploader({
-        url: App.Config.serviceUrl+'/editsupport/poi/uploadresource?access_token='+App.Config.accessToken,
+        url: App.Util.getFullUrl('editsupport/poi/uploadresource/'),
         formData:[{'filetype':'photo','projectId':2016013086}]
     });
 
