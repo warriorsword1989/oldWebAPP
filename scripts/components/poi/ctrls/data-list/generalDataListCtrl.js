@@ -46,18 +46,11 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 }});
             }else if(newValue=='submitWait'){
                 console.log('submitWait')
-                _self.tableParams = new NgTableParams({count:3,filter:{'name':''}}, {counts: [3,6,9],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
                     var dealedDataParam = {
                         projectId: "2016013086",
-                        condition: {
-                            handler: "2925",
-                            auditStatus: {
-                                '$in': [2, 5]
-                            }
-                        },
-                        sortby: [
-                            ["latestMergeDate", -1]
-                        ],
+                        condition: {handler: "2925", auditStatus: {'$in': [2, 5]}},
+                        sortby: [["latestMergeDate", -1]],
                         phase: "4",
                         featcode: "poi",
                         type: "snapshot",
@@ -65,11 +58,8 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                         pageno:params.page()
                     };
                     scope.$emit("getPageData",dealedDataParam);
-
                     scope.$on('getPageDataResult',function(event, data){
-
-                        _self.tableParams.total(100);
-                        console.log(data)
+                        _self.tableParams.total(data.total);
                         $defer.resolve(data.data);
                     });
                 }});
