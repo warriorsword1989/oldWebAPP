@@ -94,10 +94,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 	promises.push(poi.getPoiInfo(submitedDataParam,function(data){
 		$scope.submitedData = data.data;
 	}));
-
+	var checkRuleObj = {};
+	FM.dataApi.CheckRule.getList(function(data){
+        for(var i=0,len=data.length;i<data.length;i++){
+            checkRuleObj[data[i].ruleId] = data[i];
+        }
+    });
 	$q.all(promises).then(function() {
 		$scope.$broadcast("initPageInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
-			"taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData});
+			"taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData,"checkRule":checkRuleObj});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
 			$scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
 		});
