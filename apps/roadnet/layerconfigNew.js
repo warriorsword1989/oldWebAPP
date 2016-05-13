@@ -1451,44 +1451,54 @@ function transformDataForTips(data) {
                 break;
 
             case 1510://桥
-                for (var n = 0; n < 2; n++) {
-                    if (n == 0) {
-                        for (var i = 0, len = item.m.c.length; i < len; i++) {
-                            obj['geometry']['coordinates'].push([item.m.c[i]]);
-                        }
+                for (var i = 0;i<2;i++) {
+                    if (i == 0) {
+                        obj['geometry']['coordinates'] = item.m.c;
                         obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle('../../images/road/tips/1510/0.svg', 1, 0, item.m.c)
+                            getIconStyle({
+                                iconName: '../../images/road/tips/1510/0.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates']
+                            })
                         );
-                    } else {
-                        for (var j = 0, lenJ = item.m.d.length; j < lenJ; j++) {
-                            obj['geometry']['coordinates'].push([item.m.d[j]]);
-
-                        }
+                    }else {
+                        obj['geometry']['coordinates'] = item.m.d;
                         obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle('../../images/road/tips/1510/0.svg', 1, 0, [item.m.d])
+                            getIconStyle({
+                                iconName: '../../images/road/tips/1510/0.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates']
+                            })
                         );
                     }
                 }
                 break;
             case 1514://施工维修
-                for (var n = 0; n < 2; n++) {
-                    if (n == 0) {
-                        for (var i = 0, len = item.m.c.length; i < len; i++) {
-                            obj['geometry']['coordinates'].push([item.m.c[i]]);
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle('../../images/road/tips/normal/pending.png', 1, 0, [item.m.c[i]])
-                            );
-                        }
-                    } else {
-                        for (var j = 0, lenJ = item.m.d.length; j < lenJ; j++) {
-                            obj['geometry']['coordinates'].push([item.m.d[j]]);
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle('../../images/road/tips/normal/pending.png', 1, 0, [item.m.d[j]])
-                            );
-                        }
+                for (var i = 0;i<2;i++) {
+                    if (i == 0) {
+                        obj['geometry']['coordinates'] = item.m.c;
+                        obj['properties']['markerStyle']["icon"].push(
+                            getIconStyle({
+                                iconName: '../../images/road/tips/1504/0.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates']
+                            })
+                        );
+                    }else {
+                        obj['geometry']['coordinates'] = item.m.d;
+                        obj['properties']['markerStyle']["icon"].push(
+                            getIconStyle({
+                                iconName: '../../images/road/tips/1504/0.svg',
+                                row: 0,
+                                column: 1,
+                                location: obj['geometry']['coordinates']
+                            })
+                        );
                     }
                 }
-
                 break;
             case 1801://立交
 
