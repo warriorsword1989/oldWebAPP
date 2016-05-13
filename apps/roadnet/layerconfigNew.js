@@ -828,6 +828,10 @@ function transformData(data) {
                     );
 
                 }
+
+
+
+                
                 //车道限速
                 else if (type == 4){
                     console.log(resArray);

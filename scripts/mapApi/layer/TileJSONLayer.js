@@ -409,7 +409,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
 
 
                         if (icons[item].text) {
-                            console.log('---------------'+icons[item].text)
+
                             this._drawText({
                                 ctx: ctx,
                                 geo: geom.coordinates,
