@@ -1,0 +1,236 @@
+html, body {
+    font-family: 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', '黑体', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+a, a:active, a:link, a:visited {
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.fm-banner {
+    width: 50px;
+    background-color: #222;
+}
+
+.fm-banner div {
+    padding: 15px 0px;
+    text-align: center;
+}
+
+.fm-banner .banner-center {
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: 0;
+    margin-top: 20px;
+}
+
+.fm-banner .banner-center div.selected {
+    background-color: #313131;
+}
+
+.fm-banner .banner-bottom {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+
+/**************************************nnade***************************************************/
+
+.fm-container {
+    background-color: #313131;
+    font-size: 12px;
+    position: absolute;
+    border: 1px solid #555;
+    overflow-y: auto;
+}
+
+.fm-container.fm-col {
+    height: 100%;
+}
+
+.fm-container.fm-row {
+    width: 100%;
+}
+
+.fm-container.fm-lvl1 {
+    opacity: 0.9;
+}
+
+.fm-container.fm-lvl2 {
+    opacity: 0.8;
+}
+
+.fm-container.fm-lvl3 {
+    opacity: 0.7;
+}
+
+.fm-container > div.title {
+    background-color: rgb(64, 64, 64);
+    padding: 12px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    color: #fff;
+    font-weight: bold;
+}
+
+.fm-container > div.content {
+    overflow: auto;
+    padding: 5px;
+}
+
+.fm-tabs {
+    background-color: rgb(64, 64, 64);
+    padding: 0px 8px;
+}
+
+.fm-tabs a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+.fm-tabs a.tab:hover {
+    color: #fff;
+}
+
+.fm-tabs a.tab.active {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, .8);
+    background-color: #313131;
+}
+
+.fm-panel {
+    opacity: 1;
+    margin: 5px 5px 0px;
+    color: #fff;
+    background-color: #555;
+    border-radius: 4px;
+}
+
+.fm-panel > div.title {
+    padding: 6px 8px;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.fm-panel > div.content {
+    padding: 5px;
+    overflow: auto;
+}
+
+ul.fm-ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul.fm-ul > li {
+    border: none;
+    padding: 0px 15px;
+}
+
+ul.fm-ul > li > label, ul.fm-ul > li > div {
+    display: inline-block;
+}
+
+ul.fm-ul-form > li > label {
+    color: #F3F6FA;
+    font-weight: normal;
+    width: 25%;
+}
+
+ul.fm-ul-form > li > div {
+    width: 70%;
+}
+
+ul.fm-ul-list > li > label {
+    color: #F3F6FA;
+    font-weight: normal;
+    width: 70%;
+}
+
+ul.fm-ul-list > li > div:first-child {
+    color: #F3F6FA;
+    font-weight: normal;
+    width: 75%;
+}
+
+ul.fm-ul-list > li > div:last-child {
+    width: 20%;
+}
+
+input.fm-control {
+    width: 100%;
+    color: #F3F6FA;
+    padding: 1px 5px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #FFFFFF;
+    border-style: ridge;
+    background-color: #333;
+}
+
+input.fm-control.ng-dirty {
+    width: 100%;
+    color: #F3F6FA;
+    padding: 1px 5px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px ridge #FFFFFF;
+    background-color: #307BA3;
+}
+
+select.fm-control {
+    width: 100%;
+    color: #F3F6FA;
+    padding: 1px 5px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px ridge #FFFFFF;
+    background-color: #333;
+}
+
+select.fm-control.ng-dirty {
+    width: 100%;
+    color: #F3F6FA;
+    padding: 1px 5px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px ridge #FFFFFF;
+    background-color: #307BA3;
+}
+
+input[type='radio'] {
+    margin-top: 3px;
+}
+
+.fm-inline > * {
+    display: inline-block;
+}
+
+.tel-code {
+    width: 50px !important;
+}
+
+.tel-number {
+    width: 100px !important;
+}
+
+.tel-cellphone {
+    width: 162px !important;
+}
+
+.fm-btn {
+    border: 1px solid #aaa;
+}
