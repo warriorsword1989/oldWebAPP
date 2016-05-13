@@ -34,7 +34,6 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 return boolExit;
             }
-
             function distance(pointA, pointB) {
                 var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
                 return Math.sqrt(len);
@@ -42,6 +41,7 @@ function keyEvent(ocLazyLoad, scope) {
             function resetPage(data) {
                 if (typeof map.currentTool.cleanHeight === "function") {
                     map.currentTool.cleanHeight();
+                    map.currentTool.disable();
                 }
                 if (toolTipsCtrl.getCurrentTooltip()) {
                     toolTipsCtrl.onRemoveTooltip();
@@ -61,7 +61,6 @@ function keyEvent(ocLazyLoad, scope) {
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                 editLayer.clear();
-
             }
 
             function treatmentOfChanged(data, type, op, ctrl, tpl) {
