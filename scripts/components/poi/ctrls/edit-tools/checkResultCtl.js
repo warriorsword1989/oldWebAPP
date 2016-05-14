@@ -8,4 +8,8 @@ angular.module('app').controller('CheckResultCtl', ['$scope', function($scope) {
     $scope.ignoreCheckResult = function(item){
         $scope.$emit('ignoreItem',item);
     }
+    /*显示关联poi数据*/
+    $scope.showCRRefFtInMap = function(index){
+        $scope.$emit('getRefFtInMap',$scope.checkResults[index].refFeatures);
+    }
 }]);

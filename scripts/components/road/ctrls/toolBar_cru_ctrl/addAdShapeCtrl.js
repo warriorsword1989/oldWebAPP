@@ -17,6 +17,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             var objCtrl = fastmap.uikit.ObjectEditController();
             var eventController = fastmap.uikit.EventController();
             var adAdmin=layerCtrl.getLayerById('adAdmin');
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
             $scope.limitRelation = {};
             //两点之间的距离
             $scope.distance = function (pointA, pointB) {
@@ -35,9 +36,16 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 return angle;
             };
             $scope.addShape = function (type, num, event) {
-
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 if (event) {
                     event.stopPropagation();
+                }
+                highRenderCtrl._cleanHighLight();
+                if(highRenderCtrl.highLightFeatures!=undefined) {
+                    highRenderCtrl.highLightFeatures.length = 0;
                 }
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 $("#popoverTips").hide();
@@ -45,7 +53,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 editLayer.bringToBack();
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                rdLink.clearAllEventListeners()
+                adLink.clearAllEventListeners()
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }

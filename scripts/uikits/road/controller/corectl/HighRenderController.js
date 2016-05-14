@@ -165,6 +165,9 @@ fastmap.uikit.HighRenderController=(function() {
                                     } else if (this.highLightFeatures[item].type == 'adadmin') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
+                                    }else if(this.highLightFeatures[item].type == 'adface'){
+                                        var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                        this.drawPolygon(this.highLightFeatures[item].id, feature, ctx );
                                     }
                                     break;
                                 } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
@@ -379,10 +382,10 @@ fastmap.uikit.HighRenderController=(function() {
              * @param ctx
              */
             drawOverpass: function (id, feature, ctx, cusFeature) {
-                var COLORTABLE = ['#33FFFF', '#3399FF', '#3366CC', '#333366', '#330000'],
+                var COLORTABLE = ['#14B7FC', '#4FFFB6', 'F8B19C', '#FCD6A4'],
                     style = feature.properties.style,
                 /*根据index高低link的高亮也不一样*/
-                    cusColor = cusFeature.index ? COLORTABLE[cusFeature.index] : '#00F5FF';
+                    cusColor = COLORTABLE[cusFeature.index];
                 var geom = feature.geometry.coordinates;
                 if (feature.properties.id === id) {
                     this.layer._drawLineString(ctx, geom, true, {
@@ -405,17 +408,49 @@ fastmap.uikit.HighRenderController=(function() {
                         return;
                     }
                     var geo = feature.geometry.coordinates;
-                    this.layer._drawImg({
+                    //this.layer._drawImg({
+                    //    ctx: ctx,
+                    //    geo: geo,
+                    //    boolPixelCrs: true,
+                    //    style: {src: '../../images/road/img/heightStar.svg'},
+                    //    drawx: "",
+                    //    drawy: "",
+                    //    scalex: 1,
+                    //    scaley: 1
+                    //
+                    //})
+                    this.layer._drawBackground({
                         ctx: ctx,
                         geo: geo,
                         boolPixelCrs: true,
-                        style: {src: '../../images/road/img/heightStar.svg'},
-                        drawx: "",
-                        drawy: "",
-                        scalex: 1,
-                        scaley: 1
+                        lineColor: 'rgb(4, 187, 245)',
+                        fillColor: 'rgba(4, 187, 245, 0.5)',
+                        lineWidth: 1,
+                        width: 20,
+                        height: 20,
+                        drawx: -10,
+                        drawy: -10
 
                     })
+                }
+            },
+            drawPolygon:function(id, feature, ctx){
+                if (feature.properties.id == id) {
+                    if (feature.properties.id === undefined) {
+                        return;
+                    }
+                    var geo = feature.geometry.coordinates;
+                    this.layer._drawPolygon(
+                        ctx,
+                        geo,
+                        {
+                            'fillColor': '#FFFF00',
+                            'fillOpacity': 0.2,
+                            'strokeColor': '#FFFF00',
+                            'strokeWidth': 1,
+                            'backgroundImage': ""
+                        },true
+                    )
                 }
             },
             _cleanHighLight: function () {
