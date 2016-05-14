@@ -20,12 +20,12 @@ FM.dataApi.IxPoiKind = FM.dataApi.DataModel.extend({
     },
 
     statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("fos/meta/queryKind/", param, function(data) {
+        getList: function(callback) {
+            FM.dataApi.ajax.get("meta/queryKind/", {}, function(data) {
                 var kinds = [],
                     kind;
                 for (var i = 0; i < data.data.length; i++) {
-                    kind = new FM.dataApi.ixPoiKind(data.data[i]);
+                    kind = new FM.dataApi.IxPoiKind(data.data[i]);
                     kinds.push(kind);
                 }
                 callback(kinds);
