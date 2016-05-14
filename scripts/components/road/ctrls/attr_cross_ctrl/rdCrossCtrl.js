@@ -22,7 +22,6 @@ selectApp.controller("rdCrossController", function ($scope) {
                 type:'line',
                 style:{}
             })
-
         }
         highLightFeatures.push({
 

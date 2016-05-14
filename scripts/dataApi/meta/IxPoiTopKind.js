@@ -14,12 +14,12 @@ FM.dataApi.IxPoiTopKind = FM.dataApi.DataModel.extend({
     },
 
     statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("fos/meta/queryTopKind/", param, function(data) {
+        getList: function(callback) {
+            FM.dataApi.ajax.get("meta/queryTopKind/", {}, function(data) {
                 var topKinds = [],
                     kind;
                 for (var i = 0; i < data.data.length; i++) {
-                    kind = new FM.dataApi.ixPoiTopKind(data.data[i]);
+                    kind = new FM.dataApi.IxPoiTopKind(data.data[i]);
                     topKinds.push(kind);
                 }
                 callback(topKinds);

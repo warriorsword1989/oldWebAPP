@@ -44,6 +44,9 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on('click', this.onMouseDown, this);
+        }
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
@@ -52,6 +55,9 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.off('click', this.onMouseDown, this);
+        }
         this._map.off('mousemove', this.onMouseMove, this);
     },
 
@@ -65,21 +71,17 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
 
         for (var j = 0, len = points.length; j < len; j++) {
-
             //两个端点不能删除
             if(j != 0 && j !=len-1){
                 var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-
                 if (disAB > 0 && disAB < 5) {
-
-
                     this.targetIndex = j;
                 }
             }
-
         }
-        if(this.targetIndex == null)
+        if(this.targetIndex == null){
             return;
+        }
         this.resetVertex(this.targetIndex);
         this.snapHandler.setTargetIndex(this.targetIndex);
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();

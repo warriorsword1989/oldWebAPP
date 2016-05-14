@@ -101,15 +101,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
         }
     });
 	$scope.checkRuleObj = checkRuleObj;
+	var pKindFormat = new Object();
 	FM.dataApi.IxPoiTopKind.getList(function(data){
-		$scope.pKindFormat = new Object();
         for (var i = 0; i < data.length; i++) {
-//            if (data[i].kindCode == "230218" || data[i].kindCode == "230227") {
-//                data.splice(i, 1);
-//                i--;
-//                continue;
-//            }
-        	$scope.pKindFormat[data[i].kindCode] = {
+        	pKindFormat[data[i].kindCode] = {
                 kindId: data[i].id,
                 kindName: data[i].kindName,
                 level: data[i].level,
@@ -121,6 +116,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
             };
         }
 	});
+	$scope.pKindFormat = pKindFormat;
 	$scope.$on('getPageData',function(event, data){
 		poi.getPoiInfo(data,function(data){
 			$scope.$broadcast('getPageDataResult',data);

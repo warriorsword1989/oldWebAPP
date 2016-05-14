@@ -8,6 +8,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
      */
     setAttributes: function(data) {
         function _refFt(data){
+            /*检查结果*/
             this.fid = data["fid"] || null;
             this.pid = data["pid"] || 0;
             this.name = data["name"] || null;
@@ -30,7 +31,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
                 this.guide.longitude = data['location'].longitude || 0;
             }
             this.attachments = [];
-            if (data["attachments"].length && data["attachments"].length > 0) {
+            if (data["attachments"] && data["attachments"].length > 0) {
                 for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                     if (data["attachments"][i].type == 1) { //表示图片
                         var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
@@ -38,6 +39,27 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
                     }
                 }
             }
+            /*冲突检测*/
+            this.conflictFields = data['conflictFields'] || '';
+            this.duppoi = {};
+            if(data['duppoi'] && data['duppoi'].length > 0){
+                for(var i=0;i<data['duppoi'].length;i++){
+                    var dopTmp = new _dupPoi(data['duppoi'][i]);
+                    this.duppoi.push(dopTmp);
+                }
+            }
+        }
+        function _dupPoi(dpoi){
+            this.address = dpoi['address'] || '';
+            this.brands = dpoi['brands'] || null;
+            this.contacts = dpoi['contacts'] || '';
+            this.fid = dpoi['fid'] || null;
+            this.kindCode = dpoi['kindCode'] || null;
+            this.level = dpoi['level'] || null;
+            this.location = dpoi['location'] || null;
+            this.name = dpoi['name'] || null;
+            this.pid = dpoi['pid'] || null;
+            this.postCode = dpoi['postCode'] || null;
         }
         this.errorCode = data['errorCode'] || null;
         this.errorMsg = data['errorMsg'] || null;
