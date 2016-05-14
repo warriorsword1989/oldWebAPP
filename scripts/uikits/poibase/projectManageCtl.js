@@ -4,6 +4,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
     });
 	var promises = [];
 	$scope.isActive = 'common';
+
 	$scope.menuChange = function(menuName){
 		switch(menuName){
 			case 'common':
