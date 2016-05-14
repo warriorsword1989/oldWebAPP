@@ -181,6 +181,30 @@
     margin-bottom:0px;
     padding: 0px
 }
+/* wuz 控制图片显示*/
+.div_float{
+    position: absolute;
+    z-index: 999;
+} 
+.image_ctl {
+    opacity: 0.8;
+    bottom: 10px;
+    left: 10px;
+    display: inline;
+}
+.arrow_right{
+    width: 28px;
+    height: 42px;
+    background-image: url(../../images/poi/icon/gray_arrow.jpg);
+    background-position: -57px -27px;
+}
+.arrow_left{
+    width: 28px;
+    height: 42px;
+    background-image: url(../../images/poi/icon/gray_arrow.jpg);
+    background-position: -27px -27px;
+}
+
 /*刘杨新增
 for 地图上的两个按钮*/
 .leaflet-control-navbar-reset {

@@ -2,6 +2,7 @@ angular.module('app').controller('ConfusionResultCtl', ['$scope', function($scop
     $scope.theadInfo = ['序号','规则编码','错误描述','操作','关联POI'];
     function initData(){
         $scope.confusionInfo = $scope.optionData.confusionInfoData;
+        console.log($scope.confusionInfo)
     }
     initData();
     /*检查结果忽略操作*/

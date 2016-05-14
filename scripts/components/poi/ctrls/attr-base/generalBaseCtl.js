@@ -129,13 +129,37 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         }
         
     }
+    $scope.isOpen24 = function (val){
+        if (val == 1){
+            return true;
+        } else { //val ==2
+            return false;
+        }
+    }
+    $scope.isIndoorType = function (indoor){
+        if(indoor){
+            var val = indoor.type;
+            if (val == 1 || val == 2 || val == 3){
+                return true;
+            } else { //val == 0 
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    $scope.remarkChange = function (val){
+
+    }
+
     //改变等级
     $scope.updateLevelSelected = function(val) {
         $scope.poi.level = val;
     }
 
     $scope.ctrl = {
-        open: true,
+        openBase: true,
+        openDeep:true,
         fieldLabel: {},
     };
     $scope.relateParent = {};
@@ -214,7 +238,17 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             }
         }
     }
-
+    var initRemark = function (poi){
+        var remark = ""; 
+        for (var i = 0, len = poi.attachments.length; i < len; i++){
+            var attachment = poi.attachments[i];
+            if(attachment.type == 4 && attachment.tag == 0 ){
+                remark = attachment.url;
+                break ;
+            }
+        }
+        $scope.remark = remark;
+    }
     $scope.removeTelElem = function(index) {
         if ($scope.poi.contacts.length > 1) {
             $scope.poi.contacts.splice(index, 1);
@@ -304,6 +338,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         initBaseInfoIcon(data.poiIcon, $scope.poi.vipFlag);
         initOptionStyle($scope.poi);
         initKindBrandLevel($scope.poi);
+        initRemark($scope.poi);
         resetBtnHeight();
     });
 
