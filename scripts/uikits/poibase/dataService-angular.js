@@ -37,7 +37,7 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         FM.dataApi.ajax.get("project/list/", param, function(data) {
         	var ret = [];
         	if (data.errcode == 0) {
-                ret = data.data.rows;
+                ret = data.data;
             }
         	callback(ret);
         });
@@ -75,6 +75,23 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         	var ret;
         	if (data.errcode == 0) {
                 ret = data.data;
+            }
+        	callback(ret);
+        });
+    };
+    this.queryUser = function(userId, callback){
+    	var param = {
+            parameter: "{}"
+        };
+        if (userId != null) {
+            param.parameter = JSON.stringify({
+                userId: userId
+            });
+        }
+        FM.dataApi.ajax.get("user/query/", param, function(data) {
+        	var ret;
+        	if (data.errcode == 0) {
+                ret = data.data.rows;
             }
         	callback(ret);
         });

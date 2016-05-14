@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','ngSanitize']).controller('projectManageCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi',function($scope, $ocll, $rs, $q, poi ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','ngSanitize']).controller('projectManageCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi','$timeout',function($scope, $ocll, $rs, $q, poi ,$timeout) {
 	$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
         $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
     });
@@ -9,35 +9,50 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 			case 'common':
 				$ocll.load('../../scripts/components/poi/ctrls/data-list/generalProjectListCtrl.js').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/generalProjectListTpl.html';
+                    
                 });
-				var currparam = {
-		                    from: "app",
-		                    projectStatus: [3, 6, 7],
-		                    projectType: [1, 3],
-		                    pageno: null, // 取全部数据
-//		                    pagesize: null,
-		                    // pagesize: "20",
-		                    snapshot: "snapshot"
-		            };
-				var hisparam = {
-		                    from: "app",
-		                    projectStatus: [5],
-		                    projectType: [1, 3],
-		                    pageno: null, // 取全部数据
-//		                    pagesize: null,
-		                    // pagesize: "20",
-		                    snapshot: "snapshot"
-		            };
-				poi.getProjectList(currparam,function(data){
-					$scope.currProjectList = data;
-					console.log('当前项目数'+data.length);
-					$scope.$broadcast("currentProjectList", $scope.currProjectList);
-				});
-				poi.getProjectList(hisparam,function(data){
-					$scope.hisProjectList = data;
-					console.log('历史项目数'+data.length);
-					$scope.$broadcast("hisProjectList", $scope.hisProjectList);
-				});
+				$scope.$on('getPageData',function(event, param){
+					
+					poi.getProjectList(param,function(data){
+						$scope.$broadcast("getPageDataResult", data);
+					});
+			    })
+				/*$scope.$on('getPageData',function(event, param){
+					alert()
+					poi.getProjectList(param,function(data){
+						
+						$scope.$broadcast("getPageDataResult", data);
+					});
+			    })*/
+//				var currparam = {
+//		                    from: "app",
+//		                    projectStatus: [3, 6, 7],
+//		                    projectType: [1, 3],
+//		                    pageno: null, // 取全部数据
+////		                    pagesize: null,
+//		                    // pagesize: "20",
+//		                    snapshot: "snapshot"
+//		            };
+//				var hisparam = {
+//		                    from: "app",
+//		                    projectStatus: [5],
+//		                    projectType: [1, 3],
+//		                    pageno: null, // 取全部数据
+////		                    pagesize: null,
+//		                    // pagesize: "20",
+//		                    snapshot: "snapshot"
+//		            };
+//				poi.getProjectList(currparam,function(data){
+//					$scope.currProjectList = data;
+//					console.log('当前项目数'+data.length);
+//					$scope.$broadcast("currentProjectList", $scope.currProjectList);
+//				});
+//				poi.getProjectList(hisparam,function(data){
+//					$scope.hisProjectList = data;
+//					console.log('历史项目数'+data.length);
+//					$scope.$broadcast("hisProjectList", $scope.hisProjectList);
+//				});
+				
                 break;
 			case 'agent': 
 				$ocll.load('').then(function(){
@@ -50,9 +65,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
                 });
                 break; 
 			case 'userProfile':
-//				$ocll.load('').then(function(){
+				$ocll.load('../../scripts/components/poi/ctrls/data-list/userProfileCtrl.js').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userProfile.html';
-//                });
+//                    $timeout(function(){
+//        				poi.queryUser(null,function(data){
+//        					$scope.$broadcast("userInfo", data);
+//        				});
+//                    },100);
+                });
                 break;
 			case 'userMessage':
 //				$ocll.load('').then(function(){
@@ -63,4 +83,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		$scope.isActive = menuName;
 	};
 	$scope.menuChange('common');
+	
+//	$timeout(function(){$scope.$on('getPageData',function(event, param){
+//		alert()
+//		poi.getProjectList(param,function(data){
+//			
+//			$scope.$broadcast("getPageDataResult", data);
+//		});
+//    })},3000);
 }]);
