@@ -1,48 +1,5 @@
 <!DOCTYPE html>
 <html>
-    <head lang="en">
-        <meta charset="UTF-8">
-        <title>FastMap设施预处理系统</title>
-        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-        <link href="../../styles/poi/main.css" rel="stylesheet" type="text/css"/>
-        <link href="../../styles/poi/rowEditor.css" rel="stylesheet" type="text/css"/>
-        <link href="../../scripts/libs/select2/css/select2.css" rel="stylesheet" type="text/css"/>
-        <link href="../../scripts/libs/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css"/>
-        <link href="../../scripts/libs/angular-chosen/chosen-spinner.css" rel="stylesheet" type="text/css"/>
-        <link href="../../scripts/libs/angular-chosen/chosen.css" rel="stylesheet" type="text/css"/>
-        <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
-        <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
-        <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
-        <script type="text/javascript" src="../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script><!--//不能require-->
-        <script type="text/javascript" data-main="../../scripts/uikits/poibase/mainEditor-require" src="../../scripts/libs/require/require.js"></script>
-    
-        <style type="text/css">
-
-            .div_float{
-                position: absolute;
-                z-index: 999;
-            } 
-            .image_ctl {
-                opacity: 0.8;
-                bottom: 10px;
-                left: 10px;
-                display: inline;
-            }
-            .arrow_right{
-                width: 28px;
-                height: 42px;
-                background-image: url(../../images/poi/icon/gray_arrow.jpg);
-                background-position: -57px -27px;
-            }
-            .arrow_left{
-                width: 28px;
-                height: 42px;
-                background-image: url(../../images/poi/icon/gray_arrow.jpg);
-                background-position: -27px -27px;
-            }
-
-        </style>
 <head lang="en">
     <meta charset="UTF-8">
     <title>FastMap设施预处理系统</title>
@@ -68,32 +25,12 @@
     <div class="row-fluid">
         <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-container" my-resize>
             <div class="row-fluid">
-                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-container" my-resize>
-                    <div class="row-fluid">
-                        <div id="imgContainer" ng-show="isShowImages" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-box" style="border-right:0px;">
-                            <div ng-include="imagesTpl"></div>
-                        </div>
-                        <div class="col-xs-{{mapColumn}} col-sm-{{mapColumn}} col-md-{{mapColumn}} col-lg-{{mapColumn}} content-box" style="height: 500px;">
-                            <div class="tab-header form-inline">
-                                <div class="form-group">
-                                    <div id="mapBtnGroup" class="btn-group">
-                                        <button type="button" class="btn btn-primary" onclick="addPointInMap()">打点</button>
-                                        <button type="button" class="btn btn-primary" onclick="locateEditingFeature()">定位</button>
-                                        <button type="button" class="btn btn-primary" onclick="resetLocation()">重置</button>
-                                        <div class="btn-group" uib-dropdown>
-                                            <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle ng-disabled="disabled">框选 <span class="caret"></span></button>
-                                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" style="min-width:100px;">
-                                                <li class="active"><a href="#" onclick="startRectChoose()">矩形框</a></li>
-                                                <li><a href="#" onclick="startPolyChoose()">多边形</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div ng-include="mapTpl"></div>
-                            <a id="mapLeftRight" ng-show="isShowArrow" href="javascript:void(0);" class="div_float image_ctl {{arrowStyle}}" ng-click="doLeftRight();"></a>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 content-box" style="height: 500px;">
+                <div id="imgContainer" ng-show="isShowImages" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-box" style="border-right:0px;">
+                    <div ng-include="imageTpl"></div>
+                </div>
+                <div class="col-xs-{{mapColumn}} col-sm-{{mapColumn}} col-md-{{mapColumn}} col-lg-{{mapColumn}} content-box" style="height: 500px;">
                     <div ng-include="mapTpl"></div>
+                    <a id="mapLeftRight" ng-show="isShowArrow" href="javascript:void(0);" class="div_float image_ctl {{arrowStyle}}" ng-click="doLeftRight();"></a>
                     <div id="info" class="info-tip" ng-show="showRelatedPoiInfo">
                         <div class="tools">
                             <button type="button" class="close" ng-click="closeRelatedPoiInfo()">
