@@ -213,8 +213,6 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
                     }
                 }
-
-
             }
 
             //捕捉node

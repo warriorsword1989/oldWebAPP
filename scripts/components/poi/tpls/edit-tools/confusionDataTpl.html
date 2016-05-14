@@ -1,0 +1,77 @@
+<style>
+    .conf-panel{
+        border: 0px;
+        padding-top: 0px;
+        width: 300px;
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+    }
+    .conf-content{
+        padding: 5px;
+        background-color: #ffffff;
+    }
+    .conf-table{
+        table-layout:fixed;
+        word-break:break-all;
+        margin-bottom:0px;
+        padding: 0px
+    }
+</style>
+<div ng-controller="ConfusionDataCtl">
+    <div class="box-shadow conf-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="confHeading">
+                <span class="panel-title">{{confusionData.poiType}}数据</span>
+                <span class="label label-primary">{{confusionData.poiType}}</span>
+                <span type="button" class="close" onclick="closeConflictInfo()">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </span>
+            </div>
+            <div class="panel-body conf-content">
+                <table class="table navi-table conf-table">
+                    <tbody>
+                    <tr>
+                        <td class="active" id="fid_conf">FID:</td>
+                        <td colspan="3"><span ng-bind="confusionData.fid"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="pid_conf">PID:</td>
+                        <td colspan="3"><span ng-bind="confusionData.pid"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="name_conf">名称:</td>
+                        <td colspan="3"><span id="con_name">北京马驹桥园林绿化有限公司</span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="address_conf">地址:</td>
+                        <td colspan="3"><span ng-bind="confusionData.address"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="contacts_conf">电话:</td>
+                        <td colspan="3"><span id="con_tel"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="postCode_conf">邮编:</td>
+                        <td colspan="3"><span id="con_postcode"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="kindCode_conf" style="color: rgb(255, 0, 0);">分类:</td>
+                        <td colspan="3"><span id="con_kindcode">公司</span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="brandCode_conf">品牌:</td>
+                        <td colspan="3"><span id="con_brandCode"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="active" id="level_conf">等级:</td>
+                        <td colspan="3"><span id="con_level">B3</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
