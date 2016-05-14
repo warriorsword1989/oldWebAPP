@@ -3,19 +3,18 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
     uibBtnCfg.activeClass = "btn-success";
     scope.radioModel = 'myProject';
     scope.radio_select = '全局搜索';
-
-    scope.$on("currentProjectList", function(event, data) {
-        _self.currentData = data;
-        console.log('获取我的项目数据')
-        _self.filterData(_self.currentData)
-        _self.constructTable();
-    })
-    scope.$on("hisProjectList", function(event, data) {
-        _self.historytData = data;
-        console.log('获取历史项目数据')
-        _self.filterData(_self.historytData)
-        _self.constructTable();
-    })
+//    scope.$on("currentProjectList", function(event, data) {
+//        _self.currentData = data;
+//        console.log('获取我的项目数据')
+//        _self.filterData(_self.currentData)
+//        _self.constructTable();
+//    })
+//    scope.$on("hisProjectList", function(event, data) {
+//        _self.historytData = data;
+//        console.log('获取历史项目数据')
+//        _self.filterData(_self.historytData)
+//        _self.constructTable();
+//    })
     //给返回数据增加序号索引;
     scope.filterData = function(data){
         for(var i=0;i<data.length;i++){
@@ -87,7 +86,7 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                     scope.$emit("getPageData",currparam);
                     scope.$on('getPageDataResult',function(event, data){
                         _self.tableParams.total(data.total);
-                        $defer.resolve(data.data);
+                        $defer.resolve(data.rows);
                     });
                 }});
             }else{
@@ -104,15 +103,17 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                     };
                     scope.$emit("getPageData",hisparam);
                     scope.$on('getPageDataResult',function(event, data){
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(data.data);
+                        _self.tableParams.total(data.length);
+                        $defer.resolve(data);
                     });
                 }});
             }
             var timeout = null;
             scope.$watch('search_text',function(newValue,oldValue,scope){
                 var search_type = '';
-                if(timeout)$timeout.cancel(timeout);
+                if(timeout){
+                	$timeout.cancel(timeout);
+                };
                 if(newValue!=oldValue){
                     console.log('变化')
                     timeout = $timeout(function() {
@@ -134,7 +135,7 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
             })
         })
     }
-
+    _self.constructTable();
 
 }]);
 
