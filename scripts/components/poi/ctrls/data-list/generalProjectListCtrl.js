@@ -74,10 +74,40 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
             //初始化ng-table;
             if(newValue=='myProject'){
                 console.log('myProject')
-                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.currentData});
+                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    //scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
+                    var currparam = {
+                        from: "app",
+                        projectStatus: [3, 6, 7],
+                        projectType: [1, 3],
+                        pageno: params.page(),
+		                pagesize: params.count(),
+                        snapshot: "snapshot"
+                    };
+                    scope.$emit("getPageData",currparam);
+                    scope.$on('getPageDataResult',function(event, data){
+                        _self.tableParams.total(data.total);
+                        $defer.resolve(data.data);
+                    });
+                }});
             }else{
                 console.log('historyProject')
-                _self.tableParams = new NgTableParams({count:10,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:_self.historytData});
+                _self.tableParams = new NgTableParams({count:10,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
+                    //scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
+                    var hisparam = {
+                        from: "app",
+                        projectStatus: [5],
+                        projectType: [1, 3],
+		                pageno: params.page(),
+                        pagesize: params.count(),
+                        snapshot: "snapshot"
+                    };
+                    scope.$emit("getPageData",hisparam);
+                    scope.$on('getPageDataResult',function(event, data){
+                        _self.tableParams.total(data.total);
+                        $defer.resolve(data.data);
+                    });
+                }});
             }
             var timeout = null;
             scope.$watch('search_text',function(newValue,oldValue,scope){
