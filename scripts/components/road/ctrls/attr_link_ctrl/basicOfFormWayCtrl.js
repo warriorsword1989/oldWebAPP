@@ -48,23 +48,40 @@ formOfWayApp.controller("formOfWayController",function($scope){
         {"id": "82", "label": "虚拟提左提右","isCheck":false}
     ];
     $scope.formOfWayArr = [];
-    for(var p in $scope.formsData){
-        for(var s in $scope.fromOfWayOption){
-            if($scope.formsData[p].formOfWay==$scope.fromOfWayOption[s].id){
-                $scope.fromOfWayOption[s].isCheck=true;
+        for(var p in $scope.formsData){
+            for(var s in $scope.fromOfWayOption){
+                if($scope.formsData[p].formOfWay==$scope.fromOfWayOption[s].id){
+                    $scope.fromOfWayOption[s].isCheck=true;
+                }
             }
         }
-    }
+    $scope.noAttributes=true;
     $scope.getCheck=function(item){
         item.isCheck=true;
         var newForm = null;
-        if(parseInt(item.id)===53) {
-            newForm= fastmap.dataApi.rdLinkForm({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id),"auxiFlag":3});
-        }else{
+        if(parseInt(item.id)==1){
+            for(var p in $scope.formsData){
+                for(var s in $scope.fromOfWayOption){
+                    if($scope.formsData[p].formOfWay==$scope.fromOfWayOption[s].id){
+                        $scope.fromOfWayOption[s].isCheck=false;
+                    }
+                }
+            }
+            $scope.noAttributes=false;
+            $scope.formsData.length=0;
             newForm= fastmap.dataApi.rdLinkForm({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id)});
-
+        }else{
+            if($scope.noAttributes==false){
+                $scope.fromOfWayOption[1].isCheck=false;
+                $scope.noAttributes=true;
+                $scope.formsData.splice(0,1);
+            }
+            if(parseInt(item.id)===53) {
+                newForm= fastmap.dataApi.rdLinkForm({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id),"auxiFlag":3});
+            }else{
+                newForm= fastmap.dataApi.rdLinkForm({"linkPid": objCtrl.data.pid, "formOfWay": parseInt(item.id)});
+            }
         }
-
         $scope.formsData.unshift(newForm);
         objCtrl.updateObject();
     }

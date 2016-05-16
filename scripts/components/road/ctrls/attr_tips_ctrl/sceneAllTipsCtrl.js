@@ -587,7 +587,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
-                        objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                        objCtrl.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         restrictLayer.redraw();
                         workPoint.redraw();
@@ -607,16 +607,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-
+                    outPutCtrl.pushOutput(info);
+                    if (outPutCtrl.updateOutPuts !== "") {
+                        outPutCtrl.updateOutPuts();
+                    }
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
             }
 
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
         }else if ($scope.dataTipsData.s_sourceType === "1302") {
             $scope.createRestrictByTips()
         }
