@@ -5,12 +5,14 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     //设置tab页头默认激活项;
     scope.radioModel = 'workWait';
     //设置搜索默认查询字段;
-    scope.radio_select = '状态';
+    scope.radio_select = '全局搜索';
     //设置默认搜索关键字;
     scope.search_text = '';
+    //当前表格数据;
+    scope.finalData = null;
     //初始化ng-table表头;
     scope.cols = [
-        { field: "num_index", title: "序号", sortable: "num_index", show: false},
+        { field: "num_index", title: "序号", show: false},
         { field: "fid", title: "FID", sortable: "fid", show: false},
         { field: "pid", title: "PID", sortable: "pid", show: false},
         { field: "lifecycle", title: "状态", sortable: "lifecycle", show: false,getValue:formatLifecycle},
@@ -50,84 +52,45 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
             }
         }
     }
+    //刷新表格方法;
+    scope.refreshData = function(){
+        _self.tableParams.reload();
+    }
+
+    //给每条数据安排序号;
+    ngTableEventsChannel.onAfterReloadData(function(){
+        console.log(scope.tableParams.page())
+        angular.forEach(scope.tableParams.data,function(data,index){
+            data.num_index = (scope.tableParams.page()-1)*scope.tableParams.count()+index+1;
+        })
+    })
 
     //监控tab页不同的激活状态构建不同的表格;
     scope.$watch('radioModel',function(newValue,oldValue,scope){
         scope.search_text='';
         scope.resetTableField();
         if(newValue=='workWait'){
-            _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],getData:function($defer, params){
-                //初始化显示字段;
-                scope.initShowField(['序号','状态','名称','分类','审核状态','检查错误','错误类型','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
-                var rawDataParam = {
-                    projectId: "2016013086",
-                    condition: {handler: "2925", auditStatus: 1},
-                    sortby: [["latestMergeDate", -1]],
-                    phase: "4",
-                    featcode: "poi",
-                    type: "snapshot",
-                    pagesize: params.count(),
-                    pageno:params.page()
-                };
-                scope.$emit("getPageData",rawDataParam);
-                scope.$on('getPageDataResult',function(event, data){
-                    _self.tableParams.total(data.total);
-                    if(data.data.length){
-                        $defer.resolve(data.data);
-                    }else{
-                        $defer.resolve(null);
-                    }
-                });
-            }});
+            scope.finalData = scope.rawData
+            scope.initShowField(['序号','状态','名称','分类','审核状态','检查错误','错误类型','标记','照片','备注','采集时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],dataset:scope.finalData});
         }else if(newValue=='submitWait'){
-            _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],getData:function($defer, params){
-                scope.initShowField(['序号','状态','名称','分类','审核状态','检查错误','错误类型','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
-                var dealedDataParam = {
-                    projectId: "2016013086",
-                    condition: {handler: "2925", auditStatus: {'$in': [2, 5]}},
-                    sortby: [["latestMergeDate", -1]],
-                    phase: "4",
-                    featcode: "poi",
-                    type: "snapshot",
-                    pagesize: params.count(),
-                    pageno:params.page()
-                };
-                scope.$emit("getPageData",dealedDataParam);
-                scope.$on('getPageDataResult',function(event, data){
-                    _self.tableParams.total(data.total);
-                    $defer.resolve(data.rows);
-                });
-            }});
+            scope.finalData = scope.dealedData
+            scope.initShowField(['序号','状态','名称','分类','审核状态','检查错误','错误类型','标记','照片','备注','采集时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],dataset:scope.finalData});
         }else{
-            _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
-                var submitedDataParam = {
-                    projectId: "2016013086",
-                    condition: {handler: "2925", auditStatus: 0, submitStatus: 1},
-                    sortby: [["latestMergeDate", -1]],
-                    phase: "4",
-                    featcode: "poi",
-                    type: "snapshot",
-                    pagesize: params.count(),
-                    pageno:params.page()
-                };
-                scope.$emit("getPageData",submitedDataParam);
-                scope.$on('getPageDataResult',function(event, data){
-                    _self.tableParams.total(data.total);
-                    $defer.resolve(data.data);
-                });
-            }});
+            scope.finalData = scope.submitedData
+            scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:scope.finalData});
         }
     })
 
     var timeout = null;
     scope.$watch('search_text',function(newValue,oldValue,scope){
         var search_type = '';
-        console.log(scope.tableParams)
         if(timeout)$timeout.cancel(timeout);
         if(newValue!=oldValue){
             timeout = $timeout(function() {
-                if(scope.radio_select=='状态'){
+                if(scope.radio_select=='全局搜索'){
                     _self.tableParams.filter({$: _self.search_text});
                 }else{
                     var filter = {};
@@ -162,9 +125,9 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         var value = row[this.field];
         var newvalue = value.length>6?value.substr(0,6)+'...':value;
         if(value.length>6){
-            var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="../../apps/poibase/dataList.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
+            var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="../../apps/poibase/mainEditor.html" target="_blank">'+newvalue+'</a>'
         }else{
-            var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="../../apps/poibase/dataList.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
+            var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="../../apps/poibase/mainEditor.html" target="_blank">'+newvalue+'</a>'
         }
         return $sce.trustAsHtml(html);
     }
