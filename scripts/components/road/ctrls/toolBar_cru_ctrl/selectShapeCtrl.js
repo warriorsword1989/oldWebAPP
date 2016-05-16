@@ -279,6 +279,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html";
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
+            case 'RDGSC':
+                ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_gsc_tpl/rdGscTpl.html";
+                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                break;
             case 'RDBRANCH':
                 shapeCtrl.editFeatType = 0;
                 ctrlAndTmplParams.propertyCtrl = "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl";

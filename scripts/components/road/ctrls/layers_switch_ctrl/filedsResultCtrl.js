@@ -185,7 +185,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.workPoint.requestType = "";
                     $scope.gpsLine.requestType = "";
                     $scope.workPoint.redraw();
-                    $scope.gpsLine.redraw();
+                    //$scope.gpsLine.redraw();
                 }
                 Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
@@ -665,9 +665,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
                 var tips = Object.keys($scope.tipsObj);
                 $scope.workPoint.requestType = tips;
-                $scope.gpsLine.requestType = tips;
+                //$scope.gpsLine.requestType = tips;
                 $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
+                //$scope.gpsLine.redraw();
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
