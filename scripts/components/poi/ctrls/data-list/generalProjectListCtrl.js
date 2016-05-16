@@ -52,9 +52,8 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
     }
 
     //刷新表格方法;
-    scope.refreshData = function(){
+    scope.changeStyle = function(){
         console.log("刷新表格")
-        console.log(_self.tableParams)
     }
 
     //构造排序参数;
@@ -72,6 +71,7 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
     }
 
     scope.$watch('radioModel',function(newValue,oldValue,scope){
+        _self.tableParams=null;
         //初始化ng-table;
         if(newValue=='myProject'){
             console.log('myProject')
@@ -115,7 +115,6 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
             }});
         }
     },false)
-
 
     //格式化项目名称
     function handleProjectName($scope,row){
