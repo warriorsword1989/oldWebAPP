@@ -52,8 +52,9 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
     }
 
     //刷新表格方法;
-    scope.changeStyle = function(){
+    scope.refreshData = function(){
         console.log("刷新表格")
+        console.log(_self.tableParams.reload())
     }
 
     //构造排序参数;
