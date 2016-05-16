@@ -44,7 +44,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     event.stopPropagation();
                 }
                 highRenderCtrl._cleanHighLight();
-                highRenderCtrl.highLightFeatures.length = 0;
+                if(highRenderCtrl.highLightFeatures!=undefined) {
+                    highRenderCtrl.highLightFeatures.length = 0;
+                }
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 $("#popoverTips").hide();
                 editLayer.clear();

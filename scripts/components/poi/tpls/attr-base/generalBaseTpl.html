@@ -1,5 +1,5 @@
 <div ng-controller="generalBaseCtl" style="min-width:420px;margin-bottom:20px;">
-    <uib-accordion-group panel-class="panel-default" is-open="ctrl.open">
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.openBase">
         <uib-accordion-heading>
             <div class="form-inline">
                 <span style="font-weight:bold;">基本信息</span>
@@ -15,7 +15,7 @@
                         <img ng-show="poiCarIcon" src="../../images/poi/icon/poi_car.png" title="重要车厂">
                         <img ng-show="poiRmbIcon" src="../../images/poi/icon/poi_rmb.png" title="后项收费">
                     </div>
-                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.open, 'glyphicon-chevron-down': !ctrl.open}"></i>
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.openBase, 'glyphicon-chevron-down': !ctrl.openBase}"></i>
                 </div>
             </div>
         </uib-accordion-heading>
@@ -162,6 +162,39 @@
                     </tr>
                 </table>
             </form>
+        </div>
+    </uib-accordion-group>
+
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.openDeep">
+        <uib-accordion-heading>
+            <div class="form-inline">
+                <span style="font-weight:bold;">扩展信息</span>
+                <div class="form-group form-inline pull-right">
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.openDeep, 'glyphicon-chevron-down': !ctrl.openDeep}"></i>
+                </div>
+            </div>
+            
+        </uib-accordion-heading>
+        <div class="panel-bady" style="margin:-15px;">
+            <table id="extendInfo" class="table property-table">
+                <tr>
+                    <td class="active" width="20%">24小时</td>
+                    <td width="30%">
+                        <input type="checkbox" value="1" ng-checked="isOpen24(poi.open24H)" > 是
+                    </td>
+                    <td class="active" width="20%">室内POI</td>
+                    <td width="30%">
+                        <input type="checkbox" value="3" ng-checked="isIndoorType(poi.indoor);"> 是 
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td colspan="3">
+                        <textarea ng-model="remark" style="width: 90%;margin-bottom: -6px;"> </textarea>
+                    </td>
+                </tr>
+            </table>
         </div>
     </uib-accordion-group>
 </div>

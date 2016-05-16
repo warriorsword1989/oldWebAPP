@@ -33,23 +33,19 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         return defer.promise;
     };
     
-    this.getProjectList = function(param, callback){
-        FM.dataApi.ajax.get("project/list/", param, function(data) {
-        	var ret = [];
-        	if (data.errcode == 0) {
-                ret = data.data.rows;
-            }
-        	callback(ret);
-        });
+    this.getProjectList = function(param){
+    	var defer = $q.defer();
+	    FM.dataApi.ajax.get("project/list/", param, function(data) {
+	    	defer.resolve(data.data);
+	    });
+	    return defer.promise;
     };
-    this.getProjectInfo = function(projId, callback){
+    this.getProjectInfo = function(projId){
+    	var defer = $q.defer();
         FM.dataApi.ajax.get("project/query/", {projectId: projId}, function(data) {
-        	var ret = [];
-        	if (data.errcode == 0) {
-                ret = data.data;
-            }
-        	callback(ret);
+        	defer.resolve(data.data);
         });
+        return defer.promise;
     };
     /*忽略检查项*/
     this.ignoreCheck = function(param, callback){
@@ -61,23 +57,51 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
             callback(ret);
         });
     };
-    this.getOperSeason = function(projId, callback){
-        FM.dataApi.ajax.get("project/queryOperSeason/", {projectId: projId}, function(data) {
-        	var ret = [];
-        	if (data.errcode == 0) {
+    /*锁定检查结果*/
+    this.lockSingleData = function(param, callback){
+        FM.dataApi.ajax.get("editsupport/handler/locksingle/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
                 ret = data.data;
             }
-        	callback(ret);
+            callback(ret);
         });
     };
-    this.getPoiInfo = function(param, callback){
-        FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-        	var ret;
-        	if (data.errcode == 0) {
-                ret = data.data;
-            }
-        	callback(ret);
+    this.getOperSeason = function(projId){
+    	var defer = $q.defer();
+        FM.dataApi.ajax.get("project/queryOperSeason/", {projectId: projId}, function(data) {
+            defer.resolve(data.data);
         });
+        return defer.promise;
+    };
+    this.getPoiInfo = function(param){
+    	var defer = $q.defer();
+        FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
+        	defer.resolve(data.data);
+        });
+        return defer.promise;
+    };
+    this.queryUser = function(userId){
+    	var defer = $q.defer();
+    	var param = {
+            parameter: "{}"
+        };
+        if (userId != null) {
+            param.parameter = JSON.stringify({
+                userId: userId
+            });
+        }
+        FM.dataApi.ajax.get("user/query/", param, function(data) {
+        	defer.resolve(data.data.rows[0]);
+        });
+        return defer.promise;
+    };
+    this.getTopKindList = function(){
+    	var defer = $q.defer();
+    	FM.dataApi.IxPoiTopKind.getList(function(data){
+    		defer.resolve(data);
+    	});
+    	return defer.promise;
     };
 
 }]).service("meta", ["$http", "$q", function($http, $q) {

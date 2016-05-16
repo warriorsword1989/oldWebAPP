@@ -33,6 +33,9 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on('click', this.onMouseDown, this);
+        }
         this._map.on('mousemove', this.onMouseMove, this);
         this._map.on('mouseup', this.onMouseUp, this);
         this._map.on('dblclick', this.onDbClick, this);
@@ -43,6 +46,9 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.off('click', this.onMouseDown, this);
+        }
         this._map.off('mousemove', this.onMouseMove, this);
         this._map.off('mouseup', this.onMouseUp, this);
         this._map.off('dblclick', this.onDbClick, this);
@@ -57,15 +63,13 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
 
     onMouseDown: function (event) {
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
-        if(this.start == true){
+        if(this.start){
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(0, 0, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             this.startPoint =  fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)
         }else{
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             this.endPoint =  fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)
         }
-
-
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
