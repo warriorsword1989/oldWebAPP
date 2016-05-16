@@ -392,6 +392,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
                 shapeCtrl.editFeatType = "rdLink";
+                //map.currentTool.snapHandler.setTargetIndex(-1);
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
@@ -731,9 +732,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                             /*把当前link的level_index升高一级*/
-                            for(var i=0;i<jsonData.linkObjs.length;i++){
+                            for(var i=0,lenI=jsonData.linkObjs.length;i<lenI;i++){
                                 if(jsonData.linkObjs[i].pid == data.id){
-                                    for(var j=0;j<jsonData.linkObjs.length;j++){
+                                    for(var j=0,lenJ=jsonData.linkObjs.length;j<lenJ;j++){
                                         if(jsonData.linkObjs[j].level_index == jsonData.linkObjs[i].level_index+1){
                                             jsonData.linkObjs[j].level_index--;
                                         }

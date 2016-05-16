@@ -1,0 +1,241 @@
+.showbox {
+    position: relative;
+    border: 1px solid #CCC;
+    font-size: 12px;
+    width: 100%;
+    height: 100%;
+}
+
+.showbox li {
+    list-style: none;
+    vertical-align: top;
+}
+
+.showbox img {
+    vertical-align: top;
+}
+
+.showbox .image {
+    text-align: center;
+    min-height: 100px;
+    position: relative;
+    text-align: center;
+}
+
+.showbox .image a {
+    display: inline-block;
+    text-align: center;
+    margin: 0px auto;
+    position: relative;
+}
+
+.showbox .image .img-tag {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    background: black;
+    line-height: 20px;
+    font-size: 14px;
+    color: #fff;
+    padding: 3px;
+    opacity: 0.8;
+}
+
+.showbox .image img {
+    border: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.showbox .toolbar {
+    padding: 5px;
+    border: 1px solid #CCC;
+    border-left: none;
+    border-right: none;
+}
+
+.showbox .thumbs {
+    width: 100%;
+    height: 70px;
+    position: relative;
+    background: url(../../images/poi/showBox/scrollPicbg.gif) repeat-x 0px 0px;
+}
+
+.showbox .thumbs .prev {
+    width: 17px;
+    height: 100%;
+    background: url(../../images/poi/showBox/picshopArr.gif) no-repeat left center;
+    position: absolute;
+    top: 0px;
+    left: 4px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.showbox .thumbs .prev:hover {
+    opacity: 1;
+}
+
+.showbox .thumbs .next {
+    width: 17px;
+    height: 100%;
+    background: url(../../images/poi/showBox/picshopArr.gif) no-repeat right center;
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.showbox .thumbs .next:hover {
+    opacity: 1;
+}
+
+.showbox .thumbs .thumbs-list {
+    position: absolute;
+    top: 10px;
+    left: 25px;
+    right: 25px;
+    height: 53px;
+    overflow: hidden;
+}
+
+.showbox .thumbs .thumbs-list ul {
+    width: 100%;
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+}
+
+.showbox .thumbs .thumbs-list li {
+    float: left;
+    cursor: pointer;
+}
+
+.showbox .thumbs .thumbs-list li img {
+    padding: 3px;
+    margin: 0px 2px;
+    border: 1px solid #e4e4e4;
+    display: block;
+    width: 38px;
+    height: 50px;
+}
+
+.showbox .thumbs .thumbs-list li.selected img {
+    border: 2px solid blue;
+    padding: 2px;
+}
+
+.showbox .image .delete-btn {
+    width: 24px;
+    height: 24px;
+    background: url(../../images/poi/showBox/delete.png) no-repeat left center;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+
+/*弹出层*/
+.showboxModal {
+    top: 0px;
+    left: 0px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 999999;
+    border: 1px solid #9d9d9d;
+    box-shadow: 4px 4px 8px 4px #333;
+    border-radius: 4px;
+}
+
+
+
+#showbox-buttons {
+    position: relative;
+    left: 0;
+    z-index: 1050;
+    margin:auto auto 10px auto;
+}
+
+#showbox-buttons ul {
+    display: block;
+    width: 163px;
+    height: 31px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #111;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    -moz-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    background: rgb(50, 50, 50);
+}
+
+#showbox-buttons ul li {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+#showbox-buttons a.btnPrev {
+    background-position: 5px 0;
+}
+
+#showbox-buttons a.btnNext {
+    background-position: -33px 0;
+    border-right: 1px solid #3e3e3e;
+}
+
+#showbox-buttons a.btnRotateL {
+    background-position: -58px -30px;
+    border-left: 1px solid #111;
+}
+
+#showbox-buttons a.btnRotateR {
+    background-position: -58px -60px;
+    border-right: 1px solid #111;
+    width: 34px;
+}
+
+#showbox-buttons a.btnClose {
+    width: 35px;
+    background-position: -56px 0px;
+}
+
+#showbox-buttons a {
+    display: block;
+    width: 30px;
+    height: 29px;
+    text-indent: -9999px;
+    background-color: transparent;
+    background-image: url('../../images/poi/showBox/fancybox_buttons.png');
+    background-repeat: no-repeat;
+    outline: none;
+    opacity: 0.8;
+}
+
+.showbox-title {
+    visibility: visible;
+}
+.showbox-opened .showbox-title {
+    visibility: visible;
+}
+.showbox-title-over-wrap {
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    padding: 10px;
+    background: #000;
+    background: rgba(0, 0, 0, .8);
+}
+.showbox-title-over-wrap-left {
+    left: 0px;
+}
+.showbox-title-over-wrap-rigth {
+    right: 0px;
+}
+
+.imgActive {
+    border: solid rgb(25, 25, 112) 1px !important;
+}
