@@ -60,9 +60,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
                 console.log("imageTpl.html-------------");
-                
                 $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-
             });
         });
     });
@@ -292,7 +290,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         });
     };
     $scope.doSave = function() {
-        $scope.$broadcast("save", $scope.meta.kindList);
+        //$scope.$broadcast("save", $scope.meta.kindList);
+        var param = {
+            access_token: App.Config.accessToken,
+            projectId: "2016013086",
+            phase: 4,
+            fid: '0010060815LML01353',
+            featcode: 'poi',
+            validationMethod: 1,
+            data: $scope.poi
+        };
+        console.info("save",$scope.poi);
+        $scope.saveButClass = "disabled";
+        // poi.savePoi(param,function(data){
+        //     $scope.saveButClass = "";
+        // });
     };
 
     function realSave(evt, data) {

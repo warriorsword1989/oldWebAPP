@@ -32,7 +32,15 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         });
         return defer.promise;
     };
-    
+    this.savePoi = function (param, callback){
+        FM.dataApi.ajax.get("editsupport/poi/save/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
+                ret = data.data;
+            }
+            callback(ret);
+        });
+    }
     this.getProjectList = function(param, callback){
         FM.dataApi.ajax.get("project/list/", param, function(data) {
         	var ret = [];
