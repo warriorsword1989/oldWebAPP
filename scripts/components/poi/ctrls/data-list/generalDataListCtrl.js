@@ -1,158 +1,138 @@
 angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonConfig', 'NgTableParams','$timeout','$sce','ngTableEventsChannel',  function (scope, uibBtnCfg, NgTableParams,$timeout,$sce,ngTableEventsChannel) {
     var _self = scope;
+    //设置tab页头默认样式;
     uibBtnCfg.activeClass = "btn-success";
+    //设置tab页头默认激活项;
     scope.radioModel = 'workWait';
-    scope.radio_select = '状态';
-    console.log(scope)
-    //scope.$on("initPageInfo", function(event, data) {
-    //    alert('')
-    //    _self.currentData = data;
-    //    ////_self.filterData(_self.currentData)
-    //    ////_self.constructTable();
-    //})
-
+    //设置搜索默认查询字段;
+    scope.radio_select = '全局搜索';
+    //设置默认搜索关键字;
+    scope.search_text = '';
+    //当前表格数据;
+    scope.finalData = null;
+    //初始化ng-table表头;
+    scope.cols = [
+        { field: "num_index", title: "序号", show: false},
+        { field: "fid", title: "FID", sortable: "fid", show: false},
+        { field: "pid", title: "PID", sortable: "pid", show: false},
+        { field: "lifecycle", title: "状态", sortable: "lifecycle", show: false,getValue:formatLifecycle},
+        { field: "name", title: "名称", sortable: "name", show: false,getValue:handleName},
+        { field: "kindCode", title: "分类", sortable: "kindCode", show: false},
+        { field: "auditStatus", title: "审核状态", sortable: "auditStatus", show: false,getValue:formatAuditStatus},
+        { field: "checkResultNum", title: "检查错误", sortable: "checkResultNum", show: false},
+        { field: "checkResults", title: "错误类型", sortable: "checkResults", show: false,getValue:formatCheckResults},
+        { field: "rawFields", title: "标记", sortable: "rawFields", show: false,getValue:formatRawFields},
+        { field: "attachments", title: "照片", sortable: "editSupportId", show: false,getValue:formatPhoto},
+        { field: "attachments", title: "备注", sortable: "editSupportId", show: false,getValue:formatRemark},
+        { field: "evaluateComment", title: "监察问题", sortable: "evaluateComment", show: false,getValue:formatEvaluateComment},
+        { field: "quesState", title: "问题状态", sortable: "quesState", show: false,getValue:formatQuesState},
+        { field: "fieldDate", title: "采集时间", sortable: "fieldDate", show: false,getValue:formatTime},
+        { field: "inputDate", title: "预处理时间", sortable: "inputDate", show: false,getValue:formatTime},
+        { field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: false,getValue:formatFreshnessVerification}
+    ];
     //切换搜索条件清空输入;
     scope.$watch('radio_select',function(newValue,oldValue,scope){
         scope.search_text = '';
     })
-
-    //scope.constructTable = function(){
-        scope.$watch('radioModel',function(newValue,oldValue,scope){
-            //初始化ng-table;
-            _self.cols = [
-                { field: "num_index", title: "序号", sortable: "num_index", show: false},
-                { field: "fid", title: "FID", sortable: "fid", show: false},
-                { field: "pid", title: "PID", sortable: "pid", show: false},
-                { field: "lifecycle", title: "状态", sortable: "lifecycle", show: true,getValue:formatStatus},
-                { field: "name", title: "名称", sortable: "name", show: true,getValue:handleName},
-                { field: "kindCode", title: "分类	", sortable: "kindCode", show: true, getValue:formatKindCode},
-                { field: "auditStatus", title: "审核状态", sortable: "auditStatus", show: true,getValue:formatAuditStatus},
-                { field: "checkResultNum", title: "检查错误", sortable: "checkResultNum", show: true},
-                { field: "checkResults", title: "错误类型", sortable: "checkResults", show: true,getValue:formatCheckResults},
-                { field: "rawFields", title: "标记", sortable: "rawFields", show: false,getValue:formatRawFields},
-                { field: "attachments", title: "照片", sortable: "editSupportId", show: false,getValue:formatPhoto},
-                { field: "attachments", title: "备注", sortable: "editSupportId", show: false,getValue:formatRemark},
-                { field: "evaluateComment", title: "监察问题", sortable: "evaluateComment", show: false,getValue:formatEvaluateComment},
-                { field: "quesState", title: "问题状态", sortable: "quesState", show: true,getValue:formatQuesState},
-                { field: "fieldDate", title: "采集时间", sortable: "fieldDate", show: true,getValue:formatTime},
-                { field: "inputDate", title: "预处理时间", sortable: "inputDate", show: true,getValue:formatTime},
-                { field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: true,getValue:formatFreshnessVerification}
-            ];
-            if(newValue=='workWait'){
-                console.log('workWait')
-                _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                    var rawDataParam = {
-                        projectId: "2016013086",
-                        condition: {handler: "2925", auditStatus: 1},
-                        sortby: [["latestMergeDate", -1]],
-                        phase: "4",
-                        featcode: "poi",
-                        type: "snapshot",
-                        pagesize: params.count(),
-                        pageno:params.page()
-                    };
-                    scope.$emit("getPageData",rawDataParam);
-                    scope.$on('getPageDataResult',function(event, data){
-                        _self.tableParams.total(data.total);
-                        if(data.data.length){
-                            $defer.resolve(data.data);
-                        }else{
-                            $defer.resolve(null);
-                        }
-                    });
-                }});
-            }else if(newValue=='submitWait'){
-                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                    var dealedDataParam = {
-                        projectId: "2016013086",
-                        condition: {handler: "2925", auditStatus: {'$in': [2, 5]}},
-                        sortby: [["latestMergeDate", -1]],
-                        phase: "4",
-                        featcode: "poi",
-                        type: "snapshot",
-                        pagesize: params.count(),
-                        pageno:params.page()
-                    };
-                    scope.$emit("getPageData",dealedDataParam);
-                    scope.$on('getPageDataResult',function(event, data){
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(data.data);
-                    });
-                }});
-
-            }else{
-                _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                    var submitedDataParam = {
-                        projectId: "2016013086",
-                        condition: {handler: "2925", auditStatus: 0, submitStatus: 1},
-                        sortby: [["latestMergeDate", -1]],
-                        phase: "4",
-                        featcode: "poi",
-                        type: "snapshot",
-                        pagesize: params.count(),
-                        pageno:params.page()
-                    };
-                    scope.$emit("getPageData",submitedDataParam);
-                    scope.$on('getPageDataResult',function(event, data){
-                        _self.tableParams.total(data.total);
-                        $defer.resolve(data.data);
-                    });
-                }});
-            }
-
-            var timeout = null;
-            scope.$watch('search_text',function(newValue,oldValue,scope){
-                var search_type = '';
-                if(timeout)$timeout.cancel(timeout);
-                if(newValue!=oldValue){
-                    console.log('变化了')
-                    timeout = $timeout(function() {
-                        if(scope.radio_select=='全局搜索'){
-                            _self.tableParams.filter({$: _self.search_text});
-                        }else{
-                            var filter = {};
-                            switch (scope.radio_select){
-                                case 'FID':search_type = 'fid';break;
-                                case 'PID':search_type = 'pid';break;
-                                case '状态':search_type = 'lifecycle';break;
-                                case '名称':search_type = 'name';break;
-                                case '分类':search_type = 'kindCode';break;
-                                case '审核状态':search_type = 'auditStatus';break;
-                                case '检查错误':search_type = 'checkResultNum';break;
-                                case '错误类型':search_type = 'checkResults';break;
-                                case '标记':search_type = 'rawFields';break;
-                                case '照片':search_type = 'attachments';break;
-                                case '备注':search_type = 'attachments';break;
-                                case '监察问题':search_type = 'evaluateComment';break;
-                                case '问题状态':search_type = 'quesState';break;
-                                case '采集时间':search_type = 'fieldDate';break;
-                                case '预处理时间':search_type = 'inputDate';break;
-                                case '鲜度验证':search_type = 'freshnessVerification';break;
-                            }
-                            filter[search_type] = newValue;
-                            angular.extend(_self.tableParams.filter(), filter);
-                        }
-                    }, 30);
+    //初始化显示表格字段方法;
+    scope.initShowField = function(params){
+        for(var i=0;i<scope.cols.length;i++){
+            for(var j=0;j<params.length;j++){
+                if(scope.cols[i].title==params[j]){
+                    scope.cols[i].show = true;
                 }
+            }
+        }
+    }
+    //重置表格字段显示方法;
+    scope.resetTableField = function(){
+        for(var i=0;i<scope.cols.length;i++){
+            if(scope.cols[i].show){
+                scope.cols[i].show = !scope.cols[i].show;
+            }
+        }
+    }
+    //刷新表格方法;
+    scope.refreshData = function(){
+        _self.tableParams.reload();
+    }
 
-            })
+    //给每条数据安排序号;
+    ngTableEventsChannel.onAfterReloadData(function(){
+        console.log(scope.tableParams.page())
+        angular.forEach(scope.tableParams.data,function(data,index){
+            data.num_index = (scope.tableParams.page()-1)*scope.tableParams.count()+index+1;
         })
-    //}
+    })
 
-    /*-----------------------------------公共函数部分----------------------------------*/
+    //监控tab页不同的激活状态构建不同的表格;
+    scope.$watch('radioModel',function(newValue,oldValue,scope){
+        scope.search_text='';
+        scope.resetTableField();
+        if(newValue=='workWait'){
+            scope.finalData = scope.rawData
+            scope.initShowField(['序号','状态','名称','分类','审核状态','检查错误','错误类型','标记','照片','备注','采集时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({page:1,count:15,filter:{'name':''}}, {total:0,counts: [10,15,20],dataset:scope.finalData});
+        }else if(newValue=='submitWait'){
+            scope.finalData = scope.dealedData
+            scope.initShowField(['序号','状态','名称','分类','审核状态','检查错误','错误类型','标记','照片','备注','采集时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],dataset:scope.finalData});
+        }else{
+            scope.finalData = scope.submitedData
+            scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({count:10,filter:{'name':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,dataset:scope.finalData});
+        }
+    })
+
+    var timeout = null;
+    scope.$watch('search_text',function(newValue,oldValue,scope){
+        var search_type = '';
+        if(timeout)$timeout.cancel(timeout);
+        if(newValue!=oldValue){
+            timeout = $timeout(function() {
+                if(scope.radio_select=='全局搜索'){
+                    _self.tableParams.filter({$: _self.search_text});
+                }else{
+                    var filter = {};
+                    switch (scope.radio_select){
+                        case 'FID':search_type = 'fid';break;
+                        case 'PID':search_type = 'pid';break;
+                        case '状态':search_type = 'lifecycle';break;
+                        case '名称':search_type = 'name';break;
+                        case '分类':search_type = 'kindCode';break;
+                        case '审核状态':search_type = 'auditStatus';break;
+                        case '检查错误':search_type = 'checkResultNum';break;
+                        case '错误类型':search_type = 'checkResults';break;
+                        case '标记':search_type = 'rawFields';break;
+                        case '照片':search_type = 'attachments';break;
+                        case '备注':search_type = 'attachments';break;
+                        case '监察问题':search_type = 'evaluateComment';break;
+                        case '问题状态':search_type = 'quesState';break;
+                        case '采集时间':search_type = 'fieldDate';break;
+                        case '预处理时间':search_type = 'inputDate';break;
+                        case '鲜度验证':search_type = 'freshnessVerification';break;
+                    }
+                    filter[search_type] = newValue;
+                    angular.extend(_self.tableParams.filter(), filter);
+                }
+            }, 30);
+        }
+
+    })
+    /*-----------------------------------格式化函数部分----------------------------------*/
     //格式化项目名称
     function handleName($scope,row){
         var value = row[this.field];
-        var newvalue = value.length>8?value.substr(0,8)+'...':value;
-        if(value.length>8){
-            var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="../../apps/poibase/dataList.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
+        var newvalue = value.length>6?value.substr(0,6)+'...':value;
+        if(value.length>6){
+            var html = '<a uib-tooltip="Hello, World!" title="'+value+'" tooltip-trigger="mouseover" href="../../apps/poibase/mainEditor.html" target="_blank">'+newvalue+'</a>'
         }else{
-            var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="../../apps/poibase/dataList.html?access_token='+App.Config.accessToken+'&projectId='+row.projectId+'" target="_blank">'+newvalue+'</a>'
+            var html = '<a uib-tooltip="Hello, World!" tooltip-trigger="mouseover" href="../../apps/poibase/mainEditor.html" target="_blank">'+newvalue+'</a>'
         }
         return $sce.trustAsHtml(html);
     }
     //格式化状态
-    function formatStatus($scope,row) {
+    function formatLifecycle($scope,row) {
         var retStr = row.lifecycle;
         switch (retStr) {
             case 0: retStr = '无';break;
@@ -294,16 +274,15 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         return ret;
     }
     // 格式化分类显示
-    function formatKindCode($scope,row) {
-        var value = row[this.field];
-        console.log(value)
-        var temp = $scope.checkRuleObj[value];
-        if (temp) {
-            return temp.kindName;
-        } else {
-            return value;
-        }
-    }
+    //function formatKindCode($scope,row) {
+    //    var value = row[this.field];
+    //    //var temp = $scope.pKindFormat[value];
+    //    //if (temp) {
+    //    //    return temp.kindName;
+    //    //} else {
+    //    //    return value;
+    //    //}
+    //}
 
 }]);
 

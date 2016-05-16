@@ -8,6 +8,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
      */
     setAttributes: function(data) {
         function _refFt(data){
+            /*检查结果*/
             this.fid = data["fid"] || null;
             this.pid = data["pid"] || 0;
             this.name = data["name"] || null;
@@ -30,7 +31,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
                 this.guide.longitude = data['location'].longitude || 0;
             }
             this.attachments = [];
-            if (data["attachments"].length && data["attachments"].length > 0) {
+            if (data["attachments"] && data["attachments"].length > 0) {
                 for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                     if (data["attachments"][i].type == 1) { //表示图片
                         var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
@@ -38,6 +39,9 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
                     }
                 }
             }
+            /*冲突检测*/
+            this.conflictFields = data['conflictFields'] || '';
+            this.duppoi = data['duppoi'];
         }
         this.errorCode = data['errorCode'] || null;
         this.errorMsg = data['errorMsg'] || null;

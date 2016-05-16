@@ -11,7 +11,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var restriction=layerCtrl.getLayerById("restriction");
     var rdlaneconnexity=layerCtrl.getLayerById("rdlaneconnexity");
     var editLayer = layerCtrl.getLayerById('edit');
-    var rdCross = layerCtrl.getLayerById("rdcross")
+    var rdCross = layerCtrl.getLayerById("rdcross");
+    var rdgsc = layerCtrl.getLayerById('rdGsc');
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -211,6 +212,10 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         shapeCtrl.startEditing();
     };
     $scope.save = function () {
+        if($scope.linkData.forms.length==0){
+            var newForm=fastmap.dataApi.rdLinkForm({"linkPid": $scope.linkData.pid, "formOfWay": 1});
+            $scope.linkData.forms.push(newForm);
+        }
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
@@ -330,6 +335,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             rdCross.redraw();
             restriction.redraw();
             rdlaneconnexity.redraw();
+            rdgsc.redraw();
 
             if (data.errcode==0) {
                 var sinfo={

@@ -31,7 +31,6 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
 
         });
         this.snapHandler.enable();
-        //this.snapHandler.addGuideLayer(new fastmap.uikit.LayerController({}).getLayerById('referenceLine'));
         this.validation = fastmap.uikit.geometryValidation({transform: new fastmap.mapApi.MecatorTranform()});
 
     },
@@ -56,7 +55,6 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             this._map.off('click', this.onMouseDown, this);
         }
         this._map.off('mousemove', this.onMouseMove, this);
-
     },
 
 
@@ -190,7 +188,5 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 0, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
         }
         this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.targetIndex, 1, fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
-
     }
-
 });

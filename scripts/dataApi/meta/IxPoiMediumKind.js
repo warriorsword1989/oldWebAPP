@@ -15,12 +15,12 @@ FM.dataApi.IxPoiMediumKind = FM.dataApi.DataModel.extend({
     },
 
     statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("fos/meta/queryMediumKind/", param, function(data) {
+        getList: function(callback) {
+            FM.dataApi.ajax.get("meta/queryMediumKind/", {}, function(data) {
                 var mediumKinds = [],
                     kind;
                 for (var i = 0; i < data.data.length; i++) {
-                    kind = new FM.dataApi.ixPoiMediumKind(data.data[i]);
+                    kind = new FM.dataApi.IxPoiMediumKind(data.data[i]);
                     mediumKinds.push(kind);
                 }
                 callback(mediumKinds);

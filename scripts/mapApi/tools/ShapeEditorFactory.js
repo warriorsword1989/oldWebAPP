@@ -3,7 +3,6 @@
  * Class ShapeEditorFactory
  */
 
-//fastmap.mapApi.ShapeEditorFactory =  L.Class.extend({
 fastmap.mapApi.ShapeEditorFactory = (function() {
     var instantiated;
 

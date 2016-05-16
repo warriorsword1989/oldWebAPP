@@ -560,7 +560,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             propertyCtrl:"components/road/ctrls/attr_cross_ctrl/rdCrossCtrl",
                                             propertyHtml:"../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html",
                                         }
-                                        objCtrl.setCurrentObject(data.data[0]);
+                                        objCtrl.setCurrentObject('RDCROSS',data.data[0]);
                                         $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                                     });
                                 }

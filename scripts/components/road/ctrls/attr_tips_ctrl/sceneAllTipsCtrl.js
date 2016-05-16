@@ -345,6 +345,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
 
                 $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
+                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
+                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
                 break;
             case "1501"://上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
@@ -565,7 +567,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
-                        objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                        objCtrl.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         restrictLayer.redraw();
                         workPoint.redraw();
@@ -585,16 +587,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-
+                    outPutCtrl.pushOutput(info);
+                    if (outPutCtrl.updateOutPuts !== "") {
+                        outPutCtrl.updateOutPuts();
+                    }
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
             }
 
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
         }else if ($scope.dataTipsData.s_sourceType === "1302") {
             $scope.createRestrictByTips()
         }

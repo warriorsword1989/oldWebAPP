@@ -212,7 +212,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         }
                     })
                 }
-                
+
                 selectCtrl.onSelected({
                     point: data.point
                 });
