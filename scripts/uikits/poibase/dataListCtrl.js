@@ -102,7 +102,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
     });
 	$scope.checkRuleObj = checkRuleObj;
 	var pKindFormat = new Object();
-	promises.push(FM.dataApi.IxPoiTopKind.getList().then(function(data){
+	promises.push(poi.getTopKindList().then(function(data){
         for (var i = 0; i < data.length; i++) {
         	pKindFormat[data[i].kindCode] = {
                 kindId: data[i].id,
