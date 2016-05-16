@@ -85,11 +85,13 @@ fastmap.uikit.SelectForRestriction = L.Handler.extend({
                         if (touchids[0] == 0) {
                             this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                 id: data[item].properties.snode,
+                                event:event,
                                 index: this.selectedFeatures.length
                             })
                         } else {
                             this.eventController.fire(this.eventController.eventTypes.GETLINKID, {
                                 id: data[item].properties.enode,
+                                event:event,
                                 index: this.selectedFeatures.length
                             })
                         }

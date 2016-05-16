@@ -45,7 +45,6 @@ function keyEvent(ocLazyLoad, scope) {
                 }
                 if (map.currentTool.snapHandler) {
                     map.currentTool.snapHandler._enabled = true;
-                    map.currentTool.snapHandler.disable();
                     map.currentTool.snapHandler.snaped = false;
                 }
                 map.currentTool._enabled = true;
