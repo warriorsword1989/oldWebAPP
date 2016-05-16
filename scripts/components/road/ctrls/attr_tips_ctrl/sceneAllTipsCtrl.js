@@ -587,7 +587,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
-                        objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                        objCtrl.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         restrictLayer.redraw();
                         workPoint.redraw();
