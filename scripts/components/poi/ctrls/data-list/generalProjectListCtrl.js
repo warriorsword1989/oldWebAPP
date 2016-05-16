@@ -4,61 +4,79 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
     scope.radioModel = 'myProject';
     scope.radio_select = '全局搜索';
     scope.cols = [
-        { field: "num_index", title: "序号", sortable: "num_index", show: true},
+        { field: "num_index", title: "序号", show: false},
         { field: "projectId", title: "项目编号", sortable: "projectId", show: false},
-        { field: "projectName", title: "项目名称", sortable: "projectName", show: true,getValue:handleProjectName},
-        { field: "projectType", title: "类型	", sortable: "projectType", show: true,getValue:handleProjectType},
-        { field: "projectScheduleCreate", title: "创建时间", sortable: "projectScheduleCreate", show: true},
-        { field: "projectScheduleBegin", title: "开始时间", sortable: "projectScheduleBegin", show: true},
-        { field: "projectScheduleFinish", title: "结束时间", sortable: "projectScheduleFinish", show: true},
-        { field: "projectPhase", title: "状态", sortable: "projectPhase", show: true,getValue:handleProjectPhase},
+        { field: "projectName", title: "项目名称", sortable: "projectName", show: false,getValue:handleProjectName},
+        { field: "projectType", title: "类型	", sortable: "projectType", show: false,getValue:handleProjectType},
+        { field: "projectScheduleCreate", title: "创建时间", sortable: "projectScheduleCreate", show: false},
+        { field: "projectScheduleBegin", title: "开始时间", sortable: "projectScheduleBegin", show: false},
+        { field: "projectScheduleFinish", title: "结束时间", sortable: "projectScheduleFinish", show: false},
+        { field: "projectPhase", title: "状态", sortable: "projectPhase", show: false,getValue:handleProjectPhase},
         { field: "editSupportId", title: "编辑池", sortable: "editSupportId", show: false}
     ];
+    //表格配置搜索;
+    scope.filters = {
+        value:''
+    };
+
     //切换搜索条件清空输入;
     scope.$watch('radio_select',function(newValue,oldValue,scope){
-        scope.search_text = '';
+        scope.filters.value = '';
     })
+
+    //初始化显示表格字段方法;
+    scope.initShowField = function(params){
+        for(var i=0;i<scope.cols.length;i++){
+            for(var j=0;j<params.length;j++){
+                if(scope.cols[i].title==params[j]){
+                    scope.cols[i].show = true;
+                }
+            }
+        }
+    }
+    //重置表格字段显示方法;
+    scope.resetTableField = function(){
+        for(var i=0;i<scope.cols.length;i++){
+            if(scope.cols[i].show){
+                scope.cols[i].show = !scope.cols[i].show;
+            }
+        }
+    }
+
     //给返回数据增加序号索引;
     scope.filterData = function(data,page,count){
-        //alert()
         for(var i=0;i<data.length;i++){
             data[i].num_index = (page-1)*count+1+i;
         }
         return data
     }
+
+    //刷新表格方法;
     scope.changeStyle = function(){
         console.log("刷新表格")
     }
 
-    scope.filters = {
-        value:''
-    };
-
-    scope.constructSearchParams = function(params){
-        switch (scope.radio_select){
-            case '全局搜索': return '$ = '+params.filter().value+''; break;
-            case '项目名称': return 'projectName = '+params.filter().value+''; break;
-            case '项目类型': return 'projectType = '+params.filter().value+''; break;
-            case '项目状态': return 'projectPhase = '+params.filter().value+''; break;
-        }
-    }
+    //构造排序参数;
     scope.constructSortParams = function(params){
         var search_obj = params.sorting();
-        var key='projectName';
-        var value = 'asc';
+        var temp=[];
         angular.forEach(search_obj,function(data,index){
-            key = index;
-            value = data;
+            if(data=='asc'){
+                temp[0]=index;
+            }else{
+                temp[0]='-'+index;
+            }
         })
-        return 'order by '+key+' '+value;
+        return temp;
     }
 
     scope.$watch('radioModel',function(newValue,oldValue,scope){
+        _self.tableParams=null;
         //初始化ng-table;
         if(newValue=='myProject'){
             console.log('myProject')
-            _self.tableParams = new NgTableParams({page:1,count:15,filter: scope.filters}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                //scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({page:1,count:15,filter: scope.filters}, {counts: [10,15,20],getData:function($defer, params){
+                scope.initShowField(['序号','项目名称','类型','创建时间','开始时间','结束时间','状态']);
                 var currparam = {
                     from: "app",
                     projectStatus: [3, 6, 7],
@@ -66,11 +84,9 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                     pageno: params.page(),
                     pagesize: params.count(),
                     snapshot: "snapshot",
-                    cond:scope.constructSearchParams(params),
-                    sort:scope.constructSortParams(params)
+                    orderFeild:scope.constructSortParams(params),
+                    projectName:params.filter().value
                 };
-                console.log(currparam)
-
                 scope.$emit("getPageData",currparam);
                 scope.$on('getPageDataResult',function(event, data){
                     _self.tableParams.total(data.total);
@@ -79,15 +95,17 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
             }});
         }else{
             console.log('historyProject')
-            _self.tableParams = new NgTableParams({count:10,filter:{'projectName':''}}, {counts: [10,15,20],paginationMaxBlocks:13,paginationMinBlocks: 2,getData:function($defer, params){
-                //scope.initShowField(['序号','状态','名称','分类','标记','照片','备注','采集时间','预处理时间','鲜度验证']);
+            _self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts: [10,15,20],getData:function($defer, params){
+                scope.initShowField(['序号','项目名称','类型','创建时间','开始时间','结束时间','状态']);
                 var hisparam = {
                     from: "app",
                     projectStatus: [5],
                     projectType: [1, 3],
                     pageno: params.page(),
                     pagesize: params.count(),
-                    snapshot: "snapshot"
+                    snapshot: "snapshot",
+                    orderFeild:scope.constructSortParams(params),
+                    projectName:params.filter().value
                 };
                 scope.$emit("getPageData",hisparam);
                 scope.$on('getPageDataResult',function(event, data){
