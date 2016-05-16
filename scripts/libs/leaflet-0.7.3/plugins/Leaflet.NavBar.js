@@ -27,7 +27,7 @@
       // Create toolbar
       var controlName = 'leaflet-control-navbar',
       container = L.DomUtil.create('div', controlName + ' leaflet-bar');
-
+      container.id = "navbar";
       // Add toolbar buttons
       this._homeButton = this._createButton(options.centerTitle, controlName + '-center', container, this._goCenter);
       this._fwdButton = this._createButton(options.resetTitle, controlName + '-reset', container, this._resetMap);

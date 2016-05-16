@@ -9,6 +9,7 @@ FM.leafletUtil = {
             if (map._layers[item].id) {
                 if (map._layers[item].id === layerId) {
                     layer=map._layers[item];
+                    break;
                 }
             }
         }
@@ -20,6 +21,7 @@ FM.leafletUtil = {
             if (map._layers[item].id) {
                 if (map._layers[item].id === layerId) {
                     layers.push(map._layers[item]);
+                    break;
                 }
             }
         }
@@ -71,6 +73,7 @@ FM.leafletUtil = {
             singleselect: true,
             zIndex: 2
         });
+        qqLayer.id = "qqLayer";
         map.addLayer(qqLayer);
         var drawnItems = new L.layerGroup();
         drawnItems.id = "drawnItems";
@@ -100,16 +103,6 @@ FM.leafletUtil = {
         var poiEditLayer = new L.layerGroup();
         poiEditLayer.id = "poiEditLayer";
         map.addLayer(poiEditLayer);
-        var overLayers = {
-            "道路": navBaseLayer,
-            "腾讯": qqLayer
-        };
-        L.control.layers('', overLayers).addTo(map);//右上角的图层
-        // L.control.zoom({//左上角的zoom
-        //     position: 'topleft',
-        //     zoomInTitle: '放大',
-        //     zoomOutTitle: '缩小'
-        // }).addTo(map);
     },
     createEditablePoiInMap:function (data, layerId, iconStyle) {//初始化可拖动的marker
         var editPoi = this.createPoiFeature(data,iconStyle);
@@ -188,6 +181,9 @@ FM.leafletUtil = {
     },
     completeDraw: function (e) {
         e.target.openPopup();
+        var locLatlng = e.target.getLatLng();
+        var loc = FM.leafletUtil.latLngToLoc(locLatlng);
+        console.log(loc);
     },
     createGuidePoint: function (poiFid, guide) {    //画引导点
         var fid = poiFid + "-@-gp";
@@ -205,7 +201,8 @@ FM.leafletUtil = {
         FM.leafletUtil.drawNewline(locPoint, e.target);
     },
     setClosestPoint: function (e) {    //设置最近的点并画link
-        var point = FM.leafletUtil.closestPoint(e);
+        var retObj = FM.leafletUtil.closestPoint(e);
+        var point = retObj.point;
         if (point != undefined) {
             var latlng = new L.latLng(point.x, point.y);
             FM.leafletUtil.removeLine(pMap, e.target.id.replace("-@-gp", "-@-gl"));
@@ -215,34 +212,48 @@ FM.leafletUtil = {
         }
         else {
             FM.leafletUtil.removeLine(pMap, e.target.id.replace("-@-gp", "-@-gl"));
-            var locPoint = this.getLayerById(pMap, e.target.id.split("-@-gp")[0]);
+            var locPoint = FM.leafletUtil.getLayerById(pMap, e.target.id.split("-@-gp")[0]);
             FM.leafletUtil.drawNewline(locPoint, FM.mapConf.pGuideGeo);
             // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
         }
+        var guideLatlng = e.target.getLatLng();
+        var guide = FM.leafletUtil.latLngToLoc(guideLatlng);
+        guide.linkPid = retObj.linkPid;
+        console.log(guide);
     },
-    closestPoint: function (e) {
+    closestPoint: function (e) {//寻找最近的引导点
+        var pFc = 0;
+        var retObj = {};
         var minDis = 50;
-        var p0 = L.point();
         var allLine = FM.leafletUtil.getLayerById(pMap, "navBaseLayer").getLayers();
         var line = FM.leafletUtil.getLayerById(pMap, e.target.id.replace("-@-gp", "-@-gl"));
         for (var i = 0; i < allLine.length; i++) {
-            for (var j = 0; j < allLine[i]._originalPoints.length - 1; j++) {
-                var p1 = L.point(line._originalPoints[1].x, line._originalPoints[1].y);
-                var p2 = L.point(allLine[i]._originalPoints[j].x, allLine[i]._originalPoints[j].y);
-                var p3 = L.point(allLine[i]._originalPoints[j + 1].x, allLine[i]._originalPoints[j + 1].y);
-                var ll = L.LineUtil.pointToSegmentDistance(p1, p2, p3);
-                //console.log(ll);
-                if (ll <= minDis) {
-                    var p1 = L.point(line._latlngs[1].lat, line._latlngs[1].lng);
-                    var p2 = L.point(allLine[i]._latlngs[j].lat, allLine[i]._latlngs[j].lng);
-                    var p3 = L.point(allLine[i]._latlngs[j + 1].lat, allLine[i]._latlngs[j + 1].lng);
-                    var point = L.LineUtil.closestPointOnSegment(p1, p2, p3);
-                    minDis = ll;
-                    p0 = point;
+            if (allLine[i].attributes.type == "rdLink" && allLine[i].attributes.fow.indexOf(50) == -1) { //去除formOfWay=50的道路
+                for (var j = 0; j < allLine[i]._originalPoints.length - 1; j++) {
+                    var p1 = L.point(line._originalPoints[1].x, line._originalPoints[1].y);
+                    var p2 = L.point(allLine[i]._originalPoints[j].x, allLine[i]._originalPoints[j].y);
+                    var p3 = L.point(allLine[i]._originalPoints[j + 1].x, allLine[i]._originalPoints[j + 1].y);
+                    var ll = L.LineUtil.pointToSegmentDistance(p1, p2, p3);//点到线的最短距离
+                    var l1 = L.point(line._latlngs[1].lat, line._latlngs[1].lng);
+                    var l2 = L.point(allLine[i]._latlngs[j].lat, allLine[i]._latlngs[j].lng);
+                    var l3 = L.point(allLine[i]._latlngs[j + 1].lat, allLine[i]._latlngs[j + 1].lng);
+                    if (ll < minDis) {
+                        var point = L.LineUtil.closestPointOnSegment(l1, l2, l3);//点到线的最短距离在线上的交点
+                        retObj.linkPid = allLine[i].attributes.pid;
+                        retObj.point = point;
+                        minDis = ll;
+                        pFc = allLine[i].attributes.fc;//把fc做为取舍条件之一
+                    } else if(ll == minDis && (allLine[i].attributes.fc != 0 && allLine[i].attributes.fc < pFc)){//fc的原则：1>2>3>4>5>0
+                        var point = L.LineUtil.closestPointOnSegment(l1, l2, l3);//点到线的最短距离在线上的交点
+                        minDis = ll;
+                        retObj.linkPid = allLine[i].attributes.pid;
+                        retObj.point = point;
+                        pFc = allLine[i].attributes.fc;
+                    }
                 }
             }
         }
-        return p0;
+        return retObj;
     },
     createGuideLine: function (poiFid, location, guide) {    //画引导线
         var fid = poiFid + "-@-gl";
@@ -252,6 +263,83 @@ FM.leafletUtil = {
         linePoints.push(spoint);
         linePoints.push(epoint);
         return this.drawGuideLine(fid, linePoints);
+    },
+    splitPolyline: function (wkt, strline) {    //将wkt格式的线分割成点
+        var line = wkt.read(strline.geometry);
+        var coords = line.components;
+        var points = [];
+        for (var i = 0; i < coords.length; i++) {
+            points.push(new L.latLng(coords[i].y, coords[i].x));
+        }
+        return points;
+    },
+    showLinkInMap: function (layerName, linkArray, linkType) {    //将线显示在地图上
+        var lineStyle;
+        var navLayer = this.getLayerById(pMap, "navBaseLayer");
+        var wkt = new Wkt.Wkt();
+        for (var i = 0; i < linkArray.length; i++) {
+            var lineLayer = L.polyline(this.splitPolyline(wkt, linkArray[i]));
+            lineLayer.id = linkArray[i].pid;
+            lineLayer.type = linkArray[i].kind;
+            lineStyle = this.getLineStyle(linkArray[i].kind);
+            lineLayer.setStyle(lineStyle);
+            lineLayer.attributes = linkArray[i];
+            lineLayer.attributes.type = "rdLink";
+            navLayer.addLayer(lineLayer);
+        }
+    },
+    highlightFeatureInMap: function (feature) { //将点的icon改变并高亮显示
+        if (FM.mapConf.pSelectMarker) {
+            FM.mapConf.pSelectMarker.setIcon(FM.iconStyles.dotIcon);
+            FM.mapConf.pSelectMarker.update();
+            feature.setIcon(FM.iconStyles.blueIcon);
+            feature.openPopup();
+            feature.update();
+            FM.mapConf.pSelectMarker = feature;
+        } else {
+            feature.setIcon(FM.iconStyles.blueIcon);
+            feature.openPopup();
+            feature.update();
+            FM.mapConf.pSelectMarker = feature;
+        }
+    },
+    
+ 
+    getLineStyle: function (kind) {    // 分配线型
+        var lstype;
+        switch (kind) {
+            case 1:
+                lstype = FM.lineStyles.line1;
+                break;
+            case 2:
+                lstype = FM.lineStyles.line2;
+                break;
+            case 3:
+                lstype = FM.lineStyles.line3;
+                break;
+            case 4:
+                lstype = FM.lineStyles.line4;
+                break;
+            case 6:
+                lstype = FM.lineStyles.line6;
+                break;
+            case 7:
+                lstype = FM.lineStyles.line7;
+                break;
+            case 8:
+                lstype = FM.lineStyles.line9;
+                break;
+            case 10:
+                lstype = FM.lineStyles.line10;
+                break;
+            case 99:
+                lstype = FM.lineStyles.line99;
+                break;
+            default:
+                lstype = FM.lineStyles.line10;
+                break;
+        }
+        return lstype;
     }
 };
 

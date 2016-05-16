@@ -67,7 +67,6 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
             this._map.dragging.disable();
         }
         var layerPoint = event.layerPoint;
-
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
 
         for (var j = 0, len = points.length; j < len; j++) {
@@ -89,30 +88,21 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
 
     onMouseMove: function (event) {
         this.container.style.cursor = 'pointer';
-
         var layerPoint = event.layerPoint;
-
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().components;
-
         for (var j = 0, len = points.length; j < len; j++) {
-
             //两个端点不能删除
             if(j != 0 && j !=len-1){
                 var disAB = this.distance(this._map.latLngToLayerPoint([points[j].y,points[j].x]), layerPoint);
-
                 if (disAB > 0 && disAB < 5) {
-
-
                     this.targetIndex = j;
                 }
             }
-
         }
-
 
         this.snapHandler.setTargetIndex(this.targetIndex);
         var that = this;
-        if(this.snapHandler.snaped == true){
+        if(this.snapHandler.snaped){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
             that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
@@ -120,8 +110,6 @@ fastmap.mapApi.PathVertexRemove = L.Handler.extend({
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
             that.shapeEditor.shapeEditorResultFeedback.setupFeedback();
         }
-
-
     },
 
     //两点之间的距离
