@@ -81,7 +81,7 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-
+        delete objCtrl.changedProperty['objId'];
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
