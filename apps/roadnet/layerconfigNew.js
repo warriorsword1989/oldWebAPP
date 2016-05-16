@@ -1375,6 +1375,17 @@ function transformDataForTips(data) {
                 break;
             case 1604://区域内道路
             case 1704://交叉路口
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1704/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1803://挂接
             case 1501://上下线分离
             case 1302://普通交限
@@ -1441,38 +1452,34 @@ function transformDataForTips(data) {
                 }
                 break;
             case 1403://3d分歧
-                for (var i = 0, len = item.g.length; i < len; i = i + 1) {
+                obj['geometry']['coordinates'] = item.g;
 
-                    obj['geometry']['coordinates'].push([item.g[i]]);
-                }
                 obj['properties']['markerStyle']["icon"].push(
-                    getIconStyle('../../images/road/tips/3D/3D.svg', 1, 0, obj['geometry']['coordinates'][0])
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1403/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
                 );
                 break;
 
             case 1510://桥
+
                 for (var i = 0;i<2;i++) {
                     if (i == 0) {
                         obj['geometry']['coordinates'] = item.m.c;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1510/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
-                    }else {
+                    } else if (i == 1) {
                         obj['geometry']['coordinates'] = item.m.d;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1510/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     }
+                    obj['properties']['markerStyle']["icon"].push(
+                        getIconStyle({
+                            iconName: '../../images/road/tips/1510/0.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates']
+                        })
+                    );
                 }
                 break;
             case 1514://施工维修
