@@ -609,16 +609,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-
+                    outPutCtrl.pushOutput(info);
+                    if (outPutCtrl.updateOutPuts !== "") {
+                        outPutCtrl.updateOutPuts();
+                    }
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
             }
 
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
         }else if ($scope.dataTipsData.s_sourceType === "1302") {
             $scope.createRestrictByTips()
         }
