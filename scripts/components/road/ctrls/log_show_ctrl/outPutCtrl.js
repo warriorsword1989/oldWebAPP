@@ -89,13 +89,13 @@ outPutModule.controller('outPutController', function ($scope) {
                 selectCtrl.onSelected({geometry: multiPolyLine, id: id});
 
                 highlightFeatures.push({
-                    id:$scope.id,
+                    id:id,
                     layerid:nodeLyaerid,
                     type:'node',
                     style:{}
                 })
 
-                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.highLightFeatures = highlightFeatures;
                 highRenderCtrl.drawHighlight();
             })
         }
@@ -159,7 +159,9 @@ outPutModule.controller('outPutController', function ($scope) {
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
                 if(linkArr.length>0){
-                    $scope.OutDrawLink(links[0]["linkPid"],"RDLINK");
+                    $scope.OutDrawLink(linkArr[0]["linkPid"],"RDLINK");
+                }else{
+                    $scope.showInMap(1,"RDNODE",nodeArr[0]["nodePid"]);
                 }
             })
         }else if(type.indexOf("RDLANECONNEXITY") >= 0){//车信
