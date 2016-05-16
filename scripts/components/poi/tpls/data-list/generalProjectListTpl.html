@@ -36,11 +36,12 @@
                     </ul>
                 </div>
                 <div class="pull-right search">
-                    <input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索...">
+                    <input ng-model="filters['value']" class="form-control" type="text" placeholder="关键词搜索...">
                 </div>
             </div>
         </div>
         <table ng-table-dynamic="tableParams with cols" ng-table="tableParams" class="table table-bordered table-striped">
+            <!--<input ng-model="filters.status" class="form-control" type="text" placeholder="关键词搜索...">-->
             <tbody>
                 <tr ng-repeat="row in $data">
                     <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]"></td>
