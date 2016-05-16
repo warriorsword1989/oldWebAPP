@@ -70,7 +70,6 @@ rdGscApp.controller("rdGscController",function($scope) {
 
     $scope.save = function(){
         objCtrl.save();
-        objCtrl.changedProperty.objId = 13;
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return ;
@@ -81,7 +80,6 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-        delete objCtrl.changedProperty['objId'];
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
