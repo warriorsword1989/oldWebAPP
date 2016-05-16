@@ -30,10 +30,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     $q.all(promises).then(function() {
         var imgs = initImages();
         var poiMap = {
-             data:$scope.snapshotPoi,
-             projectId:2016013086,
-             featcode:"poi",
-             kindFormat:metaData.kindFormat
+            data: $scope.snapshotPoi,
+            projectId: 2016013086,
+            featcode: "poi",
+            kindFormat: metaData.kindFormat
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
