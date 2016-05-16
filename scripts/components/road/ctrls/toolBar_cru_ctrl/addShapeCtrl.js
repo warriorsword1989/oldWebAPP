@@ -414,10 +414,8 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool.enable();
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 tooltipsCtrl.setEditEventType('pointVertexAdd');
-                tooltipsCtrl.setCurrentTooltip('开始增加限速！');
+                tooltipsCtrl.setCurrentTooltip('点击增加限速!！');
                 tooltipsCtrl.setStyleTooltip("color:black;");
-                tooltipsCtrl.setChangeInnerHtml("点击增加限速!");
-                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                 eventController.on(eventController.eventTypes.RESETCOMPLETE, function (e) {
                     var pro = e.property;
                     Application.functions.getRdObjectById(pro.id, "RDLINK", function (data) {
@@ -443,7 +441,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 }
                                 angle = $scope.includeAngle(map.latLngToContainerPoint([point.y, point.x]), map.latLngToContainerPoint([pointForAngle[1], pointForAngle[0]]));
                                 var marker = {
-                                    flag: false,
+                                    flag: true,
                                     point: point,
                                     type: "marker",
                                     angle: angle,
@@ -459,6 +457,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 shapeCtrl.setEditingType("transformDirect");
                                 shapeCtrl.startEditing();
                                 tooltipsCtrl.setCurrentTooltip("选择方向!");
+                                tooltipsCtrl.setChangeInnerHtml("点击空格保存,或者按ESC键取消!");
                             } else {
                                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                                 tooltipsCtrl.setEditEventType('speedLimit');
