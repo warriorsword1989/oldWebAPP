@@ -15,6 +15,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         var highRenderCtrl = fastmap.uikit.HighRenderController();
         var objCtrl = fastmap.uikit.ObjectEditController();
         var eventController = fastmap.uikit.EventController();
+         var outputCtrl = fastmap.uikit.OutPutController({});
         $scope.limitRelation = {};
         //两点之间的距离
         $scope.distance = function (pointA, pointB) {
@@ -191,10 +192,105 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
         };
     $scope.upAndDown=function(event) {
         var type = event.currentTarget.type;
-        if(type==="RETRYLINK") {
-            alert(11);
+        if(type === 'chooseOver'){
+            Application.functions.selectRelateLink(JSON.stringify($scope.param),function(data){
+                var highLightFeatures = [];
+                highRenderCtrl.highLightFeatures.length = 0;
+                highRenderCtrl._cleanHighLight();
+                $scope.linkMulity = [];
+                $scope.links = data.data;
+                for (var i = 0;i<$scope.links.length;i++) {
+                    $scope.linkMulity.push($scope.links[i].pid);
+                    if (i == 0) {
+                        highLightFeatures.push({
+                            id:  $scope.links[i].pid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {
+                                color: 'red'
+                            }
+                        });
+                    }else if (i == $scope.links.length - 1) {
+                        highLightFeatures.push({
+                            id:  $scope.links[i].pid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {
+                                color: 'green'
+                            }
+                        });
+                    }
+                    else {
+                        highLightFeatures.push({
+                            id: $scope.links[i].pid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {}
+                        });
+                    }
+                }
+                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.drawHighlight();
+
+            })
+        }
+        else if(type==="RETRYLINK") {
+            var links = $scope.linkMulity;
+            var highLightFeatures1 = [];
+            map.currentTool = new fastmap.uikit.SelectPath(
+                {
+                    map: map,
+                    currentEditLayer: rdLink,
+                    linksFlag: true,
+                    shapeEditor: shapeCtrl
+                });
+            tooltipsCtrl.setCurrentTooltip('选择需要删除或新增的线！');
+            eventController.on(eventController.eventTypes.GETLINKID,function(data){
+                for (var j = 0 ;j < links.length;j++) {
+                    if (data.id ==links[j] ) {
+                        links = links.slice(0,j);
+                       break;
+                    }
+                }
+                highRenderCtrl.highLightFeatures.length = 0;
+                highRenderCtrl._cleanHighLight();
+                for (var i = 0;i<links.length;i++) {
+                    if (i == 0) {
+                        highLightFeatures1.push({
+                            id:  links[i].toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {
+                                color: 'red'
+                            }
+                        });
+                    }else if (i == links.length - 1) {
+                        highLightFeatures1.push({
+                            id:  links[i].toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {
+                                color: 'green'
+                            }
+                        });
+                    }
+                    else {
+                        highLightFeatures1.push({
+                            id: links[i].toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {}
+                        });
+                    }
+                }
+                highRenderCtrl.highLightFeatures = highLightFeatures1;
+                highRenderCtrl.drawHighlight();
+                $scope.linkMulity = links;
+            });
+
+
         }else if(type===fastmap.mapApi.ShapeOptionType.PATHBUFFER) {
-            if(selectCtrl.selectedFeatures){
+            if($scope.linkMulity){
                 tooltipsCtrl.setCurrentTooltip('上下线分离请用鼠标滚轮调整间距！');
             }else{
                 tooltipsCtrl.setCurrentTooltip('上下线分离,先选择link！');
@@ -202,7 +298,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             map.scrollWheelZoom.disable();
             map.currentTool.disable();
-            Application.functions.getRdObjectById($scope.linkPid,'RDLINK', function (data) {
+            var links = [];
+            links = $scope.linkMulity;
+            Application.functions.getRdObjectById(links,'RDLINK', function (data) {
                 var linkArr =data.data.geometry.coordinates, points= [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
@@ -294,6 +392,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
                 shapeCtrl.editFeatType = "rdLink";
+                //map.currentTool.snapHandler.setTargetIndex(-1);
                 map.currentTool.snapHandler.addGuideLayer(rdLink);
                 map.currentTool.snapHandler.addGuideLayer(rdnode);
                 tooltipsCtrl.setEditEventType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
@@ -633,9 +732,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         rdLink.options.editable = true;
                         eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                             /*把当前link的level_index升高一级*/
-                            for(var i=0;i<jsonData.linkObjs.length;i++){
+                            for(var i=0,lenI=jsonData.linkObjs.length;i<lenI;i++){
                                 if(jsonData.linkObjs[i].pid == data.id){
-                                    for(var j=0;j<jsonData.linkObjs.length;j++){
+                                    for(var j=0,lenJ=jsonData.linkObjs.length;j<lenJ;j++){
                                         if(jsonData.linkObjs[j].level_index == jsonData.linkObjs[i].level_index+1){
                                             jsonData.linkObjs[j].level_index--;
                                         }
@@ -747,46 +846,90 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     featCodeCtrl.setFeatCode($scope.limitRelation);
                 })
             }else if(type==='RDMULTIDIGITIZED') {
-                layerCtrl.pushLayerFront('edit');
-                map.currentTool = new fastmap.uikit.SelectPath(
-                    {
-                        map: map,
-                        currentEditLayer: rdLink,
-                        linksFlag: true,
-                        shapeEditor: shapeCtrl
-                    });
+                var highLightFeatures = [];
+                var linkDirect = 0;
+                var realNodeId = '';
+                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.editFeatType = 3;
+                tooltipsCtrl.setEditEventType('rdBranch');
+                tooltipsCtrl.setCurrentTooltip('正要新建上下线分离,先选择线！');
+                map.currentTool = new fastmap.uikit.SelectForRestriction({
+                    map: map,
+                    createBranchFlag: true,
+                    currentEditLayer: rdLink
+                });
                 map.currentTool.enable();
-                //初始化鼠标提示
-                $scope.toolTipText = '请选择线！';
-                //rdLink.options.selectType = 'link';
-                map.currentTool.snapHandler.addGuideLayer(rdLink);
-                rdLink.options.editable = true;
                 eventController.on(eventController.eventTypes.GETLINKID,function(data){
-                    $scope.linkPid = data.id;
-                    selectCtrl.onSelected({
-                        point: data.point
-                    });
-                    tooltipsCtrl.setEditEventType('upAndDown');
-                    tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存,或者按ESC键取消!");
-                   if(! map.floatMenu) {
-                       map.floatMenu=new L.Control.FloatMenu("000", data.event.originalEvent, {
-                           items: [{
-                               'text': "<a class='glyphicon glyphicon-apple'></a>",
-                               'title': "重新选择线",
-                               'type': 'RETRYLINK',
-                               'class': "feaf",
-                               callback: $scope.upAndDown
-                           }, {
-                               'text': "<a class='glyphicon glyphicon-apple'></a>",
-                               'title': "上下线分离",
-                               'type': 'pathBuffer',
-                               'class': "feaf",
-                               callback: $scope.upAndDown
-                           }]
-                       })
-                       map.addLayer(map.floatMenu);
-                       map.floatMenu.setVisible(true);
-                   }
+                    if (data.index === 0) {
+                        $scope.limitRelation.inLinkPid = parseInt(data.id);
+                        highLightFeatures.push({
+                            id:  $scope.limitRelation.inLinkPid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.highLightFeatures = highLightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        linkDirect = data["properties"]["direct"];
+                        if (linkDirect == 2) {
+                            realNodeId = data["properties"]["enode"];
+                        }else if (linkDirect == 3) {
+                            realNodeId = data["properties"]["snode"];
+                        }
+                        tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择点!");
+                    } else if(data.index === 1){
+                        $scope.limitRelation.nodePid = parseInt(data.id);
+                        if (linkDirect != 1) {
+                            if ($scope.limitRelation.nodePid == realNodeId) {
+
+                            }else {
+                                swal("操作失败", "点方向与道路方向不符，请重新选择！", "error");
+                                return ;
+                            }
+                        }
+                        highLightFeatures.push({
+                            id:  $scope.limitRelation.nodePid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'node',
+                            style: {}
+                        });
+                        highRenderCtrl.highLightFeatures = highLightFeatures;
+                        highRenderCtrl.drawHighlight();
+                        $scope.param = {};
+                        $scope.param["command"] = "CREATE";
+                        $scope.param["projectId"] = Application.projectid;
+                        $scope.param["type"] = "RDLINK";
+                        $scope.param["data"] = {
+                            "linkPid": $scope.limitRelation.inLinkPid,
+                            "nodePidDir":$scope.limitRelation.nodePid
+                        }
+                        if(! map.floatMenu) {
+                            map.floatMenu=new L.Control.FloatMenu("000", data.event.originalEvent, {
+                                items: [{
+                                    'text': "<a class='glyphicon glyphicon-apple'></a>",
+                                    'title': "选择完成",
+                                    'type': 'chooseOver',
+                                    'class': "feaf",
+                                    callback: $scope.upAndDown
+                                },{
+                                    'text': "<a class='glyphicon glyphicon-apple'></a>",
+                                    'title': "重新选择线",
+                                    'type': 'RETRYLINK',
+                                    'class': "feaf",
+                                    callback: $scope.upAndDown
+                                }, {
+                                    'text': "<a class='glyphicon glyphicon-apple'></a>",
+                                    'title': "上下线分离",
+                                    'type': 'pathBuffer',
+                                    'class': "feaf",
+                                    callback: $scope.upAndDown
+                                }]
+                            })
+                            map.addLayer(map.floatMenu);
+                            map.floatMenu.setVisible(true);
+                        }
+                    }
+
                 });
             }
         }

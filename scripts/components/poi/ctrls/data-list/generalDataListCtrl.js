@@ -95,7 +95,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
                 scope.$emit("getPageData",dealedDataParam);
                 scope.$on('getPageDataResult',function(event, data){
                     _self.tableParams.total(data.total);
-                    $defer.resolve(data.data);
+                    $defer.resolve(data.rows);
                 });
             }});
         }else{

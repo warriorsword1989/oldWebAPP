@@ -7,10 +7,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		4: "情报",
 		6: "多源"
 	};
-	promises.push(poi.getOperSeason("2016013086",function(data){
-		$scope.curSeason = data;
-	}));
-	promises.push(poi.getProjectInfo("2016013086",function(data){
+	promises.push(poi.getOperSeason("2016013086").then(function(data) {
+        $scope.curSeason = data;
+    }));
+	promises.push(poi.getProjectInfo("2016013086").then(function(data) {
 		$scope.projectInfo = data;
 		$scope.projectType = _code_project_type[data.projectType];
 		var today = new Date().getTime();
@@ -37,7 +37,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		type: "count",
 		pagesize: 0
 	};
-	promises.push(poi.getPoiInfo(countParam,function(data){
+	promises.push(poi.getPoiInfo(countParam).then(function(data){
 		$scope.taskCnt = data.total;
 	}));
 	var rawDataParam = {
@@ -54,7 +54,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		type: "snapshot",
 		pagesize: 0
 	};
-	promises.push(poi.getPoiInfo(rawDataParam,function(data){
+	promises.push(poi.getPoiInfo(rawDataParam).then(function(data){
 		$scope.rawData = data.data;
 	}));
 	var dealedDataParam = {
@@ -73,7 +73,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		type: "snapshot",
 		pagesize: 0
 	};
-	promises.push(poi.getPoiInfo(dealedDataParam,function(data){
+	promises.push(poi.getPoiInfo(dealedDataParam).then(function(data){
 		$scope.dealedData = data.data;
 	}));
 	var submitedDataParam = {
@@ -91,7 +91,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		type: "snapshot",
 		pagesize: 0
 	};
-	promises.push(poi.getPoiInfo(submitedDataParam,function(data){
+	promises.push(poi.getPoiInfo(submitedDataParam).then(function(data){
 		$scope.submitedData = data.data;
 	}));
 	var checkRuleObj = {};
@@ -102,7 +102,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
     });
 	$scope.checkRuleObj = checkRuleObj;
 	var pKindFormat = new Object();
-	FM.dataApi.IxPoiTopKind.getList(function(data){
+	promises.push(poi.getTopKindList().then(function(data){
         for (var i = 0; i < data.length; i++) {
         	pKindFormat[data[i].kindCode] = {
                 kindId: data[i].id,
@@ -115,29 +115,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
                 mediumId: data[i].mediumId
             };
         }
-	});
+	}));
 	$scope.pKindFormat = pKindFormat;
-	$scope.$on('getPageData',function(event, data){
-		poi.getPoiInfo(data,function(data){
-			$scope.$broadcast('getPageDataResult',data);
-		});
-    });
 	$q.all(promises).then(function() {
-		$scope.$broadcast("initPageInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason,
-			"taskCnt":$scope.taskCnt,"rawData":$scope.rawData,"dealedData":$scope.dealedData,"submitedData":$scope.submitedData,"checkRule":$scope.checkRuleObj});
 		$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
 			$scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
 		});
 		$ocll.load("components/poi/ctrls/data-list/projectInfoCtrl").then(function() {
 			$scope.projectInfoTpl = "../../scripts/components/poi/tpls/data-list/projectInfo.html";
-//	        $scope.$on('$includeContentLoaded', function($event) {
-//	        	$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
-//            });
 		});
 		$ocll.load("components/poi/ctrls/data-list/generalDataListCtrl").then(function() {
 			$scope.generalDataListTpl = "../../scripts/components/poi/tpls/data-list/generalDataList.htm";
 		});
-//		$scope.$broadcast("initProjectInfo", {"projectInfo" : $scope.projectInfo,"projectType" : $scope.projectType,"projRemainTime":$scope.projRemainTime,"curSeason":$scope.curSeason});
 	});
 
 }]);

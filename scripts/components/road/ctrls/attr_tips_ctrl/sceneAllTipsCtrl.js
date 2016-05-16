@@ -367,6 +367,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
 
                 $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
+                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
+                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
                 break;
             case "1501"://上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
