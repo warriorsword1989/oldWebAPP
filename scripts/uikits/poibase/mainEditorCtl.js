@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','$http', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -312,9 +312,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         };
         console.info("save",$scope.poi);
         $scope.saveButClass = "disabled";
-        // poi.savePoi(param,function(data){
-        //     $scope.saveButClass = "";
-        // });
+        poi.savePoi(param,function(data){
+            $scope.saveButClass = "";
+        });
+        
     };
 
     function realSave(evt, data) {
