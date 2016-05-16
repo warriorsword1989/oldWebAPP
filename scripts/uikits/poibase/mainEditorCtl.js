@@ -143,13 +143,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         };
         poi.ignoreCheck(param,function(data){
             /*操作成功后刷新poi数据*/
-            poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
-                $scope.poi = data;
-                $scope.snapshotPoi = data.getSnapShot();
-                distinguishResult($scope.poi);
-                $scope.$broadcast('checkResultData',checkResultData);
-                $scope.$broadcast('confusionInfoData',confusionInfoData);
-            })
+            refreshPoiData();
         });
     });
 
@@ -185,6 +179,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         $scope.showRelatedPoiInfo = false;
     };
 
+    /*锁定检查结果数据*/
+    $scope.$on('lockSingleData',function(event,data){
+       poi.lockSingleData(data,function(res){
+           refreshPoiData();
+       });
+    });
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap',function(event,data){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
@@ -241,8 +241,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 break;
         }
     };
+    /*刷新poi对象*/
+    function refreshPoiData(){
+        poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+            $scope.poi = data;
+            $scope.snapshotPoi = data.getSnapShot();
+            distinguishResult(data);
+            $scope.$broadcast('checkResultData', checkResultData);
+            $scope.$broadcast('confusionInfoData', confusionInfoData);
+        });
+    }
     /*所有初始化执行方法放在此*/
-    $scope.initializeData = function(){
+    function initializeData(){
         $scope.optionData = {};
         /*获取检查规则*/
         FM.dataApi.CheckRule.getList(function(data){
@@ -253,7 +263,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         $scope.tagSelect = 'checkResult';
         $scope.changeTag('checkResult');
     }
-    $scope.initializeData();
+    initializeData();
     var initKindFormat = function (kindData){
         for (var i = 0; i < kindData.length; i++) {
             metaData.kindFormat[kindData[i].kindCode] = {

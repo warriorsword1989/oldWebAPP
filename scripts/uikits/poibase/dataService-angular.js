@@ -61,6 +61,16 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
             callback(ret);
         });
     };
+    /*锁定检查结果*/
+    this.lockSingleData = function(param, callback){
+        FM.dataApi.ajax.get("editsupport/handler/locksingle/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
+                ret = data.data;
+            }
+            callback(ret);
+        });
+    };
     this.getOperSeason = function(projId, callback){
         FM.dataApi.ajax.get("project/queryOperSeason/", {projectId: projId}, function(data) {
         	var ret = [];
