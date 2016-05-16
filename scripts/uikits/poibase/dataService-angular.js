@@ -35,10 +35,10 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
     
     this.getProjectList = function(param){
     	var defer = $q.defer();
-        FM.dataApi.ajax.get("project/list/", param, function(data) {
-        	defer.resolve(data.data);
-        });
-        return defer.promise;
+	    FM.dataApi.ajax.get("project/list/", param, function(data) {
+	    	defer.resolve(data.data);
+	    });
+	    return defer.promise;
     };
     this.getProjectInfo = function(projId){
     	var defer = $q.defer();
@@ -50,6 +50,16 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
     /*忽略检查项*/
     this.ignoreCheck = function(param, callback){
         FM.dataApi.ajax.get("check/poi/ignore/", param, function(data) {
+            var ret = [];
+            if (data.errcode == 0) {
+                ret = data.data;
+            }
+            callback(ret);
+        });
+    };
+    /*锁定检查结果*/
+    this.lockSingleData = function(param, callback){
+        FM.dataApi.ajax.get("editsupport/handler/locksingle/", param, function(data) {
             var ret = [];
             if (data.errcode == 0) {
                 ret = data.data;
@@ -85,6 +95,13 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         	defer.resolve(data.data.rows[0]);
         });
         return defer.promise;
+    };
+    this.getTopKindList = function(){
+    	var defer = $q.defer();
+    	FM.dataApi.IxPoiTopKind.getList(function(data){
+    		defer.resolve(data);
+    	});
+    	return defer.promise;
     };
 
 }]).service("meta", ["$http", "$q", function($http, $q) {
