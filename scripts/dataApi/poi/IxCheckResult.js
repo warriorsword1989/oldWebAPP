@@ -41,25 +41,7 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
             }
             /*冲突检测*/
             this.conflictFields = data['conflictFields'] || '';
-            this.duppoi = {};
-            if(data['duppoi'] && data['duppoi'].length > 0){
-                for(var i=0;i<data['duppoi'].length;i++){
-                    var dopTmp = new _dupPoi(data['duppoi'][i]);
-                    this.duppoi.push(dopTmp);
-                }
-            }
-        }
-        function _dupPoi(dpoi){
-            this.address = dpoi['address'] || '';
-            this.brands = dpoi['brands'] || null;
-            this.contacts = dpoi['contacts'] || '';
-            this.fid = dpoi['fid'] || null;
-            this.kindCode = dpoi['kindCode'] || null;
-            this.level = dpoi['level'] || null;
-            this.location = dpoi['location'] || null;
-            this.name = dpoi['name'] || null;
-            this.pid = dpoi['pid'] || null;
-            this.postCode = dpoi['postCode'] || null;
+            this.duppoi = data['duppoi'];
         }
         this.errorCode = data['errorCode'] || null;
         this.errorMsg = data['errorMsg'] || null;

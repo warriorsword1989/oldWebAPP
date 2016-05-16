@@ -25,8 +25,12 @@
     <div class="row-fluid">
         <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 col-container" my-resize>
             <div class="row-fluid">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 content-box" style="height: 500px;">
+                <div id="imgContainer" ng-show="isShowImages" class="col-xs-6 col-sm-6 col-md-6 col-lg-6 content-box" style="border-right:0px;">
+                    <div ng-include="imageTpl"></div>
+                </div>
+                <div class="col-xs-{{mapColumn}} col-sm-{{mapColumn}} col-md-{{mapColumn}} col-lg-{{mapColumn}} content-box" style="height: 500px;">
                     <div ng-include="mapTpl"></div>
+                    <a id="mapLeftRight" ng-show="isShowArrow" href="javascript:void(0);" class="div_float image_ctl {{arrowStyle}}" ng-click="doLeftRight();"></a>
                     <div id="info" class="info-tip" ng-show="showRelatedPoiInfo">
                         <div class="tools">
                             <button type="button" class="close" ng-click="closeRelatedPoiInfo()">
@@ -44,8 +48,6 @@
                             </ol>
                         </div>
                     </div>
-                    <!--冲突数据-->
-                    <div ng-include="confusionDataTpl"></div>
                 </div>
             </div>
             <div class="row-fluid">
@@ -70,6 +72,8 @@
             </uib-accordion>
         </div>
     </div>
+    <!--冲突数据-->
+    <div ng-include="confusionDataTpl" class="drag-panel" ng-show="showConflictInfo" drag></div>
 </div>
 <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
     <div class="container-fluid">

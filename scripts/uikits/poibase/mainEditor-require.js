@@ -34,7 +34,8 @@ requirejs.config({
 
         "chosenJquery":"libs/angular-chosen/chosen.jquery.min",
         "angularChosen":"libs/angular-chosen/angular-chosen.min",
-        'fileUpload':'libs/angular-file-upload/angular-file-upload'
+        'fileUpload':'libs/angular-file-upload/angular-file-upload',
+        "angularDrag":"libs/angular-drag/angular-drag"
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -49,7 +50,8 @@ requirejs.config({
         'chosenJquery':['jquery'],
         'angularChosen':['angular'],
         'fileUpload':['angular'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','chosenJquery','angularChosen','fileUpload']
+        'angularDrag':['angular','jquery'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil', 'poiService','select2','chosenJquery','angularChosen','fileUpload','angularDrag']
     }
 });
 // Start the main app logic.

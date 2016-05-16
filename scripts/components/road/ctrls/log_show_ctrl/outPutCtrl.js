@@ -89,13 +89,13 @@ outPutModule.controller('outPutController', function ($scope) {
                 selectCtrl.onSelected({geometry: multiPolyLine, id: id});
 
                 highlightFeatures.push({
-                    id:$scope.id,
+                    id:id,
                     layerid:nodeLyaerid,
                     type:'node',
                     style:{}
                 })
 
-                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.highLightFeatures = highlightFeatures;
                 highRenderCtrl.drawHighlight();
             })
         }
@@ -159,7 +159,9 @@ outPutModule.controller('outPutController', function ($scope) {
                 highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
                 if(linkArr.length>0){
-                    $scope.OutDrawLink(links[0]["linkPid"],"RDLINK");
+                    $scope.OutDrawLink(linkArr[0]["linkPid"],"RDLINK");
+                }else{
+                    $scope.showInMap(1,"RDNODE",nodeArr[0]["nodePid"]);
                 }
             })
         }else if(type.indexOf("RDLANECONNEXITY") >= 0){//车信
@@ -187,22 +189,21 @@ outPutModule.controller('outPutController', function ($scope) {
                 $scope.OutDrawLink(d.data.inLinkPid,"RDLINK");
             });
         }else if(type.indexOf("RDBRANCH") >= 0){//分歧
-            var linksOfRestric={};
+            var linksOfRestric={},highLightFeatures=[];
             Application.functions.getRdObjectById(id, "RDBRANCH", function (d) {
-                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-                highLightLink.highLightFeatures.push({
+                highLightFeatures.push({
                     id:d.data.inLinkPid.toString(),
                     layerid:'referenceLine',
                     type:'line',
                     style:{}
                 });
-                highLightLink.highLightFeatures.push({
+                highLightFeatures.push({
                     id:d.data.outLinkPid.toString(),
                     layerid:'referenceLine',
                     type:'line',
                     style:{}
                 });
-
+                highRenderCtrl.highLightFeatures = highLightFeatures;
                 highRenderCtrl.drawHighlight();
                 $scope.OutDrawLink(d.data.inLinkPid,"RDLINK");
             });
@@ -210,7 +211,29 @@ outPutModule.controller('outPutController', function ($scope) {
             Application.functions.getRdObjectById(id, "RDSPEEDLIMIT", function (d) {
                 $scope.OutDrawLink(d.data.linkPid,"RDLINK");
             });
-        }else if(type.indexOf("ADLINK") >= 0){
+        }else if(type.indexOf("RDGSC")>=0){
+            Application.functions.getRdObjectById(id, "RDGSC", function (d) {
+                var highLightFeatures=[];
+                for (var i = 0, len = (d.data.links).length; i < len; i++) {
+                    highLightFeatures.push({
+                        id:d.data.links[i].linkPid.toString(),
+                        layerid:'referenceLine',
+                        type:'line',
+                        style:{}
+                    })
+                }
+                highLightFeatures.push({
+                    id:d.data.pid.toString(),
+                    layerid:'rdGsc',
+                    type:'rdgsc',
+                    style:{}
+                })
+                map.setView([d.data.geometry.coordinates[1], d.data.geometry.coordinates[0]], 20);
+                highRenderCtrl.highLightFeatures = highLightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        }
+        else if(type.indexOf("ADLINK") >= 0){
                 $scope.OutDrawLink(id,"ADLINK");
         }else if(type.indexOf("ADADMIN") >= 0){
             Application.functions.getRdObjectById(id, "ADADMIN", function (d) {

@@ -1,5 +1,7 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig',function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
     uibBtnCfg.activeClass = "btn-success";
+    //$scope.isShowImages = false;
+    $scope.mapColumn = 12;
     $scope.meta = {};
 
     var metaData = {}; //存放元数据
@@ -26,11 +28,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     }));
 
     $q.all(promises).then(function() {
+        initImages();
         var poiMap = {
-            data:$scope.snapshotPoi,
-            projectId:2016013086,
-            featcode:"poi",
-            kindFormat:metaData.kindFormat
+             data:$scope.snapshotPoi,
+             projectId:2016013086,
+             featcode:"poi",
+             kindFormat:metaData.kindFormat
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
@@ -54,6 +57,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             });
         });
     });
+
+    var initImages = function (){
+        var attachments = $scope.poi.attachments;
+        var imageArr = [];
+        for (var i = 0 , len = attachments.length; i < len; i ++){
+            if (attachments[i].type == 1){
+                imageArr.push(attachments[i]);
+            }
+        }
+        //控制是否显示图片
+        if(imageArr.length > 0 ){
+            $scope.mapColumn = 6;
+            $scope.isShowImages = true;
+            $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
+            $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
+        } else {
+            $scope.mapColumn = 12;
+            $scope.isShowImages = false;
+            $scope.isShowArrow = false;
+        }
+
+    };
+
+    $scope.doLeftRight = function (){
+        if ($scope.mapColumn == 6) {
+            $scope.mapColumn = 12;
+            $scope.isShowImages = false;
+            $scope.arrowStyle = "arrow_right";
+        } else {
+            $scope.mapColumn = 6;
+            $scope.isShowImages = true;
+            $scope.arrowStyle = "arrow_left";
+        }
+    };
+
     var resultAllData = [],
         editHistoryData = {},
         checkResultData = [],
@@ -151,13 +189,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     $scope.$on('getConflictInMap',function(event,data){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
             $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
-            $scope.$on('$includeContentLoaded', function($event) {
-                $scope.showConflictPoiInfo = true;
-                $scope.$broadcast('confusionData',data);
-            });
+            $scope.showConflictPoiInfo = true;
+            data.refData.duppoi.kindName = metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
+            data.refData.duppoi.brandList = metaData.allChain[data.refData.duppoi.kindCode];
+            $scope.optionData.confusionData = data;
         });
-        console.log(data)
+        $scope.showConflictInfo = true;
     });
+    /*关闭关联poi数据——冲突检测弹框*/
+    $scope.closeConflictInfo = function(){
+        $scope.showConflictInfo = false;
+    }
     /*切换tag按钮*/
     $scope.changeTag = function(tagName){
         switch(tagName) {
@@ -167,45 +209,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                     $scope.$on('$includeContentLoaded', function($event) {
                         $scope.$broadcast('checkResultData',checkResultData);
                     });
+                    $scope.optionData.checkResultData = checkResultData;
                 });
                 break;
             case 'confusionInfo':
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('confusionInfoData',confusionInfoData);
-                    });
+                    $scope.optionData.confusionInfoData = confusionInfoData;
                 });
                 break;
             case 'editHistory':
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        var param = {
-                            historyData:editHistoryData,
-                            kindFormat:metaData.kindFormat
-                        };
-                        $scope.$broadcast('editHistoryData',param);
-                    });
+                    var param = {
+                        historyData:editHistoryData,
+                        kindFormat:metaData.kindFormat
+                    };
+                    $scope.optionData.editHistoryData = param;
                 });
                 break;
             case 'fileUpload':
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/fileUploadCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/fileUploadTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('confusionInfoData',confusionInfoData);
-                    });
                 });
                 break;
             default:
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                    $scope.optionData.checkResultData = checkResultData;
                 });
                 break;
         }
     };
     /*所有初始化执行方法放在此*/
     $scope.initializeData = function(){
+        $scope.optionData = {};
         /*获取检查规则*/
         FM.dataApi.CheckRule.getList(function(data){
             for(var i=0,len=data.length;i<data.length;i++){
