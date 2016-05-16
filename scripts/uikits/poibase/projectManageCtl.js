@@ -4,7 +4,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
     });
 	var promises = [];
 	$scope.isActive = 'common';
-
+//	poi.queryUser(null,function(data){
+//		$scope.userInfo = data ;
+//	});
 	$scope.menuChange = function(menuName){
 		switch(menuName){
 			case 'common':
@@ -69,9 +71,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 				$ocll.load('../../scripts/components/poi/ctrls/data-list/userProfileCtrl.js').then(function(){
                     $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userProfile.html';
 //                    $timeout(function(){
-//        				poi.queryUser(null,function(data){
+        				poi.queryUser(null,function(data){
+        					$scope.userInfo = data;
 //        					$scope.$broadcast("userInfo", data);
-//        				});
+        				});
 //                    },100);
                 });
                 break;
