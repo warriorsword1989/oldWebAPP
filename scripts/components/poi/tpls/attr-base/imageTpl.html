@@ -1,0 +1,20 @@
+<showbox images-array="imagesArray" delet='delet()' style="height: 490px;">
+	<div class="button button-default" style="margin:4px 10px;">
+		<div class="form-inline">
+            <div class="form-group">
+                <select class="form-control input-sm" onChange="imageTagChange(this.value)">
+                	<option value="">请选择</option>
+                	<option value="">全貌</option>
+                	<option value="">水牌</option>
+                	<option value="">名称</option>
+                	<option value="">名片</option>
+                	<option value="">英文名</option>
+                </select>
+            </div>
+            <div class="form-group pull-right" style="margin-top:5px;">
+                <input type="radio" value="1" name="imageFilter" onclick="imageFilterChange()" checked> 当前作业季
+                <input type="radio" value="0" name="imageFilter" onclick="imageFilterChange()"> 全部
+            </div>
+        </div>
+	</div>
+</showbox>

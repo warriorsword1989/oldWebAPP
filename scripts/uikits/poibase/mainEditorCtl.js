@@ -28,12 +28,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     }));
 
     $q.all(promises).then(function() {
-        initImages();
+        var imgs = initImages();
         var poiMap = {
-             data:$scope.snapshotPoi,
-             projectId:2016013086,
-             featcode:"poi",
-             kindFormat:metaData.kindFormat
+            data: $scope.snapshotPoi,
+            projectId: 2016013086,
+            featcode: "poi",
+            kindFormat: metaData.kindFormat
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
@@ -56,6 +56,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 });
             });
         });
+        $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
+            $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
+            $scope.$on('$includeContentLoaded', function($event) {
+                console.log("imageTpl.html-------------");
+                
+                $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
+
+            });
+        });
     });
 
     var initImages = function (){
@@ -63,6 +72,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         var imageArr = [];
         for (var i = 0 , len = attachments.length; i < len; i ++){
             if (attachments[i].type == 1){
+                attachments[i].url = App.Config.resourceUrl + '/photo' +attachments[i].url 
                 imageArr.push(attachments[i]);
             }
         }
@@ -77,6 +87,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             $scope.isShowImages = false;
             $scope.isShowArrow = false;
         }
+        return imageArr;
 
     };
 

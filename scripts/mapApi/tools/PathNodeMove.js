@@ -29,6 +29,13 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            L.DomEvent
+                .on(document, 'touchstart', this.onMouseDown, this)
+                .on(document, 'touchmove', this.onMouseMove, this)
+                .on(document, 'touchend', this.onMouseUp, this);
+        }
+
         this._map.on('mousemove', this.onMouseMove, this);
         this._map.on('mouseup', this.onMouseUp, this);
     },
@@ -38,6 +45,12 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
      */
     removeHooks: function () {
         this._map.off('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            L.DomEvent
+                .off(document, 'touchstart', this.onMouseDown, this)
+                .off(document, 'touchmove', this.onMouseMove, this)
+                .off(document, 'touchend', this.onMouseUp, this);
+        }
         this._map.off('mousemove', this.onMouseMove, this);
         this._map.off('mouseup', this.onMouseUp, this);
     },
@@ -62,36 +75,26 @@ fastmap.mapApi.PathNodeMove = L.Handler.extend({
         var layerPoint = event.layerPoint;
 
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry().coordinates;
-
         for (var j = 0, len = points.length; j < len; j++) {
-
             for(var k= 0,length = points[j].components.length; k<length; k++){
-
                 var disAB = this.distance(this._map.latLngToLayerPoint([points[j].components[k].y,points[j].components[k].x]), layerPoint);
-
                 if (disAB > 0 && disAB < 5) {
-
                     this.targetIndexs.push(j+"-"+k);
-
                 }
-
             }
-
-
         }
+
         this.targetIndex = this.targetIndexs.length;
         this.snapHandler.setTargetIndex(this.targetIndex);
     },
 
     onMouseMove: function (event) {
-
-        this.container.style.cursor = 'pointer';
-
         this.container.style.cursor = 'pointer';
         if (this._mapDraggable) {
             this._map.dragging.disable();
         }
         var layerPoint = event.containerPoint;
+
         if(this.targetIndex == 0){
             return;
         }

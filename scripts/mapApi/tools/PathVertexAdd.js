@@ -70,8 +70,6 @@ fastmap.mapApi.PathVertexAdd = L.Handler.extend({
             this.shapeEditor.shapeEditorResult.getFinalGeometry().components.splice(this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length, 1, fastmap.mapApi.point(mousePoint.lng, mousePoint.lat));
             this.endPoint =  fastmap.mapApi.point(mousePoint.lng, mousePoint.lat)
         }
-
-
         this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
 
