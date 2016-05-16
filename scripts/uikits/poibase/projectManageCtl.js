@@ -28,9 +28,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 				case 'userProfile':
 					$ocll.load('../../scripts/components/poi/ctrls/data-list/userProfileCtrl.js').then(function(){
 	                    $scope.tagContent = '../../scripts/components/poi/tpls/data-list/userProfile.html';
-	        				poi.queryUser(null,function(data){
-	        					$scope.userInfo = data;
-	        				});
 	                });
 	                break;
 				case 'userMessage':
