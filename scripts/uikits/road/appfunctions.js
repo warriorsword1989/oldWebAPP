@@ -221,3 +221,12 @@ Application.functions.getCondition=function(param,func) {
             func(data)
         });
 };
+/***
+ * 获取关联link
+ */
+Application.functions.selectRelateLink=function(param,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
