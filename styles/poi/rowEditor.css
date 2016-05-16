@@ -47,7 +47,7 @@
     top: 55px;
     right: 15px;
     width: 300px;
-    z-index: 10;
+    z-index: 1000;
     background-color: white;
 }
 
@@ -154,6 +154,32 @@
 }
 .nowrap-text {
     white-space: nowrap;
+}
+/*冲突数据弹框*/
+.drag-panel{
+    position:absolute;
+    top:0;
+    left:300px;
+    cursor: move;
+}
+.conf-panel{
+    border: 0px;
+    padding-top: 0px;
+    width: 300px;
+    position: absolute;
+    z-index: 1001;
+    top: 0;
+    right: 0;
+}
+.conf-content{
+    padding: 5px;
+    background-color: #ffffff;
+}
+.conf-table{
+    table-layout:fixed;
+    word-break:break-all;
+    margin-bottom:0px;
+    padding: 0px
 }
 /* wuz 控制图片显示*/
 .div_float{
