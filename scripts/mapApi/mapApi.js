@@ -58,6 +58,7 @@
         "mapApi/LayerRender.js",
         "mapApi/layer/TileJSONLayer.js",
         "mapApi/layer/EditLayer.js",
+        "mapApi/layer/GuideLineLayer.js",
         "mapApi/layer/GridLayer.js",
         "mapApi/ajaxConstruct.js",
          "mapApi/L.FloatMenu.js",

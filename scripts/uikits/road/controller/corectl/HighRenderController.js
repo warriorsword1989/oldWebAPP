@@ -1,8 +1,9 @@
 /**
  * Created by liwanchong on 2016/5/12.
  */
-fastmap.uikit.HighRenderController=(function() {
+fastmap.uikit.HighRenderController = (function () {
     var instantiated;
+
     function init(options) {
         var highRenderController = L.Class.extend({
             /**
@@ -13,7 +14,7 @@ fastmap.uikit.HighRenderController=(function() {
             initialize: function (options) {
                 this.options = options || {};
                 this.layerCtrl = fastmap.uikit.LayerController();
-                this.layer=this.layerCtrl.getLayerById('highlightlayer');
+                this.layer = this.layerCtrl.getLayerById('highlightlayer');
                 this.currentEditLayer = null;
                 this.highLightFeatures = [];
                 this.eventController = fastmap.uikit.EventController();
@@ -36,50 +37,7 @@ fastmap.uikit.HighRenderController=(function() {
                     newGeom[0] = (parseInt(geom[0]));
                     newGeom[1] = (parseInt(geom[1]));
                     if (feature.properties.id == id) {
-                        if (feature.properties.kind) {  //种别
-                            if (feature.properties.type == '1201') {
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newGeom,
-                                    boolPixelCrs: true,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-                                });
-                            } else if (feature.properties.type == '1203') {
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newGeom,
-                                    boolPixelCrs: true,
-                                    rotate: (feature.properties.kind - 90) * (Math.PI / 180),
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-                                });
-                            } else {
-                                this.layer._drawBackground({
-                                    ctx: ctx,
-                                    geo: newGeom,
-                                    style: null,
-                                    boolPixelCrs: true,
-                                    lineColor: 'rgb(4, 187, 245)',
-                                    fillColor: 'rgba(4, 187, 245, 0)',
-                                    lineWidth: 1,
-                                    width: 20,
-                                    height: 20,
-                                    drawx: -10,
-                                    drawy: -10
-                                });
-                            }
-                        } else {
+                        if(feature['geometry']['type']==="Point") {
                             this.layer._drawBackground({
                                 ctx: ctx,
                                 geo: newGeom,
@@ -93,7 +51,16 @@ fastmap.uikit.HighRenderController=(function() {
                                 drawx: -10,
                                 drawy: -10
                             });
+                        }else{
+                            this.layer._drawLineString(ctx, feature.geometry.coordinates, true, {
+                                strokeWidth: 2,
+                                strokeColor: '#00F5FF'
+                            }, {
+                                strokeWidth: 30,
+                                strokeColor: '#00F5FF'
+                            }, feature.properties);
                         }
+
                     }
                 }
             },
@@ -147,15 +114,7 @@ fastmap.uikit.HighRenderController=(function() {
                                     } else if (this.highLightFeatures[item].type == 'highSpeedDivergence') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'gpsLine') {
-                                        this.layer._drawLineString(ctx, this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates, true, {
-                                            size: 3,
-                                            color: '#00F5FF'
-                                        }, {
-                                            size: 3,
-                                            color: '#00F5FF'
-                                        }, this.currentEditLayer.tiles[tile].data[feature].properties);
-                                    } else if (this.highLightFeatures[item].type == 'workPoint') {
+                                    }  else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, feature, ctx);
                                     } else if (this.highLightFeatures[item].type == 'rdgsc') {
@@ -165,11 +124,10 @@ fastmap.uikit.HighRenderController=(function() {
                                     } else if (this.highLightFeatures[item].type == 'adadmin') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
-                                    }else if(this.highLightFeatures[item].type == 'adface'){
+                                    } else if (this.highLightFeatures[item].type == 'adface') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
-                                        this.drawPolygon(this.highLightFeatures[item].id, feature, ctx );
+                                        this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
                                     }
-                                    break;
                                 } else if (this.highLightFeatures[item].id == this.currentEditLayer.tiles[tile].data[feature].properties.snode) {
                                     var ctxOfSNode = {
                                         canvas: this.layer._tiles[tile],
@@ -434,7 +392,7 @@ fastmap.uikit.HighRenderController=(function() {
                     })
                 }
             },
-            drawPolygon:function(id, feature, ctx){
+            drawPolygon: function (id, feature, ctx) {
                 if (feature.properties.id == id) {
                     if (feature.properties.id === undefined) {
                         return;
@@ -449,7 +407,7 @@ fastmap.uikit.HighRenderController=(function() {
                             'strokeColor': '#FFFF00',
                             'strokeWidth': 1,
                             'backgroundImage': ""
-                        },true
+                        }, true
                     )
                 }
             },
@@ -461,7 +419,8 @@ fastmap.uikit.HighRenderController=(function() {
         });
         return new highRenderController(options);
     }
-    return function(options) {
+
+    return function (options) {
         if (!instantiated) {
             instantiated = init(options);
         }
