@@ -73,8 +73,8 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         }
         var proj = [];
         proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
+        //console.log('[geom[1], geom[0]]'+[geom[1], geom[0]])
         proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-        //g.save();
         if(g.setLineDash) {
             g.setLineDash([12,3,3,3]);
             //  Get the current offset
