@@ -37,7 +37,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
         pois.push($event.target);
         for (var key in FM.layerConf) {
             if (key != $event.target.parentLayer) {
-                var layers = FM.leafletUtil.getLayerById(key);
+                var layers = FM.leafletUtil.getLayerById(pMap,key);
                 pois.concat(layers._layers);
             }
         }
@@ -108,10 +108,10 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
             type: "snapshot",
             pagesize: 0
         };
-        FM.dataApi.ajax.httpPost($http,"editsupport/poi/query",param,function (data) {
+        FM.dataApi.ajax.get("editsupport/poi/query",param,function (data) {
             if (data.errcode == 0) {
                 FM.leafletUtil.getLayerById(pMap,"mainPoiLayer").clearLayers();
-                FM.leafletUtil.showPoisInMap("mainPoiLayer",data.data.data);
+                $scope.showPoisInMap("mainPoiLayer",data.data.data);
             } else {
                 console.log("wrong request!")
             }
@@ -202,14 +202,14 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                     type: "snapshot",
                     pagesize: 0
                 };
-                FM.dataApi.ajax.httpPost($http,"editsupport/poi/query",param,function (data) {
+                FM.dataApi.ajax.get("editsupport/poi/query",param,function (data) {
                     if (data.errcode == 0) {
                         var ret = data.data.data;
                         if (ret.length == 0) {
                             FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         } else {
-                            $scope.emit("drawPois",ret);
-                            FM.leafletUtil.showPoisInMap("parentPoiLayer", ret);
+                            $scope.$emit("drawPois",ret);
+                            $scope.showPoisInMap("parentPoiLayer", ret);
                         }
                     } else {
                         ret = [];
@@ -313,20 +313,25 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                 type: "snapshot",
                 pagesize: 0
             };
-            FM.dataApi.ajax.httpPost($http,"editsupport/poi/query", param, function (data) {
+            FM.dataApi.ajax.get("editsupport/poi/query", param, function (data) {
                 if (data.errcode == 0) {
                     var ret = data.data.data;
                     if (ret.length == 0) {
                         console.log("no data!");
                     } else {
-                        $scope.emit("searchPois",ret);
-                        FM.leafletUtil.showPoisInMap("parentPoiLayer", ret);
+                        $scope.$emit("searchPois",ret);
+                        $scope.showPoisInMap("parentPoiLayer", ret);
                     }
                 } else {
                     console.log("wrong request!");
                 }
             });
         };
+        pMap.addControl(controlSearch);
+    };
+
+    $scope.initCheckboxControl = function (data) {
+        var controlSearch = new L.Control.Checkbox({data: data, initial: false, position:'topleft'});
         pMap.addControl(controlSearch);
     };
 
@@ -351,6 +356,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
         $scope.loadNavBarControl(map);
         $scope.initDrawControl(map,data);
         $scope.initSearchControl(data);
+        $scope.initCheckboxControl(data);
     };
 
     //接收基础的poi信息并显示

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SymbolTest</title>
+</head>
+<body>
+<div id="container">
+    <div id="symbolDetail">
+        pattern<input id="pattern" value="[2, 5]" type="text"><br/>
+        url<input id="url" value="../../images/road/img/header.png" type="text"><br/>
+        picturePointSymbol
+        size<input id="size" value="20" type="text"><br/>
+        offsetX<input id="offsetX" value="0" type="text"><br/>
+        offsetY<input id="offsetY" value="0" type="text"><br/>
+        angle<input id="angle" value="0" type="text"><br/>
+        hasOutLine<input id="hasOutLine" value="" type="text"><br/>
+        outLineColor<input id="outLineColor" value="red" type="text"><br/>
+        outLineWidth<input id="outLineWidth" value="1" type="text"><br/>
+        <button onclick="refresh()">刷新</button>
+    </div>
+    <div id="display">
+        <canvas id="canvas" width="300" height="300"></canvas>
+    </div>
+</div>
+</body>
+<script src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.js"></script>
+<script src="../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+<script src="../../scripts/mapApi/fastmap.js"></script>
+<script src="../../scripts/mapApi/symbol/Matrix.js"></script>
+<script src="../../scripts/mapApi/symbol/Vector.js"></script>
+<script src="../../scripts/mapApi/symbol/Point.js"></script>
+<script src="../../scripts/mapApi/symbol/LineSegment.js"></script>
+<script src="../../scripts/mapApi/symbol/LineString.js"></script>
+<script src="../../scripts/mapApi/symbol/Template.js"></script>
+<script src="../../scripts/mapApi/symbol/CirclePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SolidCirclePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SquarePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SolidSquarePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CrossPointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/TiltedCrossPointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/PicturePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CompositePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SampleLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/HashLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CartoLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/MarkerLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CompositeLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SymbolFactory.js"></script>
+<script src="../../scripts/mapApi/symbol/SymbolsFile.js"></script>
+
+<script>
+    var canvasSize = 300;
+    var pointGeometry = new fastmap.mapApi.symbol.Point(canvasSize / 2, canvasSize / 2);
+    var lineGeometry = new fastmap.mapApi.symbol.LineString([[0, 0], [canvasSize, canvasSize / 3], [0, canvasSize / 3 * 2], [canvasSize, canvasSize]]);
+    var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+    var markerLineSymbol = symbolFactory.createSymbol('MarkerLineSymbol');
+    var picturePointSymbol = symbolFactory.createSymbol('PicturePointSymbol');
+    markerLineSymbol.markerSymbol = picturePointSymbol;
+    markerLineSymbol.geometry = lineGeometry;
+    var ctx;
+
+    $(document).ready(function () {
+        var canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        markerLineSymbol.draw(ctx);
+    });
+
+    function refresh() {
+        markerLineSymbol.template.pattern = stingToArray($('#pattern').val());
+
+        markerLineSymbol.url = $('#url').val();
+        markerLineSymbol.markerSymbol.size = parseInt($('#size').val());
+        markerLineSymbol.markerSymbol.offsetX = parseInt($('#offsetX').val());
+        markerLineSymbol.markerSymbol.offsetY = parseInt($('#offsetY').val());
+        markerLineSymbol.markerSymbol.angle = parseInt($('#angle').val());
+        markerLineSymbol.markerSymbol.hasOutLine = Boolean($('#hasOutLine').val());
+        markerLineSymbol.markerSymbol.outLineColor = $('#outLineColor').val();
+        markerLineSymbol.markerSymbol.outLineWidth = parseInt($('#outLineWidth').val());
+
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        markerLineSymbol.draw(ctx);
+    }
+
+    function stingToArray(str) {
+        str = str.substring(1, str.length - 1);
+        var temArray = str.split(',');
+        var result = [];
+        for (var i = 0; i < temArray.length; ++i) {
+            result.push(parseInt(temArray[i]));
+        }
+        return result;
+    }
+</script>
+</html>

@@ -11,7 +11,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
     var checkResultC=fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
 
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
    // $scope.itemsByPage = 1;
     $scope.initType = 0;
 
@@ -42,6 +42,10 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
 
 
     $scope.showOnMap = function (targets) {
+        highRenderCtrl._cleanHighLight();
+        if(highRenderCtrl.highLightFeatures!=undefined){
+            highRenderCtrl.highLightFeatures.length = 0;
+        }
         var value = targets.replace("[", "");
         var value1 = value.replace("]", "");
 
@@ -52,6 +56,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 if (d.errcode === -1) {
                     return;
                 }
+                var highlightFeatures = [];
                 var linkArr = d.data.geometry.coordinates || d.geometry.coordinates, points = [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var point = L.latLng(linkArr[i][1], linkArr[i][0]);
@@ -61,14 +66,14 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 var bounds = line.getBounds();
                 map.fitBounds(bounds, {"maxZoom": 19});
 
-                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-                highLightLink.highLightFeatures.push({
+                highlightFeatures.push({
                     id:id.toString(),
                     layerid:'referenceLine',
                     type:'line',
                     style:{}
                 });
-                highLightLink.drawHighlight();
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
 
             })
         } else if (type == "RDRESTRICTION") {
@@ -102,8 +107,8 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                         style:{}
                     })
                 }
-                var highLightLinks = new fastmap.uikit.HighLightRender(hLayer)
-                highLightLinks.drawHighlight();
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
 
                 $.each(objCtrl.data.details, function (i, v) {
                     if (v)
@@ -117,14 +122,15 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
             Application.functions.getTipsResult(id, function (data) {
                 map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
 
-                var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-                highLightLink.highLightFeatures.push({
+                var highlightFeatures=[];
+                highlightFeatures.push({
                     id:data.rowkey,
                     layerid:'workPoint',
                     type:'workPoint',
                     style:{}
                 });
-                highLightLink.drawHighlight();
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
             });
         }
     }

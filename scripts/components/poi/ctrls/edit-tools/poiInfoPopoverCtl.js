@@ -1,8 +1,9 @@
 angular.module('app').controller('PoiInfoPopoverCtl', ['$scope', function($scope) {
     $scope.$on('poiInfoData',function(event,data){
         console.log(data)
-       $scope.poiInfo = data;
+        $scope.poiInfo = data;
         isLocked();
+        $scope.platform = App.Config.appType;
     });
     /*判断操作员和poi编辑人是否一致*/
     function isLocked(){
@@ -29,12 +30,13 @@ angular.module('app').controller('PoiInfoPopoverCtl', ['$scope', function($scope
         var param = {
             fid: fid,
             projectId: 2016013086,
-            featcode: "poi"
+            featcode: "poi",
+            access_token:App.Config.accessToken
         };
         $scope.$emit('lockSingleData',param);
     }
     /*编辑数据*/
     $scope.doEditRelatedPoi = function(fid){
-        
+        $scope.$emit('editPoiInfo',fid);
     }
 }]);

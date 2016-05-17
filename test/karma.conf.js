@@ -10,7 +10,16 @@ module.exports = function (config) {
             {pattern: 'apps/roadnet/*.js', included: false},
             {pattern: "scripts/uikits/road/*.js", included: false},
             {pattern: "scripts/components/road/ctrls/*/*.js", included: false},
-            {pattern: 'test/unit/*Spec.js', included: false},
+            {pattern: "scripts/mapApi/*.js", included: false},
+            {pattern: "scripts/mapApi/*/*.js", included: false},
+            //{pattern: 'test/unit/*Spec.js', included: false},
+            {pattern: 'test/unit/symbol.MatrixSpec.js', included: false},
+            {pattern: 'test/unit/symbol.VectorSpec.js', included: false},
+            {pattern: 'test/unit/symbol.PointSpec.js', included: false},
+            {pattern: 'test/unit/symbol.LineSegmentSpec.js', included: false},
+            {pattern: 'test/unit/symbol.LineStringSpec.js', included: false},
+            {pattern: 'test/unit/symbol.SymbolFactorySpec.js', included: false},
+            {pattern: 'test/unit/symbol.TemplateSpec.js', included: false},
 
             'test/unit/test-main.js'
         ],
@@ -27,7 +36,7 @@ module.exports = function (config) {
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         // 预处理配置，通常是代码覆盖率
         preprocessors: {
-            'scripts\components\road\ctrls\*\*.js': ['coverage']
+            'scripts/components/road/ctrls/*/*.js': ['coverage']
         },
 
         plugins: [

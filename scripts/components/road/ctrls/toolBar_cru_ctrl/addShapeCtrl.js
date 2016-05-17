@@ -298,10 +298,16 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             }
             map.scrollWheelZoom.disable();
             map.currentTool.disable();
-            var links = [];
-            links = $scope.linkMulity;
-            Application.functions.getRdObjectById(links,'RDLINK', function (data) {
-                var linkArr =data.data.geometry.coordinates, points= [];
+
+            $scope.param1 = {};
+            $scope.param1["projectId"] = Application.projectid;
+            $scope.param1["type"] = "RDLINK";
+            $scope.param1["data"] = {
+                "linkPids": $scope.linkMulity
+            }
+
+            Application.functions.getLinksOfNode(JSON.stringify($scope.param1), function (data) {
+                var linkArr =data.data, points= [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                     points.push(pointOfLine);
@@ -312,7 +318,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 var linwidth = 6.6/scale;
                 selectCtrl.onSelected({
                     geometry: line,
-                    id: data.data.pid,
+                    id: $scope.linkMulity,
                     linkWidth : linwidth,
                     type : 'Buffer'
                 });
@@ -324,9 +330,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 editLayer.draw(feature, editLayer);
                 sObj.setOriginalGeometry(feature);
                 sObj.setFinalGeometry(feature);
-
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType["PATHBUFFER"]);
                 shapeCtrl.startEditing();
+                tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
             });
 
         }
