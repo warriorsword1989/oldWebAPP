@@ -170,8 +170,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         data[0].location.latitude = data[0].guide.latitude;
         data[0].location.longitude = data[0].guide.longitude;
         $scope.showRelatedPoiInfo = true;
-        console.log(data)
         $scope.$broadcast('showChildrenPoisInMap',data);
+        $scope.$apply();
+    });
+
+    /*接收框选点信息*/
+    $scope.$on('drawPois',function(event,data){
+        for(var i=0,len=data.length;i<len;i++){
+            data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
+        }
+        $scope.refFt = {
+            title:'框选区域内',
+            refList:data
+        };
+        console.log(data)
+        $scope.showRelatedPoiInfo = true;
+        $scope.$apply();
     });
 
     /*显示关联poi详细信息*/
@@ -203,6 +217,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     $scope.$on('editPoiInfo',function(event,data){
        refreshPoiData(data);
     });
+
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap',function(event,data){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
