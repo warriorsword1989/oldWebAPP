@@ -304,7 +304,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             if (d.length === 0) {
                                 return;
                             }
-                            self.tiles[key].setData(parse(d,self.param));
+                            self.tiles[key].setData(parse(d,key));
 
                             func(d);
                         }
