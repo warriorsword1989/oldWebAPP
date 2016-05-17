@@ -28,7 +28,7 @@
                         </button>
                     </span>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
-                        <li ng-model="$parent.radio_select" uib-btn-radio="'全局搜索'" role="menuitem"><a href="#">全局搜索</a></li>
+                        <li ng-model="radio_select" uib-btn-radio="'全局搜索'" role="menuitem"><a href="#">全局搜索</a></li>
                         <li ng-repeat="item in cols" ng-show="item.show" ng-model="$parent.radio_select" uib-btn-radio="'{{item.title}}'" role="menuitem"><a href="#">{{item.title}}</a></li>
                     </ul>
                 </div>

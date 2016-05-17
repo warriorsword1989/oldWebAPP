@@ -1325,7 +1325,6 @@ function transformDataForTips(data, param) {
     var transform = new fastmap.mapApi.MecatorTranform();
     var layerCtrl = fastmap.uikit.LayerController();
     var guideLayer = layerCtrl.getLayerById("guideLineLayer");
-    console.log(guideLayer);
     $.each(data, function (index, item) {
 
         var obj = {};
@@ -1445,7 +1444,6 @@ function transformDataForTips(data, param) {
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
-                    console.log("开始 "+item.m.h);
                     guideLayer.draw(guideLineObj);
                 }
                 break;
