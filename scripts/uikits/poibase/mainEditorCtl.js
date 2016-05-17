@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','$http', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -59,10 +59,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
-                console.log("imageTpl.html-------------");
-                
+                //console.log("imageTpl.html-------------");
                 $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-
             });
         });
     });
@@ -72,7 +70,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         var imageArr = [];
         for (var i = 0 , len = attachments.length; i < len; i ++){
             if (attachments[i].type == 1){
-                attachments[i].url = App.Config.resourceUrl + '/photo' +attachments[i].url 
+                if(attachments[i].url.indexOf(App.Config.resourceUrl) == -1){
+                    attachments[i].url = App.Config.resourceUrl + '/photo' +attachments[i].url
+                }
                 imageArr.push(attachments[i]);
             }
         }
@@ -211,6 +211,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     $scope.closeConflictInfo = function(){
         $scope.showConflictInfo = false;
     }
+    /*接收新上传的图片数据*/
+    $scope.$on('getImgItems',function(event,data){
+        for(var i=0;i<data.length;i++){
+            $scope.poi.attachments.push(data[i]);
+        }
+        $scope.$broadcast('loadImages',{"imgArray":initImages(),"flag":1});
+        console.log({"imgArray":initImages(),"flag":1})
+    });
     /*切换tag按钮*/
     $scope.changeTag = function(tagName){
         switch(tagName) {
@@ -302,7 +310,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         });
     };
     $scope.doSave = function() {
-        $scope.$broadcast("save", $scope.meta.kindList);
+        //$scope.$broadcast("save", $scope.meta.kindList);
+        var param = {
+            access_token: App.Config.accessToken,
+            projectId: "2016013086",
+            phase: 4,
+            fid: '0010060815LML01353',
+            featcode: 'poi',
+            validationMethod: 1,
+            data: $scope.poi
+        };
+        console.info("save",$scope.poi);
+        $scope.saveButClass = "disabled";
+        poi.savePoi(param,function(data){
+            $scope.saveButClass = "";
+        });
+        
     };
 
     function realSave(evt, data) {
