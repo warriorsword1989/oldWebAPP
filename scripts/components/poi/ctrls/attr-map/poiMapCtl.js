@@ -347,6 +347,12 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     };
 
     $scope.loadControls = function (map, data) {
+        // var nodes = map._controlContainer.childNodes;
+        // for(var i = 0;i<nodes.length;i++){
+        //     nodes[i].childNodes.length = 1;
+        //     nodes[i].children.length = 1;
+        // }
+
         // $scope.loadZoomControl(map);
         $scope.loadLayerControl(map);
         $scope.loadNavBarControl(map);
