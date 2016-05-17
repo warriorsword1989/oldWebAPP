@@ -998,7 +998,7 @@ function transformData(data, url) {
                     gscObj['geometry']['coordinates'] = [];
                     gscObj['geometry']['coordinates'] = item.g[gscNum].g;
                     gscObj['properties'] = {
-                        'id': item.g[gscNum].i,
+                        //'id': item.g[gscNum].i,
                         'featType': item.t
                     }
                     if (item.g[gscNum].z === 0) {
@@ -1325,7 +1325,6 @@ function transformDataForTips(data, param) {
     var transform = new fastmap.mapApi.MecatorTranform();
     var layerCtrl = fastmap.uikit.LayerController();
     var guideLayer = layerCtrl.getLayerById("guideLineLayer");
-    console.log(guideLayer);
     $.each(data, function (index, item) {
 
         var obj = {};
@@ -1353,6 +1352,7 @@ function transformDataForTips(data, param) {
                 );
                 if(param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1376,16 +1376,16 @@ function transformDataForTips(data, param) {
                         scaley: 0.7
                     })
                 );
-                if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
-                    guideLineObj = {
-                        "coordinates": linePoint,
-                        "guidePoint":item.m.h,
-                        "id": item.i
-                    };
-                    guideLineArr.push(guideLineObj);
-                    guideLayer.draw(guideLineObj);
-                }
+                //if(param) {
+                //    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                //    guideLineObj = {
+                //        "coordinates": linePoint,
+                //        "guidePoint":item.m.h,
+                //        "id": item.i
+                //    };
+                //    guideLineArr.push(guideLineObj);
+                //    guideLayer.draw(guideLineObj);
+                //}
                 break;
             case 1407://高速分歧
 
@@ -1399,16 +1399,16 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
-                    guideLineObj = {
-                        "coordinates": linePoint,
-                        "guidePoint":item.m.h,
-                        "id": item.i
-                    };
-                    guideLineArr.push(guideLineObj);
-                    guideLayer.draw(guideLineObj);
-                }
+                //if(param) {
+                //    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                //    guideLineObj = {
+                //        "coordinates": linePoint,
+                //        "guidePoint":item.m.h,
+                //        "id": item.i
+                //    };
+                //    guideLineArr.push(guideLineObj);
+                //    guideLayer.draw(guideLineObj);
+                //}
                 break;
             case 1604://区域内道路
             case 1704://交叉路口
@@ -1437,17 +1437,16 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
-                    guideLineObj = {
-                        "coordinates": linePoint,
-                        "guidePoint":item.m.h,
-                        "id": item.i
-                    };
-                    guideLineArr.push(guideLineObj);
-                    console.log("开始 "+item.m.h);
-                    guideLayer.draw(guideLineObj);
-                }
+                //if(param) {
+                //    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                //    guideLineObj = {
+                //        "coordinates": linePoint,
+                //        "guidePoint":item.m.h,
+                //        "id": item.i
+                //    };
+                //    guideLineArr.push(guideLineObj);
+                //    guideLayer.draw(guideLineObj);
+                //}
                 break;
             case 1201://道路种别
                 obj['geometry']['coordinates'] = item.g;
@@ -1459,16 +1458,16 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
-                    guideLineObj = {
-                        "coordinates": linePoint,
-                        "guidePoint":item.m.h,
-                        "id": item.i
-                    };
-                    guideLineArr.push(guideLineObj);
-                    guideLayer.draw(guideLineObj);
-                }
+                //if(param) {
+                //    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                //    guideLineObj = {
+                //        "coordinates": linePoint,
+                //        "guidePoint":item.m.h,
+                //        "id": item.i
+                //    };
+                //    guideLineArr.push(guideLineObj);
+                //    guideLayer.draw(guideLineObj);
+                //}
                 break;
             case 1901://道路名
             case 2001://侧线
@@ -1523,16 +1522,16 @@ function transformDataForTips(data, param) {
                         })
                     );
                 }
-                if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
-                    guideLineObj = {
-                        "coordinates": linePoint,
-                        "guidePoint":item.m.h,
-                        "id": item.i
-                    };
-                    guideLineArr.push(guideLineObj);
-                    guideLayer.draw(guideLineObj);
-                }
+                //if(param) {
+                //    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                //    guideLineObj = {
+                //        "coordinates": linePoint,
+                //        "guidePoint":item.m.h,
+                //        "id": item.i
+                //    };
+                //    guideLineArr.push(guideLineObj);
+                //    guideLayer.draw(guideLineObj);
+                //}
                 break;
             case 1403://3d分歧
                 obj['geometry']['coordinates'] = item.g;
@@ -1545,16 +1544,16 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
-                    guideLineObj = {
-                        "coordinates": linePoint,
-                        "guidePoint":item.m.h,
-                        "id": item.i
-                    };
-                    guideLineArr.push(guideLineObj);
-                    guideLayer.draw(guideLineObj);
-                }
+                //if(param) {
+                //    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                //    guideLineObj = {
+                //        "coordinates": linePoint,
+                //        "guidePoint":item.m.h,
+                //        "id": item.i
+                //    };
+                //    guideLineArr.push(guideLineObj);
+                //    guideLayer.draw(guideLineObj);
+                //}
                 break;
 
             case 1510://桥

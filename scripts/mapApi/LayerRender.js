@@ -166,10 +166,6 @@ fastmap.mapApi.LayerRender = {
 
         geom = this._clip(ctx, geom);
         var endLen = geom.length;
-        if(startLen!==endLen) {
-            console.log("开始的长度为: "+startLen+"处理后的长度:"+endLen);
-        }
-
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.font = "10px Courier New";

@@ -17,8 +17,6 @@ function keyEvent(ocLazyLoad, scope) {
             var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
-
-            var properties = shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
             if (event.keyCode == 27) {
                 resetPage();
@@ -133,6 +131,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                 }
                 if (shapeCtrl.editType === 'drawPath') {
+                    var properties = shapeCtrl.shapeEditorResult.getProperties();
                     var showContent, ctrl, tpl, type;
                     param["command"] = "CREATE";
                     param["projectId"] = Application.projectid;
