@@ -76,6 +76,9 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     }
     $scope.selectShape = function (type, num) {
 
+        if(map.getZoom() <17){
+            return;
+        }
         $scope.resetToolAndMap();
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
@@ -153,6 +156,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
     $scope.selectObjCallback = function (data) {
+        //地图小于17级时不能选择
+        if(map.getZoom < 17){
+            return;
+        }
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
         var ctrlAndTmplParams = {
