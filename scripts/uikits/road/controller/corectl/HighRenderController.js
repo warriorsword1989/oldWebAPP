@@ -53,11 +53,11 @@ fastmap.uikit.HighRenderController = (function () {
                             });
                         }else{
                             this.layer._drawLineString(ctx, feature.geometry.coordinates, true, {
-                                size: 30,
-                                color: '#00F5FF'
+                                strokeWidth: 2,
+                                strokeColor: '#00F5FF'
                             }, {
-                                size: 30,
-                                color: '#00F5FF'
+                                strokeWidth: 30,
+                                strokeColor: '#00F5FF'
                             }, feature.properties);
                         }
 
