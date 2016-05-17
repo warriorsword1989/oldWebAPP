@@ -85,6 +85,11 @@ fastmap.mapApi.Snap = L.Handler.extend({
         var tiles = this.transform.lonlat2Tile(latlng.lng, latlng.lat, this._map.getZoom());
         var tilePixcel = new fastmap.mapApi.Point(pixels[0] - tiles[0] * 256, pixels[1] - tiles[1] * 256);
         for (var layerindex in this._guides) {
+
+            //设置捕捉级别
+            if(this._map.getZoom() < this._guides[layerindex].showNodeLevel){
+                return;
+            }
             this.selectedId = this._guides[layerindex].selectedid;
             this.currentTileData = this._guides[layerindex].tiles[tiles[0] + ':' + tiles[1]];
             if (this.currentTileData&&this.currentTileData.data) {

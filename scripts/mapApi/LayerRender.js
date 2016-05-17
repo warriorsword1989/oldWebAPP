@@ -23,24 +23,24 @@ fastmap.mapApi.LayerRender = {
         var c = options.ctx.canvas;
         var g = c.getContext('2d');
         g.beginPath();
-        if(options.fillColor){
+        if (options.fillColor) {
             g.fillStyle = options.fillColor;
         }
-        if(options.fillOpacity){
+        if (options.fillOpacity) {
             g.fillOpacity = options.fillOpacity;
         }
 
-        if(options.strokeColor){
+        if (options.strokeColor) {
             g.strokeColor = options.strokeColor;
         }
-        if(options.strokeOpacity){
+        if (options.strokeOpacity) {
             g.strokeOpacity = options.strokeOpacity;
         }
         g.arc(p.x, p.y, options.radius, 0, Math.PI * 2);
         g.closePath();
         g.fill();
         g.restore();
-    },  /***
+    }, /***
      * 绘制空心圆
      * @param ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param geom 点对象
@@ -83,47 +83,47 @@ fastmap.mapApi.LayerRender = {
      */
     _drawImg: function (options) {
 
-            var p = null;
-            var style = options.style;
-            if (options.boolPixelCrs) {
-                p = {x: options.geo[0], y: options.geo[1]}
-            } else {
-                p = this._tilePoint(options.ctx, options.geom);
+        var p = null;
+        var style = options.style;
+        if (options.boolPixelCrs) {
+            p = {x: options.geo[0], y: options.geo[1]}
+        } else {
+            p = this._tilePoint(options.ctx, options.geom);
+        }
+
+        var c = options.ctx.canvas;
+
+        var g = c.getContext('2d');
+
+        var image = new Image();
+
+        var rotate = options.rotate;
+
+        image.src = style.src;
+        image.onload = function () {
+            var scalex = options.scalex ? options.scalex : 1;
+            var scaley = options.scaley ? options.scaley : 1;
+            var drawx = options.drawx ? options.drawx : -image.width * scalex / 2;
+            var drawy = options.drawy ? options.drawy : -image.height * scalex / 2;
+            //var drawx = -options.c * image.width/2;
+            //var drawy = 0
+            g.save();
+            g.translate(p.x, p.y);
+            if (options.fillStyle) {
+                g.strokeStyle = options.fillStyle.lineColor;  //边框颜色
+                g.fillStyle = options.fillStyle.fillColor;
+                g.linewidth = options.fillStyle.lineWidth;  //边框宽
+                g.fillRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充颜色 x y坐标 宽 高
+                g.strokeRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充边框 x y坐标 宽 高
             }
 
-            var c = options.ctx.canvas;
-
-            var g = c.getContext('2d');
-
-            var image = new Image();
-
-            var rotate = options.rotate;
-
-            image.src = style.src;
-            image.onload = function () {
-                var scalex = options.scalex ? options.scalex : 1;
-                var scaley = options.scaley ? options.scaley : 1;
-                var drawx = options.drawx ? options.drawx : -image.width * scalex / 2;
-                var drawy = options.drawy ? options.drawy : -image.height * scalex / 2;
-                //var drawx = -options.c * image.width/2;
-                //var drawy = 0
-                g.save();
-                g.translate(p.x, p.y);
-                if (options.fillStyle) {
-                    g.strokeStyle = options.fillStyle.lineColor;  //边框颜色
-                    g.fillStyle = options.fillStyle.fillColor;
-                    g.linewidth = options.fillStyle.lineWidth;  //边框宽
-                    g.fillRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充颜色 x y坐标 宽 高
-                    g.strokeRect(drawx + options.fillStyle.dx, drawy + options.fillStyle.dy, options.fillStyle.width, options.fillStyle.height);  //填充边框 x y坐标 宽 高
-                }
-
-                if (rotate) {
-                    g.rotate(rotate);//旋转度数
-                }
-
-                g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
-                g.restore();
+            if (rotate) {
+                g.rotate(rotate);//旋转度数
             }
+
+            g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
+            g.restore();
+        }
 
     },
 
@@ -166,8 +166,8 @@ fastmap.mapApi.LayerRender = {
 
         geom = this._clip(ctx, geom);
         var endLen = geom.length;
-        if(startLen!==endLen) {
-            console.log("开始的长度为: "+startLen+"处理后的长度:"+endLen);
+        if (startLen !== endLen) {
+            console.log("开始的长度为: " + startLen + "处理后的长度:" + endLen);
         }
 
         var c = ctx.canvas;
@@ -310,7 +310,7 @@ fastmap.mapApi.LayerRender = {
 
         g.save();
         g.translate(options.geo[0], options.geo[1]);
-        if(options.rotate){
+        if (options.rotate) {
             g.rotate(options.rotate);
         }
         //g.fillText(options.text, 0, 12 / 2);
@@ -455,9 +455,16 @@ fastmap.mapApi.LayerRender = {
         if (!linestyle) {
             return;
         }
+
+        if (properties.hasOwnProperty('symbolName')) {
+            //如果有symbolName，则使用符号绘制
+            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolName']);
+            return;
+        }
+
         var proj = [],
 
-        coords = this._clip(ctx, geom);
+            coords = this._clip(ctx, geom);
 
         for (var i = 0; i < coords.length; i++) {
             //if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
@@ -483,6 +490,44 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
 
+    },
+
+    /***
+     * 根据指定的符号名绘制线
+     * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
+     * @param {Array}geom 绘制几何对象
+     * @param {Boolean}boolPixelCrs 是否像素坐标
+     * @symbolName {Object}style 符号名
+     * @private
+     */
+    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbolName) {
+        if (!symbolName) {
+            return;
+        }
+
+        var factory = fastmap.mapApi.symbol.GetSymbolFactory();
+        var symbol = factory.getSymbol(symbolName);
+        if (!symbol) {
+            return;
+        }
+
+        var geometry = [];
+
+        //coords = this._clip(ctx, geom);
+
+        for (var i = 0; i < geom.length; i++) {
+            if (boolPixelCrs) {
+                geometry.push([geom[i][0], geom[i][1]]);
+            } else {
+                var point = this._tilePoint(ctx, geom[i]);
+                geometry.push([point.x, point.y]);
+            }
+        }
+
+        var lsGeometry = new fastmap.mapApi.symbol.LineString(geometry);
+        var g = ctx.canvas.getContext('2d');
+        symbol.geometry = lsGeometry;
+        symbol.draw(g);
     },
 
     /***
@@ -514,7 +559,7 @@ fastmap.mapApi.LayerRender = {
         g.globalAlpha = style.fillOpacity;
 
         g.fillStyle = style.fillColor;
-        if (style.strokeWidth>0) {
+        if (style.strokeWidth > 0) {
             g.strokeStyle = style.strokeColor;
             g.lineWidth = style.strokeWidth;
         }
@@ -525,7 +570,7 @@ fastmap.mapApi.LayerRender = {
         }
         g.closePath();
         g.fill();
-        if (style.strokeWidth>0) {
+        if (style.strokeWidth > 0) {
             g.stroke();
         }
 
@@ -784,9 +829,9 @@ fastmap.mapApi.LayerRender = {
         for (var i = 0; i < coords.length; i++) {
 
             if (this._map.getZoom() >= this.showNodeLevel && (i == 0 || i == coords.length - 1)) {
-                if(i==0){
+                if (i == 0) {
                     this._drawCircle(ctx, coords[i][0], nodestyle, true);
-                }else if(coords[0][0][0]!=coords[coords.length - 1][0][0]&&coords[0][0][1]!=coords[coords.length - 1][0][1]){
+                } else if (coords[0][0][0] != coords[coords.length - 1][0][0] && coords[0][0][1] != coords[coords.length - 1][0][1]) {
                     this._drawCircle(ctx, coords[coords.length - 1][0], nodestyle, true);
                 }
             }

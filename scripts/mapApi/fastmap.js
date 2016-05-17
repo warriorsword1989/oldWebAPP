@@ -36,6 +36,19 @@ fastmap.mapApi = (function() {
     return !instantiated ? instantiated = init():instantiated;
 })();
 
+/**
+ * symbol类
+ * 封装符号库相关操作
+ */
+fastmap.mapApi.symbol = (function () {
+    var instantiated;
+
+    function init() {
+        return {};
+    }
+
+    return !instantiated ? instantiated = init() : instantiated;
+})();
 
 /**
  * uiKit类
