@@ -148,7 +148,7 @@ fastmap.uikit.SelectPolygon = L.Handler.extend({
                     };
                     this.currentEditLayer._drawPolygon(ctx, data[key].geometry.coordinates[0],
                         {
-                            fillstyle: '#00F5FF',
+                            fillstyle: '#FFFF00',
                             outline: {
                                 size: 1,
                                 color: '#00F5FF'
