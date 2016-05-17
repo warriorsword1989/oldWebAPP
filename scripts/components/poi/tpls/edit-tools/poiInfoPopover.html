@@ -8,7 +8,7 @@
         <dd ng-bind="poiInfo.kindName"></dd>
     </dl>
     <div class="text-center">
-        <button ng-if="isLocked && platform!='DTP" type="button" class="btn btn-default btn-tn" ng-click="doLockRelatedPoi(poiInfo.poi.fid);" ng-disabled="poi.submitStatus!=0">锁 定
+        <button ng-if="isLocked && platform!='DTP'" type="button" class="btn btn-default btn-tn" ng-click="doLockRelatedPoi(poiInfo.poi.fid);" ng-disabled="poi.submitStatus!=0">锁 定
         </button>
         <button ng-if="!isLocked" type="button" class="btn btn-default btn-tn"
                 ng-click="doEditRelatedPoi(poiInfo.poi.fid);" ng-disabled="poi.submitStatus!=0">编辑
