@@ -58,6 +58,19 @@ Application.layersConfig =
                         visible: false,
                         zIndex: 3
                     }
+                }, {
+                    url: '',
+                    clazz: fastmap.mapApi.gridLayer,
+                    options: {
+                        layername: '格网',
+                        id: 'grid',
+                        gridInfo:null,
+                        url: '',
+                        divideX:4,
+                        divideY:4,
+                        visible: false,
+                        zIndex: 3
+                    }
                 }
             ]
         }, {
