@@ -33,17 +33,23 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
             return;
         }
 
-        var img = new Image();
+        if (this.markerSymbol.type === 'PicturePointSymbol') {
+            var img = new Image();
 
-        img.userData = this;
-        //图片准备好之后再绘制
-        img.onload = function () {
-            this.userData.innerDraw(img);
-        };
-        img.src = this.url;
+            img.userData = this;
+            //图片准备好之后再绘制
+            img.onload = function () {
+                this.userData.markerSymbol.image = img;
+                this.userData.innerDraw(ctx);
+            };
+            img.src = this.url;
+        } else {
+            this.innerDraw(ctx);
+        }
+
     },
 
-    innerDraw: function (img) {
+    innerDraw: function (ctx) {
         //绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
         ctx.restore();
 
@@ -55,7 +61,7 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
 
         ctx.beginPath();
         for (var i = 0; i < segments.length; ++i) {
-            this.drawSegment(ctx, img, segments[i]);
+            this.drawSegment(ctx, segments[i]);
         }
         ctx.stroke();
 
@@ -63,7 +69,7 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
         ctx.restore();
     },
 
-    drawSegment: function (ctx, img, segment) {
+    drawSegment: function (ctx, segment) {
         var marks = this.template.getMarks(segment);
         for (var i = 0; i < marks.length; ++i) {
             var vY = new fastmap.mapApi.symbol.Vector(0, -1);
@@ -76,14 +82,13 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
                 angle = -angle;
             }
 
-            this.drawMark(ctx, img, angle, marks[i]);
+            this.drawMark(ctx, angle, marks[i]);
         }
     },
 
-    drawMark: function (ctx, img, angle, mark) {
+    drawMark: function (ctx, angle, mark) {
         this.markerSymbol.angle = angle;
         this.markerSymbol.geometry = mark.coordinates[0];
-        this.markerSymbol.image = img;
-        this.markerSymbol.draw(ctx, img);
+        this.markerSymbol.draw(ctx);
     }
 });

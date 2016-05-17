@@ -258,7 +258,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1803"://挂接
                 if($scope.dataTipsData.pcd){//有图片时，显示图片
-                    $scope.pcd="./css/hook/"+$scope.dataTipsData.pcd.substr(0,4)+".svg";
+                    $scope.pcd="../../images/road/hook/"+$scope.dataTipsData.pcd.substr(5,4)+".svg";
                     //$scope.pcd="./css/hook/2081.svg";
                 }else{//无图片时获取经纬度，高亮
                     $scope.garray=$scope.dataTipsData.g_array;
@@ -273,13 +273,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             case "1901":
                 $scope.nArrayData = $scope.dataTipsData.n_array;
 
-                highLightFeatures.push({
+         /*       highLightFeatures.push({
                     id:$scope.dataTipsData.rowkey.toString(),
                     layerid:'gpsLine',
                     type:'gpsLine',
                     style:{}
 
-                });
+                });*/
 
                 break;
             case "2001":
@@ -357,7 +357,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 /*退出*/
                 $scope.sceneOut = $scope.dataTipsData.o_array;
                 /*模式图号*/
-                $scope.schemaNo = $scope.dataTipsData.schemaNo;
+                $scope.schemaNo = $scope.dataTipsData.ptn;
                 break;
             case "1801"://立交
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
