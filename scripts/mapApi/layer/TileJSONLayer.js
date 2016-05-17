@@ -203,9 +203,9 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         }
         var diff0 = max[0] - min[0];
         var diff1 = max[1] - min[1];
-        if (this.options.debug) {
-            console.log(diff0 + ' ' + diff1);
-        }
+        //if (this.options.debug) {
+        //    console.log(diff0 + ' ' + diff1);
+        //}
         var visible = diff0 > 1 || diff1 > 1;
         return visible;
     },
@@ -304,7 +304,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                             if (d.length === 0) {
                                 return;
                             }
-                            self.tiles[key].setData(parse(d));
+                            self.tiles[key].setData(parse(d,self.param));
 
                             func(d);
                         }
@@ -313,10 +313,8 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
             };
             if (x.xdomain) {
                 x.onerror = function () {
-
                 };
                 x.ontimeout = function () {
-
                 };
                 x.onprogress = function () {
                 };
@@ -359,69 +357,72 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
 
                     //有图片样式的情况
-                    var icons = feature.properties.markerStyle.icon;
-                    for (var item in icons) {
+                    if(feature.properties.markerStyle) {
+                        var icons = feature.properties.markerStyle.icon;
+                        for (var item in icons) {
 
-                        if (icons[item].iconName) {
+                            if (icons[item].iconName) {
 
-                            this._drawImg({
-                                ctx: ctx,
-                                geo: icons[item].location,
-                                style: {src: icons[item].iconName},
-                                boolPixelCrs: boolPixelCrs,
-                                rotate: icons[item].rotate ? icons[item].rotate : "",
-                                drawx: icons[item].column * icons[item].dx,
-                                drawy: icons[item].row * icons[item].dy,
-                                scalex: icons[item].scalex ? icons[item].scalex : 1,
-                                scaley: icons[item].scaley ? icons[item].scaley : 1
-                            });
-                        }
-                        else {
-                            var coords = geom.coordinates;
-                            var arrowlist = [];
-                            var direct = '';
-                            for (var index = 0; index < coords.length; index++) {
-                                if (index < coords.length - 1) {
-                                    var oneArrow = [{
-                                        x: coords[index][0],
-                                        y: coords[index][1]
-                                    }, {x: coords[index + 1][0], y: coords[index + 1][1]}];
-                                    arrowlist.push(oneArrow);
+                                this._drawImg({
+                                    ctx: ctx,
+                                    geo: icons[item].location,
+                                    style: {src: icons[item].iconName},
+                                    boolPixelCrs: boolPixelCrs,
+                                    rotate: icons[item].rotate ? icons[item].rotate : "",
+                                    drawx: icons[item].column * icons[item].dx,
+                                    drawy: icons[item].row * icons[item].dy,
+                                    scalex: icons[item].scalex ? icons[item].scalex : 1,
+                                    scaley: icons[item].scaley ? icons[item].scaley : 1
+                                });
+                            }
+                            else {
+                                var coords = geom.coordinates;
+                                var arrowlist = [];
+                                var direct = '';
+                                for (var index = 0; index < coords.length; index++) {
+                                    if (index < coords.length - 1) {
+                                        var oneArrow = [{
+                                            x: coords[index][0],
+                                            y: coords[index][1]
+                                        }, {x: coords[index + 1][0], y: coords[index + 1][1]}];
+                                        arrowlist.push(oneArrow);
+                                    }
                                 }
+                                if (feature.properties.forwarddirect && feature.properties.forwardtext) {
+                                    direct = 2;//顺方向
+                                    this._drawIntRticArrow(ctx, direct, arrowlist, feature.properties.color);
+                                } else if (feature.properties.reversedirect) {
+                                    direct = 3;//逆方向
+                                    this._drawIntRticArrow(ctx, direct, arrowlist, feature.properties.color);
+                                }
+
+
+                                if (direct == 2) {
+                                    this._drawIntRticText(ctx, geom.coordinates, feature.properties.forwardtext, direct);
+                                }
+                                if (direct == 3) {
+                                    this._drawIntRticText(ctx, geom.coordinates, feature.properties.reversetext, direct);
+                                }
+
                             }
-                            if (feature.properties.forwarddirect && feature.properties.forwardtext) {
-                                direct = 2;//顺方向
-                                this._drawIntRticArrow(ctx, direct, arrowlist, feature.properties.color);
-                            } else if (feature.properties.reversedirect) {
-                                direct = 3;//逆方向
-                                this._drawIntRticArrow(ctx, direct, arrowlist, feature.properties.color);
+
+
+                            if (icons[item].text) {
+
+                                this._drawText({
+                                    ctx: ctx,
+                                    geo: geom.coordinates,
+                                    text: icons[item].text,
+                                    font: 'bold 15px Courier New',
+                                    rotate: icons[item].rotate ? icons[item].rotate : "",
+                                    align: 'center',
+                                    drawx: icons[item].column * icons[item].dx,
+                                    drawy: (icons[item].row+1) * icons[item].dy
+                                })
                             }
-
-
-                            if (direct == 2) {
-                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.forwardtext, direct);
-                            }
-                            if (direct == 3) {
-                                this._drawIntRticText(ctx, geom.coordinates, feature.properties.reversetext, direct);
-                            }
-
-                        }
-
-
-                        if (icons[item].text) {
-                            console.log('---------------'+icons[item].text)
-                            this._drawText({
-                                ctx: ctx,
-                                geo: geom.coordinates,
-                                text: icons[item].text,
-                                font: 'bold 15px Courier New',
-                                rotate: icons[item].rotate ? icons[item].rotate : "",
-                                align: 'center',
-                                drawx: icons[item].column * icons[item].dx,
-                                drawy: (icons[item].row+1) * icons[item].dy
-                            })
                         }
                     }
+
                     break;
 
                 case 'MultiPoint':
@@ -437,7 +438,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }, feature.properties);
 
                     //如果属性中有direct属性则绘制箭头
-                    if (feature.properties.direct) {
+                    if (feature.properties.direct&&this._map.getZoom()>14) {
                         var coords = geom.coordinates;
                         var arrowlist = [];
                         for (var index = 0; index < coords.length; index++) {
@@ -453,7 +454,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     }
 
                     //如果属性中有name属性则绘制名称
-                    if (feature.properties.name) {
+                    if (feature.properties.name&&this._map.getZoom()>14) {
                         this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
                     }
                     break;
@@ -506,6 +507,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 parameter.z = this._map.getZoom();
                 parameter.x = tiles[0];
                 parameter.y = tiles[1];
+                this.param = parameter;
             }
             url = url + 'parameter=' + JSON.stringify(parameter);
 
@@ -519,11 +521,10 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 parameter.z = this._map.getZoom();
                 parameter.x = tiles[0];
                 parameter.y = tiles[1];
+                this.param = parameter;
             }
             url = url + 'parameter=' + JSON.stringify(parameter);
         }
-
-
         return url;
     },
 

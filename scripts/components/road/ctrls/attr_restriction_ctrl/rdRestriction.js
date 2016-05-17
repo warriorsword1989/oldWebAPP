@@ -12,7 +12,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
     var rdRestriction = layerCtrl.getLayerById('restriction');
-    var hLayer = layerCtrl.getLayerById("highlightlayer");
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
     /*时间控件*/
     $scope.fmdateTimer = function (str) {
@@ -47,9 +47,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         $scope.rdRestrictData = objectEditCtrl.data;
         $scope.flag = 0;
-
         var highLightFeatures = [];
-
         highLightFeatures.push({
             id:objectEditCtrl.data["inLinkPid"].toString(),
             layerid:'referenceLine',
@@ -57,7 +55,6 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             style:{
                 color: '#3A5FCD'
             }
-
         });
         for (var i = 0, len = objectEditCtrl.data.details.length; i < len; i++) {
             highLightFeatures.push({
@@ -68,7 +65,6 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                     color: '#CD0000'
                 }
             });
-
         }
         highLightFeatures.push({
             id:$scope.rdRestrictData.pid.toString(),
@@ -76,12 +72,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             type:'restriction',
             style:{}
         })
-
-
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
         $.each(objectEditCtrl.data.details, function (i, v) {
             if (v)
                 limitPicArr.push(v.timeDomain);
@@ -194,6 +186,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     }
     //点击限制方向时,显示其有的属性信息
     $scope.showTips = function (item, e,index) {
+        highRenderCtrl.highLightFeatures.length = 0;
+        highRenderCtrl._cleanHighLight();
         limitPicArr[$(".show-tips.active").attr('data-index')] = $scope.codeOutput;
         $scope.flag = index;
         $timeout(function () {
@@ -227,9 +221,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             type:'restriction',
             style:{}
         })
-        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLinks.highLightFeatures = highLightFeatures;
-        highLightLinks.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 
         //显示时间
         $timeout(function () {
@@ -266,6 +259,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         var currentTool = new fastmap.uikit.SelectPath({map: map, currentEditLayer: rdLink, linksFlag: false});
         currentTool.enable();
         eventController.on(eventController.eventTypes.GETOUTLINKSPID, function (data) {
+            highRenderCtrl.highLightFeatures.length = 0;
+            highRenderCtrl._cleanHighLight();
             $scope.$apply(function () {
                 $scope.rdSubRestrictData.outLinkPid =parseInt( data.id);
             });
@@ -283,10 +278,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
                 type:'line',
                 style:{}
             })
-
-            var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
-            highLightLinks.highLightFeatures = highLightFeatures;
-            highLightLinks.drawHighlight();
+            highRenderCtrl.highLightFeatures = highLightFeatures;
+            highRenderCtrl.drawHighlight();
         })
     };
 

@@ -9,7 +9,7 @@ selectApp.controller("rdCrossController", function ($scope) {
     var rdcross = layerCtrl.getLayerById('rdcross');
     var eventController = fastmap.uikit.EventController();
     var selectCtrl = fastmap.uikit.SelectController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeRdCrossData = function () {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.rdCrossData = objCtrl.data;
@@ -22,7 +22,6 @@ selectApp.controller("rdCrossController", function ($scope) {
                 type:'line',
                 style:{}
             })
-
         }
         highLightFeatures.push({
 
@@ -31,9 +30,8 @@ selectApp.controller("rdCrossController", function ($scope) {
             type:'rdcross',
             style:{}
         })
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {

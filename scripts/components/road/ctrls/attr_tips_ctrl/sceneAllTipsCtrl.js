@@ -10,11 +10,72 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
-
+    var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+    var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var gpsLine = layerCtrl.getLayerById("gpsLine");
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var editLayer = layerCtrl.getLayerById('edit');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
+
+    $scope.resetToolAndMap = function () {
+        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
+
+            map.currentTool.cleanHeight();
+            map.currentTool.disable();//禁止当前的参考线图层的事件捕获
+
+        }
+
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+
+        if(selectCtrl.rowKey) {
+            selectCtrl.rowKey = null;
+        }
+        editLayer.drawGeometry = null;
+        shapeCtrl.stopEditing();
+        editLayer.bringToBack();
+        $(editLayer.options._div).unbind();
+        //$scope.changeBtnClass("");
+        shapeCtrl.shapeEditorResult.setFinalGeometry(null);
+        shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
+        editLayer.clear();
+    };
+    $scope.getFeatDataCallback = function ( id, type) {
+        $scope.resetToolAndMap();
+        Application.functions.getRdObjectById(id, type, function (data) {
+            if (data.errcode === -1) {
+                swal("", data.errmsg, "提示信息");
+                return;
+            }
+            if(type==="RDLINK") {
+                var linkArr = data.data.geometry.coordinates, points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
+                    points.push(point);
+                }
+                 map.panTo({lat: points[0].y, lon: points[0].x});
+                var line = fastmap.mapApi.lineString(points);
+                selectCtrl.onSelected({geometry: line, id: $scope.dataId});
+
+                highRenderCtrl.highLightFeatures.push({
+                    id:data.data.pid.toString(),
+                    layerid:'referenceLine',
+                    type:'line',
+                    style:{}
+                });
+                highRenderCtrl.drawHighlight();
+            }
+
+            objCtrl.setCurrentObject(type, data.data);
+            var options = {
+                "loadType": 'attrTplContainer',
+                "propertyCtrl": "components/road/ctrls/attr_link_ctrl/rdLinkCtrl",
+                "propertyHtml": "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html"
+            }
+            $scope.$emit("transitCtrlAndTpl", options);
+        });
+    }
 
     //初始化DataTips相关数据
     $scope.initializeDataTips = function (data) {
@@ -24,8 +85,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
         var highLightFeatures = [];
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-
         highLightFeatures.push({
             id:$scope.dataTipsData.rowkey,
             layerid:'workPoint',
@@ -57,9 +116,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         switch ($scope.allTipsType) {
             case "1101":
                 $scope.speedDirectTypeOptions = [
-                    {"id": 0, "label": "0  未调查"},
-                    {"id": 2, "label": "2 顺方向"},
-                    {"id": 3, "label": "3 逆方向"}
+                    {"id": 0, "label": "未调查"},
+                    {"id": 2, "label": "顺方向"},
+                    {"id": 3, "label": "逆方向"}
                 ];
                 for (var i in $scope.speedDirectTypeOptions) {
                     if ($scope.speedDirectTypeOptions[i].id == $scope.dataTipsData.rdDir) {
@@ -127,6 +186,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     $scope.drs = "单方向";
                 }
                 $scope.fData = $scope.dataTipsData.f;
+                $scope.time = $scope.dataTipsData.time;
                 break;
             case "1301"://车信
                 $scope.oarrayData = $scope.dataTipsData.o_array;
@@ -140,9 +200,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
             case "1302":
                 //高亮
-                $scope.restrictOutLinks = [];
+               /* $scope.restrictOutLinks = [];*/
+                $scope.restrictOutLinks =  $scope.dataTipsData.o_array[0].out;
                 var detailsOfHigh = $scope.dataTipsData.o_array;
-                //linksObj["inLink"] = $scope.dataTipsData.in.id;
                 highLightFeatures.push({
                     id:$scope.dataTipsData.in.id,
                     layerid:'referenceLine',
@@ -206,12 +266,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     }else if($scope.garray.geo.type=="Line"){
 
-                        highLightFeatures.push({
-                            id:$scope.dataTipsData.rowkey.toString(),
-                            layerid:'referenceLine',
-                            type:'line',
-                            style:{}
-                        });
                     }
                 }
 
@@ -229,7 +283,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 break;
             case "2001":
-                /*种别*/
                 $scope.returnLineType = function (code) {
                     switch (code) {
                         case 0:
@@ -284,20 +337,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     $scope.lineSrc = $scope.returnLineSrc($scope.dataTipsData.src);
                     /*车道数*/
                     $scope.carNumber = $scope.dataTipsData.ln;
+                    /*长度*/
+                    $scope.lineLength = $scope.dataTipsData.len;
                 }
-
-                highLightFeatures.push({
-
-                    id:$scope.dataTipsData.id.toString(),
-                    layerid:'gpsLine',
-                    type:'gpsLine',
-                    style:{}
-                });
                 break;
             case "1514"://施工
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
 
                 $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
+                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
+                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
                 break;
             case "1501"://上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
@@ -315,8 +364,8 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
 
         }
-        highLightLink.highLightFeatures = highLightFeatures;
-        highLightLink.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
         //获取数据中的图片数组
         if (!$scope.photos) {
             $scope.photos = [];
@@ -518,7 +567,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
-                        objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                        objCtrl.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         restrictLayer.redraw();
                         workPoint.redraw();
@@ -538,16 +587,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-
+                    outPutCtrl.pushOutput(info);
+                    if (outPutCtrl.updateOutPuts !== "") {
+                        outPutCtrl.updateOutPuts();
+                    }
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
             }
 
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
         }else if ($scope.dataTipsData.s_sourceType === "1302") {
             $scope.createRestrictByTips()
         }

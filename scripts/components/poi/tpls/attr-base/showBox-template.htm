@@ -1,0 +1,44 @@
+<div ng-controller="showBoxCtrl">
+	<div class="showbox">
+		<div class="image" ng-style="imageBoxStyle">
+			<a href="javascript:void(0);" class="image-trigger"
+				style="margin-top: 0px;">
+				<img ng-src="{{selectUrl}}" ng-style="imgStyle" ng-click="expandImage();">
+				<div class="img-tag" style="display: none;"></div>
+			</a>
+			<a href="javascript:void(0);" class="delete-btn" ng-click="deleteImag();" ng-show="deleteable" title="删除图片"></a>
+		</div>
+		<div class="extalContent" ng-transclude style="border-top: solid #ccc 1px;border-bottom: solid #ccc 1px;"></div>
+		<div class="thumbs">
+			<div class="prev" ng-click='prev();'></div>
+			<div class="thumbs-list">
+				<ul id="image-ul" class="thumbs-list-ul" ng-style="thumbsListUiStyle">
+					<li class="thumbs-list-li" ng-repeat="img in imgs">
+						<img ng-src="{{img.url}}" ng-class="{ 'imgActive':$index == isActive }" ng-click="selectPic($index);">
+					</li>
+				</ul>
+			</div>
+			<div class="next" ng-click='next($event,this);'></div>
+		</div>
+	</div>
+	<div class="showboxModal"  ng-style="imageOriginModal">
+    	<div style="background-color:RGB(66,66,66)">
+		    <div class="modal-body"  ng-style="imageModelStyle">
+		    	<div id="showbox-buttons" >
+		    		<ul>
+		    			<li><a class="btnPrev" title="Previous" ng-click="switchPic(0);" href="javascript:void(0);"></a></li>
+		    			<li><a class="btnNext" title="Next" ng-click="switchPic(1);" href="javascript:void(0);"></a></li>
+		    			<li><a class="btnRotateL" title="Turn left" ng-click="rotateImage(0);" href="javascript:void(0);"></a></li>
+		    			<li><a class="btnRotateR" title="Turn right" ng-click="rotateImage(1);" href="javascript:void(0);"></a></li>
+		    			<li><a class="btnClose" title="close" ng-click="closePicContainer();" href="javascript:void(0);"></a></li>
+		    		</ul>
+		    	</div>
+		        <div id="imgContainer" class="imgContainer" style="text-align: center;overflow: auto;">
+		            <img id="dataTipsOriginImg" class="dataTipsOriginImg" ng-style="dataTipsOriginImg" ng-src="{{selectUrl}}"/>
+		        </div>
+		        <div class="showbox-title-over-wrap showbox-title-over-wrap-left">{{imgTagName}}</div>
+		        <div class="showbox-title-over-wrap showbox-title-over-wrap-rigth">{{selectIndex+1}}/{{imgs.length}}</div>
+		    </div>
+		</div>
+    </div>
+</div>

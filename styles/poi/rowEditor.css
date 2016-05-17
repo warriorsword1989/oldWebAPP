@@ -44,10 +44,10 @@
 
 #info {
     position: absolute;
-    top: 70px;
+    top: 55px;
     right: 15px;
     width: 300px;
-    z-index: 999;
+    z-index: 1000;
     background-color: white;
 }
 
@@ -121,4 +121,97 @@
 
 .btn-success {
     text-shadow: 0 0 0 #fff;
+}
+/*文件上传*/
+.upload-option-group{
+    position: relative;
+    margin-top: -4px;
+}
+.upload-btn{
+    position: relative;
+    z-index: 1;
+    padding: 2px;
+    font-size: 20px;
+    line-height: 20px;
+    margin: 0px 5px;
+}
+.dom-hide{
+    display:none !important;
+}
+.upload-add {
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    cursor: pointer;
+}
+.upload-add input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.nowrap-text {
+    white-space: nowrap;
+}
+/*冲突数据弹框*/
+.drag-panel{
+    position:absolute;
+    top:0;
+    left:300px;
+    cursor: move;
+}
+.conf-panel{
+    border: 0px;
+    padding-top: 0px;
+    width: 300px;
+    position: absolute;
+    z-index: 1001;
+    top: 0;
+    right: 0;
+}
+.conf-content{
+    padding: 5px;
+    background-color: #ffffff;
+}
+.conf-table{
+    table-layout:fixed;
+    word-break:break-all;
+    margin-bottom:0px;
+    padding: 0px
+}
+/* wuz 控制图片显示*/
+.div_float{
+    position: absolute;
+    z-index: 999;
+} 
+.image_ctl {
+    opacity: 0.8;
+    bottom: 10px;
+    left: 10px;
+    display: inline;
+}
+.arrow_right{
+    width: 28px;
+    height: 42px;
+    background-image: url(../../images/poi/icon/gray_arrow.jpg);
+    background-position: -57px -27px;
+}
+.arrow_left{
+    width: 28px;
+    height: 42px;
+    background-image: url(../../images/poi/icon/gray_arrow.jpg);
+    background-position: -27px -27px;
+}
+
+/*刘杨新增
+for 地图上的两个按钮*/
+.leaflet-control-navbar-reset {
+    background-image: url(../../images/poi/icon/undo.png);
+}
+
+.leaflet-control-navbar-center {
+    background-image: url(../../images/poi/icon/location.png);
+    /*background-image: url("/WebApp/images/poi/icon/location.png");*/
 }

@@ -1,0 +1,13 @@
+<showbox images-array="imagesArray" delet='delet()' style="height: 490px;">
+	<div class="button button-default" style="margin:4px 10px;">
+		<div class="form-inline">
+            <div class="form-group">
+                <select class="form-control input-sm" ng-model="tagSelected" ng-options="x.key as x.value for x in tagKeyValue" ng-change="imageTagChange(tagSelected)"></select>
+            </div>
+            <div class="form-group pull-right" style="margin-top:5px;">
+                <input type="radio" value="1" name="imageFilter" ng-click="imageFilterChange()" checked> 当前作业季
+                <input type="radio" value="0" name="imageFilter" ng-click="imageFilterChange()"> 全部
+            </div>
+        </div>
+	</div>
+</showbox>

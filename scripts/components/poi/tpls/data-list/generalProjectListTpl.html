@@ -1,4 +1,4 @@
-<div id="commonProject" class="tab-pane  col-container"  ng-controller="commonCtrl">
+<div id="commonProject" class="tab-pane"  ng-controller="commonCtrl">
 
     <div class="tab-header form-inline">
         <div class="btn-group btn-group-justified">
@@ -10,9 +10,8 @@
     <div class="boot-Table">
         <div class="table-header">
             <div style="margin: 10px" class="btn-group pull-right">
-                <button class="btn btn-default" type="button" name="refresh" title="刷新"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button>
-                <button class="btn btn-default" type="button" name="toggle" ng-click="changeStyle()" title="切换"><i class="glyphicon glyphicon-list-alt icon-list-alt"></i></button>
-                <div class="btn-group dropdown" uib-dropdown auto-close="disabled">
+                <button class="btn btn-default" type="button" ng-click="refreshData()" name="refresh" title="刷新"><i class="glyphicon glyphicon-refresh icon-refresh"></i></button>
+                <div class="btn-group dropdown" uib-dropdown auto-close="outsideClick">
                     <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
                         <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
                     </button>
@@ -36,7 +35,7 @@
                     </ul>
                 </div>
                 <div class="pull-right search">
-                    <input ng-model="search_text" class="form-control" type="text" placeholder="关键词搜索...">
+                    <input style="border-top-right-radius: 4px;border-bottom-right-radius: 4px" ng-model="filters['value']" class="form-control" type="text" placeholder="关键词搜索...">
                 </div>
             </div>
         </div>

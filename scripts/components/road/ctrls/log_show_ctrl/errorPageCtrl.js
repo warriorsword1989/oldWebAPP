@@ -41,7 +41,6 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             if (data.errcode == 0) {
                 $scope.checkTotalPage = Math.ceil(data.data / 5);
                 $scope.checkTotal = data.data;
-                $scope.$apply();
                 $scope.getCheckDate();
             }
         });

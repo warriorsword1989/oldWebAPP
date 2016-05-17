@@ -1,0 +1,18 @@
+<div ng-controller="PoiInfoPopoverCtl">
+    <dl class="dl-horizontal property">
+        <dt>主名称:</dt>
+        <dd ng-bind="poiInfo.poi.name"></dd>
+        <dt>主地址:</dt>
+        <dd ng-bind="poiInfo.poi.address"></dd>
+        <dt>分 类:</dt>
+        <dd ng-bind="poiInfo.kindName"></dd>
+    </dl>
+    <div class="text-center">
+        <button ng-if="isLocked" type="button" class="btn btn-default btn-tn" ng-click="doEditRelatedPoi(poiInfo.poi.fid);" disabled>锁 定
+        </button>
+        <button ng-if="!isLocked" type="button" class="btn btn-default btn-tn"
+                ng-click="doLockRelatedPoi(poiInfo.poi.fid);">编辑
+        </button>
+
+    </div>
+</div>

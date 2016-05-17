@@ -1,5 +1,5 @@
 <div ng-controller="generalBaseCtl" style="min-width:420px;margin-bottom:20px;">
-    <uib-accordion-group panel-class="panel-default" is-open="ctrl.open">
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.openBase">
         <uib-accordion-heading>
             <div class="form-inline">
                 <span style="font-weight:bold;">基本信息</span>
@@ -15,7 +15,7 @@
                         <img ng-show="poiCarIcon" src="../../images/poi/icon/poi_car.png" title="重要车厂">
                         <img ng-show="poiRmbIcon" src="../../images/poi/icon/poi_rmb.png" title="后项收费">
                     </div>
-                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.open, 'glyphicon-chevron-down': !ctrl.open}"></i>
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.openBase, 'glyphicon-chevron-down': !ctrl.openBase}"></i>
                 </div>
             </div>
         </uib-accordion-heading>
@@ -98,7 +98,19 @@
                         <td ng-class="{'textColorRed':kindCodeStyleFlag}">分 类</td>
                         <td class="form-inline" colspan='3'>
                             <div class="form-group" style="width:80%">
-                                <select class="form-control input-sm" ng-model="selectedKind" ng-options="x.text for x in kindList" ng-change="kindChange($event, this)">
+                                <!-- <select class="form-control input-sm" ng-model="selectedKind" ng-options="x.text for x in kindList" ng-change="kindChange($event, this)">
+                                </select> -->
+                                <!-- <select
+                                    ng-model="selectedKind"
+                                    chosen="directiveOptions"
+                                    ng-options="value.kindName for (key,value) in kindFormat"
+                                    style="width:200px;" ng-change="kindChange($event, this)">
+                                    <option value=""></option>
+                                </select> -->
+                                <select
+                                    ng-model="selectedKind"
+                                    ng-options="value as lable.kindName for (value, lable) in kindFormat"
+                                    chosen ng-change="kindChange($event, this)" style="width: 80%;">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -109,6 +121,11 @@
                     <tr>
                         <td ng-class="{'textColorRed':brandsStyleFlag}">品 牌</td>
                         <td class="form-inline" colspan='3'>
+                            <select
+                                ng-model="selectedChain"
+                                ng-options="value as lable.chainName for (value, lable) in chainList"
+                                chosen ng-change="kindChange($event, this)" style="width: 80%;">
+                            </select>
                             <div class="form-group">
                                 <img src="../../images/poi/icon/prompt.png" ng-show="ctrl.fieldLabel.brands">
                             </div>
@@ -118,7 +135,7 @@
                         <td ng-class="{'textColorRed':levelStyleFlag}">等 级</td>
                         <td class="form-inline" colspan='3'>
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" ng-repeat="lev in levelArr">
-                                <input type="radio" name="poiLevel" value="{{lev}}">{{lev}}
+                                <input type="radio" name="poiLevel" ng-checked="isLevelSelected(lev)" ng-click="updateLevelSelected(lev)" value="{{lev}}"> {{lev}}
                             </div>
                             <div class="form-group">
                                 <img src="../../images/poi/icon/prompt.png" ng-show="ctrl.fieldLabel.brands">
@@ -144,8 +161,40 @@
                         </td>
                     </tr>
                 </table>
-                <p>{{selectedKind}}</p>
             </form>
+        </div>
+    </uib-accordion-group>
+
+    <uib-accordion-group panel-class="panel-default" is-open="ctrl.openDeep">
+        <uib-accordion-heading>
+            <div class="form-inline">
+                <span style="font-weight:bold;">扩展信息</span>
+                <div class="form-group form-inline pull-right">
+                    <i class="glyphicon" ng-class="{'glyphicon-chevron-up': ctrl.openDeep, 'glyphicon-chevron-down': !ctrl.openDeep}"></i>
+                </div>
+            </div>
+            
+        </uib-accordion-heading>
+        <div class="panel-bady" style="margin:-15px;">
+            <table id="extendInfo" class="table property-table">
+                <tr>
+                    <td class="active" width="20%">24小时</td>
+                    <td width="30%">
+                        <input type="checkbox" value="1" ng-checked="isOpen24(poi.open24H)" > 是
+                    </td>
+                    <td class="active" width="20%">室内POI</td>
+                    <td width="30%">
+                        <input type="checkbox" value="3" ng-checked="isIndoorType(poi.indoor);"> 是 
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>备注</td>
+                    <td colspan="3">
+                        <textarea ng-model="remark" style="width: 90%;margin-bottom: -6px;"> </textarea>
+                    </td>
+                </tr>
+            </table>
         </div>
     </uib-accordion-group>
 </div>

@@ -36,6 +36,9 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
      */
     addHooks: function () {
         this._map.on('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.on('click', this.onMouseDown, this);
+        }
         this._map.on('mousemove', this.onMouseMove, this);
     },
 
@@ -44,6 +47,9 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
      */
     removeHooks: function(){
         this._map.off('mousedown', this.onMouseDown, this);
+        if(L.Browser.touch){
+            this._map.off('click', this.onMouseDown, this);
+        }
         this._map.off('mousemove', this.onMouseMove, this);
     },
 
@@ -63,7 +69,19 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
             this.resetVertex(this._map.latLngToLayerPoint(this.targetPoint));
             this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
         }
+        else{
+            this.snapHandler.targetindex=-1;
+            this.snapHandler.onMouseMove(event);
+            if(this.snapHandler.snaped){
+                this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+                layerPoint = this._map.latLngToLayerPoint(this.targetPoint);
+                this.resetVertex(layerPoint);
 
+                this.shapeEditor.shapeEditorResultFeedback.setupFeedback({changeTooltips:true});
+                this.disable();
+                this.snapHandler.snaped=false;
+            }
+        }
     },
 
     onMouseMove: function(event){
@@ -87,7 +105,6 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
     },
 
     resetVertex:function(layerPoint){
-
         var index = 0;
         var segments = this.shapeEditor.shapeEditorResult.getFinalGeometry().getSortedSegments();
         for(var i = 0,len = segments.length; i< len; i++){
@@ -100,8 +117,5 @@ fastmap.mapApi.PathVertexInsert = L.Handler.extend({
                 this.shapeEditor.shapeEditorResult.setFinalGeometry(this.shapeEditor.shapeEditorResult.getFinalGeometry());
             }
         }
-
-
     }
-
 });

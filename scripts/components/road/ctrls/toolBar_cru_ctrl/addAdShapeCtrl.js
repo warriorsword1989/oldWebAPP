@@ -12,11 +12,13 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             var selectCtrl = fastmap.uikit.SelectController();
             var tooltipsCtrl = fastmap.uikit.ToolTipsController();
             var adLink = layerCtrl.getLayerById('adLink');
+            var adNode = layerCtrl.getLayerById('adnode');
             var rdLink = layerCtrl.getLayerById('referenceLine');
             var hLayer = layerCtrl.getLayerById('highlightlayer');
             var objCtrl = fastmap.uikit.ObjectEditController();
             var eventController = fastmap.uikit.EventController();
             var adAdmin=layerCtrl.getLayerById('adAdmin');
+            var highRenderCtrl = fastmap.uikit.HighRenderController();
             $scope.limitRelation = {};
             //两点之间的距离
             $scope.distance = function (pointA, pointB) {
@@ -35,9 +37,16 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 return angle;
             };
             $scope.addShape = function (type, num, event) {
-
+                if (map.floatMenu) {
+                    map.removeLayer(map.floatMenu);
+                    map.floatMenu = null;
+                }
                 if (event) {
                     event.stopPropagation();
+                }
+                highRenderCtrl._cleanHighLight();
+                if(highRenderCtrl.highLightFeatures!=undefined) {
+                    highRenderCtrl.highLightFeatures.length = 0;
                 }
                 $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
                 $("#popoverTips").hide();
@@ -45,7 +54,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                 editLayer.bringToBack();
                 shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                 shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
-                rdLink.clearAllEventListeners()
+                adLink.clearAllEventListeners()
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
@@ -71,7 +80,6 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束画线!");
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
                 }
-
                 else if (type === "adFace") {
                     if (shapeCtrl.shapeEditorResult) {
                         shapeCtrl.shapeEditorResult.setFinalGeometry(fastmap.mapApi.polygon([fastmap.mapApi.point(0, 0)]));
@@ -86,6 +94,27 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     tooltipsCtrl.setStyleTooltip("color:black;");
                     tooltipsCtrl.setChangeInnerHtml("点击最后一个点结束!");
                     tooltipsCtrl.setDbClickChangeInnerHtml("点击空格保存画线,或者按ESC键取消!");
+                }
+                else if (type === "adFaceLine") {
+                    layerCtrl.pushLayerFront('edit');
+                    map.currentTool = new fastmap.uikit.SelectPath(
+                        {
+                            map: map,
+                            currentEditLayer: adLink,
+                            linksFlag: true,
+                            shapeEditor: shapeCtrl
+                        });
+                    map.currentTool.snapHandler.addGuideLayer(adLink);
+                    map.currentTool.enable();
+                    //初始化鼠标提示
+                    $scope.toolTipText = '请选择线！';
+                    adLink.options.editable = true;
+                    eventController.on(eventController.eventTypes.GETLINKID, function(d){
+                        Application.functions.getRdObjectById(d.id, "ADLINK", function (data) {
+                            objCtrl.setCurrentObject("ADLINK", data.data);
+                            //data.data.geometry.coordinates[0]
+                        })
+                    });
                 }
                else if (type === "adNode") {
                     if (shapeCtrl.shapeEditorResult) {

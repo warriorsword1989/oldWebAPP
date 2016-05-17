@@ -48,10 +48,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
-                  /*  transArr.push({1514:3});
-                    transArr.push({1501:5});
-                    transArr.push({1403:4});
-                    transArr.push({1801:1});*/
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
@@ -189,7 +185,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.workPoint.requestType = "";
                     $scope.gpsLine.requestType = "";
                     $scope.workPoint.redraw();
-                    $scope.gpsLine.redraw();
+                    //$scope.gpsLine.redraw();
                 }
                 Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
@@ -508,6 +504,15 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDBRANCH", objCtrl, data.brID?data.brID[0].id:'', "components/road/ctrls/attr_branch_ctrl/rdBranchCtrl", "../../scripts/components/road/tpls/attr_branch_Tpl/namesOfBranch.html");
                     } else if (pItemId === "1510") {//桥1510
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 19});
+
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -555,7 +560,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             propertyCtrl:"components/road/ctrls/attr_cross_ctrl/rdCrossCtrl",
                                             propertyHtml:"../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html",
                                         }
-                                        objCtrl.setCurrentObject(data.data[0]);
+                                        objCtrl.setCurrentObject('RDCROSS',data.data[0]);
                                         $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                                     });
                                 }
@@ -589,6 +594,14 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
+                        var points = [];
+                        var endPoint = L.latLng(data.gELoc.coordinates[1], data.gELoc.coordinates[0]);
+                        var startPoint = L.latLng(data.gSLoc.coordinates[1], data.gSLoc.coordinates[0]);
+                        points.push(endPoint);
+                        points.push(startPoint);
+                        var line = new L.polyline(points);
+                        var bounds = line.getBounds();
+                        map.fitBounds(bounds, {"maxZoom": 19});
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -603,7 +616,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfConstruction);
                     }
                     else if(pItemId==="1501") {//上下线分离
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        if(data.geo!=null){
+                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        }else{
+                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        }
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -648,9 +665,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
                 var tips = Object.keys($scope.tipsObj);
                 $scope.workPoint.requestType = tips;
-                $scope.gpsLine.requestType = tips;
+                //$scope.gpsLine.requestType = tips;
                 $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
+                //$scope.gpsLine.redraw();
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
@@ -664,7 +681,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                             var point = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
                             points.push(point);
                         }
-                        map.panTo({lat: points[0].y, lon: points[0].x});
+                       /* map.panTo({lat: points[0].y, lon: points[0].x});*/
                         var line = fastmap.mapApi.lineString(points);
                         selectCtrl.onSelected({geometry: line, id: $scope.dataId});
                     }

@@ -11,8 +11,8 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
         this._map = this.options.shapeEditor.map;
-        this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry()?this.shapeEditor.shapeEditorResult.getFinalGeometry().flag:null;
-        this.type=this.shapeEditor.shapeEditorResult.getFinalGeometry()?this.shapeEditor.shapeEditorResult.getFinalGeometry().type:null;
+        this.flag = this.shapeEditor.shapeEditorResult.getFinalGeometry() ? this.shapeEditor.shapeEditorResult.getFinalGeometry().flag : null;
+        this.type = this.shapeEditor.shapeEditorResult.getFinalGeometry() ? this.shapeEditor.shapeEditorResult.getFinalGeometry().type : null;
         this.angle = this.shapeEditor.angle;
         this.sign = 0;
     },
@@ -25,7 +25,9 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
     },
 
     disable: function () {
-        if (!this._enabled) { return; }
+        if (!this._enabled) {
+            return;
+        }
         this._map.dragging.enable();
         this._enabled = false;
         this.removeHooks();
@@ -47,49 +49,49 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
         var point = this._map.latLngToContainerPoint([geos.point.y, geos.point.x]);
         var orientation = geos.orientation;
         var len = this.distance(layerPoint, point);
-        if(len<100) {
-            if(this.type==="intRticMarker"){
+        if (len < 100) {
+            if (this.type === "intRticMarker") {
                 switch (orientation) {
                     case "1":
-                        if(this.sign===0) {
+                        if (this.sign === 0) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向左
-                        }else if(this.sign===1) {
+                        } else if (this.sign === 1) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";//向右
                             this.sign = 0;
                         }
                         break;
                     case "2":
-                        if(this.flag) {
+                        if (this.flag) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
-                        }else{
+                        } else {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
                         }
 
                         break;
                 }
-            }else{
+            } else {
                 switch (orientation) {
                     case "1":
-                        if(this.sign===0) {
+                        if (this.sign === 0) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";//向左
-                        }else if(this.sign===1) {
+                        } else if (this.sign === 1) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";//向右
                             this.sign = 0;
                         }
                         break;
                     case "2":
-                        if(this.flag) {
+                        if (this.flag) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
-                        }else{
+                        } else {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "3";
                         }
 
                         break;
                     case "3":
-                        if(this.flag) {
+                        if (this.flag) {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "1";
                             this.sign = 1;
-                        }else{
+                        } else {
                             this.shapeEditor.shapeEditorResult.getFinalGeometry().orientation = "2";
 
                         }
@@ -98,11 +100,11 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
 
                 }
             }
-            }
+        }
 
-        this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
+        this.shapeEditor.shapeEditorResultFeedback.setupFeedback();
     },
-    onMouseUp: function(event){
+    onMouseUp: function (event) {
         this.targetIndex = null;
 
         fastmap.uikit.ShapeEditorController().stopEditing();
@@ -111,7 +113,7 @@ fastmap.mapApi.TransformDirection = L.Handler.extend({
     drawFeedBack: function () {
     },
     //两点之间的距离
-    distance:function(pointA, pointB) {
+    distance: function (pointA, pointB) {
         var len = Math.pow((pointA.x - pointB.x), 2) + Math.pow((pointA.y - pointB.y), 2);
         return Math.sqrt(len);
     }

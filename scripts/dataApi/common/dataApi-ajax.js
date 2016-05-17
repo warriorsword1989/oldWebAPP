@@ -1,5 +1,5 @@
 (function() {
-    var _ajaxConstruct = function(url, reqType, callback) {
+    var _ajaxConstruct = function(url, reqType,callback,data) {
         if (document.getElementById) {
             var x = (window.XDomainRequest) ? new XDomainRequest() : new XMLHttpRequest();
             if (window.XDomainRequest) {
@@ -38,7 +38,11 @@
             }
             x.open(reqType, url);
             x._url = url;
-            x.send()
+            if(reqType =="GET"){
+                x.send()
+            }else {
+                x.send("parameter="+data.parameter +"&access_token="+data.access_token)
+            }
         }
         return x;
     };
@@ -57,10 +61,38 @@
             return fullUrl;
         },
         get: function(url, param, callback) {
-            return _ajaxConstruct(this.getUrl(url, param), "GET", callback);
+            return _ajaxConstruct(this.getUrl(url, param), "GET", callback, null);
         },
-        post: function(url, param, callback) {
-            return _ajaxConstruct(this.getUrl(url, param), "POST", callback);
+        // remoteUrl: function(){
+        //     return !App ? "" : (!App.Config ? (App.serviceUrl || "") : (App.Config.serviceUrl || ""));
+        // },
+        // token: function(){
+        //     return !App ? "" : (!App.Config ? (App.accessToken || "") : (App.Config.accessToken || ""));
+        // },
+        // fullUrl: function(url){
+        //     return this.remoteUrl + "/" + url
+        // } ,
+        httpError: function (data, status, headers, config) {
+            alert("啊哦，出错啦，请检查网络后重试！");
+            return;
+        },
+        httpPost: function($http,url, param, suc, err) {
+            var remoteUrl = !App ? "" : (!App.Config ? (App.serviceUrl || "") : (App.Config.serviceUrl || ""));
+            var token = !App ? "" : (!App.Config ? (App.accessToken || "") : (App.Config.accessToken || ""));
+            var fullUrl = remoteUrl + "/" + url + "?";
+            if (param) {
+                if (typeof param == "object") {
+                    param["access_token"] = token;
+                }
+            }
+            $http({
+                method: 'POST',
+                url: fullUrl,
+                data: param,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置
+                }
+            }).success(suc).error((err) ? err : this.httpError);
         }
     };
     FM.dataApi.getFromHbase = {
@@ -78,6 +110,7 @@
         },
         get: function(url, param, callback) {
             return _ajaxConstruct(this.getUrl(url, param), "GET", callback);
-        }
-    };
+        },
+    }
+
 }());

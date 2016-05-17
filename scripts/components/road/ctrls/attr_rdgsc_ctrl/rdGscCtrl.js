@@ -10,8 +10,7 @@ rdGscApp.controller("rdGscController",function($scope) {
     var rdgsc = layerCtrl.getLayerById('rdGsc');
     var selectCtrl = fastmap.uikit.SelectController();
     var outPutCtrl = fastmap.uikit.OutPutController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
-
+    // var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.initializeData = function(){
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         $scope.reGscData = objCtrl.data;
@@ -27,10 +26,9 @@ rdGscApp.controller("rdGscController",function($scope) {
                 }
             })
         }
+        /*highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();*/
 
-        var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-        highLightRender.highLightFeatures = highLightFeatures;
-        highLightRender.drawHighlight();
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
@@ -72,7 +70,6 @@ rdGscApp.controller("rdGscController",function($scope) {
 
     $scope.save = function(){
         objCtrl.save();
-        objCtrl.changedProperty.objId = 13;
         if(!objCtrl.changedProperty){
             swal("操作成功",'属性值没有变化！', "success");
             return ;
@@ -83,7 +80,6 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-
         Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
@@ -165,18 +161,15 @@ rdGscApp.controller("rdGscController",function($scope) {
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
-                $timeout(function () {
-                    swal("删除成功", "删除RDGSC成功！", "success");
-                }, 500)
+                rdgsc.redraw();
+                swal("删除成功", "删除RDGSC成功！", "success");
             }else{
                 info=[{
                     "op":data.errcode,
                     "type":data.errmsg,
                     "pid": data.errid
                 }];
-                $timeout(function () {
-                    swal("删除失败", "问题原因：" + data.errmsg, "error");
-                })
+                swal("删除失败", "问题原因：" + data.errmsg, "error");
             }
 
             outPutCtrl.pushOutput(info);
@@ -186,9 +179,7 @@ rdGscApp.controller("rdGscController",function($scope) {
         })
     };
     $scope.cancel = function(){
-
     };
-
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

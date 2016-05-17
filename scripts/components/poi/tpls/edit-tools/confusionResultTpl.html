@@ -16,12 +16,12 @@
                 <td>{{item.errorCode}}</td>
                 <td>{{item.errorMsg}}</td>
                 <td>
-                    <a ng-if="item.type == 0" class="text-danger" href="javascript:void(0);" ng-click="ignoreConfusionResult(item);">忽略</a>
+                    <a ng-if="item.type == 0" class="textColorRed" href="javascript:void(0);" ng-click="ignoreConfusionResult(item);">忽略</a>
                     <p ng-if="item.type == 1" class="text-muted">忽略</p>
                 </td>
                 <td>
                     <p ng-if="item.refFeatures.length == 0">无</p>
-                    <a ng-if="item.refFeatures.length > 0" href='javascript:void(0);'><span class='label label-primary'>{{item.refFeatures.length}}</span></a>
+                    <a ng-if="item.refFeatures.length > 0" href='javascript:void(0);' ng-click="showConflictInMap($index);"><span class='label label-primary'>{{item.poiType}}</span></a>
                 </td>
             </tr>
         </tbody>

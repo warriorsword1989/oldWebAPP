@@ -158,16 +158,17 @@ adLinkApp.controller("adLinkController",function($scope) {
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
+
             }else{
                 info=[{
                     "op":data.errcode,
                     "type":data.errmsg,
                     "pid": data.errid
                 }];
+            }
+            outputCtrl.pushOutput(info);
+            if (outputCtrl.updateOutPuts !== "") {
+                outputCtrl.updateOutPuts();
             }
         })
     };

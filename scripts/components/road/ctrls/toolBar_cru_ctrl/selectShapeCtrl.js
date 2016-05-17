@@ -13,7 +13,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     var rdnode = layerCtrl.getLayerById('referenceNode');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
-    var hLayer = layerCtrl.getLayerById("highlightlayer");
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.flagId = 0;
     $scope.toolTipText = "";
     $scope.resetToolAndMap = function () {
@@ -23,10 +23,13 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
 
         }
-        var highLightLink = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLink._cleanHightlight();
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         if (tooltipsCtrl.getCurrentTooltip()) {
             tooltipsCtrl.onRemoveTooltip();
+        }
+        if(selectCtrl.rowKey) {
+            selectCtrl.rowKey = null;
         }
         editLayer.drawGeometry = null;
         shapeCtrl.stopEditing();
@@ -150,6 +153,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
     $scope.selectObjCallback = function (data) {
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
         var ctrlAndTmplParams = {
             propertyCtrl: "",
             propertyHtml: ""
@@ -179,6 +184,12 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'type': 'PATHVERTEXMOVE',
                         'class': "feaf",
                         callback: $scope.modifyTools
+                    },  {
+                        'text': "<a class='glyphicon glyphicon-resize-horizontal'></a>",
+                        'title': "修改道路方向",
+                        'type': 'TRANSFORMDIRECT',
+                        'class': "feaf",
+                        callback: $scope.modifyTools
                     }, {
                         'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
                         'title': "打断link",
@@ -187,6 +198,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         callback: $scope.modifyTools
                     }]
                 }
+
+                if(L.Browser.touch){
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function(){
+                            var e = $.Event("keydown");
+                            e.keyCode=32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+
                 selectCtrl.onSelected({
                     point: data.point
                 });
@@ -208,6 +234,21 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         callback: $scope.modifyTools
                     }]
                 }
+
+                if(L.Browser.touch){
+                    toolsObj.items.push({
+                        'text': "<a class='glyphicon glyphicon-floppy-disk' type=''></a>",
+                        'title': "保存",
+                        'type': shapeCtrl.editType,
+                        'class': "feaf",
+                        callback: function(){
+                            var e = $.Event("keydown");
+                            e.keyCode=32;
+                            $(document).trigger(e);
+                        }
+                    })
+                }
+
                 ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_node_ctrl/rdNodeFromCtrl';
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_node_tpl/rdNodeFromTpl.html";
                 $scope.getFeatDataCallback(data, data.id, "RDNODE", ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
@@ -236,6 +277,11 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             case 'RDCROSS':
                 ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_cross_ctrl/rdCrossCtrl';
                 ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html";
+                $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
+                break;
+            case 'RDGSC':
+                ctrlAndTmplParams.propertyCtrl = 'components/road/ctrls/attr_rdgsc_ctrl/rdGscCtrl';
+                ctrlAndTmplParams.propertyHtml = "../../scripts/components/road/tpls/attr_gsc_tpl/rdGscTpl.html";
                 $scope.getFeatDataCallback(data, data.id, data.optype, ctrlAndTmplParams.propertyCtrl, ctrlAndTmplParams.propertyHtml);
                 break;
             case 'RDBRANCH':
@@ -346,14 +392,38 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.floatMenu.setVisible(true);
         }
     }
+    $scope.sign = 0;
+    $scope.changeDirect=function(direct) {
+        var orientation;
+        switch (direct) {
+            case 1:
+                if ($scope.sign === 0) {
+                    orientation = 3;//向左
+                } else if (this.sign === 1) {
+                    orientation = 2;//向右
+                }
+                break;
+            case 2:
+                orientation = 1;
+                $scope.sign = 0;
+                break;
+            case 3:
+               orientation = 1;
+                $scope.sign = 1;
+                break;
+
+
+        }
+        return orientation;
+    };
     $scope.modifyTools = function (event) {
         var type = event.currentTarget.type;
-        $scope.$emit("SWITCHCONTAINERSTATE",
-            {
-                "attrContainerTpl": false,
-                "subAttrContainerTpl": false
-            })
-        $scope.$apply();
+        //$scope.$emit("SWITCHCONTAINERSTATE",
+        //    {
+        //        "attrContainerTpl": false,
+        //        "subAttrContainerTpl": false
+        //    })
+        //$scope.$apply();
         $("#popoverTips").hide();
         if (shapeCtrl.getCurrentTool()['options']) {
             shapeCtrl.stopEditing();
@@ -382,7 +452,18 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     tooltipsCtrl.setCurrentTooltip('正要删除形状点,先选择线！');
                     return;
                 }
-            } else if (type === "PATHVERTEXMOVE") {
+            } else if(type==="TRANSFORMDIRECT") {
+                if (selectCtrl.selectedFeatures) {
+                    selectCtrl.selectedFeatures["direct"] = $scope.changeDirect(selectCtrl.selectedFeatures["direct"]);
+                    objCtrl.data["direct"] = selectCtrl.selectedFeatures["direct"];
+                    $scope.$apply();
+                    tooltipsCtrl.setEditEventType('transformDirection');
+                    tooltipsCtrl.setCurrentTooltip('修改方向！');
+                } else {
+                    tooltipsCtrl.setCurrentTooltip('修改方向,先选择线！');
+                    return;
+                }
+            }else if (type === "PATHVERTEXMOVE") {
                 if (selectCtrl.selectedFeatures) {
                     tooltipsCtrl.setEditEventType('moveDot');
                     tooltipsCtrl.setCurrentTooltip('拖拽修改形状点位置！');
@@ -415,17 +496,24 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
 
             layerCtrl.pushLayerFront('edit');
             var sObj = shapeCtrl.shapeEditorResult;
-            editLayer.drawGeometry = feature;
-            editLayer.draw(feature, editLayer);
-            sObj.setOriginalGeometry(feature);
-            sObj.setFinalGeometry(feature);
+            if(type==="TRANSFORMDIRECT") {
+                editLayer.drawGeometry = selectCtrl.selectedFeatures;
+                editLayer.draw(selectCtrl.selectedFeatures, editLayer);
+                sObj.setOriginalGeometry(feature);
+                sObj.setFinalGeometry(feature);
+                shapeCtrl.editType = 'transformDirect';
+            }else{
+                editLayer.drawGeometry = feature;
+                editLayer.draw(feature, editLayer);
+                sObj.setOriginalGeometry(feature);
+                sObj.setFinalGeometry(feature);
+                shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
+                shapeCtrl.startEditing();
+                map.currentTool = shapeCtrl.getCurrentTool();
+                shapeCtrl.editFeatType = "rdLink";
+                map.currentTool.snapHandler.addGuideLayer(rdLink);
 
-            shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);
-            shapeCtrl.startEditing();
-            map.currentTool = shapeCtrl.getCurrentTool();
-            shapeCtrl.editFeatType = "rdLink";
-            map.currentTool.snapHandler.addGuideLayer(rdLink);
-
+            }
             shapeCtrl.on("startshapeeditresultfeedback", saveOrEsc);
             shapeCtrl.on("stopshapeeditresultfeedback", function () {
                 shapeCtrl.off("startshapeeditresultfeedback", saveOrEsc);
