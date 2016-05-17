@@ -1351,7 +1351,8 @@ function transformDataForTips(data, param) {
                     })
                 );
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
+
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1376,7 +1377,7 @@ function transformDataForTips(data, param) {
                     })
                 );
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1399,7 +1400,7 @@ function transformDataForTips(data, param) {
                     })
                 );
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1437,7 +1438,7 @@ function transformDataForTips(data, param) {
                     })
                 );
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1458,7 +1459,7 @@ function transformDataForTips(data, param) {
                     })
                 );
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1522,7 +1523,8 @@ function transformDataForTips(data, param) {
                     );
                 }
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
+           
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1544,7 +1546,7 @@ function transformDataForTips(data, param) {
                     })
                 );
                 if(param) {
-                    linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
+                    linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint":item.m.h,
@@ -1564,7 +1566,7 @@ function transformDataForTips(data, param) {
                                 iconName: '../../images/road/tips/1510/0.svg',
                                 row: 0,
                                 column: 1,
-                                location: obj['geometry']['coordinates'],
+                                location: obj['geometry']['coordinates']
                             })
                         );
                     } else {
