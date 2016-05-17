@@ -22,6 +22,11 @@ referenceModule.controller('referenceLayersController',function($scope) {
         }else{
             map.addLayer(layerCtrl.getLayerById("mesh"));
         }
+        if(map.hasLayer(layerCtrl.getLayerById("grid"))){
+
+        }else{
+            map.addLayer(layerCtrl.getLayerById("grid"));
+        }
 
         for(var layer in layerCtrl.layers){
             if(item.options['singleselect'] == true){

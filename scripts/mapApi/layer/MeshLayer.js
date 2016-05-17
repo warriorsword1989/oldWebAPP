@@ -76,7 +76,7 @@ fastmap.mapApi.MeshLayer = fastmap.mapApi.WholeLayer.extend({
     drawRect: function (context, meshId, options) {
         context.strokeStyle = '#B3ADE9'//边框颜色
         context.font = "30px Verdana";
-        //context.fillText(meshId, options.x, options.y);
+        context.fillText(meshId, options.x, options.y);
         context.strokeStyle = '#00ff00'//边框颜色
 
         context.linewidth = 3;  //边框宽

@@ -230,3 +230,21 @@ Application.functions.selectRelateLink=function(param,func) {
             func(data)
         });
 };
+/***
+ * 获取多个link的坐标
+ */
+Application.functions.getLinksOfNode=function(param,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
+/***
+ * 保存上下线分离
+ */
+Application.functions.saveUpAndDown=function(param,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
