@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','$http', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -59,10 +59,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
-                console.log("imageTpl.html-------------");
-                
+                //console.log("imageTpl.html-------------");
                 $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-
             });
         });
     });
@@ -312,7 +310,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         });
     };
     $scope.doSave = function() {
-        $scope.$broadcast("save", $scope.meta.kindList);
+        //$scope.$broadcast("save", $scope.meta.kindList);
+        var param = {
+            access_token: App.Config.accessToken,
+            projectId: "2016013086",
+            phase: 4,
+            fid: '0010060815LML01353',
+            featcode: 'poi',
+            validationMethod: 1,
+            data: $scope.poi
+        };
+        console.info("save",$scope.poi);
+        $scope.saveButClass = "disabled";
+        poi.savePoi(param,function(data){
+            $scope.saveButClass = "";
+        });
+        
     };
 
     function realSave(evt, data) {
