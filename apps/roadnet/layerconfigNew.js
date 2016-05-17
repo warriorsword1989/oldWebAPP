@@ -89,7 +89,7 @@ Application.layersConfig =
                 requestType: 'RDNODE',
                 showNodeLevel: 17
             }
-        },{
+        }, {
             url: createUrl('/render/obj/getByTileWithGap?', 'ADNODE'),
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -269,7 +269,7 @@ Application.layersConfig =
                     showNodeLevel: 17,
                     isUpDirect: true
                 }
-            },{
+            }, {
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDLINK'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -295,7 +295,7 @@ Application.layersConfig =
                     requestType: 'RDLINK',
                     showNodeLevel: 17
                 }
-            },  {
+            }, {
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDGSC'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -612,11 +612,20 @@ function transformData(data) {
                 obj['properties']['direct'] = item.m.d;
                 obj['properties']['snode'] = item.m.e;
                 obj['properties']['enode'] = item.m.f;
-                obj['properties']['pattern'] = item.m.c;
+                obj['properties']['limit'] = item.m.c;
+                obj['properties']['form'] = item.m.h;
+                if (obj['properties']['form'] && obj['properties']['form'].indexOf('30') !== -1) {
+                    obj['properties']['symbolName'] = 'L_2';
+                }
+                if (obj['properties']['limit'] && obj['properties']['limit'].indexOf('4') !== -1) {
+                    obj['properties']['symbolName'] = 'L_3';
+                }
+                if (obj['properties']['form'] && obj['properties']['form'].indexOf('52') !== -1) {
+                    obj['properties']['symbolName'] = 'L_1';
+                }
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
-
                 break;
             case 5://车信
                 obj['geometry']['type'] = 'Point';
@@ -833,12 +842,12 @@ function transformData(data) {
             case 7://分歧
                 featArr.pop();
                 for (var key in item.m.a) {
-                    var count =0;
+                    var count = 0;
                     for (var j in item.m.a[key].ids) {
-                        
+
                         var obj = {};
                         obj['geometry'] = {};
-                        obj['geometry']['coordinates'] = [item.g[0] +count*30,item.g[1]];
+                        obj['geometry']['coordinates'] = [item.g[0] + count * 30, item.g[1]];
 
                         obj['properties'] = {};
                         obj['properties']['style'] = {};

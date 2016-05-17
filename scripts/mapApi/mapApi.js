@@ -86,7 +86,31 @@
          "mapApi/tools/ShapeEditorResultFeedback.js",
          "mapApi/tools/PathBuffer.js",
          "mapApi/tools/Snap.js",
-         "mapApi/tools/TransformDirection.js"
+         "mapApi/tools/TransformDirection.js",
+         "mapApi/symbol/Point.js",
+         //symbol
+         "mapApi/symbol/Matrix.js",
+         "mapApi/symbol/Vector.js",
+         "mapApi/symbol/Point.js",
+         "mapApi/symbol/LineSegment.js",
+         "mapApi/symbol/LineString.js",
+         "mapApi/symbol/Template.js",
+         "mapApi/symbol/CirclePointSymbol.js",
+         "mapApi/symbol/SolidCirclePointSymbol.js",
+         "mapApi/symbol/SquarePointSymbol.js",
+         "mapApi/symbol/SolidSquarePointSymbol.js",
+         "mapApi/symbol/CrossPointSymbol.js",
+         "mapApi/symbol/TiltedCrossPointSymbol.js",
+         "mapApi/symbol/PicturePointSymbol.js",
+         "mapApi/symbol/CompositePointSymbol.js",
+         "mapApi/symbol/SampleLineSymbol.js",
+         "mapApi/symbol/CartoLineSymbol.js",
+         "mapApi/symbol/MarkerLineSymbol.js",
+         "mapApi/symbol/HashLineSymbol.js",
+         "mapApi/symbol/CompositeLineSymbol.js",
+         "mapApi/symbol/SymbolsFile.js",
+         "mapApi/symbol/SymbolFactory.js"
+
     ]; // etc.
 
 
