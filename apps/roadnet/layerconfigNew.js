@@ -501,23 +501,23 @@ Application.layersConfig =
                 visible: true
             },
             requestType: "uuuuu"
-        },{
+        }, {
             url: '',
             clazz: fastmap.mapApi.guideLineLayer,
             options: {
                 layername: '引导线',
                 id: 'guideLineLayer',
                 maxZoom: 20,
-            debug: false,
-            buffer: 8,
-            boolPixelCrs: true,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            tileSize: 256,
-            type: 'guideLine',
-            zIndex: 9,
-            restrictZoom: 10,
-            visible: true
-        },
+                debug: false,
+                buffer: 8,
+                boolPixelCrs: true,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                tileSize: 256,
+                type: 'guideLine',
+                zIndex: 9,
+                restrictZoom: 10,
+                visible: true
+            },
             requestType: "uuuuu"
         }]
     }, {
@@ -608,13 +608,16 @@ function transformData(data, url) {
                 obj['properties']['limit'] = item.m.c;
                 obj['properties']['form'] = item.m.h;
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('30') !== -1) {
-                    obj['properties']['symbolName'] = 'L_2';
+                    obj['properties']['symbolName'] = 'L_2_' + item.m.a;
+                    obj['properties']['replacement'] = false;
                 }
                 if (obj['properties']['limit'] && obj['properties']['limit'].indexOf('4') !== -1) {
                     obj['properties']['symbolName'] = 'L_3';
+                    obj['properties']['replacement'] = false;
                 }
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('52') !== -1) {
                     obj['properties']['symbolName'] = 'L_1';
+                    obj['properties']['replacement'] = false;
                 }
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;
@@ -832,7 +835,7 @@ function transformData(data, url) {
                 }
 
                 //车道限速
-                else if (type == 4){
+                else if (type == 4) {
                     var limitSpeed = item.m.b.split(",")[0];
                     var laneSpeed = item.m.b.split(",")[1];
                     iconName = '../../images/road/1101/lane_speedlimit' + '.svg';
@@ -1359,11 +1362,11 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
@@ -1384,11 +1387,11 @@ function transformDataForTips(data, param) {
                         scaley: 0.7
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
@@ -1407,11 +1410,11 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
@@ -1445,11 +1448,11 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
@@ -1466,11 +1469,11 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
@@ -1530,11 +1533,11 @@ function transformDataForTips(data, param) {
                         })
                     );
                 }
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
@@ -1552,11 +1555,11 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.x * 256 + item.g[0], param.y * 256 + item.g[1], param.z);
                     guideLineObj = {
                         "coordinates": linePoint,
-                        "guidePoint":item.m.h,
+                        "guidePoint": item.m.h,
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);

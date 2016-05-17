@@ -456,9 +456,13 @@ fastmap.mapApi.LayerRender = {
             return;
         }
 
-        if (properties.hasOwnProperty('symbolName')) {
-            //如果有symbolName，则使用符号绘制
-            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolName']);
+        if (properties.hasOwnProperty('replacement') && properties['replacement']) {
+            //控制是否用符号替代直接绘制的线
+
+            if (properties.hasOwnProperty('symbolName')) {
+                //如果有symbolName，则使用符号绘制
+                this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolName']);
+            }
             return;
         }
 
@@ -490,6 +494,10 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
 
+        if (properties.hasOwnProperty('symbolName')) {
+            //如果有symbolName，则使用符号绘制
+            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolName']);
+        }
     },
 
     /***
