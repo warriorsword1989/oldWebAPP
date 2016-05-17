@@ -477,8 +477,26 @@ function keyEvent(ocLazyLoad, scope) {
                             'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
                 }
-                else if (shapeCtrl.editType === "upAndDown") {
-                    alert(11);
+                else if (shapeCtrl.editType === "pathBuffer") {
+                    this.transform = new fastmap.mapApi.MecatorTranform();
+                    var scale = this.transform.scale(map);
+                    var linkWidth = parseFloat(geo.linkWidth * scale);
+                    linkWidth = linkWidth.toFixed(1);
+                    var linkIds = selectCtrl.selectedFeatures.id;
+                    param = {
+                        "command": "UPDOWNDEPART",
+                        "type": "RDLINK",
+                        "projectId": Application.projectid,
+                        "distance": linkWidth,
+                        "data": {
+                            "linkPids": linkIds
+                        }
+                    }
+                    Application.functions.saveUpAndDown(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("referenceLine").redraw();
+                        layerCtrl.getLayerById("referenceNode").redraw();
+                        treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
+                    })
                 }
             }
         });
