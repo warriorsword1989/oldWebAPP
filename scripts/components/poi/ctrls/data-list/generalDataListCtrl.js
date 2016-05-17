@@ -276,13 +276,13 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
     // 格式化分类显示
     function handleKindCode($scope,row) {
         var value = row[this.field];
-        //console.log(value)
-        //var temp = $scope.pKindFormat[value];
-        //if (temp) {
-        //    return temp.kindName;
-        //} else {
-        //    return value;
-        //}
+        //console.log(scope.pKindFormat[value])
+        var temp = scope.pKindFormat[value];
+        if (temp) {
+            return temp.kindName;
+        } else {
+            return value;
+        }
     }
 
 }]);
