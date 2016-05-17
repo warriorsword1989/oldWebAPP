@@ -607,18 +607,17 @@ function transformData(data, url) {
                 obj['properties']['enode'] = item.m.f;
                 obj['properties']['limit'] = item.m.c;
                 obj['properties']['form'] = item.m.h;
+                var symbolNames = [];
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('30') !== -1) {
-                    obj['properties']['symbolName'] = 'L_2_' + item.m.a;
-                    obj['properties']['replacement'] = false;
+                    symbolNames.push('L_2_' + item.m.a);
                 }
                 if (obj['properties']['limit'] && obj['properties']['limit'].indexOf('4') !== -1) {
-                    obj['properties']['symbolName'] = 'L_3';
-                    obj['properties']['replacement'] = false;
+                    symbolNames.push('L_3');
                 }
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('52') !== -1) {
-                    obj['properties']['symbolName'] = 'L_1';
-                    obj['properties']['replacement'] = false;
+                    symbolNames.push('L_1');
                 }
+                obj['properties']['symbolNames'] = symbolNames;
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;

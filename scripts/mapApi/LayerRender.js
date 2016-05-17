@@ -456,16 +456,6 @@ fastmap.mapApi.LayerRender = {
             return;
         }
 
-        if (properties.hasOwnProperty('replacement') && properties['replacement']) {
-            //控制是否用符号替代直接绘制的线
-
-            if (properties.hasOwnProperty('symbolName')) {
-                //如果有symbolName，则使用符号绘制
-                this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolName']);
-            }
-            return;
-        }
-
         var proj = [],
 
             coords = this._clip(ctx, geom);
@@ -494,9 +484,9 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
 
-        if (properties.hasOwnProperty('symbolName')) {
+        if (properties.hasOwnProperty('symbolNames')) {
             //如果有symbolName，则使用符号绘制
-            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolName']);
+            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolNames']);
         }
     },
 
@@ -505,17 +495,15 @@ fastmap.mapApi.LayerRender = {
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Array}geom 绘制几何对象
      * @param {Boolean}boolPixelCrs 是否像素坐标
-     * @symbolName {Object}style 符号名
+     * @symbolNames {Array}style 符号名
      * @private
      */
-    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbolName) {
-        if (!symbolName) {
+    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbolNames) {
+        if (!symbolNames) {
             return;
         }
 
-        var factory = fastmap.mapApi.symbol.GetSymbolFactory();
-        var symbol = factory.getSymbol(symbolName);
-        if (!symbol) {
+        if (symbolNames.length === 0) {
             return;
         }
 
@@ -534,8 +522,16 @@ fastmap.mapApi.LayerRender = {
 
         var lsGeometry = new fastmap.mapApi.symbol.LineString(geometry);
         var g = ctx.canvas.getContext('2d');
-        symbol.geometry = lsGeometry;
-        symbol.draw(g);
+        var factory = fastmap.mapApi.symbol.GetSymbolFactory();
+
+        for (var i = 0; i < symbolNames.length; ++i) {
+            var symbol = factory.getSymbol(symbolNames[i]);
+            if (!symbol) {
+                continue;
+            }
+            symbol.geometry = lsGeometry;
+            symbol.draw(g);
+        }
     },
 
     /***

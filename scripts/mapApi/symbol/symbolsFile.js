@@ -17,7 +17,7 @@ fastmap.mapApi.symbol.symbols = [
                 type: 'CartoLineSymbol',
                 color: 'blue',
                 width: 1,
-                pattern: [2, 4, 6, 4]
+                pattern: [4, 4, 12, 4]
             }
         ]
     },
