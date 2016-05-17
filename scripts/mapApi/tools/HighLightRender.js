@@ -114,7 +114,6 @@ fastmap.uikit.HighLightRender = L.Class.extend({
                             }
                             else if (this.highLightFeatures[item].type == 'node') {
                                 var geo = this.currentEditLayer.tiles[tile].data[feature].geometry.coordinates[0];
-                                //this.layer._drawPoint(ctx, geo, {color: 'red', radius: 3}, true);
                                 this.layer._drawPoint({
                                     boolPixelCrs: true,
                                     ctx: ctx,

@@ -74,9 +74,7 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         var proj = [];
         proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
         proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-        console.log("转换后" + proj[1]);
 
-        //g.save();
         g.beginPath();
         for (i = 0; i < proj.length; i++) {
 
@@ -85,9 +83,6 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         }
 
         g.stroke();
-        //g.closePath();
-        //g.restore();
-
     },
     _redraw: function () {
         //this._resetCanvasPosition();

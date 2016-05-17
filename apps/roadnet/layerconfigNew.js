@@ -1445,7 +1445,6 @@ function transformDataForTips(data, param) {
                         "id": item.i
                     };
                     guideLineArr.push(guideLineObj);
-                    console.log("开始 "+item.m.h);
                     guideLayer.draw(guideLineObj);
                 }
                 break;
