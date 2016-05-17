@@ -197,9 +197,11 @@
     <script src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../scripts/libs/sweet-alert/js/sweet-alert.min.js"></script>
     <script src="../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
-    <script src="../../scripts/fastmap/fastmapapi.js"></script>
-    <script src="Application.js"></script>
+    <script src="../../scripts/mapApi/fastmap.js"></script>
+    <script src="../../scripts/mapApi/mapApi.js"></script>
+    <script src="../../apps/roadnet/Application.js"></script>
     <script>
+        var accessToken=window.location.href.split("=")[1];
         $(function(){
             initMap()
         })
@@ -224,10 +226,10 @@
             map.addLayer(meshLayer);
 
 
-            var projectId=getUrlParam("proId");
+            var projectId=getUrlParam("proId")||11;
 
             $.ajax({
-                url:Application.url+"/man/grid/getByUser?",
+                url:Application.url+"/project/grid/getByUser?",
                 data:{parameter:JSON.stringify({"userId":4408,"projectId":projectId})},
                 dataType:"json",
                 success:function(data){
@@ -300,7 +302,12 @@
         }
 
         function startWork(){
-            window.location.href="editor.html";
+            if(window.location.href.indexOf("access_token")>-1){
+                window.location.href="../poibase/poiEditor.html?"+accessToken;
+            }
+            else{
+                window.location.href="editor.html";
+            }
         }
 
     </script>

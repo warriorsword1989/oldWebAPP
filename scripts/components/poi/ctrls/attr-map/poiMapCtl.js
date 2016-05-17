@@ -202,13 +202,13 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                     type: "snapshot",
                     pagesize: 0
                 };
-                FM.dataApi.ajax.httpPost($http,"editsupport/poi/query",param,function (data) {
+                FM.dataApi.ajax.get("editsupport/poi/query",param,function (data) {
                     if (data.errcode == 0) {
                         var ret = data.data.data;
                         if (ret.length == 0) {
                             FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         } else {
-                            $scope.emit("drawPois",ret);
+                            $scope.$emit("drawPois",ret);
                             FM.leafletUtil.showPoisInMap("parentPoiLayer", ret);
                         }
                     } else {

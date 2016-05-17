@@ -13,12 +13,23 @@ $(document).ready(function(){
     	// swal("登录失败", '密码错误', "error");
 		// alert(user,psw)
     	// $btn.button('reset')
-        location.href='selectPro.html';
-    	setTimeout(function() {
-    		$btn.button('reset');
-    		//swal("登录失败", '服务器响应时间过长，请重试！');
-            window.location.href="selectPro.html";
-    	}, 5000);
+
+
+        $.ajax({
+            url:"http://192.168.4.189/fos/user/login/",
+            data:{id: "liusha02925", secret: "029250",parameter:""},
+            dataType:"Json",
+            success:function(data){
+                $btn.button('reset');
+                //swal("登录失败", '服务器响应时间过长，请重试！');
+                window.location.href="selectPro.html?access_token="+data.data.access_token;
+            },
+            error:function(){
+                $btn.button('reset');
+                //swal("登录失败", '服务器响应时间过长，请重试！');
+                window.location.href="selectPro.html";
+            }
+        })
 		return false
 	})
 
