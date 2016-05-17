@@ -72,6 +72,23 @@
         // fullUrl: function(url){
         //     return this.remoteUrl + "/" + url
         // } ,
+        post:function($http,url,param,suc,err){
+            $http({
+                method: 'POST',
+                url: App.Config.serviceUrl + url,
+                data: param,
+                transformRequest:function(obj){
+                    var str = [];
+                    for(var p in obj){
+                        str.push(encodeURIComponent(p)+"="+encodeURIComponent(obj[p]));
+                    }
+                    return str.join("&");
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置
+                }
+            }).success(suc).error((err) ? err : this.httpError);
+        },
         httpError: function (data, status, headers, config) {
             alert("啊哦，出错啦，请检查网络后重试！");
             return;
