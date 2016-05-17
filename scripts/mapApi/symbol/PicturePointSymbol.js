@@ -20,7 +20,7 @@ fastmap.mapApi.symbol.PicturePointSymbol = L.Class.extend({
         this.geometry = null;
     },
 
-    draw: function (ctx, img) {
+    draw: function (ctx) {
         if (this.geometry === null) {
             return;
         }
@@ -35,19 +35,19 @@ fastmap.mapApi.symbol.PicturePointSymbol = L.Class.extend({
         //保存一下当前状态，方便绘制完成后恢复状态
         ctx.save();
 
-        this.drawPicture(ctx, img);
+        this.drawPicture(ctx);
 
         //绘制完成后恢复到上次保存的状态，通常是初始状态，避免影响以后的绘制
         ctx.restore();
     },
 
-    drawPicture: function (ctx, img) {
+    drawPicture: function (ctx) {
         ctx.resetTransform();
         ctx.translate(this.geometry.x, this.geometry.y);
         ctx.rotate(this.angle * Math.PI / 180);
         ctx.translate(this.offsetX, this.offsetY);
         ctx.translate(-this.geometry.x, -this.geometry.y);
-        ctx.drawImage(img, this.geometry.x - this.size, this.geometry.y - this.size, 2 * this.size, 2 * this.size);
+        ctx.drawImage(this.image, this.geometry.x - this.size, this.geometry.y - this.size, 2 * this.size, 2 * this.size);
 
         if (this.hasOutLine) {
             ctx.lineWidth = this.outLineWidth;
