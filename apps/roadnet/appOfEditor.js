@@ -30,6 +30,10 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
             var highRenderCtrl = fastmap.uikit.HighRenderController();
             highRenderCtrl._cleanHighLight();
             highRenderCtrl.highLightFeatures.length = 0;
+            if (map.floatMenu) {
+                map.removeLayer(map.floatMenu);
+                map.floatMenu = null;
+            }
             eventController.fire(eventController.eventTypes.DELETEPROPERTY)
         }, data.errmsg, "error");
 
