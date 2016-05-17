@@ -203,7 +203,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                /* $scope.restrictOutLinks = [];*/
                 $scope.restrictOutLinks =  $scope.dataTipsData.o_array[0].out;
                 var detailsOfHigh = $scope.dataTipsData.o_array;
-                //linksObj["inLink"] = $scope.dataTipsData.in.id;
                 highLightFeatures.push({
                     id:$scope.dataTipsData.in.id,
                     layerid:'referenceLine',
@@ -267,12 +266,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     }else if($scope.garray.geo.type=="Line"){
 
-                        highLightFeatures.push({
-                            id:$scope.dataTipsData.rowkey.toString(),
-                            layerid:'referenceLine',
-                            type:'line',
-                            style:{}
-                        });
                     }
                 }
 
@@ -290,13 +283,6 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                 break;
             case "2001":
-                /*种别*/
-                highLightFeatures.push({
-                    id:$scope.dataTipsData.rowkey,
-                    layerid:'gpsLine',
-                    type:'line',
-                    style:{}
-                });
                 $scope.returnLineType = function (code) {
                     switch (code) {
                         case 0:
@@ -354,19 +340,13 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     /*长度*/
                     $scope.lineLength = $scope.dataTipsData.len;
                 }
-
-                highLightFeatures.push({
-
-                    id:$scope.dataTipsData.id.toString(),
-                    layerid:'gpsLine',
-                    type:'gpsLine',
-                    style:{}
-                });
                 break;
             case "1514"://施工
                 $scope.constructionArrayLink = $scope.dataTipsData.f_array;
 
                 $scope.constructionArrayLinkTime = $scope.dataTipsData.time;
+                $scope.startTime = $scope.constructionArrayLinkTime.split('-')[0].substring(5);
+                $scope.endTime = $scope.constructionArrayLinkTime.split('-')[1].substring(5);
                 break;
             case "1501"://上下线分离
                 $scope.upperAndLowerArrayLink = $scope.dataTipsData.f_array;
@@ -587,7 +567,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {
-                        objCtrl.data.data["kind"] = $scope.dataTipsData.kind;
+                        objCtrl.data["kind"] = $scope.dataTipsData.kind;
                         $scope.upBridgeStatus();
                         restrictLayer.redraw();
                         workPoint.redraw();
@@ -607,16 +587,15 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         }];
                         swal("操作失败", data.errmsg, "error");
                     }
-
+                    outPutCtrl.pushOutput(info);
+                    if (outPutCtrl.updateOutPuts !== "") {
+                        outPutCtrl.updateOutPuts();
+                    }
                 })
             } else {
                 swal("操作失败", '数据已经转换', "error");
             }
 
-            outPutCtrl.pushOutput(info);
-            if (outPutCtrl.updateOutPuts !== "") {
-                outPutCtrl.updateOutPuts();
-            }
         }else if ($scope.dataTipsData.s_sourceType === "1302") {
             $scope.createRestrictByTips()
         }

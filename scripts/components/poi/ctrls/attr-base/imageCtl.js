@@ -27,6 +27,8 @@ showBoxApp.directive("showbox",function ($timeout){
 			scope.dataTipsOriginImg.width = scope.dataTipsOriginImg.maxWidth =  parentNode.scrollWidth  - 100  +'px';
 
 			//console.info("imageBoxStyle:",scope.imageBoxStyle);
+			scope.imageModelStyle = {};
+			scope.imageModelStyle.height = showboxHeight + "px";
 		}
 	}
 });
@@ -136,6 +138,8 @@ showBoxApp.controller("showBoxCtrl",['$scope','$timeout',function ($scope,$timeo
 
 		$scope.imgStyle = $scope.imageArrayStyle[index];
 		$scope.isActive = index;
+
+		$scope.tagSelected = $scope.imgs[index].tag;
 		//console.info($scope.imgStyle,$scope.isActive);
 	}
 
@@ -208,7 +212,17 @@ showBoxApp.controller("showBoxCtrl",['$scope','$timeout',function ($scope,$timeo
 		
 		$scope.imgTagName = getTagName($scope.imgs[$scope.selectIndex].tag);
 	}
-	
+
+	$scope.tagKeyValue = [
+		{key:0,value:'请选择'},
+		{key:1,value:'全貌'},
+		{key:2,value:'水牌'},
+		{key:3,value:'名称'},
+		{key:4,value:'名牌'},
+		{key:5,value:'英文名'}
+	];
+
+
 	function getTagName(key){
 		var name = "";
 		switch (key) {
@@ -231,5 +245,12 @@ showBoxApp.controller("showBoxCtrl",['$scope','$timeout',function ($scope,$timeo
 				break;
 		}
 		return name
+	}
+
+	$scope.imageTagChange = function (tagSelected){
+		$scope.imgs[imagesObj.selectIndex].tag = tagSelected;
+	}
+	$scope.imageFilterChange = function (){
+		initImages($scope.imgs,$scope.deleteable);
 	}
 }]);

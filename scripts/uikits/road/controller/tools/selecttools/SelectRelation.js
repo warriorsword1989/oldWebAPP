@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['speedlimit', 'rdcross', 'rdlaneconnexity', 'restriction', 'highSpeedDivergence']
+        this.editLayerIds = ['speedlimit', 'rdcross', 'rdlaneconnexity', 'restriction', 'highSpeedDivergence','rdGsc']
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -100,6 +100,14 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                                 this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
                             }
                         }
+                    }else if(this.currentEditLayers[layer].requestType == 'RDGSC'){
+                            if( data[item]['geometry']['type']!=="LineString") {
+                                if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
+                                    this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
+                                }
+                            }
+
+
                     } else {
                         if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                             this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});

@@ -48,10 +48,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
-                  /*  transArr.push({1514:3});
-                    transArr.push({1501:5});
-                    transArr.push({1403:4});
-                    transArr.push({1801:1});*/
                     for (var i = 0, len = transArr.length; i < len; i++) {
                         var obj = {}, objArr = {};
                         obj = transArr[i];
@@ -189,7 +185,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.workPoint.requestType = "";
                     $scope.gpsLine.requestType = "";
                     $scope.workPoint.redraw();
-                    $scope.gpsLine.redraw();
+                    //$scope.gpsLine.redraw();
                 }
                 Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], stage, function (data) {
                     $scope.$apply(function () {
@@ -564,7 +560,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                             propertyCtrl:"components/road/ctrls/attr_cross_ctrl/rdCrossCtrl",
                                             propertyHtml:"../../scripts/components/road/tpls/attr_cross_tpl/rdCrossTpl.html",
                                         }
-                                        objCtrl.setCurrentObject(data.data[0]);
+                                        objCtrl.setCurrentObject('RDCROSS',data.data[0]);
                                         $scope.$emit("transitCtrlAndTpl", crossCtrlAndTpl);
                                     });
                                 }
@@ -669,9 +665,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
                 var tips = Object.keys($scope.tipsObj);
                 $scope.workPoint.requestType = tips;
-                $scope.gpsLine.requestType = tips;
+                //$scope.gpsLine.requestType = tips;
                 $scope.workPoint.redraw();
-                $scope.gpsLine.redraw();
+                //$scope.gpsLine.redraw();
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {

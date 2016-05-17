@@ -212,6 +212,10 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
         shapeCtrl.startEditing();
     };
     $scope.save = function () {
+        if($scope.linkData.forms.length==0){
+            var newForm=fastmap.dataApi.rdLinkForm({"linkPid": $scope.linkData.pid, "formOfWay": 1});
+            $scope.linkData.forms.push(newForm);
+        }
         /*如果普通限制修改时间段信息*/
         if($scope.linkData.limits){
             $.each($scope.linkData.limits,function(i,v){
