@@ -152,10 +152,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 description:data.errorMsg
             }
         };
-        poi.ignoreCheck(param,function(data){
+        poi.ignoreCheck(param).then(function(data){
             /*操作成功后刷新poi数据*/
-            refreshPoiData();
-        });
+            refreshPoiData('0010060815LML01353');
+        })
     });
 
     /*获取关联poi数据——检查结果*/
@@ -192,9 +192,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
 
     /*锁定检查结果数据*/
     $scope.$on('lockSingleData',function(event,data){
-       poi.lockSingleData(data,function(res){
-           refreshPoiData();
+       poi.lockSingleData(data).then(function(res){
+           refreshPoiData('0010060815LML01353');
        });
+    });
+    /*编辑关联poi数据*/
+    $scope.$on('editPoiInfo',function(event,data){
+       refreshPoiData(data);
     });
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap',function(event,data){
@@ -261,8 +265,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         }
     };
     /*刷新poi对象*/
-    function refreshPoiData(){
-        poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    function refreshPoiData(fid){
+        poi.getPoiDetailByFid(fid).then(function(data) {
             $scope.poi = data;
             $scope.snapshotPoi = data.getSnapShot();
             distinguishResult(data);
