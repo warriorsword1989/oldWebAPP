@@ -825,7 +825,8 @@ function transformData(data, url) {
                             text: conditionObj[condition] + limitSpeed,
                             row: 0,
                             column: 0,
-
+                            dx: 0,
+                            dy: 5,
                             location: obj['geometry']['coordinates'],
                             rotate: (item.m.c - 90) * (Math.PI / 180)
                         }
