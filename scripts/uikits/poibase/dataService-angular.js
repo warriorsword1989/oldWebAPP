@@ -119,9 +119,9 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         });
         return defer.promise;
     };
-    this.getTopKindList = function(){
+    this.getKindList = function(){
     	var defer = $q.defer();
-    	FM.dataApi.IxPoiTopKind.getList(function(data){
+    	FM.dataApi.IxPoiKind.getList(function(data){
     		defer.resolve(data);
     	});
     	return defer.promise;

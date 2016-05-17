@@ -68,6 +68,10 @@ fastmap.uikit.SelectPath = L.Handler.extend({
 
 
     onMouseDown: function (event) {
+        //小于一定级别不让选择
+        if(this.currentEditLayer.shwoNodeLevel > this._map.getZoom()){
+            return;
+        }
         var mouseLatlng;
         if(this.snapHandler.snaped){
             mouseLatlng = this.targetPoint

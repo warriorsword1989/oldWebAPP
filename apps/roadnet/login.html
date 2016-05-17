@@ -83,12 +83,6 @@
     </style>
 </head>
 <body>
-<ul class="floatMenu">
-    <li><a class="glyphicon glyphicon-apple"></a></li>
-    <li><a class="glyphicon glyphicon-apple"></a></li>
-    <li><a class="glyphicon glyphicon-apple"></a></li>
-    <li><a class="glyphicon glyphicon-apple"></a></li>
-</ul>
 <div class="login-well">
 
     <div class="col-md-12 col-lg-12 login-input">
@@ -119,26 +113,5 @@
 <script src="../../scripts/libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../scripts/libs/sweet-alert/js/sweet-alert.min.js"></script>
 <script src="login.js"></script>
-<script>
-    $(function(){
-        var buttons=$(".floatMenu>li");
-        var r=100,n= 5;
-        var expanded=false;
-        var intervalId=setInterval(function(){
-            if(expanded){
-                for(var i= 0,len=buttons.length;i<len;i++){
-                    $(buttons[i]).css("transform","translate(0px,0px").css("transition",'1s')
-                }
-                expanded=false;
-            }
-            else{
-                for(var i= 0,len=buttons.length;i<len;i++){
-                    $(buttons[i]).css("display","block").css("transform","translate("+(r*Math.cos((45-180/n*i)*(Math.PI/180)))+"px,"+(-r*Math.sin((45-180/n*i)*(Math.PI/180)))+"px").css("transition",'1s')
-                }
-                expanded=true;
-            }
-        },3000)
-    })
-</script>
 </body>
 </html>

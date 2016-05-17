@@ -58,6 +58,19 @@ Application.layersConfig =
                         visible: false,
                         zIndex: 3
                     }
+                }, {
+                    url: '',
+                    clazz: fastmap.mapApi.gridLayer,
+                    options: {
+                        layername: '格网',
+                        id: 'grid',
+                        gridInfo:null,
+                        url: '',
+                        divideX:4,
+                        divideY:4,
+                        visible: false,
+                        zIndex: 3
+                    }
                 }
             ]
         }, {
@@ -605,11 +618,20 @@ function transformData(data, url) {
                 obj['properties']['direct'] = item.m.d;
                 obj['properties']['snode'] = item.m.e;
                 obj['properties']['enode'] = item.m.f;
-                obj['properties']['pattern'] = item.m.c;
+                obj['properties']['limit'] = item.m.c;
+                obj['properties']['form'] = item.m.h;
+                if (obj['properties']['form'] && obj['properties']['form'].indexOf('30') !== -1) {
+                    obj['properties']['symbolName'] = 'L_2';
+                }
+                if (obj['properties']['limit'] && obj['properties']['limit'].indexOf('4') !== -1) {
+                    obj['properties']['symbolName'] = 'L_3';
+                }
+                if (obj['properties']['form'] && obj['properties']['form'].indexOf('52') !== -1) {
+                    obj['properties']['symbolName'] = 'L_1';
+                }
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
-
                 break;
             case 5://车信
                 obj['geometry']['type'] = 'Point';
@@ -1325,7 +1347,6 @@ function transformDataForTips(data, param) {
     var transform = new fastmap.mapApi.MecatorTranform();
     var layerCtrl = fastmap.uikit.LayerController();
     var guideLayer = layerCtrl.getLayerById("guideLineLayer");
-    console.log(guideLayer);
     $.each(data, function (index, item) {
 
         var obj = {};

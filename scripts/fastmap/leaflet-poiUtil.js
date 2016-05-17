@@ -159,9 +159,27 @@ FM.leafletUtil = {
         return poiFeature;
     },
     repeatDraw:function (e) {  //重新画线
-        FM.leafletUtil.removeLine(pMap,e.target.id+"-@-gl");
-        var guidePoint = FM.leafletUtil.getLayerById(pMap,e.target.id+"-@-gp");
-        FM.leafletUtil.drawNewline(e.target,guidePoint);
+        if(FM.mapConf.autoDrag){
+            // FM.leafletUtil.removeLine(pMap,e.target.id+"-@-gl");
+            // var guidelayer = FM.leafletUtil.getLayerById(pMap,e.target.id);
+            var guide = FM.leafletUtil.closestPoint(e);
+            var point = guide.point;
+            var locPoint = null;
+            FM.leafletUtil.removeLine(pMap, e.target.id + "-@-gl");
+            if (point != undefined) {
+                var latlng = new L.latLng(point.x, point.y);
+                var guidePoint = FM.leafletUtil.getLayerById(pMap, e.target.id + "-@-gp");
+                guidePoint.setLatLng(latlng);
+                FM.leafletUtil.drawNewline(e.target, guidePoint);
+            } else {
+                FM.leafletUtil.drawNewline(e.target, FM.mapConf.pGuideGeo);
+                // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
+            }
+        }else {
+            FM.leafletUtil.removeLine(pMap,e.target.id+"-@-gl");
+            var guidePoint = FM.leafletUtil.getLayerById(pMap,e.target.id+"-@-gp");
+            FM.leafletUtil.drawNewline(e.target,guidePoint);
+        }
     },
     drawNewline:function (loc, guide) { //画引导线
         var newLine=[];
@@ -201,20 +219,37 @@ FM.leafletUtil = {
         FM.leafletUtil.drawNewline(locPoint, e.target);
     },
     setClosestPoint: function (e) {    //设置最近的点并画link
+        // var target = null;
+        // if (e.target.name != "poi") {
+        //     target = e.target;
+        // } else {
+        //     target = e;
+        // }
         var retObj = FM.leafletUtil.closestPoint(e);
         var point = retObj.point;
-        if (point != undefined) {
-            var latlng = new L.latLng(point.x, point.y);
+        var locPoint = null;
+        if(e.target.name != "poi"){
             FM.leafletUtil.removeLine(pMap, e.target.id.replace("-@-gp", "-@-gl"));
-            var locPoint = FM.leafletUtil.getLayerById(pMap, e.target.id.split("-@-gp")[0]);
-            e.target.setLatLng(latlng);
-            FM.leafletUtil.drawNewline(locPoint, e.target);
-        }
-        else {
-            FM.leafletUtil.removeLine(pMap, e.target.id.replace("-@-gp", "-@-gl"));
-            var locPoint = FM.leafletUtil.getLayerById(pMap, e.target.id.split("-@-gp")[0]);
-            FM.leafletUtil.drawNewline(locPoint, FM.mapConf.pGuideGeo);
-            // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
+            locPoint = FM.leafletUtil.getLayerById(pMap, e.target.id.split("-@-gp")[0]);
+            if (point != undefined) {
+                var latlng = new L.latLng(point.x, point.y);
+                e.target.setLatLng(latlng);
+                FM.leafletUtil.drawNewline(locPoint, e.target);
+            } else {
+                FM.leafletUtil.drawNewline(locPoint, FM.mapConf.pGuideGeo);
+                // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
+            }
+        }else {
+            FM.leafletUtil.removeLine(pMap, e.target.id + "-@-gl");
+            if (point != undefined) {
+                var latlng = new L.latLng(point.x, point.y);
+                var guidePoint = FM.leafletUtil.getLayerById(pMap, e.target.id + "-@-gp");
+                guidePoint.setLatLng(latlng);
+                FM.leafletUtil.drawNewline(e.target, guidePoint);
+            } else {
+                FM.leafletUtil.drawNewline(e.target, FM.mapConf.pGuideGeo);
+                // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
+            }
         }
         var guideLatlng = e.target.getLatLng();
         var guide = FM.leafletUtil.latLngToLoc(guideLatlng);
@@ -222,11 +257,17 @@ FM.leafletUtil = {
         console.log(guide);
     },
     closestPoint: function (e) {//寻找最近的引导点
+        var target = null;
+        var line = null;
+        if (e.target.name != "poi") {
+            line = FM.leafletUtil.getLayerById(pMap, e.target.id.replace("-@-gp", "-@-gl"));
+        } else {
+            line = FM.leafletUtil.getLayerById(pMap, e.target.id + "-@-gl");
+        }
         var pFc = 0;
         var retObj = {};
         var minDis = 50;
         var allLine = FM.leafletUtil.getLayerById(pMap, "navBaseLayer").getLayers();
-        var line = FM.leafletUtil.getLayerById(pMap, e.target.id.replace("-@-gp", "-@-gl"));
         for (var i = 0; i < allLine.length; i++) {
             if (allLine[i].attributes.type == "rdLink" && allLine[i].attributes.fow.indexOf(50) == -1) { //去除formOfWay=50的道路
                 for (var j = 0; j < allLine[i]._originalPoints.length - 1; j++) {
@@ -456,5 +497,6 @@ FM.mapConf = {
     pLocationGeo:null,
     pPoiJson:null,
     pLocation:null,
-    pGuide:null
+    pGuide:null,
+    autoDrag:true
 };

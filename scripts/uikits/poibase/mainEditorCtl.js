@@ -167,8 +167,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             title:'检查结果',
             refList:data
         };
+        data[0].location.latitude = data[0].guide.latitude;
+        data[0].location.longitude = data[0].guide.longitude;
         $scope.showRelatedPoiInfo = true;
         console.log(data)
+        $scope.$broadcast('showChildrenPoisInMap',data);
     });
 
     /*显示关联poi详细信息*/

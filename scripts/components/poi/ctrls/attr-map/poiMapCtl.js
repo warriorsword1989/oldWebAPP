@@ -202,13 +202,13 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                     type: "snapshot",
                     pagesize: 0
                 };
-                FM.dataApi.ajax.httpPost($http,"editsupport/poi/query",param,function (data) {
+                FM.dataApi.ajax.get("editsupport/poi/query",param,function (data) {
                     if (data.errcode == 0) {
                         var ret = data.data.data;
                         if (ret.length == 0) {
                             FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         } else {
-                            $scope.emit("drawPois",ret);
+                            $scope.$emit("drawPois",ret);
                             FM.leafletUtil.showPoisInMap("parentPoiLayer", ret);
                         }
                     } else {
@@ -347,7 +347,6 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     };
 
     $scope.loadControls = function (map, data) {
-        // $scope.loadZoomControl(map);
         $scope.loadLayerControl(map);
         $scope.loadNavBarControl(map);
         $scope.initDrawControl(map,data);
@@ -355,18 +354,20 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     };
 
     //接收基础的poi信息并显示
-    $scope.$on("loadup_poiMap",function (event, data) {
-        FM.mapConf.pPoiJson = data.data;
-        FM.leafletUtil.clearMapLayer(pMap,"poiEditLayer");
-        if(data.data.lifecycle == 1){
-            FM.leafletUtil.createEneditablePoiInMap(data.data,"poiEditLayer","redIcon");
-        }else {
-            FM.leafletUtil.createEditablePoiInMap(data.data,"poiEditLayer","redIcon");
-            $scope.loadControls(pMap,data);
-            console.log(data);
+    $scope.$on("loadup_poiMap", function (event, data) {
+        if (!(FM.mapConf.pPoiJson && FM.mapConf.pPoiJson == data.data)) {//防止重复加载
+            FM.mapConf.pPoiJson = data.data;
+            FM.leafletUtil.clearMapLayer(pMap, "poiEditLayer");
+            if (data.data.lifecycle == 1) {
+                FM.leafletUtil.createEneditablePoiInMap(data.data, "poiEditLayer", "redIcon");
+            } else {
+                FM.leafletUtil.createEditablePoiInMap(data.data, "poiEditLayer", "redIcon");
+                $scope.loadControls(pMap, data);
+                console.log(data);
+            }
+            $scope.loadTaskPoiData(data.projectId, data.featcode);
+            FM.mapConf.singeton = 1;
         }
-        $scope.loadTaskPoiData(data.projectId,data.featcode);
-
     });
 
     //接收父信息并显示
