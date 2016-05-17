@@ -17,7 +17,7 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         { field: "pid", title: "PID", sortable: "pid", show: false},
         { field: "lifecycle", title: "状态", sortable: "lifecycle", show: false,getValue:formatLifecycle},
         { field: "name", title: "名称", sortable: "name", show: false,getValue:handleName},
-        { field: "kindCode", title: "分类", sortable: "kindCode", show: false},
+        { field: "kindCode", title: "分类", sortable: "kindCode", show: false,getValue:handleKindCode},
         { field: "auditStatus", title: "审核状态", sortable: "auditStatus", show: false,getValue:formatAuditStatus},
         { field: "checkResultNum", title: "检查错误", sortable: "checkResultNum", show: false},
         { field: "checkResults", title: "错误类型", sortable: "checkResults", show: false,getValue:formatCheckResults},
@@ -274,15 +274,16 @@ angular.module('app').controller('generalDataListCtrl', ['$scope', 'uibButtonCon
         return ret;
     }
     // 格式化分类显示
-    //function formatKindCode($scope,row) {
-    //    var value = row[this.field];
-    //    //var temp = $scope.pKindFormat[value];
-    //    //if (temp) {
-    //    //    return temp.kindName;
-    //    //} else {
-    //    //    return value;
-    //    //}
-    //}
+    function handleKindCode($scope,row) {
+        var value = row[this.field];
+        //console.log(scope.pKindFormat[value])
+        var temp = scope.pKindFormat[value];
+        if (temp) {
+            return temp.kindName;
+        } else {
+            return value;
+        }
+    }
 
 }]);
 
