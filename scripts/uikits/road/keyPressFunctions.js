@@ -356,6 +356,11 @@ function keyEvent(ocLazyLoad, scope) {
                     param["projectId"] = Application.projectid;
                     param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
                     param["data"] = {"longitude": geo.x, "latitude": geo.y};
+                    if (shapeCtrl.editFeatType === "rdLink") {
+                        param ["type"] = "RDLINK";
+                    } else if (shapeCtrl.editFeatType === "adLink") {
+                        param ["type"] = "ADLINK";
+                    }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         if (param["type"] === "RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
