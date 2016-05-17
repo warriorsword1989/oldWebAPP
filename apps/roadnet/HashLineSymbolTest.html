@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SymbolTest</title>
+</head>
+<body>
+<div id="container">
+    <div id="symbolDetail">
+        hashHeight<input id="hashHeight" value="5" type="text"><br/>
+        hashOffset<input id="hashOffset" value="0" type="text"><br/>
+        hashAngle<input id="hashAngle" value="90" type="text"><br/>
+        pattern<input id="pattern" value="[2, 5]" type="text"><br/>
+        hashLineSymbol
+        width<input id="width" value="1" type="text"><br/>
+        color<input id="color" value="red" type="text"><br/>
+        <button onclick="refresh()">刷新</button>
+    </div>
+    <div id="display">
+        <canvas id="canvas" width="300" height="300"></canvas>
+    </div>
+</div>
+</body>
+<script src="../../scripts/libs/jquery/2.1.1/jquery-2.1.1.js"></script>
+<script src="../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+<script src="../../scripts/mapApi/fastmap.js"></script>
+<script src="../../scripts/mapApi/symbol/Matrix.js"></script>
+<script src="../../scripts/mapApi/symbol/Vector.js"></script>
+<script src="../../scripts/mapApi/symbol/Point.js"></script>
+<script src="../../scripts/mapApi/symbol/LineSegment.js"></script>
+<script src="../../scripts/mapApi/symbol/LineString.js"></script>
+<script src="../../scripts/mapApi/symbol/Template.js"></script>
+<script src="../../scripts/mapApi/symbol/CirclePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SolidCirclePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SquarePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SolidSquarePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CrossPointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/TiltedCrossPointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/PicturePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CompositePointSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SampleLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/HashLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CartoLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/MarkerLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/CompositeLineSymbol.js"></script>
+<script src="../../scripts/mapApi/symbol/SymbolFactory.js"></script>
+<script src="../../scripts/mapApi/symbol/SymbolsFile.js"></script>
+
+<script>
+    var canvasSize = 300;
+    var pointGeometry = new fastmap.mapApi.symbol.Point(canvasSize / 2, canvasSize / 2);
+    var lineGeometry = new fastmap.mapApi.symbol.LineString([[0, 0], [canvasSize, canvasSize]]);
+    var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+    var hashLineSymbol = symbolFactory.createSymbol('HashLineSymbol');
+    var hashSymbol = symbolFactory.createSymbol('SampleLineSymbol');
+    hashLineSymbol.hashSymbol = hashSymbol;
+    hashLineSymbol.geometry = lineGeometry;
+    var ctx;
+
+    $(document).ready(function () {
+        var canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        hashLineSymbol.draw(ctx);
+    });
+
+    function refresh() {
+        hashLineSymbol.hashHeight = parseInt($('#hashHeight').val());
+        hashLineSymbol.hashOffset = parseInt($('#hashOffset').val());
+        hashLineSymbol.hashAngle = parseInt($('#hashAngle').val());
+        hashLineSymbol.template.pattern = stingToArray($('#pattern').val());
+
+        hashLineSymbol.hashSymbol.width = parseInt($('#width').val());
+        hashLineSymbol.hashSymbol.color = $('#color').val();
+
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        hashLineSymbol.draw(ctx);
+    }
+
+    function stingToArray(str) {
+        str = str.substring(1, str.length - 1);
+        var temArray = str.split(',');
+        var result = [];
+        for (var i = 0; i < temArray.length; ++i) {
+            result.push(parseInt(temArray[i]));
+        }
+        return result;
+    }
+</script>
+</html>

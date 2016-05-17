@@ -328,7 +328,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     });
 
     $scope.$on("loadup", function(event, data) {
-        console.info("loadup----------");
+        //console.info("loadup----------");
         $scope.poi = data.poi;
         $scope.kindList = data.kindList;
         pKindFormat = data.kindFormat;

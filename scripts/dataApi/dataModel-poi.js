@@ -26,6 +26,7 @@
                 "fastmap/leaflet-poiUtil.js",
                 "libs/leaflet-0.7.3/plugins/Leaflet.NavBar.js",
                 "libs/leaflet-0.7.3/plugins/leaflet-search.src.js",
+                "libs/leaflet-0.7.3/plugins/leaflet-checkbox.src.js",
                 "libs/leaflet-0.7.3/plugins/Toolbar.js",
                 "libs/leaflet-0.7.3/plugins/Tooltip.js",
                 "libs/leaflet-0.7.3/plugins/draw/DrawToolbar.js",

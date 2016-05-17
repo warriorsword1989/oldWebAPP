@@ -4,8 +4,8 @@
  */
 fastmap.mapApi.MecatorTranform = function () {
     this.M_PI = Math.PI;
-    this.originShift = 2 * this.M_PI * 6367447.5 / 2.0;    //原先为6378137，wt修改
-    this.initialResolution = 2 * this.M_PI * 6367447.5 / 256;
+    this.originShift = 2 * this.M_PI * 6378137 / 2.0;    //原先为6378137，wt修改
+    this.initialResolution = 2 * this.M_PI * 6378137 / 256;
 }
 /***
  * 计算当前地图分辨率
@@ -177,7 +177,7 @@ fastmap.mapApi.MecatorTranform.prototype.scale = function (map) {
     return res;*/
     var bounds = map.getBounds();
     var centerLat = bounds.getCenter().lat;
-    var halfWorldMeters = 6367447.5 * Math.PI * Math.cos(centerLat * Math.PI / 180);
+    var halfWorldMeters = 6378137 * Math.PI * Math.cos(centerLat * Math.PI / 180);
     var dist = halfWorldMeters * (bounds.getNorthEast().lng - bounds.getSouthWest().lng) / 180;
     var size = map.getSize();
     var res = dist/size.x;

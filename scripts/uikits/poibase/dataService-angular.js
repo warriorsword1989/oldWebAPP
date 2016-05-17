@@ -32,7 +32,17 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         });
         return defer.promise;
     };
-    
+    this.savePoi = function (param, callback){
+        delete param.data._initHooksCalled;
+        FM.dataApi.ajax.httpPost($http,"editsupport/poi/save/",param,function (data){
+            var ret = [];
+            if (data.errcode == 0) {
+                ret = data.data;
+            }
+            callback(ret);
+        });
+
+    }
     this.getProjectList = function(param){
     	var defer = $q.defer();
 	    FM.dataApi.ajax.get("project/list/", param, function(data) {
@@ -48,24 +58,37 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         return defer.promise;
     };
     /*忽略检查项*/
-    this.ignoreCheck = function(param, callback){
+    this.ignoreCheck = function(param){
+        var defer = $q.defer();
         FM.dataApi.ajax.get("check/poi/ignore/", param, function(data) {
-            var ret = [];
-            if (data.errcode == 0) {
-                ret = data.data;
-            }
-            callback(ret);
+            defer.resolve(data.data);
         });
+        return defer.promise;
     };
     /*锁定检查结果*/
-    this.lockSingleData = function(param, callback){
-        FM.dataApi.ajax.get("editsupport/handler/locksingle/", param, function(data) {
-            var ret = [];
-            if (data.errcode == 0) {
-                ret = data.data;
+    this.lockSingleData = function(param){
+        var defer = $q.defer();
+        /*$http({
+            method: 'POST',
+            url: App.Config.serviceUrl + '/editsupport/handler/locksingle',
+            data: param,
+            transformRequest:function(obj){
+                var str = [];
+                for(var p in obj){
+                    str.push(encodeURIComponent(p)+"="+encodeURIComponent(obj[p]));
+                }
+                return str.join("&");
+            },
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置
             }
-            callback(ret);
+        }).success(function(data){
+            defer.resolve(data.data);
+        });*/
+        FM.dataApi.ajax.post($http,'/editsupport/handler/locksingle',param,function(data){
+            defer.resolve(data.data);
         });
+        return defer.promise;
     };
     this.getOperSeason = function(projId){
     	var defer = $q.defer();
@@ -96,9 +119,9 @@ angular.module("dataService", []).service("poi", ["$http", "$q", function($http,
         });
         return defer.promise;
     };
-    this.getTopKindList = function(){
+    this.getKindList = function(){
     	var defer = $q.defer();
-    	FM.dataApi.IxPoiTopKind.getList(function(data){
+    	FM.dataApi.IxPoiKind.getList(function(data){
     		defer.resolve(data);
     	});
     	return defer.promise;

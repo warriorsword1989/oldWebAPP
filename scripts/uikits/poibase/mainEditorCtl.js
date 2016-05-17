@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', 'meta', 'uibButtonConfig','$http', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -59,10 +59,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
             $scope.$on('$includeContentLoaded', function($event) {
-                console.log("imageTpl.html-------------");
-                
+                //console.log("imageTpl.html-------------");
                 $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-
             });
         });
     });
@@ -154,10 +152,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
                 description:data.errorMsg
             }
         };
-        poi.ignoreCheck(param,function(data){
+        poi.ignoreCheck(param).then(function(data){
             /*操作成功后刷新poi数据*/
-            refreshPoiData();
-        });
+            refreshPoiData('0010060815LML01353');
+        })
     });
 
     /*获取关联poi数据——检查结果*/
@@ -169,8 +167,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
             title:'检查结果',
             refList:data
         };
+        data[0].location.latitude = data[0].guide.latitude;
+        data[0].location.longitude = data[0].guide.longitude;
         $scope.showRelatedPoiInfo = true;
         console.log(data)
+        $scope.$broadcast('showChildrenPoisInMap',data);
     });
 
     /*显示关联poi详细信息*/
@@ -194,9 +195,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
 
     /*锁定检查结果数据*/
     $scope.$on('lockSingleData',function(event,data){
-       poi.lockSingleData(data,function(res){
-           refreshPoiData();
+       poi.lockSingleData(data).then(function(res){
+           refreshPoiData('0010060815LML01353');
        });
+    });
+    /*编辑关联poi数据*/
+    $scope.$on('editPoiInfo',function(event,data){
+       refreshPoiData(data);
     });
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap',function(event,data){
@@ -263,8 +268,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         }
     };
     /*刷新poi对象*/
-    function refreshPoiData(){
-        poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    function refreshPoiData(fid){
+        poi.getPoiDetailByFid(fid).then(function(data) {
             $scope.poi = data;
             $scope.snapshotPoi = data.getSnapShot();
             distinguishResult(data);
@@ -312,7 +317,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         });
     };
     $scope.doSave = function() {
-        $scope.$broadcast("save", $scope.meta.kindList);
+        //$scope.$broadcast("save", $scope.meta.kindList);
+        var param = {
+            access_token: App.Config.accessToken,
+            projectId: "2016013086",
+            phase: 4,
+            fid: '0010060815LML01353',
+            featcode: 'poi',
+            validationMethod: 1,
+            data: $scope.poi
+        };
+        console.info("save",$scope.poi);
+        $scope.saveButClass = "disabled";
+        poi.savePoi(param,function(data){
+            $scope.saveButClass = "";
+        });
+        
     };
 
     function realSave(evt, data) {

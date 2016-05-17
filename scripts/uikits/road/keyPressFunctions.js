@@ -164,7 +164,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, param["type"], showContent, ctrl, tpl)
                     })
 
-                } else if (shapeCtrl.editType === "RDRESTRICTION") {
+                } else if (shapeCtrl.editType === "addRestriction") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["limitRelation"];
                     var laneStr = "";
@@ -355,6 +355,11 @@ function keyEvent(ocLazyLoad, scope) {
                     param["projectId"] = Application.projectid;
                     param["objId"] = parseInt(selectCtrl.selectedFeatures.id);
                     param["data"] = {"longitude": geo.x, "latitude": geo.y};
+                    if (shapeCtrl.editFeatType === "rdLink") {
+                        param ["type"] = "RDLINK";
+                    } else if (shapeCtrl.editFeatType === "adLink") {
+                        param ["type"] = "ADLINK";
+                    }
                     Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
                         if (param["type"] === "RDLINK") {
                             layerCtrl.getLayerById("referenceLine").redraw();
@@ -365,7 +370,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     })
-                } else if (shapeCtrl.editType === "RDBRANCH") {
+                } else if (shapeCtrl.editType === "addRdBranch") {
                     param = {
                         "command": "CREATE",
                         "type": "RDBRANCH",
@@ -377,7 +382,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
-                } else if (shapeCtrl.editType === "RDCROSS") {
+                } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",
                         "type": "RDCROSS",
@@ -389,7 +394,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDCROSS", "创建RDCROSS成功",
                             'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     })
-                } else if (shapeCtrl.editType === "RDLANECONNEXITY") {
+                } else if (shapeCtrl.editType === "addRdLaneConnexity") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["laneConnexity"];
                     var laneStr = "";
@@ -427,7 +432,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
                             'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
-                } else if (shapeCtrl.editType === "RDGSC") {
+                } else if (shapeCtrl.editType === "addRdGsc") {
                     param = {
                         "command": "CREATE",
                         "type": "RDGSC",

@@ -74,7 +74,6 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         var proj = [];
         proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
         proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-
         //g.save();
         if(g.setLineDash) {
             g.setLineDash([12,3,3,3]);
@@ -89,12 +88,8 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
                 var method = (i === 0 ? 'move' : 'line') + 'To';
                 g[method](proj[i].x, proj[i].y);
             }
-
             g.stroke();
         }
-
-        //g.closePath();
-        //g.restore();
 
     },
     _redraw: function () {
