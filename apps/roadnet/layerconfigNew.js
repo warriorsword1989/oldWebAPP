@@ -1115,16 +1115,16 @@ function transformData(data, url) {
                 break;
             case 1201://道路种别
                 break;
-            //case 1901://道路名
-            //    obj['properties']["featType"] = item.t;
-            //    obj['geometry']['type'] = "LineString";
-            //
-            //    obj['properties']['style'] = {
-            //        'strokeColor': '#7030A0',
-            //        'strokeWidth': 2,
-            //        'strokeOpacity': 0.8
-            //    };
-            //    break;
+            case 1901://道路名
+                //obj['properties']["featType"] = item.t;
+                //obj['geometry']['type'] = "LineString";
+                //
+                //obj['properties']['style'] = {
+                //    'strokeColor': '#7030A0',
+                //    'strokeWidth': 2,
+                //    'strokeOpacity': 0.8
+                //};
+                //break;
             //case 2001://侧线
             //    obj['properties']["featType"] = item.t;
             //    obj['geometry']['type'] = "LineString";
@@ -1423,7 +1423,29 @@ function transformDataForTips(data, param) {
                 );
                 break;
             case 1803://挂接
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1803/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1501://上下线分离
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1501/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1302://普通交限
 
                 obj['geometry']['coordinates'] = item.g;
@@ -1469,6 +1491,34 @@ function transformDataForTips(data, param) {
                 }
                 break;
             case 1901://道路名
+                obj['geometry']['coordinates'] = item.m.c;
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1901/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates'],
+                        scalex: 0.7,
+                        scaley: 0.7
+                    })
+                );
+                var sidingObj = {};
+                sidingObj['geometry'] = {};
+                sidingObj['geometry']['coordinates'] = item.g;
+                sidingObj['properties'] = {};
+                sidingObj['properties']['style'] = {};
+                sidingObj['properties']['id'] = item.i;
+                sidingObj['properties']["featType"] = item.t;
+                sidingObj['geometry']['type'] = "LineString";
+
+                sidingObj['properties']['style'] = {
+                    'strokeColor': '#7030A0',
+                    'strokeWidth': 2,
+                    'strokeOpacity': 0.8
+                };
+                featArr.push(sidingObj);
+                break;
+                break;
             case 2001://侧线
                 obj['geometry']['coordinates'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(

@@ -335,10 +335,8 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                 "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                 "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
-                                    if (data.f_array.length != 0) {
                                         $scope.brigeLinkArray = result.f_array;
                                         $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
-                                    }
                                 }
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTmplOfBridge);
