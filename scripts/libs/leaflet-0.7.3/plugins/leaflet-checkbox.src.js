@@ -30,11 +30,11 @@ L.Control.Checkbox = L.Control.extend({
 
 	onAdd: function (map) {
 		this._map = map;
-		this._container = L.DomUtil.create('div', 'leaflet-control-radio');
-		this._content = this._createInput(this.options.text, 'radio-input');
+		this._container = L.DomUtil.create('div', 'leaflet-control-check');
+		this._content = this._createInput(this.options.text, 'check-input');
 		this._input = this._content.input;
-		this._select = this._content.select;
-		this._button = this._createButton(this.options.text, 'radio-button');
+		this._span = this._content.span;
+		this._button = this._createButton(this.options.text, 'check-button');
 
 		if(this.options.collapsed===false)
 			this.expand(this.options.collapsed);
@@ -60,13 +60,13 @@ L.Control.Checkbox = L.Control.extend({
 	expand: function(toggle) {//展开
 		toggle = typeof toggle === 'boolean' ? toggle : true;
 		this._input.style.display = 'block';
-		this._select.style.display = 'block';
-		L.DomUtil.addClass(this._container, 'search-rad');
+		this._span.style.display = 'block';
+		L.DomUtil.addClass(this._container, 'check-rad');
 		// if ( toggle !== false ) {
 		// 	this._input.focus();
 		// 	this._map.on('dragstart click', this.collapse, this);
 		// }
-		this.fire('radio_expanded');
+		this.fire('check_expanded');
 		return this;	
 	},
 
@@ -75,38 +75,23 @@ L.Control.Checkbox = L.Control.extend({
 		if(this.options.collapsed)
 		{
 			this._input.style.display = 'none';
-			this._select.style.display = 'none';
-			L.DomUtil.removeClass(this._container, 'search-rad');
+			this._span.style.display = 'none';
+			L.DomUtil.removeClass(this._container, 'check-rad');
 			// if (this.options.hideMarkerOnCollapse) {
 			// 	this._markerLoc.hide();
 			// }
 			// this._map.off('dragstart click', this.collapse, this);
 		}
-		this.fire('radio_collapsed');
+		this.fire('check_collapsed');
 		return this;
-	},
-	
-	collapseDelayed: function() {	//collapse after delay, used on_input blur
-		if (!this.options.autoCollapse) return this;
-		var that = this;
-		clearTimeout(this.timerCollapse);
-		this.timerCollapse = setTimeout(function() {
-			that.collapse();
-		}, this.options.autoCollapseTime);
-		return this;		
-	},
-
-	collapseDelayedStop: function() {
-		clearTimeout(this.timerCollapse);
-		return this;		
 	},
 
 	_createInput: function (text, className) {
 		var content = {
-			select:null,
+			span:null,
 			input:null
 		};
-		var select = L.DomUtil.create('label', className, this._container);
+		var span = L.DomUtil.create('span', className, this._container);
 		var input = L.DomUtil.create('input', className, this._container);
 		input.type = 'checkbox';
 		input.size = this._inputMinSize;
@@ -114,20 +99,15 @@ L.Control.Checkbox = L.Control.extend({
 		input.style.display = 'none';
 		input.id = "autoDrag";
 
-		var t = document.createTextNode(text);
-		select.appendChild(t);
-		select.value = "dadsadsa";
-		select.style.display = 'none';
-		select.id = "searchType";
+		span.innerHTML =text;
+		span.style.display = 'none';
+		span.id = "searchType";
 
 		L.DomEvent
-			.disableClickPropagation(input)
-			.on(input, 'select', this._handleKeypress, this)
-			.on(input, 'click', this._handleAutoresize, this)
-			.on(input, 'check', this.collapseDelayed, this)
-			.on(input, 'focus', this.collapseDelayedStop, this);
+			// .disableClickPropagation(input)
+			.on(input, 'click', this._changeAutoDraw, this);
 
-		content.select = select;
+		content.span = span;
 		content.input = input;
 
 		return content;
@@ -142,43 +122,6 @@ L.Control.Checkbox = L.Control.extend({
 			.on(button, 'click', L.DomEvent.stop, this)
 			.on(button, 'click', this._handleSubmit, this);
 		return button;
-	},
-
-	_handleKeypress: function (e) {	//run _input keyup event
-		
-		switch(e.keyCode)
-		{
-			case 27: //Esc
-				this.collapse();
-			break;
-			case 13: //Enter
-				this._handleSubmit();	//do search
-			break;
-			case 38://Up
-			break;
-			case 40://Down
-			break;
-			case 37://Left
-			case 39://Right
-			case 16://Shift
-			case 17://Ctrl
-			//case 32://Space
-			break;
-			case 8://backspace
-			case 46://delete
-				this._autoTypeTmp = false;//disable temporarily autoType
-			break;
-			default://All keys
-
-				if(this._input.value.length >= this.options.minLength)
-				{
-					var that = this;
-
-					clearTimeout(this.timerKeypress);	//cancel last search request while type in				
-
-				}
-
-		}
 	},
 
 	_handleAutoresize: function() {	//autoresize this._input
@@ -198,8 +141,12 @@ L.Control.Checkbox = L.Control.extend({
 			this.collapse();
 		}
 	},
-	searchPoiAround:function (type,val,data) {
-		
+	_changeAutoDraw:function () {
+		var val = this._input.checked;
+		this.changeAutoDraw(val);
+	},
+	changeAutoDraw:function (type,val,data) {
+
 	}
 });
 
