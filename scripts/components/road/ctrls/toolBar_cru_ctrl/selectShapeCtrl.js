@@ -342,10 +342,20 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                                 "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                                 "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
                                 callback: function () {
-                                    if (data.f_array.length != 0) {
                                         $scope.brigeLinkArray = result.f_array;
                                         $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
-                                    }
+                                }
+                            }
+                            $scope.$emit("transitCtrlAndTpl", ctrlAndTmplOfBridge);
+                            break;
+                        case "1514"://施工
+                            var ctrlAndTmplOfBridge = {
+                                "loadType": "tipsTplContainer",
+                                "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                callback: function () {
+                                    $scope.brigeLinkArray = result.f_array;
+                                    $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
                                 }
                             }
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTmplOfBridge);
@@ -380,6 +390,23 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                             $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfCross);
                             break;
                         case "1803"://挂接
+                            var ctrlAndTplOfOfGJ= {
+                                "loadType":"tipsTplContainer",
+                                "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
+                            }
+                            $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
+                            break;
+                        case "1501"://上下线分离
+                            var ctrlAndTplOfDirect = {
+                                "loadType": "tipsTplContainer",
+                                "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
+                                "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html",
+                                callback: function () {
+                                        $scope.getFeatDataCallback(result, result.f_array[0].id, "RDLINK", "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html")
+                                }
+                            }
+                            $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfDirect);
                             break;
                         case "1901"://道路名
                             var ctrlAndTplOfName = {

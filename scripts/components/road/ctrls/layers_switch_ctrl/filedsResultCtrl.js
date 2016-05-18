@@ -579,16 +579,13 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
 
                     } else if (pItemId === "1901") {//道路名
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 19);
-
-                        var ctrlAndTplOfName= {
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                        var ctrlAndTplOfOfGJ= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl": "components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
                             "propertyHtml": "../../scripts/components/road/tpls/attr_tips_tpl/sceneAllTipsTpl.html"
                         }
-                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfName);
-
-
+                        $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                     } else if (pItemId === "2001") {//测线
                         map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
