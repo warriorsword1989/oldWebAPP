@@ -44,15 +44,29 @@ FM.leafletUtil = {
             southEast = bounds.getSouthEast(),
             northWest = bounds.getNorthWest(),
             northEast = bounds.getNorthEast();
-        var pointsArray = [];
         var ppArray = [];
         ppArray.push([northWest.lng + " " + northWest.lat]);
         ppArray.push([southWest.lng + " " + southWest.lat]);
         ppArray.push([southEast.lng + " " + southEast.lat]);
         ppArray.push([northEast.lng + " " + northEast.lat]);
         ppArray.push([northWest.lng + " " + northWest.lat]);
-        pointsArray.push(ppArray);
         return ppArray;
+    },
+    getMapBounds_1:function (map) {//获取地图边界,两个方法传的参数不同，因此和上面的有区别
+        var bounds = map.getBounds(),
+            southWest = bounds.getSouthWest(),
+            southEast = bounds.getSouthEast(),
+            northWest = bounds.getNorthWest(),
+            northEast = bounds.getNorthEast();
+        var pointsArray = [];
+        var ppArray = [];
+        ppArray.push([northWest.lng,northWest.lat]);
+        ppArray.push([southWest.lng,southWest.lat]);
+        ppArray.push([southEast.lng,southEast.lat]);
+        ppArray.push([northEast.lng,northEast.lat]);
+        ppArray.push([northWest.lng,northWest.lat]);
+        pointsArray.push(ppArray);
+        return pointsArray;
     },
     latLngToLoc:function (latlng) {
         return{
