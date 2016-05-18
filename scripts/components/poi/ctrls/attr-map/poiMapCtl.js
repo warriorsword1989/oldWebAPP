@@ -379,28 +379,16 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
         }
     });
 
-    //接收父信息并显示
-    $scope.$on("showParentPoiInMap",function (event, data) {
-        FM.leafletUtil.clearMapLayer(pMap,"parentPoiLayer");
-        if(data.lifecycle == 1){
-            FM.leafletUtil.createEneditablePoiInMap(data,"parentPoiLayer","blueIcon");
-        }else if(data.lifecycle == 2||data.lifecycle == 3) {
-            FM.leafletUtil.createEditablePoiInMap(data,"parentPoiLayer","blueIcon");
+    //接收点位信息并显示
+    $scope.$on("showPoisInMap",function (event, data) {
+        FM.leafletUtil.clearMapLayer(pMap,data.layerId);
+        if(data.layerId == "parentPoiLayer"){
+            for(var i = 0;i<data.data.length;i++){
+                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"blueIcon");
+            }
         }else {
-            console.log("wrong data !");
-        }
-    });
-
-    //接收子poi信息并显示
-    $scope.$on("showChildrenPoisInMap",function (event, datas) {
-        FM.leafletUtil.clearMapLayer(pMap,"childPoiLayer");
-        for(var i = 0;i<datas.length;i++){
-            if(datas[i].lifecycle == 1){
-                FM.leafletUtil.createEneditablePoiInMap(datas[i],"childPoiLayer","greenIcon");
-            }else if(datas[i].lifecycle == 2||datas[i].lifecycle == 3) {
-                FM.leafletUtil.createEditablePoiInMap(datas[i],"childPoiLayer","greenIcon");
-            }else {
-                console.log("wrong datas !");
+            for(var i = 0;i<data.data.length;i++){
+                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"greenIcon");
             }
         }
     });
@@ -412,14 +400,17 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
         pMap.panTo(marker._latlng);
     });
 
-    //接收同位点信息并显示
-    $scope.$on("showSamePoiInMap",function (event, data) {
-        $scope.FM.leafletUtil.showPoisInMap("mainPoiLayer",data);
-    });
-
-    //接收同位点信息并显示
+    //接收清除图层的命令
     $scope.$on("closePopover",function (event, data) {
         console.log(data);
+        if(data == "parentPoiLayer"){//可能有画的框选形状
+            var rect = FM.leafletUtil.getLayerById(pMap,"rectChooseLayer");
+            if(rect!=undefined){
+                FM.leafletUtil.clearMapLayer(pMap,"rectChooseLayer");
+            }
+            FM.leafletUtil.clearMapLayer(pMap,data);
+        }else {
+            FM.leafletUtil.clearMapLayer(pMap,data);
+        }
     });
-
 }] );

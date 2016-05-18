@@ -170,7 +170,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
         data[0].location.latitude = data[0].guide.latitude;
         data[0].location.longitude = data[0].guide.longitude;
         $scope.showRelatedPoiInfo = true;
-        $scope.$broadcast('showChildrenPoisInMap',data);
+        $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
     });
 
     /*接收框选点信息*/
