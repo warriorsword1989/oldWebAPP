@@ -54,7 +54,7 @@ angular.module("dataServiceMeta", []).service("dsMeta", ["$http", "$q", function
         var defer = $q.defer();
         $http({
             method: 'GET',
-            url: App.Config.serviceUrl + 'meta/queryFocus/',
+            url: App.Config.serviceUrl + '/meta/queryFocus/?access_token='+App.Config.accessToken,
             data: {},
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置

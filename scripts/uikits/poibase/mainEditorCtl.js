@@ -170,77 +170,77 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
         data[0].location.latitude = data[0].guide.latitude;
         data[0].location.longitude = data[0].guide.longitude;
         $scope.showRelatedPoiInfo = true;
-        $scope.$broadcast('showChildrenPoisInMap',data);
+        $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
     });
 
     /*接收框选点信息*/
     $scope.$on('drawPois',function(event,data){
         $scope.drawPois = data;
         var _fid = $scope.poi.fid;
-        var fidList = poi.getParentFidList().then(function(list){
-            return list;
-        });
-        for(var i=0,len=data.data.length;i<len;i++){
-            data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
-            if(_fid && _fid == data.data[i].fid){
-                data.data[i].ifParent = 1;
-                data.data[i].labelRemark = {
-                    labelClass:'primary',
-                    text:'当前父'
-                }
-            }else{
-                switch (data.data[i].kindInfo.parentFlag){
-                    case 0:
-                        if(!data.data[i].ifParent){
-                            if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
-                                data.data[i].ifParent = 2;
-                                data.data[i].labelRemark = {
-                                    labelClass:"success",
-                                    text:"可为父"
-                                }
-                            }else{  //不可为父
-                                data.data[i].ifParent = 3;
-                                data.data[i].labelRemark = {
-                                    labelClass:'default',
-                                    text:'不可为父'
+        var fidList;
+        meta.getParentFidList().then(function(list){
+            fidList = list;
+            for(var i=0,len=data.data.length;i<len;i++){
+                data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
+                if(_fid && _fid == data.data[i].fid){
+                    data.data[i].ifParent = 1;
+                    data.data[i].labelRemark = {
+                        labelClass:'primary',
+                        text:'当前父'
+                    }
+                }else{
+                    switch (data.data[i].kindInfo.parentFlag){
+                        case 0:
+                            if(!data.data[i].ifParent){
+                                if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
+                                    data.data[i].ifParent = 2;
+                                    data.data[i].labelRemark = {
+                                        labelClass:"success",
+                                        text:"可为父"
+                                    }
+                                }else{  //不可为父
+                                    data.data[i].ifParent = 3;
+                                    data.data[i].labelRemark = {
+                                        labelClass:'default',
+                                        text:'不可为父'
+                                    }
                                 }
                             }
-                        }
-                        break;
-                    case 1:
-                        data.data[i].ifParent = 2;
-                        data.data[i].labelRemark = {
-                            labelClass:'success',
-                            text:'可为父'
-                        }
-                        break;
-                    case 2:
-                        if (indoor) {
-                            poiArray[i].ifParent = 2;
-                            poiArray[i].labelRemark = {
-                                labelClass: "warning",
-                                text: "可为父"
-                            };
-                        } else {
-                            poiArray[i].ifParent = 3;
-                            poiArray[i].labelRemark = {
-                                labelClass: "default",
-                                text: "不可为父"
-                            };
-                        }
-                        break;
-                    default:
-                        break;
+                            break;
+                        case 1:
+                            data.data[i].ifParent = 2;
+                            data.data[i].labelRemark = {
+                                labelClass:'success',
+                                text:'可为父'
+                            }
+                            break;
+                        case 2:
+                            if ($scope.poi.indoor.type == 3) {
+                                data.data[i].ifParent = 2;
+                                data.data[i].labelRemark = {
+                                    labelClass: "warning",
+                                    text: "可为父"
+                                };
+                            } else {
+                                data.data[i].ifParent = 3;
+                                data.data[i].labelRemark = {
+                                    labelClass: "default",
+                                    text: "不可为父"
+                                };
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
-        }
-        $scope.refFt = {
-            title:'框选区域内',
-            refList:data.data
-        };
-        console.log(data)
-        $scope.showRelatedPoiInfo = true;
-        $scope.$apply();
+            $scope.refFt = {
+                title:'框选区域内',
+                refList:data.data
+            };
+            console.log(data)
+            $scope.showRelatedPoiInfo = true;
+        });
     });
 
     /*显示关联poi详细信息*/
@@ -257,7 +257,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
                     poi:poi,
                     kindName:$scope.refFt.refList[index].kindInfo.kindName
                 };
-                $scope.$broadcast('highlightChildInMap',$scope.refFt.refList[index][fid]);
+            console.log($scope.refFt.refList[index],$scope.refFt.refList[index].fid)
+                $scope.$broadcast('highlightChildInMap',$scope.refFt.refList[index].fid);
             // });
         });
     };
@@ -279,6 +280,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
        refreshPoiData(data);
     });
 
+    /*改变poi父子关系*/
+    $scope.$on('changeRelateParent',function(event,data){
+        $scope.poi.relateParent = data;
+    });
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap',function(event,data){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
@@ -349,6 +354,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
             $scope.poi = data;
             $scope.snapshotPoi = data.getSnapShot();
             distinguishResult(data);
+            if(data.lifeCycle == 1){
+                $scope.pEditable = false;
+            }else{
+                $scope.pEditable = true;
+            }
             $scope.$broadcast('checkResultData', checkResultData);
             $scope.$broadcast('confusionInfoData', confusionInfoData);
         });
