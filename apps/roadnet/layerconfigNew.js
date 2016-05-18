@@ -1103,7 +1103,6 @@ function transformData(data, url) {
                 obj['properties']['style']['strokeColor'] = 'black';
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
-                ;
                 obj['properties']['style']['radius'] = 3;
 
                 obj['properties']['style']['fillColor'] = 'black';
