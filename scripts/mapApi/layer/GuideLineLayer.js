@@ -73,8 +73,9 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         }
         var proj = [];
         proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
+        //console.log('[geom[1], geom[0]]'+[geom[1], geom[0]])
         proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-
+        //console.log('[guidePoint[1], guidePoint[0]]'+[guidePoint[1], guidePoint[0]])
         g.beginPath();
         for (i = 0; i < proj.length; i++) {
 

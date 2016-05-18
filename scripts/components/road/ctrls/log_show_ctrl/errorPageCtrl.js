@@ -6,7 +6,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
     $scope.itemsByPage = 1;
-    $scope.meshesId = [595671,595672,595673,595674,605603];
+    $scope.meshesId = [60560301,60560302,60560303,60560304];
     //获取检查错误
     $scope.getCheckDate = function () {
         var param = {
