@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataServicePoi','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataServicePoi','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -160,93 +160,96 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
 
     /*获取关联poi数据——检查结果*/
     $scope.$on('getRefFtInMap',function(event,data){
-        for(var i=0,len=data.length;i<len;i++){
-            data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
-        }
-        $scope.refFt = {
-            title:'检查结果',
-            refList:data
-        };
-        data[0].location.latitude = data[0].guide.latitude;
-        data[0].location.longitude = data[0].guide.longitude;
-        $scope.showRelatedPoiInfo = true;
-        $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            for(var i=0,len=data.length;i<len;i++){
+                data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
+            }
+            $scope.refFt = {
+                title:'检查结果',
+                refList:data
+            };
+            data[0].location.latitude = data[0].guide.latitude;
+            data[0].location.longitude = data[0].guide.longitude;
+            $scope.showRelatedPoiInfo = true;
+            $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
+        });
     });
 
     /*接收框选点信息*/
     $scope.$on('drawPois',function(event,data){
-        $scope.drawPois = data;
-        var _fid = $scope.poi.fid;
-        var fidList;
-        meta.getParentFidList().then(function(list){
-            fidList = list;
-            for(var i=0,len=data.data.length;i<len;i++){
-                data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
-                if(_fid && _fid == data.data[i].fid){
-                    data.data[i].ifParent = 1;
-                    data.data[i].labelRemark = {
-                        labelClass:'primary',
-                        text:'当前父'
-                    }
-                }else{
-                    switch (data.data[i].kindInfo.parentFlag){
-                        case 0:
-                            if(!data.data[i].ifParent){
-                                if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
-                                    data.data[i].ifParent = 2;
-                                    data.data[i].labelRemark = {
-                                        labelClass:"success",
-                                        text:"可为父"
-                                    }
-                                }else{  //不可为父
-                                    data.data[i].ifParent = 3;
-                                    data.data[i].labelRemark = {
-                                        labelClass:'default',
-                                        text:'不可为父'
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.drawPois = data;
+            var _fid = $scope.poi.fid;
+            var fidList;
+            meta.getParentFidList().then(function(list){
+                fidList = list;
+                for(var i=0,len=data.data.length;i<len;i++){
+                    data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
+                    if(_fid && _fid == data.data[i].fid){
+                        data.data[i].ifParent = 1;
+                        data.data[i].labelRemark = {
+                            labelClass:'primary',
+                            text:'当前父'
+                        }
+                    }else{
+                        switch (data.data[i].kindInfo.parentFlag){
+                            case 0:
+                                if(!data.data[i].ifParent){
+                                    if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
+                                        data.data[i].ifParent = 2;
+                                        data.data[i].labelRemark = {
+                                            labelClass:"success",
+                                            text:"可为父"
+                                        }
+                                    }else{  //不可为父
+                                        data.data[i].ifParent = 3;
+                                        data.data[i].labelRemark = {
+                                            labelClass:'default',
+                                            text:'不可为父'
+                                        }
                                     }
                                 }
-                            }
-                            break;
-                        case 1:
-                            data.data[i].ifParent = 2;
-                            data.data[i].labelRemark = {
-                                labelClass:'success',
-                                text:'可为父'
-                            }
-                            break;
-                        case 2:
-                            if ($scope.poi.indoor.type == 3) {
+                                break;
+                            case 1:
                                 data.data[i].ifParent = 2;
                                 data.data[i].labelRemark = {
-                                    labelClass: "warning",
-                                    text: "可为父"
-                                };
-                            } else {
-                                data.data[i].ifParent = 3;
-                                data.data[i].labelRemark = {
-                                    labelClass: "default",
-                                    text: "不可为父"
-                                };
-                            }
-                            break;
-                        default:
-                            break;
+                                    labelClass:'success',
+                                    text:'可为父'
+                                }
+                                break;
+                            case 2:
+                                if ($scope.poi.indoor.type == 3) {
+                                    data.data[i].ifParent = 2;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "warning",
+                                        text: "可为父"
+                                    };
+                                } else {
+                                    data.data[i].ifParent = 3;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "default",
+                                        text: "不可为父"
+                                    };
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
-            }
-            $scope.refFt = {
-                title:'框选区域内',
-                refList:data.data
-            };
-            console.log(data)
-            $scope.showRelatedPoiInfo = true;
+                $scope.refFt = {
+                    title:'框选区域内',
+                    refList:data.data
+                };
+                $scope.showRelatedPoiInfo = true;
+            });
         });
     });
 
     /*显示关联poi详细信息*/
     $scope.showPoiDetailInfo = function(poi,index){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             // $scope.$on('$includeContentLoaded', function($event) {
                 /*var poiDetail = {
                     poi:poi,
@@ -257,10 +260,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
                     poi:poi,
                     kindName:$scope.refFt.refList[index].kindInfo.kindName
                 };
-            console.log($scope.refFt.refList[index],$scope.refFt.refList[index].fid)
+                console.log($scope.refFt.refList[index],$scope.refFt.refList[index].fid)
                 $scope.$broadcast('highlightChildInMap',$scope.refFt.refList[index].fid);
             // });
-        });
     };
 
     /*关闭关联poi数据*/
