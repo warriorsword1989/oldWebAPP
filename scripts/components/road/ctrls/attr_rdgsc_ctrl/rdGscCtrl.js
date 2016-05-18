@@ -63,11 +63,11 @@ rdGscApp.controller("rdGscController",function($scope) {
     $scope.getLevels();
 
     $scope.tableName = [
-        {"id": "rd_link", "label": "RD_LINK"},
-        {"id": "lc_link ", "label": "LC_LINK "},
-        {"id": "rw_link", "label": "RW_LINK"},
-        {"id": "cmg_buildlink", "label": "CMG_BUILDLINK"},
-        {"id": "rd_gsc_link", "label": "RD_GSC_LINK"}
+        {"id": "RD_LINK", "label": "RD_LINK"},
+        {"id": "LC_LINK ", "label": "LC_LINK "},
+        {"id": "RW_LINK", "label": "RW_LINK"},
+        {"id": "CMG_BUILDLINK", "label": "CMG_BUILDLINK"},
+        {"id": "RD_GSC_LINK", "label": "RD_GSC_LINK"}
     ];
 
     $scope.save = function(){
