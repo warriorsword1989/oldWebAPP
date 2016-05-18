@@ -44,7 +44,9 @@ adLinkApp.controller("adLinkController",function($scope) {
         $scope.adLinkData = objCtrl.data;
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.adLinkForm.$setPristine();
+                if($scope.adLinkForm!=undefined) {
+                    $scope.adLinkForm.$setPristine();
+                }
             });
         }
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
