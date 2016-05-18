@@ -49,9 +49,19 @@ showBoxApp.controller("showBoxCtrl",['$scope','$timeout',function ($scope,$timeo
 	//控制旋转的样式
 	$scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
 
-	$scope.$on("loadImages", function (event,data){
-		initImages(data);
-	});
+	// $scope.$on("loadImages", function (event,data){
+	// 	console.info("loadImages+++++++++++++++++++++=",data);
+	// 	initImages(data);
+	// });
+	$scope.imgs = $scope.$parent.imagesArray;
+
+
+    $scope.$watch("imagesArray", function(o,obj,scope) {
+    	console.info('imagesArray:',scope)
+    	/*$scope.imgs = $scope.$parent.imagesArray;
+		$scope.deleteable = $scope.$parent.deleteable;
+		initImages()*/
+    });
 
 	var initImages = function (data){
 		$scope.imgs = data.imgArray;
