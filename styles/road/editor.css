@@ -583,6 +583,10 @@ div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
     width: 520px;
     height: 300px; 
 }
+#imgContainer1 {
+    width: 280px;
+    height: 300px;
+}
 #dataTipsOriginImg{
     width:100%;
 }
@@ -635,7 +639,18 @@ div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
     box-shadow: 4px 4px 8px 4px #333;
     border-radius: 4px;
 }
-
+#dataTipsVideoModal{
+    top: 150px;
+    left: 440px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 999999;
+    width: 370px;
+    height: 370px;
+    border: 1px solid #9d9d9d;
+    box-shadow: 4px 4px 8px 4px #333;
+    border-radius: 4px;
+}
 .tooltipclass {
     display: none;
     position: absolute;

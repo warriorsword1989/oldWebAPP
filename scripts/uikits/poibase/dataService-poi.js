@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $q) {
+angular.module("dataServicePoi",[]).service("dsPoi", ["$http", "$q", function($http, $q) {
     this.getPoiDetailByFid = function(fid) {
         var defer = $q.defer();
         var params = {
@@ -68,7 +68,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
     /*锁定检查结果*/
     this.lockSingleData = function(param){
         var defer = $q.defer();
-        /*$http({
+        $http({
             method: 'POST',
             url: App.Config.serviceUrl + '/editsupport/handler/locksingle',
             data: param,
@@ -84,10 +84,10 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
             }
         }).success(function(data){
             defer.resolve(data.data);
-        });*/
-        FM.dataApi.ajax.post($http,'/editsupport/handler/locksingle',param,function(data){
-            defer.resolve(data.data);
         });
+        /*FM.dataApi.ajax.post($http,'/editsupport/handler/locksingle',param,function(data){
+            defer.resolve(data.data);
+        });*/
         return defer.promise;
     };
     this.getOperSeason = function(projId){

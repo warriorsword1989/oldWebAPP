@@ -57,7 +57,7 @@ showBoxApp.controller("showBoxCtrl",['$scope','$timeout',function ($scope,$timeo
 
 
     $scope.$watch("imagesArray", function(o,obj,scope) {
-    	console.info('imagesArray:',scope)
+    	//console.info('imagesArray:',scope)
     	/*$scope.imgs = $scope.$parent.imagesArray;
 		$scope.deleteable = $scope.$parent.deleteable;
 		initImages()*/

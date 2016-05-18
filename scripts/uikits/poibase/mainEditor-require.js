@@ -10,7 +10,6 @@ requirejs.config({
         'application': 'uikits/Application',
         'appUtil': 'uikits/common/app-util',
         'mainEditorCtl': 'uikits/poibase/mainEditorCtl',
-        'dataService':'uikits/poibase/dataService',
         'poiService': 'uikits/poibase/dataService-poi',
         'metaService': 'uikits/poibase/dataService-meta',
         'select2':'libs/select2/js/select2',
@@ -42,7 +41,6 @@ requirejs.config({
     shim: {
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
-        'dataService': ['angular'],
         'poiService': ['angular'],
         'metaService': ['angular'],
         'fastmap': ['application'],
@@ -55,7 +53,7 @@ requirejs.config({
         'angularChosen':['angular'],
         'fileUpload':['angular'],
         'angularDrag':['angular','jquery'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil','dataService','poiService','metaService','select2','chosenJquery','angularChosen','fileUpload','angularDrag']
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil','poiService','metaService','select2','chosenJquery','angularChosen','fileUpload','angularDrag']
     }
 });
 // Start the main app logic.
