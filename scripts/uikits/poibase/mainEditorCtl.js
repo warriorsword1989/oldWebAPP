@@ -175,12 +175,68 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
 
     /*接收框选点信息*/
     $scope.$on('drawPois',function(event,data){
-        for(var i=0,len=data.length;i<len;i++){
-            data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
+        $scope.drawPois = data;
+        var _fid = $scope.poi.fid;
+        var fidList = poi.getParentFidList().then(function(list){
+            return list;
+        });
+        for(var i=0,len=data.data.length;i<len;i++){
+            data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
+            if(_fid && _fid == data.data[i].fid){
+                data.data[i].ifParent = 1;
+                data.data[i].labelRemark = {
+                    labelClass:'primary',
+                    text:'当前父'
+                }
+            }else{
+                switch (data.data[i].kindInfo.parentFlag){
+                    case 0:
+                        if(!data.data[i].ifParent){
+                            if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
+                                data.data[i].ifParent = 2;
+                                data.data[i].labelRemark = {
+                                    labelClass:"success",
+                                    text:"可为父"
+                                }
+                            }else{  //不可为父
+                                data.data[i].ifParent = 3;
+                                data.data[i].labelRemark = {
+                                    labelClass:'default',
+                                    text:'不可为父'
+                                }
+                            }
+                        }
+                        break;
+                    case 1:
+                        data.data[i].ifParent = 2;
+                        data.data[i].labelRemark = {
+                            labelClass:'success',
+                            text:'可为父'
+                        }
+                        break;
+                    case 2:
+                        if (indoor) {
+                            poiArray[i].ifParent = 2;
+                            poiArray[i].labelRemark = {
+                                labelClass: "warning",
+                                text: "可为父"
+                            };
+                        } else {
+                            poiArray[i].ifParent = 3;
+                            poiArray[i].labelRemark = {
+                                labelClass: "default",
+                                text: "不可为父"
+                            };
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
         $scope.refFt = {
             title:'框选区域内',
-            refList:data
+            refList:data.data
         };
         console.log(data)
         $scope.showRelatedPoiInfo = true;
@@ -201,6 +257,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
                     poi:poi,
                     kindName:$scope.refFt.refList[index].kindInfo.kindName
                 };
+                $scope.$broadcast('highlightChildInMap',$scope.refFt.refList[index][fid]);
             // });
         });
     };
@@ -208,6 +265,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
     /*关闭关联poi数据*/
     $scope.closeRelatedPoiInfo = function(){
         $scope.showRelatedPoiInfo = false;
+        $scope.$broadcast('closePopover',$scope.drawPois);
     };
 
     /*锁定检查结果数据*/
