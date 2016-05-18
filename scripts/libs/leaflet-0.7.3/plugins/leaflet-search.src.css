@@ -128,7 +128,7 @@
 	font-weight:bold;
 	border-radius:.25em;
 }
-.leaflet-container .leaflet-control-radio {
+.leaflet-container .leaflet-control-check {
 	position:relative;
 	float:left;
 	background:#fff;
@@ -142,50 +142,35 @@
 	margin-left: 10px;
 	margin-top: 10px;
 }
-.leaflet-control-radio.search-rad {/*expanded*/
+.leaflet-control-check.check-rad {/*expanded*/
 	box-shadow: 0 1px 7px #999;
 	background: #fff;
 }
-.leaflet-control-radio .radio-input {
+.leaflet-control-check .check-input {
 	display:block;
 	float:left;
 	background: #fff;
-	border:1px solid #666;
+	/*border:1px solid #666;*/
 	border-radius:2px;
 	height:18px;
-	padding:0 18px 0 2px;
+	padding:0 3px 0 2px;
 	margin:3px 0 3px 3px;
 }
-.leaflet-control-radio.radio-load .radio-input {
+.leaflet-control-check.check-load .check-input {
 	background: url('../images/loader.gif') no-repeat center right #fff;
 }
-.leaflet-control-radio.radio-load .radio-cancel {
-	visibility:hidden;
-}
-.leaflet-control-radio .radio-cancel {
-	display:block;
-	width:22px;
-	height:18px;
-	position:absolute;
-	right:22px;
-	margin:3px 0;
-	background: url('../images/search-icon.png') no-repeat 0 -46px;
-	text-decoration:none;
-	filter: alpha(opacity=80);
-	opacity: 0.8;
-}
-.leaflet-control-radio .radio-button {
+.leaflet-control-check .check-button {
 	display:block;
 	float:left;
 	width:26px;
 	height:26px;
-	background: url('../images/search-icon.png') no-repeat 2px 2px;
+	background: url('../images/add_drag_black.png')no-repeat center center;
 	border-radius:4px;
 }
-.leaflet-control-radio .radio-button:hover {
-	background: url('../images/search-icon.png') no-repeat 2px -22px;
+.leaflet-control-check .check-button:hover {
+	background: url('../images/add_drag.png')no-repeat center center;
 }
-.leaflet-control-radio .radio-button:hover {
+.leaflet-control-check .check-button:hover {
 	background-color: #fff;
 }
 

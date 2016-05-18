@@ -89,7 +89,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
 
     //创建视野范围内其他的poi点
     $scope.loadTaskPoiData = function (projectId,featcode) {
-        var mapBounds = FM.leafletUtil.getMapBounds(pMap);
+        var mapBounds = FM.leafletUtil.getMapBounds_1(pMap);
         var cond = {
             loc: {
                 "$geoWithin": {
@@ -176,7 +176,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                 layer.options.draggable = true;
             }
             else if (type === "rectangle" || type === 'polygon') {
-                FM.leafletUtil.getLayerById(pMap, "drawnItems").clearLayers();
+                FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                 var pointsArray = [];
                 var ppArray = [];
                 for (var i = 0; i < layer._latlngs.length; i++) {
@@ -206,8 +206,9 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                     if (data.errcode == 0) {
                         var ret = data.data.data;
                         if (ret.length == 0) {
-                            FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
+                            // FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         } else {
+                            // FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                             $scope.$emit("drawPois",ret);
                             $scope.showPoisInMap("parentPoiLayer", ret);
                         }
@@ -331,8 +332,11 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     };
 
     $scope.initCheckboxControl = function (data) {
-        var controlSearch = new L.Control.Checkbox({data: data, initial: false, position:'topleft'});
-        pMap.addControl(controlSearch);
+        var controlCheck = new L.Control.Checkbox({data: data, initial: false, position:'topright'});
+        controlCheck.__proto__.changeAutoDraw = function (val) {
+            FM.mapConf.autoDrag = val;
+        };
+        pMap.addControl(controlCheck);
     };
 
     $scope.loadZoomControl = function (map) {
@@ -406,6 +410,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     $scope.$on("highlightChildInMap",function (event, poiFid) {
         var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
         marker.openPopup();
+        pMap.panTo(marker._latlng);
     });
 
     //接收同位点信息并显示

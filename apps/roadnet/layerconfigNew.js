@@ -824,7 +824,8 @@ function transformData(data, url) {
                             text: conditionObj[condition] + limitSpeed,
                             row: 0,
                             column: 0,
-
+                            dx: 0,
+                            dy: 5,
                             location: obj['geometry']['coordinates'],
                             rotate: (item.m.c - 90) * (Math.PI / 180)
                         }
@@ -1637,17 +1638,20 @@ function transformDataForTips(data, param) {
                 break;
 
             case 1510://桥
+                featArr.pop();
                 for (var i = 0; i < 2; i++) {
+                    var obj = {};
+                    obj['geometry'] = {};
+                    obj['properties'] = {};
+                    obj['properties']['markerStyle'] = {};
+                    obj['properties']['markerStyle']["icon"] = [];
+                    obj['properties']['id'] = item.i;
+                    obj['geometry']['type'] = 'Point';
+                    obj['geometry']['coordinates'] = [];
+                    obj['properties']["featType"] = item.t;
+                    obj['properties']['status'] = item.m.a;
                     if (i == 0) {
                         obj['geometry']['coordinates'] = item.m.c;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1510/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     } else {
                         obj['geometry']['coordinates'] = item.m.d;
                     }
@@ -1659,15 +1663,14 @@ function transformDataForTips(data, param) {
                             location: obj['geometry']['coordinates']
                         })
                     );
+                    featArr.push(obj);
                 }
-                var bridgeObj = {};
+        /*        var bridgeObj = {};
                 bridgeObj['geometry'] = {};
                 bridgeObj['geometry']['coordinates'] = item.g;
                 bridgeObj['properties'] = {};
                 bridgeObj['properties']['style'] = {};
                 bridgeObj['properties']['id'] = item.i;
-                bridgeObj['properties']["featType"] = item.t;
-                bridgeObj['geometry']['type'] = "LineString";
                 bridgeObj['properties']["featType"] = item.t;
                 bridgeObj['geometry']['type'] = "LineString";
 
@@ -1676,34 +1679,38 @@ function transformDataForTips(data, param) {
                     'strokeWidth': 2,
                     'strokeOpacity': 0.8
                 };
-                featArr.push(bridgeObj);
+                featArr.push(bridgeObj);*/
                 break;
             case 1514://施工维修
+                featArr.pop();
                 for (var i = 0; i < 2; i++) {
+                    var obj = {};
+                    obj['geometry'] = {};
+                    obj['properties'] = {};
+                    obj['properties']['markerStyle'] = {};
+                    obj['properties']['markerStyle']["icon"] = [];
+                    obj['properties']['id'] = item.i;
+                    obj['geometry']['type'] = 'Point';
+                    obj['geometry']['coordinates'] = [];
+                    obj['properties']["featType"] = item.t;
+                    obj['properties']['status'] = item.m.a;
                     if (i == 0) {
                         obj['geometry']['coordinates'] = item.m.c;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1504/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     } else {
                         obj['geometry']['coordinates'] = item.m.d;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1504/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     }
+                    obj['properties']['markerStyle']["icon"].push(
+                        getIconStyle({
+                            iconName: '../../images/road/tips/1504/0.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates']
+                        })
+                    );
+                    featArr.push(obj);
                 }
 
-                var repairObj = {};
+               /* var repairObj = {};
                 repairObj['geometry'] = {};
                 repairObj['geometry']['coordinates'] = item.g;
                 repairObj['properties'] = {};
@@ -1719,7 +1726,7 @@ function transformDataForTips(data, param) {
                     'strokeWidth': 2,
                     'strokeOpacity': 0.8
                 };
-                featArr.push(repairObj);
+                featArr.push(repairObj);*/
                 break;
             case 1801://立交
 
