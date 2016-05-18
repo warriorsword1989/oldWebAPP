@@ -32,7 +32,7 @@ L.Control.Checkbox = L.Control.extend({
 		this._map = map;
 		this._container = L.DomUtil.create('div', 'leaflet-control-check');
 		this._content = this._createInput(this.options.text, 'check-input');
-		this._input = this._content.input;
+		this._check = this._content.input;
 		this._span = this._content.span;
 		this._button = this._createButton(this.options.text, 'check-button');
 
@@ -59,22 +59,17 @@ L.Control.Checkbox = L.Control.extend({
 
 	expand: function(toggle) {//展开
 		toggle = typeof toggle === 'boolean' ? toggle : true;
-		this._input.style.display = 'block';
+		this._check.style.display = 'block';
 		this._span.style.display = 'block';
 		L.DomUtil.addClass(this._container, 'check-rad');
-		// if ( toggle !== false ) {
-		// 	this._input.focus();
-		// 	this._map.on('dragstart click', this.collapse, this);
-		// }
 		this.fire('check_expanded');
 		return this;	
 	},
 
 	collapse: function() {//折叠
-		this._input.blur();
 		if(this.options.collapsed)
 		{
-			this._input.style.display = 'none';
+			this._check.style.display = 'none';
 			this._span.style.display = 'none';
 			L.DomUtil.removeClass(this._container, 'check-rad');
 			// if (this.options.hideMarkerOnCollapse) {
@@ -126,15 +121,15 @@ L.Control.Checkbox = L.Control.extend({
 
 	_handleAutoresize: function() {	//autoresize this._input
 	    //TODO refact _handleAutoresize now is not accurate
-	    if (this._input.style.maxWidth != this._map._container.offsetWidth) //If maxWidth isn't the same as when first set, reset to current Map width
-	        this._input.style.maxWidth = L.DomUtil.getStyle(this._map._container, 'width');
+	    if (this._check.style.maxWidth != this._map._container.offsetWidth) //If maxWidth isn't the same as when first set, reset to current Map width
+	        this._check.style.maxWidth = L.DomUtil.getStyle(this._map._container, 'width');
 
 		if(this.options.autoResize && (this._container.offsetWidth + 45 < this._map._container.offsetWidth))
-			this._input.size = this._input.value.length<this._inputMinSize ? this._inputMinSize : this._input.value.length;
+			this._check.size = this._check.value.length<this._inputMinSize ? this._inputMinSize : this._check.value.length;
 	},
 
 	_handleSubmit: function() {	//button and tooltip click and enter submit
-		if(this._input.style.display == 'none')	//on first click show _input only
+		if(this._check.style.display == 'none')	//on first click show _input only
 			this.expand();
 		else
 		{
@@ -142,7 +137,7 @@ L.Control.Checkbox = L.Control.extend({
 		}
 	},
 	_changeAutoDraw:function () {
-		var val = this._input.checked;
+		var val = this._check.checked;
 		this.changeAutoDraw(val);
 	},
 	changeAutoDraw:function (type,val,data) {

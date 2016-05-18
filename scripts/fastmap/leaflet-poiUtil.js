@@ -333,14 +333,18 @@ FM.leafletUtil = {
         var navLayer = this.getLayerById(pMap, "navBaseLayer");
         var wkt = new Wkt.Wkt();
         for (var i = 0; i < linkArray.length; i++) {
-            var lineLayer = L.polyline(this.splitPolyline(wkt, linkArray[i]));
-            lineLayer.id = linkArray[i].pid;
-            lineLayer.type = linkArray[i].kind;
-            lineStyle = this.getLineStyle(linkArray[i].kind);
-            lineLayer.setStyle(lineStyle);
-            lineLayer.attributes = linkArray[i];
-            lineLayer.attributes.type = "rdLink";
-            navLayer.addLayer(lineLayer);
+            if(this.getLayerById(pMap, linkArray[i].pid) !=undefined){
+                continue;
+            }else {
+                var lineLayer = L.polyline(this.splitPolyline(wkt, linkArray[i]));
+                lineLayer.id = linkArray[i].pid;
+                lineLayer.type = linkArray[i].kind;
+                lineStyle = this.getLineStyle(linkArray[i].kind);
+                lineLayer.setStyle(lineStyle);
+                lineLayer.attributes = linkArray[i];
+                lineLayer.attributes.type = "rdLink";
+                navLayer.addLayer(lineLayer);
+            }
         }
     },
     highlightFeatureInMap: function (feature) { //将点的icon改变并高亮显示
@@ -512,5 +516,6 @@ FM.mapConf = {
     pPoiJson:null,
     pLocation:null,
     pGuide:null,
-    autoDrag:true
+    autoDrag:true,
+    pRoadList:null
 };
