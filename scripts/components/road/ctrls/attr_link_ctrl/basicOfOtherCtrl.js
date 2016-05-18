@@ -74,7 +74,9 @@ otherApp.controller("otherController", function ($scope, $timeout, $ocLazyLoad) 
     $scope.initOtherData = function(){
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.basicOtherForm.$setPristine();
+                if($scope.basicOtherForm!=undefined) {
+                    $scope.basicOtherForm.$setPristine();
+                }
             });
 
         }

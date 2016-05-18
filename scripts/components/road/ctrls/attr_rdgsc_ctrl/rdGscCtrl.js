@@ -32,7 +32,9 @@ rdGscApp.controller("rdGscController",function($scope) {
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.rdGscForm.$setPristine();
+                if($scope.rdGscForm!=undefined) {
+                    $scope.rdGscForm.$setPristine();
+                }
             });
 
         }

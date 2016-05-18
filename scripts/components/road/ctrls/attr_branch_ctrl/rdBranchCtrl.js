@@ -23,7 +23,9 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.nameBranchForm.$setPristine();
+                if($scope.nameBranchForm!=undefined) {
+                    $scope.nameBranchForm.$setPristine();
+                }
             });
         }
 

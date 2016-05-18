@@ -5,11 +5,7 @@ var oridinaryInfoApp = angular.module("mapApp");
 oridinaryInfoApp.controller("oridinaryCarController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.realtimeData = objCtrl.data;
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            $scope.ordinaryCarForm.$setPristine();
-        });
-    }
+
     $scope.rticDroption =[
         {"id": 0,"label":"无"},
         {"id": 1,"label":"顺方向"},
@@ -27,6 +23,14 @@ oridinaryInfoApp.controller("oridinaryCarController",function($scope) {
         if($scope.realtimeData.rtics[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
             $scope.oridiData = $scope.realtimeData.rtics[i];
         }
+    }
+
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            if($scope.ordinaryCarForm!=undefined) {
+                $scope.ordinaryCarForm.$setPristine();
+            }
+        });
     }
 
 })

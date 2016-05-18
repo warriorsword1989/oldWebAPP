@@ -35,7 +35,9 @@ selectApp.controller("rdCrossController", function ($scope) {
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.rdCrossForm.$setPristine();
+                if($scope.rdCrossForm!=undefined) {
+                    $scope.rdCrossForm.$setPristine();
+                }
             });
         }
     };
