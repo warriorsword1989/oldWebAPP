@@ -42,11 +42,7 @@ namesOfCross.controller("namesController",function($scope) {
     $scope.names = objCtrl.data.names;
     $scope.realtimeData = objCtrl.data;
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            $scope.nameCrossForm.$setPristine();
-        });
-    }
+
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
@@ -54,6 +50,13 @@ namesOfCross.controller("namesController",function($scope) {
         }
     }
 
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            if($scope.nameCrossForm!=undefined) {
+                $scope.nameCrossForm.$setPristine();
+            }
+        });
+    }
     /*路口名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
         var param = {

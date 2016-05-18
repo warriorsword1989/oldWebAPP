@@ -122,12 +122,6 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
     ];
 
     $scope.initOtherData = function(){
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                $scope.basicFrom.$setPristine();
-            });
-
-        }
         $scope.linkData = objectEditCtrl.data;
         $scope.newFromOfWRoadDate = [];
         if($scope.linkData.forms.length>0){
@@ -140,6 +134,13 @@ basicApp.controller("basicController",function($scope,$ocLazyLoad) {
                     $scope.newFromOfWRoadDate.push($scope.fromOfWayOption[s]);
                 }
             }
+        }
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                if($scope.basicFrom!=undefined) {
+                    $scope.basicFrom.$setPristine();
+                }
+            });
         }
     }
     if(objectEditCtrl.data) {

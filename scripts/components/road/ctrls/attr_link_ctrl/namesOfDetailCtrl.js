@@ -29,17 +29,20 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
 
 
 
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                $scope.nameDetailForm.$setPristine();
-            });
 
-        }
 
     for(var i= 0,len=$scope.names.length;i<len;i++) {
         if($scope.names[i]["rowId"]===$scope.realtimeData["oridiRowId"]) {
             $scope.oridiData = $scope.names[i];
         }
+    }
+
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            if($scope.nameDetailForm!=undefined) {
+                $scope.nameDetailForm.$setPristine();
+            }
+        });
     }
     $scope.addRoadName=function(){
         var newName=fastmap.dataApi.linkname({"linkPid":objCtrl.data.pid})

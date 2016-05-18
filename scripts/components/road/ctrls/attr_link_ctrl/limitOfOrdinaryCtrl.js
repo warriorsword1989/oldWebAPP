@@ -8,7 +8,9 @@ oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$
 
     if($(".ng-dirty")) {
         $.each($('.ng-dirty'), function (i, v) {
-            $scope.ordinaryLimitFrom.$setPristine();
+            if($scope.ordinaryLimitFrom!=undefined) {
+                $scope.ordinaryLimitFrom.$setPristine();
+            }
         });
     }
     $scope.appInfoOptions = [
