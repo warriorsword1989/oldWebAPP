@@ -243,7 +243,7 @@ Application.functions.getLinksOfNode=function(param,func) {
  * 保存上下线分离
  */
 Application.functions.saveUpAndDown=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
+    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/run?parameter=' + param,
         function (data) {
             func(data)
         });
