@@ -171,7 +171,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
         data[0].location.longitude = data[0].guide.longitude;
         $scope.showRelatedPoiInfo = true;
         $scope.$broadcast('showChildrenPoisInMap',data);
-        $scope.$apply();
     });
 
     /*接收框选点信息*/
@@ -192,13 +191,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService','localytics.
     $scope.showPoiDetailInfo = function(poi,index){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            $scope.$on('$includeContentLoaded', function($event) {
-                var poiDetail = {
+            // $scope.$on('$includeContentLoaded', function($event) {
+                /*var poiDetail = {
                     poi:poi,
                     kindName:$scope.refFt.refList[index].kindInfo.kindName
                 };
-                $scope.$broadcast('poiInfoData',poiDetail);
-            });
+                $scope.$broadcast('poiInfoData',poiDetail);*/
+                $scope.poiDetail = {
+                    poi:poi,
+                    kindName:$scope.refFt.refList[index].kindInfo.kindName
+                };
+            // });
         });
     };
 
