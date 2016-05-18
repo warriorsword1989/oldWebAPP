@@ -54,7 +54,7 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
     //刷新表格方法;
     scope.refreshData = function(){
         console.log("刷新表格")
-        console.log(_self.tableParams.reload())
+        _self.tableParams.reload();
     }
 
     //构造排序参数;
@@ -111,7 +111,8 @@ angular.module('app').controller('commonCtrl', ['$scope', 'uibButtonConfig', 'Ng
                 scope.$emit("getPageData",hisparam);
                 scope.$on('getPageDataResult',function(event, data){
                     _self.tableParams.total(data.total);
-                    $defer.resolve(scope.filterData(data.rows,params.page(),params.count()));
+                    return [];
+//                    $defer.resolve(scope.filterData(data.rows,params.page(),params.count()));
                 });
             }});
         }

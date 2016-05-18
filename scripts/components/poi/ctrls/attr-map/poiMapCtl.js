@@ -1,4 +1,4 @@
-angular.module('app').controller('poiMapCtl', function ($http,$scope) {
+angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
     //初始化地图
     pMap = L.map('NaviMap_container', {
         attributionControl: false,
@@ -10,7 +10,6 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
 
     //加载地图的道路数据
     $scope.loadNavBaseData = function () {
-        FM.leafletUtil.clearMapLayer(pMap,"navBaseLayer");
         var mapBounds = FM.leafletUtil.getMapBounds(pMap);
         var cond = "POLYGON((" + mapBounds.join(",") + "))";
         FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data) {
@@ -51,7 +50,10 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
         if (data.length == 1) {
             FM.leafletUtil.highlightFeatureInMap(data[0]);
         } else if (data.length > 1) {
-            $scope.$emit("samePois", data);//将同位点数据抛给父页面，显示在popover中
+            $scope.$emit("samePois", {
+                data:data,
+                layerId:"mainPoiLayer"
+            });//将同位点数据抛给父页面，显示在popover中
         }
     };
 
@@ -89,7 +91,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
 
     //创建视野范围内其他的poi点
     $scope.loadTaskPoiData = function (projectId,featcode) {
-        var mapBounds = FM.leafletUtil.getMapBounds(pMap);
+        var mapBounds = FM.leafletUtil.getMapBounds_1(pMap);
         var cond = {
             loc: {
                 "$geoWithin": {
@@ -108,14 +110,14 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
             type: "snapshot",
             pagesize: 0
         };
-        FM.dataApi.ajax.get("editsupport/poi/query",param,function (data) {
-            if (data.errcode == 0) {
+        poi.getPoiInfo(param).then(function (data) {
+            if (data.data.length > 0) {
                 FM.leafletUtil.getLayerById(pMap,"mainPoiLayer").clearLayers();
-                $scope.showPoisInMap("mainPoiLayer",data.data.data);
+                $scope.showPoisInMap("mainPoiLayer",data.data);
             } else {
                 console.log("wrong request!")
             }
-        })
+        });
     };
 
     $scope.loadNavBarControl = function (map) {
@@ -176,7 +178,7 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                 layer.options.draggable = true;
             }
             else if (type === "rectangle" || type === 'polygon') {
-                FM.leafletUtil.getLayerById(pMap, "drawnItems").clearLayers();
+                FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                 var pointsArray = [];
                 var ppArray = [];
                 for (var i = 0; i < layer._latlngs.length; i++) {
@@ -202,17 +204,16 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                     type: "snapshot",
                     pagesize: 0
                 };
-                FM.dataApi.ajax.get("editsupport/poi/query",param,function (data) {
-                    if (data.errcode == 0) {
-                        var ret = data.data.data;
-                        if (ret.length == 0) {
-                            FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
-                        } else {
-                            $scope.$emit("drawPois",ret);
-                            $scope.showPoisInMap("parentPoiLayer", ret);
-                        }
+                poi.getPoiInfo(param).then(function (data) {
+                    if (data.data.length > 0) {
+                        var ret = data.data;
+                        $scope.$emit("drawPois",{
+                            data:ret,
+                            layerId:"parentPoiLayer"
+                        });
+                        $scope.showPoisInMap("parentPoiLayer", ret);
                     } else {
-                        ret = [];
+                        FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         console.log("wrong request!")
                     }
                 });
@@ -313,17 +314,16 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
                 type: "snapshot",
                 pagesize: 0
             };
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function (data) {
-                if (data.errcode == 0) {
-                    var ret = data.data.data;
-                    if (ret.length == 0) {
-                        console.log("no data!");
-                    } else {
-                        $scope.$emit("searchPois",ret);
-                        $scope.showPoisInMap("parentPoiLayer", ret);
-                    }
+            poi.getPoiInfo(param).then(function (data) {
+                if (data.data.length > 0) {
+                    var ret = data.data;
+                    $scope.$emit("searchPois",{
+                        data:ret,
+                        layerId:"parentPoiLayer"
+                    });
+                    $scope.showPoisInMap("parentPoiLayer", ret);
                 } else {
-                    console.log("wrong request!");
+                    console.log("wrong request!")
                 }
             });
         };
@@ -331,8 +331,11 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     };
 
     $scope.initCheckboxControl = function (data) {
-        var controlSearch = new L.Control.Checkbox({data: data, initial: false, position:'topleft'});
-        pMap.addControl(controlSearch);
+        var controlCheck = new L.Control.Checkbox({data: data, initial: false, position:'topleft'});
+        controlCheck.__proto__.changeAutoDraw = function (val) {
+            FM.mapConf.autoDrag = val;
+        };
+        pMap.addControl(controlCheck);
     };
 
     $scope.loadZoomControl = function (map) {
@@ -376,28 +379,16 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
         }
     });
 
-    //接收父信息并显示
-    $scope.$on("showParentPoiInMap",function (event, data) {
-        FM.leafletUtil.clearMapLayer(pMap,"parentPoiLayer");
-        if(data.lifecycle == 1){
-            FM.leafletUtil.createEneditablePoiInMap(data,"parentPoiLayer","blueIcon");
-        }else if(data.lifecycle == 2||data.lifecycle == 3) {
-            FM.leafletUtil.createEditablePoiInMap(data,"parentPoiLayer","blueIcon");
+    //接收点位信息并显示
+    $scope.$on("showPoisInMap",function (event, data) {
+        FM.leafletUtil.clearMapLayer(pMap,data.layerId);
+        if(data.layerId == "parentPoiLayer"){
+            for(var i = 0;i<data.data.length;i++){
+                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"blueIcon");
+            }
         }else {
-            console.log("wrong data !");
-        }
-    });
-
-    //接收子poi信息并显示
-    $scope.$on("showChildrenPoisInMap",function (event, datas) {
-        FM.leafletUtil.clearMapLayer(pMap,"childPoiLayer");
-        for(var i = 0;i<datas.length;i++){
-            if(datas[i].lifecycle == 1){
-                FM.leafletUtil.createEneditablePoiInMap(datas[i],"childPoiLayer","greenIcon");
-            }else if(datas[i].lifecycle == 2||datas[i].lifecycle == 3) {
-                FM.leafletUtil.createEditablePoiInMap(datas[i],"childPoiLayer","greenIcon");
-            }else {
-                console.log("wrong datas !");
+            for(var i = 0;i<data.data.length;i++){
+                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"greenIcon");
             }
         }
     });
@@ -406,12 +397,20 @@ angular.module('app').controller('poiMapCtl', function ($http,$scope) {
     $scope.$on("highlightChildInMap",function (event, poiFid) {
         var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
         marker.openPopup();
+        pMap.panTo(marker._latlng);
     });
 
-    //接收同位点信息并显示
-    $scope.$on("showSamePoiInMap",function (event, data) {
-        $scope.FM.leafletUtil(data);
+    //接收清除图层的命令
+    $scope.$on("closePopover",function (event, data) {
+        console.log(data);
+        if(data == "parentPoiLayer"){//可能有画的框选形状
+            var rect = FM.leafletUtil.getLayerById(pMap,"rectChooseLayer");
+            if(rect!=undefined){
+                FM.leafletUtil.clearMapLayer(pMap,"rectChooseLayer");
+            }
+            FM.leafletUtil.clearMapLayer(pMap,data);
+        }else {
+            FM.leafletUtil.clearMapLayer(pMap,data);
+        }
     });
-
-
-});
+}] );
