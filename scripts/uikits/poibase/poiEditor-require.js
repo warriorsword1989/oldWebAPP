@@ -14,7 +14,8 @@ requirejs.config({
         "angularChosen": "libs/angular-chosen/angular-chosen.min",
         'application': 'uikits/Application',
         'appUtil': 'uikits/common/app-util',
-        'poiService': 'uikits/poibase/dataService-angular',
+        'dataService': 'uikits/poibase/dataService',
+        'poiService': 'uikits/poibase/dataService-poi',
         'PoiEditorCtl': 'uikits/poibase/poiEditorCtl'
     },
     shim: {
@@ -24,7 +25,8 @@ requirejs.config({
         'chosenJquery': ['jquery'],
         'angularChosen': ['angular'],
         'appUtil': ['application'],
-        'poiService': ['angular'],
+        'dataService': ['angular'],
+        'poiService': ['dataService'],
         'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService']
     }
 });
