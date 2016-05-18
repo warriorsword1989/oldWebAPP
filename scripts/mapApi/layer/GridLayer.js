@@ -115,7 +115,7 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
     drawRect: function (context, grid, options) {
         context.globalAlpha = 0.3;
         context.linewidth = 1;  //边框宽
-        context.strokeStyle = 'red'//边框颜色
+        context.strokeStyle = '#000AFF'//边框颜色
         context.strokeRect(options.x, options.y, options.width, options.height);
     },
 
