@@ -152,6 +152,21 @@ FM.leafletUtil = {
             console.log("guide missing");
         }
     },
+    createNormalPoiInMap: function (data, layerId, iconStyle) {
+        var editPoi = this.createNormalPoiFeature(data, iconStyle);
+        editPoi.parentLayer = layerId;
+        this.getLayerById(pMap, layerId).addLayer(editPoi);
+        editPoi.openPopup();
+        pMap.setView([editPoi._latlng.lat, editPoi._latlng.lng], 16);
+        if (data.guide && layerId == "poiEditLayer") {
+            var guidePoint = this.createGuidePoint(data.fid, data.guide);
+            this.getLayerById(pMap, layerId).addLayer(guidePoint);
+            var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
+            this.getLayerById(pMap, layerId).addLayer(guideLine);
+        } else {
+            console.log("guide missing");
+        }
+    },
     createPoiFeature:function (poiJson, iconName) {    //创建显示坐标
         var point =new L.LatLng(poiJson.location.latitude,poiJson.location.longitude );
         var iconType = FM.iconStyles.redIcon;
@@ -167,6 +182,26 @@ FM.leafletUtil = {
                 icon:iconType
             }
         ).bindPopup('<span style="display:block;width:100px;text-align:center">' + poiJson.name + '</span>').openPopup().on("drag",this.repeatDraw).on("dragend",this.completeDraw);
+        poiFeature.id=poiJson.fid;
+        poiFeature.name="poi";
+        poiFeature.attributes = poiJson;
+        return poiFeature;
+    },
+    createNormalPoiFeature:function (poiJson, iconName) {    //创建没有事件的显示坐标
+        var point =new L.LatLng(poiJson.location.latitude,poiJson.location.longitude );
+        var iconType = FM.iconStyles.redIcon;
+        if(FM.iconStyles.hasOwnProperty(iconName)){
+            iconType = FM.iconStyles[iconName];
+        }
+        var poiFeature = L.marker(point,{
+                opacity: 0.8,
+                riseOnHover: true,
+                riseOffset:300,
+                rotate: false,
+                angle:20,
+                icon:iconType
+            }
+        ).bindPopup('<span style="display:block;width:100px;text-align:center">' + poiJson.name + '</span>').openPopup();
         poiFeature.id=poiJson.fid;
         poiFeature.name="poi";
         poiFeature.attributes = poiJson;
@@ -333,14 +368,18 @@ FM.leafletUtil = {
         var navLayer = this.getLayerById(pMap, "navBaseLayer");
         var wkt = new Wkt.Wkt();
         for (var i = 0; i < linkArray.length; i++) {
-            var lineLayer = L.polyline(this.splitPolyline(wkt, linkArray[i]));
-            lineLayer.id = linkArray[i].pid;
-            lineLayer.type = linkArray[i].kind;
-            lineStyle = this.getLineStyle(linkArray[i].kind);
-            lineLayer.setStyle(lineStyle);
-            lineLayer.attributes = linkArray[i];
-            lineLayer.attributes.type = "rdLink";
-            navLayer.addLayer(lineLayer);
+            if(this.getLayerById(pMap, linkArray[i].pid) !=undefined){
+                continue;
+            }else {
+                var lineLayer = L.polyline(this.splitPolyline(wkt, linkArray[i]));
+                lineLayer.id = linkArray[i].pid;
+                lineLayer.type = linkArray[i].kind;
+                lineStyle = this.getLineStyle(linkArray[i].kind);
+                lineLayer.setStyle(lineStyle);
+                lineLayer.attributes = linkArray[i];
+                lineLayer.attributes.type = "rdLink";
+                navLayer.addLayer(lineLayer);
+            }
         }
     },
     highlightFeatureInMap: function (feature) { //将点的icon改变并高亮显示
@@ -512,5 +551,6 @@ FM.mapConf = {
     pPoiJson:null,
     pLocation:null,
     pGuide:null,
-    autoDrag:true
+    autoDrag:true,
+    pRoadList:null
 };

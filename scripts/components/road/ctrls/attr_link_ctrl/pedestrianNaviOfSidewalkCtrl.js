@@ -6,12 +6,7 @@ sidewalkApp.controller("sidewalkController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.sidewalkData = objCtrl.data.sidewalks;
     $scope.linkData = objCtrl.data;
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            $scope.sideWalkForm.$setPristine();
-        });
 
-    }
     for(var i= 0,len=$scope.sidewalkData.length;i<len;i++) {
         if($scope.sidewalkData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
             $scope.oridiData = $scope.sidewalkData[i];
@@ -35,6 +30,15 @@ sidewalkApp.controller("sidewalkController",function($scope) {
         {"id": 7, "label":"右侧+左侧+中间"},
         {"id": 8, "label":"混合"}
     ];
+
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            if($scope.sideWalkForm!=undefined) {
+                $scope.sideWalkForm.$setPristine();
+            }
+        });
+
+    }
     $scope.minusSideWalk = function (id) {
         $scope.sidewalkData.splice(id, 1);
     };

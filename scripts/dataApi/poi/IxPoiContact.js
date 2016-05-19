@@ -4,27 +4,31 @@
 FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
 
     dataModelType: "IX_POI_CONTACT",
-
     /*
-     * 初始化
+     * UI-->DB
      */
-    // initialize: function(data, options) {
-    //     FM.setOptions(this, options);
-    //     this.geoLiveType = "IXPOICONTACT";
-    //     this.setAttributeData(data);
-    // },
+     getIntegrate: function (){
+        var ret = {};
+        ret['priority'] = this.priority;
+        ret['type'] = this.type;
+        ret['linkman'] = this.linkman;
+        ret['weChatUrl'] = this.weChatUrl;
+        ret['number'] = this.number;
+        return ret;
+     },
+    
     /*
-     * 设置参数赋值;
+     *  DB-->UI
      */
     setAttributes: function(data) {
         this.number = data["number"] || "";
-        this.type = data["type"] || 1;
+        this.type = data["type"];
         this.linkman = data["linkman"] || null;
-        this.priority = data["priority"] || 1;
+        this.priority = data["priority"];
         this.weChatUrl = data["weChatUrl"] || null;
-        this.numRre = "";
-        this.numSuf = "";
-        this.flag = false;
+        this.numRre = data["numRre"] || "";
+        this.numSuf = data["numSuf"] || "";
+        this.flag = data["numSuf"] || false;
         if (this.type == 1) {
             if (this.number) {
                 var temp = this.number.split("-");

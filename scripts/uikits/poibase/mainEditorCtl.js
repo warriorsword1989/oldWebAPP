@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataServicePoi','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -28,7 +28,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
     }));
 
     $q.all(promises).then(function() {
-        var imgs = initImages();
+        
         var poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
@@ -58,10 +58,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
         });
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
-            $scope.$on('$includeContentLoaded', function($event) {
-                //console.log("imageTpl.html-------------");
-                $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-            });
+            /*$scope.$on('$includeContentLoaded', function($event,url ) {
+                if(url == '../../scripts/components/poi/tpls/attr-base/imageTpl.html'){
+                    console.log("imageTpl.html-------------");
+                    $timeout(function (){
+                        $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
+                    },100);
+                }
+            });*/
+            var imgs = initImages();
+            $scope.imagesArray =  imgs;
+            $scope.deleteFlag = 1;   
         });
     });
 
@@ -160,37 +167,99 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
 
     /*获取关联poi数据——检查结果*/
     $scope.$on('getRefFtInMap',function(event,data){
-        for(var i=0,len=data.length;i<len;i++){
-            data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
-        }
-        $scope.refFt = {
-            title:'检查结果',
-            refList:data
-        };
-        data[0].location.latitude = data[0].guide.latitude;
-        data[0].location.longitude = data[0].guide.longitude;
-        $scope.showRelatedPoiInfo = true;
-        $scope.$broadcast('showChildrenPoisInMap',data);
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.layerName = 'checkResultLayer';
+            for(var i=0,len=data.length;i<len;i++){
+                data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
+            }
+            $scope.refFt = {
+                title:'检查结果',
+                refList:data
+            };
+            data[0].location.latitude = data[0].guide.latitude;
+            data[0].location.longitude = data[0].guide.longitude;
+            $scope.showRelatedPoiInfo = true;
+            $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
+        });
     });
 
     /*接收框选点信息*/
     $scope.$on('drawPois',function(event,data){
-        for(var i=0,len=data.length;i<len;i++){
-            data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
-        }
-        $scope.refFt = {
-            title:'框选区域内',
-            refList:data
-        };
-        console.log(data)
-        $scope.showRelatedPoiInfo = true;
-        $scope.$apply();
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.drawPois = data;
+            var _fid = $scope.poi.fid;
+            var fidList;
+            meta.getParentFidList().then(function(list){
+                fidList = list;
+                for(var i=0,len=data.data.length;i<len;i++){
+                    data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
+                    if(_fid && _fid == data.data[i].fid){
+                        data.data[i].ifParent = 1;
+                        data.data[i].labelRemark = {
+                            labelClass:'primary',
+                            text:'当前父'
+                        }
+                    }else{
+                        switch (data.data[i].kindInfo.parentFlag){
+                            case 0:
+                                if(!data.data[i].ifParent){
+                                    if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
+                                        data.data[i].ifParent = 2;
+                                        data.data[i].labelRemark = {
+                                            labelClass:"success",
+                                            text:"可为父"
+                                        }
+                                    }else{  //不可为父
+                                        data.data[i].ifParent = 3;
+                                        data.data[i].labelRemark = {
+                                            labelClass:'default',
+                                            text:'不可为父'
+                                        }
+                                    }
+                                }
+                                break;
+                            case 1:
+                                data.data[i].ifParent = 2;
+                                data.data[i].labelRemark = {
+                                    labelClass:'success',
+                                    text:'可为父'
+                                }
+                                break;
+                            case 2:
+                                if ($scope.poi.indoor.type == 3) {
+                                    data.data[i].ifParent = 2;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "warning",
+                                        text: "可为父"
+                                    };
+                                } else {
+                                    data.data[i].ifParent = 3;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "default",
+                                        text: "不可为父"
+                                    };
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                $scope.refFt = {
+                    title:'框选区域内',
+                    refList:data.data
+                };
+                $scope.showRelatedPoiInfo = true;
+                $scope.layerName = 'parentPoiLayer';
+                $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
+            });
+        });
     });
 
     /*显示关联poi详细信息*/
     $scope.showPoiDetailInfo = function(poi,index){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             // $scope.$on('$includeContentLoaded', function($event) {
                 /*var poiDetail = {
                     poi:poi,
@@ -201,13 +270,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
                     poi:poi,
                     kindName:$scope.refFt.refList[index].kindInfo.kindName
                 };
+                console.log($scope.refFt.refList[index],$scope.refFt.refList[index].fid)
+                $scope.$broadcast('highlightChildInMap',$scope.refFt.refList[index].fid);
             // });
-        });
     };
 
     /*关闭关联poi数据*/
     $scope.closeRelatedPoiInfo = function(){
         $scope.showRelatedPoiInfo = false;
+        $scope.$broadcast('closePopover',$scope.layerName);
     };
 
     /*锁定检查结果数据*/
@@ -221,6 +292,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
        refreshPoiData(data);
     });
 
+    /*改变poi父子关系*/
+    $scope.$on('changeRelateParent',function(event,data){
+        $scope.poi.relateParent = data;
+    });
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap',function(event,data){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
@@ -291,6 +366,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
             $scope.poi = data;
             $scope.snapshotPoi = data.getSnapShot();
             distinguishResult(data);
+            if(data.lifeCycle == 1){
+                $scope.pEditable = false;
+            }else{
+                $scope.pEditable = true;
+            }
             $scope.$broadcast('checkResultData', checkResultData);
             $scope.$broadcast('confusionInfoData', confusionInfoData);
         });
@@ -345,11 +425,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
             validationMethod: 1,
             data: $scope.poi
         };
-        console.info("save",$scope.poi);
+        console.info("poi",$scope.poi);
+        console.info("save",$scope.poi.getIntegrate());
         $scope.saveButClass = "disabled";
-        poi.savePoi(param,function(data){
-            $scope.saveButClass = "";
-        });
+        // poi.savePoi(param,function(data){
+        //     $scope.saveButClass = "";
+        // });
         
     };
 

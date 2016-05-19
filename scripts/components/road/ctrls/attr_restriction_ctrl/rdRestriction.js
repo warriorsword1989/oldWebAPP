@@ -89,7 +89,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.restricOrdinaryForm.$setPristine();
+                if($scope.restricOrdinaryForm!=undefined) {
+                    $scope.restricOrdinaryForm.$setPristine();
+                }
             });
         }
     };

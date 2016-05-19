@@ -11,6 +11,7 @@
     <link href="../../scripts/libs/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css"/>
     <link href="../../scripts/libs/leaflet-0.7.3/plugins/draw/leaflet.draw.css" rel="stylesheet" type="text/css" />
     <link href="../../scripts/libs/leaflet-0.7.3/plugins/leaflet-search.src.css" rel="stylesheet" type="text/css" />
+    <link href="../../scripts/libs/leaflet-0.7.3/plugins/leaflet-check.src.css" rel="stylesheet" type="text/css" />
     <link href="../../scripts/libs/angular-chosen/chosen-spinner.css" rel="stylesheet" type="text/css"/>
     <link href="../../scripts/libs/angular-chosen/chosen.css" rel="stylesheet" type="text/css"/>
     <link href="../../styles/poi/showBox.css" rel="stylesheet" type="text/css"/>
@@ -45,6 +46,7 @@
                                 <li ng-repeat="item in refFt.refList">
                                     <a href="javascript:;" class="has-popover" ng-click="showPoiDetailInfo(item,$index);" uib-popover-template="poiInfoTpl" popover-placement="left" popover-title="POI属性" ng-bind="item.name"></a>
                                     <span class="label label-info" ng-bind="item.kindInfo.kindName"></span>
+                                    <span class="label label-{{item.labelRemark.labelClass}}" ng-bind="item.labelRemark.text"></span>
                                 </li>
                             </ol>
                         </div>

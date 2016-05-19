@@ -37,26 +37,26 @@ fastmap.mapApi.symbol.MarkerLineSymbol = L.Class.extend({
             var img = new Image();
 
             img.userData = this;
+            img.geometry = this.geometry;
             //图片准备好之后再绘制
             img.onload = function () {
-                this.userData.markerSymbol.image = img;
-                this.userData.innerDraw(ctx);
+                this.userData.markerSymbol.image = this;
+                this.userData.innerDraw(ctx, this.geometry);
             };
             img.src = this.url;
         } else {
-            this.innerDraw(ctx);
+            this.innerDraw(ctx, this.geometry);
         }
-
     },
 
-    innerDraw: function (ctx) {
+    innerDraw: function (ctx, geometry) {
         //绘制前，先恢复到上次保存的状态，通常是初始状态，避免受到以前绘制设置的影响
         ctx.restore();
 
         //保存一下当前状态，方便绘制完成后恢复状态
         ctx.save();
 
-        this.template.lineString = this.geometry;
+        this.template.lineString = geometry;
         var segments = this.template.getSegments();
 
         ctx.beginPath();
