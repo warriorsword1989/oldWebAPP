@@ -200,16 +200,14 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     */
     $scope.addTelElem = function() {
         var contact = {
-            number: "",
             type: 1,
             linkman: null,
             priority: 1,
             weChatUrl: null,
             numRre: regionCode,
-            numSuf: "",
-            flag: true //true 带区号的电话，false手机号码
+            numSuf: ""
         }
-        $scope.poi.contacts.push(contact);
+        $scope.poi.contacts.push(new FM.dataApi.IxPoiContact(contact));
         resetBtnHeight();
     }
 
@@ -259,10 +257,8 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.checkTelNo = function(index) {
         var contact = $scope.poi.contacts[index]
         if (contact.numSuf && contact.numSuf.length == 11 && /^1/.test(contact.numSuf)) {
-            contact.number = contact.numSuf;
-            contact.flag = false; // 用于控制电话控件是否隐藏区号
+            contact.type = 2;//手机
         } else {
-            contact.number = regionCode + contact.numSuf;
             if (contact.numSuf) {
                 var p = contact.numSuf.split("-");
                 if (p.length > 1) {
@@ -272,7 +268,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     contact.numRre = regionCode;
                 }
             }
-            contact.flag = true
         }
     }
 
@@ -327,20 +322,21 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         }
     });
 
-    $scope.$on("loadup", function(event, data) {
-        //console.info("loadup----------");
-        $scope.poi = data.poi;
-        $scope.kindList = data.kindList;
-        pKindFormat = data.kindFormat;
-        pAllChain = data.allChain;
+    var initData = function (){
+        $scope.poi = $scope.$parent.poi;
+        $scope.kindList = $scope.$parent.metaData.kindList;
+        pKindFormat = $scope.$parent.metaData.kindFormat;
+        pAllChain = $scope.$parent.metaData.allChain;
         $scope.switchLifeCycle($scope.poi.lifecycle);
         $scope.switchRawFields($scope.poi.rawFields);
-        initBaseInfoIcon(data.poiIcon, $scope.poi.vipFlag);
+        initBaseInfoIcon($scope.$parent.poiIcon, $scope.poi.vipFlag);
         initOptionStyle($scope.poi);
         initKindBrandLevel($scope.poi);
         initRemark($scope.poi);
         resetBtnHeight();
-    });
+    }
+
+    initData();
 
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "baseInfo");

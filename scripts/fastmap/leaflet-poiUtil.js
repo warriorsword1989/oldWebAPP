@@ -134,7 +134,7 @@ FM.leafletUtil = {
             var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
             this.getLayerById(pMap,layerId).addLayer(guideLine);
         }else {
-            console.log("guide missing");
+            // console.log("guide missing");
         }
     },
     createEneditablePoiInMap: function (data, layerId, iconStyle) {
@@ -149,22 +149,22 @@ FM.leafletUtil = {
             var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
             this.getLayerById(pMap, layerId).addLayer(guideLine);
         } else {
-            console.log("guide missing");
+            // console.log("guide missing");
         }
     },
     createNormalPoiInMap: function (data, layerId, iconStyle) {
         var editPoi = this.createNormalPoiFeature(data, iconStyle);
         editPoi.parentLayer = layerId;
         this.getLayerById(pMap, layerId).addLayer(editPoi);
-        editPoi.openPopup();
-        pMap.setView([editPoi._latlng.lat, editPoi._latlng.lng], 16);
+        // editPoi.openPopup();
+        // pMap.setView([editPoi._latlng.lat, editPoi._latlng.lng], 16);
         if (data.guide && layerId == "poiEditLayer") {
             var guidePoint = this.createGuidePoint(data.fid, data.guide);
             this.getLayerById(pMap, layerId).addLayer(guidePoint);
             var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
             this.getLayerById(pMap, layerId).addLayer(guideLine);
         } else {
-            console.log("guide missing");
+            // console.log("guide missing");
         }
     },
     createPoiFeature:function (poiJson, iconName) {    //创建显示坐标

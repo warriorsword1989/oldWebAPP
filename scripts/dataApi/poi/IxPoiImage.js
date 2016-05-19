@@ -4,17 +4,19 @@
  FM.dataApi.IxPoiImage = FM.dataApi.DataModel.extend({
 
     dataModelType: "IX_POI_IMAGE",
-    
+
     /*
-     * 初始化
+     * UI-->DB
      */
-    // initialize: function(data, options) {
-    //     FM.setOptions(this, options);
-    //     this.geoLiveType = "IxPoiImage";
-    //     this.setAttributeData(data);
-    // },
+     getIntegrate: function (){
+        var ret = {};
+        ret['type'] = this.type;
+        ret['url'] = this.url; 
+        ret['tag'] = this.tag;  
+        return ret;
+     },
     /*
-     * 设置参数赋值;
+     *  DB-->UI
      */
     setAttributes: function(data) {
         this.type = data["type"];

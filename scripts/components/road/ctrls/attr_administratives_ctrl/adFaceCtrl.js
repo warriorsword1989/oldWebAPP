@@ -13,7 +13,9 @@ adFaceApp.controller("adFaceController",function($scope) {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.adFaceForm.$setPristine();
+                if($scope.adFaceForm!=undefined) {
+                    $scope.adFaceForm.$setPristine();
+                }
             });
         }
 

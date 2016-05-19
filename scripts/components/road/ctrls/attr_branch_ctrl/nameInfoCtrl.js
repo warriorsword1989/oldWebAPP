@@ -8,7 +8,9 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
      $scope.nameGroup = [];
     if($(".ng-dirty")) {
         $.each($('.ng-dirty'), function (i, v) {
-            $scope.branchNameForm.$setPristine();
+            if($scope.branchNameForm!=undefined) {
+                $scope.branchNameForm.$setPristine();
+            }
         });
     }
      /*根据nameGroupid排序*/
