@@ -148,10 +148,6 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
         navBar.addTo(map);
     };
 
-    $scope.loadRelatedLayer = function (layerId, dataArray, title) {
-        console.log("aaaaaaa");
-    };
-
     $scope.initDrawControl = function (map, data) {
         // Set the title to show on the polygon button
         L.drawLocal.draw.toolbar.buttons.marker = '打点';
