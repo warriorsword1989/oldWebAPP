@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataServiceMeta','dataServicePoi','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;

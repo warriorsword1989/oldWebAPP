@@ -1,4 +1,4 @@
-angular.module("dataServiceMeta",[]).service("dsMeta", ["$http", "$q", function($http, $q) {
+angular.module("dataService").service("dsMeta", ["$http", "$q", function($http, $q) {
     this.getKindList = function() {
         var deferred = $q.defer();
         var param = {
