@@ -169,6 +169,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     $scope.$on('getRefFtInMap',function(event,data){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.layerName = 'checkResultLayer';
             for(var i=0,len=data.length;i<len;i++){
                 data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
             }
@@ -251,6 +252,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                     refList:data.data
                 };
                 $scope.showRelatedPoiInfo = true;
+                $scope.layerName = 'parentPoiLayer';
+                $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
             });
         });
     });
@@ -275,7 +278,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     /*关闭关联poi数据*/
     $scope.closeRelatedPoiInfo = function(){
         $scope.showRelatedPoiInfo = false;
-        $scope.$broadcast('closePopover',$scope.drawPois);
+        $scope.$broadcast('closePopover',$scope.layerName);
     };
 
     /*锁定检查结果数据*/
