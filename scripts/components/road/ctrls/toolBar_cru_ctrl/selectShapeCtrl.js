@@ -305,10 +305,16 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     if (result.rowkey === "undefined") {
                         return;
                     }
+                    var options11 = {
+                        "loadType": 'attrTplContainer',
+                        "propertyCtrl": "components/road/ctrls/blank_ctrl/blankCtrl",
+                        "propertyHtml": "../../scripts/components/road/tpls/blank_tpl/blankTpl.html"
+                    }
+                    $scope.$emit("transitCtrlAndTpl", options11);
                     $scope.$emit("SWITCHCONTAINERSTATE",
                         {
                             "attrContainerTpl": false
-                        })
+                        });
                     eventController.fire(eventController.eventTypes.SELECTBYATTRIBUTE, {feather: result});
                     switch (result.s_sourceType) {
                         case "2001"://测线

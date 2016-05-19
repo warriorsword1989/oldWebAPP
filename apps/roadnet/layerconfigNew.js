@@ -1364,14 +1364,27 @@ function transformDataForTips(data, param) {
         switch (item.t) {
             case 1101://限速
                 obj['geometry']['coordinates'] = item.g;
-
+                obj['properties']['rotate'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
                         iconName: '../../images/road/tips/1101/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
                     })
+                );
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                            iconName: '../../images/road/1101/1101_1_1_s.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c - 90) * (Math.PI / 180),
+                            dx: ("0" == "1" ? -36 : 6),//解除限速时，要使箭头冲着自己
+                            dy: 0
+
+                        }
+                    )
                 );
                 if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
