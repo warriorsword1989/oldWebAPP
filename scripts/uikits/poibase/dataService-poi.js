@@ -69,26 +69,26 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     };
     /*忽略检查项*/
-    this.ignoreCheck = function (param) {
+    /*this.ignoreCheck = function (param) {
         var defer = $q.defer();
         FM.dataApi.ajax.get("check/poi/ignore/", param, function(data) {
             defer.resolve(data.data);
         });
         return defer.promise;
-    };
-    /*this.ignoreCheck = function(data) {
+    };*/
+    this.ignoreCheck = function(data,fid) {
         var defer = $q.defer();
         var param = {
-            fid: $scope.poi.fid,
+            fid: fid,
             project_id: 2016013086,
             ckException: {
                 errorCode: data.errorCode,
                 description: data.errorMsg
             }
         };
-        $http.get("fos:check/poi/ignore/", {
+        ajax.get("fos:check/poi/ignore/", {
             params: {
-                parameter: JSON.stringify(params)
+                parameter: JSON.stringify(param)
             }
         }).success(function(data) {
             if (data.errcode == 0) {
@@ -98,7 +98,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             }
         });
         return defer.promise;
-    };*/
+    };
     /*锁定检查结果*/
     this.lockSingleData = function(fid) {
         var defer = $q.defer();
@@ -108,7 +108,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             featcode: "poi",
             access_token:App.Config.accessToken
         };
-        $http.post("fos:editsupport/handler/locksingle", param).success(function(data) {
+        ajax.post("fos:editsupport/handler/locksingle", param).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {

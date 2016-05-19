@@ -209,7 +209,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 description: data.errorMsg
             }
         };
-        poi.ignoreCheck(param).then(function (data) {
+        poi.ignoreCheck(data,fid).then(function (data) {
             /*操作成功后刷新poi数据*/
             refreshPoiData('0010060815LML01353');
         })
