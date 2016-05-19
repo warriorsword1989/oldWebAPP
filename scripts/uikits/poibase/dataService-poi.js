@@ -69,13 +69,6 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     };
     /*忽略检查项*/
-    /*this.ignoreCheck = function (param) {
-        var defer = $q.defer();
-        FM.dataApi.ajax.get("check/poi/ignore/", param, function(data) {
-            defer.resolve(data.data);
-        });
-        return defer.promise;
-    };*/
     this.ignoreCheck = function(data,fid) {
         var defer = $q.defer();
         var param = {
@@ -86,10 +79,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
                 description: data.errorMsg
             }
         };
-        ajax.get("fos:check/poi/ignore/", {
-            params: {
-                parameter: JSON.stringify(param)
-            }
+        ajax.get("check/poi/ignore/", {
+            parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data.data[0]);
@@ -108,7 +99,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             featcode: "poi",
             access_token:App.Config.accessToken
         };
-        ajax.post("fos:editsupport/handler/locksingle", param).success(function(data) {
+        ajax.post("editsupport/handler/locksingle", param).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {

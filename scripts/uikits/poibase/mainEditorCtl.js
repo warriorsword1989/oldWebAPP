@@ -200,16 +200,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     }
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
-        console.log(data)
-        var param = {
-            fid: $scope.poi.fid,
-            project_id: 2016013086,
-            ckException: {
-                errorCode: data.errorCode,
-                description: data.errorMsg
-            }
-        };
-        poi.ignoreCheck(data,fid).then(function (data) {
+        poi.ignoreCheck(data,$scope.poi.fid).then(function (data) {
             /*操作成功后刷新poi数据*/
             refreshPoiData('0010060815LML01353');
         })
