@@ -4,15 +4,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     $scope.mapColumn = 12;
     $scope.meta = {};
 
-    var metaData = {}; //存放元数据
-    metaData.kindFormat = {} , metaData.kindList = [] ,metaData.allChain = {};
+    $scope.metaData = {}; //存放元数据
+    $scope.metaData.kindFormat = {} , $scope.metaData.kindList = [] ,$scope.metaData.allChain = {};
     var promises = [];
     promises.push(meta.getKindList().then(function(kindData) {
         //$scope.meta.kindList = [];
         initKindFormat(kindData);
     }));
     promises.push(meta.getAllBrandList().then(function(chainData) {
-        metaData.allChain = chainData;
+        $scope.metaData.allChain = chainData;
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
@@ -28,8 +28,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     }));
 
     $q.all(promises).then(function() {
-        
-        var poiMap = {
+
+        $scope.poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
             featcode: "poi",
@@ -37,10 +37,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-            $scope.$on('$includeContentLoaded', function($event) {
-                console.log("baseinfo");
+            //$scope.$on('$includeContentLoaded', function($event) {
+            //    console.log("baseinfo");
                 $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":metaData.kindList,'kindFormat':metaData.kindFormat,"allChain":metaData.allChain});
-            });
+            //});
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
@@ -51,8 +51,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
-                    console.log("map");
-                    $scope.$broadcast("loadup_poiMap", poiMap);
+                    
                 });
             });
         });
@@ -398,7 +397,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                 dispOnLink: kindData[i].dispOnLink,
                 mediumId: kindData[i].mediumId
             };
-            metaData.kindList.push({
+            $scope.metaData.kindList.push({
                 value: kindData[i].kindCode,
                 text: kindData[i].kindName,
                 mediumId: kindData[i].mediumId
