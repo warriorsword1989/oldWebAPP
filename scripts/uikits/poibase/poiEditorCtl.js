@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'poi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;

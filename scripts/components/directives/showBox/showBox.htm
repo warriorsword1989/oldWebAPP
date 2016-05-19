@@ -1,0 +1,19 @@
+<div class='showbox'>
+    <div class='image'>
+        <a href='javascript:void(0);' class='image-trigger' ng-click="clickMe()" ng-show="selectedImg">
+        <img ng-src="{{selectedImg.url}}">
+        <div class='img-tag' ng-bind="selectedImg.tagName"></div>
+        </a>
+        <a href='javascript:void(0);' class='delete-btn' title='删除图片' ng-show="deletable && selectedImg" ng-click="deleteMe()"></a>
+    </div>
+    <div class='toolbar' ng-transclude ng-show="hasToolbar"></div>
+    <div class='thumbs'>
+        <div class='prev' ng-click="prev()"></div>
+        <div class='thumbs-list'>
+            <ul ng-style="pageStyle">
+                <li ng-repeat="img in dataList" ng-click="selectMe($index)" ng-class="{'selected': selectedIndex == $index}"><img ng-src="{{img.url}}"></li>
+            </ul>
+        </div>
+        <div class='next' ng-click="next()"></div>
+    </div>
+</div>
