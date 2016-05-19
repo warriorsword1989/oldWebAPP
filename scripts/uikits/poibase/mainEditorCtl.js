@@ -33,13 +33,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             data: $scope.snapshotPoi,
             projectId: 2016013086,
             featcode: "poi",
-            kindFormat: metaData.kindFormat
+            kindFormat: $scope.metaData.kindFormat
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             //$scope.$on('$includeContentLoaded', function($event) {
             //    console.log("baseinfo");
-                $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":metaData.kindList,'kindFormat':metaData.kindFormat,"allChain":metaData.allChain});
+                $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":$scope.metaData.kindList,'kindFormat':$scope.metaData.kindFormat,"allChain":$scope.metaData.allChain});
             //});
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
