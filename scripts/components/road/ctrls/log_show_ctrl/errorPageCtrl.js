@@ -13,7 +13,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             "projectId": Application.projectid,
             "pageNum": $scope.itemsByPage,
             "pageSize": 5,
-            "meshes": $scope.meshesId
+            "grids": $scope.meshesId
         };
         Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
@@ -35,7 +35,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     $scope.getCheckDateAndCount = function () {
         var paramsOfCounts = {
             "projectId": Application.projectid,
-            "meshes": $scope.meshesId
+            "grids": $scope.meshesId
         };
         Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
             if (data.errcode == 0) {

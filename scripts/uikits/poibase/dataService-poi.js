@@ -126,5 +126,12 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
     	});
     	return defer.promise;
     };
+    this.getRoadList = function(cond){
+        var defer = $q.defer();
+        FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data){
+            defer.resolve(data);
+        });
+        return defer.promise;
+    };
 
 }]);
