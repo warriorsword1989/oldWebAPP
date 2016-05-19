@@ -6,7 +6,7 @@ var tipsPictureApp = angular.module("mapApp");
 tipsPictureApp.controller("tipsPictureController", function ($scope, $timeout, $ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.eventController = fastmap.uikit.EventController();
-    $("#dataTipsOriginModal").show()
+    $("#dataTipsOriginModal").show();
     $scope.picData = null;
     $scope.getPicNum=function() {
         var num = 0;

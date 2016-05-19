@@ -39,7 +39,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
         map.currentTool.disable();//禁止当前的参考线图层的事件捕获
     }
 
-    shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION);
+    shapeCtrl.setEditingType("addRestriction");
     tooltipsCtrl.setEditEventType(fastmap.dataApi.GeoLiveModelType.RDRESTRICTION);
     tooltipsCtrl.setCurrentTooltip('正要新建交限,先选择线！');
     map.currentTool = new fastmap.uikit.SelectForRestriction({

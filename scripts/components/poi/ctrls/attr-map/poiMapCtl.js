@@ -50,8 +50,12 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
         if (data.length == 1) {
             FM.leafletUtil.highlightFeatureInMap(data[0]);
         } else if (data.length > 1) {
+            var sameData = [];
+            for(var i = 0;i<data.length;i++){
+                sameData.push(data[i].attributes);
+            }
             $scope.$emit("samePois", {
-                data:data,
+                data:sameData,
                 layerId:"mainPoiLayer"
             });//将同位点数据抛给父页面，显示在popover中
         }
@@ -372,7 +376,8 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     };
 
     //接收基础的poi信息并显示
-    $scope.$on("loadup_poiMap", function (event, data) {
+    $scope.loadPoiInMap = function () {
+        var data = $scope.poiMap;
         if (!(FM.mapConf.pPoiJson && FM.mapConf.pPoiJson == data.data)) {//防止重复加载
             FM.mapConf.pPoiJson = data.data;
             FM.leafletUtil.clearMapLayer(pMap, "poiEditLayer");
@@ -385,8 +390,8 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
             }
             $scope.loadTaskPoiData(data.projectId, data.featcode);
         }
-    });
-
+    };
+    $scope.loadPoiInMap();
     //接收点位信息并显示
     $scope.$on("showPoisInMap",function (event, data) {
         FM.leafletUtil.clearMapLayer(pMap,data.layerId);
@@ -405,20 +410,23 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     $scope.$on("highlightChildInMap",function (event, poiFid) {
         var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
         marker.openPopup();
+        marker.setIcon(FM.iconStyles.blueIcon);
         pMap.panTo(marker._latlng);
     });
 
     //接收清除图层的命令
-    $scope.$on("closePopover",function (event, layerId) {
+    $scope.$on("closePopover", function (event, layerId) {
         console.log(layerId);
-        if(layerId == "parentPoiLayer"){//可能有画的框选形状
-            var rect = FM.leafletUtil.getLayerById(pMap,"rectChooseLayer");
-            if(rect!=undefined){
-                FM.leafletUtil.clearMapLayer(pMap,"rectChooseLayer");
+        if (layerId != "mainPoiLayer") {//同位点的popover关闭后不清除图层
+            if (layerId == "parentPoiLayer") {//可能有画的框选形状
+                var rect = FM.leafletUtil.getLayerById(pMap, "rectChooseLayer");
+                if (rect != undefined) {
+                    FM.leafletUtil.clearMapLayer(pMap, "rectChooseLayer");
+                }
+                FM.leafletUtil.clearMapLayer(pMap, layerId);
+            } else {
+                FM.leafletUtil.clearMapLayer(pMap, layerId);
             }
-            FM.leafletUtil.clearMapLayer(pMap,layerId);
-        }else {
-            FM.leafletUtil.clearMapLayer(pMap,layerId);
         }
     });
 }] );
