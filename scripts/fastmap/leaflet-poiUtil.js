@@ -134,7 +134,7 @@ FM.leafletUtil = {
             var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
             this.getLayerById(pMap,layerId).addLayer(guideLine);
         }else {
-            console.log("guide missing");
+            // console.log("guide missing");
         }
     },
     createEneditablePoiInMap: function (data, layerId, iconStyle) {
@@ -149,7 +149,7 @@ FM.leafletUtil = {
             var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
             this.getLayerById(pMap, layerId).addLayer(guideLine);
         } else {
-            console.log("guide missing");
+            // console.log("guide missing");
         }
     },
     createNormalPoiInMap: function (data, layerId, iconStyle) {
@@ -164,7 +164,7 @@ FM.leafletUtil = {
             var guideLine = this.createGuideLine(data.fid, data.location, data.guide);
             this.getLayerById(pMap, layerId).addLayer(guideLine);
         } else {
-            console.log("guide missing");
+            // console.log("guide missing");
         }
     },
     createPoiFeature:function (poiJson, iconName) {    //创建显示坐标

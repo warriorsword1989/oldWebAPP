@@ -81,9 +81,18 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     };
 
     //将点显示在地图上
-    $scope.showPoisInMap = function (layerId, poiArray) {
+    $scope.showSamePoisInMap = function (layerId, poiArray) {
         for (var i = 0; i < poiArray.length; i++) {
-            var poiLayer = $scope.createSamePointFeature(poiArray[i],"dotIcon");
+            var poiLayer = FM.leafletUtil.createSamePointFeature(poiArray[i],"dotIcon");
+            poiLayer.parentLayer = layerId;
+            FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
+        }
+    };
+
+    //将点显示在地图上
+    $scope.showNormalPoisInMap = function (layerId, poiArray) {
+        for (var i = 0; i < poiArray.length; i++) {
+            var poiLayer = FM.leafletUtil.createNormalPoiFeature(poiArray[i],"dotIcon");
             poiLayer.parentLayer = layerId;
             FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
         }
@@ -113,7 +122,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
         poi.getPoiInfo(param).then(function (data) {
             if (data.data.length > 0) {
                 FM.leafletUtil.getLayerById(pMap,"mainPoiLayer").clearLayers();
-                $scope.showPoisInMap("mainPoiLayer",data.data);
+                $scope.showSamePoisInMap("mainPoiLayer",data.data);
             } else {
                 console.log("wrong request!")
             }
@@ -211,7 +220,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
                             data:ret,
                             layerId:"parentPoiLayer"
                         });
-                        $scope.showPoisInMap("parentPoiLayer", ret);
+                        $scope.showNormalPoisInMap("parentPoiLayer", ret);
                     } else {
                         FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         console.log("wrong request!")
@@ -321,7 +330,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
                         data:ret,
                         layerId:"parentPoiLayer"
                     });
-                    $scope.showPoisInMap("parentPoiLayer", ret);
+                    $scope.showNormalPoisInMap("parentPoiLayer", ret);
                 } else {
                     console.log("wrong request!")
                 }

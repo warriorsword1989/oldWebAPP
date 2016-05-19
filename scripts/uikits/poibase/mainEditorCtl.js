@@ -251,7 +251,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                 };
                 $scope.showRelatedPoiInfo = true;
                 $scope.layerName = 'parentPoiLayer';
-                $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
+                // $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
             });
         });
     });
