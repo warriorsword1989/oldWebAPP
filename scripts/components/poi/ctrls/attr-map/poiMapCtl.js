@@ -1,4 +1,4 @@
-angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
+angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
     //初始化地图
     pMap = L.map('NaviMap_container', {
         attributionControl: false,
@@ -12,7 +12,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     $scope.loadNavBaseData = function () {
         var mapBounds = FM.leafletUtil.getMapBounds(pMap);
         var cond = "POLYGON((" + mapBounds.join(",") + "))";
-        FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data) {
+        poi.getRoadList(cond).then(function (data) {
             FM.leafletUtil.showLinkInMap("navBaseLayer", data, "rdLink");
         });
     };
@@ -81,9 +81,18 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     };
 
     //将点显示在地图上
-    $scope.showPoisInMap = function (layerId, poiArray) {
+    $scope.showSamePoisInMap = function (layerId, poiArray) {
         for (var i = 0; i < poiArray.length; i++) {
             var poiLayer = $scope.createSamePointFeature(poiArray[i],"dotIcon");
+            poiLayer.parentLayer = layerId;
+            FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
+        }
+    };
+
+    //将点显示在地图上
+    $scope.showNormalPoisInMap = function (layerId, poiArray) {
+        for (var i = 0; i < poiArray.length; i++) {
+            var poiLayer = FM.leafletUtil.createNormalPoiFeature(poiArray[i],"dotIcon");
             poiLayer.parentLayer = layerId;
             FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
         }
@@ -113,7 +122,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
         poi.getPoiInfo(param).then(function (data) {
             if (data.data.length > 0) {
                 FM.leafletUtil.getLayerById(pMap,"mainPoiLayer").clearLayers();
-                $scope.showPoisInMap("mainPoiLayer",data.data);
+                $scope.showSamePoisInMap("mainPoiLayer",data.data);
             } else {
                 console.log("wrong request!")
             }
@@ -211,7 +220,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
                             data:ret,
                             layerId:"parentPoiLayer"
                         });
-                        $scope.showPoisInMap("parentPoiLayer", ret);
+                        $scope.showNormalPoisInMap("parentPoiLayer", ret);
                     } else {
                         FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         console.log("wrong request!")
@@ -321,7 +330,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
                         data:ret,
                         layerId:"parentPoiLayer"
                     });
-                    $scope.showPoisInMap("parentPoiLayer", ret);
+                    $scope.showNormalPoisInMap("parentPoiLayer", ret);
                 } else {
                     console.log("wrong request!")
                 }
@@ -375,7 +384,6 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
                 console.log(data);
             }
             $scope.loadTaskPoiData(data.projectId, data.featcode);
-            FM.mapConf.singeton = 1;
         }
     });
 
@@ -401,16 +409,16 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     });
 
     //接收清除图层的命令
-    $scope.$on("closePopover",function (event, data) {
-        console.log(data);
-        if(data == "parentPoiLayer"){//可能有画的框选形状
+    $scope.$on("closePopover",function (event, layerId) {
+        console.log(layerId);
+        if(layerId == "parentPoiLayer"){//可能有画的框选形状
             var rect = FM.leafletUtil.getLayerById(pMap,"rectChooseLayer");
             if(rect!=undefined){
                 FM.leafletUtil.clearMapLayer(pMap,"rectChooseLayer");
             }
-            FM.leafletUtil.clearMapLayer(pMap,data);
+            FM.leafletUtil.clearMapLayer(pMap,layerId);
         }else {
-            FM.leafletUtil.clearMapLayer(pMap,data);
+            FM.leafletUtil.clearMapLayer(pMap,layerId);
         }
     });
 }] );
