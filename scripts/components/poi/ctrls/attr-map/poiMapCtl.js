@@ -12,7 +12,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     $scope.loadNavBaseData = function () {
         var mapBounds = FM.leafletUtil.getMapBounds(pMap);
         var cond = "POLYGON((" + mapBounds.join(",") + "))";
-        FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data) {
+        poi.getRoadList(cond).then(function (data) {
             FM.leafletUtil.showLinkInMap("navBaseLayer", data, "rdLink");
         });
     };
@@ -375,7 +375,6 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
                 console.log(data);
             }
             $scope.loadTaskPoiData(data.projectId, data.featcode);
-            FM.mapConf.singeton = 1;
         }
     });
 
@@ -401,16 +400,16 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     });
 
     //接收清除图层的命令
-    $scope.$on("closePopover",function (event, data) {
-        console.log(data);
-        if(data == "parentPoiLayer"){//可能有画的框选形状
+    $scope.$on("closePopover",function (event, layerId) {
+        console.log(layerId);
+        if(layerId == "parentPoiLayer"){//可能有画的框选形状
             var rect = FM.leafletUtil.getLayerById(pMap,"rectChooseLayer");
             if(rect!=undefined){
                 FM.leafletUtil.clearMapLayer(pMap,"rectChooseLayer");
             }
-            FM.leafletUtil.clearMapLayer(pMap,data);
+            FM.leafletUtil.clearMapLayer(pMap,layerId);
         }else {
-            FM.leafletUtil.clearMapLayer(pMap,data);
+            FM.leafletUtil.clearMapLayer(pMap,layerId);
         }
     });
 }] );

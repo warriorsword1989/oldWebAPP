@@ -156,8 +156,8 @@ FM.leafletUtil = {
         var editPoi = this.createNormalPoiFeature(data, iconStyle);
         editPoi.parentLayer = layerId;
         this.getLayerById(pMap, layerId).addLayer(editPoi);
-        editPoi.openPopup();
-        pMap.setView([editPoi._latlng.lat, editPoi._latlng.lng], 16);
+        // editPoi.openPopup();
+        // pMap.setView([editPoi._latlng.lat, editPoi._latlng.lng], 16);
         if (data.guide && layerId == "poiEditLayer") {
             var guidePoint = this.createGuidePoint(data.fid, data.guide);
             this.getLayerById(pMap, layerId).addLayer(guidePoint);
