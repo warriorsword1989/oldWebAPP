@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataServicePoi','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
@@ -28,7 +28,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
     }));
 
     $q.all(promises).then(function() {
-        var imgs = initImages();
+        
         var poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
@@ -58,10 +58,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
         });
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
-            $scope.$on('$includeContentLoaded', function($event) {
-                //console.log("imageTpl.html-------------");
-                $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-            });
+            /*$scope.$on('$includeContentLoaded', function($event,url ) {
+                if(url == '../../scripts/components/poi/tpls/attr-base/imageTpl.html'){
+                    console.log("imageTpl.html-------------");
+                    $timeout(function (){
+                        $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
+                    },100);
+                }
+            });*/
+            var imgs = initImages();
+            $scope.imagesArray =  imgs;
+            $scope.deleteFlag = 1;   
         });
     });
 
@@ -418,11 +425,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataServiceMeta','dataSer
             validationMethod: 1,
             data: $scope.poi
         };
-        console.info("save",$scope.poi);
+        console.info("poi",$scope.poi);
+        console.info("save",$scope.poi.getIntegrate());
         $scope.saveButClass = "disabled";
-        poi.savePoi(param,function(data){
-            $scope.saveButClass = "";
-        });
+        // poi.savePoi(param,function(data){
+        //     $scope.saveButClass = "";
+        // });
         
     };
 

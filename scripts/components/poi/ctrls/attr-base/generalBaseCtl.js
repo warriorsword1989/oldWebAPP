@@ -209,7 +209,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             numSuf: "",
             flag: true //true 带区号的电话，false手机号码
         }
-        $scope.poi.contacts.push(contact);
+        $scope.poi.contacts.push(new FM.dataApi.IxPoiContact(contact));
         resetBtnHeight();
     }
 
@@ -262,7 +262,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             contact.number = contact.numSuf;
             contact.flag = false; // 用于控制电话控件是否隐藏区号
         } else {
-            contact.number = regionCode + contact.numSuf;
             if (contact.numSuf) {
                 var p = contact.numSuf.split("-");
                 if (p.length > 1) {
@@ -271,6 +270,10 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                 } else {
                     contact.numRre = regionCode;
                 }
+                contact.number = contact.numRre + "-" + contact.numSuf;
+            }else {
+                $scope.poi.contacts.splice(index,1);
+                resetBtnHeight();
             }
             contact.flag = true
         }

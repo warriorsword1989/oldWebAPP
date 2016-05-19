@@ -7,7 +7,106 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.setAttributes(data);
     },
     /*
-     * 返回参数赋值
+     * UI-->DB
+     */
+     getIntegrate: function (){
+        var ret = {};
+        ret['relateParent'] = this.relateParent;
+        ret['attachments'] = [];
+        if (this.attachments){
+            for (var i = 0 ,len = this.attachments.length ;i < len ; i++){
+                ret['attachments'].push(this.attachments[i].getIntegrate());
+            }
+        }
+        ret["contacts"] = [];
+        if (this.contacts){
+            for (var i = 0 ,len = this.contacts.length ;i < len ; i++){
+                ret['contacts'].push(this.contacts[i].getIntegrate());
+            }
+        }
+        ret["indoor"] = this.indoor;
+        ret['pid'] = this.pid;
+        ret['checkResults'] = [];
+        if (this.checkResults){
+            for (var i = 0 ,len = this.checkResults.length ;i < len ; i++){
+                //ret['checkResults'].push(this.checkResults[i].getIntegrate());
+            }
+        }
+        ret['phaseHistory'] = this.phaseHistory;
+        ret['synchronizeDate'] = this.synchronizeDate;
+        ret['regionInfo'] = this.regionInfo;
+        ret['businessTime'] = this.businessTime;
+        ret['sportsVenues'] = this.sportsVenues;
+        ret['projectHistory'] = this.projectHistory;
+        ret['freshnessVerification'] = this.freshnessVerification;
+        ret['ckException'] = this.ckException;
+        ret['operateDate'] = this.operateDate;
+        ret['srcInformation'] = this.srcInformation;
+        ret['batchModifyStatus'] = this.batchModifyStatus;
+        ret['hospital'] = this.hospital;
+        ret['verifyFlags'] = this.verifyFlags;
+        ret['chargingPole'] = [];
+        if (this.chargingPole){
+            for (var i = 0 ,len = this.chargingPole.length ;i < len ; i++){
+                //ret['chargingPole'].push(this.chargingPole[i].getIntegrate());
+            }
+        }
+        ret['kindCode'] = this.kindCode;
+        ret['chargingStation'] = [];
+        if (this.chargingStation){
+            for (var i = 0 ,len = this.chargingStation.length ;i < len ; i++){
+                //ret['chargingStation'].push(this.chargingStation[i].getIntegrate());
+            }
+        }
+        ret['attraction'] = this.attraction;
+        ret['handler'] = this.handler;
+        ret['location'] = this.location;
+        ret['fid'] = this.fid;
+        ret['editHistory'] = [];
+        if (this.editHistory){
+            for (var i = 0 ,len = this.editHistory.length ;i < len ; i++){
+                //ret['editHistory'].push(this.editHistory[i].getIntegrate());
+            }
+        }
+        ret['fieldVerification'] = this.fieldVerification;
+        ret['sourceFlags'] = this.sourceFlags;
+        ret['website'] = this.website;
+        ret['open24H'] = this.open24H;
+        ret['evaluateComment'] = this.evaluateComment;
+        ret['latestBatchDate'] = this.latestBatchDate;
+        ret['importance'] = this.importance;
+        ret['parkings'] = this.parkings;
+        ret['evaluatePlanning'] = this.evaluatePlanning;
+        ret['airportCode'] = this.airportCode;
+        ret['hwEntryExit'] = this.hwEntryExit;
+        ret['brands'] = this.brands;
+        ret['foodtypes'] = this.foodtypes; //需要修改成模型，暂时没有模型先这么写
+        ret['evaluateQuality'] = this.evaluateQuality;
+        ret['rawFields'] = this.rawFields;
+        ret['rental'] = this.rental;
+        ret['lifecycle'] = this.lifecycle;
+        ret['submitStatus'] = this.submitStatus;
+        ret['gasStation'] = this.gasStation;
+        ret['name'] = this.name;
+        ret['meshid'] = this.meshid;
+        ret['evaluateIntegrity'] = this.evaluateIntegrity;
+        ret['adminReal'] = this.adminReal;
+        ret['hotel'] = this.hotel;
+        ret['level'] = this.level;
+        ret['relateChildren'] = this.relateChildren;
+        ret['rowkey'] = this.rowkey;
+        ret['vipFlag'] = this.vipFlag;
+        ret['postCode'] = this.postCode;
+        ret['adminCode'] = this.adminCode;
+        ret['latestMergeDate'] = this.latestMergeDate;
+        ret['address'] = this.address;
+        ret['checkResultNum'] = this.checkResultNum;
+        ret['guide'] = this.guide;
+        ret['auditStatus'] = this.auditStatus;
+        return ret;
+     },
+    /*
+     * DB-->UI
      */
     setAttributes: function(data) {
         this.relateParent = data["relateParent"] || null;
