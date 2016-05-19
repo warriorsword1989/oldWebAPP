@@ -67,6 +67,14 @@
         background-color: #307BA3;
     }
 
+    #oridinarySpeedDiv ul > li > div > label>input[type="radio"]:checked.ng-dirty {
+        -webkit-appearance: none;
+        background: #307BA3;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+    }
+
     #oridinarySpeedDiv ul > li > div:first-child {
         display: inline-block;
         width: 80px;
@@ -111,7 +119,8 @@
 </style>
 <div ng-controller="ordinarySpeedController" id="oridinarySpeedDiv">
     <form name="ordinarySpeedForm">
-    <ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===0" style="margin-bottom: 5px">
+    <!--<ul class="list-group list-group-lg m-b-none"  ng-if="oridiData.speedType===0" style="margin-bottom: 5px">-->
+        <ul class="list-group list-group-lg m-b-none"  style="margin-bottom: 5px">
         <li class="list-group-item">
             <div class="list-name">
                 <a ng-click="changeSpeedAndDirect(roadlinkData.direct,oridiData.rowId)" style="cursor: pointer;color:#FFF;">修改方向</a>

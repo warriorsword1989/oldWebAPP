@@ -7,7 +7,9 @@ truckLimitApp.controller("truckLimitInfoController",function($scope,$timeout,$oc
     $scope.linkData = objCtrl.data;
     if($(".ng-dirty")) {
         $.each($('.ng-dirty'), function (i, v) {
-            $scope.truckLimitForm.$setPristine();
+            if($scope.truckLimitForm!=undefined) {
+                $scope.truckLimitForm.$setPristine();
+            }
         });
     }
     $scope.limitDirOptions = [
