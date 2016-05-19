@@ -69,7 +69,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
                     shapeCtrl.editFeatType = "adLink";
-                    shapeCtrl.getCurrentTool().clickcount =1;
+                    shapeCtrl.getCurrentTool().clickcount = 1;
                     shapeCtrl.getCurrentTool().catches.length = 0;
                     shapeCtrl.getCurrentTool().snodePid = 0;
                     shapeCtrl.getCurrentTool().sNodePid = 0;
@@ -111,101 +111,101 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     //初始化鼠标提示
                     $scope.toolTipText = '请选择线！';
                     adLink.options.editable = true;
-                    var selectCount = 0,linksArr=[],sNode,eNode;
-                    eventController.on(eventController.eventTypes.GETLINKID, function(data){
-                        if(selectCount===0) {
+                    var selectCount = 0, linksArr = [], sNode, eNode;
+                    eventController.on(eventController.eventTypes.GETLINKID, function (data) {
+                        if (selectCount === 0) {
                             highRenderCtrl.highLightFeatures.push({
-                                id:data["id"].toString(),
-                                layerid:'adLink',
-                                type:'line',
-                                style:{}
+                                id: data["id"].toString(),
+                                layerid: 'adLink',
+                                type: 'line',
+                                style: {}
                             });
                             highRenderCtrl.drawHighlight();
                             linksArr.push(data["id"]);
                             sNode = data["properties"]["snode"];
-                            eNode=data["properties"]["enode"];
+                            eNode = data["properties"]["enode"];
                             selectCount++;
-                        } else  if(selectCount===1) {
+                        } else if (selectCount === 1) {
                             highRenderCtrl._cleanHighLight();
-                           if(sNode===data["properties"]["snode"]) {
-                               $scope.startNode = eNode;
-                               $scope.endNode = data["properties"]["enode"];
-                               selectCount++;
-                               linksArr.push(data["id"]);
-                               highRenderCtrl.highLightFeatures.push({
-                                   id:data["id"].toString(),
-                                   layerid:'adLink',
-                                   type:'line',
-                                   style:{}
-                               });
-                               highRenderCtrl.drawHighlight();
-                           }else if(sNode===data["properties"]["enode"]){
-                               $scope.startNode = eNode;
-                               $scope.endNode = data["properties"]["snode"];
-                               selectCount++;
-                               linksArr.push(data["id"]);
-                               highRenderCtrl.highLightFeatures.push({
-                                   id:data["id"].toString(),
-                                   layerid:'adLink',
-                                   type:'line',
-                                   style:{}
-                               });
-                               highRenderCtrl.drawHighlight();
-                           }else if(eNode===data["properties"]["snode"]) {
-                               $scope.startNode = sNode;
-                               $scope.endNode = data["properties"]["enode"];
-                               selectCount++;
-                               linksArr.push(data["id"]);
-                               highRenderCtrl.highLightFeatures.push({
-                                   id:data["id"].toString(),
-                                   layerid:'adLink',
-                                   type:'line',
-                                   style:{}
-                               });
-                               highRenderCtrl.drawHighlight();
-                           }else if(eNode===data["properties"]["enode"]) {
-                               $scope.startNode = sNode;
-                               $scope.endNode = data["properties"]["snode"];
-                               selectCount++;
-                               linksArr.push(data["id"]);
-                               highRenderCtrl.highLightFeatures.push({
-                                   id:data["id"].toString(),
-                                   layerid:'adLink',
-                                   type:'line',
-                                   style:{}
-                               });
-                               highRenderCtrl.drawHighlight();
-                           }
-                       } else if(selectCount>1) {
+                            if (sNode === data["properties"]["snode"]) {
+                                $scope.startNode = eNode;
+                                $scope.endNode = data["properties"]["enode"];
+                                selectCount++;
+                                linksArr.push(data["id"]);
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data["id"].toString(),
+                                    layerid: 'adLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                                highRenderCtrl.drawHighlight();
+                            } else if (sNode === data["properties"]["enode"]) {
+                                $scope.startNode = eNode;
+                                $scope.endNode = data["properties"]["snode"];
+                                selectCount++;
+                                linksArr.push(data["id"]);
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data["id"].toString(),
+                                    layerid: 'adLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                                highRenderCtrl.drawHighlight();
+                            } else if (eNode === data["properties"]["snode"]) {
+                                $scope.startNode = sNode;
+                                $scope.endNode = data["properties"]["enode"];
+                                selectCount++;
+                                linksArr.push(data["id"]);
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data["id"].toString(),
+                                    layerid: 'adLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                                highRenderCtrl.drawHighlight();
+                            } else if (eNode === data["properties"]["enode"]) {
+                                $scope.startNode = sNode;
+                                $scope.endNode = data["properties"]["snode"];
+                                selectCount++;
+                                linksArr.push(data["id"]);
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data["id"].toString(),
+                                    layerid: 'adLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                                highRenderCtrl.drawHighlight();
+                            }
+                        } else if (selectCount > 1) {
                             highRenderCtrl._cleanHighLight();
-                           if( $scope.endNode===data["properties"]["snode"]) {
-                               $scope.endNode = data["properties"]["enode"];
-                               highRenderCtrl.highLightFeatures.push({
-                                   id:data["id"].toString(),
-                                   layerid:'adLink',
-                                   type:'line',
-                                   style:{}
-                               });
-                               highRenderCtrl.drawHighlight();
-                               selectCount++;
-                               linksArr.push(data["id"]);
-                           }else if($scope.endNode===data["properties"]["enode"]){
-                               $scope.endNode = data["properties"]["snode"];
-                               highRenderCtrl.highLightFeatures.push({
-                                   id:data["id"].toString(),
-                                   layerid:'adLink',
-                                   type:'line',
-                                   style:{}
-                               });
-                               highRenderCtrl.drawHighlight();
-                               selectCount++;
-                               linksArr.push(data["id"]);
-                           }
-                       }
-                        if(selectCount>2&&($scope.endNode===$scope.startNode)) {
+                            if ($scope.endNode === data["properties"]["snode"]) {
+                                $scope.endNode = data["properties"]["enode"];
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data["id"].toString(),
+                                    layerid: 'adLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                                highRenderCtrl.drawHighlight();
+                                selectCount++;
+                                linksArr.push(data["id"]);
+                            } else if ($scope.endNode === data["properties"]["enode"]) {
+                                $scope.endNode = data["properties"]["snode"];
+                                highRenderCtrl.highLightFeatures.push({
+                                    id: data["id"].toString(),
+                                    layerid: 'adLink',
+                                    type: 'line',
+                                    style: {}
+                                });
+                                highRenderCtrl.drawHighlight();
+                                selectCount++;
+                                linksArr.push(data["id"]);
+                            }
+                        }
+                        if (selectCount > 2 && ($scope.endNode === $scope.startNode)) {
                             selectCtrl.onSelected(
                                 {
-                                    'adLinks':linksArr
+                                    'adLinks': linksArr
                                 }
                             )
                         }

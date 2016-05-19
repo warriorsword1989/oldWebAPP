@@ -259,7 +259,7 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                 $scope.$broadcast("TRANSITTIPSPICTURE", {})
                 return;
             }
-        }else if(data["loadType"] === "tipsVideoContainer") {
+        } else if (data["loadType"] === "tipsVideoContainer") {
             if ($scope[data["loadType"]]) {
                 $scope.$broadcast("TRANSITTIPSVIDEO", {})
                 return;

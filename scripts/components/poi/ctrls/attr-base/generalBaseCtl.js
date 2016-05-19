@@ -1,6 +1,6 @@
 angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
 
-    var pKindFormat = {},pKindList,
+    var pKindFormat = {}, pKindList,
         pAllChain = {};
     var regionCode = "010"
     var lifecycle = {
@@ -130,7 +130,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         }
         
     }
-    
+
     $scope.remarkChange = function (val){
 
     }
@@ -265,7 +265,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.kindChange = function(evt, obj) {
         $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
     };
-    $scope.brandChange = function (evt,sco){
+    $scope.brandChange = function (evt, sco) {
         console.info(evt);
         $scope.poi.brands[0].code = sco.selectedChain;
     };
@@ -285,7 +285,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     });
 
     //初始化时让分类、品牌默认选中
-    $scope.$watch('poi.kindCode', function(newVlaue,oldValue) {
+    $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
         $scope.selectedKind = newVlaue;
         for (var i = 0; i < pKindList.length; i++) {
             if (pKindList[i].value == newVlaue) {

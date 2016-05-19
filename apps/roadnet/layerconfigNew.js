@@ -64,10 +64,10 @@ Application.layersConfig =
                     options: {
                         layername: '格网',
                         id: 'grid',
-                        gridInfo:null,
+                        gridInfo: null,
                         url: '',
-                        divideX:4,
-                        divideY:4,
+                        divideX: 4,
+                        divideY: 4,
                         visible: false,
                         zIndex: 3
                     }
@@ -1247,15 +1247,15 @@ function transformData(data, url) {
             case 1201://道路种别
                 break;
             case 1901://道路名
-                //obj['properties']["featType"] = item.t;
-                //obj['geometry']['type'] = "LineString";
-                //
-                //obj['properties']['style'] = {
-                //    'strokeColor': '#7030A0',
-                //    'strokeWidth': 2,
-                //    'strokeOpacity': 0.8
-                //};
-                //break;
+            //obj['properties']["featType"] = item.t;
+            //obj['geometry']['type'] = "LineString";
+            //
+            //obj['properties']['style'] = {
+            //    'strokeColor': '#7030A0',
+            //    'strokeWidth': 2,
+            //    'strokeOpacity': 0.8
+            //};
+            //break;
             //case 2001://侧线
             //    obj['properties']["featType"] = item.t;
             //    obj['geometry']['type'] = "LineString";
@@ -1494,7 +1494,7 @@ function transformDataForTips(data, param) {
                         }
                     )
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
@@ -1520,7 +1520,7 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
@@ -1543,7 +1543,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1606,7 +1606,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1628,7 +1628,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1723,7 +1723,7 @@ function transformDataForTips(data, param) {
                         })
                     );
                 }
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1747,7 +1747,7 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1788,21 +1788,21 @@ function transformDataForTips(data, param) {
                     );
                     featArr.push(obj);
                 }
-        /*        var bridgeObj = {};
-                bridgeObj['geometry'] = {};
-                bridgeObj['geometry']['coordinates'] = item.g;
-                bridgeObj['properties'] = {};
-                bridgeObj['properties']['style'] = {};
-                bridgeObj['properties']['id'] = item.i;
-                bridgeObj['properties']["featType"] = item.t;
-                bridgeObj['geometry']['type'] = "LineString";
+                /*        var bridgeObj = {};
+                 bridgeObj['geometry'] = {};
+                 bridgeObj['geometry']['coordinates'] = item.g;
+                 bridgeObj['properties'] = {};
+                 bridgeObj['properties']['style'] = {};
+                 bridgeObj['properties']['id'] = item.i;
+                 bridgeObj['properties']["featType"] = item.t;
+                 bridgeObj['geometry']['type'] = "LineString";
 
-                bridgeObj['properties']['style'] = {
-                    'strokeColor': '#336C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                featArr.push(bridgeObj);*/
+                 bridgeObj['properties']['style'] = {
+                 'strokeColor': '#336C0A',
+                 'strokeWidth': 2,
+                 'strokeOpacity': 0.8
+                 };
+                 featArr.push(bridgeObj);*/
                 break;
             case 1514://施工维修
                 featArr.pop();
@@ -1833,23 +1833,23 @@ function transformDataForTips(data, param) {
                     featArr.push(obj);
                 }
 
-               /* var repairObj = {};
-                repairObj['geometry'] = {};
-                repairObj['geometry']['coordinates'] = item.g;
-                repairObj['properties'] = {};
-                repairObj['properties']['style'] = {};
-                repairObj['properties']['id'] = item.i;
-                repairObj['properties']["featType"] = item.t;
-                repairObj['geometry']['type'] = "LineString";
-                repairObj['properties']["featType"] = item.t;
-                repairObj['geometry']['type'] = "LineString";
+                /* var repairObj = {};
+                 repairObj['geometry'] = {};
+                 repairObj['geometry']['coordinates'] = item.g;
+                 repairObj['properties'] = {};
+                 repairObj['properties']['style'] = {};
+                 repairObj['properties']['id'] = item.i;
+                 repairObj['properties']["featType"] = item.t;
+                 repairObj['geometry']['type'] = "LineString";
+                 repairObj['properties']["featType"] = item.t;
+                 repairObj['geometry']['type'] = "LineString";
 
-                repairObj['properties']['style'] = {
-                    'strokeColor': '#E36C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                featArr.push(repairObj);*/
+                 repairObj['properties']['style'] = {
+                 'strokeColor': '#E36C0A',
+                 'strokeWidth': 2,
+                 'strokeOpacity': 0.8
+                 };
+                 featArr.push(repairObj);*/
                 break;
             case 1801://立交
 

@@ -92,9 +92,9 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                     lat: mousePoint.lat
                 });
                 if (this.clickcount == 2) {
-                    this.snodePid = parseInt(this.snapHandler.properties.snode?this.snapHandler.properties.snode:this.snapHandler.properties['id']);
+                    this.snodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
                 } else {
-                    this.enodePid = parseInt(this.snapHandler.properties.enode?this.snapHandler.properties.enode:this.snapHandler.properties['id']);
+                    this.enodePid = parseInt(this.snapHandler.properties.enode ? this.snapHandler.properties.enode : this.snapHandler.properties['id']);
                 }
             } else if (this.snapHandler.snapIndex == -1) {
                 this.catches.push({
@@ -102,7 +102,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                     lon: mousePoint.lng,
                     lat: mousePoint.lat
                 })
-            }else if (this.snapHandler.snapIndex == -2) {
+            } else if (this.snapHandler.snapIndex == -2) {
                 if (this.clickcount == 2) {
                     this.snodePid = parseInt(this.snapHandler.properties.id);
                 } else {
@@ -116,12 +116,12 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
             }
             else {
                 if (this.clickcount == 2) {
-                    this.snodePid = parseInt(!this.snapHandler.properties.enode?this.snapHandler.properties['id']:this.snapHandler.properties.enode);
+                    this.snodePid = parseInt(!this.snapHandler.properties.enode ? this.snapHandler.properties['id'] : this.snapHandler.properties.enode);
                 } else {
-                    this.enodePid = parseInt(this.snapHandler.properties.snode?this.snapHandler.properties.snode:this.snapHandler.properties['id']);
+                    this.enodePid = parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']);
                 }
                 this.catches.push({
-                    nodePid: parseInt(this.snapHandler.properties.snode?this.snapHandler.properties.snode:this.snapHandler.properties['id']),
+                    nodePid: parseInt(this.snapHandler.properties.snode ? this.snapHandler.properties.snode : this.snapHandler.properties['id']),
                     lon: mousePoint.lng,
                     lat: mousePoint.lat
                 })

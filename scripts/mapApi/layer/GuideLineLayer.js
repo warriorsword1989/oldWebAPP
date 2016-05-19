@@ -75,8 +75,8 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
         //console.log('[geom[1], geom[0]]'+[geom[1], geom[0]])
         proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-        if(g.setLineDash) {
-            g.setLineDash([12,3,3,3]);
+        if (g.setLineDash) {
+            g.setLineDash([12, 3, 3, 3]);
             //  Get the current offset
             g.lineDashOffset = 0;  // To animate the lines
             g.lineJoin = "round";

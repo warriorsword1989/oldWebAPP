@@ -51,11 +51,11 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
             FM.leafletUtil.highlightFeatureInMap(data[0]);
         } else if (data.length > 1) {
             var sameData = [];
-            for(var i = 0;i<data.length;i++){
+            for (var i = 0; i < data.length; i++) {
                 sameData.push(data[i].attributes);
             }
             $scope.$emit("samePois", {
-                data:sameData,
+                data: sameData,
                 layerId:"mainPoiLayer"
             });//将同位点数据抛给父页面，显示在popover中
         }
