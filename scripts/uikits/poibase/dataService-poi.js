@@ -171,8 +171,12 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     };
     this.getRoadList = function (cond) {
         var defer = $q.defer();
-        FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data) {
-            defer.resolve(data);
+        ajax.hbaseGet("poi/getlink", cond, function (data) {
+            if(data.errcode == 0){
+                defer.resolve(data);
+            }else{
+                defer.resolve("查询道路信息出错："+data.errmsg);
+            }
         });
         return defer.promise;
     };
