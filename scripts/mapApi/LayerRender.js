@@ -484,9 +484,9 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
 
-        if (properties.hasOwnProperty('symbolNames')) {
+        if (properties.hasOwnProperty('symbol')) {
             //如果有symbolName，则使用符号绘制
-            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolNames']);
+            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbol']);
         }
     },
 
@@ -495,15 +495,11 @@ fastmap.mapApi.LayerRender = {
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Array}geom 绘制几何对象
      * @param {Boolean}boolPixelCrs 是否像素坐标
-     * @symbolNames {Array}style 符号名
+     * @symbol {Array}style 符号
      * @private
      */
-    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbolNames) {
-        if (!symbolNames) {
-            return;
-        }
-
-        if (symbolNames.length === 0) {
+    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbol) {
+        if (!symbol) {
             return;
         }
 
@@ -522,16 +518,9 @@ fastmap.mapApi.LayerRender = {
 
         var lsGeometry = new fastmap.mapApi.symbol.LineString(geometry);
         var g = ctx.canvas.getContext('2d');
-        var factory = fastmap.mapApi.symbol.GetSymbolFactory();
 
-        for (var i = 0; i < symbolNames.length; ++i) {
-            var symbol = factory.getSymbol(symbolNames[i]);
-            if (!symbol) {
-                continue;
-            }
-            symbol.geometry = lsGeometry;
-            symbol.draw(g);
-        }
+        symbol.geometry = lsGeometry;
+        symbol.draw(g);
     },
 
     /***
