@@ -372,7 +372,8 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     };
 
     //接收基础的poi信息并显示
-    $scope.$on("loadup_poiMap", function (event, data) {
+    $scope.loadPoiInMap = function () {
+        var data = $scope.poiMap;
         if (!(FM.mapConf.pPoiJson && FM.mapConf.pPoiJson == data.data)) {//防止重复加载
             FM.mapConf.pPoiJson = data.data;
             FM.leafletUtil.clearMapLayer(pMap, "poiEditLayer");
@@ -385,8 +386,8 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
             }
             $scope.loadTaskPoiData(data.projectId, data.featcode);
         }
-    });
-
+    };
+    $scope.loadPoiInMap();
     //接收点位信息并显示
     $scope.$on("showPoisInMap",function (event, data) {
         FM.leafletUtil.clearMapLayer(pMap,data.layerId);

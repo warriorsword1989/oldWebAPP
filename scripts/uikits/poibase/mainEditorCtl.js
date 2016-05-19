@@ -28,8 +28,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     }));
 
     $q.all(promises).then(function() {
-        
-        var poiMap = {
+
+        $scope.poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
             featcode: "poi",
@@ -51,8 +51,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
                 $scope.$on('$includeContentLoaded', function($event) {
-                    console.log("map");
-                    $scope.$broadcast("loadup_poiMap", poiMap);
+                    
                 });
             });
         });
