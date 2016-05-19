@@ -127,20 +127,6 @@ selectAdApp.controller("selectAdShapeController", ["$scope", '$ocLazyLoad', '$ro
                 shapeCtrl.editFeatType = "adLink";
                 map.currentTool.snapHandler.addGuideLayer(adLink);
             }
-
-
-
-            //shapeCtrl.on("startshapeeditresultfeedback",saveOrEsc);
-            //shapeCtrl.on("stopshapeeditresultfeedback",function(){
-            //    shapeCtrl.off("startshapeeditresultfeedback",saveOrEsc);
-            //});
-            //function saveOrEsc (event) {
-            //    if(event.changeTooltips){
-            //        tooltipsCtrl.setStyleTooltip("color:black;");
-            //        tooltipsCtrl.setChangeInnerHtml("点击空格键保存操作或者按ESC键取消!");
-            //    }
-            //
-            //}
         }
     }
     $scope.selectAddShape = function (type, num) {

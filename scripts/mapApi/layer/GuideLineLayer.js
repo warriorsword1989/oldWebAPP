@@ -34,8 +34,8 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
     },
     drawMove: function (obj) {
         var g = this._ctx;
-        g.strokeStyle = "red";
-        g.lineWidth = 2;
+        //g.strokeStyle = "red";
+        //g.lineWidth = 2;
         for (var item in obj) {
             this.drawLineString(obj[item]["coordinates"], obj[item]["guidePoint"], g, false, this);
         }
@@ -75,15 +75,22 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
         //console.log('[geom[1], geom[0]]'+[geom[1], geom[0]])
         proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-        //console.log('[guidePoint[1], guidePoint[0]]'+[guidePoint[1], guidePoint[0]])
-        g.beginPath();
-        for (i = 0; i < proj.length; i++) {
+        if (g.setLineDash) {
+            g.setLineDash([12, 3, 3, 3]);
+            //  Get the current offset
+            g.lineDashOffset = 0;  // To animate the lines
+            g.lineJoin = "round";
+            g.lineWidth = "1";
+            g.strokeStyle = "blue";
+            g.beginPath();
+            for (i = 0; i < proj.length; i++) {
 
-            var method = (i === 0 ? 'move' : 'line') + 'To';
-            g[method](proj[i].x, proj[i].y);
+                var method = (i === 0 ? 'move' : 'line') + 'To';
+                g[method](proj[i].x, proj[i].y);
+            }
+            g.stroke();
         }
 
-        g.stroke();
     },
     _redraw: function () {
         //this._resetCanvasPosition();

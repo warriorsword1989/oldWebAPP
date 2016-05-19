@@ -166,10 +166,6 @@ fastmap.mapApi.LayerRender = {
 
         geom = this._clip(ctx, geom);
         var endLen = geom.length;
-        if (startLen !== endLen) {
-            console.log("开始的长度为: " + startLen + "处理后的长度:" + endLen);
-        }
-
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.font = "10px Courier New";
@@ -455,7 +451,6 @@ fastmap.mapApi.LayerRender = {
         if (!linestyle) {
             return;
         }
-
         var proj = [],
 
             coords = this._clip(ctx, geom);
@@ -472,6 +467,7 @@ fastmap.mapApi.LayerRender = {
             }
 
         }
+
         var g = ctx.canvas.getContext('2d');
         g.strokeStyle = linestyle.strokeColor;
         g.lineWidth = linestyle.strokeWidth;
@@ -484,9 +480,9 @@ fastmap.mapApi.LayerRender = {
         g.stroke();
         g.restore();
 
-        if (properties.hasOwnProperty('symbolNames')) {
+        if (properties.hasOwnProperty('symbol')) {
             //如果有symbolName，则使用符号绘制
-            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbolNames']);
+            this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbol']);
         }
     },
 
@@ -495,15 +491,11 @@ fastmap.mapApi.LayerRender = {
      * @param {Object}ctx {canvas: canvas,tile: tilePoint,zoom: zoom}
      * @param {Array}geom 绘制几何对象
      * @param {Boolean}boolPixelCrs 是否像素坐标
-     * @symbolNames {Array}style 符号名
+     * @symbol {Array}style 符号
      * @private
      */
-    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbolNames) {
-        if (!symbolNames) {
-            return;
-        }
-
-        if (symbolNames.length === 0) {
+    _drawLineStringWithSymbol: function (ctx, geom, boolPixelCrs, symbol) {
+        if (!symbol) {
             return;
         }
 
@@ -522,16 +514,9 @@ fastmap.mapApi.LayerRender = {
 
         var lsGeometry = new fastmap.mapApi.symbol.LineString(geometry);
         var g = ctx.canvas.getContext('2d');
-        var factory = fastmap.mapApi.symbol.GetSymbolFactory();
 
-        for (var i = 0; i < symbolNames.length; ++i) {
-            var symbol = factory.getSymbol(symbolNames[i]);
-            if (!symbol) {
-                continue;
-            }
-            symbol.geometry = lsGeometry;
-            symbol.draw(g);
-        }
+        symbol.geometry = lsGeometry;
+        symbol.draw(g);
     },
 
     /***

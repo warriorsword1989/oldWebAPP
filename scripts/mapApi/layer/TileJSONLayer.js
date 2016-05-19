@@ -436,7 +436,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         color: 'rgba(105,105,105,1)',
                         radius: 3
                     }, feature.properties);
-
                     //如果属性中有direct属性则绘制箭头
                     if (feature.properties.direct&&this._map.getZoom()>14) {
                         var coords = geom.coordinates;

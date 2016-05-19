@@ -1,4 +1,4 @@
-angular.module("dataServiceMeta", []).service("dsMeta", ["$http", "$q", function($http, $q) {
+angular.module("dataService").service("dsMeta", ["$http", "$q", function($http, $q) {
     this.getKindList = function() {
         var deferred = $q.defer();
         var param = {
@@ -49,4 +49,19 @@ angular.module("dataServiceMeta", []).service("dsMeta", ["$http", "$q", function
         });
         return deferred.promise;
     }
+    /*获取fidlist*/
+    this.getParentFidList = function(){
+        var defer = $q.defer();
+        $http({
+            method: 'GET',
+            url: App.Config.serviceUrl + '/meta/queryFocus/?access_token='+App.Config.accessToken,
+            data: {},
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置
+            }
+        }).success(function(data){
+            defer.resolve(data.data);
+        });
+        return defer.promise;
+    };
 }]);

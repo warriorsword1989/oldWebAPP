@@ -15,7 +15,7 @@ FM.dataApi.IxTest = FM.dataApi.GeoDataModel.extend({
         this.auditStatus = data['auditStatus'];
         this.rawFields = data['rawFields'];
     },
-    getSnapShot: function() {
+    getIntegrate: function () {
         var data = {};
         data["fid"] = this.fid;
         data["pid"] = this.pid;
@@ -25,18 +25,5 @@ FM.dataApi.IxTest = FM.dataApi.GeoDataModel.extend({
         data["auditStatus"] = this.auditStatus;
         data["rawFields"] = this.rawFields;
         return data;
-    },
-    statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var ret = [],
-                    poi;
-                for (var i = 0; i < data.data.data.length; i++) {
-                    poi = new FM.dataApi.IxTest(data.data.data[i]);
-                    ret.push(poi);
-                }
-                callback(ret);
-            });
-        },
-    },
+    }
 });

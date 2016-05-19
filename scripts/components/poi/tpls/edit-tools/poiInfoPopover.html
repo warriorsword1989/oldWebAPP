@@ -13,6 +13,12 @@
         <button ng-if="!isLocked" type="button" class="btn btn-default btn-tn"
                 ng-click="doEditRelatedPoi(poiInfo.poi.fid);" ng-disabled="poi.submitStatus!=0">编辑
         </button>
+        <button ng-if="poiInfo.poi.ifParent == 1" type="button" class="btn btn-default btn-tn"
+                ng-click="removeRelateParent();" ng-disabled="!pEditable">解除父
+        </button>
+        <button ng-if="poiInfo.poi.ifParent == 2" type="button" class="btn btn-default btn-tn"
+                ng-click="asRelateParent(poiInfo.poi);" ng-disabled="!pEditable">作为父
+        </button>
 
     </div>
 </div>

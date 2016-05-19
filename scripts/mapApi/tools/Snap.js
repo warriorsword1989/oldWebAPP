@@ -107,7 +107,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
-                    break;
+                    //break;
                 } else {
                     //this.selectedVertex = closest.selectedVertexe;
                     this.snaped = false;
@@ -137,7 +137,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
         //捕捉候选id
         var candidateId = options.candidateId?options.candidateId:null;
 
-        var mindist = Infinity,
+        var mindistline = Infinity, mindistvertex = Infinity, mindistnode = Infinity,
             result = null,
             distaceResult = null,
             distance = Infinity;
@@ -146,17 +146,36 @@ fastmap.mapApi.Snap = L.Handler.extend({
             var geometry = null;
             //根据几何类型判断计算距离的方法；点/线；如果用户将三种捕捉全部打开，则优先捕捉node，然后是vertex，最后是line
             //捕捉线
-            if(this.snapLine && data[i].geometry.type =="LineString"){
+            if (data[i].geometry.type == "LineString") {
+                if (this.snapLine) {
+                    if (this.selectedSnap == true) {
+                        if (data[i].properties.id == this.selectedId) {
+                            geometry = data[i].geometry.coordinates;
 
-                if(this.selectedSnap ==true ){
-                    if(data[i].properties.id ==this.selectedId){
+                            distaceResult = this.closest(geometry, mousePoint);
+
+                            if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
+                            if (distance <= 10) {
+                                //mindistline = distance;
+                                result = {
+                                    layer: geometry,
+                                    latlng: [distaceResult.x, distaceResult.y],
+                                    index: distaceResult.index,
+                                    distance: distance,
+                                    properties: data[i].properties
+                                };
+                            }
+                        }
+
+                    } else {
                         geometry = data[i].geometry.coordinates;
 
                         distaceResult = this.closest(geometry, mousePoint);
 
                         if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
-                        if (distance < mindist) {
-                            mindist = distance;
+
+                        if (distance <= 10) {
+                            //mindistline = distance;
                             result = {
                                 layer: geometry,
                                 latlng: [distaceResult.x, distaceResult.y],
@@ -166,35 +185,30 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             };
                         }
                     }
+                } else if (this.snapVertex == true) {
+                    if (this.selectedSnap == true) {
+                        if (data[i].properties.id == this.selectedId) {
+                            geometry = data[i].geometry.coordinates;
 
-                }else{
-                    geometry = data[i].geometry.coordinates;
+                            distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
+                            if (distaceResult.distance < 10 && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
+                                //mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
 
-                    distaceResult = this.closest(geometry, mousePoint);
-
-                    if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
-                    if (distance < mindist) {
-                        mindist = distance;
-                        result = {
-                            layer: geometry,
-                            latlng: [distaceResult.x, distaceResult.y],
-                            index: distaceResult.index,
-                            distance: distance,
-                            properties: data[i].properties
-                        };
-                    }
-                }
-
-            }
-            //捕捉vertex
-            if(this.snapVertex && data[i].geometry.type == 'LineString'){
-
-                if(this.selectedSnap ==true ){
-                    if(data[i].properties.id ==this.selectedId){
+                                result = {
+                                    latlng: [distaceResult.x, distaceResult.y],
+                                    distance: mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
+                                    index: distaceResult.index,
+                                    selectedVertexe: true
+                                }
+                            }
+                        }
+                    } else {
                         geometry = data[i].geometry.coordinates;
 
                         distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
-                        if (distaceResult.distance < tolerance&&(distaceResult.index>0&&distaceResult.index<geometry.length-1)) {
+                        if (distaceResult.distance < 10 && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
+                            //mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
+
                             result = {
                                 latlng:[distaceResult.x, distaceResult.y],
                                 distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
@@ -203,44 +217,29 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             }
                         }
                     }
-                }else{
+                }
+
+
+            }
+            if (data[i].geometry.type == "Point") {
+                if (this.snapNode) {
                     geometry = data[i].geometry.coordinates;
-
-                    distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
-                    if (distaceResult.distance < tolerance&&(distaceResult.index>0&&distaceResult.index<geometry.length-1)) {
-
+                    distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0], geometry[1]));
+                    if (distaceResult <= 10) {
                         result = {
-                            latlng:[distaceResult.x, distaceResult.y],
-                            distance:mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1])),
-                            index: distaceResult.index,
-                            selectedVertexe:true
-                        }
+                            latlng: geometry,
+                            distance: distaceResult,
+                            properties: data[i].properties,
+                            index: -2
+                        };
 
                     }
                 }
-            }
 
-            //捕捉node
-            if(this.snapNode && data[i].geometry.type =="Point"){
-
-                geometry = data[i].geometry.coordinates;
-
-                distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0],geometry[1]));
-
-                if (distaceResult < mindist) {
-                    mindist = distaceResult;
-                    result = {
-                        latlng:geometry,
-                        distance: distaceResult,
-                        properties: data[i].properties
-                    };
-                }
 
             }
 
         }
-
-
         if (!result || result.distance > tolerance)
             return null;
         return result;

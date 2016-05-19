@@ -1,4 +1,4 @@
-angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
+angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
     //初始化地图
     pMap = L.map('NaviMap_container', {
         attributionControl: false,
@@ -12,7 +12,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     $scope.loadNavBaseData = function () {
         var mapBounds = FM.leafletUtil.getMapBounds(pMap);
         var cond = "POLYGON((" + mapBounds.join(",") + "))";
-        FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data) {
+        poi.getRoadList(cond).then(function (data) {
             FM.leafletUtil.showLinkInMap("navBaseLayer", data, "rdLink");
         });
     };
@@ -50,8 +50,12 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
         if (data.length == 1) {
             FM.leafletUtil.highlightFeatureInMap(data[0]);
         } else if (data.length > 1) {
+            var sameData = [];
+            for (var i = 0; i < data.length; i++) {
+                sameData.push(data[i].attributes);
+            }
             $scope.$emit("samePois", {
-                data:data,
+                data: sameData,
                 layerId:"mainPoiLayer"
             });//将同位点数据抛给父页面，显示在popover中
         }
@@ -81,9 +85,18 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     };
 
     //将点显示在地图上
-    $scope.showPoisInMap = function (layerId, poiArray) {
+    $scope.showSamePoisInMap = function (layerId, poiArray) {
         for (var i = 0; i < poiArray.length; i++) {
             var poiLayer = $scope.createSamePointFeature(poiArray[i],"dotIcon");
+            poiLayer.parentLayer = layerId;
+            FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
+        }
+    };
+
+    //将点显示在地图上
+    $scope.showNormalPoisInMap = function (layerId, poiArray) {
+        for (var i = 0; i < poiArray.length; i++) {
+            var poiLayer = FM.leafletUtil.createNormalPoiFeature(poiArray[i],"dotIcon");
             poiLayer.parentLayer = layerId;
             FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
         }
@@ -113,7 +126,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
         poi.getPoiInfo(param).then(function (data) {
             if (data.data.length > 0) {
                 FM.leafletUtil.getLayerById(pMap,"mainPoiLayer").clearLayers();
-                $scope.showPoisInMap("mainPoiLayer",data.data);
+                $scope.showSamePoisInMap("mainPoiLayer",data.data);
             } else {
                 console.log("wrong request!")
             }
@@ -211,7 +224,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
                             data:ret,
                             layerId:"parentPoiLayer"
                         });
-                        $scope.showPoisInMap("parentPoiLayer", ret);
+                        $scope.showNormalPoisInMap("parentPoiLayer", ret);
                     } else {
                         FM.leafletUtil.getLayerById(pMap, "rectChooseLayer").clearLayers();
                         console.log("wrong request!")
@@ -321,7 +334,7 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
                         data:ret,
                         layerId:"parentPoiLayer"
                     });
-                    $scope.showPoisInMap("parentPoiLayer", ret);
+                    $scope.showNormalPoisInMap("parentPoiLayer", ret);
                 } else {
                     console.log("wrong request!")
                 }
@@ -363,7 +376,8 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     };
 
     //接收基础的poi信息并显示
-    $scope.$on("loadup_poiMap", function (event, data) {
+    $scope.loadPoiInMap = function () {
+        var data = $scope.poiMap;
         if (!(FM.mapConf.pPoiJson && FM.mapConf.pPoiJson == data.data)) {//防止重复加载
             FM.mapConf.pPoiJson = data.data;
             FM.leafletUtil.clearMapLayer(pMap, "poiEditLayer");
@@ -375,17 +389,18 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
                 console.log(data);
             }
             $scope.loadTaskPoiData(data.projectId, data.featcode);
-            FM.mapConf.singeton = 1;
         }
-    });
-
+    };
+    $scope.loadPoiInMap();
     //接收点位信息并显示
     $scope.$on("showPoisInMap",function (event, data) {
         FM.leafletUtil.clearMapLayer(pMap,data.layerId);
         if(data.layerId == "parentPoiLayer"){
-            for(var i = 0;i<data.data.length;i++){
-                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"blueIcon");
-            }
+            FM.leafletUtil.createNormalPoiInMap(data.data,data.layerId,"blueIcon");
+            var marker = FM.leafletUtil.getLayerById(pMap,data.data.fid);
+            marker.openPopup();
+            pMap.panTo(marker._latlng);
+
         }else {
             for(var i = 0;i<data.data.length;i++){
                 FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"greenIcon");
@@ -397,20 +412,23 @@ angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi
     $scope.$on("highlightChildInMap",function (event, poiFid) {
         var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
         marker.openPopup();
+        marker.setIcon(FM.iconStyles.blueIcon);
         pMap.panTo(marker._latlng);
     });
 
     //接收清除图层的命令
-    $scope.$on("closePopover",function (event, data) {
-        console.log(data);
-        if(data == "parentPoiLayer"){//可能有画的框选形状
-            var rect = FM.leafletUtil.getLayerById(pMap,"rectChooseLayer");
-            if(rect!=undefined){
-                FM.leafletUtil.clearMapLayer(pMap,"rectChooseLayer");
+    $scope.$on("closePopover", function (event, layerId) {
+        console.log(layerId);
+        if (layerId != "mainPoiLayer") {//同位点的popover关闭后不清除图层
+            if (layerId == "parentPoiLayer") {//可能有画的框选形状
+                var rect = FM.leafletUtil.getLayerById(pMap, "rectChooseLayer");
+                if (rect != undefined) {
+                    FM.leafletUtil.clearMapLayer(pMap, "rectChooseLayer");
+                }
+                FM.leafletUtil.clearMapLayer(pMap, layerId);
+            } else {
+                FM.leafletUtil.clearMapLayer(pMap, layerId);
             }
-            FM.leafletUtil.clearMapLayer(pMap,data);
-        }else {
-            FM.leafletUtil.clearMapLayer(pMap,data);
         }
     });
 }] );

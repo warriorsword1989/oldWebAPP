@@ -381,6 +381,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
 
         }
+        $scope.number = $scope.photos.length;
         if ($scope.photos.length != 0 && $scope.photos.length < 4) {
             for (var a = $scope.photos.length; a < 4; a++) {
                 var img = "../../images/road/img/noimg.png";
@@ -401,10 +402,19 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
             "loadType":"tipsPitureContainer",
-            "propertyCtrl":"components/road/ctrls//attr_tips_ctrl/tipsPictureCtrl",
+            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/tipsPictureCtrl",
             "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/tipsPictureTpl.html"
         };
         $scope.$emit("transitCtrlAndTpl", openOriginObj);
+    };
+    $scope.openVideo=function(id) {
+        selectCtrl.rowKey["VideoId"] = id;
+        var openVideoObj = {
+            "loadType":"tipsVideoContainer",
+            "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/tipsVideoCtrl",
+            "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/tipsVideoTpl.html"
+        };
+        $scope.$emit("transitCtrlAndTpl", openVideoObj);
     };
     $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
         $scope.initializeDataTips(event.feather);

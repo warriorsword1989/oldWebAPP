@@ -40,12 +40,17 @@
                                 <span class="sr-only">Close</span>
                             </button>
                         </div>
-                        <div class="title">{{refFt.title}}关联POI</div>
+                        <div class="title">{{refFt.title}}</div>
                         <div class="content" style="max-height: 240px;">
                             <ol>
                                 <li ng-repeat="item in refFt.refList">
-                                    <a href="javascript:;" class="has-popover" ng-click="showPoiDetailInfo(item,$index);" uib-popover-template="poiInfoTpl" popover-placement="left" popover-title="POI属性" ng-bind="item.name"></a>
+                                    <a ng-if="layerName=='mainPoiLayer'" href="javascript:;" class="has-popover"
+                                       ng-click="showSelectedSamePoiInfo(item,$index);" ng-bind="item.name"></a>
+                                    <a ng-if="layerName!='mainPoiLayer'" href="javascript:;" class="has-popover"
+                                       ng-click="showPoiDetailInfo(item,$index);" uib-popover-template="poiInfoTpl"
+                                       popover-placement="left" popover-title="POI属性" ng-bind="item.name"></a>
                                     <span class="label label-info" ng-bind="item.kindInfo.kindName"></span>
+                                    <span class="label label-{{item.labelRemark.labelClass}}" ng-bind="item.labelRemark.text"></span>
                                 </li>
                             </ol>
                         </div>
