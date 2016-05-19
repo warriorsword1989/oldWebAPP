@@ -70,6 +70,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     map.currentTool = shapeCtrl.getCurrentTool();
                     shapeCtrl.editFeatType = "adLink";
                     shapeCtrl.getCurrentTool().clickcount =1;
+                    shapeCtrl.getCurrentTool().catches.length = 0;
+                    shapeCtrl.getCurrentTool().snodePid = 0;
+                    shapeCtrl.getCurrentTool().sNodePid = 0;
                     map.currentTool.snapHandler.addGuideLayer(adLink);
                     map.currentTool.snapHandler.addGuideLayer(adNode);
                     tooltipsCtrl.setEditEventType('drawAdLink');
