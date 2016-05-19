@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $q) {
+angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function($http, $q, ajax) {
     this.getPoiDetailByFid = function(fid) {
         var defer = $q.defer();
         var params = {
@@ -16,8 +16,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
         });
         return defer.promise;
     };
-    this.getPoiList = function() {
-        var defer = $q.defer();
+    this.getPoiList = function() {var defer = $q.defer();
         var params = {
             "projectId": 6,
             "condition": {},
@@ -27,8 +26,13 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
             "pagesize": 10,
             "pageno": 1
         };
-        FM.dataApi.IxPoi.getList(params, function(data) {
-            defer.resolve(data);
+        $http.get("fos:editsupport/poi/query",{params : JSON.stringify(params)}).success(function(data){
+        	var ret = [];
+        	if(data.errcode == 0){
+        		defer.resolve(data.data);
+        	}else{
+        		defer.resolve("查询poi列表信息出错：" + data.errmsg);
+        	}
         });
         return defer.promise;
     };
@@ -43,18 +47,24 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
         });
     }
     this.getProjectList = function (param) {
-        var defer = $q.defer();
-        FM.dataApi.ajax.get("project/list/", param, function (data) {
-            defer.resolve(data.data);
-        });
-        return defer.promise;
+    	var defer = $q.defer();
+	    $http.get("fos:project/list/",{params: {parameter: JSON.stringify(param)}}).success(function(data){
+	    	if(data.errcode == 0){
+	    		defer.resolve(data.data);
+	    	}else{
+	    		defer.resolve("查询项目列表信息出错：" + data.errmsg);
+	    	}
+	    });
+    	return defer.promise;
     };
     this.getProjectInfo = function (projId) {
-        var defer = $q.defer();
-        FM.dataApi.ajax.get("project/query/", {
-            projectId: projId
-        }, function (data) {
-            defer.resolve(data.data);
+    	var defer = $q.defer();
+        $http.get("fos:project/query/",{params:{parameter:{ projectId: projId}}}).success(function(data){
+        	if(data.errcode == 0){
+        		defer.resolve(data.data);
+        	}else{
+        		defer.resolve("查询项目信息出错："+data.errmsg);
+        	}
         });
         return defer.promise;
     };
@@ -92,23 +102,29 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
         return defer.promise;
     };
     this.getOperSeason = function (projId) {
-        var defer = $q.defer();
-        FM.dataApi.ajax.get("project/queryOperSeason/", {
-            projectId: projId
-        }, function (data) {
-            defer.resolve(data.data);
+    	var defer = $q.defer();
+        $http.get("fos:project/queryOperSeason/",{params : {parameter : {projectId: projId}}}).success(function(data){
+        	if(data.errcode == 0){
+        		defer.resolve(data.data);
+        	}else{
+        		defer.resolve("查询当前作业季信息出错：" + data.errmsg);
+        	}
         });
         return defer.promise;
     };
     this.getPoiInfo = function (param) {
-        var defer = $q.defer();
-        FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-            defer.resolve(data.data);
+    	var defer = $q.defer();
+        $http.get("fos:editsupport/poi/query",{params : {parameter : JSON.stringify(param)}}).success(function(data){
+        	if(data.errcode == 0){
+        		defer.resolve(data.data);
+        	}else{
+        		defer.resolve("查询poi相关信息出错：" + data.errmsg);
+        	}
         });
         return defer.promise;
     };
     this.queryUser = function (userId) {
-        var defer = $q.defer();
+    	var defer = $q.defer();
         var param = {
             parameter: "{}"
         };
@@ -117,15 +133,23 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
                 userId: userId
             });
         }
-        FM.dataApi.ajax.get("user/query/", param, function(data) {
-            defer.resolve(data.data.rows[0]);
+        $http.get("fos:user/query/", {params: param}).success(function(data){
+        	if(data.errcode == 0){
+        		defer.resolve(data.data.rows[0]);
+        	}else{
+        		defer.resolve("查询用户信息出错：" +data.errmsg);
+        	}
         });
         return defer.promise;
     };
     this.getKindList = function () {
-        var defer = $q.defer();
-        FM.dataApi.IxPoiKind.getList(function (data) {
-            defer.resolve(data);
+    	var defer = $q.defer();
+        $http.get("fos:meta/queryKind/",{}).success(function(data){
+        	if(data.errcode == 0){
+        		defer.resolve(data);
+        	}else{
+        		defer.resolve("查询分类信息出错："+data.errmsg);
+        	}
         });
         return defer.promise;
     };
@@ -148,16 +172,16 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
             "featcode": "poi",
             "pagesize": 0
         };
-        $http.get("fos:editsupport/poi/query", {
-            params: {
-                parameter: JSON.stringify(params)
-            }
+        ajax.get("editsupport/poi/query", {
+            parameter: JSON.stringify(params)
         }).success(function (data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data.data[0]);
             } else {
                 defer.resolve("查询POI信息出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
@@ -172,12 +196,14 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
             validationMethod: 1,
             data: poi
         };
-        $http.post("fos:editsupport/poi/save/", JSON.stringify(params)).success(function (data) {
+        ajax.post("editsupport/poi/save/", JSON.stringify(params)).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
                 defer.resolve("保存POI信息出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };

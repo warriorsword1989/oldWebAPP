@@ -1,219 +1,17 @@
 <style>
-    div {
-        -webkit-font-smoothing: antialiased;
-        line-height: 1.42857143;
-        background-color: transparent;
-        margin-right: 0px;
-    }
-    input[type="text"] {
-        border: 1px ridge #FFFFFF;
-        color: #fff;
-        background-color: #333;
-    }
-    input[type="text"].ng-dirty {
-        border: 1px ridge #FFFFFF;
-        color: #fff;
-        background-color: #307BA3;
+    #nameOfBraDiv input[type="text"] {
+        width: 130px;
+        margin-left: 0px;
+        margin-top: 0px;
     }
 
-    select.ng-dirty {
-        border: 1px ridge #FFFFFF;
-        color: #fff;
-        background-color: #307BA3;
+
+    #nameOfBraDiv select {
+        width: 130px;
+        margin-left: 0px;
+        margin-top: 0px;
     }
 
-    label {
-        font-weight: normal;
-    }
-.panel-body{
-    padding: 0px 15px;
-    background-color: #404040;
-    color: #fff;
-}
-.panel{
-    margin-bottom: 0px;
-}
-    #rdBranchDiv {
-        /*border: 1px solid #FBFBFB;*/
-        width: 100%;
-        height: 100%;
-        min-height: 300px;
-        /*overflow-y: scroll;*/
-        /* opacity: .8;
-        background-color: #404040; */
-        
-    }
-
-    .line-dashed {
-        background-color: transparent;
-        border-style: dashed !important;
-        border-width: 0;
-    }
-
-    .line-lg {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    .pull-in {
-        margin-left: -15px;
-        margin-right: -15px;
-    }
-
-    .col-centered {
-        float: none;
-        margin: 0 auto;
-    }
-    .form-horizontal .control-label{
-        text-align: center;
-    }
-    .glyphicon-chevron-down{
-        cursor: pointer;
-    }
-    .info-group{
-        margin-right: 0 !important;
-    }
-    .info-remove{
-        top: -10px;
-        cursor: pointer;
-        background-color: #fff;
-        right: -102%;
-        transition:all 0.5s;
-        color: darkgray;
-        font-size: 20px;
-    }
-    .info-remove:hover{
-        color: #CC0000 !important
-    }
-    /*输入查询图片*/
-    .pic-show{
-        position: absolute;
-        border: 1px solid #fff;
-        z-index: 999;
-        border-radius: 4px;
-        padding-left: 4px;
-        padding-top: 6px;
-        padding-bottom: 7px;
-        background-color: #333;
-        display: none;
-        box-shadow: 4px 4px 7px 0px #777;    
-        min-width: 70%;
-        min-height: 193px;
-    }
-    .pic-show-well{
-        min-width: 100%;
-        min-height: 246px;
-    }
-    .img-well{
-        float: left;
-        padding: 3px;
-        border: 1px solid #fff;
-        border-radius: 4px;
-        margin: 4px;
-        cursor: pointer;
-    }
-    .show-img{
-        width: 65px;
-        height: 55px;
-    }
-    .num-well{
-        margin-left:5px;
-    }
-    .pic-show-btn{
-        margin-right: 5px;
-    }
-    .option-hide{
-        position: absolute;
-        right: -10px;
-        background-color: #fff;
-        border-radius: 50%;
-        top: -13px;
-    }
-    .pic-loading{
-        min-height: 270px;
-        position: absolute;
-        top: -1px;
-        left: 1px;
-        transition: all 0.5s;
-        z-index: 9999999;
-        background-color: rgba(0, 0, 0, 0.52);
-        min-width: 100%;
-        cursor: not-allowed;
-        text-align: center;
-        color: #fff;
-        padding-top: 60%;
-    }
-    .img-describe{
-        background-color: #777;
-        color: #fff;
-        font-size: 11px;
-        text-align: center;
-    }
-    .glyphicon-chevron-down{
-        color: #fff;
-    }
-    .module-box{
-        border: 1px solid #FFF;
-        padding: 10px;
-        width: 97%;
-        float: left;
-        margin: 5px;
-        border-radius: 4px;
-        background-color: #555;
-        /*opacity: 0.8;*/
-    }
-    .module-fix-box{
-        padding: 10px;
-        width: 97%;
-        float: left;
-        margin: 5px;
-        border-radius: 4px;
-        background-color: #555;
-    }
-    .box-head{
-        color: #fff;
-    }
-    .d-name{
-        float: left;
-        width: 30%;
-        text-align: right;
-        color: #fff;
-    }
-    .d-value{
-        float: left;
-        width: 69%;
-        color: #fff;
-    }
-    .d-input{
-        border: 1px solid #FFFFFF;
-        border-style: ridge;
-        background-color: #333;
-        width: 100%;
-        border-radius: 3px;
-        color: #fff;
-    }
-    .d-group{
-        margin-top:3px;
-        float: left;
-        width: 100%;
-    }
-    .d-title{
-        float: left;
-    }
-    .d-radio-btn>label{
-        height: 20px !important;
-        line-height: 8px !important;
-        border: 1px solid #FFF !important;
-        padding-top: 4px;
-    }
-    .show-detail-title{
-        cursor: pointer; 
-        transition: all 0.3s; 
-        padding: 3px;
-    }
-    .show-detail-title:hover{
-       background-color: #333;
-    }
     /*高速分歧map上图片显示*/
     #picMapShow {
         width: 192px;
@@ -242,9 +40,7 @@
         width: 100%;
         text-align: center;
     }
-    .show-val{
-        color: #fff;
-    }
+
 
 </style>
 <div id="nameOfBraDiv" ng-controller="namesOfBranchCtrl">
