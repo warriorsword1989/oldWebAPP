@@ -85,6 +85,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
             map.floatMenu = null;
         }
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
+        $scope.subAttrTplContainerSwitch(false);
         $("#popoverTips").hide();
         $scope.changeBtnClass(num);
         if (!$scope.classArr[num]) {
@@ -156,6 +157,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
         tooltipsCtrl.setCurrentTooltip($scope.toolTipText);
     };
     $scope.selectObjCallback = function (data) {
+        $scope.$emit("SWITCHCONTAINERSTATE", {"subAttrContainerTpl": false})
         //地图小于17级时不能选择
         if(map.getZoom < 17){
             return;

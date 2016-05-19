@@ -10,7 +10,9 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
 
     if($(".ng-dirty")) {
         $.each($('.ng-dirty'), function (i, v) {
-            $scope.ordinaryRticForm.$setPristine();
+            if($scope.ordinaryRticForm!=undefined) {
+                $scope.ordinaryRticForm.$setPristine();
+            }
         });
     }
     $scope.rticDroption =[

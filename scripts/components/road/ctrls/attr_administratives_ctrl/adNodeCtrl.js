@@ -27,7 +27,9 @@ adNodeApp.controller("adNodeController",function($scope) {
         $scope.adNodeData = objCtrl.data;
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.adNodeForm.$setPristine();
+                if($scope.adNodeForm!=undefined) {
+                    $scope.adNodeForm.$setPristine();
+                }
             });
         }
 

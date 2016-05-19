@@ -58,7 +58,9 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         highRenderCtrl.drawHighlight();
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.adAdminForm.$setPristine();
+                if($scope.adAdminForm!=undefined) {
+                    $scope.adAdminForm.$setPristine();
+                }
             });
         }
     };

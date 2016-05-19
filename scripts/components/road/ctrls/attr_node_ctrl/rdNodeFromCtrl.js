@@ -67,12 +67,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     ];
     $scope.initializeNodeData=function() {
         $scope.rdNodeData = {};
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                $scope.nodeForm.$setPristine();
-            });
-
-        }
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         var highlightFeatures = [];
@@ -118,7 +112,13 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             highRenderCtrl.drawHighlight();
 
         });
-
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                if($scope.nodeForm!=undefined) {
+                    $scope.nodeForm.$setPristine();
+                }
+            });
+        }
     };
 
     $scope.initialForms = function(){

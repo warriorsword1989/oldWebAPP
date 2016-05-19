@@ -37,6 +37,12 @@
         border-left: none;
     }
 
+    #basicDiv ul > li > div.ng-dirty {
+        -webkit-appearance: none;
+        background: #307BA3;
+        border-radius: 50%;
+    }
+
     #basicDiv ul > li > div > input {
         color: #F3F6FA;
         width:170px;
@@ -49,7 +55,7 @@
         background-color: #333;
     }
 
-    #basicDiv ul > li > div > input.ng-dirty {
+    #basicDiv ul > li > div > input[type="text"].ng-dirty {
         color: #F3F6FA;
         width:170px;
         margin-left: -3px;
@@ -95,6 +101,14 @@
     }
     #basicDiv ul > li > div > label>input[type="radio"] {
         margin-top: 3px
+    }
+
+    #basicDiv ul > li > div > label>input[type="radio"]:checked.ng-dirty {
+        -webkit-appearance: none;
+        background: #307BA3;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
     }
 
     .inline {

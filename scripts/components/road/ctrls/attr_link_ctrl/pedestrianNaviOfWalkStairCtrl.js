@@ -7,12 +7,7 @@ walkstairApp.controller("walkstairController",function($scope) {
     $scope.walkstairData = objCtrl.data.walkstairs;
     $scope.linkData = objCtrl.data;
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            $scope.walkStairForm.$setPristine();
-        });
 
-    }
     for(var i= 0,len=$scope.walkstairData.length;i<len;i++) {
         if($scope.walkstairData[i]["rowId"]===$scope.linkData["oridiRowId"]) {
             $scope.oridiData = $scope.walkstairData[i];
@@ -37,6 +32,15 @@ walkstairApp.controller("walkstairController",function($scope) {
         {"id": 3, "label":"划线隔离"},
         {"id": 4, "label":"无隔离"}
     ];
+
+    if($(".ng-dirty")) {
+        $.each($('.ng-dirty'), function (i, v) {
+            if($scope.walkStairForm!=undefined) {
+                $scope.walkStairForm.$setPristine();
+            }
+        });
+
+    }
     $scope.addStairWalk = function () {
         $scope.walkstairData.unshift({
             captureFlag: 1,
