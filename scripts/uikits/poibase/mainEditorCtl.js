@@ -171,7 +171,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             $scope.layerName = 'checkResultLayer';
             for(var i=0,len=data.length;i<len;i++){
-                data[i].kindInfo = metaData.kindFormat[data[i].kindCode];
+                data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
             }
             $scope.refFt = {
                 title:'检查结果',
@@ -192,7 +192,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             meta.getParentFidList().then(function(list){
                 fidList = list;
                 for(var i=0,len=data.data.length;i<len;i++){
-                    data.data[i].kindInfo = metaData.kindFormat[data.data[i].kindCode];
+                    data.data[i].kindInfo = $scope.metaData.kindFormat[data.data[i].kindCode];
                     if(_fid && _fid == data.data[i].fid){
                         data.data[i].ifParent = 1;
                         data.data[i].labelRemark = {
@@ -299,8 +299,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
             $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
             $scope.showConflictPoiInfo = true;
-            data.refData.duppoi.kindName = metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
-            data.refData.duppoi.brandList = metaData.allChain[data.refData.duppoi.kindCode];
+            data.refData.duppoi.kindName = $scope.metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
+            data.refData.duppoi.brandList = $scope.metaData.allChain[data.refData.duppoi.kindCode];
             $scope.optionData.confusionData = data;
         });
         $scope.showConflictInfo = true;
@@ -340,7 +340,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
                     var param = {
                         historyData:editHistoryData,
-                        kindFormat:metaData.kindFormat
+                        kindFormat:$scope.metaData.kindFormat
                     };
                     $scope.optionData.editHistoryData = param;
                 });
@@ -388,7 +388,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     initializeData();
     var initKindFormat = function (kindData){
         for (var i = 0; i < kindData.length; i++) {
-            metaData.kindFormat[kindData[i].kindCode] = {
+            $scope.metaData.kindFormat[kindData[i].kindCode] = {
                 kindId: kindData[i].id,
                 kindName: kindData[i].kindName,
                 level: kindData[i].level,
