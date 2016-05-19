@@ -104,6 +104,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                         });
                     map.currentTool.snapHandler.addGuideLayer(adLink);
                     map.currentTool.enable();
+                    shapeCtrl.editType = "addAdFaceLine";
                     //初始化鼠标提示
                     $scope.toolTipText = '请选择线！';
                     adLink.options.editable = true;
@@ -176,16 +177,30 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                             highRenderCtrl._cleanHighLight();
                            if( $scope.endNode===data["properties"]["snode"]) {
                                $scope.endNode = data["properties"]["enode"];
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
                                selectCount++;
                                linksArr.push(data["id"]);
                            }else if($scope.endNode===data["properties"]["enode"]){
                                $scope.endNode = data["properties"]["snode"];
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
                                selectCount++;
                                linksArr.push(data["id"]);
                            }
                        }
                         if(selectCount>2&&($scope.endNode===$scope.startNode)) {
-                            selectCtrl.selectedFeatures(
+                            selectCtrl.onSelected(
                                 {
                                     'adLinks':linksArr
                                 }

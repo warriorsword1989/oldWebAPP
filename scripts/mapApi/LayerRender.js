@@ -451,7 +451,6 @@ fastmap.mapApi.LayerRender = {
         if (!linestyle) {
             return;
         }
-
         var proj = [],
 
             coords = this._clip(ctx, geom);
@@ -468,6 +467,7 @@ fastmap.mapApi.LayerRender = {
             }
 
         }
+
         var g = ctx.canvas.getContext('2d');
         g.strokeStyle = linestyle.strokeColor;
         g.lineWidth = linestyle.strokeWidth;

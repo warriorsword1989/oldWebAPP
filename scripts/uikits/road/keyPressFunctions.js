@@ -480,8 +480,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功",
                             'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
-                }
-                else if (shapeCtrl.editType === "pathBuffer") {
+                } else if (shapeCtrl.editType === "pathBuffer") {
                     this.transform = new fastmap.mapApi.MecatorTranform();
                     var scale = this.transform.scale(map);
                     var linkWidth = parseFloat(geo.linkWidth * scale);
@@ -500,6 +499,23 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("referenceLine").redraw();
                         layerCtrl.getLayerById("referenceNode").redraw();
                         treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
+                    })
+                }else if(shapeCtrl.editType === "addAdFaceLine") {
+                    var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                    param = {
+                        "command": "CREATE",
+                        "type": "ADFACE",
+                        "linkType":"ADLINK",
+                        "projectId": Application.projectid,
+                        "data": {
+                            "linkPids": adLinksArr
+                        }
+                    }
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("adface").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
+                        treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
+                            'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
                 }
             }

@@ -178,7 +178,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                         result = {
                             layer: geometry,
                             latlng: [distaceResult.x, distaceResult.y],
-                            index: distaceResult.index,
+                            //index: distaceResult.index,
                             distance: distance,
                             properties: data[i].properties
                         };
@@ -219,7 +219,6 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     }
                 }
             }
-
             //捕捉node
             if(this.snapNode && data[i].geometry.type =="Point"){
 
