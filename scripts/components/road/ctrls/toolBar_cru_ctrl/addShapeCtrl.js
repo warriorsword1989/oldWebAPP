@@ -727,7 +727,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
-                        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl": false});
+                        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false});
                         map._container.style.cursor = '';
                         map.currentTool = new fastmap.uikit.SelectPath(
                             {

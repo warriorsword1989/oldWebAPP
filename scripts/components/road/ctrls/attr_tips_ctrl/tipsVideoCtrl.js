@@ -23,10 +23,10 @@ tipsVideoApp.controller("tipsVideoController", function ($scope, $timeout, $ocLa
         /*document.getElementById("dataTipsVideoModal").style.display = 'block';*/
         if ( $scope.picData && id <= $scope.picData.length - 1) {
             var VideoImg = $("#VideoModal");
-            VideoImg.attr("src","../../images/road/video/"+id+".mp3");
-            $scope.VideoId =  id;
+            VideoImg.attr("src", "../../images/road/video/" + id + ".mp3");
+            $scope.VideoId = id;
             //$scope.openshotoorigin =  $scope.picData[id];
-            $scope.imgPageNow =  id + 1;
+            $scope.imgPageNow = id + 1;
             //$scope.showLoading = true;
             //var originImg = $("#dataTipsVideoModal");
             //originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
@@ -64,9 +64,9 @@ tipsVideoApp.controller("tipsVideoController", function ($scope, $timeout, $ocLa
         // $("#dataTipsOriginImg").hide();
     };
 
-   $scope.$on("TRANSITTIPSVIDEO",function(event,data) {
+    $scope.$on("TRANSITTIPSVIDEO", function (event, data) {
        $scope.picData = selectCtrl.rowKey.feedback.f_array;
-       $scope.openVideo(selectCtrl.rowKey["VideoId"]);
+        $scope.openVideo(selectCtrl.rowKey["VideoId"]);
        $scope.imgAllPage =  $scope.getPicNum();
    })
 

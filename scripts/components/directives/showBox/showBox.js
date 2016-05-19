@@ -3,7 +3,7 @@
  * 此指令
  *
  */
-angular.module('fastmap.uikit').directive('showBox', function() {
+angular.module('fastmap.uikit').directive('showBox', function () {
     return {
         restrict: 'EA',
         replace: true,
@@ -17,8 +17,8 @@ angular.module('fastmap.uikit').directive('showBox', function() {
             beforeDelete: '&fmBeforeDelete',
             afterDelete: '&fmAfterDelete'
         },
-        controller: function($scope, $element) {
-            $scope.selectMe = function(index) {
+        controller: function ($scope, $element) {
+            $scope.selectMe = function (index) {
                 $scope.page.pageNo = Math.ceil((index + 1) / $scope.page.pageSize);
                 $scope.selectedIndex = index;
                 $scope.selectedImg = $scope.dataList[index];
@@ -29,14 +29,14 @@ angular.module('fastmap.uikit').directive('showBox', function() {
                     });
                 }
             };
-            $scope.clickMe = function() {
+            $scope.clickMe = function () {
                 if ($scope.onClick) {
                     $scope.onClick({
                         item: $scope.selectedImg
                     });
                 }
             };
-            $scope.deleteMe = function() {
+            $scope.deleteMe = function () {
                 if ($scope.beforeDelete) {
                     $scope.beforeDelete({
                         item: $scope.selectedImg
@@ -59,17 +59,17 @@ angular.module('fastmap.uikit').directive('showBox', function() {
                     });
                 }
             };
-            $scope.prev = function() {
+            $scope.prev = function () {
                 if ($scope.page.pageNo > 1) {
                     $scope.page.pageNo--;
                 }
             };
-            $scope.next = function() {
+            $scope.next = function () {
                 if ($scope.page.pageNo < $scope.page.pageCount) {
                     $scope.page.pageNo++;
                 }
             };
-            $scope.$watch("dataList", function(newValue, oldValue) {
+            $scope.$watch("dataList", function (newValue, oldValue) {
                 if (newValue.length > oldValue.length) { // 新增时，选中最后一个，即选中新增的
                     $scope.selectMe(newValue.length - 1);
                 }
@@ -78,11 +78,11 @@ angular.module('fastmap.uikit').directive('showBox', function() {
             $scope.pageStyle = {
                 "margin-top": "0px"
             };
-            $scope.$watch("page.pageNo", function() {
+            $scope.$watch("page.pageNo", function () {
                 $scope.pageStyle["margin-top"] = -(($scope.page.pageNo - 1) * 53) + "px";
             });
         },
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             scope.selectedIndex = -1;
             scope.selectedImg = null;
             var divs = element.children("div");
@@ -98,7 +98,7 @@ angular.module('fastmap.uikit').directive('showBox', function() {
             }
             var bh = imgBox[0].clientHeight;
             var bw = imgBox[0].clientWidth;
-            imgBox.find("img").on("load", function() {
+            imgBox.find("img").on("load", function () {
                 var that = angular.element(this);
                 var nw = this.naturalWidth;
                 var nh = this.naturalHeight

@@ -70,7 +70,7 @@ FM.dataApi.DataModel = FM.Class.extend({
     getSnapShot: function() {
         return this.getIntegrate();
     },
-    getChanges: function() {
+    getChanges: function () {
         var changedJson = {};
         var newJson = this.getIntegrate();
         for (property in this.originJson.hasOwnProperty()) {
