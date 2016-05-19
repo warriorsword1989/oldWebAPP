@@ -64,10 +64,10 @@ Application.layersConfig =
                     options: {
                         layername: '格网',
                         id: 'grid',
-                        gridInfo: null,
+                        gridInfo:null,
                         url: '',
-                        divideX: 4,
-                        divideY: 4,
+                        divideX:4,
+                        divideY:4,
                         visible: false,
                         zIndex: 3
                     }
@@ -1212,7 +1212,6 @@ function transformData(data, url) {
                 obj['properties']['style']['strokeColor'] = 'black';
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
-                ;
                 obj['properties']['style']['radius'] = 3;
 
                 obj['properties']['style']['fillColor'] = 'black';
@@ -1248,15 +1247,15 @@ function transformData(data, url) {
             case 1201://道路种别
                 break;
             case 1901://道路名
-            //obj['properties']["featType"] = item.t;
-            //obj['geometry']['type'] = "LineString";
-            //
-            //obj['properties']['style'] = {
-            //    'strokeColor': '#7030A0',
-            //    'strokeWidth': 2,
-            //    'strokeOpacity': 0.8
-            //};
-            //break;
+                //obj['properties']["featType"] = item.t;
+                //obj['geometry']['type'] = "LineString";
+                //
+                //obj['properties']['style'] = {
+                //    'strokeColor': '#7030A0',
+                //    'strokeWidth': 2,
+                //    'strokeOpacity': 0.8
+                //};
+                //break;
             //case 2001://侧线
             //    obj['properties']["featType"] = item.t;
             //    obj['geometry']['type'] = "LineString";
@@ -1473,20 +1472,30 @@ function transformDataForTips(data, param) {
         switch (item.t) {
             case 1101://限速
                 obj['geometry']['coordinates'] = item.g;
-
+                obj['properties']['rotate'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
                         iconName: '../../images/road/tips/1101/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
                     })
                 );
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                            iconName: '../../images/road/1101/1101_1_1_s.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c - 90) * (Math.PI / 180),
+                            dx: ("0" == "1" ? -36 : 6),//解除限速时，要使箭头冲着自己
+                            dy: 0
 
-                if (param) {
+                        }
+                    )
+                );
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
-
-
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint": item.m.h,
@@ -1511,9 +1520,8 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if (param) {
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
-
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint": item.m.h,
@@ -1535,8 +1543,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-
-                if (param) {
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1599,8 +1606,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-
-                if (param) {
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1622,8 +1628,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-
-                if (param) {
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1696,12 +1701,13 @@ function transformDataForTips(data, param) {
 
                 obj['geometry']['coordinates'] = item.g;
 
-                obj['properties']['rotate'] = item.m.c;
+                //obj['properties']['rotate'] = item.m.c;
                 if (item.m.d == 1) {
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
                             iconName: '../../images/road/tips/road/1.svg',
                             row: 0,
+                            rotate: (item.m.c ) * (Math.PI / 180),
                             column: 1,
                             location: obj['geometry']['coordinates']
                         })
@@ -1711,13 +1717,13 @@ function transformDataForTips(data, param) {
                         getIconStyle({
                             iconName: '../../images/road/tips/road/2.svg',
                             row: 0,
+                            rotate: (item.m.c) * (Math.PI / 180),
                             column: 1,
                             location: obj['geometry']['coordinates']
                         })
                     );
                 }
-
-                if (param) {
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1741,7 +1747,7 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if (param) {
+                if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1782,21 +1788,21 @@ function transformDataForTips(data, param) {
                     );
                     featArr.push(obj);
                 }
-                /*        var bridgeObj = {};
-                 bridgeObj['geometry'] = {};
-                 bridgeObj['geometry']['coordinates'] = item.g;
-                 bridgeObj['properties'] = {};
-                 bridgeObj['properties']['style'] = {};
-                 bridgeObj['properties']['id'] = item.i;
-                 bridgeObj['properties']["featType"] = item.t;
-                 bridgeObj['geometry']['type'] = "LineString";
+        /*        var bridgeObj = {};
+                bridgeObj['geometry'] = {};
+                bridgeObj['geometry']['coordinates'] = item.g;
+                bridgeObj['properties'] = {};
+                bridgeObj['properties']['style'] = {};
+                bridgeObj['properties']['id'] = item.i;
+                bridgeObj['properties']["featType"] = item.t;
+                bridgeObj['geometry']['type'] = "LineString";
 
-                 bridgeObj['properties']['style'] = {
-                 'strokeColor': '#336C0A',
-                 'strokeWidth': 2,
-                 'strokeOpacity': 0.8
-                 };
-                 featArr.push(bridgeObj);*/
+                bridgeObj['properties']['style'] = {
+                    'strokeColor': '#336C0A',
+                    'strokeWidth': 2,
+                    'strokeOpacity': 0.8
+                };
+                featArr.push(bridgeObj);*/
                 break;
             case 1514://施工维修
                 featArr.pop();
@@ -1827,23 +1833,23 @@ function transformDataForTips(data, param) {
                     featArr.push(obj);
                 }
 
-                /* var repairObj = {};
-                 repairObj['geometry'] = {};
-                 repairObj['geometry']['coordinates'] = item.g;
-                 repairObj['properties'] = {};
-                 repairObj['properties']['style'] = {};
-                 repairObj['properties']['id'] = item.i;
-                 repairObj['properties']["featType"] = item.t;
-                 repairObj['geometry']['type'] = "LineString";
-                 repairObj['properties']["featType"] = item.t;
-                 repairObj['geometry']['type'] = "LineString";
+               /* var repairObj = {};
+                repairObj['geometry'] = {};
+                repairObj['geometry']['coordinates'] = item.g;
+                repairObj['properties'] = {};
+                repairObj['properties']['style'] = {};
+                repairObj['properties']['id'] = item.i;
+                repairObj['properties']["featType"] = item.t;
+                repairObj['geometry']['type'] = "LineString";
+                repairObj['properties']["featType"] = item.t;
+                repairObj['geometry']['type'] = "LineString";
 
-                 repairObj['properties']['style'] = {
-                 'strokeColor': '#E36C0A',
-                 'strokeWidth': 2,
-                 'strokeOpacity': 0.8
-                 };
-                 featArr.push(repairObj);*/
+                repairObj['properties']['style'] = {
+                    'strokeColor': '#E36C0A',
+                    'strokeWidth': 2,
+                    'strokeOpacity': 0.8
+                };
+                featArr.push(repairObj);*/
                 break;
             case 1801://立交
 

@@ -1,5 +1,5 @@
 /**
- * Created by chenxiao on 2016/4/21.
+ * Created by wangmingdong on 2016/5/19.
  */
 FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
     dataModelType: "IX_EDIT_HISTORY",
@@ -25,7 +25,7 @@ FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
                 this.mergeContents.push(fieldName);
             }
         }
-        this.validationMethod = data['validationMethod'] || 1;
+        this.validationMethod = data['validationMethod'];
         this.comment = data['comment'] || null;
     },
     statics: {

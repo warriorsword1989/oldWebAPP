@@ -259,6 +259,11 @@ app.controller('RoadEditController', ['$scope', '$ocLazyLoad', '$rootScope', fun
                 $scope.$broadcast("TRANSITTIPSPICTURE", {})
                 return;
             }
+        }else if(data["loadType"] === "tipsVideoContainer") {
+            if ($scope[data["loadType"]]) {
+                $scope.$broadcast("TRANSITTIPSVIDEO", {})
+                return;
+            }
         }
 
         $ocLazyLoad.load(data["propertyCtrl"]).then(function () {
@@ -342,10 +347,6 @@ function appInit() {
         }
     })
     for (var layer in layerCtrl.getVisibleLayers()) {
-        if(layerCtrl.getVisibleLayers()[layer]==undefined) {
-            console.log(layerCtrl.getVisibleLayers()[layer]);
-        }
-
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
 

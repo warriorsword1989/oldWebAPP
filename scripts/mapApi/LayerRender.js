@@ -166,10 +166,6 @@ fastmap.mapApi.LayerRender = {
 
         geom = this._clip(ctx, geom);
         var endLen = geom.length;
-        if (startLen !== endLen) {
-            console.log("开始的长度为: " + startLen + "处理后的长度:" + endLen);
-        }
-
         var c = ctx.canvas;
         var g = c.getContext('2d');
         g.font = "10px Courier New";
@@ -455,7 +451,6 @@ fastmap.mapApi.LayerRender = {
         if (!linestyle) {
             return;
         }
-
         var proj = [],
 
             coords = this._clip(ctx, geom);
@@ -472,6 +467,7 @@ fastmap.mapApi.LayerRender = {
             }
 
         }
+
         var g = ctx.canvas.getContext('2d');
         g.strokeStyle = linestyle.strokeColor;
         g.lineWidth = linestyle.strokeWidth;
