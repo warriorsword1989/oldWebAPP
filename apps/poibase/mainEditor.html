@@ -44,8 +44,11 @@
                         <div class="content" style="max-height: 240px;">
                             <ol>
                                 <li ng-repeat="item in refFt.refList">
-                                    <a ng-if="layerName=='mainPoiLayer'" href="javascript:;" class="has-popover" ng-click="showSelectedSamePoiInfo(item,$index);" ng-bind="item.name"></a>
-                                    <a ng-if="layerName!='mainPoiLayer'" href="javascript:;" class="has-popover" ng-click="showPoiDetailInfo(item,$index);" uib-popover-template="poiInfoTpl" popover-placement="left" popover-title="POI属性" ng-bind="item.name"></a>
+                                    <a ng-if="layerName=='mainPoiLayer'" href="javascript:;" class="has-popover"
+                                       ng-click="showSelectedSamePoiInfo(item,$index);" ng-bind="item.name"></a>
+                                    <a ng-if="layerName!='mainPoiLayer'" href="javascript:;" class="has-popover"
+                                       ng-click="showPoiDetailInfo(item,$index);" uib-popover-template="poiInfoTpl"
+                                       popover-placement="left" popover-title="POI属性" ng-bind="item.name"></a>
                                     <span class="label label-info" ng-bind="item.kindInfo.kindName"></span>
                                     <span class="label label-{{item.labelRemark.labelClass}}" ng-bind="item.labelRemark.text"></span>
                                 </li>
@@ -87,6 +90,7 @@
         <div class="navbar-form navbar-right">
             <div id="operateBtnGroup" class="form-group">
                 <button type="button" ng-class="saveButClass" class="btn btn-primary func-btn" id="saveBtn" ng-click="doSave()">保 存</button>
+                <button type="button" class="btn btn-success func-btn" id="addPoiBtn" ng-click="testQuery()">测 试</button>
                 <button type="button" class="btn btn-success func-btn" id="addPoiBtn" onclick="doAddPoi()">新 增</button>
                 <button type="button" class="btn btn-danger func-btn" id="deleteBtn" onclick="doDelete()">删 除</button>
                 <button type="button" class="btn btn-info func-btn" id="restoreBtn" style="display:none" onclick="doRestore()">还 原</button>

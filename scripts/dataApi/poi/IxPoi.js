@@ -13,34 +13,34 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         var ret = {};
         ret['relateParent'] = this.relateParent;
         ret['attachments'] = [];
-        if (this.attachmentsImage){
-            for (var i = 0 ,len = this.attachmentsImage.length ;i < len ; i++){
-                ret['attachments'].push(this.attachmentsImage[i].getIntegrate());
+         if (this.attachmentsImage) {
+             for (var i = 0, len = this.attachmentsImage.length; i < len; i++) {
+                 ret['attachments'].push(this.attachmentsImage[i].getIntegrate());
             }
         }
-        if (this.attachmentsOther){
-            for (var i = 0 ,len = this.attachmentsOther.length ;i < len ; i++){
-                ret['attachments'].push(this.attachmentsOther[i]);
-            }
-        }
-        if(this.attachmentsRemark){
-            if (this.attachmentsDoc && this.attachmentsDoc.length > 0){
-                this.attachmentsDoc[i].url = this.attachmentsRemark;
-                ret['attachments'].push(this.attachmentsDoc[i]);
-            } else {
-                var temp = {
-                    "tag":4,
-                    "type":0,
-                    "url":this.attachmentsRemark
-                }
-                ret['attachments'].push(temp);
-            }
-        } else {
-            if (this.attachmentsDoc && this.attachmentsDoc.length > 0){
-                this.attachmentsDoc[i].url = "";
-                ret['attachments'].push(this.attachmentsDoc[i]);
-            }
-        }
+         if (this.attachmentsOther) {
+             for (var i = 0, len = this.attachmentsOther.length; i < len; i++) {
+                 ret['attachments'].push(this.attachmentsOther[i]);
+             }
+         }
+         if (this.attachmentsRemark) {
+             if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
+                 this.attachmentsDoc[i].url = this.attachmentsRemark;
+                 ret['attachments'].push(this.attachmentsDoc[i]);
+             } else {
+                 var temp = {
+                     "tag": 4,
+                     "type": 0,
+                     "url": this.attachmentsRemark
+                 }
+                 ret['attachments'].push(temp);
+             }
+         } else {
+             if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
+                 this.attachmentsDoc[i].url = "";
+                 ret['attachments'].push(this.attachmentsDoc[i]);
+             }
+         }
         
 
         ret["contacts"] = [];
@@ -50,11 +50,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             }
         }
         ret["indoor"] = this.indoor;
-        if(ret["indoor"].type){
-            ret["indoor"].type = 3;
-        } else {
-            ret["indoor"].type = 0;
-        }
+         if (ret["indoor"].type) {
+             ret["indoor"].type = 3;
+         } else {
+             ret["indoor"].type = 0;
+         }
 
         ret['pid'] = this.pid;
         ret['checkResults'] = [];
@@ -103,11 +103,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['sourceFlags'] = this.sourceFlags;
         ret['website'] = this.website;
         ret['open24H'] = this.open24H;
-        if(this.open24H){
-            ret['open24H'] = 1;
-        } else {
-            ret['open24H'] = 2;
-        }
+         if (this.open24H) {
+             ret['open24H'] = 1;
+         } else {
+             ret['open24H'] = 2;
+         }
         ret['evaluateComment'] = this.evaluateComment;
         ret['latestBatchDate'] = this.latestBatchDate;
         ret['importance'] = this.importance;
@@ -176,7 +176,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 
         this.indoor = data["indoor"] || {};
         this.indoor.type = false;
-        if(this.indoor.type == 3) {
+        if (this.indoor.type == 3) {
             this.indoor.type = true
         }
 
@@ -231,7 +231,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.website = data['website'] || null;
         // 
         this.open24H = false;
-        if(data["open24H"] == 1) {
+        if (data["open24H"] == 1) {
             this.open24H = true
         }
         this.evaluateComment = data["evaluateComment"] || null;
