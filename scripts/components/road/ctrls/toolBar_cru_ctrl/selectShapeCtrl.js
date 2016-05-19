@@ -305,6 +305,10 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                     if (result.rowkey === "undefined") {
                         return;
                     }
+                    $scope.$emit("SWITCHCONTAINERSTATE",
+                        {
+                            "attrContainerTpl": false
+                        })
                     eventController.fire(eventController.eventTypes.SELECTBYATTRIBUTE, {feather: result});
                     switch (result.s_sourceType) {
                         case "2001"://测线
