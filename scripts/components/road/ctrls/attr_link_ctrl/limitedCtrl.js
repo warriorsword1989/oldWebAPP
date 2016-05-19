@@ -155,8 +155,13 @@ limitedApp.controller("limitedController", function ($scope,$timeout,$ocLazyLoad
         }
 
     }
-    $scope.minusLimit=function(id) {
-        $scope.linkLimitData.limits.splice(id, 1);
+    $scope.minusLimit=function(id,index) {
+        if(index==0){
+            $scope.linkLimitData.limits.splice(id, 1);
+        }else{
+            $scope.linkLimitData.limitTrucks.splice(id, 1);
+        }
+
     };
     $scope.addLimitTruck = function () {
         var newTruckLimit = fastmap.dataApi.rdLinkTruckLimit({"linkPid":$scope.linkLimitData.pid});

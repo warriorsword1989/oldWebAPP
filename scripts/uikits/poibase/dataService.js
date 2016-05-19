@@ -1,4 +1,4 @@
-angular.module("dataService", [], function($httpProvider) {
+angular.module("dataService", [], function ($httpProvider) {
     // Use x-www-form-urlencoded Content-Type
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     /**
@@ -6,7 +6,7 @@ angular.module("dataService", [], function($httpProvider) {
      * @param {Object} obj
      * @return {String}
      */
-    var param = function(obj) {
+    var param = function (obj) {
         var query = '',
             name, value, fullSubName, subName, subValue, innerObj, i;
         for (name in obj) {
@@ -32,19 +32,19 @@ angular.module("dataService", [], function($httpProvider) {
         return query.length ? query.substr(0, query.length - 1) : query;
     };
     // Override $http service's default transformRequest
-    $httpProvider.defaults.transformRequest = [function(data) {
+    $httpProvider.defaults.transformRequest = [function (data) {
         return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
     // Add interceptors
-    $httpProvider.interceptors.push(function($q) {
+    $httpProvider.interceptors.push(function ($q) {
         return {
             // optional method
-            'request': function(config) {
+            'request': function (config) {
                 // do something with config
                 return config;
             },
             // optional method
-            'requestError': function(rejection) {
+            'requestError': function (rejection) {
                 // do something on error
                 // if (canRecover(rejection)) {
                 //     return responseOrNewPromise
@@ -52,12 +52,12 @@ angular.module("dataService", [], function($httpProvider) {
                 return $q.reject(rejection);
             },
             // optional method
-            'response': function(response) {
+            'response': function (response) {
                 // do something with response
                 return response;
             },
             // optional method
-            'responseError': function(rejection) {
+            'responseError': function (rejection) {
                 // do something on error
                 // if (canRecover(rejection)) {
                 //     return responseOrNewPromise
