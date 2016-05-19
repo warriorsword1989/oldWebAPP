@@ -29,6 +29,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr ng-if="!uploader.queue || uploader.queue.length == 0" class="no-records-found">
+                <td colspan="5" class="text-center">目前无要上传的图片</td>
+            </tr>
             <tr ng-repeat="item in uploader.queue">
                 <td class="nowrap-text">
                     <strong>{{ item.file.name }}</strong>
