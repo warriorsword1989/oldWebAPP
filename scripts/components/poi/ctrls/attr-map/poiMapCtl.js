@@ -83,7 +83,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     //将点显示在地图上
     $scope.showSamePoisInMap = function (layerId, poiArray) {
         for (var i = 0; i < poiArray.length; i++) {
-            var poiLayer = FM.leafletUtil.createSamePointFeature(poiArray[i],"dotIcon");
+            var poiLayer = $scope.createSamePointFeature(poiArray[i],"dotIcon");
             poiLayer.parentLayer = layerId;
             FM.leafletUtil.getLayerById(pMap,layerId).addLayer(poiLayer);
         }
