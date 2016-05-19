@@ -293,10 +293,10 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         }
     };
     $scope.showChildrenPoisInMap = function() {
-        $scope.$emit('emitMainEditorTransChildren', {});
+        $scope.$emit('emitChildren', {});
     };
     $scope.showParentPoiInMap = function() {
-        $scope.$emit('emitMainEditorTransParent', {});
+        $scope.$emit('emitParent', {});
     };
 
     //初始化时监听selectedKind,后续都是通过$scope.kindChange方法监听的

@@ -396,9 +396,11 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     $scope.$on("showPoisInMap",function (event, data) {
         FM.leafletUtil.clearMapLayer(pMap,data.layerId);
         if(data.layerId == "parentPoiLayer"){
-            for(var i = 0;i<data.data.length;i++){
-                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"blueIcon");
-            }
+            FM.leafletUtil.createNormalPoiInMap(data.data,data.layerId,"blueIcon");
+            var marker = FM.leafletUtil.getLayerById(pMap,data.data.fid);
+            marker.openPopup();
+            pMap.panTo(marker._latlng);
+
         }else {
             for(var i = 0;i<data.data.length;i++){
                 FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"greenIcon");

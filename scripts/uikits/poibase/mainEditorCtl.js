@@ -521,10 +521,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         $scope.test();
     };
 
-    $scope.$on('emitMainEditorTransParent',function (obj){
-        $scope.$broadcast("showParentPoiInMap", $scope.snapshotPoi);
-    })
-    $scope.$on('emitMainEditorTransChildren',function (obj){
+    //接收从generalBase传过来的命令，查询并显示在地图上
+    $scope.$on('emitParent',function (obj){
+        var data = {};
+        // poi.getPoiDetailByFid($scope.poi.relateParent.parentFid).then(function(parentPoi) {
+        poi.getPoiDetailByFid("0010071122LK106169").then(function(parentPoi) {//假数据
+            data.data = parentPoi;
+            data.layerId = "parentPoiLayer";
+            $scope.$broadcast("showPoisInMap", data);
+        });
+    });
+
+    $scope.$on('emitChildren',function (obj){
+        poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+            $scope.poi = data;
+            $scope.snapshotPoi = data.getSnapShot();
+        })
+
         $scope.$broadcast("showChildrenPoisInMap", $scope.snapshotPoi);
     })
     $scope.loadAdditionInfo = function() {
