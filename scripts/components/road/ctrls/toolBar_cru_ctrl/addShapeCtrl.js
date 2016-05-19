@@ -395,6 +395,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 shapeCtrl.startEditing();
                 shapeCtrl.getCurrentTool().clickcount =1;
+                shapeCtrl.getCurrentTool().catches.length = 0;
+                shapeCtrl.getCurrentTool().snodePid = 0;
+                shapeCtrl.getCurrentTool().sNodePid = 0;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
                 shapeCtrl.editFeatType = "rdLink";
@@ -724,6 +727,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
+                        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl": false});
                         map._container.style.cursor = '';
                         map.currentTool = new fastmap.uikit.SelectPath(
                             {

@@ -59,6 +59,7 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
 
 
     onMouseDown: function (event) {
+
         var mousePoint = this._map.layerPointToLatLng(event.layerPoint);
         var lastPoint = this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length - 2];
         if (lastPoint != null && lastPoint.x != 0) {

@@ -1388,8 +1388,6 @@ function transformDataForTips(data, param) {
                 );
                 if(param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
-
-
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint": item.m.h,
@@ -1595,12 +1593,13 @@ function transformDataForTips(data, param) {
 
                 obj['geometry']['coordinates'] = item.g;
 
-                obj['properties']['rotate'] = item.m.c;
+                //obj['properties']['rotate'] = item.m.c;
                 if (item.m.d == 1) {
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
                             iconName: '../../images/road/tips/road/1.svg',
                             row: 0,
+                            rotate: (item.m.c ) * (Math.PI / 180),
                             column: 1,
                             location: obj['geometry']['coordinates']
                         })
@@ -1610,6 +1609,7 @@ function transformDataForTips(data, param) {
                         getIconStyle({
                             iconName: '../../images/road/tips/road/2.svg',
                             row: 0,
+                            rotate: (item.m.c) * (Math.PI / 180),
                             column: 1,
                             location: obj['geometry']['coordinates']
                         })

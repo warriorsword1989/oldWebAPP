@@ -13,11 +13,36 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         var ret = {};
         ret['relateParent'] = this.relateParent;
         ret['attachments'] = [];
-        if (this.attachments){
-            for (var i = 0 ,len = this.attachments.length ;i < len ; i++){
-                ret['attachments'].push(this.attachments[i].getIntegrate());
+        if (this.attachmentsImage){
+            for (var i = 0 ,len = this.attachmentsImage.length ;i < len ; i++){
+                ret['attachments'].push(this.attachmentsImage[i].getIntegrate());
             }
         }
+        if (this.attachmentsOther){
+            for (var i = 0 ,len = this.attachmentsOther.length ;i < len ; i++){
+                ret['attachments'].push(this.attachmentsOther[i]);
+            }
+        }
+        if(this.attachmentsRemark){
+            if (this.attachmentsDoc && this.attachmentsDoc.length > 0){
+                this.attachmentsDoc[i].url = this.attachmentsRemark;
+                ret['attachments'].push(this.attachmentsDoc[i]);
+            } else {
+                var temp = {
+                    "tag":4,
+                    "type":0,
+                    "url":this.attachmentsRemark
+                }
+                ret['attachments'].push(temp);
+            }
+        } else {
+            if (this.attachmentsDoc && this.attachmentsDoc.length > 0){
+                this.attachmentsDoc[i].url = "";
+                ret['attachments'].push(this.attachmentsDoc[i]);
+            }
+        }
+        
+
         ret["contacts"] = [];
         if (this.contacts){
             for (var i = 0 ,len = this.contacts.length ;i < len ; i++){
@@ -25,6 +50,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             }
         }
         ret["indoor"] = this.indoor;
+        if(ret["indoor"].type){
+            ret["indoor"].type = 3;
+        } else {
+            ret["indoor"].type = 0;
+        }
+
         ret['pid'] = this.pid;
         ret['checkResults'] = [];
         if (this.checkResults){
@@ -72,6 +103,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['sourceFlags'] = this.sourceFlags;
         ret['website'] = this.website;
         ret['open24H'] = this.open24H;
+        if(this.open24H){
+            ret['open24H'] = 1;
+        } else {
+            ret['open24H'] = 2;
+        }
         ret['evaluateComment'] = this.evaluateComment;
         ret['latestBatchDate'] = this.latestBatchDate;
         ret['importance'] = this.importance;
@@ -111,12 +147,20 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     setAttributes: function(data) {
         this.relateParent = data["relateParent"] || null;
         //this.attachments = data["attachments"] || [];
-        this.attachments = [];
+        this.attachmentsImage = []; //图片
+        this.attachmentsDoc = []; //备注
+        this.attachmentsOther = []; //音频视频等
+        this.attachmentsRemark = '';
         if (data["attachments"].length > 0) {
             for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                 if (data["attachments"][i].type == 1) { //表示图片
                     var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
-                    this.attachments.push(attachment);
+                    this.attachmentsImage.push(attachment);
+                } else if (data["attachments"][i].type == 4) {
+                    this.attachmentsDoc.push(data["attachments"][i]);
+                    this.attachmentsRemark = data["attachments"][i].url;
+                } else {
+                    this.attachmentsOther.push(data["attachments"][i]);
                 }
             }
         }
@@ -130,7 +174,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             }
         }
 
-        this.indoor = data["indoor"] || null;
+        this.indoor = data["indoor"] || {};
+        this.indoor.type = false;
+        if(this.indoor.type == 3) {
+            this.indoor.type = true
+        }
+
         this.pid = data["pid"] || 0;
         this.checkResults = [];
         if(data['checkResults'] && data['checkResults'].length > 0){
@@ -181,7 +230,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.sourceFlags = data['sourceFlags'] || null;
         this.website = data['website'] || null;
         // 
-        this.open24H = data["open24H"] || 2;
+        this.open24H = false;
+        if(data["open24H"] == 1) {
+            this.open24H = true
+        }
         this.evaluateComment = data["evaluateComment"] || null;
         this.latestBatchDate = data["latestBatchDate"] || null;
         this.importance = data["importance"] || null;

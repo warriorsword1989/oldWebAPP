@@ -322,6 +322,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //点击下拉框的时  显示内容
             $scope.showContent = function (item, arr, stage, event) {
                 $("#dataTipsOriginModal").css("display", "none");
+                $("#dataTipsVideoModal").css("display", "none");
                 event.stopPropagation();
                 $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl":false,"subAttrContainerTpl":false})
                 if ($scope.showOrHideId !== "") {
@@ -467,6 +468,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.changeStyleArr($scope.solvedStyleArr, index);
                 }
                 $("#dataTipsOriginModal").css("display", "none");
+                $("#dataTipsVideoModal").css("display", "none");
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
                 $("#popoverTips").css("display", "block");
 
