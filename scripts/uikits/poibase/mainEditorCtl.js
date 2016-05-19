@@ -21,9 +21,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poiIcon = data;
     }));
-    promises.push(poi.getPoiByFid("0010060815LML01353").then(function(data) {
-        $scope.test = data;
-    }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
@@ -36,7 +33,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-            
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
@@ -61,7 +57,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             });*/
             // var imgs = initImages();
             // $scope.imagesArray =  imgs;
-            // $scope.deleteFlag = 1;   
+            // $scope.deleteFlag = 1;
         });
     });
     var initImages = function() {
@@ -226,8 +222,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
             }
             $scope.refFt = {
-                title:'检查结果关联POI',
-                refList:data
+                title: '检查结果关联POI',
+                refList: data
             };
             $scope.showRelatedPoiInfo = true;
             $scope.$broadcast('showPoisInMap', {
@@ -300,8 +296,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     }
                 }
                 $scope.refFt = {
-                    title:'框选区域内关联POI',
-                    refList:data.data
+                    title: '框选区域内关联POI',
+                    refList: data.data
                 };
                 $scope.showRelatedPoiInfo = true;
                 $scope.layerName = data.layerId;
@@ -310,51 +306,50 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         });
     });
     /*接收同位点信息*/
-    $scope.$on('samePois',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+    $scope.$on('samePois', function(event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function() {
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             // $scope.samePois = data;
             $scope.refFt = {
-                title:'同位点POI',
-                refList:data.data
+                title: '同位点POI',
+                refList: data.data
             };
             $scope.showRelatedPoiInfo = true;
             $scope.layerName = data.layerId;
         });
     });
-
     /*接收周边查询点信息*/
-    $scope.$on('searchPois',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+    $scope.$on('searchPois', function(event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function() {
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             $scope.searchPois = data;
             var _fid = $scope.poi.fid;
             var fidList;
-            meta.getParentFidList().then(function(list){
+            meta.getParentFidList().then(function(list) {
                 fidList = list;
-                for(var i=0,len=data.data.length;i<len;i++){
+                for (var i = 0, len = data.data.length; i < len; i++) {
                     data.data[i].kindInfo = $scope.metaData.kindFormat[data.data[i].kindCode];
-                    if(_fid && _fid == data.data[i].fid){
+                    if (_fid && _fid == data.data[i].fid) {
                         data.data[i].ifParent = 1;
                         data.data[i].labelRemark = {
-                            labelClass:'primary',
-                            text:'当前父'
+                            labelClass: 'primary',
+                            text: '当前父'
                         }
-                    }else{
-                        switch (data.data[i].kindInfo.parentFlag){
+                    } else {
+                        switch (data.data[i].kindInfo.parentFlag) {
                             case 0:
-                                if(!data.data[i].ifParent){
-                                    if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
+                                if (!data.data[i].ifParent) {
+                                    if (fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle != 1) { //可为父
                                         data.data[i].ifParent = 2;
                                         data.data[i].labelRemark = {
-                                            labelClass:"success",
-                                            text:"可为父"
+                                            labelClass: "success",
+                                            text: "可为父"
                                         }
-                                    }else{  //不可为父
+                                    } else { //不可为父
                                         data.data[i].ifParent = 3;
                                         data.data[i].labelRemark = {
-                                            labelClass:'default',
-                                            text:'不可为父'
+                                            labelClass: 'default',
+                                            text: '不可为父'
                                         }
                                     }
                                 }
@@ -362,8 +357,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                             case 1:
                                 data.data[i].ifParent = 2;
                                 data.data[i].labelRemark = {
-                                    labelClass:'success',
-                                    text:'可为父'
+                                    labelClass: 'success',
+                                    text: '可为父'
                                 }
                                 break;
                             case 2:
@@ -387,17 +382,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     }
                 }
                 $scope.refFt = {
-                    title:'周边1KM范围内的POI',
-                    refList:data.data
+                    title: '周边1KM范围内的POI',
+                    refList: data.data
                 };
                 $scope.showRelatedPoiInfo = true;
                 $scope.layerName = data.layerId;
             });
         });
     });
-
     /*显示关联poi详细信息*/
-    $scope.showPoiDetailInfo = function (poi, index) {
+    $scope.showPoiDetailInfo = function(poi, index) {
         $scope.poiDetail = {
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
@@ -406,10 +400,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
     /*显示同位点poi详细信息*/
-    $scope.showSelectedSamePoiInfo = function (poi, index) {
+    $scope.showSelectedSamePoiInfo = function(poi, index) {
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
-
     /*关闭关联poi数据*/
     $scope.closeRelatedPoiInfo = function() {
         $scope.showRelatedPoiInfo = false;
@@ -587,6 +580,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     })
     $scope.loadAdditionInfo = function() {
         $scope.additionInfoTpl = $scope.radioModel;
+    };
+    $scope.testQuery = function() {
+        poi.getPoiByFid("0010060815LML01353").then(function(data) {
+            $scope.test = data;
+        });
     };
     // $scope.$on("kindChange", function(event, data) {
     //     console.log($scope.poi.fid);

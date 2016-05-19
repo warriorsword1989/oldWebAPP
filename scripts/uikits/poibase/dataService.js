@@ -41,10 +41,6 @@ angular.module("dataService", [], function($httpProvider) {
             // optional method
             'request': function(config) {
                 // do something with config
-                if (config.url.indexOf("fos:") == 0) {
-                    // config.rqtype = "fos";
-                    config.url = App.Util.getFullUrl(config.url.substr(4));
-                }
                 return config;
             },
             // optional method
@@ -58,11 +54,6 @@ angular.module("dataService", [], function($httpProvider) {
             // optional method
             'response': function(response) {
                 // do something with response
-                // if (response.config.rqtype && response.config.rqtype == 'fos') {
-                //     return response.data;
-                // } else {
-                //     return response;
-                // }
                 return response;
             },
             // optional method
@@ -76,4 +67,13 @@ angular.module("dataService", [], function($httpProvider) {
             }
         };
     });
-});
+}).service("ajax", ["$http", function($http) {
+    this.get = function(url, param) {
+        return $http.get(App.Util.getFullUrl(url), {
+            params: param
+        });
+    };
+    this.post = function(url, param) {
+        return $http.post(App.Util.getFullUrl(url), param);
+    };
+}]);

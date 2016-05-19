@@ -1,4 +1,4 @@
-angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $q) {
+angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function($http, $q, ajax) {
     this.getPoiDetailByFid = function(fid) {
         var defer = $q.defer();
         var params = {
@@ -148,16 +148,16 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
             "featcode": "poi",
             "pagesize": 0
         };
-        $http.get("fos:editsupport/poi/query", {
-            params: {
-                parameter: JSON.stringify(params)
-            }
+        ajax.get("editsupport/poi/query", {
+            parameter: JSON.stringify(params)
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data.data[0]);
             } else {
                 defer.resolve("查询POI信息出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
@@ -172,12 +172,14 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $
             validationMethod: 1,
             data: poi
         };
-        $http.post("fos:editsupport/poi/save/", JSON.stringify(params)).success(function(data) {
+        ajax.post("editsupport/poi/save/", JSON.stringify(params)).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {
                 defer.resolve("保存POI信息出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
