@@ -11,9 +11,18 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             "featcode": "poi",
             "pagesize": 0
         };
-        FM.dataApi.IxPoi.getPoiDetailByFid(params, function(data) {
-            defer.resolve(data);
+
+        ajax.get("editsupport/poi/query", {
+            parameter: JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                var poi = new FM.dataApi.IxPoi(data.data.data[0]);
+                defer.resolve(poi);
+            } else {
+                defer.resolve("查询poi详情出错：" + data.errmsg);
+            }
         });
+
         return defer.promise;
     };
     this.getPoiList = function() {var defer = $q.defer();
@@ -26,14 +35,17 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             "pagesize": 10,
             "pageno": 1
         };
-        $http.get("fos:editsupport/poi/query",{params : JSON.stringify(params)}).success(function(data){
-        	var ret = [];
-        	if(data.errcode == 0){
-        		defer.resolve(data.data);
-        	}else{
-        		defer.resolve("查询poi列表信息出错：" + data.errmsg);
-        	}
+
+        ajax.get("editsupport/poi/query", {
+            parameter : JSON.stringify(params)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查询poi列表信息出错：" + data.errmsg);
+            }
         });
+
         return defer.promise;
     };
     this.savePoi = function (param, callback) {
@@ -110,23 +122,27 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     };
     this.getOperSeason = function (projId) {
     	var defer = $q.defer();
-        $http.get("fos:project/queryOperSeason/",{params : {parameter : {projectId: projId}}}).success(function(data){
-        	if(data.errcode == 0){
-        		defer.resolve(data.data);
-        	}else{
-        		defer.resolve("查询当前作业季信息出错：" + data.errmsg);
-        	}
+        ajax.get("project/queryOperSeason/", {
+            parameter: JSON.stringify({projectId: projId})
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查询当前作业季信息出错：" + data.errmsg);
+            }
         });
         return defer.promise;
     };
     this.getPoiInfo = function (param) {
     	var defer = $q.defer();
-        $http.get("fos:editsupport/poi/query",{params : {parameter : JSON.stringify(param)}}).success(function(data){
-        	if(data.errcode == 0){
-        		defer.resolve(data.data);
-        	}else{
-        		defer.resolve("查询poi相关信息出错：" + data.errmsg);
-        	}
+        ajax.get("editsupport/poi/query", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查询poi相关信息出错：" + data.errmsg);
+            }
         });
         return defer.promise;
     };

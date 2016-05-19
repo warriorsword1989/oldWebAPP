@@ -281,34 +281,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         data["location"] = this.location;
         data["guide"] = this.guide;
         return data;
-    },
+    }
     // getSnapShot: function() {
     //     var data = {};
         
     //     return new IxpoiSnapshot(this.getIntegrate());
     // },
-    statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var ret = [],
-                    poi;
-                for (var i = 0; i < data.data.data.length; i++) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[i]);
-                    ret.push(poi);
-                }
-                callback(ret);
-            });
-        },
-        getPoiDetailByFid:function (param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var poi;
-                if (data.errcode == 0) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[0]);
-                } else {
-                    poi = "";
-                }
-                callback(poi);
-            });
-        }
-    }
 });

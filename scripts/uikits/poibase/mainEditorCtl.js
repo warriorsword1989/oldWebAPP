@@ -552,9 +552,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
         $scope.saveButClass = "disabled";
-        poi.savePoiNew($scope.poi).then(function (data) {
-            var temp = data;
-        });
+        // poi.savePoiNew($scope.poi).then(function (data) {
+        //     var temp = data;
+        // });
         // poi.savePoi(param,function(data){
         //     $scope.saveButClass = "";
         // });
