@@ -15,7 +15,7 @@ FM.dataApi.IxTest = FM.dataApi.GeoDataModel.extend({
         this.auditStatus = data['auditStatus'];
         this.rawFields = data['rawFields'];
     },
-    getIntegrate: function() {
+    getIntegrate: function () {
         var data = {};
         data["fid"] = this.fid;
         data["pid"] = this.pid;
