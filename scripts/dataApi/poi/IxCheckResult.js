@@ -27,8 +27,8 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
             }
             this.location = {};
             if(data['location']){
-                this.guide.latitude = data['location'].latitude || 0;
-                this.guide.longitude = data['location'].longitude || 0;
+                this.location.latitude = data['location'].latitude || 0;
+                this.location.longitude = data['location'].longitude || 0;
             }
             this.attachments = [];
             if (data["attachments"] && data["attachments"].length > 0) {
