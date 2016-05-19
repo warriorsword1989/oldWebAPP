@@ -1,4 +1,4 @@
-angular.module('app',['dataServicePoi']).controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
+angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,poi) {
     //初始化地图
     pMap = L.map('NaviMap_container', {
         attributionControl: false,

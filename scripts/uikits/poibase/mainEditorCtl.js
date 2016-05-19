@@ -177,8 +177,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                 title:'检查结果',
                 refList:data
             };
-            data[0].location.latitude = data[0].guide.latitude;
-            data[0].location.longitude = data[0].guide.longitude;
             $scope.showRelatedPoiInfo = true;
             $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
         });
