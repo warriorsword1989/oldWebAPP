@@ -178,12 +178,12 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     };
     this.getRoadList = function (cond) {
         var defer = $q.defer();
-        ajax.hbaseGet("poi/getlink", cond, function (data) {
-            if(data.errcode == 0){
-                defer.resolve(data);
-            }else{
-                defer.resolve("查询道路信息出错："+data.errmsg);
-            }
+        ajax.hbaseGet("poi/getlink", {
+            parameter: cond
+        }).success(function (data) {
+            defer.resolve(data);
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
