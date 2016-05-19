@@ -76,29 +76,45 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
-    /*锁定检查结果*/
-    this.lockSingleData = function (param) {
+    /*this.ignoreCheck = function(data) {
         var defer = $q.defer();
-        $http({
-            method: 'POST',
-            url: App.Config.serviceUrl + '/editsupport/handler/locksingle',
-            data: param,
-            transformRequest: function (obj) {
-                var str = [];
-                for (var p in obj) {
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                }
-                return str.join("&");
-            },
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置
+        var param = {
+            fid: $scope.poi.fid,
+            project_id: 2016013086,
+            ckException: {
+                errorCode: data.errorCode,
+                description: data.errorMsg
             }
-        }).success(function (data) {
-            defer.resolve(data.data);
+        };
+        $http.get("fos:check/poi/ignore/", {
+            params: {
+                parameter: JSON.stringify(params)
+            }
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data.data[0]);
+            } else {
+                defer.resolve("忽略检查项出错：" + data.errmsg);
+            }
         });
-        /*FM.dataApi.ajax.post($http,'/editsupport/handler/locksingle',param,function(data){
-            defer.resolve(data.data);
-        });*/
+        return defer.promise;
+    };*/
+    /*锁定检查结果*/
+    this.lockSingleData = function(fid) {
+        var defer = $q.defer();
+        var param = {
+            fid: fid,
+            projectId: 2016013086,
+            featcode: "poi",
+            access_token:App.Config.accessToken
+        };
+        $http.post("fos:editsupport/handler/locksingle", param).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("锁定POI出错：" + data.errmsg);
+            }
+        });
         return defer.promise;
     };
     this.getOperSeason = function (projId) {
