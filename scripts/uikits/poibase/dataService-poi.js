@@ -1,4 +1,4 @@
-angular.module("dataServicePoi", []).service("dsPoi", ["$http", "$q", function($http, $q) {
+angular.module("dataService").service("dsPoi", ["$http", "$q", function($http, $q) {
     this.getPoiDetailByFid = function(fid) {
         var defer = $q.defer();
         var params = {
@@ -125,6 +125,13 @@ angular.module("dataServicePoi", []).service("dsPoi", ["$http", "$q", function($
     		defer.resolve(data);
     	});
     	return defer.promise;
+    };
+    this.getRoadList = function(cond){
+        var defer = $q.defer();
+        FM.dataApi.getFromHbase.get("poi/getlink", cond, function (data){
+            defer.resolve(data);
+        });
+        return defer.promise;
     };
 
 }]);

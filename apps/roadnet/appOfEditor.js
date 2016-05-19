@@ -342,10 +342,6 @@ function appInit() {
         }
     })
     for (var layer in layerCtrl.getVisibleLayers()) {
-        if(layerCtrl.getVisibleLayers()[layer]==undefined) {
-            console.log(layerCtrl.getVisibleLayers()[layer]);
-        }
-
         map.addLayer(layerCtrl.getVisibleLayers()[layer]);
     }
 

@@ -6,16 +6,12 @@ var addAdShapeApp = angular.module('mapApp');
 addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', function ($scope, $ocLazyLoad) {
 
             var layerCtrl = fastmap.uikit.LayerController();
-            var featCodeCtrl = fastmap.uikit.FeatCodeController();
             var editLayer = layerCtrl.getLayerById('edit');
             var shapeCtrl = fastmap.uikit.ShapeEditorController();
             var selectCtrl = fastmap.uikit.SelectController();
             var tooltipsCtrl = fastmap.uikit.ToolTipsController();
             var adLink = layerCtrl.getLayerById('adLink');
             var adNode = layerCtrl.getLayerById('adnode');
-            var rdLink = layerCtrl.getLayerById('referenceLine');
-            var hLayer = layerCtrl.getLayerById('highlightlayer');
-            var objCtrl = fastmap.uikit.ObjectEditController();
             var eventController = fastmap.uikit.EventController();
             var adAdmin=layerCtrl.getLayerById('adAdmin');
             var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -73,7 +69,9 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                     shapeCtrl.startEditing();
                     map.currentTool = shapeCtrl.getCurrentTool();
                     shapeCtrl.editFeatType = "adLink";
+                    shapeCtrl.getCurrentTool().clickcount =1;
                     map.currentTool.snapHandler.addGuideLayer(adLink);
+                    map.currentTool.snapHandler.addGuideLayer(adNode);
                     tooltipsCtrl.setEditEventType('drawAdLink');
                     tooltipsCtrl.setCurrentTooltip('开始画线！');
                     tooltipsCtrl.setStyleTooltip("color:black;");
@@ -106,14 +104,108 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
                         });
                     map.currentTool.snapHandler.addGuideLayer(adLink);
                     map.currentTool.enable();
+                    shapeCtrl.editType = "addAdFaceLine";
                     //初始化鼠标提示
                     $scope.toolTipText = '请选择线！';
                     adLink.options.editable = true;
-                    eventController.on(eventController.eventTypes.GETLINKID, function(d){
-                        Application.functions.getRdObjectById(d.id, "ADLINK", function (data) {
-                            objCtrl.setCurrentObject("ADLINK", data.data);
-                            //data.data.geometry.coordinates[0]
-                        })
+                    var selectCount = 0,linksArr=[],sNode,eNode;
+                    eventController.on(eventController.eventTypes.GETLINKID, function(data){
+                        if(selectCount===0) {
+                            highRenderCtrl.highLightFeatures.push({
+                                id:data["id"].toString(),
+                                layerid:'adLink',
+                                type:'line',
+                                style:{}
+                            });
+                            highRenderCtrl.drawHighlight();
+                            linksArr.push(data["id"]);
+                            sNode = data["properties"]["snode"];
+                            eNode=data["properties"]["enode"];
+                            selectCount++;
+                        } else  if(selectCount===1) {
+                            highRenderCtrl._cleanHighLight();
+                           if(sNode===data["properties"]["snode"]) {
+                               $scope.startNode = eNode;
+                               $scope.endNode = data["properties"]["enode"];
+                               selectCount++;
+                               linksArr.push(data["id"]);
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
+                           }else if(sNode===data["properties"]["enode"]){
+                               $scope.startNode = eNode;
+                               $scope.endNode = data["properties"]["snode"];
+                               selectCount++;
+                               linksArr.push(data["id"]);
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
+                           }else if(eNode===data["properties"]["snode"]) {
+                               $scope.startNode = sNode;
+                               $scope.endNode = data["properties"]["enode"];
+                               selectCount++;
+                               linksArr.push(data["id"]);
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
+                           }else if(eNode===data["properties"]["enode"]) {
+                               $scope.startNode = sNode;
+                               $scope.endNode = data["properties"]["snode"];
+                               selectCount++;
+                               linksArr.push(data["id"]);
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
+                           }
+                       } else if(selectCount>1) {
+                            highRenderCtrl._cleanHighLight();
+                           if( $scope.endNode===data["properties"]["snode"]) {
+                               $scope.endNode = data["properties"]["enode"];
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
+                               selectCount++;
+                               linksArr.push(data["id"]);
+                           }else if($scope.endNode===data["properties"]["enode"]){
+                               $scope.endNode = data["properties"]["snode"];
+                               highRenderCtrl.highLightFeatures.push({
+                                   id:data["id"].toString(),
+                                   layerid:'adLink',
+                                   type:'line',
+                                   style:{}
+                               });
+                               highRenderCtrl.drawHighlight();
+                               selectCount++;
+                               linksArr.push(data["id"]);
+                           }
+                       }
+                        if(selectCount>2&&($scope.endNode===$scope.startNode)) {
+                            selectCtrl.onSelected(
+                                {
+                                    'adLinks':linksArr
+                                }
+                            )
+                        }
                     });
                 }
                else if (type === "adNode") {

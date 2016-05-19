@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataServicePoi', 'dataServiceMeta', 'ngSanitize']).controller('DataListCtl', ['$scope', '$ocLazyLoad','dsPoi', 'dsMeta', '$q', function($scope, $ocll, poi, meta, $q ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService', 'ngSanitize']).controller('DataListCtl', ['$scope', '$ocLazyLoad','dsPoi', 'dsMeta', '$q', function($scope, $ocll, poi, meta, $q ) {
 	var promises = [];
 	var _code_project_type = {
 		1: "常规",

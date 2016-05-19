@@ -59,7 +59,7 @@ laneConnexityApp.controller("addLaneConnexityController", ["$scope", '$ocLazyLoa
         }
     };
 
-    shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDLANECONNEXITY)
+    shapeCtrl.setEditingType("addRdLaneConnexity")
 
     if (map.currentTool&&typeof map.currentTool.cleanHeight === "function") {
         map.currentTool.cleanHeight();
