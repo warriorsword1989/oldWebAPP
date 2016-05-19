@@ -173,7 +173,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                 data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
             }
             $scope.refFt = {
-                title:'检查结果',
+                title:'检查结果关联POI',
                 refList:data
             };
             $scope.showRelatedPoiInfo = true;
@@ -245,7 +245,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                     }
                 }
                 $scope.refFt = {
-                    title:'框选区域内',
+                    title:'框选区域内关联POI',
                     refList:data.data
                 };
                 $scope.showRelatedPoiInfo = true;
