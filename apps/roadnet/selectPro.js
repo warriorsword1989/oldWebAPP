@@ -21,11 +21,11 @@ function initProHtml(projects){
 	_html.push('<div class="img_box">');
 	_html.push('<img class="img_box_img" src="../../images/road/img/beijing.png" alt="');
 
-	_html.push("北京道路作业项目");
+	_html.push("北京道路作业任务");
 	_html.push('">');
 	_html.push('<div class="img_box_caption">');
 	_html.push('<h3 class="img_box_caption_h">');
-	_html.push("北京道路作业项目");
+	_html.push("北京道路作业任务");
 	_html.push('</h3>');
 	_html.push('<p class="img_box_caption_p">');
 	if(true){
@@ -33,7 +33,7 @@ function initProHtml(projects){
 		_html.push('1234');
 		_html.push('</span> 个</br>');
 	}
-	_html.push('项目ID：<span class="label label-info">');
+	_html.push('任务ID：<span class="label label-info">');
 	_html.push(11);
 	_html.push('</span>');
 	_html.push('</p>');
@@ -43,7 +43,7 @@ function initProHtml(projects){
 	_html.push('</div>');
 	_html.push('</div>');
 	_html.push('<div class="img_box_title">');
-	_html.push("北京道路作业项目");
+	_html.push("北京道路作业任务");
 	_html.push('</div>');
 	_html.push('</div>');
 
@@ -52,11 +52,11 @@ function initProHtml(projects){
 	_html.push('<div class="img_box">');
 	_html.push('<img class="img_box_img" src="../../images/road/img/beijing.png" alt="');
 
-	_html.push("北京POI作业项目");
+	_html.push("北京POI作业任务");
 	_html.push('">');
 	_html.push('<div class="img_box_caption">');
 	_html.push('<h3 class="img_box_caption_h">');
-	_html.push("北京POI作业项目");
+	_html.push("北京POI作业任务");
 	_html.push('</h3>');
 	_html.push('<p class="img_box_caption_p">');
 	if(true){
@@ -64,7 +64,7 @@ function initProHtml(projects){
 		_html.push('1234');
 		_html.push('</span> 个</br>');
 	}
-	_html.push('项目ID：<span class="label label-info">');
+	_html.push('任务ID：<span class="label label-info">');
 	_html.push(11);
 	_html.push('</span>');
 	_html.push('</p>');
@@ -74,7 +74,7 @@ function initProHtml(projects){
 	_html.push('</div>');
 	_html.push('</div>');
 	_html.push('<div class="img_box_title">');
-	_html.push("北京POI作业项目");
+	_html.push("北京POI作业任务");
 	_html.push('</div>');
 	_html.push('</div>');
 
