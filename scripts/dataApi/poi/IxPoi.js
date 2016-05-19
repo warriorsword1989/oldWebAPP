@@ -282,31 +282,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         data["guide"] = this.guide;
         return data;
     },
-    getBaseInfo: function(){
-        var data = {};
-        data["fid"] = this.fid;
-        data["pid"] = this.pid;
-        data["name"] = this.name;
-        data["address"] = this.address;
-        data["contacts"] = this.contacts;
-        data["postCode"] = this.postCode;
-        data["kindCode"] = this.kindCode;
-        data["brandcode"] = this.brandcode;
-        data["level"] = this.level;
-        data["relateParent"] = this.relateParent;
-        data["relateChildren"] = this.relateChildren;
-        data["lifeCycle"] = this.lifeCycle;
-        data["auditStatus"] = this.auditStatus;
-        data["freshnessVerification"] = this.freshnessVerification;
-        data["rawFields"] = this.rawFields;
-        data["adminCode"] = this.adminCode;
-        data["lifecycle"] = this.lifecycle;
-        data["auditStatus"] = this.auditStatus;
-        data["rawFields"] = this.rawFields;
-        data["open24H"] = this.open24H;
-        data["indoor"] = this.indoor;
-        return data;
-    }, 
+    // getSnapShot: function() {
+    //     var data = {};
+        
+    //     return new IxpoiSnapshot(this.getIntegrate());
+    // },
     statics: {
         getList: function(param, callback) {
             FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
