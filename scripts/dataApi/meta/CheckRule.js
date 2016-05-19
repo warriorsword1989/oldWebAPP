@@ -12,6 +12,14 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
         this.ruleDesc = data["ruleDesc"];
         this.ruleId = data["ruleId"];
     },
+    getIntegrate: function(){
+    	var ret = {};
+    	ret["severity"] = this.severity;
+    	ret["ruleType"] = this.ruleTyep;
+    	ret["ruleDesc"] = this.ruleDesc;
+    	ret["ruleId"] = this.ruleId;
+    	return ret;
+    },
     statics: {
         getList: function(callback) {
             FM.dataApi.ajax.get("meta/queryRule/", {}, function(data) {
