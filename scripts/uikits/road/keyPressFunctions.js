@@ -17,8 +17,6 @@ function keyEvent(ocLazyLoad, scope) {
             var highRenderCtrl = fastmap.uikit.HighRenderController();
             var editLayer = layerCtrl.getLayerById('edit');
             var geo = shapeCtrl.shapeEditorResult.getFinalGeometry();
-
-            var properties = shapeCtrl.shapeEditorResult.getProperties();
             var coordinate = [];
             if (event.keyCode == 27) {
                 resetPage();
@@ -133,6 +131,7 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                 }
                 if (shapeCtrl.editType === 'drawPath') {
+                    var properties = shapeCtrl.shapeEditorResult.getProperties();
                     var showContent, ctrl, tpl, type;
                     param["command"] = "CREATE";
                     param["projectId"] = Application.projectid;
@@ -165,7 +164,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, param["type"], showContent, ctrl, tpl)
                     })
 
-                } else if (shapeCtrl.editType === "RDRESTRICTION") {
+                } else if (shapeCtrl.editType === "addRestriction") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["limitRelation"];
                     var laneStr = "";
@@ -371,7 +370,7 @@ function keyEvent(ocLazyLoad, scope) {
                         }
                         treatmentOfChanged(data, param["type"], "插入点成功");
                     })
-                } else if (shapeCtrl.editType === "RDBRANCH") {
+                } else if (shapeCtrl.editType === "addRdBranch") {
                     param = {
                         "command": "CREATE",
                         "type": "RDBRANCH",
@@ -383,7 +382,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
-                } else if (shapeCtrl.editType === "RDCROSS") {
+                } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",
                         "type": "RDCROSS",
@@ -395,7 +394,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDCROSS", "创建RDCROSS成功",
                             'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     })
-                } else if (shapeCtrl.editType === "RDLANECONNEXITY") {
+                } else if (shapeCtrl.editType === "addRdLaneConnexity") {
                     var laneData = objEditCtrl.originalData["inLaneInfoArr"],
                         laneInfo = objEditCtrl.originalData["laneConnexity"];
                     var laneStr = "";
@@ -433,7 +432,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
                             'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
-                } else if (shapeCtrl.editType === "RDGSC") {
+                } else if (shapeCtrl.editType === "addRdGsc") {
                     param = {
                         "command": "CREATE",
                         "type": "RDGSC",
@@ -481,8 +480,7 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "ADADMIN", "创建ADADMIN成功",
                             'attr_administratives_ctrl/adAdminCtrl', 'attr_adminstratives_tpl/adAdminTpl.html');
                     })
-                }
-                else if (shapeCtrl.editType === "pathBuffer") {
+                } else if (shapeCtrl.editType === "pathBuffer") {
                     this.transform = new fastmap.mapApi.MecatorTranform();
                     var scale = this.transform.scale(map);
                     var linkWidth = parseFloat(geo.linkWidth * scale);
@@ -501,6 +499,23 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("referenceLine").redraw();
                         layerCtrl.getLayerById("referenceNode").redraw();
                         treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
+                    })
+                }else if(shapeCtrl.editType === "addAdFaceLine") {
+                    var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                    param = {
+                        "command": "CREATE",
+                        "type": "ADFACE",
+                        "linkType":"ADLINK",
+                        "projectId": Application.projectid,
+                        "data": {
+                            "linkPids": adLinksArr
+                        }
+                    }
+                    Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("adface").redraw();
+                        layerCtrl.getLayerById("adLink").redraw();
+                        treatmentOfChanged(data, "ADFACE", "创建行政区划面成功",
+                            'attr_administratives_ctrl/adFaceCtrl', 'attr_adminstratives_tpl/adFaceTpl.html');
                     })
                 }
             }
