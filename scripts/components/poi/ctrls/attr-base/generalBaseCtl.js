@@ -1,6 +1,6 @@
 angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
 
-    var pKindFormat = {},
+    var pKindFormat = {},pKindList,
         pAllChain = {};
     var regionCode = "010"
     var lifecycle = {
@@ -123,31 +123,14 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.isLevelSelected = function(val) {
         var kind = pKindFormat[$scope.selectedKind]
         if (kind && kind.level.split("|").length == 1){ //如果只有一个等级默认选中
+            $scope.poi.level = val;
             return true;
         }else {
            return $scope.poi.level == val; 
         }
         
     }
-    $scope.isOpen24 = function (val){
-        if (val == 1){
-            return true;
-        } else { //val ==2
-            return false;
-        }
-    }
-    $scope.isIndoorType = function (indoor){
-        if(indoor){
-            var val = indoor.type;
-            if (val == 1 || val == 2 || val == 3){
-                return true;
-            } else { //val == 0 
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
+    
     $scope.remarkChange = function (val){
 
     }
@@ -280,18 +263,13 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     }
 
     $scope.kindChange = function(evt, obj) {
-        if (obj.selectedKind) {
-            initChain(obj.selectedKind);
-            $scope.selectedKind = obj.selectedKind; //此处会触发selectedKind的监听方法
-            var level = pKindFormat[obj.selectedKind].level;
-            $scope.levelArr = [];
-            if (level) {
-                $scope.levelArr = level.split("|");
-            }
-            $scope.poi.level = "";
-            //$scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
-        }
+        $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
     };
+    $scope.brandChange = function (evt,sco){
+        console.info(evt);
+        $scope.poi.brands[0].code = sco.selectedChain;
+    };
+
     $scope.showChildrenPoisInMap = function() {
         $scope.$emit('emitMainEditorTransChildren', {});
     };
@@ -306,16 +284,21 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         }
     });
 
-    //初始化时让品牌默认选中
-    $scope.$watch('poi.kindCode', function() {
-        for (var i = 0; i < $scope.kindList.length; i++) {
-            if ($scope.kindList[i].value == $scope.poi.kindCode) {
-                $scope.selectedKind = $scope.kindList[i].value;
-                initChain($scope.selectedKind);
+    //初始化时让分类、品牌默认选中
+    $scope.$watch('poi.kindCode', function(newVlaue,oldValue) {
+        $scope.selectedKind = newVlaue;
+        for (var i = 0; i < pKindList.length; i++) {
+            if (pKindList[i].value == newVlaue) {
+                initChain(newVlaue);
                 if ($scope.poi.brands.length > 0) { //如果存在品牌则显示品牌
                     $scope.selectedChain = $scope.poi.brands[0].code;
                 } else {
                     $scope.selectedChain = ""
+                }
+                var level = pKindFormat[newVlaue].level;
+                $scope.levelArr = [];
+                if (level) {
+                    $scope.levelArr = level.split("|");
                 }
                 break;
             }
@@ -324,7 +307,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
 
     var initData = function (){
         $scope.poi = $scope.$parent.poi;
-        $scope.kindList = $scope.$parent.metaData.kindList;
+        pKindList = $scope.$parent.metaData.kindList;
         pKindFormat = $scope.$parent.metaData.kindFormat;
         pAllChain = $scope.$parent.metaData.allChain;
         $scope.switchLifeCycle($scope.poi.lifecycle);
@@ -332,7 +315,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         initBaseInfoIcon($scope.$parent.poiIcon, $scope.poi.vipFlag);
         initOptionStyle($scope.poi);
         initKindBrandLevel($scope.poi);
-        initRemark($scope.poi);
+        //initRemark($scope.poi);
         resetBtnHeight();
     }
 

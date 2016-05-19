@@ -395,6 +395,9 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType.DRAWPATH);
                 shapeCtrl.startEditing();
                 shapeCtrl.getCurrentTool().clickcount =1;
+                shapeCtrl.getCurrentTool().catches.length = 0;
+                shapeCtrl.getCurrentTool().snodePid = 0;
+                shapeCtrl.getCurrentTool().sNodePid = 0;
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
                 shapeCtrl.editFeatType = "rdLink";
@@ -475,7 +478,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                     })
                 });
             } else if (type === "RDBRANCH") {
-                shapeCtrl.setEditingType(fastmap.dataApi.GeoLiveModelType.RDBRANCH);
+                shapeCtrl.setEditingType("addRdBranch");
                 shapeCtrl.editFeatType = 0;
                 tooltipsCtrl.setEditEventType('rdBranch');
                 tooltipsCtrl.setCurrentTooltip('正要新建分歧,先选择线！');
@@ -506,7 +509,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === "RDCROSS") {
                 var linksArr = [], nodesArr = [], nodes = [], links = [], options = {};
                 tooltipsCtrl.setCurrentTooltip('请框选路口组成Node！');
-                shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDCROSS, {
+                shapeCtrl.toolsSeparateOfEditor("addRdCross", {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
@@ -607,7 +610,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
             } else if (type === 'RDGSC') {
                 tooltipsCtrl.setEditEventType('rdgsc');
                 tooltipsCtrl.setCurrentTooltip('正要新建立交,请框选立交点位！');
-                shapeCtrl.toolsSeparateOfEditor(fastmap.dataApi.GeoLiveModelType.RDGSC, {
+                shapeCtrl.toolsSeparateOfEditor("addRdGsc", {
                     map: map,
                     layer: rdLink,
                     type: "rectangle"
@@ -724,6 +727,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
                         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
                         editLayer.clear();
+                        $scope.$emit("SWITCHCONTAINERSTATE",{"attrContainerTpl": false});
                         map._container.style.cursor = '';
                         map.currentTool = new fastmap.uikit.SelectPath(
                             {

@@ -36,16 +36,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-            //$scope.$on('$includeContentLoaded', function($event) {
-            //    console.log("baseinfo");
-            $scope.$broadcast("loadup", {
-                "poi": $scope.poi,
-                "poiIcon": $scope.poiIcon,
-                "kindList": $scope.metaData.kindList,
-                'kindFormat': $scope.metaData.kindFormat,
-                "allChain": $scope.metaData.allChain
-            });
-            //});
+            
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
@@ -68,9 +59,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     },100);
                 }
             });*/
-            var imgs = initImages();
-            $scope.imagesArray = imgs;
-            $scope.deleteFlag = 1;
+            // var imgs = initImages();
+            // $scope.imagesArray =  imgs;
+            // $scope.deleteFlag = 1;   
         });
     });
     var initImages = function() {
@@ -235,8 +226,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
             }
             $scope.refFt = {
-                title: '检查结果',
-                refList: data
+                title:'检查结果关联POI',
+                refList:data
             };
             $scope.showRelatedPoiInfo = true;
             $scope.$broadcast('showPoisInMap', {
@@ -309,31 +300,116 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     }
                 }
                 $scope.refFt = {
-                    title: '框选区域内',
-                    refList: data.data
+                    title:'框选区域内关联POI',
+                    refList:data.data
                 };
                 $scope.showRelatedPoiInfo = true;
-                $scope.layerName = 'parentPoiLayer';
+                $scope.layerName = data.layerId;
                 // $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
             });
         });
     });
+    /*接收同位点信息*/
+    $scope.$on('samePois',function(event,data){
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            // $scope.samePois = data;
+            $scope.refFt = {
+                title:'同位点POI',
+                refList:data.data
+            };
+            $scope.showRelatedPoiInfo = true;
+            $scope.layerName = data.layerId;
+        });
+    });
+
+    /*接收周边查询点信息*/
+    $scope.$on('searchPois',function(event,data){
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.searchPois = data;
+            var _fid = $scope.poi.fid;
+            var fidList;
+            meta.getParentFidList().then(function(list){
+                fidList = list;
+                for(var i=0,len=data.data.length;i<len;i++){
+                    data.data[i].kindInfo = $scope.metaData.kindFormat[data.data[i].kindCode];
+                    if(_fid && _fid == data.data[i].fid){
+                        data.data[i].ifParent = 1;
+                        data.data[i].labelRemark = {
+                            labelClass:'primary',
+                            text:'当前父'
+                        }
+                    }else{
+                        switch (data.data[i].kindInfo.parentFlag){
+                            case 0:
+                                if(!data.data[i].ifParent){
+                                    if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
+                                        data.data[i].ifParent = 2;
+                                        data.data[i].labelRemark = {
+                                            labelClass:"success",
+                                            text:"可为父"
+                                        }
+                                    }else{  //不可为父
+                                        data.data[i].ifParent = 3;
+                                        data.data[i].labelRemark = {
+                                            labelClass:'default',
+                                            text:'不可为父'
+                                        }
+                                    }
+                                }
+                                break;
+                            case 1:
+                                data.data[i].ifParent = 2;
+                                data.data[i].labelRemark = {
+                                    labelClass:'success',
+                                    text:'可为父'
+                                }
+                                break;
+                            case 2:
+                                if ($scope.poi.indoor.type == 3) {
+                                    data.data[i].ifParent = 2;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "warning",
+                                        text: "可为父"
+                                    };
+                                } else {
+                                    data.data[i].ifParent = 3;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "default",
+                                        text: "不可为父"
+                                    };
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                $scope.refFt = {
+                    title:'周边1KM范围内的POI',
+                    refList:data.data
+                };
+                $scope.showRelatedPoiInfo = true;
+                $scope.layerName = data.layerId;
+            });
+        });
+    });
+
     /*显示关联poi详细信息*/
-    $scope.showPoiDetailInfo = function(poi, index) {
-        // $scope.$on('$includeContentLoaded', function($event) {
-        /*var poiDetail = {
-            poi:poi,
-            kindName:$scope.refFt.refList[index].kindInfo.kindName
-        };
-        $scope.$broadcast('poiInfoData',poiDetail);*/
+    $scope.showPoiDetailInfo = function (poi, index) {
         $scope.poiDetail = {
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
         };
-        console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid)
+        console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid);
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
-        // });
     };
+    /*显示同位点poi详细信息*/
+    $scope.showSelectedSamePoiInfo = function (poi, index) {
+        $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
+    };
+
     /*关闭关联poi数据*/
     $scope.closeRelatedPoiInfo = function() {
         $scope.showRelatedPoiInfo = false;

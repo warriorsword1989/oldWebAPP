@@ -124,7 +124,7 @@
                             <select
                                 ng-model="selectedChain"
                                 ng-options="value as lable.chainName for (value, lable) in chainList"
-                                chosen ng-change="kindChange($event, this)" style="width: 80%;">
+                                chosen ng-change="brandChange($event, this)" style="width: 80%;">
                             </select>
                             <div class="form-group">
                                 <img src="../../images/poi/icon/prompt.png" ng-show="ctrl.fieldLabel.brands">
@@ -180,18 +180,18 @@
                 <tr>
                     <td class="active" width="20%">24小时</td>
                     <td width="30%">
-                        <input type="checkbox" value="1" ng-checked="isOpen24(poi.open24H)" > 是
+                        <input type="checkbox" ng-model='poi.open24H'> 是
                     </td>
                     <td class="active" width="20%">室内POI</td>
                     <td width="30%">
-                        <input type="checkbox" value="3" ng-checked="isIndoorType(poi.indoor);"> 是 
+                        <input type="checkbox" ng-model='poi.indoor.type'> 是 
 
                     </td>
                 </tr>
                 <tr>
                     <td>备注</td>
                     <td colspan="3">
-                        <textarea ng-model="remark" style="width: 90%;margin-bottom: -6px;"> </textarea>
+                        <textarea ng-model="poi.attachmentsRemark" style="width: 90%;margin-bottom: -6px;"> </textarea>
                     </td>
                 </tr>
             </table>
