@@ -122,9 +122,9 @@
                         <td ng-class="{'textColorRed':brandsStyleFlag}">品 牌</td>
                         <td class="form-inline" colspan='3'>
                             <select
-                                ng-model="selectedChain"
-                                ng-options="value as lable.chainName for (value, lable) in chainList"
-                                chosen ng-change="brandChange($event, this)" style="width: 80%;">
+                                    ng-model="selectedChain"
+                                    ng-options="value as lable.chainName for (value, lable) in chainList"
+                                    chosen ng-change="brandChange($event, this)" style="width: 80%;">
                             </select>
                             <div class="form-group">
                                 <img src="../../images/poi/icon/prompt.png" ng-show="ctrl.fieldLabel.brands">
