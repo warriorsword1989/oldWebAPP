@@ -578,9 +578,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
 
     $scope.$on('emitChildren',function (obj) {
         var cond = {
-            "relateParent.parentFid": fid
+            "relateParent.parentFid": $scope.poi.fid
         };
-        poi.getPoiDetailByFid("0010060815LML01353").then(function (data) {
+        var param = {
+            projectId: "2016013086",
+            condition: cond,
+            type: "snapshot",
+            phase: "4",
+            featcode: 'poi',
+            pagesize: 0
+        };
+        poi.getPoiInfo(param).then(function (data) {
             $scope.poi = data;
             $scope.snapshotPoi = data.getSnapShot();
         })
