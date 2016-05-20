@@ -181,10 +181,27 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             });
         });
     });
+    /*接收同位点信息*/
+    $scope.$on('samePois', function (event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            // $scope.samePois = data;
+            $scope.refFt = {
+                title: '同位点POI',
+                refList: data.data
+            };
+            $scope.showRelatedPoiInfo = true;
+            $scope.layerName = data.layerId;
+        });
+    });
     /*显示关联poi面板*/
     $scope.$on('showRelatedPoiInfo',function(event,data){
         $scope.refFt = data;
         $scope.showRelatedPoiInfo = true;
+        $scope.$broadcast('showPoisInMap', {
+            data: data.refList,
+            layerId: "checkResultLayer"
+        });
     });
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
@@ -193,14 +210,52 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // refreshPoiData('0010060815LML01353');
         })
     });
-    /*关闭关联poi数据——冲突检测弹框*/
-    $scope.closeConflictInfo = function () {
-        $scope.showConflictInfo = false;
-    }
+    /*接收layerName*/
+    $scope.$on('getLayerName',function(event,data){
+       $scope.layerName = data;
+    });
+    /*关闭关联poi数据*/
+    $scope.closeRelatedPoiInfo = function () {
+        $scope.showRelatedPoiInfo = false;
+        $scope.$broadcast('closePopover', $scope.layerName);
+    };
     /*锁定检查结果数据*/
     $scope.$on('lockSingleData', function (event, data) {
         poi.lockSingleData(data).then(function (res) {
             refreshPoiData('0010060815LML01353');
+        });
+    });
+    /*关闭关联poi数据——冲突检测弹框*/
+    $scope.closeConflictInfo = function () {
+        $scope.showConflictInfo = false;
+    }
+    /*获取关联poi数据——冲突检测*/
+    $scope.$on('getConflictInMap', function (event, data) {
+        $scope.optionData = {};
+        console.log($scope.metaData.allChain)
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function () {
+            $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
+            $scope.showConflictPoiInfo = true;
+            data.refData.duppoi.kindName = $scope.metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
+            data.refData.duppoi.brandList = $scope.metaData.allChain[data.refData.duppoi.kindCode];
+            $scope.optionData.confusionData = data;
+            // $scope.$emit('showConflictInMap',true);
+            $scope.showConflictInfo = true;
+        });
+    });
+    /*显示冲突检测面板*/
+    $scope.$on('showConflictInMap',function(event,data){
+        console.log(data)
+        $scope.showConflictInfo = data;
+    });
+    /*接收新上传的图片数据*/
+    $scope.$on('getImgItems', function (event, data) {
+        for (var i = 0; i < data.length; i++) {
+            $scope.poi.attachments.push(data[i]);
+        }
+        $scope.$broadcast('loadImages', {
+            "imgArray": initImages(),
+            "flag": 1
         });
     });
     var initKindFormat = function (kindData) {
