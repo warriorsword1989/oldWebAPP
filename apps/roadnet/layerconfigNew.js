@@ -1556,6 +1556,17 @@ function transformDataForTips(data, param) {
                 }
                 break;
             case 1604://区域内道路
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1604/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1704://交叉路口
                 obj['geometry']['coordinates'] = item.g;
 
