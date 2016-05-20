@@ -281,54 +281,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         data["location"] = this.location;
         data["guide"] = this.guide;
         return data;
-    },
-    getBaseInfo: function(){
-        var data = {};
-        data["fid"] = this.fid;
-        data["pid"] = this.pid;
-        data["name"] = this.name;
-        data["address"] = this.address;
-        data["contacts"] = this.contacts;
-        data["postCode"] = this.postCode;
-        data["kindCode"] = this.kindCode;
-        data["brandcode"] = this.brandcode;
-        data["level"] = this.level;
-        data["relateParent"] = this.relateParent;
-        data["relateChildren"] = this.relateChildren;
-        data["lifeCycle"] = this.lifeCycle;
-        data["auditStatus"] = this.auditStatus;
-        data["freshnessVerification"] = this.freshnessVerification;
-        data["rawFields"] = this.rawFields;
-        data["adminCode"] = this.adminCode;
-        data["lifecycle"] = this.lifecycle;
-        data["auditStatus"] = this.auditStatus;
-        data["rawFields"] = this.rawFields;
-        data["open24H"] = this.open24H;
-        data["indoor"] = this.indoor;
-        return data;
-    }, 
-    statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var ret = [],
-                    poi;
-                for (var i = 0; i < data.data.data.length; i++) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[i]);
-                    ret.push(poi);
-                }
-                callback(ret);
-            });
-        },
-        getPoiDetailByFid:function (param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var poi;
-                if (data.errcode == 0) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[0]);
-                } else {
-                    poi = "";
-                }
-                callback(poi);
-            });
-        }
     }
+    // getSnapShot: function() {
+    //     var data = {};
+        
+    //     return new IxpoiSnapshot(this.getIntegrate());
+    // },
 });

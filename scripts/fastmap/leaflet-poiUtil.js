@@ -201,7 +201,7 @@ FM.leafletUtil = {
                 angle:20,
                 icon:iconType
             }
-        ).bindPopup('<span style="display:block;width:100px;text-align:center">' + poiJson.name + '</span>').openPopup();
+        ).bindPopup('<span style="display:block;width:100px;text-align:center">' + poiJson.name + '</span>').openPopup().on("click",this.highlightFeatureInMap);
         poiFeature.id=poiJson.fid;
         poiFeature.name="poi";
         poiFeature.attributes = poiJson;
@@ -382,7 +382,13 @@ FM.leafletUtil = {
             }
         }
     },
-    highlightFeatureInMap: function (feature) { //将点的icon改变并高亮显示
+    highlightFeatureInMap: function (poi) { //将点的icon改变并高亮显示
+        var feature;
+        if(poi.target!=undefined){
+            feature = poi.target;
+        }else {
+            feature = poi;
+        }
         if (FM.mapConf.pSelectMarker) {
             FM.mapConf.pSelectMarker.setIcon(FM.iconStyles.dotIcon);
             FM.mapConf.pSelectMarker.update();
@@ -397,8 +403,7 @@ FM.leafletUtil = {
             FM.mapConf.pSelectMarker = feature;
         }
     },
-    
- 
+
     getLineStyle: function (kind) {    // 分配线型
         var lstype;
         switch (kind) {

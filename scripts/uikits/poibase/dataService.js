@@ -58,11 +58,6 @@ angular.module("dataService", [], function ($httpProvider) {
             // optional method
             'response': function (response) {
                 // do something with response
-                // if (response.config.rqtype && response.config.rqtype == 'fos') {
-                //     return response.data;
-                // } else {
-                //     return response;
-                // }
                 return response;
             },
             // optional method
@@ -76,4 +71,18 @@ angular.module("dataService", [], function ($httpProvider) {
             }
         };
     });
-});
+}).service("ajax", ["$http", function($http) {
+    this.get = function(url, param) {
+        return $http.get(App.Util.getFullUrl(url), {
+            params: param
+        });
+    };
+    this.hbaseGet = function(url, param) {
+        return $http.get(App.Util.getHbaseUrl(url), {
+            params: param
+        });
+    };
+    this.post = function(url, param) {
+        return $http.post(App.Util.getFullUrl(url), param);
+    };
+}]);

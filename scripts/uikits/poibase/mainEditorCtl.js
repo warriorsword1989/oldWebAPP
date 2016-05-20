@@ -21,9 +21,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poiIcon = data;
     }));
-    promises.push(poi.getPoiByFid("0010060815LML01353").then(function (data) {
-        $scope.test = data;
-    }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
@@ -36,7 +33,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-
             distinguishResult($scope.poi);
             /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
@@ -62,7 +58,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             });*/
             // var imgs = initImages();
             // $scope.imagesArray =  imgs;
-            // $scope.deleteFlag = 1;   
+            // $scope.deleteFlag = 1;
         });
     });
     var initImages = function () {
@@ -204,16 +200,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     }
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
-        console.log(data)
-        var param = {
-            fid: $scope.poi.fid,
-            project_id: 2016013086,
-            ckException: {
-                errorCode: data.errorCode,
-                description: data.errorMsg
-            }
-        };
-        poi.ignoreCheck(param).then(function (data) {
+        poi.ignoreCheck(data,$scope.poi.fid).then(function (data) {
             /*操作成功后刷新poi数据*/
             refreshPoiData('0010060815LML01353');
         })
@@ -228,7 +215,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             }
             $scope.refFt = {
                 title: '检查结果关联POI',
-                refList:data
+                refList: data
             };
             $scope.showRelatedPoiInfo = true;
             $scope.$broadcast('showPoisInMap', {
@@ -302,7 +289,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 }
                 $scope.refFt = {
                     title: '框选区域内关联POI',
-                    refList:data.data
+                    refList: data.data
                 };
                 $scope.showRelatedPoiInfo = true;
                 $scope.layerName = data.layerId;
@@ -323,7 +310,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.layerName = data.layerId;
         });
     });
-
     /*接收周边查询点信息*/
     $scope.$on('searchPois', function (event, data) {
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
@@ -396,9 +382,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             });
         });
     });
-
     /*显示关联poi详细信息*/
-    $scope.showPoiDetailInfo = function (poi, index) {
+    $scope.showPoiDetailInfo = function(poi, index) {
         $scope.poiDetail = {
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
@@ -407,10 +392,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
     /*显示同位点poi详细信息*/
-    $scope.showSelectedSamePoiInfo = function (poi, index) {
+    $scope.showSelectedSamePoiInfo = function(poi, index) {
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
-
     /*关闭关联poi数据*/
     $scope.closeRelatedPoiInfo = function () {
         $scope.showRelatedPoiInfo = false;
@@ -568,9 +552,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
         $scope.saveButClass = "disabled";
-        poi.savePoiNew($scope.poi).then(function (data) {
-            var temp = data;
-        });
+        // poi.savePoiNew($scope.poi).then(function (data) {
+        //     var temp = data;
+        // });
         // poi.savePoi(param,function(data){
         //     $scope.saveButClass = "";
         // });
@@ -580,14 +564,42 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         // console.log(data);
         $scope.test();
     };
-    $scope.$on('emitMainEditorTransParent', function (obj) {
-        $scope.$broadcast("showParentPoiInMap", $scope.snapshotPoi);
-    })
-    $scope.$on('emitMainEditorTransChildren', function (obj) {
-        $scope.$broadcast("showChildrenPoisInMap", $scope.snapshotPoi);
-    })
+
+    //接收从generalBase传过来的命令，查询并显示在地图上
+    $scope.$on('emitParent',function (obj){
+        var data = {};
+        // poi.getPoiDetailByFid($scope.poi.relateParent.parentFid).then(function(parentPoi) {
+        poi.getPoiDetailByFid("0010071122LK106169").then(function(parentPoi) {//假数据
+            data.data = parentPoi;
+            data.layerId = "parentPoiLayer";
+            $scope.$broadcast("showPoisInMap", data);
+        });
+    });
+
+    $scope.$on('emitChildren',function (obj) {
+        var cond = {
+            "relateParent.parentFid": $scope.poi.fid
+        };
+        var param = {
+            projectId: "2016013086",
+            condition: cond,
+            type: "snapshot",
+            phase: "4",
+            featcode: 'poi',
+            pagesize: 0
+        };
+        poi.getPoiInfo(param).then(function (data) {
+            $scope.poi = data;
+            $scope.snapshotPoi = data.getSnapShot();
+        })
+    });
     $scope.loadAdditionInfo = function() {
         $scope.additionInfoTpl = $scope.radioModel;
+    };
+    $scope.testQuery = function() {
+        poi.getPoiByFid("0010060815LML01353").then(function(data) {
+            $scope.test = data;
+        });
     };
     // $scope.$on("kindChange", function(event, data) {
     //     console.log($scope.poi.fid);
@@ -666,6 +678,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.$on("saveMe", realSave);
 }]).directive("myResize", ["$timeout", function($timeout) {
     function _resize(elem) {
+        
         var vh = 0;
         if (window.innerHeight) {
             vh = window.innerHeight;
