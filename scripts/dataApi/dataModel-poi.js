@@ -12,6 +12,7 @@
                 "dataApi/meta/IxPoiMediumKind.js",
                 "dataApi/meta/IxPoiTopKind.js",
                 "dataApi/poi/IxPoi.js",
+                "dataApi/poi/IxPoiSnapShot.js",
                 "dataApi/poi/IxPoiAddress.js",
                 "dataApi/poi/IxPoiChargingPole.js",
                 "dataApi/poi/IxPoiChargingStation.js",
