@@ -494,7 +494,7 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
         }, {
-            url: createUrl('/render/tip/getByTileWithGap?', ""),
+            url: createUrlForTips('/render/tip/getByTileWithGap?', ""),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -1896,31 +1896,50 @@ function transformDataForTips(data, param) {
 
 /***
  * 构造请求数据的url
+ * @param url
  * @param requestType
  * @returns {{}}
  */
 function createUrl(url, requestType) {
 
     var urlObj = {};
-    if (requestType != "") {
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80,
             types: requestType.split(',')
         }
-
         if (requestType == "RDLINK") {
             urlObj.hbaseUrl = Application.url + '/render/link/getByTileWithGap?';
         }
-
-    } else {
+    return urlObj;
+}
+/**
+ *  构造请求数据的url
+ * @param url
+ * @param requestType
+ * @returns {{}}
+ */
+function createUrlForTips(url, requestType) {
+    var urlObj = {};
+    if (requestType != "") {
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId: Application.projectid,
+            gap: 80,
+            types: requestType
+        }
+    }else{
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80
         }
     }
+
+
+
+
 
     return urlObj;
 }
