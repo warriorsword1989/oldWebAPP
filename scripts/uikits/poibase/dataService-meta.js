@@ -67,6 +67,8 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             } else {
                 defer.resolve("获取数据出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
@@ -85,6 +87,8 @@ angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function
             } else {
                 defer.resolve("查询检查规则出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
