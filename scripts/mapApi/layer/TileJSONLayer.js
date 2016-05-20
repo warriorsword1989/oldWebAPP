@@ -340,21 +340,22 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
         for (var i = 0; i < data.length; i++) {
             var feature = data[i];
             var geom = feature.geometry;
+            var properties=feature.properties;
+            var featType=feature.properties.featType;
             var type = geom.type;
             var style = feature.properties.style;
             switch (type) {
                 case 'Point':
-
-                    //没有图片样式情况
-                    if(style&&style.radius){
-                        this._drawPoint({
-                            ctx: ctx,
-                            boolPixelCrs:true,
-                            fillColor:style.fillColor,
-                            radius:feature.properties.style.radius,
-                            geom:geom.coordinates
-                        })
-                    }
+                        //没有图片样式情况
+                        if(style&&style.radius){
+                            this._drawPoint({
+                                ctx: ctx,
+                                boolPixelCrs:true,
+                                fillColor:style.fillColor,
+                                radius:feature.properties.style.radius,
+                                geom:geom.coordinates
+                            })
+                        }
 
                     //有图片样式的情况
                     if(feature.properties.markerStyle) {
@@ -423,6 +424,7 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                         }
                     }
 
+
                     break;
 
                 case 'MultiPoint':
@@ -432,30 +434,56 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                     break;
 
                 case 'LineString':
-                    this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
-                        color: 'rgba(105,105,105,1)',
-                        radius: 3
-                    }, feature.properties);
-                    //如果属性中有direct属性则绘制箭头
-                    if (feature.properties.direct&&this._map.getZoom()>14) {
-                        var coords = geom.coordinates;
-                        var arrowlist = [];
-                        for (var index = 0; index < coords.length; index++) {
-                            if (index < coords.length - 1) {
-                                var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {
-                                    x: coords[index + 1][0],
-                                    y: coords[index + 1][1]
-                                }];
-                                arrowlist.push(oneArrow);
-                            }
+
+                    if(featType==='ADLINK'&&this._map.getZoom()<7){//5、6级时我只能看到国家线、国家名
+                        if(properties.kind==6){
+                            this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }, feature.properties);
                         }
-                        this._drawArrow(ctx, feature.properties.direct, arrowlist);
+                    }else if(featType==='ADLINK'&&this._map.getZoom()>6&&this._map.getZoom()<9){//7,8级时我能看到国家线、国家名、升级区划线、省会名
+                        if(properties.kind==6||properties.kind==1) {
+                            this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }, feature.properties);
+                        }
+                    }else if(featType==='ADLINK'&&this._map.getZoom()<17){
+                        if(properties.kind!=0) {
+                            this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                                color: 'rgba(105,105,105,1)',
+                                radius: 3
+                            }, feature.properties);
+                        }
+                    }
+                    else{
+                        this._drawLineString(ctx, geom.coordinates, boolPixelCrs, style, {
+                            color: 'rgba(105,105,105,1)',
+                            radius: 3
+                        }, feature.properties);
+                        //如果属性中有direct属性则绘制箭头
+                        if (feature.properties.direct&&this._map.getZoom()>14) {
+                            var coords = geom.coordinates;
+                            var arrowlist = [];
+                            for (var index = 0; index < coords.length; index++) {
+                                if (index < coords.length - 1) {
+                                    var oneArrow = [{x: coords[index][0], y: coords[index][1]}, {
+                                        x: coords[index + 1][0],
+                                        y: coords[index + 1][1]
+                                    }];
+                                    arrowlist.push(oneArrow);
+                                }
+                            }
+                            this._drawArrow(ctx, feature.properties.direct, arrowlist);
+                        }
+
+                        //如果属性中有name属性则绘制名称
+                        if (feature.properties.name&&this._map.getZoom()>14) {
+                            this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
+                        }
                     }
 
-                    //如果属性中有name属性则绘制名称
-                    if (feature.properties.name&&this._map.getZoom()>14) {
-                        this._drawLinkNameText(ctx, geom.coordinates, feature.properties.name);
-                    }
                     break;
 
                 case 'MultiLineString':

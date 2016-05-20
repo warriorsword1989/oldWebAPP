@@ -408,7 +408,7 @@ Application.layersConfig =
                     restrictZoom: 10,
                     visible: false,
                     requestType: 'ADLINK',
-                    showNodeLevel: 17
+                    showNodeLevel: 5
                 }
             },
             {
@@ -1114,6 +1114,7 @@ function transformData(data, url) {
                 obj['geometry']['type'] = 'LineString';
                 obj['properties']['snode'] = item.m.a;
                 obj['properties']['enode'] = item.m.b;
+                obj['properties']['kind'] = item.m.c;
                 obj['properties']['style']['strokeColor'] = '#FBD356';
                 obj['properties']['style']['strokeWidth'] = 3;
                 obj['properties']['style']['strokeOpacity'] = 1;
@@ -1175,7 +1176,7 @@ function transformData(data, url) {
                 obj['properties']["featType"] = "ADADMIN";
                 obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
-
+                obj['properties']['kind'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
                         iconName: '../../images/road/img/star.svg',

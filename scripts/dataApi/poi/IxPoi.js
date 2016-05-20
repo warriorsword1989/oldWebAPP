@@ -144,6 +144,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
      */
     setAttributes: function(data) {
         this.relateParent = data["relateParent"] || null;
+        this.relateParentName = data["relateParentName"] || "";
         //this.attachments = data["attachments"] || [];
         this.attachmentsImage = []; //图片
         this.attachmentsDoc = []; //备注
