@@ -20,31 +20,7 @@
                 "dataApi/poi/IxPoiName.js",
                 "dataApi/poi/IxPoiConstant.js",
                 "dataApi/poi/IxCheckResult.js",
-                "dataApi/poi/IxEditHistory.js",
-
-                "libs/leaflet-0.7.3/leaflet-src.js",
-                "fastmap/leaflet-poiUtil.js",
-                "libs/leaflet-0.7.3/plugins/Leaflet.NavBar.js",
-                "libs/leaflet-0.7.3/plugins/leaflet-search.src.js",
-                "libs/leaflet-0.7.3/plugins/leaflet-checkbox.src.js",
-                "libs/leaflet-0.7.3/plugins/Toolbar.js",
-                "libs/leaflet-0.7.3/plugins/Tooltip.js",
-                "libs/leaflet-0.7.3/plugins/draw/DrawToolbar.js",
-                "libs/leaflet-0.7.3/plugins/draw/GeometryUtil.js",
-                "libs/leaflet-0.7.3/plugins/draw/LatLngUtil.js",
-                "libs/leaflet-0.7.3/plugins/Control.Draw.js",
-                "libs/leaflet-0.7.3/plugins/draw/Leaflet.draw.js",
-                "libs/leaflet-0.7.3/plugins/draw/Draw.Feature.js",
-                "libs/leaflet-0.7.3/plugins/draw/Draw.SimpleShape.js",
-                "libs/leaflet-0.7.3/plugins/draw/Draw.Marker.js",
-                "libs/leaflet-0.7.3/plugins/draw/Draw.Polyline.js",
-                "libs/leaflet-0.7.3/plugins/draw/Draw.Polygon.js",
-                "libs/leaflet-0.7.3/plugins/draw/Draw.Rectangle.js",
-                "libs/leaflet-0.7.3/plugins/draw/LineUtil.Intersect.js",
-                "libs/leaflet-0.7.3/plugins/draw/Polygon.Intersect.js",
-                "libs/leaflet-0.7.3/plugins/draw/Polyline.Intersect.js"
-
-
+                "dataApi/poi/IxEditHistory.js"
 
             ]; // etc.
         var scriptTags = new Array(jsFiles.length);
