@@ -226,25 +226,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         });
     };
     $scope.doSave = function() {
-        //$scope.$broadcast("save", $scope.meta.kindList);
-        var param = {
-            access_token: App.Config.accessToken,
-            projectId: "2016013086",
-            phase: 4,
-            fid: '0010060815LML01353',
-            featcode: 'poi',
-            validationMethod: 1,
-            data: $scope.poi
-        };
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
         $scope.saveButClass = "disabled";
-        // poi.savePoiNew($scope.poi).then(function (data) {
-        //     var temp = data;
-        // });
-        // poi.savePoi(param,function(data){
-        //     $scope.saveButClass = "";
-        // });
+        poi.savePoi($scope.poi).then(function (data) {
+            var temp = data;
+            $scope.saveButClass = "";
+        });
     };
 
     function realSave(evt, data) {
