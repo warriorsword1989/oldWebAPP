@@ -3,9 +3,7 @@
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     geoLiveType: "IX_POI",
-    initialize: function(data) {
-        this.setAttributes(data);
-    },
+    
     /*
      * UI-->DB
      */

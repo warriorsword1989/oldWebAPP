@@ -1,4 +1,4 @@
-angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
+angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta',function($scope, $timeout,meta) {
 
     var pKindFormat = {}, pKindList,
         pAllChain = {};
@@ -131,10 +131,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         
     }
 
-    $scope.remarkChange = function (val){
-
-    }
-
     //改变等级
     $scope.updateLevelSelected = function(val) {
         $scope.poi.level = val;
@@ -219,17 +215,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             }
         }
     }
-    var initRemark = function (poi){
-        var remark = ""; 
-        for (var i = 0, len = poi.attachments.length; i < len; i++){
-            var attachment = poi.attachments[i];
-            if(attachment.type == 4 && attachment.tag == 0 ){
-                remark = attachment.url;
-                break ;
-            }
-        }
-        $scope.remark = remark;
-    }
     $scope.removeTelElem = function(index) {
         if ($scope.poi.contacts.length > 1) {
             $scope.poi.contacts.splice(index, 1);
@@ -264,10 +249,17 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
 
     $scope.kindChange = function(evt, obj) {
         $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
+        $scope.poi.brands[0].code = "";
+        $scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
     };
     $scope.brandChange = function (evt, sco) {
-        console.info(evt);
         $scope.poi.brands[0].code = sco.selectedChain;
+        meta.getChainLevel($scope.poi.kindCode,sco.selectedChain).then(function (data){
+            if (data) {
+                $scope.levelArr = [];
+                $scope.levelArr = data.split("|");
+            }
+        });
     };
 
     $scope.showChildrenPoisInMap = function() {
@@ -324,4 +316,4 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "baseInfo");
     });
-});
+}]);
