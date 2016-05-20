@@ -575,7 +575,6 @@ Application.layersConfig =
         }]
     }];
 function transformData(data, url) {
-    console.log(map.getZoom());
     var featArr = [];
     $.each(data, function (index, item) {
         var obj = {};
