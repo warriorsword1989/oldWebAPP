@@ -48,16 +48,6 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
 
         return defer.promise;
     };
-    this.savePoi = function (param, callback) {
-        delete param.data._initHooksCalled;
-        FM.dataApi.ajax.httpPost($http, "editsupport/poi/save/", param, function (data) {
-            var ret = [];
-            if (data.errcode == 0) {
-                ret = data.data;
-            }
-            callback(ret);
-        });
-    }
     this.getProjectList = function (param) {
     	var defer = $q.defer();
     	ajax.get("project/list/",{parameter: JSON.stringify(param)}).success(function(data){
@@ -212,7 +202,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
-    this.savePoiNew = function (poi) {
+    this.savePoi = function (poi) {
         var defer = $q.defer();
         var params = {
             access_token: App.Config.accessToken,

@@ -3,9 +3,7 @@
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     geoLiveType: "IX_POI",
-    initialize: function(data) {
-        this.setAttributes(data);
-    },
+    
     /*
      * UI-->DB
      */
@@ -269,7 +267,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.guide = data['guide'] || null;
         this.auditStatus = data['auditStatus'] || 0;
     },
-    getSnapShot: function() {
+    /*getSnapShot: function() {
         var data = {};
         data["fid"] = this.fid;
         data["pid"] = this.pid;
@@ -281,10 +279,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         data["location"] = this.location;
         data["guide"] = this.guide;
         return data;
-    }
-    // getSnapShot: function() {
-    //     var data = {};
-        
-    //     return new IxpoiSnapshot(this.getIntegrate());
-    // },
+    }*/
+    getSnapShot: function() { //这样写的原因是为了返回的UI对象
+        return new FM.dataApi.IxPoiShapShot(this.getIntegrate());
+    },
 });
