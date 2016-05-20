@@ -281,6 +281,6 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         return data;
     }*/
     getSnapShot: function() { //这样写的原因是为了返回的UI对象
-        return new FM.dataApi.IxPoiShapShot(this.getIntegrate());
+        return new FM.dataApi.IxPoiSnapShot(this.getIntegrate());
     },
 });

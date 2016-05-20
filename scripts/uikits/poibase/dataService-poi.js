@@ -21,8 +21,34 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             } else {
                 defer.resolve("查询poi详情出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
 
+        return defer.promise;
+    };
+    this.getPoiSnapshot = function (fid) {
+        var defer = $q.defer();
+        var param = {
+            projectId: 2016013086,
+            condition: { fid: fid },
+            phase: "4",
+            featcode: "poi",
+            type: "snapshot",
+            pagesize: 0
+        };
+        ajax.get("editsupport/poi/query", {
+            parameter: JSON.stringify(param)
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                var poi = new FM.dataApi.IxPoiSnapShot(data.data.data[0]);
+                defer.resolve(poi);
+            } else {
+                defer.resolve("查询poi部分信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
         return defer.promise;
     };
     this.getPoiList = function() {var defer = $q.defer();

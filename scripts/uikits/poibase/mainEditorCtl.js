@@ -64,9 +64,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     var getParentPoi = function (){
         var parent =$scope.poi.relateParent;
         if(parent){
-            // poi.getParentPoi(parentFid.parentFid).then(function (data){
-            //     console.info(data);
-            // });
+            poi.getPoiSnapshot(parent.parentFid).then(function (data){
+                $scope.parentPoi = data;
+            });
         }
         
     }

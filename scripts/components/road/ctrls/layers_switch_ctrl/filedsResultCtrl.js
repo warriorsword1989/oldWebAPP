@@ -508,7 +508,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     } else if (pItemId === "1604") {//区域内道路
 
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
                         var ctrlAndTplOfRoad={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
