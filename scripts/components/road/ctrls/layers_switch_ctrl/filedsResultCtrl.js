@@ -7,7 +7,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var objCtrl = fastmap.uikit.ObjectEditController();
             var layerCtrl = fastmap.uikit.LayerController();
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
-            $scope.gpsLine = layerCtrl.getLayerById("gpsLine");
             $scope.eventController = fastmap.uikit.EventController();
             var highCtrl = fastmap.uikit.HighRenderController();
             $scope.showOrHideId = "";
@@ -33,9 +32,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         $scope.clearLayer(v);
                     });
                     $scope.workPoint.requestType = [0];
-                    $scope.gpsLine.requestType = [0];
                     $scope.workPoint.redraw();
-                    $scope.gpsLine.redraw();
                     $scope[typeName] = false;
                 } else {
                     $.each($scope.items, function (i, v) {
@@ -645,9 +642,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
                 var tips = Object.keys($scope.tipsObj);
                 $scope.workPoint.requestType = tips;
-                //$scope.gpsLine.requestType = tips;
                 $scope.workPoint.redraw();
-                //$scope.gpsLine.redraw();
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
