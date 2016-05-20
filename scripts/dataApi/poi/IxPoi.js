@@ -154,6 +154,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                 if (data["attachments"][i].type == 1) { //表示图片
                     var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
+                    attachment.url = App.Config.resourceUrl + '/photo' + attachment.url;
                     this.attachmentsImage.push(attachment);
                 } else if (data["attachments"][i].type == 4) {
                     this.attachmentsDoc.push(data["attachments"][i]);

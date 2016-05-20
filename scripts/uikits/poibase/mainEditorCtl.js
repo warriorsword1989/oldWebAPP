@@ -1,6 +1,7 @@
 angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics.directives', 'angularFileUpload', 'angular-drag', 'fastmap.uikit']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig', '$http', '$timeout', function ($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg, $http, $timeout) {
     uibBtnCfg.activeClass = "btn-success";
-    //$scope.isShowImages = false;
+    $scope.isShowImages = true; //页面初始化需要设置成true。否则showbox控件计算高度有误
+    $scope.deleteFlag = 1;
     $scope.mapColumn = 12;
     $scope.meta = {};
     $scope.metaData = {}; //存放元数据
@@ -56,8 +57,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 }
             });*/
             var imgs = initImages();
-            $scope.imagesArray =  imgs;
-            $scope.deleteFlag = 1;
+            $scope.imageArray =  imgs;
+            
+            // $scope.imageArray = [{
+            //     id: 1,
+            //     tag: 3,
+            //     tagName: '水牌',
+            //     url: '../../images/temp/01.jpg'
+            // }];
         //});
     });
 
@@ -71,15 +78,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
 
     var initImages = function () {
         var attachments = $scope.poi.attachmentsImage;
-        var imageArr = [];
-        for (var i = 0, len = attachments.length; i < len; i++) {
-            if (attachments[i].type == 1) {
-                if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
-                    attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
-                }
-                imageArr.push(attachments[i]);
-            }
-        }
+        var imageArr = attachments;
+        // for (var i = 0, len = attachments.length; i < len; i++) {
+        //     if (attachments[i].type == 1) {
+        //         if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
+        //             attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
+        //         }
+        //         imageArr.push(attachments[i]);
+        //     }
+        // }
         //控制是否显示图片
         if (imageArr.length > 0) {
             $scope.mapColumn = 6;
