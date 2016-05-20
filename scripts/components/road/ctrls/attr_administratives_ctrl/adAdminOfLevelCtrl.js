@@ -13,7 +13,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
         }
     };
     var newZNodes={};
-    Application.functions.getCondition(JSON.stringify(param), function (data) {
+    Application.functions.getByCondition(JSON.stringify(param), function (data) {
         //zNodes=data.data;
         $scope.initF(data.data);
     });
@@ -439,7 +439,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             }
         }
         // var zNodes=[];
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 var sinfo={

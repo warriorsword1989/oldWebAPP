@@ -794,67 +794,52 @@ function transformData(data, url) {
                 break;
             case 6://点限速
                 var startEndArrow = null;//箭头图片
+                var iconName = '';
                 var resArray = item.m.b.split("|");
                 var type = item.m.a;
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
+
+
+
                 if (type == 0) {
                     var fieldCollection = resArray[0];//采集标志（0,现场采集;1,理论判断）
                     var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                     var speedValue = resArray[2];//限速值
-
-
                     if (fieldCollection === "1") {//理论判断，限速开始和结束都为蓝色
                         if (speedFlag === "1") {//解除限速
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_1_1_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            );
+                            iconName = '../../images/road/1101/theory_speedlimit_start' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
                         } else {
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_1_0_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            );
+                            iconName = '../../images/road/1101/theory_speedlimit_end' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_1_1_e.svg";
                         }
                         startEndArrow = "../../images/road/1101/1101_1_1_s.svg";
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_0_1_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            );
-                            startEndArrow = "../../images/road/1101/1101_1_1_e.svg";
+                            iconName = '../../images/road/1101/normal_speedlimit_start' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
 
 
                         } else {
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_0_0_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            )
-                            startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
+                            iconName = '../../images/road/1101/normal_speedlimit_end' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_1_1_e.svg";
                         }
                     }
+                    obj['properties']['markerStyle']["icon"].push(
+                        {
+                            iconName: iconName,
+                            text: speedValue,
+                            row: 0,
+                            column: 0,
+                            dx: 0,
+                            dy: 5,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c - 90) * (Math.PI / 180)
+                        }
+                    );
+
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
                                 iconName: startEndArrow,
@@ -862,7 +847,7 @@ function transformData(data, url) {
                                 column: 1,
                                 location: obj['geometry']['coordinates'],
                                 rotate: (item.m.c - 90) * (Math.PI / 180),
-                                dx: (speedFlag == "1" ? -36 : 6),//解除限速时，要使箭头冲着自己
+                                dx: (speedFlag == "1" ? -50 : 20),//解除限速时，要使箭头冲着自己,
                                 dy: 0
                             }
                         )
@@ -871,7 +856,7 @@ function transformData(data, url) {
                     var limitSpeed = resArray[1];
                     var condition = resArray[2];
                     var limitSpeedFlag = resArray[0];
-                    var iconName = '';
+
                     var conditionObj = {
                         '1': '雨',
                         '2': '雪',
@@ -923,10 +908,7 @@ function transformData(data, url) {
                         )
                     );
 
-                }
-
-                //车道限速
-                else if (type == 4) {
+                } else if (type == 4) { //车道限速
                     var limitSpeed = item.m.b.split(",")[0];
                     var laneSpeed = item.m.b.split(",")[1];
                     iconName = '../../images/road/1101/lane_speedlimit' + '.svg';
