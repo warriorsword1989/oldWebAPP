@@ -57,7 +57,7 @@ Application.functions.getRdObjectById=function(id,type,func,detailid) {
                 func(data);
             });
     }else{
-        fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
+        fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
             function(data) {
                 func(data);
             });

@@ -81,6 +81,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.initializeDataTips = function (data) {
         $scope.photoTipsData = [];
         $scope.photos = [];
+        $scope.remarksContent = null;
         $scope.dataTipsData = data;//selectCtrl.rowKey;
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;

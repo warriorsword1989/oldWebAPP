@@ -145,8 +145,8 @@
                     <tr>
                         <td  ng-class="{'textColorRed':relateParentStyleFlag}">父POI</td>
                         <td colspan="3">
-                            <span ng-bind="relateParent.name"></span>
-                            <a ng-show="{{relateParent.name}}" ng-click="showParentPoiInMap()" href="javascript:void(0);" class="pull-right" style="margin-right: 20px;">
+                            <span ng-bind="poi.relateParentName"></span>
+                            <a ng-show="{{poi.relateParent}}" ng-click="showParentPoiInMap()" href="javascript:void(0);" class="pull-right" style="margin-right: 20px;">
                                 <img src="../../images/poi/map/icon_map.png">
                             </a>
                         </td>
