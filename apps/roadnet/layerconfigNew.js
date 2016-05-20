@@ -408,7 +408,7 @@ Application.layersConfig =
                     restrictZoom: 10,
                     visible: false,
                     requestType: 'ADLINK',
-                    showNodeLevel: 17
+                    showNodeLevel: 5
                 }
             },
             {
@@ -494,7 +494,7 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
         }, {
-            url: createUrl('/render/tip/getByTileWithGap?', ""),
+            url: createUrlForTips('/render/tip/getByTileWithGap?', ""),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -1114,6 +1114,7 @@ function transformData(data, url) {
                 obj['geometry']['type'] = 'LineString';
                 obj['properties']['snode'] = item.m.a;
                 obj['properties']['enode'] = item.m.b;
+                obj['properties']['kind'] = item.m.c;
                 obj['properties']['style']['strokeColor'] = '#FBD356';
                 obj['properties']['style']['strokeWidth'] = 3;
                 obj['properties']['style']['strokeOpacity'] = 1;
@@ -1175,7 +1176,7 @@ function transformData(data, url) {
                 obj['properties']["featType"] = "ADADMIN";
                 obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
-
+                obj['properties']['kind'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
                         iconName: '../../images/road/img/star.svg',
@@ -1896,31 +1897,50 @@ function transformDataForTips(data, param) {
 
 /***
  * 构造请求数据的url
+ * @param url
  * @param requestType
  * @returns {{}}
  */
 function createUrl(url, requestType) {
 
     var urlObj = {};
-    if (requestType != "") {
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80,
             types: requestType.split(',')
         }
-
         if (requestType == "RDLINK") {
             urlObj.hbaseUrl = Application.url + '/render/link/getByTileWithGap?';
         }
-
-    } else {
+    return urlObj;
+}
+/**
+ *  构造请求数据的url
+ * @param url
+ * @param requestType
+ * @returns {{}}
+ */
+function createUrlForTips(url, requestType) {
+    var urlObj = {};
+    if (requestType != "") {
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId: Application.projectid,
+            gap: 80,
+            types: requestType
+        }
+    }else{
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80
         }
     }
+
+
+
+
 
     return urlObj;
 }

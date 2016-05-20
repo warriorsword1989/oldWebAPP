@@ -115,6 +115,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             } else {
                 defer.resolve("忽略检查项出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
@@ -133,6 +135,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             } else {
                 defer.resolve("锁定POI出错：" + data.errmsg);
             }
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
@@ -178,6 +182,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         	}else{
         		defer.resolve("查询用户信息出错：" +data.errmsg);
         	}
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };
@@ -189,6 +195,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         	}else{
         		defer.resolve("查询分类信息出错："+data.errmsg);
         	}
+        }).error(function(rejection) {
+            defer.reject(rejection);
         });
         return defer.promise;
     };

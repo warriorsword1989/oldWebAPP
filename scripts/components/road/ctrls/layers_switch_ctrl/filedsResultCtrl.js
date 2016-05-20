@@ -31,7 +31,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $.each($scope.items, function (i, v) {
                         $scope.clearLayer(v);
                     });
-                    $scope.workPoint.requestType = [0];
+                    $scope.workPoint.url.parameter["types"] = [0];
                     $scope.workPoint.redraw();
                     $scope[typeName] = false;
                 } else {
@@ -179,11 +179,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.showAll = true;
                 $scope.showAllPre = true;
                 $scope.showAllYet = true;
-                if ($scope.workPoint.requestType !== "") {
-                    $scope.workPoint.requestType = "";
-                    $scope.gpsLine.requestType = "";
+                if ($scope.workPoint.url.parameter["types"]) {
+                    delete $scope.workPoint.url.parameter["types"]
                     $scope.workPoint.redraw();
-                    //$scope.gpsLine.redraw();
                 }
                 Application.functions.getTipsStatics( stage, function (data) {
                     $scope.$apply(function () {
@@ -634,14 +632,19 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //checkbox中的处理方法
             $scope.showLayers = function (item, event) {
                 event.stopPropagation();
+                var param = $scope.workPoint.url.parameter;
                 item.flag = !item.flag;
                 if (!item.flag) {
                     delete $scope.tipsObj[item.id];
                 } else {
                     $scope.tipsObj[item.id] = true;
                 }
-                var tips = Object.keys($scope.tipsObj);
-                $scope.workPoint.requestType = tips;
+                if(Object.keys($scope.tipsObj).length===0) {
+                    param["types"] = [0];
+                }else{
+                    param["types"]= Object.keys($scope.tipsObj);
+                }
+
                 $scope.workPoint.redraw();
 
             };
