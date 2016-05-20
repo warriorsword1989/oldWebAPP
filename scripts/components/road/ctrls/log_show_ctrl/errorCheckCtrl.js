@@ -32,7 +32,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
             "id": rowid,
             "type": selectInd
         };
-        Application.functions.updateCheckType(JSON.stringify(params), function (data) {
+        Application.functions.getDataByCheck("update",JSON.stringify(params), function (data) {
             if (data.errcode == 0) {
                 $scope.$apply();
                 $scope.getCheckDateAndCount();

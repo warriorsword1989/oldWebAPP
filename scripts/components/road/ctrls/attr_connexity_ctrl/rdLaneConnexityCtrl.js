@@ -435,7 +435,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             return;
         }
 
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
                 var sinfo = {
@@ -469,7 +469,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {
                 rdConnexity.redraw();

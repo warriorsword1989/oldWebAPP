@@ -193,7 +193,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
     $scope.upAndDown=function(event) {
         var type = event.currentTarget.type;
         if(type === 'chooseOver'){
-            Application.functions.selectRelateLink(JSON.stringify($scope.param),function(data){
+            Application.functions.getByCondition(JSON.stringify($scope.param),function(data){
                 var highLightFeatures = [];
                 highRenderCtrl.highLightFeatures.length = 0;
                 highRenderCtrl._cleanHighLight();
@@ -306,7 +306,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 "linkPids": $scope.linkMulity
             }
 
-            Application.functions.getLinksOfNode(JSON.stringify($scope.param1), function (data) {
+            Application.functions.getByCondition(JSON.stringify($scope.param1), function (data) {
                 var linkArr =data.data, points= [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
                     var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);

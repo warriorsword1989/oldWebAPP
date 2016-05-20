@@ -6,20 +6,21 @@
 
 Application.functions = Application.functions ||{};
 /***
- *
- * @param meshidArray图幅号
+ * 根据getStats接口获取相关数据
  * @param stage 1：待作业；3：已作业
  * @param func
  */
-Application.functions.getTipsStatics = function(meshidArray, stage,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getStats?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+']}',
+Application.functions.getTipsStatics = function(stage,func){
+    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getStats?parameter={'
+        + '"grids":['+Application.meshIdArr.toString()+'],"stage":['+stage.toString()+']}',
         function(data){
             func(data)
         }
     )
 }
-Application.functions.getTipsListItems=function(meshidArray,stage,type,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={"grids":['+meshidArray.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":'+Application.projectid+'}',
+Application.functions.getTipsListItems=function(stage,type,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={'
+        + '"grids":['+Application.meshIdArr.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":'+Application.projectid+'}',
         function(data){
             func(data)
         }
@@ -31,6 +32,17 @@ Application.functions.getTipsResult=function(rowkey,func) {
             func(data.data)
         }
     )
+};
+/**
+ *  保存datatips数据
+ * @param param
+ * @param func
+ */
+Application.functions.changeDataTipsState=function(param,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/edit?parameter=' + param,
+        function (data) {
+            func(data)
+        });
 };
 /**
  * 根据道路id获得道路的详细属性
@@ -65,38 +77,17 @@ Application.functions.getRdObjectByDetailId=function(id,type,func) {
         });
 };
 /***
- * 编辑相关
+ * 属性和几何编辑相关 editGeometryOrProperty
  * @param param
  * @param func
  */
-Application.functions.saveLinkGeometry = function (param, func) {
+Application.functions.editGeometryOrProperty = function (param, func) {
     fastmap.mapApi.ajaxConstruct(Application.url + '/edit/run?parameter=' + param.replace(/\+/g,'%2B'),
         function (data) {
             func(data)
         });
 };
-/**
- * 保存属性编辑结果
- * @param param
- * @param func
- */
-Application.functions.saveProperty=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url + '/edit/run?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
-/**
- *  保存datatips数据
- * @param param
- * @param func
- */
-Application.functions.changeDataTipsState=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/edit?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
+
 /**
  *  获取箭头图图片组
  * @param param
@@ -118,17 +109,7 @@ Application.functions.getArrowImg=function(param) {
     return Application.url+'/metadata/patternImage/getById?parameter=' + param;
 };
 
-/**
- *  更新高速分歧属性值 
- * @param param
- * @param func
- */
-Application.functions.saveBranchInfo=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/run?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
+
 /**
  *  高速分歧 名称发音和语音 
  * @param param
@@ -141,24 +122,7 @@ Application.functions.getNamePronunciation=function(param,func) {
         });
 };
 
-/***
- * 保存node移动
- * @param param
- * @param func
- */
-Application.functions.saveNodeMove = function(param, func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/run?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-}
 
-Application.functions.getByCondition=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter='+param,
-        function (data) {
-            func(data)
-        });
-};
 
 //根据输入的道路名模糊查询所有道路民
 Application.functions.getNamesbyName = function(param,func){
@@ -167,40 +131,19 @@ Application.functions.getNamesbyName = function(param,func){
             func(data)
         });
 }
-
-//获取检查结果
-Application.functions.getCheckDatas = function(param,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/check/get?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-}
-
-//获取检查结果总数
-Application.functions.getCheckCount = function(param,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/check/count?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-}
-
-//获取检查状态
-Application.functions.updateCheckType = function(param,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/check/update?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-}
 /**
- * 获取controller中的scope
- * @param controller
- * @returns {*}
+ * 根据接口check获取相关的数据
+ * @param type
+ * @param param
+ * @param func
  */
-Application.functions.getScope=function(controller) {
-        var getController = document.querySelector('[ng-controller='+controller+']');
-        var scope = angular.element(getController).scope();
-        return scope;
-};
+Application.functions.getDataByCheck = function(type,param,func){
+    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/check/'+type+'?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
 
 /***
  * 获取互联网rtic代码
@@ -213,37 +156,10 @@ Application.functions.getIntRticRank=function(param,func) {
 };
 
 /***
- * 获取层级
+ * 根据接口getByCondition获取相关数据
  */
-Application.functions.getCondition=function(param,func) {
+Application.functions.getByCondition=function(param,func) {
     fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
-/***
- * 获取关联link
- */
-Application.functions.selectRelateLink=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
-/***
- * 获取多个link的坐标
- */
-Application.functions.getLinksOfNode=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
-/***
- * 保存上下线分离
- */
-Application.functions.saveUpAndDown=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/run?parameter=' + param,
         function (data) {
             func(data)
         });

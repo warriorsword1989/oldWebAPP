@@ -21,9 +21,6 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
     },
     draw: function (guideObj) {
         var g = this._ctx;
-        g.strokeStyle = "red";
-        g.lineWidth = 2;
-
         if (guideObj) {
             if (!this.linkFObj[guideObj["id"]]) {
                 this.linkFObj[guideObj["id"]] = guideObj;
