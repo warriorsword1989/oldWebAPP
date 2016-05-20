@@ -95,7 +95,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             parameter: JSON.stringify(param)
         }).success(function(data) {
             if (data.errcode == 0) {
-                defer.resolve(data.data.data[0]);
+                defer.resolve(data.data);
             } else {
                 defer.resolve("忽略检查项出错：" + data.errmsg);
             }
