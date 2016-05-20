@@ -3,36 +3,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
     var pKindFormat = {}, pKindList,
         pAllChain = {};
     var regionCode = "010"
-    /*var lifecycle = {
-        1: "删 除",
-        2: "修 改",
-        3: "新 增",
-        4: "未 知"
-    };
-    var auditStatus = {
-        0: "无",
-        1: "待审核",
-        2: "已审核",
-        3: "审核不通过",
-        4: "外业验证",
-        5: "鲜度验证",
-    };
-
-    var _conf_origin_prop = {
-        "name": 1,
-        "address": 1,
-        "contacts": 1,
-        "postCode": 1,
-        "adminCode": 1,
-        "kindCode": 1,
-        "brands": 1,
-        "level": 1,
-        "open24H": 1,
-        "relateParent": 1,
-        "relateChildren": 1,
-        "names": 1,
-        "indoor": 1
-    }*/
     var initOptionStyle = function(poiJson) {
         var editedProperty = new Object();
         var data = [];

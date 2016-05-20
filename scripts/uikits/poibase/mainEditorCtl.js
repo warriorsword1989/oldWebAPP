@@ -25,6 +25,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $scope.poiList = data;
     }));
     $q.all(promises).then(function() {
+        getParentPoi();
         $scope.poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
@@ -59,6 +60,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // $scope.deleteFlag = 1;
         });
     });
+
+    var getParentPoi = function (){
+        var parent =$scope.poi.relateParent;
+        if(parent){
+            // poi.getParentPoi(parentFid.parentFid).then(function (data){
+            //     console.info(data);
+            // });
+        }
+        
+    }
+
     var initImages = function () {
         var attachments = $scope.poi.attachments;
         var imageArr = [];
