@@ -25,6 +25,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $scope.poiList = data;
     }));
     $q.all(promises).then(function() {
+        getParentPoiName();
         $scope.poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
@@ -59,6 +60,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // $scope.deleteFlag = 1;
         });
     });
+
+    var getParentPoiName = function (){
+        if ($scope.poi.relateParent) {
+            poi.getPoiSnapshot($scope.poi.relateParent.parentFid).then(function (parentPoi){
+                $scope.poi.relateParentName = parentPoi.name;
+            });
+        }
+    };
+
     var initImages = function () {
         var attachments = $scope.poi.attachments;
         var imageArr = [];
@@ -308,16 +318,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         });
     };
 
-    function realSave(evt, data) {
-        // console.log(data);
-        $scope.test();
-    };
-
     //接收从generalBase传过来的命令，查询并显示在地图上
     $scope.$on('emitParent',function (obj){
-        var data = {};
-        // poi.getPoiDetailByFid($scope.poi.relateParent.parentFid).then(function(parentPoi) {
-        poi.getPoiDetailByFid("0010071122LK106169").then(function(parentPoi) {//假数据
+        poi.getPoiSnapshot($scope.poi.relateParent.parentFid).then(function (parentPoi){
+            var data = {};
             data.data = parentPoi;
             data.layerId = "parentPoiLayer";
             $scope.$broadcast("showPoisInMap", data);
@@ -423,7 +427,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 break;
         }
     });
-    $scope.$on("saveMe", realSave);
 }]).directive("myResize", ["$timeout", function($timeout) {
     function _resize(elem) {
         

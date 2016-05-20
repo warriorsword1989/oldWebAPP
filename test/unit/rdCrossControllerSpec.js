@@ -209,7 +209,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             });
             spyOn(window, "swal");
 
-            Application.functions.saveLinkGeometry = jasmine.createSpy("saveLinkGeometry");
+            Application.functions.editGeometryOrProperty = jasmine.createSpy("saveLinkGeometry");
 
             scope.save();
 
@@ -219,7 +219,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             expect(window.swal.calls.count()).toBe(1);
             expect(window.swal.calls.argsFor(0)).toEqual(["操作成功", '属性值没有变化！', "success"]);
 
-            expect(Application.functions.saveLinkGeometry.calls.count()).toBe(0);
+            expect(Application.functions.editGeometryOrProperty.calls.count()).toBe(0);
         });
 
         it('save函数_对象属性有变化', function () {
@@ -236,7 +236,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             spyOn(outPutCtrl, "updateOutPuts");
             spyOn(scope, "refreshData");
 
-            Application.functions.saveLinkGeometry = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.editGeometryOrProperty = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
                 var data = {
                     "data": {
                         "log": [{"type": "RDCROSS", "pid": rdCross.pid, "childPid": "", "op": "修改属性"}],
@@ -263,8 +263,8 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
                 "data": objCtrl.changedProperty
             };
 
-            expect(Application.functions.saveLinkGeometry.calls.count()).toBe(1);
-            expect(Application.functions.saveLinkGeometry.calls.argsFor(0)[0]).toEqual(JSON.stringify(saveLinkGeometryParam));
+            expect(Application.functions.editGeometryOrProperty.calls.count()).toBe(1);
+            expect(Application.functions.editGeometryOrProperty.calls.argsFor(0)[0]).toEqual(JSON.stringify(saveLinkGeometryParam));
             expect(Application.functions.changeDataTipsState.calls.count()).toBe(0);
 
             expect(objCtrl.setOriginalData.calls.count()).toBe(1);
@@ -302,7 +302,7 @@ define(['angularMocks', 'rdCrossCtrl'], function () {
             spyOn(outPutCtrl, "updateOutPuts");
             spyOn(scope, "refreshData");
 
-            Application.functions.saveLinkGeometry = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
+            Application.functions.editGeometryOrProperty = jasmine.createSpy("saveLinkGeometry").and.callFake(function (param, func) {
                 var data = {
                     "data": null, "errmsg": "fail", "errcode": -1
                 };

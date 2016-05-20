@@ -110,7 +110,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 adAdmin.redraw();
@@ -166,7 +166,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 adAdmin.redraw();
