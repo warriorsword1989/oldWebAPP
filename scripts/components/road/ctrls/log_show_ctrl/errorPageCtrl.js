@@ -15,7 +15,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             "pageSize": 5,
             "grids": $scope.meshesId
         };
-        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
+        Application.functions.getCheckData(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
                 var errorCheckObj = {

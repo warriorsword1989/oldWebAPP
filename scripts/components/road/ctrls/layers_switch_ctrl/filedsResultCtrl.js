@@ -45,7 +45,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope[typeName] = true;
                 }
             }
-            Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
+            Application.functions.getTipsStatics([1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
@@ -188,7 +188,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope.workPoint.redraw();
                     //$scope.gpsLine.redraw();
                 }
-                Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], stage, function (data) {
+                Application.functions.getTipsStatics( stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
                         transArr = data.data.rows;
@@ -370,7 +370,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
 
                 //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
-                Application.functions.getTipsListItems([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
+                Application.functions.getTipsListItems(arr, item.id, function (data) {
 
                     if (stage === 0) {
                         $scope.$apply(function () {
@@ -383,27 +383,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $("#" + $scope.showOrHideId).addClass("selected")
                                 $("#" + $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
-                           /* if(item.id=="1514"){
-                                var obj = {
-                                    constructionArrayLink:[{"m":{"e":"12"}},{"m":{"e":"123"}}]
-                                };
-                                $scope.allSubItems = [{"m":{"e":"12"}},{"m":{"e":"123"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            }
-                            if(item.id=="1501"){
-                                $scope.allSubItems = [{"m":{"e":"test"}},{"m":{"e":"test1"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            }  if(item.id=="1403"){
-                                $scope.allSubItems = [{"m":{"e":"test123"}},{"m":{"e":"test133"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            } if(item.id=="1801"){
-                                $scope.allSubItems = [{"m":{"e":"wewwe"}},{"m":{"e":"eeeeee"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            }*/
                             $scope.allSubItems = data.data;
                             $scope.allStyleArr = [];
                             for (var i = 0, len = $scope.allSubItems.length; i < len; i++) {
