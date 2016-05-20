@@ -118,8 +118,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid);
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
-    /*接收框选点信息*/
-    $scope.$on('drawPois', function (event, data) {
+    /*显示地图上poi数组*/
+    function loadPoiInfoPopover(data,title){
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             $scope.drawPois = data;
@@ -182,7 +182,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     }
                 }
                 $scope.refFt = {
-                    title: '框选区域内关联POI',
+                    title: title,
                     refList: data.data
                 };
                 $scope.showRelatedPoiInfo = true;
@@ -190,6 +190,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 // $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
             });
         });
+    }
+    /*接收框选点信息*/
+    $scope.$on('drawPois', function (event, data) {
+        loadPoiInfoPopover(data,'框选区域内关联POI');
+    });
+    /*接收周边查询点信息*/
+    $scope.$on('searchPois', function (event, data) {
+        loadPoiInfoPopover(data,'周边1KM范围内的POI');
     });
     /*接收同位点信息*/
     $scope.$on('samePois', function (event, data) {
@@ -204,14 +212,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.layerName = data.layerId;
         });
     });
+    /*获取检查规则*/
+    meta.queryRule().then(function (data) {
+        $scope.checkRuleList = data;
+    });
     /*显示关联poi面板*/
     $scope.$on('showRelatedPoiInfo',function(event,data){
+        console.log(data)
         $scope.refFt = data;
-        $scope.showRelatedPoiInfo = true;
         $scope.$broadcast('showPoisInMap', {
             data: data.refList,
             layerId: "checkResultLayer"
         });
+        $scope.showRelatedPoiInfo = true;
     });
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
@@ -219,6 +232,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             /*操作成功后刷新poi数据*/
             // refreshPoiData('0010060815LML01353');
         })
+    });
+    /*查找FIDlist*/
+    meta.getParentFidList().then(function (list) {
+        $scope.fidList = list;
     });
     /*接收layerName*/
     $scope.$on('getLayerName',function(event,data){
@@ -238,24 +255,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*关闭关联poi数据——冲突检测弹框*/
     $scope.closeConflictInfo = function () {
         $scope.showConflictInfo = false;
-    }
+    };
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap', function (event, data) {
         $scope.optionData = {};
-        console.log($scope.metaData.allChain)
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function () {
             $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
             $scope.showConflictPoiInfo = true;
             data.refData.duppoi.kindName = $scope.metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
             data.refData.duppoi.brandList = $scope.metaData.allChain[data.refData.duppoi.kindCode];
             $scope.optionData.confusionData = data;
-            // $scope.$emit('showConflictInMap',true);
             $scope.showConflictInfo = true;
         });
     });
     /*显示冲突检测面板*/
     $scope.$on('showConflictInMap',function(event,data){
-        console.log(data)
         $scope.showConflictInfo = data;
     });
     /*接收新上传的图片数据*/

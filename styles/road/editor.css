@@ -947,25 +947,25 @@ div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
 .blackTheme .popover-content::-webkit-scrollbar-track:hover {
     background: transparent;
 }
-.blackTheme .dark .popover-content::-webkit-scrollbar,
-.blackTheme .dark.popover-content::-webkit-scrollbar {
+.blackTheme  .popover-content::-webkit-scrollbar,
+.blackTheme .popover-content::-webkit-scrollbar {
     width: 6px;
     background: transparent;
 }
-.blackTheme .dark .popover-content::-webkit-scrollbar-thumb,
-.blackTheme .dark.popover-content::-webkit-scrollbar-thumb {
+.blackTheme .popover-content::-webkit-scrollbar-thumb,
+.blackTheme .popover-content::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,.18);
     border-color: transparent;
 }
-.blackTheme .dark .popover-content::-webkit-scrollbar-thumb:hover,
-.blackTheme .dark.popover-content::-webkit-scrollbar-thumb:hover {
+.blackTheme  .popover-content::-webkit-scrollbar-thumb:hover,
+.blackTheme .popover-content::-webkit-scrollbar-thumb:hover {
     background: rgba(255,255,255,.25);
 }
-.blackTheme .dark .popover-content::-webkit-scrollbar:hover,
-.blackTheme .dark.popover-content::-webkit-scrollbar:hover {
+.blackTheme  .popover-content::-webkit-scrollbar:hover,
+.blackTheme .popover-content::-webkit-scrollbar:hover {
     background: transparent;
 }
-.blackTheme.dark .rounded-toggle {
+.blackTheme .rounded-toggle {
     background: rgba(0,0,0,.25);
 }
 .blackTheme .popover-title{
@@ -1202,6 +1202,58 @@ div.fm-outputContainer-collapseHeight a.fm-panel-controlArrowUpAndDown>span{
 }
 .blackTheme .trafficPic > .active{
     box-shadow: 0px 0px 7px 4px #9d9d9d;
+}
+
+
+.blackTheme .content_wrap {width: 100%;}
+.blackTheme .content_wrap div.left{float: left;width: 250px;}
+.blackTheme .content_wrap div.right{float: right;width: 340px;}
+.blackTheme .zTreeDemoBackground {width:250px;height:362px;text-align:left;}
+
+
+.blackTheme .ztree::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent;
+}
+.blackTheme .ztree::-webkit-scrollbar:hover {
+    background: transparent;
+}
+.blackTheme .ztree::-webkit-scrollbar-track {
+    background: none;
+}
+.blackTheme .ztree::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.18);
+    border-color: transparent;
+    width: 6px;
+    border-radius: 3px;
+}
+.blackTheme .ztree::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,.25);
+}
+.blackTheme .ztree::-webkit-scrollbar-track:hover {
+    background: transparent;
+}
+.blackTheme .ztree::-webkit-scrollbar,
+.blackTheme .ztree::-webkit-scrollbar {
+    width: 6px;
+    background: transparent;
+}
+.blackTheme .ztree::-webkit-scrollbar-thumb,
+.blackTheme .ztree::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.18);
+    border-color: transparent;
+}
+.blackTheme .ztree::-webkit-scrollbar-thumb:hover,
+.blackTheme .ztree::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,.25);
+}
+.blackTheme .ztree::-webkit-scrollbar:hover,
+.blackTheme .ztree::-webkit-scrollbar:hover {
+    background: transparent;
+}
+.blackTheme .ztree {
+    background: rgba(0,0,0,.25);
 }
 /*********************************属性栏修改后特殊样式**********************************/
 .blackTheme select.ng-dirty {
