@@ -18,18 +18,17 @@ FM.dataApi.IxPoiKind = FM.dataApi.DataModel.extend({
         this.extend = data['extend'];
         this.parent = data['parent'];
     },
-
-    statics: {
-        getList: function(callback) {
-            FM.dataApi.ajax.get("meta/queryKind/", {}, function(data) {
-                var kinds = [],
-                    kind;
-                for (var i = 0; i < data.data.length; i++) {
-                    kind = new FM.dataApi.IxPoiKind(data.data[i]);
-                    kinds.push(kind);
-                }
-                callback(kinds);
-            });
-        }
+    getIntegrate: function(){
+    	var ret = {};
+    	ret["id"] = this.id;
+    	ret["mediumId"] = this.mediumId;
+    	ret["kindName"] = this.kindName;
+    	ret["kindCode"] = this.kindCode;
+    	ret["dispOnLink"] = this.dispOnLink;
+    	ret["chainFlag"] = this.chainFlag;
+    	ret["level"] = this.level;
+    	ret["extend"] = this.extend;
+    	ret["parent"] = this.parent;
+    	return ret;
     }
 });

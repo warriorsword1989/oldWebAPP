@@ -4,7 +4,8 @@
 (function() {
     jsFiles = [
         "components/directives/fastmap-uikit.js",
-        "components/directives/loginForm/loginForm.js"
+        "components/directives/loginForm/loginForm.js",
+        "components/directives/showBox/showBox.js"
     ]; // etc.
 
     // use "parser-inserted scripts" for guaranteed execution order

@@ -6,7 +6,7 @@ var tipsVideoApp = angular.module("mapApp");
 tipsVideoApp.controller("tipsVideoController", function ($scope, $timeout, $ocLazyLoad) {
     var selectCtrl = fastmap.uikit.SelectController();
     $scope.eventController = fastmap.uikit.EventController();
-    $("#dataTipsVideoModal").show()
+    $("#dataTipsVideoModal").show();
     $scope.picData = null;
     $scope.getPicNum=function() {
         var num = 0;
@@ -19,12 +19,14 @@ tipsVideoApp.controller("tipsVideoController", function ($scope, $timeout, $ocLa
         }
         return num;
     };
-    $scope.openOrigin = function (id) {
-        //document.getElementById("dataTipsVideoModal").style.display = 'block';
+    $scope.openVideo = function (id) {
+        /*document.getElementById("dataTipsVideoModal").style.display = 'block';*/
         if ( $scope.picData && id <= $scope.picData.length - 1) {
-            //$scope.photoId =  id;
+            var VideoImg = $("#VideoModal");
+            VideoImg.attr("src", "../../images/road/video/" + id + ".mp3");
+            $scope.VideoId = id;
             //$scope.openshotoorigin =  $scope.picData[id];
-            //$scope.imgPageNow =  id + 1;
+            $scope.imgPageNow = id + 1;
             //$scope.showLoading = true;
             //var originImg = $("#dataTipsVideoModal");
             //originImg.attr("src", Application.url + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + $scope.openshotoorigin.content + '",type:"origin"}');
@@ -39,31 +41,32 @@ tipsVideoApp.controller("tipsVideoController", function ($scope, $timeout, $ocLa
     }
     if (selectCtrl.rowKey) {
         $scope.picData = selectCtrl.rowKey.feedback.f_array;
-        $scope.openOrigin(selectCtrl.rowKey["pictureId"]);
+        $scope.openVideo(selectCtrl.rowKey["VideoId"]);
         $scope.imgAllPage =  $scope.getPicNum();
     }
 
     /*图片切换*/
-    $scope.switchPic = function (type) {
+    $scope.switchVideo = function (type) {
         if (type == 0) {
-            if ($scope.photoId - 1 >= 0) {
-                $scope.openOrigin($scope.photoId - 1);
+            if ($scope.VideoId - 1 >= 0) {
+                $scope.openVideo($scope.VideoId - 1);
             }
         } else {
-            if ($scope.photoId + 2 <= $scope.imgAllPage) {
-                $scope.openOrigin($scope.photoId + 1);
+            if ($scope.VideoId + 2 <= $scope.imgAllPage) {
+                $scope.openVideo($scope.VideoId + 1);
             }
         }
     };
     $scope.closePicContainer=function() {
-        selectCtrl.rowKey["pictureId"] = null;
+        selectCtrl.rowKey["VideoId"] = null;
         $("#dataTipsVideoModal").hide();
+        /*document.getElementById("dataTipsVideoModal").style.display = 'none';*/
         // $("#dataTipsOriginImg").hide();
     };
 
-   $scope.$on("TRANSITTIPSPICTURE",function(event,data) {
+    $scope.$on("TRANSITTIPSVIDEO", function (event, data) {
        $scope.picData = selectCtrl.rowKey.feedback.f_array;
-       $scope.openOrigin(selectCtrl.rowKey["pictureId"]);
+        $scope.openVideo(selectCtrl.rowKey["VideoId"]);
        $scope.imgAllPage =  $scope.getPicNum();
    })
 

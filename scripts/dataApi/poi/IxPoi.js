@@ -3,9 +3,7 @@
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     geoLiveType: "IX_POI",
-    initialize: function(data) {
-        this.setAttributes(data);
-    },
+    
     /*
      * UI-->DB
      */
@@ -13,11 +11,36 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         var ret = {};
         ret['relateParent'] = this.relateParent;
         ret['attachments'] = [];
-        if (this.attachments){
-            for (var i = 0 ,len = this.attachments.length ;i < len ; i++){
-                ret['attachments'].push(this.attachments[i].getIntegrate());
+         if (this.attachmentsImage) {
+             for (var i = 0, len = this.attachmentsImage.length; i < len; i++) {
+                 ret['attachments'].push(this.attachmentsImage[i].getIntegrate());
             }
         }
+         if (this.attachmentsOther) {
+             for (var i = 0, len = this.attachmentsOther.length; i < len; i++) {
+                 ret['attachments'].push(this.attachmentsOther[i]);
+             }
+         }
+         if (this.attachmentsRemark) {
+             if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
+                 this.attachmentsDoc[i].url = this.attachmentsRemark;
+                 ret['attachments'].push(this.attachmentsDoc[i]);
+             } else {
+                 var temp = {
+                     "tag": 4,
+                     "type": 0,
+                     "url": this.attachmentsRemark
+                 }
+                 ret['attachments'].push(temp);
+             }
+         } else {
+             if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
+                 this.attachmentsDoc[i].url = "";
+                 ret['attachments'].push(this.attachmentsDoc[i]);
+             }
+         }
+        
+
         ret["contacts"] = [];
         if (this.contacts){
             for (var i = 0 ,len = this.contacts.length ;i < len ; i++){
@@ -25,6 +48,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             }
         }
         ret["indoor"] = this.indoor;
+         if (ret["indoor"].type) {
+             ret["indoor"].type = 3;
+         } else {
+             ret["indoor"].type = 0;
+         }
+
         ret['pid'] = this.pid;
         ret['checkResults'] = [];
         if (this.checkResults){
@@ -72,6 +101,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['sourceFlags'] = this.sourceFlags;
         ret['website'] = this.website;
         ret['open24H'] = this.open24H;
+         if (this.open24H) {
+             ret['open24H'] = 1;
+         } else {
+             ret['open24H'] = 2;
+         }
         ret['evaluateComment'] = this.evaluateComment;
         ret['latestBatchDate'] = this.latestBatchDate;
         ret['importance'] = this.importance;
@@ -111,12 +145,20 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     setAttributes: function(data) {
         this.relateParent = data["relateParent"] || null;
         //this.attachments = data["attachments"] || [];
-        this.attachments = [];
+        this.attachmentsImage = []; //图片
+        this.attachmentsDoc = []; //备注
+        this.attachmentsOther = []; //音频视频等
+        this.attachmentsRemark = '';
         if (data["attachments"].length > 0) {
             for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                 if (data["attachments"][i].type == 1) { //表示图片
                     var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
-                    this.attachments.push(attachment);
+                    this.attachmentsImage.push(attachment);
+                } else if (data["attachments"][i].type == 4) {
+                    this.attachmentsDoc.push(data["attachments"][i]);
+                    this.attachmentsRemark = data["attachments"][i].url;
+                } else {
+                    this.attachmentsOther.push(data["attachments"][i]);
                 }
             }
         }
@@ -130,7 +172,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             }
         }
 
-        this.indoor = data["indoor"] || null;
+        this.indoor = data["indoor"] || {};
+        this.indoor.type = false;
+        if (this.indoor.type == 3) {
+            this.indoor.type = true
+        }
+
         this.pid = data["pid"] || 0;
         this.checkResults = [];
         if(data['checkResults'] && data['checkResults'].length > 0){
@@ -181,7 +228,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.sourceFlags = data['sourceFlags'] || null;
         this.website = data['website'] || null;
         // 
-        this.open24H = data["open24H"] || 2;
+        this.open24H = false;
+        if (data["open24H"] == 1) {
+            this.open24H = true
+        }
         this.evaluateComment = data["evaluateComment"] || null;
         this.latestBatchDate = data["latestBatchDate"] || null;
         this.importance = data["importance"] || null;
@@ -217,7 +267,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.guide = data['guide'] || null;
         this.auditStatus = data['auditStatus'] || 0;
     },
-    getSnapShot: function() {
+    /*getSnapShot: function() {
         var data = {};
         data["fid"] = this.fid;
         data["pid"] = this.pid;
@@ -229,54 +279,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         data["location"] = this.location;
         data["guide"] = this.guide;
         return data;
+    }*/
+    getSnapShot: function() { //这样写的原因是为了返回的UI对象
+        return new FM.dataApi.IxPoiShapShot(this.getIntegrate());
     },
-    getBaseInfo: function(){
-        var data = {};
-        data["fid"] = this.fid;
-        data["pid"] = this.pid;
-        data["name"] = this.name;
-        data["address"] = this.address;
-        data["contacts"] = this.contacts;
-        data["postCode"] = this.postCode;
-        data["kindCode"] = this.kindCode;
-        data["brandcode"] = this.brandcode;
-        data["level"] = this.level;
-        data["relateParent"] = this.relateParent;
-        data["relateChildren"] = this.relateChildren;
-        data["lifeCycle"] = this.lifeCycle;
-        data["auditStatus"] = this.auditStatus;
-        data["freshnessVerification"] = this.freshnessVerification;
-        data["rawFields"] = this.rawFields;
-        data["adminCode"] = this.adminCode;
-        data["lifecycle"] = this.lifecycle;
-        data["auditStatus"] = this.auditStatus;
-        data["rawFields"] = this.rawFields;
-        data["open24H"] = this.open24H;
-        data["indoor"] = this.indoor;
-        return data;
-    }, 
-    statics: {
-        getList: function(param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var ret = [],
-                    poi;
-                for (var i = 0; i < data.data.data.length; i++) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[i]);
-                    ret.push(poi);
-                }
-                callback(ret);
-            });
-        },
-        getPoiDetailByFid:function (param, callback) {
-            FM.dataApi.ajax.get("editsupport/poi/query", param, function(data) {
-                var poi;
-                if (data.errcode == 0) {
-                    poi = new FM.dataApi.IxPoi(data.data.data[0]);
-                } else {
-                    poi = "";
-                }
-                callback(poi);
-            });
-        }
-    }
 });

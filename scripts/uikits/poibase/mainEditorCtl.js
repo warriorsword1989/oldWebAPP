@@ -1,11 +1,10 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.directives','angularFileUpload','angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig','$http','$timeout', function($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg ,$http,$timeout) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics.directives', 'angularFileUpload', 'angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig', '$http', '$timeout', function ($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg, $http, $timeout) {
     uibBtnCfg.activeClass = "btn-success";
     //$scope.isShowImages = false;
     $scope.mapColumn = 12;
     $scope.meta = {};
-
     $scope.metaData = {}; //存放元数据
-    $scope.metaData.kindFormat = {} , $scope.metaData.kindList = [] ,$scope.metaData.allChain = {};
+    $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
     var promises = [];
     promises.push(meta.getKindList().then(function(kindData) {
         //$scope.meta.kindList = [];
@@ -22,13 +21,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poiIcon = data;
     }));
-
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
-
     $q.all(promises).then(function() {
-
+        getParentPoi();
         $scope.poiMap = {
             data: $scope.snapshotPoi,
             projectId: 2016013086,
@@ -37,25 +34,18 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         };
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
-            //$scope.$on('$includeContentLoaded', function($event) {
-            //    console.log("baseinfo");
-                $scope.$broadcast("loadup", {"poi":$scope.poi,"poiIcon":$scope.poiIcon,"kindList":$scope.metaData.kindList,'kindFormat':$scope.metaData.kindFormat,"allChain":$scope.metaData.allChain});
-            //});
-            distinguishResult($scope.poi);
-            /*$ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
+            // distinguishResult($scope.poi);
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
-                $scope.$on('$includeContentLoaded', function($event) {
-                    $scope.$broadcast("loadup", $scope.poi);
-                });
-            });*/
+                console.log($scope.poi)
+            });
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
-                $scope.$on('$includeContentLoaded', function($event) {
-                    
+                $scope.$on('$includeContentLoaded', function ($event) {
                 });
             });
         });
-        $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function (){
+        $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function () {
             $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
             /*$scope.$on('$includeContentLoaded', function($event,url ) {
                 if(url == '../../scripts/components/poi/tpls/attr-base/imageTpl.html'){
@@ -65,25 +55,35 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
                     },100);
                 }
             });*/
-            var imgs = initImages();
-            $scope.imagesArray =  imgs;
-            $scope.deleteFlag = 1;   
+            // var imgs = initImages();
+            // $scope.imagesArray =  imgs;
+            // $scope.deleteFlag = 1;
         });
     });
 
-    var initImages = function (){
+    var getParentPoi = function (){
+        var parent =$scope.poi.relateParent;
+        if(parent){
+            // poi.getParentPoi(parentFid.parentFid).then(function (data){
+            //     console.info(data);
+            // });
+        }
+        
+    }
+
+    var initImages = function () {
         var attachments = $scope.poi.attachments;
         var imageArr = [];
-        for (var i = 0 , len = attachments.length; i < len; i ++){
-            if (attachments[i].type == 1){
-                if(attachments[i].url.indexOf(App.Config.resourceUrl) == -1){
-                    attachments[i].url = App.Config.resourceUrl + '/photo' +attachments[i].url
+        for (var i = 0, len = attachments.length; i < len; i++) {
+            if (attachments[i].type == 1) {
+                if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
+                    attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
                 }
                 imageArr.push(attachments[i]);
             }
         }
         //控制是否显示图片
-        if(imageArr.length > 0 ){
+        if (imageArr.length > 0) {
             $scope.mapColumn = 6;
             $scope.isShowImages = true;
             $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
@@ -94,10 +94,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             $scope.isShowArrow = false;
         }
         return imageArr;
-
     };
-
-    $scope.doLeftRight = function (){
+    $scope.doLeftRight = function () {
         if ($scope.mapColumn == 6) {
             $scope.mapColumn = 12;
             $scope.isShowImages = false;
@@ -109,241 +107,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         }
     };
 
-    var resultAllData = [],
-        editHistoryData = {},
-        checkResultData = [],
-        confusionInfoData = [],
-        checkRuleObj = {};
-    var distinguishResult = function(data){
-        checkResultData = [];
-        confusionInfoData = [];
-        /*由于没有数据，这是假数据，有正式数据后放开后面的注释*/
-        resultAllData[0] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Sum-11-09", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"],'refFeatures':[{"name": "５５５中信银行ＡＴＭ", "level": "B1", "auditStatus": 2, "rowkey": "005956730006697336", "pid": 6697336, "guide": {"latitude": 39.9199, "linkPid": 49143560, "longitude": 116.45111}, "location": {"latitude": 39.9199, "longitude": 116.45113}, "fid": "0010060811LLJ02257", "address": "东大桥路８号院１", "checkResultNum": 2, "lifecycle": 2, "kindCode": "150101", "attachments": [{"url": "/15win/2016013086/20160314/292520160314131656_48465.JPG", "tag": "4", "type": 1}, {"url": "98798", "tag": 0, "type": 4}]}]});
-        resultAllData[1] = new FM.dataApi.IxCheckResult({"errorCode": "FM-14Win-01-02", "errorMsg": "重新确认成果中的设施名称是否正确", "fields": ["name"]});
-        resultAllData[2] = new FM.dataApi.IxCheckResult({"errorCode": "FM-YW-20-215", "errorMsg": "内部POI必须有父", "fields": ["kindCode", "indoor"]});
-        resultAllData[3] = new FM.dataApi.IxCheckResult({"errorCode": "FM-YW-20-216", "errorMsg": "分类冲突，请确认！", "refFeatures": [{"conflictFields": "kindCode", "fid": "0010060815LML01264", "duppoi": {"name": "北京马驹桥园林绿化有限公司", "contacts": "", "level": "B3", "pid": 7689, "postCode": "", "fid": "0010060815LML01264", "address": "", "brands": {"code": ""}, "kindCode": "220100", "location": {"latitude": 39.74941, "longitude": 116.56383}}}]});
-        // editHistoryData[0] = new FM.dataApi.IxEditHistory({"mergeDate": "20160112145422","sourceName": "Android","sourceProject": "2015111243","sourceTask": "","validationMethod": 1, "mergeContents": [{"newValue": "{\"attachments\": [{\"url\": \"2015111243/20160112/365520160112145410.jpg\", \"tag\": 3, \"type\": 1}]}", "oldValue": "{\"attachments\": []}"},{ "newValue": "{\"lifecycle\": 2}","oldValue": "{\"lifecycle\": 0}"},{"newValue": "{\"brands\": [{\"code\": \"4012\"}]}","oldValue": "{\"brands\": []}"},{"newValue": "{\"indoor\": {\"open\": 1, \"type\": 3, \"floor\": null}}","oldValue": "{\"indoor\": {\"open\": 1, \"type\": 0, \"floor\": null}}"},{"newValue": "{\"level\": \"B1\"}","oldValue": "{\"level\": \"B3\"}"},{"newValue": "{\"postCode\": \"235566\"}","oldValue": "{\"postCode\": null}"}],"operator": {"role": 0,"user": 3655},"operation": 2});
-        // resultAllData = data.checkResults;
-        for(var i=0,len=resultAllData.length;i<len;i++){
-            if(resultAllData[i].errorCode == 'FM-YW-20-215' || resultAllData[i].errorCode == 'FM-YW-20-216'){
-                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
-                resultAllData[i].poiType = resultAllData[i].errorCode == 'FM-YW-20-215'?'重复':'冲突';
-                confusionInfoData.push(resultAllData[i]);
-            }else{
-                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
-                checkResultData.push(resultAllData[i])
-            }
-        }
-        if(data.lifeCycle != 2){
-            /*取最后一条履历*/
-            editHistoryData = data.editHistory[data.editHistory.length-1];
-            /*根据履历作业员id查找真实姓名*/
-            new FM.dataApi.IxEditHistory.getList(editHistoryData.operator.user.toString(),function(userInfo){
-                editHistoryData.operator.name = userInfo.realName;
-            });
-        }else{
-            editHistoryData = false;
-        }
-
-    }
-
-    /*检查结果忽略请求*/
-    $scope.$on('ignoreItem',function(event,data){
-        console.log(data)
-        var param = {
-            fid:$scope.poi.fid,
-            project_id:2016013086,
-            ckException:{
-                errorCode:data.errorCode,
-                description:data.errorMsg
-            }
-        };
-        poi.ignoreCheck(param).then(function(data){
-            /*操作成功后刷新poi数据*/
-            refreshPoiData('0010060815LML01353');
-        })
-    });
-
-    /*获取关联poi数据——检查结果*/
-    $scope.$on('getRefFtInMap',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            $scope.layerName = 'checkResultLayer';
-            for(var i=0,len=data.length;i<len;i++){
-                data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
-            }
-            $scope.refFt = {
-                title:'检查结果关联POI',
-                refList:data
-            };
-            $scope.showRelatedPoiInfo = true;
-            $scope.$broadcast('showPoisInMap',{data:data,layerId:"checkResultLayer"});
-        });
-    });
-
-    /*接收框选点信息*/
-    $scope.$on('drawPois',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            $scope.drawPois = data;
-            var _fid = $scope.poi.fid;
-            var fidList;
-            meta.getParentFidList().then(function(list){
-                fidList = list;
-                for(var i=0,len=data.data.length;i<len;i++){
-                    data.data[i].kindInfo = $scope.metaData.kindFormat[data.data[i].kindCode];
-                    if(_fid && _fid == data.data[i].fid){
-                        data.data[i].ifParent = 1;
-                        data.data[i].labelRemark = {
-                            labelClass:'primary',
-                            text:'当前父'
-                        }
-                    }else{
-                        switch (data.data[i].kindInfo.parentFlag){
-                            case 0:
-                                if(!data.data[i].ifParent){
-                                    if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
-                                        data.data[i].ifParent = 2;
-                                        data.data[i].labelRemark = {
-                                            labelClass:"success",
-                                            text:"可为父"
-                                        }
-                                    }else{  //不可为父
-                                        data.data[i].ifParent = 3;
-                                        data.data[i].labelRemark = {
-                                            labelClass:'default',
-                                            text:'不可为父'
-                                        }
-                                    }
-                                }
-                                break;
-                            case 1:
-                                data.data[i].ifParent = 2;
-                                data.data[i].labelRemark = {
-                                    labelClass:'success',
-                                    text:'可为父'
-                                }
-                                break;
-                            case 2:
-                                if ($scope.poi.indoor.type == 3) {
-                                    data.data[i].ifParent = 2;
-                                    data.data[i].labelRemark = {
-                                        labelClass: "warning",
-                                        text: "可为父"
-                                    };
-                                } else {
-                                    data.data[i].ifParent = 3;
-                                    data.data[i].labelRemark = {
-                                        labelClass: "default",
-                                        text: "不可为父"
-                                    };
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                $scope.refFt = {
-                    title:'框选区域内关联POI',
-                    refList:data.data
-                };
-                $scope.showRelatedPoiInfo = true;
-                $scope.layerName = data.layerId;
-                // $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
-            });
-        });
-    });
-
-    /*接收同位点信息*/
-    $scope.$on('samePois',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            // $scope.samePois = data;
-            $scope.refFt = {
-                title:'同位点POI',
-                refList:data.data
-            };
-            $scope.showRelatedPoiInfo = true;
-            $scope.layerName = data.layerId;
-        });
-    });
-
-    /*接收周边查询点信息*/
-    $scope.$on('searchPois',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function(){
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            $scope.searchPois = data;
-            var _fid = $scope.poi.fid;
-            var fidList;
-            meta.getParentFidList().then(function(list){
-                fidList = list;
-                for(var i=0,len=data.data.length;i<len;i++){
-                    data.data[i].kindInfo = $scope.metaData.kindFormat[data.data[i].kindCode];
-                    if(_fid && _fid == data.data[i].fid){
-                        data.data[i].ifParent = 1;
-                        data.data[i].labelRemark = {
-                            labelClass:'primary',
-                            text:'当前父'
-                        }
-                    }else{
-                        switch (data.data[i].kindInfo.parentFlag){
-                            case 0:
-                                if(!data.data[i].ifParent){
-                                    if(fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle !=1){ //可为父
-                                        data.data[i].ifParent = 2;
-                                        data.data[i].labelRemark = {
-                                            labelClass:"success",
-                                            text:"可为父"
-                                        }
-                                    }else{  //不可为父
-                                        data.data[i].ifParent = 3;
-                                        data.data[i].labelRemark = {
-                                            labelClass:'default',
-                                            text:'不可为父'
-                                        }
-                                    }
-                                }
-                                break;
-                            case 1:
-                                data.data[i].ifParent = 2;
-                                data.data[i].labelRemark = {
-                                    labelClass:'success',
-                                    text:'可为父'
-                                }
-                                break;
-                            case 2:
-                                if ($scope.poi.indoor.type == 3) {
-                                    data.data[i].ifParent = 2;
-                                    data.data[i].labelRemark = {
-                                        labelClass: "warning",
-                                        text: "可为父"
-                                    };
-                                } else {
-                                    data.data[i].ifParent = 3;
-                                    data.data[i].labelRemark = {
-                                        labelClass: "default",
-                                        text: "不可为父"
-                                    };
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                $scope.refFt = {
-                    title:'周边1KM范围内的POI',
-                    refList:data.data
-                };
-                $scope.showRelatedPoiInfo = true;
-                $scope.layerName = data.layerId;
-            });
-        });
-    });
-
+    /*显示同位点poi详细信息*/
+    $scope.showSelectedSamePoiInfo = function(poi, index) {
+        $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
+    };
     /*显示关联poi详细信息*/
-    $scope.showPoiDetailInfo = function (poi, index) {
+    $scope.showPoiDetailInfo = function(poi, index) {
         $scope.poiDetail = {
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
@@ -351,126 +120,157 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid);
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
-
-    /*显示同位点poi详细信息*/
-    $scope.showSelectedSamePoiInfo = function (poi, index) {
-        $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
-    };
-
+    /*接收框选点信息*/
+    $scope.$on('drawPois', function (event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.drawPois = data;
+            var _fid = $scope.poi.fid;
+            var fidList;
+            meta.getParentFidList().then(function (list) {
+                fidList = list;
+                for (var i = 0, len = data.data.length; i < len; i++) {
+                    data.data[i].kindInfo = $scope.metaData.kindFormat[data.data[i].kindCode];
+                    if (_fid && _fid == data.data[i].fid) {
+                        data.data[i].ifParent = 1;
+                        data.data[i].labelRemark = {
+                            labelClass: 'primary',
+                            text: '当前父'
+                        }
+                    } else {
+                        switch (data.data[i].kindInfo.parentFlag) {
+                            case 0:
+                                if (!data.data[i].ifParent) {
+                                    if (fidList.indexOf(data.data[i].fid) >= 0 && data.data[i].lifecycle != 1) { //可为父
+                                        data.data[i].ifParent = 2;
+                                        data.data[i].labelRemark = {
+                                            labelClass: "success",
+                                            text: "可为父"
+                                        }
+                                    } else { //不可为父
+                                        data.data[i].ifParent = 3;
+                                        data.data[i].labelRemark = {
+                                            labelClass: 'default',
+                                            text: '不可为父'
+                                        }
+                                    }
+                                }
+                                break;
+                            case 1:
+                                data.data[i].ifParent = 2;
+                                data.data[i].labelRemark = {
+                                    labelClass: 'success',
+                                    text: '可为父'
+                                }
+                                break;
+                            case 2:
+                                if ($scope.poi.indoor.type == 3) {
+                                    data.data[i].ifParent = 2;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "warning",
+                                        text: "可为父"
+                                    };
+                                } else {
+                                    data.data[i].ifParent = 3;
+                                    data.data[i].labelRemark = {
+                                        labelClass: "default",
+                                        text: "不可为父"
+                                    };
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                $scope.refFt = {
+                    title: '框选区域内关联POI',
+                    refList: data.data
+                };
+                $scope.showRelatedPoiInfo = true;
+                $scope.layerName = data.layerId;
+                // $scope.$broadcast('showPoisInMap',{data:$scope.refFt.refList,layerId:"parentPoiLayer"});
+            });
+        });
+    });
+    /*接收同位点信息*/
+    $scope.$on('samePois', function (event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            // $scope.samePois = data;
+            $scope.refFt = {
+                title: '同位点POI',
+                refList: data.data
+            };
+            $scope.showRelatedPoiInfo = true;
+            $scope.layerName = data.layerId;
+        });
+    });
+    /*显示关联poi面板*/
+    $scope.$on('showRelatedPoiInfo',function(event,data){
+        $scope.refFt = data;
+        $scope.showRelatedPoiInfo = true;
+        $scope.$broadcast('showPoisInMap', {
+            data: data.refList,
+            layerId: "checkResultLayer"
+        });
+    });
+    /*检查结果忽略请求*/
+    $scope.$on('ignoreItem', function (event, data) {
+        poi.ignoreCheck(data,$scope.poi.fid).then(function () {
+            /*操作成功后刷新poi数据*/
+            // refreshPoiData('0010060815LML01353');
+        })
+    });
+    /*接收layerName*/
+    $scope.$on('getLayerName',function(event,data){
+       $scope.layerName = data;
+    });
     /*关闭关联poi数据*/
-    $scope.closeRelatedPoiInfo = function(){
+    $scope.closeRelatedPoiInfo = function () {
         $scope.showRelatedPoiInfo = false;
-        $scope.$broadcast('closePopover',$scope.layerName);
+        $scope.$broadcast('closePopover', $scope.layerName);
     };
-
     /*锁定检查结果数据*/
-    $scope.$on('lockSingleData',function(event,data){
-       poi.lockSingleData(data).then(function(res){
-           refreshPoiData('0010060815LML01353');
-       });
+    $scope.$on('lockSingleData', function (event, data) {
+        poi.lockSingleData(data).then(function (res) {
+            refreshPoiData('0010060815LML01353');
+        });
     });
-    /*编辑关联poi数据*/
-    $scope.$on('editPoiInfo',function(event,data){
-       refreshPoiData(data);
-    });
-
-    /*改变poi父子关系*/
-    $scope.$on('changeRelateParent',function(event,data){
-        $scope.poi.relateParent = data;
-    });
+    /*关闭关联poi数据——冲突检测弹框*/
+    $scope.closeConflictInfo = function () {
+        $scope.showConflictInfo = false;
+    }
     /*获取关联poi数据——冲突检测*/
-    $scope.$on('getConflictInMap',function(event,data){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function(){
+    $scope.$on('getConflictInMap', function (event, data) {
+        $scope.optionData = {};
+        console.log($scope.metaData.allChain)
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function () {
             $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
             $scope.showConflictPoiInfo = true;
             data.refData.duppoi.kindName = $scope.metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
             data.refData.duppoi.brandList = $scope.metaData.allChain[data.refData.duppoi.kindCode];
             $scope.optionData.confusionData = data;
+            // $scope.$emit('showConflictInMap',true);
+            $scope.showConflictInfo = true;
         });
-        $scope.showConflictInfo = true;
     });
-    /*关闭关联poi数据——冲突检测弹框*/
-    $scope.closeConflictInfo = function(){
-        $scope.showConflictInfo = false;
-    }
+    /*显示冲突检测面板*/
+    $scope.$on('showConflictInMap',function(event,data){
+        console.log(data)
+        $scope.showConflictInfo = data;
+    });
     /*接收新上传的图片数据*/
-    $scope.$on('getImgItems',function(event,data){
-        for(var i=0;i<data.length;i++){
+    $scope.$on('getImgItems', function (event, data) {
+        for (var i = 0; i < data.length; i++) {
             $scope.poi.attachments.push(data[i]);
         }
-        $scope.$broadcast('loadImages',{"imgArray":initImages(),"flag":1});
-        console.log({"imgArray":initImages(),"flag":1})
-    });
-    /*切换tag按钮*/
-    $scope.changeTag = function(tagName){
-        switch(tagName) {
-            case 'checkResult':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-                    $scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('checkResultData',checkResultData);
-                    });
-                    $scope.optionData.checkResultData = checkResultData;
-                });
-                break;
-            case 'confusionInfo':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
-                    $scope.optionData.confusionInfoData = confusionInfoData;
-                });
-                break;
-            case 'editHistory':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
-                    var param = {
-                        historyData:editHistoryData,
-                        kindFormat:$scope.metaData.kindFormat
-                    };
-                    $scope.optionData.editHistoryData = param;
-                });
-                break;
-            case 'fileUpload':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/fileUploadCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/fileUploadTpl.html';
-                });
-                break;
-            default:
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function(){
-                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-                    $scope.optionData.checkResultData = checkResultData;
-                });
-                break;
-        }
-    };
-    /*刷新poi对象*/
-    function refreshPoiData(fid){
-        poi.getPoiDetailByFid(fid).then(function(data) {
-            $scope.poi = data;
-            $scope.snapshotPoi = data.getSnapShot();
-            distinguishResult(data);
-            if(data.lifeCycle == 1){
-                $scope.pEditable = false;
-            }else{
-                $scope.pEditable = true;
-            }
-            $scope.$broadcast('checkResultData', checkResultData);
-            $scope.$broadcast('confusionInfoData', confusionInfoData);
+        $scope.$broadcast('loadImages', {
+            "imgArray": initImages(),
+            "flag": 1
         });
-    }
-    /*所有初始化执行方法放在此*/
-    function initializeData(){
-        $scope.optionData = {};
-        /*获取检查规则*/
-        FM.dataApi.CheckRule.getList(function(data){
-            for(var i=0,len=data.length;i<data.length;i++){
-                checkRuleObj[data[i].ruleId] = data[i].severity;
-            }
-        })
-        $scope.tagSelect = 'checkResult';
-        $scope.changeTag('checkResult');
-    }
-    initializeData();
-    var initKindFormat = function (kindData){
+    });
+    var initKindFormat = function (kindData) {
         for (var i = 0; i < kindData.length; i++) {
             $scope.metaData.kindFormat[kindData[i].kindCode] = {
                 kindId: kindData[i].id,
@@ -497,23 +297,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         });
     };
     $scope.doSave = function() {
-        //$scope.$broadcast("save", $scope.meta.kindList);
-        var param = {
-            access_token: App.Config.accessToken,
-            projectId: "2016013086",
-            phase: 4,
-            fid: '0010060815LML01353',
-            featcode: 'poi',
-            validationMethod: 1,
-            data: $scope.poi
-        };
-        console.info("poi",$scope.poi);
-        console.info("save",$scope.poi.getIntegrate());
+        console.info("poi", $scope.poi);
+        console.info("save", $scope.poi.getIntegrate());
         $scope.saveButClass = "disabled";
-        // poi.savePoi(param,function(data){
-        //     $scope.saveButClass = "";
-        // });
-        
+        poi.savePoi($scope.poi).then(function (data) {
+            var temp = data;
+            $scope.saveButClass = "";
+        });
     };
 
     function realSave(evt, data) {
@@ -521,14 +311,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
         $scope.test();
     };
 
-    $scope.$on('emitMainEditorTransParent',function (obj){
-        $scope.$broadcast("showParentPoiInMap", $scope.snapshotPoi);
-    })
-    $scope.$on('emitMainEditorTransChildren',function (obj){
-        $scope.$broadcast("showChildrenPoisInMap", $scope.snapshotPoi);
-    })
+    //接收从generalBase传过来的命令，查询并显示在地图上
+    $scope.$on('emitParent',function (obj){
+        var data = {};
+        // poi.getPoiDetailByFid($scope.poi.relateParent.parentFid).then(function(parentPoi) {
+        poi.getPoiDetailByFid("0010071122LK106169").then(function(parentPoi) {//假数据
+            data.data = parentPoi;
+            data.layerId = "parentPoiLayer";
+            $scope.$broadcast("showPoisInMap", data);
+        });
+    });
+
+    $scope.$on('emitChildren',function (obj) {
+        var cond = {
+            "relateParent.parentFid": $scope.poi.fid
+        };
+        var param = {
+            projectId: "2016013086",
+            condition: cond,
+            type: "snapshot",
+            phase: "4",
+            featcode: 'poi',
+            pagesize: 0
+        };
+        poi.getPoiInfo(param).then(function (data) {
+            $scope.poi = data;
+            $scope.snapshotPoi = data.getSnapShot();
+        })
+    });
     $scope.loadAdditionInfo = function() {
         $scope.additionInfoTpl = $scope.radioModel;
+    };
+    $scope.testQuery = function() {
+        poi.getPoiByFid("0010060815LML01353").then(function(data) {
+            $scope.test = data;
+        });
     };
     // $scope.$on("kindChange", function(event, data) {
     //     console.log($scope.poi.fid);
@@ -592,10 +409,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
             case 9:
                 $ocll.load("components/poi/ctrls/attr-deep/chargingPoleCtl").then(function() {
                     // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
-                        $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
-                        $scope.$on('$includeContentLoaded', function($event) {
-                            $scope.$broadcast("loaded", data);
-                        });
+                    $scope.deepInfoTpl = "../../scripts/components/poi/tpls/attr-deep/chargingPoleTpl.html";
+                    $scope.$on('$includeContentLoaded', function ($event) {
+                        $scope.$broadcast("loaded", data);
+                    });
                     // });
                 });
                 break;
@@ -607,6 +424,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap','dataService','localytics.d
     $scope.$on("saveMe", realSave);
 }]).directive("myResize", ["$timeout", function($timeout) {
     function _resize(elem) {
+        
         var vh = 0;
         if (window.innerHeight) {
             vh = window.innerHeight;

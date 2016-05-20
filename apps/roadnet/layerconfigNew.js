@@ -64,10 +64,10 @@ Application.layersConfig =
                     options: {
                         layername: '格网',
                         id: 'grid',
-                        gridInfo:null,
+                        gridInfo: null,
                         url: '',
-                        divideX:4,
-                        divideY:4,
+                        divideX: 4,
+                        divideY: 4,
                         visible: false,
                         zIndex: 3
                     }
@@ -437,6 +437,32 @@ Application.layersConfig =
                     requestType: 'ADFACE',
                     showNodeLevel: 13
                 }
+            }, {
+                url: createUrl('/render/obj/getByTileWithGap?', 'RWLINK'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '铁路线',
+                    id: 'rwLink',
+                    maxZoom: 20,
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 5,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'LineString',
+                    zIndex: 120,
+                    restrictZoom: 10,
+                    editable: false,
+                    visible: true,
+                    requestType: 'RWLINK',
+                    showNodeLevel: 17
+                }
             }
         ]
     }, {
@@ -620,17 +646,69 @@ function transformData(data, url) {
                 obj['properties']['enode'] = item.m.f;
                 obj['properties']['limit'] = item.m.c;
                 obj['properties']['form'] = item.m.h;
-                var symbolNames = [];
+                var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+                var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('30') !== -1) {
-                    symbolNames.push('L_2_' + item.m.a);
+                    var symbolData = {
+                        type: 'HashLineSymbol',
+                        hashHeight: 6,
+                        hashOffset: 0,
+                        hashAngle: -90,
+                        hashSymbol: {
+                            type: 'SampleLineSymbol',
+                            color: RD_LINK_Colors[parseInt(item.m.a)],
+                            width: 1,
+                            style: 'solid'
+                        },
+                        pattern: [2, 5]
+                    };
+
+                    var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                    compositeSymbol.symbols.push(subSymbol);
                 }
                 if (obj['properties']['limit'] && obj['properties']['limit'].indexOf('4') !== -1) {
-                    symbolNames.push('L_3');
+                    var symbolData = {
+                        type: 'MarkerLineSymbol',
+                        markerSymbol: {
+                            type: 'TiltedCrossPointSymbol',
+                            size: 3,
+                            color: 'red',
+                            angle: 0,
+                            offsetX: 0,
+                            offsetY: 0,
+                            hasOutLine: false,
+                            outLineColor: 'black',
+                            outLineWidth: 1
+                        },
+                        pattern: [2, 10]
+                    };
+
+                    var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                    compositeSymbol.symbols.push(subSymbol);
                 }
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('52') !== -1) {
-                    symbolNames.push('L_1');
+                    var symbolData = {
+                        type: 'CompositeLineSymbol',
+                        symbols: [
+                            {
+                                type: 'SampleLineSymbol',
+                                color: 'gray',
+                                width: 1,
+                                style: 'solid'
+                            },
+                            {
+                                type: 'CartoLineSymbol',
+                                color: 'blue',
+                                width: 1,
+                                pattern: [4, 4, 12, 4]
+                            }
+                        ]
+                    };
+
+                    var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                    compositeSymbol.symbols.push(subSymbol);
                 }
-                obj['properties']['symbolNames'] = symbolNames;
+                obj['properties']['symbol'] = compositeSymbol;
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
@@ -667,7 +745,8 @@ function transformData(data, url) {
                                     row: 0,
                                     column: lane,
                                     location: geomnew,
-                                    rotate: item.m.c * (Math.PI / 180),
+                                    rotate: item.m.c * (Math.PI / 180)
+                                    ,
                                     scalex: 2 / 3,
                                     scaley: 2 / 3
                                 })
@@ -1004,7 +1083,7 @@ function transformData(data, url) {
                     gscObj['geometry']['coordinates'] = [];
                     gscObj['geometry']['coordinates'] = item.g[gscNum].g;
                     gscObj['properties'] = {
-                        //'id': item.g[gscNum].i,
+                        'id': item.g[gscNum].i,
                         'featType': item.t
                     }
                     if (item.g[gscNum].z === 0) {
@@ -1061,6 +1140,35 @@ function transformData(data, url) {
                 }
                 break;
             case  14 ://铁路
+                obj['properties']['featType'] = "RWLINK";
+                obj['geometry']['type'] = 'LineString';
+                obj['properties']['name'] = item.m.a;
+                obj['properties']['color'] = item.m.b;
+                var color = '#' + obj['properties']['color'];
+                var symbolData = {
+                    type: 'CompositeLineSymbol',
+                    symbols: [
+                        {
+                            type: 'SampleLineSymbol',
+                            color: color,
+                            width: 3,
+                            style: 'solid'
+                        },
+                        {
+                            type: 'SampleLineSymbol',
+                            color: 'white',
+                            width: 2,
+                            style: 'solid'
+                        },
+                        {
+                            type: 'CartoLineSymbol',
+                            color: color,
+                            width: 1,
+                            pattern: [10, 10]
+                        }
+                    ]
+                };
+                obj['properties']['symbol'] = fastmap.mapApi.symbol.GetSymbolFactory().dataToSymbol(symbolData);
                 break;
             case 15://行政区划代表点
                 obj['geometry']['type'] = 'Point';
@@ -1121,15 +1229,15 @@ function transformData(data, url) {
             case 1201://道路种别
                 break;
             case 1901://道路名
-                //obj['properties']["featType"] = item.t;
-                //obj['geometry']['type'] = "LineString";
-                //
-                //obj['properties']['style'] = {
-                //    'strokeColor': '#7030A0',
-                //    'strokeWidth': 2,
-                //    'strokeOpacity': 0.8
-                //};
-                //break;
+            //obj['properties']["featType"] = item.t;
+            //obj['geometry']['type'] = "LineString";
+            //
+            //obj['properties']['style'] = {
+            //    'strokeColor': '#7030A0',
+            //    'strokeWidth': 2,
+            //    'strokeOpacity': 0.8
+            //};
+            //break;
             //case 2001://侧线
             //    obj['properties']["featType"] = item.t;
             //    obj['geometry']['type'] = "LineString";
@@ -1368,7 +1476,7 @@ function transformDataForTips(data, param) {
                         }
                     )
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
@@ -1394,7 +1502,7 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
                     guideLineObj = {
                         "coordinates": linePoint,
@@ -1417,7 +1525,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1480,7 +1588,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1502,7 +1610,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1597,7 +1705,7 @@ function transformDataForTips(data, param) {
                         })
                     );
                 }
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1621,7 +1729,7 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1662,21 +1770,21 @@ function transformDataForTips(data, param) {
                     );
                     featArr.push(obj);
                 }
-        /*        var bridgeObj = {};
-                bridgeObj['geometry'] = {};
-                bridgeObj['geometry']['coordinates'] = item.g;
-                bridgeObj['properties'] = {};
-                bridgeObj['properties']['style'] = {};
-                bridgeObj['properties']['id'] = item.i;
-                bridgeObj['properties']["featType"] = item.t;
-                bridgeObj['geometry']['type'] = "LineString";
+                /*        var bridgeObj = {};
+                 bridgeObj['geometry'] = {};
+                 bridgeObj['geometry']['coordinates'] = item.g;
+                 bridgeObj['properties'] = {};
+                 bridgeObj['properties']['style'] = {};
+                 bridgeObj['properties']['id'] = item.i;
+                 bridgeObj['properties']["featType"] = item.t;
+                 bridgeObj['geometry']['type'] = "LineString";
 
-                bridgeObj['properties']['style'] = {
-                    'strokeColor': '#336C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                featArr.push(bridgeObj);*/
+                 bridgeObj['properties']['style'] = {
+                 'strokeColor': '#336C0A',
+                 'strokeWidth': 2,
+                 'strokeOpacity': 0.8
+                 };
+                 featArr.push(bridgeObj);*/
                 break;
             case 1514://施工维修
                 featArr.pop();
@@ -1707,23 +1815,23 @@ function transformDataForTips(data, param) {
                     featArr.push(obj);
                 }
 
-               /* var repairObj = {};
-                repairObj['geometry'] = {};
-                repairObj['geometry']['coordinates'] = item.g;
-                repairObj['properties'] = {};
-                repairObj['properties']['style'] = {};
-                repairObj['properties']['id'] = item.i;
-                repairObj['properties']["featType"] = item.t;
-                repairObj['geometry']['type'] = "LineString";
-                repairObj['properties']["featType"] = item.t;
-                repairObj['geometry']['type'] = "LineString";
+                /* var repairObj = {};
+                 repairObj['geometry'] = {};
+                 repairObj['geometry']['coordinates'] = item.g;
+                 repairObj['properties'] = {};
+                 repairObj['properties']['style'] = {};
+                 repairObj['properties']['id'] = item.i;
+                 repairObj['properties']["featType"] = item.t;
+                 repairObj['geometry']['type'] = "LineString";
+                 repairObj['properties']["featType"] = item.t;
+                 repairObj['geometry']['type'] = "LineString";
 
-                repairObj['properties']['style'] = {
-                    'strokeColor': '#E36C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                featArr.push(repairObj);*/
+                 repairObj['properties']['style'] = {
+                 'strokeColor': '#E36C0A',
+                 'strokeWidth': 2,
+                 'strokeOpacity': 0.8
+                 };
+                 featArr.push(repairObj);*/
                 break;
             case 1801://立交
 

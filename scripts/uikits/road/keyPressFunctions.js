@@ -500,12 +500,12 @@ function keyEvent(ocLazyLoad, scope) {
                         layerCtrl.getLayerById("referenceNode").redraw();
                         treatmentOfChanged(data, "RDLINK", "创建上下线分离成功", 'attr_link_ctrl/rdLinkCtrl', 'attr_link_tpl/rdLinkTpl.html');
                     })
-                }else if(shapeCtrl.editType === "addAdFaceLine") {
+                } else if (shapeCtrl.editType === "addAdFaceLine") {
                     var adLinksArr = selectCtrl.selectedFeatures.adLinks;
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",
-                        "linkType":"ADLINK",
+                        "linkType": "ADLINK",
                         "projectId": Application.projectid,
                         "data": {
                             "linkPids": adLinksArr

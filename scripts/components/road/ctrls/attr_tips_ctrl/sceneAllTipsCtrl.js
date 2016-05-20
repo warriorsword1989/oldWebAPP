@@ -126,16 +126,16 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     }
                 }
                 $scope.limitSrcOption = [
-                    {"id": 0, "label": "0  无"},
-                    {"id": 1, "label": "1 现场标牌"},
-                    {"id": 2, "label": "2 城区标识"},
-                    {"id": 3, "label": "3 高速标识"},
-                    {"id": 4, "label": "4 车道限速"},
-                    {"id": 5, "label": "5 方向限速"},
-                    {"id": 6, "label": "6 机动车限速"},
-                    {"id": 7, "label": "7 匝道未调查"},
-                    {"id": 8, "label": "8 缓速行驶"},
-                    {"id": 9, "label": "9 未调查"}
+                    {"id": 0, "label": "无"},
+                    {"id": 1, "label": "1现场标牌"},
+                    {"id": 2, "label": "城区标识"},
+                    {"id": 3, "label": "高速标识"},
+                    {"id": 4, "label": "车道限速"},
+                    {"id": 5, "label": "方向限速"},
+                    {"id": 6, "label": "机动车限速"},
+                    {"id": 7, "label": "匝道未调查"},
+                    {"id": 8, "label": "缓速行驶"},
+                    {"id": 9, "label": "未调查"}
                 ];
                 for (var i in $scope.limitSrcOption) {
                     if ($scope.limitSrcOption[i].id == $scope.dataTipsData.src) {

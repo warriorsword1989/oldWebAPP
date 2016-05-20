@@ -235,10 +235,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     }
 
 
-                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-
-                    highLightRender.highLightFeatures = highLightFeatures;
-                    highLightRender.drawHighlight();
+                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                    highRenderCtrl.drawHighlight();
                 });
             }
         }

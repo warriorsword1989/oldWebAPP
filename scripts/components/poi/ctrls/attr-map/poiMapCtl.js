@@ -51,11 +51,11 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
             FM.leafletUtil.highlightFeatureInMap(data[0]);
         } else if (data.length > 1) {
             var sameData = [];
-            for(var i = 0;i<data.length;i++){
+            for (var i = 0; i < data.length; i++) {
                 sameData.push(data[i].attributes);
             }
             $scope.$emit("samePois", {
-                data:sameData,
+                data: sameData,
                 layerId:"mainPoiLayer"
             });//将同位点数据抛给父页面，显示在popover中
         }
@@ -146,10 +146,6 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
             }
         };
         navBar.addTo(map);
-    };
-
-    $scope.loadRelatedLayer = function (layerId, dataArray, title) {
-        console.log("aaaaaaa");
     };
 
     $scope.initDrawControl = function (map, data) {
@@ -396,9 +392,11 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     $scope.$on("showPoisInMap",function (event, data) {
         FM.leafletUtil.clearMapLayer(pMap,data.layerId);
         if(data.layerId == "parentPoiLayer"){
-            for(var i = 0;i<data.data.length;i++){
-                FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"blueIcon");
-            }
+            FM.leafletUtil.createNormalPoiInMap(data.data,data.layerId,"blueIcon");
+            var marker = FM.leafletUtil.getLayerById(pMap,data.data.fid);
+            marker.openPopup();
+            pMap.panTo(marker._latlng);
+
         }else {
             for(var i = 0;i<data.data.length;i++){
                 FM.leafletUtil.createNormalPoiInMap(data.data[i],data.layerId,"greenIcon");
@@ -409,8 +407,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     //高亮显示指定的子poi
     $scope.$on("highlightChildInMap",function (event, poiFid) {
         var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
-        marker.openPopup();
-        marker.setIcon(FM.iconStyles.blueIcon);
+        FM.leafletUtil.highlightFeatureInMap(marker)
         pMap.panTo(marker._latlng);
     });
 

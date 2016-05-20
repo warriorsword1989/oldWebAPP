@@ -13,18 +13,12 @@ FM.dataApi.IxPoiMediumKind = FM.dataApi.DataModel.extend({
         this.name = data["name"];
         this.topId = data["topId"];
     },
-
-    statics: {
-        getList: function(callback) {
-            FM.dataApi.ajax.get("meta/queryMediumKind/", {}, function(data) {
-                var mediumKinds = [],
-                    kind;
-                for (var i = 0; i < data.data.length; i++) {
-                    kind = new FM.dataApi.IxPoiMediumKind(data.data[i]);
-                    mediumKinds.push(kind);
-                }
-                callback(mediumKinds);
-            });
-        }
+    getIntegrate: function(){
+    	var ret = {};
+    	ret["id"] = this.id;
+    	ret["code"] = this.code;
+    	ret["name"] = this.name;
+    	ret["topId"] = this.topId;
+    	return ret;
     }
 });

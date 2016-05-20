@@ -6,15 +6,6 @@
     height: 100%;
 }
 
-.showbox li {
-    list-style: none;
-    vertical-align: top;
-}
-
-.showbox img {
-    vertical-align: top;
-}
-
 .showbox .image {
     text-align: center;
     min-height: 100px;
@@ -45,6 +36,7 @@
     border: 0px;
     width: 100%;
     height: 100%;
+    vertical-align: top;
 }
 
 .showbox .toolbar {
@@ -108,8 +100,11 @@
 }
 
 .showbox .thumbs .thumbs-list li {
+    list-style: none;
+    vertical-align: top;
     float: left;
     cursor: pointer;
+    margin-bottom: 2px;
 }
 
 .showbox .thumbs .thumbs-list li img {
@@ -118,7 +113,7 @@
     border: 1px solid #e4e4e4;
     display: block;
     width: 38px;
-    height: 50px;
+    height: 43px;
 }
 
 .showbox .thumbs .thumbs-list li.selected img {
@@ -137,6 +132,7 @@
 
 
 /*弹出层*/
+
 .showboxModal {
     top: 0px;
     left: 0px;
@@ -148,13 +144,11 @@
     border-radius: 4px;
 }
 
-
-
 #showbox-buttons {
     position: relative;
     left: 0;
     z-index: 1050;
-    margin:auto auto 10px auto;
+    margin: auto auto 10px auto;
 }
 
 #showbox-buttons ul {
@@ -218,9 +212,11 @@
 .showbox-title {
     visibility: visible;
 }
+
 .showbox-opened .showbox-title {
     visibility: visible;
 }
+
 .showbox-title-over-wrap {
     position: absolute;
     bottom: 0;
@@ -229,9 +225,11 @@
     background: #000;
     background: rgba(0, 0, 0, .8);
 }
+
 .showbox-title-over-wrap-left {
     left: 0px;
 }
+
 .showbox-title-over-wrap-rigth {
     right: 0px;
 }
