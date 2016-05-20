@@ -2,14 +2,14 @@
     <div class="content-box" style="border-top:0px;width:100%;">
         <div class="tab-header">
             <div class="btn-group btn-group-justified">
-                <label ng-repeat="tagBar in tags.optionBars"
-                       ng-class="{btn: true, 'btn-default': tagBar.code != tags.selection.code, 'btn-success': tagBar.code == tags.selection.code}">
-                    <input type="radio" class="hidden" name="optionsTagName" ng-click="changeTag();" ng-model="tags.selection" ng-value="tagBar"/>{{tagBar.label}}
-                </label>
+                <label class="btn btn-default" ng-model="tagSelect" uib-btn-radio="'checkResult'" ng-click="changeTag(tagSelect)">检查结果</label>
+                <label class="btn btn-default" ng-model="tagSelect" uib-btn-radio="'confusionInfo'" ng-click="changeTag(tagSelect)">冲突检测</label>
+                <label class="btn btn-default" ng-model="tagSelect" uib-btn-radio="'editHistory'" ng-click="changeTag(tagSelect)">作业履历</label>
+                <label class="btn btn-default" ng-model="tagSelect" uib-btn-radio="'fileUpload'" ng-click="changeTag(tagSelect)">文件上传</label>
             </div>
         </div>
         <div class="tab-content">
-            <div ng-include="tagContent"></div>
+            <div ng-include="tagContentTpl"></div>
         </div>
     </div>
 </div>
