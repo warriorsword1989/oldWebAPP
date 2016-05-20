@@ -193,6 +193,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // refreshPoiData('0010060815LML01353');
         })
     });
+    /*关闭关联poi数据——冲突检测弹框*/
+    $scope.closeConflictInfo = function () {
+        $scope.showConflictInfo = false;
+    }
     /*锁定检查结果数据*/
     $scope.$on('lockSingleData', function (event, data) {
         poi.lockSingleData(data).then(function (res) {
