@@ -11,6 +11,7 @@ FM.dataApi.IxPoiBrand = FM.dataApi.DataModel.extend({
         this.chainCode = data["chainCode"] || null;
         this.chainName = data["chainName"] || null;
         this.weight = data["weight"] || 0;
+        this.level = data["level"];
     },
     getIntegrate: function(){
     	var ret = {};
@@ -18,6 +19,7 @@ FM.dataApi.IxPoiBrand = FM.dataApi.DataModel.extend({
     	ret["chainCode"] = this.chainCode;
     	ret["chainName"] = this.chainName;
     	ret["weight"] = this.weight;
+    	ret["level"] = this.level;
     	return ret;
     }
 });
