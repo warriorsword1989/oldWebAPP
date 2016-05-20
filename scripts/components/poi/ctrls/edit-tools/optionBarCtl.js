@@ -105,7 +105,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     $scope.$on('getRefFtInMap', function (event, data) {
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            $scope.layerName = 'checkResultLayer';
+            $scope.$emit('getLayerName','checkResultLayer');
             for (var i = 0, len = data.length; i < len; i++) {
                 data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
             }
@@ -114,23 +114,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
                 refList: data
             };
             $scope.$emit('showRelatedPoiInfo',$scope.refFt);
-            $scope.$broadcast('showPoisInMap', {
-                data: data,
-                layerId: "checkResultLayer"
-            });
-        });
-    });
-    /*接收同位点信息*/
-    $scope.$on('samePois', function (event, data) {
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            // $scope.samePois = data;
-            $scope.refFt = {
-                title: '同位点POI',
-                refList: data.data
-            };
-            $scope.showRelatedPoiInfo = true;
-            $scope.layerName = data.layerId;
         });
     });
     /*接收周边查询点信息*/
@@ -201,15 +184,10 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
                     refList: data.data
                 };
                 $scope.showRelatedPoiInfo = true;
-                $scope.layerName = data.layerId;
+                $scope.$emit('getLayerName',data.layerId);
             });
         });
     });
-    /*关闭关联poi数据*/
-    $scope.closeRelatedPoiInfo = function () {
-        $scope.showRelatedPoiInfo = false;
-        $scope.$broadcast('closePopover', $scope.layerName);
-    };
     /*编辑关联poi数据*/
     $scope.$on('editPoiInfo', function (event, data) {
         refreshPoiData(data);
@@ -217,27 +195,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     /*改变poi父子关系*/
     $scope.$on('changeRelateParent', function (event, data) {
         $scope.poi.relateParent = data;
-    });
-    /*获取关联poi数据——冲突检测*/
-    $scope.$on('getConflictInMap', function (event, data) {
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function () {
-            $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
-            $scope.showConflictPoiInfo = true;
-            data.refData.duppoi.kindName = $scope.metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
-            data.refData.duppoi.brandList = $scope.metaData.allChain[data.refData.duppoi.kindCode];
-            $scope.optionData.confusionData = data;
-        });
-        $scope.showConflictInfo = true;
-    });
-    /*接收新上传的图片数据*/
-    $scope.$on('getImgItems', function (event, data) {
-        for (var i = 0; i < data.length; i++) {
-            $scope.poi.attachments.push(data[i]);
-        }
-        $scope.$broadcast('loadImages', {
-            "imgArray": initImages(),
-            "flag": 1
-        });
     });
     /*切换tag按钮*/
     $scope.changeTag = function (tagName) {
