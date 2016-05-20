@@ -11,7 +11,7 @@ Application.functions = Application.functions ||{};
  * @param func
  */
 Application.functions.getTipsStatics = function(stage,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getStats?parameter={'
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.tipsServer+'/getStats?parameter={'
         + '"grids":['+Application.meshIdArr.toString()+'],"stage":['+stage.toString()+']}',
         function(data){
             func(data)
@@ -19,7 +19,7 @@ Application.functions.getTipsStatics = function(stage,func){
     )
 }
 Application.functions.getTipsListItems=function(stage,type,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getSnapshot?parameter={'
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.tipsServer+'/getSnapshot?parameter={'
         + '"grids":['+Application.meshIdArr.toString()+'],"stage":['+stage.toString()+'],"type":'+type+',"projectId":'+Application.projectid+'}',
         function(data){
             func(data)
@@ -27,7 +27,7 @@ Application.functions.getTipsListItems=function(stage,type,func) {
     )
 };
 Application.functions.getTipsResult=function(rowkey,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/getByRowkey?parameter={"rowkey":"'+rowkey+'"}',
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.tipsServer+'/getByRowkey?parameter={"rowkey":"'+rowkey+'"}',
         function(data){
             func(data.data)
         }
@@ -39,7 +39,7 @@ Application.functions.getTipsResult=function(rowkey,func) {
  * @param func
  */
 Application.functions.changeDataTipsState=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/fcc/tip/edit?parameter=' + param,
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.tipsServer+'/edit?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -52,29 +52,17 @@ Application.functions.changeDataTipsState=function(param,func) {
  */
 Application.functions.getRdObjectById=function(id,type,func,detailid) {
     if(!id){
-        fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+detailid+'}',
+        fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+detailid+'}',
             function(data) {
                 func(data);
             });
     }else{
-        fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
+        fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","pid":'+id+'}',
             function(data) {
                 func(data);
             });
     }
 
-};
-/**
- * 根据detailId获得详细属性
- * @param id
- * @param type
- * @param func
- */
-Application.functions.getRdObjectByDetailId=function(id,type,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByPid?parameter={"projectId":'+Application.projectid+',"type":"'+type+'","detailId":'+id+'}',
-        function(data) {
-            func(data)
-        });
 };
 /***
  * 属性和几何编辑相关 editGeometryOrProperty
@@ -82,7 +70,51 @@ Application.functions.getRdObjectByDetailId=function(id,type,func) {
  * @param func
  */
 Application.functions.editGeometryOrProperty = function (param, func) {
-    fastmap.mapApi.ajaxConstruct(Application.url + '/edit/run?parameter=' + param.replace(/\+/g,'%2B'),
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/run?parameter=' + param.replace(/\+/g,'%2B'),
+        function (data) {
+            func(data)
+        });
+};
+
+//获取检查结果
+Application.functions.getCheckData = function(param,func){
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/check/get?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查结果总数
+Application.functions.getCheckCount = function(param,func){
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/check/count?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+//获取检查状态
+Application.functions.updateCheckType = function(param,func){
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/check/update?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+}
+
+/***
+ * 获取互联网rtic代码
+ */
+Application.functions.getIntRticRank=function(param,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/applyPid?parameter=' + param,
+        function (data) {
+            func(data)
+        });
+};
+
+/***
+ * 根据接口getByCondition获取相关数据
+ */
+Application.functions.getByCondition=function(param,func) {
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.editServer+'/getByCondition?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -94,7 +126,7 @@ Application.functions.editGeometryOrProperty = function (param, func) {
  * @param func
  */
 Application.functions.getArrowImgGroup=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/metadata/patternImage/search?parameter=' + param,
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.metaServer+'/patternImage/search?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -106,7 +138,7 @@ Application.functions.getArrowImgGroup=function(param,func) {
  * @param func
  */
 Application.functions.getArrowImg=function(param) {
-    return Application.url+'/metadata/patternImage/getById?parameter=' + param;
+    return Application.url+Application.metaServer+'/patternImage/getById?parameter=' + param;
 };
 
 
@@ -116,7 +148,7 @@ Application.functions.getArrowImg=function(param) {
  * @param func
  */
 Application.functions.getNamePronunciation=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/metadata/pinyin/convert?parameter=' + param,
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.metaServer+'/pinyin/convert?parameter=' + param,
         function (data) {
             func(data)
         });
@@ -126,41 +158,8 @@ Application.functions.getNamePronunciation=function(param,func) {
 
 //根据输入的道路名模糊查询所有道路民
 Application.functions.getNamesbyName = function(param,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/metadata/rdname/search?parameter=' + param,
+    fastmap.mapApi.ajaxConstruct(Application.url+Application.metaServer+'/rdname/search?parameter=' + param,
         function (data) {
             func(data)
         });
 }
-/**
- * 根据接口check获取相关的数据
- * @param type
- * @param param
- * @param func
- */
-Application.functions.getDataByCheck = function(type,param,func){
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/check/'+type+'?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-}
-
-
-/***
- * 获取互联网rtic代码
- */
-Application.functions.getIntRticRank=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/applyPid?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};
-
-/***
- * 根据接口getByCondition获取相关数据
- */
-Application.functions.getByCondition=function(param,func) {
-    fastmap.mapApi.ajaxConstruct(Application.url+'/edit/getByCondition?parameter=' + param,
-        function (data) {
-            func(data)
-        });
-};

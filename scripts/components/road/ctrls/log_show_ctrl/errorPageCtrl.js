@@ -15,7 +15,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             "pageSize": 5,
             "grids": $scope.meshesId
         };
-        Application.functions.getDataByCheck("get",JSON.stringify(param), function (data) {
+        Application.functions.getCheckData(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
                 var errorCheckObj = {
@@ -37,7 +37,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
             "projectId": Application.projectid,
             "grids": $scope.meshesId
         };
-        Application.functions.getDataByCheck("count",JSON.stringify(paramsOfCounts), function (data) {
+        Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
             if (data.errcode == 0) {
                 $scope.checkTotalPage = Math.ceil(data.data / 5);
                 $scope.checkTotal = data.data;
