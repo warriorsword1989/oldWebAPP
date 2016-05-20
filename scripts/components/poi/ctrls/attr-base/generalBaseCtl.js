@@ -3,7 +3,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
     var pKindFormat = {}, pKindList,
         pAllChain = {};
     var regionCode = "010"
-    var lifecycle = {
+    /*var lifecycle = {
         1: "删 除",
         2: "修 改",
         3: "新 增",
@@ -32,7 +32,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
         "relateChildren": 1,
         "names": 1,
         "indoor": 1
-    }
+    }*/
     var initOptionStyle = function(poiJson) {
         var editedProperty = new Object();
         var data = [];
@@ -45,7 +45,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -62,7 +62,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -79,7 +79,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -152,7 +152,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
         if (value != 1 && value != 2 && value != 3) {
             value = 4;
         }
-        $scope.ctrl.lifeCycleName = lifecycle[value];
+        $scope.ctrl.lifeCycleName =  FM.dataApi.Constant.LIFE_CYCLE[value];
         $scope.ctrl.lifeCycleLabel = label[value];
     };
 
