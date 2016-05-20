@@ -1,66 +1,90 @@
-angular.module("dataService").service("dsMeta", ["$http", "$q", function($http, $q) {
+angular.module("dataService").service("dsMeta", ["$http", "$q", "ajax", function($http, $q, ajax) {
     this.getKindList = function() {
-        var deferred = $q.defer();
+        var defer = $q.defer();
         var param = {
             region:0
         };
-        FM.dataApi.ajax.get("meta/queryKind/", param, function(data) {
-            var ret = [];
+        ajax.get("meta/queryKind/", param).success(function(data) {
             if (data.errcode == 0) {
-                for (var i = 0; i < data.data.length; i++) {
-                    ret.push(data.data[i]);
-                }
-                deferred.resolve(ret);
+                defer.resolve(data.data);
             } else {
-                deferred.reject(data.errmsg);
+                defer.resolve("获取分类出错：" + data.errmsg);
             }
         });
-        return deferred.promise;
+        return defer.promise;
     };
     this.getAllBrandList = function (){
-        var deferred = $q.defer();
-        FM.dataApi.ajax.get("meta/queryChain/", {}, function(data) {
-            var ret ;
+        var defer = $q.defer();
+        ajax.get("meta/queryChain/", {}).success(function(data) {
             if (data.errcode == 0) {
-                ret = data.data
-                deferred.resolve(ret);
+                defer.resolve(data.data);
             } else {
-                deferred.reject(data.errmsg);
+                defer.resolve("获取分类出错：" + data.errmsg);
             }
         });
-        return deferred.promise;
-    }
+        return defer.promise;
+    };
+    this.getChainLevel = function (kindCode,chainCode){
+        var defer = $q.defer();
+        var param = {
+            kindCode:kindCode,
+            chainCode:chainCode
+        };
+        ajax.get("meta/chainLevel/", param).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取等级出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
     this.getCiParaIcon = function (fid){
-        var deferred = $q.defer();
+        var defer = $q.defer();
         var param = {
             idCode: fid
         };
-        FM.dataApi.ajax.get("meta/queryCiParaIcon/", param, function(data) {
-            var ret = [];
+        ajax.get("meta/queryCiParaIcon/", {parameter: JSON.stringify(param)}).success(function(data) {
             if (data.errcode == 0) {
                 if (data.data){
-                    deferred.resolve(true);
+                    defer.resolve(true);
                 } else {
-                    deferred.resolve(false);
+                    defer.resolve(false);
                 }
             } else {
-                deferred.reject(false);
+                defer.resolve(false);
             }
         });
-        return deferred.promise;
+
+        return defer.promise;
     }
     /*获取fidlist*/
-    this.getParentFidList = function(){
+    this.getParentFidList = function() {
         var defer = $q.defer();
-        $http({
-            method: 'GET',
-            url: App.Config.serviceUrl + '/meta/queryFocus/?access_token='+App.Config.accessToken,
-            data: {},
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded' // 跨域设置
+        ajax.get("/meta/queryFocus/", {}).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取数据出错：" + data.errmsg);
             }
-        }).success(function(data){
-            defer.resolve(data.data);
+        });
+        return defer.promise;
+    };
+    /*检查规则*/
+    this.queryRule = function() {
+        var defer = $q.defer();
+        ajax.get("meta/queryRule/", {}).success(function(data) {
+            if (data.errcode == 0) {
+                var checkRules = [],
+                    checkRule;
+                for (var i = 0; i < data.data.length; i++) {
+                    checkRule = new FM.dataApi.CheckRule(data.data[i]);
+                    checkRules.push(checkRule);
+                }
+                defer.resolve(checkRules);
+            } else {
+                defer.resolve("查询检查规则出错：" + data.errmsg);
+            }
         });
         return defer.promise;
     };

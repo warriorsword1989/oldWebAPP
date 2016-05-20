@@ -11,31 +11,15 @@ FM.dataApi.IxPoiBrand = FM.dataApi.DataModel.extend({
         this.chainCode = data["chainCode"] || null;
         this.chainName = data["chainName"] || null;
         this.weight = data["weight"] || 0;
+        this.level = data["level"];
     },
-    statics: {
-        getChain: function(param, callback) {
-            FM.dataApi.ajax.get("meta/queryChain/", param, function(data) {
-                var ret = [],
-                    poi;
-                for (var i = 0; i < data.data.length; i++) {
-                    poi = new FM.dataApi.IxPoiBrand(data.data[i]);
-                    ret.push(poi);
-                }
-                callback(ret);
-            });
-        },
-        getChargeChain: function(param, callback) {
-            FM.dataApi.ajax.get("charge/row_edit/queryChain/", param, function(data) {
-                var ret = [],
-                    poi;
-                for (var i = 0; i < data.data.length; i++) {
-                    poi = new FM.dataApi.IxPoiBrand(data.data[i]);
-                    ret.push(poi);
-                }
-                callback(ret);
-            });
-        }
+    getIntegrate: function(){
+    	var ret = {};
+    	ret["category"] = this.category;
+    	ret["chainCode"] = this.chainCode;
+    	ret["chainName"] = this.chainName;
+    	ret["weight"] = this.weight;
+    	ret["level"] = this.level;
+    	return ret;
     }
-
-
 });

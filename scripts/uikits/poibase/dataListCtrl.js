@@ -95,11 +95,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService', 
 		$scope.submitedData = data.data;
 	}));
 	var checkRuleObj = {};
-	FM.dataApi.CheckRule.getList(function(data){
-        for(var i=0,len=data.length;i<data.length;i++){
+	promises.push(meta.queryRule().then(function(data){
+		for(var i=0,len=data.length;i<data.length;i++){
         	checkRuleObj[data[i].ruleId] = data[i];
         }
-    });
+	}));
 	$scope.checkRuleObj = checkRuleObj;
 	var pKindFormat = new Object();
 	promises.push(poi.getKindList().then(function(data){

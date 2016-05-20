@@ -154,11 +154,11 @@
     <div class="title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
             <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)">
-            <span>{{number}}</span>
+            <span style="color: white">{{number}}</span>
         </div>
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
             <img ng-src="../../images/road/img/u45.png" width="60px" height="60px" ng-click="openVideo(0)">
-            <span>0</span>
+            <span style="color: white">0</span>
         </div>
     </div>
     <div class="right" ng-if="allTipsType==1302" >
@@ -447,13 +447,21 @@
                 <div class="panel-body" ng-if="allTipsType==1604">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状态:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
 
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">数据指令:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-repeat="zoneState in zoneRoadState|filter:{'type':dataTipsData.t_command}" ng-bind="zoneState.state"></span>
+                            </div>
+                        </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
 
@@ -463,20 +471,12 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">属性状态:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-repeat="zoneState in zoneRoadState|filter:{'type':dataTipsData.t_command}" ng-bind="zoneState.state"></span>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1704">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label label-info" ng-bind="showContent"></span>
@@ -492,7 +492,7 @@
                         </div>
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
 
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label " ng-bind="fData.name"></span>

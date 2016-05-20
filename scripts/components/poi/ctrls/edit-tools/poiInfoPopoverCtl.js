@@ -27,13 +27,13 @@ angular.module('app').controller('PoiInfoPopoverCtl', ['$scope', function($scope
     }
     /*锁定数据*/
     $scope.doLockRelatedPoi = function(fid){
-        var param = {
+        /*var param = {
             fid: fid,
             projectId: 2016013086,
             featcode: "poi",
             access_token:App.Config.accessToken
-        };
-        $scope.$emit('lockSingleData',param);
+        };*/
+        $scope.$emit('lockSingleData',fid);
     }
     /*编辑数据*/
     $scope.doEditRelatedPoi = function(fid){
