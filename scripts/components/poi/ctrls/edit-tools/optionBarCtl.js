@@ -229,10 +229,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
         });
         $scope.showConflictInfo = true;
     });
-    /*关闭关联poi数据——冲突检测弹框*/
-    $scope.closeConflictInfo = function () {
-        $scope.showConflictInfo = false;
-    }
     /*接收新上传的图片数据*/
     $scope.$on('getImgItems', function (event, data) {
         for (var i = 0; i < data.length; i++) {
@@ -313,7 +309,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     function initializeData() {
         $scope.optionData = {};
         /*获取检查规则*/
-        poi.queryRule().then(function (data) {
+        meta.queryRule().then(function (data) {
             for (var i = 0, len = data.length; i < data.length; i++) {
                 checkRuleObj[data[i].ruleId] = data[i].severity;
             }
