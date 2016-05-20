@@ -60,7 +60,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     }
     this.getProjectList = function (param) {
     	var defer = $q.defer();
-	    $http.get("fos:project/list/",{params: {parameter: JSON.stringify(param)}}).success(function(data){
+    	ajax.get("project/list/",{parameter: JSON.stringify(param)}).success(function(data){
 	    	if(data.errcode == 0){
 	    		defer.resolve(data.data);
 	    	}else{
@@ -71,7 +71,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     };
     this.getProjectInfo = function (projId) {
     	var defer = $q.defer();
-        $http.get("fos:project/query/",{params:{parameter:{ projectId: projId}}}).success(function(data){
+    	ajax.get("project/query/",{parameter:{ projectId: projId}}).success(function(data){
         	if(data.errcode == 0){
         		defer.resolve(data.data);
         	}else{
@@ -156,7 +156,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
                 userId: userId
             });
         }
-        $http.get("fos:user/query/", {params: param}).success(function(data){
+        ajax.get("user/query/", param).success(function(data){
         	if(data.errcode == 0){
         		defer.resolve(data.data.rows[0]);
         	}else{
@@ -167,7 +167,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     };
     this.getKindList = function () {
     	var defer = $q.defer();
-        $http.get("fos:meta/queryKind/",{}).success(function(data){
+    	ajax.get("meta/queryKind/",{}).success(function(data){
         	if(data.errcode == 0){
         		defer.resolve(data);
         	}else{
