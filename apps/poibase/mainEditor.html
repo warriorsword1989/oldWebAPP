@@ -36,7 +36,7 @@
                 <div class="col-xs-{{mapColumn}} col-sm-{{mapColumn}} col-md-{{mapColumn}} col-lg-{{mapColumn}} content-box" style="height: 500px;">
                     <div ng-include="mapTpl"></div>
                     <a id="mapLeftRight" ng-show="isShowArrow" href="javascript:void(0);" class="div_float image_ctl {{arrowStyle}}" ng-click="doLeftRight();"></a>
-                    <div id="info" class="info-tip" ng-show="showRelatedPoiInfo">
+                    <div id="info" class="info-tip" ng-show="showRelatedPoiInfo" ng-style="infoStyle">
                         <div class="tools">
                             <button type="button" class="close" ng-click="closeRelatedPoiInfo()">
                                 <span aria-hidden="true">&times;</span>

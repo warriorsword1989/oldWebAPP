@@ -200,6 +200,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.$emit('showRelatedPoiInfo',$scope.refFt);
         });
     });
+    /*隐藏关联POI界面*/
+    $scope.infoStyle = {
+        'display':'block'
+    };
     /*显示关联poi详细信息*/
     $scope.showPoiDetailInfo = function(poi, index) {
         $scope.poiDetail = {
