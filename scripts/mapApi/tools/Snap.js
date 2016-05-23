@@ -104,6 +104,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     this.snaped = true;
                     this.properties = closest.properties;
                     this.snapIndex = closest.index;
+
                     this.coordinates = closest.layer;
                     this.selectedVertex = closest.selectedVertexe;
                     this.snapLatlng = this.transform.PixelToLonlat(closest.latlng[0] + tiles[0] * 256, closest.latlng[1] + tiles[1] * 256, this._map.getZoom());
@@ -232,7 +233,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                     result = {
                         latlng:geometry,
                         distance: distaceResult,
-                        properties: data[i].properties
+                        properties: data[i].properties,
+                        index:0
                     };
                 }
 
@@ -243,7 +245,9 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
         if (!result || result.distance > tolerance)
             return null;
+        console.log(JSON.stringify(result))
         return result;
+
     },
 
     /***

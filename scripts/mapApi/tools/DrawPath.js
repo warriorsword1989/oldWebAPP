@@ -91,9 +91,9 @@ fastmap.mapApi.DrawPath = L.Handler.extend({
                     lat: mousePoint.lat
                 });
                 if (this.clickcount == 2) {
-                    this.snodePid = parseInt(this.snapHandler.properties.snode);
+                    this.snodePid = parseInt(this.snapHandler.properties.snode?this.snapHandler.properties.snode:this.snapHandler.properties.id);
                 } else {
-                    this.enodePid = parseInt(this.snapHandler.properties.snode);
+                    this.enodePid = parseInt(this.snapHandler.properties.snode?this.snapHandler.properties.snode:this.snapHandler.properties.id);
                 }
             } else if (this.snapHandler.snapIndex == -1) {
                 this.catches.push({

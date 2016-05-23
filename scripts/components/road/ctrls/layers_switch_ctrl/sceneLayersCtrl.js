@@ -28,10 +28,20 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     ]
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
-        if (layerCtrl.layers[i].options.groupid == "dataLayers") {
+        if (layerCtrl.layers[i].options.groupid == "dataLayers"&&layerCtrl.layers[i].options.id!='relationdata') {
             outLayers.push(layerCtrl.layers[i]);
         }
     }
+
+    outLayers =outLayers.concat( [
+        {options:{visible:true, layername:'交限',id:'RDRESTRICTION'}},
+        {options:{visible:true, layername:'分歧'},id:'RDBRANCH'},
+        {options:{visible:true, layername:'限速'},id:'RDSPEEDLIMIT'},
+        {options:{visible:true, layername:'路口'},id:'RDCROSS'},
+        {options:{visible:true, layername:'车信'},id:'RDLANECONNEXITY'},
+        {options:{visible:true, layername:'立交'},id:'RDGSC'},
+        {options:{visible:true, layername:'互联网RTIC'},id:'RDLINKINTRTIC'},
+    ])
     $scope.items = outLayers;
     $scope.resetLayers = function () {
         $scope.changeBtnClass("");
