@@ -11,12 +11,9 @@ oridinaryInfoApp.controller("zoneInfoController",function($scope) {
         {"id":2,"label":"KDZone"},
         {"id":3,"label":"GCZone"}
     ];
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.zoneInfoForm!=undefined) {
-                $scope.zoneInfoForm.$setPristine();
-            }
-        });
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.zoneInfoForm) {
+        $scope.zoneInfoForm.$setPristine();
 
     }
 

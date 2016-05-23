@@ -43,14 +43,11 @@ adLinkApp.controller("adLinkController",function($scope) {
     //初始化
     $scope.initializeData = function(){
         $scope.adLinkData = objCtrl.data;
-        //页面属性变化监控
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.adLinkForm!=undefined) {
-                    $scope.adLinkForm.$setPristine();
-                }
-            });
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.adLinkForm) {
+            $scope.adLinkForm.$setPristine();
         }
+
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//存储原始数据
         var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
         for (var i = 0, len = linkArr.length; i < len; i++) {

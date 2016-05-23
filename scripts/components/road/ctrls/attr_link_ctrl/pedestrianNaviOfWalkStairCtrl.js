@@ -33,14 +33,11 @@ walkstairApp.controller("walkstairController",function($scope) {
         {"id": 4, "label":"无隔离"}
     ];
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.walkStairForm!=undefined) {
-                $scope.walkStairForm.$setPristine();
-            }
-        });
-
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.walkStairForm) {
+        $scope.walkStairForm.$setPristine();
     }
+
     $scope.addStairWalk = function () {
         $scope.walkstairData.unshift({
             captureFlag: 1,
