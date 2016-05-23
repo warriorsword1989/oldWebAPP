@@ -93,12 +93,13 @@
                 <tr>
                     <td>插头类型</td>
                     <td id="charging-plugType" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.plugType['0']"> 交流电3孔家用</div>
+                    	<div ng-repeat="item in charging.plugTypeArray" class="col-sm-6" style="padding:0px"><input type='checkbox' value="item.id" ng-model="item.check"> {{item.value}}</div>
+                        <!-- <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.plugType['0']"> 交流电3孔家用</div>
                         <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="1" ng-model="charging.plugType['1']"> 国标交流电7孔插槽</div>
                         <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="2" ng-model="charging.plugType['2']"> 国标直流电9孔插槽</div>
                         <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="3" ng-model="charging.plugType['8']"> 特斯拉专用插槽</div>
                         <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="4" ng-model="charging.plugType['9']"> 其他</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="5" ng-model="charging.plugType['10']"> 无法采集</div>
+                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="5" ng-model="charging.plugType['10']"> 无法采集</div> -->
                     </td>
                 </tr>
                 <tr>

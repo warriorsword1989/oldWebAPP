@@ -1,7 +1,7 @@
 /**
  * Created by liuyang on 2016/5/4.
  */
-document.write("<script language=javascript src='webApp/scripts/dataApi/poi/IxPoiConstant.js'></script>");
+//document.write("<script language=javascript src='webApp/scripts/dataApi/poi/IxPoiConstant.js'></script>");
 FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     dataModelType: "IX_PoiChargingPole",
     /*
@@ -10,7 +10,28 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     setAttributes:function(data){
         this.groupId = data["groupId"] || 1;
         this.acdc = data["acdc"] || 0;
-        this.plugType = data["plugType"] || "9";
+        this.plugType = data["plugType"] || "0|2|8|9";
+        this.plugTypeArray = [];
+    	for (key in FM.dataApi.Constant.CHARGINGPOLE_PLUGTYPE) {
+    		this.plugTypeArray.push({
+                id: key,
+                value: FM.dataApi.Constant.CHARGINGPOLE_PLUGTYPE[key],
+                check:false
+            });
+        };
+        for (var i = 0;i<this.plugTypeArray.length;i++){
+        	if(this.plugType.indexOf("|")>0){
+        		for(var j = 0;j<this.plugType.split('|').length;j++){
+        			if(this.plugTypeArray[i].id == this.plugType.split('|')[j]){
+        				this.plugTypeArray[i].check = true;
+        			}
+        		}
+        	}else{
+        		if(this.plugTypeArray[i].id == this.plugType){
+        			this.plugTypeArray[i].check = true;
+        		}
+        	}
+        };
         this.power = data["power"] || null;
         this.voltage = data["voltage"] || null;
         this.current = data["current"] || null;
@@ -54,7 +75,13 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     	var ret = {};
     	ret["groupId"] = this.groupId;
     	ret["acdc"] = this.acdc;
-    	ret["plugType"] = this.plugType;
+    	this.checkedPlugTypeArr = [];
+    	for(var i = 0;i<this.plugTypeArray.length;i++){
+    		if(this.plugTypeArray[i].check == true){
+    			this.checkedPlugTypeArr.push(this.plugTypeArray[i].id);
+    		}
+    	};
+    	ret["plugType"] = this.checkedPlugTypeArr.join("|");
     	ret["power"] = this.power;
     	ret["voltage"] = this.voltage;
     	ret["mode"] = this.mode;
