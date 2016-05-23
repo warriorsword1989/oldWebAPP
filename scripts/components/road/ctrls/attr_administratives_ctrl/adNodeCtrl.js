@@ -11,6 +11,7 @@ adNodeApp.controller("adNodeController",function($scope) {
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    //形态
     $scope.form = [
         {"id": 0, "label": "无"},
         {"id": 1, "label": "图廓点"},
@@ -20,11 +21,14 @@ adNodeApp.controller("adNodeController",function($scope) {
         {"id": 0, "label": "不可编辑"},
         {"id": 1, "label": "可编辑"}
     ];
+    //种别
     $scope.kind = [
         {"id": 1, "label": "平面交叉点"}
     ];
+    //初始化
     $scope.initializeData = function(){
         $scope.adNodeData = objCtrl.data;
+        //node属性值变化监控
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
                 if($scope.adNodeForm!=undefined) {
@@ -33,8 +37,11 @@ adNodeApp.controller("adNodeController",function($scope) {
             });
         }
 
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据
         var highlightFeatures = [];
+        /**
+         * 根据点去获取多条adlink，再高亮点线
+         */
         Application.functions.getByCondition(JSON.stringify({
             projectId: Application.projectid,
             type: 'ADLINK',
@@ -45,6 +52,7 @@ adNodeApp.controller("adNodeController",function($scope) {
             }
             var lines = [];
             $scope.linepids = [];
+            //获取点连接的线
             for (var index in data.data) {
                 var linkArr = data.data[index].geometry.coordinates || data[index].geometry.coordinates, points = [];
                 for (var i = 0, len = linkArr.length; i < len; i++) {
@@ -61,7 +69,9 @@ adNodeApp.controller("adNodeController",function($scope) {
                 })
             }
             var multiPolyLine = fastmap.mapApi.multiPolyline(lines);
+            //存储选择的数据
             selectCtrl.onSelected({geometry: multiPolyLine, id: $scope.adNodeData.pid});
+            //高亮点和线
             highlightFeatures.push({
                 id:$scope.adNodeData.pid.toString(),
                 layerid:'adLink',
@@ -76,6 +86,7 @@ adNodeApp.controller("adNodeController",function($scope) {
     if (objCtrl.data) {
         $scope.initializeData();
     }
+    //保存
     $scope.save = function(){
         objCtrl.save();
         var param = {
@@ -102,7 +113,6 @@ adNodeApp.controller("adNodeController",function($scope) {
 
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
-
             if (data.errcode==0) {
                 swal("操作成功",'保存成功！', "success");
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -123,12 +133,17 @@ adNodeApp.controller("adNodeController",function($scope) {
                     "pid": data.errid
                 }];
             }
-            outputCtrl.pushOutput(info);
-            if(outputCtrl.updateOutPuts!=="") {
-                outputCtrl.updateOutPuts();
+            //数据解析后展示到输出框
+            if(info!=null){
+                outputCtrl.pushOutput(info);
+                if(outputCtrl.updateOutPuts!=="") {
+                    outputCtrl.updateOutPuts();
+                }
             }
+
         });
     };
+    //删除
     $scope.delete = function(){
         var pid = parseInt($scope.adNodeData.pid);
         var param =
@@ -161,6 +176,7 @@ adNodeApp.controller("adNodeController",function($scope) {
                 }];
                 swal("删除失败", data.errmsg, "error");
             }
+            //返回数据显示到输出框
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
@@ -171,6 +187,7 @@ adNodeApp.controller("adNodeController",function($scope) {
 
     };
 
+    //监听 保存 删除 取消 初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);

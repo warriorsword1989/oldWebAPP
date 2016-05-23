@@ -9,6 +9,7 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
     $scope.indexName=0;
     var selectCtrl = fastmap.uikit.SelectController();
 
+    //获取数据
     $scope.names = objCtrl.data.names?objCtrl.data.names:0;
     $scope.nameGroup = [];
     /*根据nameGroupId排序*/

@@ -5,6 +5,7 @@ var adAdminZone = angular.module("mapApp");
 adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$document) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var outputCtrl = fastmap.uikit.OutPutController({});
+    //获取层级划分方法
     var param = {
         "type":"ADADMINGROUP",
         "projectId": Application.projectid,
@@ -15,7 +16,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
     var newZNodes={};
     Application.functions.getByCondition(JSON.stringify(param), function (data) {
         //zNodes=data.data;
-        $scope.initF(data.data);
+        $scope.initF(data.data);//绘制层级
     });
 
     //var zNodes=[{
@@ -88,6 +89,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
     //}];
 
     $scope.initF=function(data){
+        //ztree 方法定义
         var setting = {
             view: {
                 addHoverDom: addHoverDom,
@@ -121,6 +123,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
 
          newZNodes= $.extend({},data);
         var log, className = "dark";
+        //拖动前执行方法
         function beforeDrag(treeId, treeNodes) {
             for (var i=0,l=treeNodes.length; i<l; i++) {
                 if (treeNodes[i].drag === false) {
@@ -129,9 +132,11 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             }
             return true;
         }
+        //拖拽之前执行
         function beforeDrop(treeId, treeNodes, targetNode, moveType) {
             return targetNode ? targetNode.drop !== false : true;
         }
+        //修改名称之前执行
         function beforeEditName(treeId, treeNode) {
             className = (className === "dark" ? "":"dark");
             showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
@@ -139,6 +144,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             zTree.selectNode(treeNode);
             return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
         }
+        //删除之前执行
         function beforeRemove(treeId, treeNode) {
             className = (className === "dark" ? "":"dark");
             showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
@@ -149,12 +155,13 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             }
             // return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
         }
+        //删除
         function onRemove(e, treeId, treeNode) {
             showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
         }
 
 
-
+        //用于捕获节点编辑名称结束（Input 失去焦点 或 按下 Enter 键）之后，更新节点名称数据之前的事件回调函数，并且根据返回值确定是否允许更改名称的操作
         function beforeRename(treeId, treeNode, newName, isCancel) {
             className = (className === "dark" ? "":"dark");
             showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
@@ -166,6 +173,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             }
             return true;
         }
+        //用于捕获节点编辑名称结束之后的事件回调函数。
         function onRename(e, treeId, treeNode, isCancel) {
             alert(treeNode.tId + ", " + treeNode.name);
             showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
@@ -194,7 +202,8 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
 
         var newCount = 1;
 
-        var selectRegion=objCtrl.data;//模拟选中的代表点数据
+        var selectRegion=objCtrl.data;//代表点数据
+        //添加数据
         function addHoverDom(treeId, treeNode) {
             var sObj = $("#" + treeNode.tId + "_span");
             if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
@@ -230,12 +239,14 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
         };
 
 
+        //判断类型
         function isArray(object){
             return object && typeof object==='object' &&
                 Array == object.constructor;
         }
 
         var bool = true;
+        //判断regionIds是否重复
         function isRepeatss(regionIds,itemNodes) {
             aa:for (var j in itemNodes) {
                 if (itemNodes[j].children.length > 0) {
@@ -259,7 +270,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
          * @param itemNodes 复制的数据
          * @param treenode 拖拽的节点
          * @param targetNode 目标节点（父节点）
-         * @param status
+         * @param status 添加删除拖拽
          * @param ind
          */
         function upStatus(itemNodes,treenode,targetNode,status,ind){
@@ -415,6 +426,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             $("#addBtn_"+treeNode.tId).unbind().remove();
         };
 
+        //拖拽后调用方法
         function zTreeOnDrop(event, treeId, treeNodes, targetNode, moveType) {
             // alert(treeNodes[0].regionId);
             upStatus(newZNodes,treeNodes,targetNode,"drop",3);
@@ -423,6 +435,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
 
 
 
+        //初始化ztree
         $.fn.zTree.init($("#treeDemo"), setting, data);
     }
 
@@ -439,6 +452,7 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
             }
         }
         // var zNodes=[];
+        //保存调用方法
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
@@ -449,16 +463,20 @@ adAdminZone.controller("adAdminLevelController",function($scope,$timeout,$docume
                 };
                 data.data.log.push(sinfo);
                 info=data.data.log;
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
+
             }else{
                 info=[{
                     "op":data.errcode,
                     "type":data.errmsg,
                     "pid": data.errid
                 }];
+            }
+            //数据解析后有值的输出到output输出窗口
+            if(info!=null){
+                outputCtrl.pushOutput(info);
+                if (outputCtrl.updateOutPuts !== "") {
+                    outputCtrl.updateOutPuts();
+                }
             }
         });
     }
