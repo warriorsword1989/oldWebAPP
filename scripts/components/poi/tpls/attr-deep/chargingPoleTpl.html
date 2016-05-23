@@ -59,12 +59,13 @@
                 <tr>
                     <td>支付方式</td>
                     <td id="charging-payment" colspan="3">
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.payment['0']"> 其他</div>
+                    	<div ng-repeat="item in charging.paymentArray"  class="col-sm-4" style="padding:0px"><input type='checkbox' value="item.id" ng-model="item.check">{{item.value}}</div>
+                        <!-- <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.payment['0']"> 其他</div>
                         <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="1" ng-model="charging.payment['1']"> 现金</div>
                         <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="2" ng-model="charging.payment['2']"> 信用卡</div>
                         <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="3" ng-model="charging.payment['3']"> 借记卡</div>
                         <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="4" ng-model="charging.payment['4']"> 特制充值卡</div>
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="5" ng-model="charging.payment['5']"> APP</div>
+                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="5" ng-model="charging.payment['5']"> APP</div> -->
                     </td>
                 </tr>
                 <tr>

@@ -235,6 +235,14 @@ FM.dataApi.Constant = {
         "gasStation": 0,
         "attraction": 0,
         "rental": 0
+    },
+    'CHARGINGPOLE_PAYMENT':{
+    	"0": "其他",
+        "1": "现金",
+        "2": "信用卡",
+        "3": "借记卡",
+        "4": "特制充值卡",
+        "5": "APP"
     }
 };
 
