@@ -58,7 +58,7 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     	ret["plugNum"] = this.plugNum;
     	ret["prices"] = this.prices;
     	var checkedOpenTypeArr = [];
-    	for(var key in this.plugType){
+    	for(var key in this.openType){
     		if(this.openType[key] == true){
     			checkedOpenTypeArr.push(key);
     		}
@@ -72,7 +72,7 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     	ret["floor"] = this.floor;
     	ret["locationType"] = this.locationType;
     	var checkedPayArr = [];
-    	for(var key in this.plugType){
+    	for(var key in this.payment){
     		if(this.payment[key] == true){
     			checkedPayArr.push(key);
     		}
