@@ -108,7 +108,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // distinguishResult($scope.poi);
             $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
-                console.log($scope.poi)
             });
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
@@ -189,7 +188,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*获取关联poi数据——检查结果*/
     $scope.$on('getRefFtInMap', function (event, data) {
         $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
-            console.log(data)
             $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
             $scope.$emit('getLayerName','checkResultLayer');
             for (var i = 0, len = data.length; i < len; i++) {
@@ -208,7 +206,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
         };
-        console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid);
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
     /*显示地图上poi数组*/
@@ -311,7 +308,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     });
     /*显示关联poi面板*/
     $scope.$on('showRelatedPoiInfo',function(event,data){
-        console.log(data)
         $scope.refFt = data;
         $scope.$broadcast('showPoisInMap', {
             data: data.refList,
