@@ -40,8 +40,10 @@ adLinkApp.controller("adLinkController",function($scope) {
         {"id": 2, "label": "100w"}
     ];
 
+    //初始化
     $scope.initializeData = function(){
         $scope.adLinkData = objCtrl.data;
+        //页面属性变化监控
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
                 if($scope.adLinkForm!=undefined) {
@@ -49,14 +51,14 @@ adLinkApp.controller("adLinkController",function($scope) {
                 }
             });
         }
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());//存储原始数据
         var linkArr =$scope.adLinkData.geometry.coordinates, points = [];
         for (var i = 0, len = linkArr.length; i < len; i++) {
             var pointOfLine = fastmap.mapApi.point(linkArr[i][0], linkArr[i][1]);
             points.push(pointOfLine);
         }
         var line = fastmap.mapApi.lineString(points);
-        selectCtrl.onSelected({
+        selectCtrl.onSelected({//存储选择数据信息
             geometry: line,
             id: $scope.adLinkData.pid
         });
@@ -64,6 +66,7 @@ adLinkApp.controller("adLinkController",function($scope) {
     if (objCtrl.data) {
         $scope.initializeData();
     }
+    //保存
     $scope.save = function(){
         objCtrl.save();
         if(objCtrl.changedProperty.limits){
@@ -91,11 +94,13 @@ adLinkApp.controller("adLinkController",function($scope) {
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
+        //保存调用方法
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
-            adLink.redraw();
-            adnode.redraw();
+            adLink.redraw();//线重绘
+            adnode.redraw();//点重绘
             if (data.errcode==0) {
+                //清除数据清除高亮
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
@@ -111,6 +116,8 @@ adLinkApp.controller("adLinkController",function($scope) {
                 }
                 swal("操作成功",'保存成功！', "success");
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
+
+                //返回数据解析
                 var sInfo={
                     "op":"修改道路link成功",
                     "type":"",
@@ -133,6 +140,7 @@ adLinkApp.controller("adLinkController",function($scope) {
                     "pid": data.errid
                 }];
             }
+            //显示到output输出窗口
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
@@ -140,6 +148,7 @@ adLinkApp.controller("adLinkController",function($scope) {
         })
     };
 
+    //删除
     $scope.delete = function(){
         var objId = parseInt($scope.adLinkData.pid);
         var param = {
@@ -148,6 +157,7 @@ adLinkApp.controller("adLinkController",function($scope) {
             "projectId": Application.projectid,
             "objId": objId
         }
+        //删除调用方法
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             adLink.redraw();
@@ -178,6 +188,7 @@ adLinkApp.controller("adLinkController",function($scope) {
 
     };
 
+    //监听保存，修改,删除，取消，和初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
