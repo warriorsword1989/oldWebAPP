@@ -1,6 +1,7 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics.directives', 'angularFileUpload', 'angular-drag']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig', '$http', '$timeout', function ($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg, $http, $timeout) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics.directives', 'angularFileUpload', 'angular-drag', 'fastmap.uikit']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig', '$http', '$timeout', function ($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg, $http, $timeout) {
     uibBtnCfg.activeClass = "btn-success";
-    //$scope.isShowImages = false;
+    $scope.isShowImages = true; //页面初始化需要设置成true。否则showbox控件计算高度有误
+    $scope.deleteFlag = 1;
     $scope.mapColumn = 12;
     $scope.meta = {};
     $scope.metaData = {}; //存放元数据
@@ -26,7 +27,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     }));
     $q.all(promises).then(function() {
         getParentPoiName();
-        $scope.poiMap = {
+        $scope.poiMap = {   
             data: $scope.snapshotPoi,
             projectId: 2016013086,
             featcode: "poi",
@@ -45,8 +46,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 });
             });
         });
-        $ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function () {
-            $scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
+        //$ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function () {
+            //$scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
             /*$scope.$on('$includeContentLoaded', function($event,url ) {
                 if(url == '../../scripts/components/poi/tpls/attr-base/imageTpl.html'){
                     console.log("imageTpl.html-------------");
@@ -55,10 +56,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     },100);
                 }
             });*/
-            // var imgs = initImages();
-            // $scope.imagesArray =  imgs;
-            // $scope.deleteFlag = 1;
-        });
+            var imgs = initImages();
+            $scope.imageArray =  imgs;
+            
+            // $scope.imageArray = [{
+            //     id: 1,
+            //     tag: 3,
+            //     tagName: '水牌',
+            //     url: '../../images/temp/01.jpg'
+            // }];
+        //});
     });
 
     var getParentPoiName = function (){
@@ -70,16 +77,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     };
 
     var initImages = function () {
-        var attachments = $scope.poi.attachments;
-        var imageArr = [];
-        for (var i = 0, len = attachments.length; i < len; i++) {
-            if (attachments[i].type == 1) {
-                if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
-                    attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
-                }
-                imageArr.push(attachments[i]);
-            }
-        }
+        var attachments = $scope.poi.attachmentsImage;
+        var imageArr = attachments;
+        // for (var i = 0, len = attachments.length; i < len; i++) {
+        //     if (attachments[i].type == 1) {
+        //         if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
+        //             attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
+        //         }
+        //         imageArr.push(attachments[i]);
+        //     }
+        // }
         //控制是否显示图片
         if (imageArr.length > 0) {
             $scope.mapColumn = 6;

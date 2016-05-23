@@ -1,10 +1,20 @@
-angular.module('testApp', ['fastmap.uikit']).controller('DirectiveTestCtl', function ($scope, $http) {
+angular.module('testApp', ['fastmap.uikit']).controller('DirectiveTestCtl', function ($scope, $http,$timeout) {
+        
     $scope.imageArray = [{
         id: 1,
         tag: 3,
         tagName: '水牌',
         url: '../../images/temp/01.jpg'
-    }];
+    }];    
+
+    /*$timeout(function (){ //此种方法会导致watch方法执行两次
+        $scope.imageArray = [{
+            id: 1,
+            tag: 3,
+            tagName: '水牌',
+            url: '../../images/temp/01.jpg'
+        }];
+    },2000);*/
     $scope.selectImg = function (index, item) {
         console.log("select" + item);
     };
