@@ -65,23 +65,19 @@
                 <tr>
                     <td>充电模式</td>
                     <td id="charging-mode" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-mode' value="0" ng-model="charging.mode"> 慢速</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-mode' value="1" ng-model="charging.mode"> 快速</div>
+                        <div ng-repeat="(key,value) in chargingMode" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.mode"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>位置类型</td>
                     <td id="charging-locationtype" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="0" ng-model="charging.locationType"> 室外</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="1" ng-model="charging.locationType"> 室内地上</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="2" ng-model="charging.locationType"> 地下</div>
+                    	<div ng-repeat="(key,value) in locationtype" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.locationType" ng-change="test()"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>电流类型</td>
                     <td id="charging-acdc" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-acdc' value="0" ng-model="charging.acdc"> 交流</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-acdc' value="1" ng-model="charging.acdc"> 直流</div>
+                    	<div ng-repeat="(key,value) in chargingAcdc" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.acdc"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
@@ -142,11 +138,7 @@
                 <tr>
                     <td>服务状态</td>
                     <td id="charging-availableState" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="0" ng-model="charging.availableState"> 可以使用（有电）</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="1" ng-model="charging.availableState"> 不可使用（没电）</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="2" ng-model="charging.availableState"> 维修中</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="3" ng-model="charging.availableState"> 建设中</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="4" ng-model="charging.availableState"> 规划中</div>
+                        <div ng-repeat="(key,value) in chargingAvailableState" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.availableState"> {{value}}</div>
                     </td>
                 </tr>
 

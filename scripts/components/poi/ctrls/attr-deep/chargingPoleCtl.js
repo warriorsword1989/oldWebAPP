@@ -32,6 +32,10 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
     $scope.chargingPlugType = FM.dataApi.Constant.CHARGINGPOLE_PLUGTYPE;
     $scope.chargingOpenType = FM.dataApi.Constant.CHARGINGPOLE_OPENTYPE;
     $scope.chargingPayment = FM.dataApi.Constant.CHARGINGPOLE_PAYMENT;
+    $scope.locationtype = FM.dataApi.Constant.CHARGINGPOLE_LOCATIONTYPE;
+    $scope.chargingAcdc = FM.dataApi.Constant.CHARGINGPOLE_ACDC;
+    $scope.chargingMode = FM.dataApi.Constant.CHARGINGPOLE_MODE;
+    $scope.chargingAvailableState = FM.dataApi.Constant.CHARGINGPOLE_AVAILABLESTATE;
     $scope.charging = $scope.poi.chargingPole[0];
     //查询充电桩品牌列表
     $scope.$on("loaded",function (event, data) {
@@ -51,5 +55,4 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
             console.log(chargeChain);
         });
     });
-    
 });
