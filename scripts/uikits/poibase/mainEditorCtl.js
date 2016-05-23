@@ -1,7 +1,7 @@
 angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics.directives', 'angularFileUpload', 'angular-drag', 'fastmap.uikit']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig', '$http', '$timeout', function ($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg, $http, $timeout) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.isShowImages = true; //页面初始化需要设置成true。否则showbox控件计算高度有误
-    $scope.deleteFlag = 1;
+    $scope.deleteFlag = true;
     $scope.mapColumn = 12;
     $scope.meta = {};
     $scope.metaData = {}; //存放元数据
@@ -46,28 +46,20 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 });
             });
         });
-        //$ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function () {
-            //$scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
-            /*$scope.$on('$includeContentLoaded', function($event,url ) {
-                if(url == '../../scripts/components/poi/tpls/attr-base/imageTpl.html'){
-                    console.log("imageTpl.html-------------");
-                    $timeout(function (){
-                        $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-                    },100);
-                }
-            });*/
-            var imgs = initImages();
-            $scope.imageArray =  imgs;
-            
-            // $scope.imageArray = [{
-            //     id: 1,
-            //     tag: 3,
-            //     tagName: '水牌',
-            //     url: '../../images/temp/01.jpg'
-            // }];
-        //});
+
+        //var imgs = initImages();
+        //$scope.imageArray =  imgs;
+
     });
 
+    $scope.tagKeyValue = [
+        {key:0,value:'请选择'},
+        {key:1,value:'全貌'},
+        {key:2,value:'水牌'},
+        {key:3,value:'名称'},
+        {key:4,value:'名牌'},
+        {key:5,value:'英文名'}
+    ];
     var getParentPoiName = function (){
         if ($scope.poi.relateParent) {
             poi.getPoiSnapshot($scope.poi.relateParent.parentFid).then(function (parentPoi){
@@ -76,6 +68,39 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         }
     };
 
+    $scope.$watch("poi.attachmentsImage", function (newValue, oldValue) {
+        if (newValue) {
+            if (newValue.length == 0) {
+                $scope.mapColumn = 12;
+                $scope.isShowImages = false;
+                $scope.isShowArrow = false;
+            } else {
+                $scope.mapColumn = 6;
+                $scope.isShowImages = true;
+                $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
+                $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
+            }
+        }
+    });
+
+    $scope.imageFilterChange = function (evn){
+        var value = evn.target.value;
+    };
+    $scope.imageTagChange = function (){        
+        $scope.selectedImg.tag = $scope.imgTag.tagSelected;
+    }
+    $scope.beforeDeleteImg = function (item) {
+        return true; //通过return false可以阻止继续执行,默认return true;
+    };
+
+    $scope.afterDeleteImg = function (item) {
+    };
+
+    $scope.imgTag = { tagSelected:0 }; //使用showbox指令时特殊处理
+    $scope.selectImg = function (index, item) {
+        $scope.imgTag.tagSelected = item.tag;
+        $scope.selectedImg = item;
+    };
     var initImages = function () {
         var attachments = $scope.poi.attachmentsImage;
         var imageArr = attachments;
@@ -88,16 +113,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         //     }
         // }
         //控制是否显示图片
-        if (imageArr.length > 0) {
-            $scope.mapColumn = 6;
-            $scope.isShowImages = true;
-            $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
-            $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
-        } else {
-            $scope.mapColumn = 12;
-            $scope.isShowImages = false;
-            $scope.isShowArrow = false;
-        }
+        // if (imageArr.length > 0) {
+        //     $scope.mapColumn = 6;
+        //     $scope.isShowImages = true;
+        //     $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
+        //     $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
+        // } else {
+        //     $scope.mapColumn = 12;
+        //     $scope.isShowImages = false;
+        //     $scope.isShowArrow = false;
+        // }
         return imageArr;
     };
     $scope.doLeftRight = function () {
@@ -321,11 +346,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.doSave = function() {
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
-        $scope.saveButClass = "disabled";
-        poi.savePoi($scope.poi).then(function (data) {
-            var temp = data;
-            $scope.saveButClass = "";
-        });
+        //$scope.saveButClass = "disabled";
+        // poi.savePoi($scope.poi).then(function (data) {
+        //     var temp = data;
+        //     $scope.saveButClass = "";
+        // });
     };
 
     //接收从generalBase传过来的命令，查询并显示在地图上

@@ -11,18 +11,22 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         var ret = {};
         ret['relateParent'] = this.relateParent;
         ret['attachments'] = [];
-         if (this.attachmentsImage) {
-             for (var i = 0, len = this.attachmentsImage.length; i < len; i++) {
-                 ret['attachments'].push(this.attachmentsImage[i].getIntegrate());
+        if (this.attachmentsImage) {
+            for (var i = 0, len = this.attachmentsImage.length; i < len; i++) { 
+                var img = this.attachmentsImage[i].getIntegrate();
+                if (img.url && img.url.indexOf(App.Config.resourceUrl + '/photo') > -1){
+                    img.url = img.url.substr((App.Config.resourceUrl + '/photo').length);
+                }
+                ret['attachments'].push(img);
             }
         }
-         if (this.attachmentsOther) {
-             for (var i = 0, len = this.attachmentsOther.length; i < len; i++) {
+        if (this.attachmentsOther) {
+            for (var i = 0, len = this.attachmentsOther.length; i < len; i++) {
                  ret['attachments'].push(this.attachmentsOther[i]);
              }
          }
-         if (this.attachmentsRemark) {
-             if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
+        if (this.attachmentsRemark) {
+            if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
                  this.attachmentsDoc[i].url = this.attachmentsRemark;
                  ret['attachments'].push(this.attachmentsDoc[i]);
              } else {
@@ -34,9 +38,9 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
                  ret['attachments'].push(temp);
              }
          } else {
-             if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
+            if (this.attachmentsDoc && this.attachmentsDoc.length > 0) {
                  this.attachmentsDoc[i].url = "";
-                 ret['attachments'].push(this.attachmentsDoc[i]);
+                ret['attachments'].push(this.attachmentsDoc[i]);
              }
          }
         
@@ -48,11 +52,11 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             }
         }
         ret["indoor"] = this.indoor;
-         if (ret["indoor"].type) {
-             ret["indoor"].type = 3;
-         } else {
-             ret["indoor"].type = 0;
-         }
+        if (ret["indoor"].type) {
+            ret["indoor"].type = 3;
+        } else {
+            ret["indoor"].type = 0;
+        }
 
         ret['pid'] = this.pid;
         ret['checkResults'] = [];
