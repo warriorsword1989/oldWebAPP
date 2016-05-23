@@ -81,6 +81,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
     $scope.initializeDataTips = function (data) {
         $scope.photoTipsData = [];
         $scope.photos = [];
+        $scope.remarksContent = null;
         $scope.dataTipsData = data;//selectCtrl.rowKey;
         $scope.rowkey = $scope.dataTipsData.rowkey;
         $scope.allTipsType = $scope.dataTipsData.s_sourceType;
@@ -464,7 +465,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "projectId": Application.projectid,
                 "data": restrictObj
             };
-            Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+            Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                 if (data.errcode === -1) {
                     info = [{
                         "op": data.errcode,
@@ -526,7 +527,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 });
                 return;
             }
-            Application.functions.saveLinkGeometry(JSON.stringify(paramOfLink), function (data) {
+            Application.functions.editGeometryOrProperty(JSON.stringify(paramOfLink), function (data) {
                 var info = null;
                 if (data.data) {
                     $scope.upBridgeStatus(data.data.pid, e);
@@ -573,7 +574,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 "data": kindObj
             };
             if (stage === 1) {
-                Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+                Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
 
                     $scope.$parent.$parent.$apply();
                     if (data.errcode == 0) {

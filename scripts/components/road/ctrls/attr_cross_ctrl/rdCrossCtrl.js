@@ -90,7 +90,7 @@ selectApp.controller("rdCrossController", function ($scope) {
             return;
         }
 
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
                 if (selectCtrl.rowkey) {
@@ -156,7 +156,7 @@ selectApp.controller("rdCrossController", function ($scope) {
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 rdcross.redraw();

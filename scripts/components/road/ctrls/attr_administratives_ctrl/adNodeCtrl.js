@@ -100,7 +100,7 @@ adNodeApp.controller("adNodeController",function($scope) {
             });
         }
 
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
 
             if (data.errcode==0) {
@@ -139,7 +139,7 @@ adNodeApp.controller("adNodeController",function($scope) {
             "objId": pid
         };
         //结束编辑状态
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = [];
             if (data.errcode == 0) {
                 swal("操作成功",'删除成功！', "success");

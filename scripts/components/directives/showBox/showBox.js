@@ -69,11 +69,20 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                     $scope.page.pageNo++;
                 }
             };
+            /* 
+                当showbox.js和showbox.htm执行结束后，稍微等待一会儿后给imageArray赋值会导致watch方法执行两次,第一次newValue为空，需要对空做处理
+            */
             $scope.$watch("dataList", function (newValue, oldValue) {
-                if (newValue.length > oldValue.length) { // 新增时，选中最后一个，即选中新增的
-                    $scope.selectMe(newValue.length - 1);
+                if($scope.dataList){
+                    if ( !newValue || !oldValue){
+                        $scope.selectMe(0);
+                    } else if (newValue.length > oldValue.length) { // 新增时，选中最后一个，即选中新增的
+                        $scope.selectMe(newValue.length - 1);
+                    } else {
+                        $scope.selectMe(0);
+                    }
+                    $scope.page.pageCount = Math.ceil($scope.dataList.length / $scope.page.pageSize);
                 }
-                $scope.page.pageCount = Math.ceil($scope.dataList.length / $scope.page.pageSize);
             }, true);
             $scope.pageStyle = {
                 "margin-top": "0px"
@@ -116,7 +125,7 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                 pageSize: Math.floor(thumb.children("div")[1].clientWidth / 50),
                 pageNo: 1
             };
-            scope.selectMe(0);
+            //scope.selectMe(0); //此处调用是多余的，因为$scope.$watch("dataList")监听方法会自动执行
         }
     };
 });

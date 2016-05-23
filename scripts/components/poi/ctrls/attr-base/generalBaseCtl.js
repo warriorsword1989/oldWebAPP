@@ -1,38 +1,8 @@
-angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
+angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta',function($scope, $timeout,meta) {
 
     var pKindFormat = {}, pKindList,
         pAllChain = {};
     var regionCode = "010"
-    var lifecycle = {
-        1: "删 除",
-        2: "修 改",
-        3: "新 增",
-        4: "未 知"
-    };
-    var auditStatus = {
-        0: "无",
-        1: "待审核",
-        2: "已审核",
-        3: "审核不通过",
-        4: "外业验证",
-        5: "鲜度验证",
-    };
-
-    var _conf_origin_prop = {
-        "name": 1,
-        "address": 1,
-        "contacts": 1,
-        "postCode": 1,
-        "adminCode": 1,
-        "kindCode": 1,
-        "brands": 1,
-        "level": 1,
-        "open24H": 1,
-        "relateParent": 1,
-        "relateChildren": 1,
-        "names": 1,
-        "indoor": 1
-    }
     var initOptionStyle = function(poiJson) {
         var editedProperty = new Object();
         var data = [];
@@ -45,7 +15,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -62,7 +32,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -79,7 +49,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -131,10 +101,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         
     }
 
-    $scope.remarkChange = function (val){
-
-    }
-
     //改变等级
     $scope.updateLevelSelected = function(val) {
         $scope.poi.level = val;
@@ -156,7 +122,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         if (value != 1 && value != 2 && value != 3) {
             value = 4;
         }
-        $scope.ctrl.lifeCycleName = lifecycle[value];
+        $scope.ctrl.lifeCycleName =  FM.dataApi.Constant.LIFE_CYCLE[value];
         $scope.ctrl.lifeCycleLabel = label[value];
     };
 
@@ -219,17 +185,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             }
         }
     }
-    var initRemark = function (poi){
-        var remark = ""; 
-        for (var i = 0, len = poi.attachments.length; i < len; i++){
-            var attachment = poi.attachments[i];
-            if(attachment.type == 4 && attachment.tag == 0 ){
-                remark = attachment.url;
-                break ;
-            }
-        }
-        $scope.remark = remark;
-    }
     $scope.removeTelElem = function(index) {
         if ($scope.poi.contacts.length > 1) {
             $scope.poi.contacts.splice(index, 1);
@@ -264,10 +219,17 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
 
     $scope.kindChange = function(evt, obj) {
         $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
+        $scope.poi.brands[0].code = "";
+        $scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
     };
     $scope.brandChange = function (evt, sco) {
-        console.info(evt);
         $scope.poi.brands[0].code = sco.selectedChain;
+        meta.getChainLevel($scope.poi.kindCode,sco.selectedChain).then(function (data){
+            if (data) {
+                $scope.levelArr = [];
+                $scope.levelArr = data.split("|");
+            }
+        });
     };
 
     $scope.showChildrenPoisInMap = function() {
@@ -324,4 +286,4 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "baseInfo");
     });
-});
+}]);

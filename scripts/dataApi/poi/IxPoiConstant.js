@@ -190,5 +190,67 @@ FM.dataApi.Constant = {
         "batch": "批处理",
         "Web": "行编辑",
         "Desktop": "桌面"
+    },
+    'LIFE_CYCLE':{
+        1: "删 除",
+        2: "修 改",
+        3: "新 增",
+        4: "未 知"
+    },
+    'AUDITU_STATUS':{
+        0: "无",
+        1: "待审核",
+        2: "已审核",
+        3: "审核不通过",
+        4: "外业验证",
+        5: "鲜度验证"
+    },
+    'CONF_ORIGIN_PROP':{
+        "name": 1,
+        "address": 1,
+        "contacts": 1,
+        "postCode": 1,
+        "adminCode": 1,
+        "kindCode": 1,
+        "brands": 1,
+        "level": 1,
+        "open24H": 1,
+        "relateParent": 1,
+        "relateChildren": 1,
+        "names": 1,
+        "indoor": 1,
+        "location": 0,
+        "guide": 0,
+        "meshid": 0,
+        "adminReal": 0,
+        "importance": 0,
+        "airportCode": 0,
+        "website": 0,
+        "addresses": 0,
+        "foodtypes": 0,
+        "parkings": 0,
+        "hotel": 0,
+        "sportsVenues": 0,
+        "chargingStation": 0,
+        "gasStation": 0,
+        "attraction": 0,
+        "rental": 0
+    },
+    'CHARGINGPOLE_PAYMENT':{
+    	"0": "其他",
+        "1": "现金",
+        "2": "信用卡",
+        "3": "借记卡",
+        "4": "特制充值卡",
+        "5": "APP"
+    },
+    'CHARGINGPOLE_PLUGTYPE': {
+        0: "交流电3孔家用",
+        1: "国标交流电7孔插槽",
+        2: "国标直流电9孔插槽",
+        8: "特斯拉专用插槽",
+        9: "其他",
+        10: "无法采集"
     }
 };
+
