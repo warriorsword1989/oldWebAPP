@@ -71,7 +71,7 @@
                 <tr>
                     <td>位置类型</td>
                     <td id="charging-locationtype" colspan="3">
-                    	<div ng-repeat="(key,value) in locationtype" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.locationType" ng-change="test()"> {{value}}</div>
+                    	<div ng-repeat="(key,value) in locationtype" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.locationType"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
@@ -123,10 +123,10 @@
                     <td id="charging-openType" colspan="3">
                         <div class="row" style="margin:0px">
                         	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green" ng-if="key == 1" style="padding:0px;color:green">
-                                <input type="checkbox" value="item.id" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
                             </div>
                         	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px" ng-if="key != 1">
-                                <input type="checkbox" value="item.id" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
                                 <input select2 ng-model="charging.chain.data" config="charging.chain.data" select-model="charging.chain.data" type="text" class="form-control input-sm" id="charging-chain"
