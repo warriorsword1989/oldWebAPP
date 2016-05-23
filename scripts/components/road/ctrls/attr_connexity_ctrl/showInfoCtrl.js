@@ -19,10 +19,9 @@ infoOfConnexityApp.controller("infoOfConnexityController", function ($scope) {
    //清除高亮
     highRenderCtrl._cleanHighLight();
     highRenderCtrl.highLightFeatures.length = 0;
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            $scope.infoConnexityForm.$setPristine();
-        });
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.infoConnexityForm){
+        $scope.infoConnexityForm.$setPristine();
     }
     $scope.reachDirOptions = [
         {"id": 0, "label": "0 未调查"},

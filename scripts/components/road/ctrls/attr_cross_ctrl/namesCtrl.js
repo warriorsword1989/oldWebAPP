@@ -50,12 +50,9 @@ namesOfCross.controller("namesController",function($scope) {
         }
     }
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.nameCrossForm!=undefined) {
-                $scope.nameCrossForm.$setPristine();
-            }
-        });
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.nameCrossForm) {
+        $scope.nameCrossForm.$setPristine();
     }
     /*路口名称输入完查询发音和拼音*/
     $scope.diverName = function (id, name) {
