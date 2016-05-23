@@ -6,6 +6,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.meta = {};
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+    var allImages = [] , operSeasonImages = [];
+    var operSeason = "";
     var promises = [];
     promises.push(meta.getKindList().then(function(kindData) {
         //$scope.meta.kindList = [];
@@ -92,10 +94,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poiIcon = data;
     }));
+    //查询当前作业季
+    promises.push(poi.getOperSeason("2016013086").then(function(data) {
+        //$scope.operSeason = data;
+        operSeason = "15win";
+    }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
     $q.all(promises).then(function() {
+        initImages();
         getParentPoiName();
         $scope.poiMap = {   
             data: $scope.snapshotPoi,
@@ -116,19 +124,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             });
         });
 
-        //var imgs = initImages();
-        //$scope.imageArray =  imgs;
+        
 
     });
 
-    $scope.tagKeyValue = [
-        {key:0,value:'请选择'},
-        {key:1,value:'全貌'},
-        {key:2,value:'水牌'},
-        {key:3,value:'名称'},
-        {key:4,value:'名牌'},
-        {key:5,value:'英文名'}
-    ];
+    $scope.tagKeyValue = FM.dataApi.Constant.IMAGE_TAG;
     var getParentPoiName = function (){
         if ($scope.poi.relateParent) {
             poi.getPoiSnapshot($scope.poi.relateParent.parentFid).then(function (parentPoi){
@@ -137,7 +137,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         }
     };
 
-    $scope.$watch("poi.attachmentsImage", function (newValue, oldValue) {
+    /*$scope.$watch("poi.attachmentsImage", function (newValue, oldValue) {
         if (newValue) {
             if (newValue.length == 0) {
                 $scope.mapColumn = 12;
@@ -150,10 +150,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
             }
         }
-    });
+    });*/
 
     $scope.imageFilterChange = function (evn){
         var value = evn.target.value;
+        if (value == 1){
+            //$scope.imageArray = operSeasonImages;
+            $scope.poi.attachmentsImage = operSeasonImages;
+        } else {
+            //$scope.imageArray = allImages;
+            $scope.poi.attachmentsImage = allImages;
+        }
     };
     $scope.imageTagChange = function (){        
         $scope.selectedImg.tag = $scope.imgTag.tagSelected;
@@ -170,29 +177,27 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $scope.imgTag.tagSelected = item.tag;
         $scope.selectedImg = item;
     };
+    
+
     var initImages = function () {
         var attachments = $scope.poi.attachmentsImage;
-        var imageArr = attachments;
-        // for (var i = 0, len = attachments.length; i < len; i++) {
-        //     if (attachments[i].type == 1) {
-        //         if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
-        //             attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
-        //         }
-        //         imageArr.push(attachments[i]);
-        //     }
-        // }
+        for (var i = 0, len = attachments.length; i < len; i++) {
+            if (attachments[i].url.indexOf(operSeason) > -1) {
+                operSeasonImages.push(attachments[i]);
+            }
+            allImages.push(attachments[i]);
+        }
         //控制是否显示图片
-        // if (imageArr.length > 0) {
-        //     $scope.mapColumn = 6;
-        //     $scope.isShowImages = true;
-        //     $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
-        //     $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
-        // } else {
-        //     $scope.mapColumn = 12;
-        //     $scope.isShowImages = false;
-        //     $scope.isShowArrow = false;
-        // }
-        return imageArr;
+        if (attachments.length > 0) {
+            $scope.mapColumn = 6;
+            $scope.isShowImages = true;
+            $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
+            $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
+        } else {
+            $scope.mapColumn = 12;
+            $scope.isShowImages = false;
+            $scope.isShowArrow = false;
+        }
     };
     $scope.doLeftRight = function () {
         if ($scope.mapColumn == 6) {
