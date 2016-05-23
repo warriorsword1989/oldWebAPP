@@ -534,7 +534,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 parameter.z = this._map.getZoom();
                 parameter.x = tiles[0];
                 parameter.y = tiles[1];
-                this.param = parameter;
             }
             url = url + 'parameter=' + JSON.stringify(parameter);
 
@@ -548,7 +547,6 @@ fastmap.mapApi.TileJSON = L.TileLayer.Canvas.extend({
                 parameter.z = this._map.getZoom();
                 parameter.x = tiles[0];
                 parameter.y = tiles[1];
-                this.param = parameter;
             }
             url = url + 'parameter=' + JSON.stringify(parameter);
         }

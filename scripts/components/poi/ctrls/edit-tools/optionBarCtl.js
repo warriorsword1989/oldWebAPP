@@ -129,9 +129,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
             case 'checkResult':
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-                    /*$scope.$on('$includeContentLoaded', function($event) {
-                        $scope.$broadcast('checkResultData', checkResultData);
-                    });*/
                     $scope.optionData.checkResultData = checkResultData;
                 });
                 break;
@@ -166,7 +163,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     };
     /*刷新poi对象*/
     function refreshPoiData() {
-        $scope.poi = $scope.poi;
         $scope.snapshotPoi = $scope.poi.getSnapShot();
         distinguishResult($scope.poi);
         if ($scope.poi.lifeCycle == 1) {
@@ -176,18 +172,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
         }
         $scope.$broadcast('checkResultData', checkResultData);
         $scope.$broadcast('confusionInfoData', confusionInfoData);
-        /*poi.getPoiDetailByFid(fid).then(function(data) {
-            $scope.poi = data;
-            $scope.snapshotPoi = data.getSnapShot();
-            distinguishResult(data);
-            if (data.lifeCycle == 1) {
-                $scope.pEditable = false;
-            } else {
-                $scope.pEditable = true;
-            }
-            $scope.$broadcast('checkResultData', checkResultData);
-            $scope.$broadcast('confusionInfoData', confusionInfoData);
-        });*/
     }
 
     /*所有初始化执行方法放在此*/
