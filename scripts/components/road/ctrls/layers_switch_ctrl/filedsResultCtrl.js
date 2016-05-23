@@ -7,8 +7,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             var objCtrl = fastmap.uikit.ObjectEditController();
             var layerCtrl = fastmap.uikit.LayerController();
             $scope.workPoint = layerCtrl.getLayerById("workPoint");
-            $scope.gpsLine = layerCtrl.getLayerById("gpsLine");
             $scope.eventController = fastmap.uikit.EventController();
+            var highCtrl = fastmap.uikit.HighRenderController();
             $scope.showOrHideId = "";
             $scope.showOrHideIdOfPending = "";
             $scope.showOrHideIdOfPended = "";
@@ -31,10 +31,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $.each($scope.items, function (i, v) {
                         $scope.clearLayer(v);
                     });
-                    $scope.workPoint.requestType = [0];
-                    $scope.gpsLine.requestType = [0];
+                    $scope.workPoint.url.parameter["types"] = [0];
                     $scope.workPoint.redraw();
-                    $scope.gpsLine.redraw();
                     $scope[typeName] = false;
                 } else {
                     $.each($scope.items, function (i, v) {
@@ -44,7 +42,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     $scope[typeName] = true;
                 }
             }
-            Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], [1, 3], function (data) {
+            Application.functions.getTipsStatics([1, 3], function (data) {
                 $scope.$apply(function () {
                     var arr = [], transArr = [];
                     transArr = data.data.rows;
@@ -181,13 +179,11 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $scope.showAll = true;
                 $scope.showAllPre = true;
                 $scope.showAllYet = true;
-                if ($scope.workPoint.requestType !== "") {
-                    $scope.workPoint.requestType = "";
-                    $scope.gpsLine.requestType = "";
+                if ($scope.workPoint.url.parameter["types"]) {
+                    delete $scope.workPoint.url.parameter["types"]
                     $scope.workPoint.redraw();
-                    //$scope.gpsLine.redraw();
                 }
-                Application.functions.getTipsStatics([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], stage, function (data) {
+                Application.functions.getTipsStatics( stage, function (data) {
                     $scope.$apply(function () {
                         var arr = [], transArr = [];
                         transArr = data.data.rows;
@@ -369,7 +365,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 }
 
                 //Application.functions.getTipsListItems([60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
-                Application.functions.getTipsListItems([59567101, 59567102, 59567103, 59567104, 59567201, 60560301, 60560302, 60560303, 60560304], arr, item.id, function (data) {
+                Application.functions.getTipsListItems(arr, item.id, function (data) {
 
                     if (stage === 0) {
                         $scope.$apply(function () {
@@ -382,27 +378,6 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                                 $("#" + $scope.showOrHideId).addClass("selected")
                                 $("#" + $scope.showOrHideId).find("i").addClass("glyphicon-folder-open").removeClass("glyphicon-folder-close")
                             }
-                           /* if(item.id=="1514"){
-                                var obj = {
-                                    constructionArrayLink:[{"m":{"e":"12"}},{"m":{"e":"123"}}]
-                                };
-                                $scope.allSubItems = [{"m":{"e":"12"}},{"m":{"e":"123"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            }
-                            if(item.id=="1501"){
-                                $scope.allSubItems = [{"m":{"e":"test"}},{"m":{"e":"test1"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            }  if(item.id=="1403"){
-                                $scope.allSubItems = [{"m":{"e":"test123"}},{"m":{"e":"test133"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            } if(item.id=="1801"){
-                                $scope.allSubItems = [{"m":{"e":"wewwe"}},{"m":{"e":"eeeeee"}}];
-                            }else{
-                                $scope.allSubItems = data.data;
-                            }*/
                             $scope.allSubItems = data.data;
                             $scope.allStyleArr = [];
                             for (var i = 0, len = $scope.allSubItems.length; i < len; i++) {
@@ -471,7 +446,8 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                 $("#dataTipsVideoModal").css("display", "none");
                 $("#tipsSubPanel").removeClass("normal").addClass("selected");
                 $("#popoverTips").css("display", "block");
-
+                highCtrl._cleanHighLight();
+                highCtrl.highLightFeatures.length = 0;
                 Application.functions.getTipsResult(item.i, function (data) {
                     if (data.rowkey === "undefined") {
                         return;
@@ -481,10 +457,10 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
                         $scope.showTipsOrProperty(data, "RDSPEEDLIMIT", objCtrl, data.id, "components/road/ctrls/attr_speedLimit_ctrl/speedLimitCtrl", "../../scripts/components/road/tpls/attr_speedLimit_tpl/speedLimitTpl.html");
                     } else if (pItemId === "1201") {//道路种别
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.f.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
                     } else if (pItemId === "1203") {//道路方向
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfDirect={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -513,7 +489,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         points.push(startPoint);
                         var line = new L.polyline(points);
                         var bounds = line.getBounds();
-                        map.fitBounds(bounds, {"maxZoom": 19});
+                        map.fitBounds(bounds, {"maxZoom": 18});
 
                         var ctrlAndTplOfBridge={
                             "loadType":"tipsTplContainer",
@@ -530,7 +506,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
 
                     } else if (pItemId === "1604") {//区域内道路
 
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
                         var ctrlAndTplOfRoad={
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -589,7 +565,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfOfGJ);
                     } else if (pItemId === "2001") {//测线
-                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20)
+                        map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18)
                         $scope.showTipsOrProperty(data, "RDLINK", objCtrl, data.id, "components/road/ctrls/attr_link_ctrl/rdLinkCtrl", "../../scripts/components/road/tpls/attr_link_tpl/rdLinkTpl.html");
 
                     }else if(pItemId==="1514") {//施工
@@ -600,7 +576,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         points.push(startPoint);
                         var line = new L.polyline(points);
                         var bounds = line.getBounds();
-                        map.fitBounds(bounds, {"maxZoom": 19});
+                        map.fitBounds(bounds, {"maxZoom": 18});
                         var ctrlAndTplOfConstruction= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -616,9 +592,9 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                     }
                     else if(pItemId==="1501") {//上下线分离
                         if(data.geo!=null){
-                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 20);
+                            map.setView([data.geo.coordinates[1], data.geo.coordinates[0]], 18);
                         }else{
-                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                            map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 18);
                         }
                         var ctrlAndTplOfUpAndLower= {
                             "loadType":"tipsTplContainer",
@@ -643,7 +619,7 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
                         }
                         $scope.$emit("transitCtrlAndTpl", ctrlAndTplOfD);
                     } else if(pItemId==="1801") {//立交
-                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+                        map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 17);
                         var ctrlAndTplOfOverPass= {
                             "loadType":"tipsTplContainer",
                             "propertyCtrl":"components/road/ctrls/attr_tips_ctrl/sceneAllTipsCtrl",
@@ -656,17 +632,20 @@ filedsModule.controller('fieldsResultController', ['$rootScope', '$scope', '$ocL
             //checkbox中的处理方法
             $scope.showLayers = function (item, event) {
                 event.stopPropagation();
+                var param = $scope.workPoint.url.parameter;
                 item.flag = !item.flag;
                 if (!item.flag) {
                     delete $scope.tipsObj[item.id];
                 } else {
                     $scope.tipsObj[item.id] = true;
                 }
-                var tips = Object.keys($scope.tipsObj);
-                $scope.workPoint.requestType = tips;
-                //$scope.gpsLine.requestType = tips;
+                if(Object.keys($scope.tipsObj).length===0) {
+                    param["types"] = [0];
+                }else{
+                    param["types"]= Object.keys($scope.tipsObj);
+                }
+
                 $scope.workPoint.redraw();
-                //$scope.gpsLine.redraw();
 
             };
             $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {

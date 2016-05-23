@@ -407,8 +407,7 @@ angular.module('app').controller('poiMapCtl',['$scope','dsPoi',function ($scope,
     //高亮显示指定的子poi
     $scope.$on("highlightChildInMap",function (event, poiFid) {
         var marker = FM.leafletUtil.getLayerById(pMap,poiFid);
-        marker.openPopup();
-        marker.setIcon(FM.iconStyles.blueIcon);
+        FM.leafletUtil.highlightFeatureInMap(marker)
         pMap.panTo(marker._latlng);
     });
 

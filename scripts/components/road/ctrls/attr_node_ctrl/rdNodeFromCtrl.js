@@ -195,7 +195,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             });
         }
 
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
             var info = null;
@@ -233,7 +233,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             "objId": pid
         };
         //结束编辑状态
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             rdLink.redraw();
             var info = [];
             if (data.errcode == 0) {

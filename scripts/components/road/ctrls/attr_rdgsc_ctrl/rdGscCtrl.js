@@ -82,7 +82,7 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
                 if (selectCtrl.rowkey) {
@@ -151,7 +151,7 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 rdgsc.redraw();

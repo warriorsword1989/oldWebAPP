@@ -19,18 +19,5 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
     	ret["ruleDesc"] = this.ruleDesc;
     	ret["ruleId"] = this.ruleId;
     	return ret;
-    },
-    statics: {
-        getList: function(callback) {
-            FM.dataApi.ajax.get("meta/queryRule/", {}, function(data) {
-                var checkRules = [],
-                    checkRule;
-                for (var i = 0; i < data.data.length; i++) {
-                	checkRule = new FM.dataApi.CheckRule(data.data[i]);
-                    checkRules.push(checkRule);
-                }
-                callback(checkRules);
-            });
-        }
     }
 });

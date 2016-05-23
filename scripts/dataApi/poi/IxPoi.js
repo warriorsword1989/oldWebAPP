@@ -3,9 +3,7 @@
  */
 FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
     geoLiveType: "IX_POI",
-    initialize: function(data) {
-        this.setAttributes(data);
-    },
+    
     /*
      * UI-->DB
      */
@@ -79,7 +77,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['chargingPole'] = [];
         if (this.chargingPole){
             for (var i = 0 ,len = this.chargingPole.length ;i < len ; i++){
-                //ret['chargingPole'].push(this.chargingPole[i].getIntegrate());
+                ret['chargingPole'].push(this.chargingPole[i].getIntegrate());
             }
         }
         ret['kindCode'] = this.kindCode;
@@ -146,6 +144,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
      */
     setAttributes: function(data) {
         this.relateParent = data["relateParent"] || null;
+        this.relateParentName = data["relateParentName"] || "";
         //this.attachments = data["attachments"] || [];
         this.attachmentsImage = []; //图片
         this.attachmentsDoc = []; //备注
@@ -155,6 +154,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
             for (var i = 0 , len = data["attachments"].length ; i < len; i++) {
                 if (data["attachments"][i].type == 1) { //表示图片
                     var attachment = new FM.dataApi.IxPoiImage(data["attachments"][i]);
+                    attachment.url = App.Config.resourceUrl + '/photo' + attachment.url;
                     this.attachmentsImage.push(attachment);
                 } else if (data["attachments"][i].type == 4) {
                     this.attachmentsDoc.push(data["attachments"][i]);
@@ -269,7 +269,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.guide = data['guide'] || null;
         this.auditStatus = data['auditStatus'] || 0;
     },
-    getSnapShot: function() {
+    /*getSnapShot: function() {
         var data = {};
         data["fid"] = this.fid;
         data["pid"] = this.pid;
@@ -281,10 +281,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         data["location"] = this.location;
         data["guide"] = this.guide;
         return data;
-    }
-    // getSnapShot: function() {
-    //     var data = {};
-        
-    //     return new IxpoiSnapshot(this.getIntegrate());
-    // },
+    }*/
+    getSnapShot: function() { //这样写的原因是为了返回的UI对象
+        return new FM.dataApi.IxPoiSnapShot(this.getIntegrate());
+    },
 });

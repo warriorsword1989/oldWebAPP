@@ -1,67 +1,129 @@
-angular.module('app',['oc.lazyLoad', 'ui.bootstrap', 'dataService']).controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi', function($scope, $ocll, $rs, $q, poi) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi', 'dsMeta', '$http', function($scope, $ocll, $q, poi, meta, $http) {
     var resultAllData = [],
-        editHistoryData = [],
-        checkResultData = [],
-        confusionResultData = [],
+        resultIgnoreData = [],
         checkRuleObj = {};
-    var tags = $scope.tags = {};
-    tags.optionBars = [
-        {code:'checkResult',label:'检查结果'},
-        {code:'confusionResult',label:'冲突检测'},
-        {code:'editHistory',label:'作业履历'},
-        {code:'fileUpload',label:'文件上传'},
-        {code:'remarks',label:'备注'}
-    ];
-    /*获取检查规则*/
-    FM.dataApi.CheckRule.getList(function(data){
-        for(var i=0,len=data.length;i<data.length;i++){
-            checkRuleObj[data[i].ruleId] = data[i].severity;
+    var distinguishResult = function (data) {
+        resultAllData = $scope.poi.checkResults;
+        resultIgnoreData = $scope.poi.ckException;
+        $scope.optionData = {
+            confusionInfoData:[],
+            checkResultData:[],
+            editHistoryData:[]
+        };
+        for (var i = 0, len = resultAllData.length; i < len; i++) {
+            if (resultAllData[i].errorCode == 'FM-YW-20-215' || resultAllData[i].errorCode == 'FM-YW-20-216') {
+                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
+                resultAllData[i].poiType = resultAllData[i].errorCode == 'FM-YW-20-215' ? '重复' : '冲突';
+                $scope.optionData.confusionInfoData.push(resultAllData[i]);
+            } else {
+                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
+                $scope.optionData.checkResultData.push(resultAllData[i])
+            }
         }
-        console.log(checkRuleObj)
-    })
-    var distinguishResult = function(data){
-        for(var i,len=data.length;i<len;i++){
-            if(data[i].errcode){}
+        /*ekException*/
+        for (var i = 0, len = resultIgnoreData.length; i < len; i++) {
+            resultIgnoreData[i].type = 2;
+            resultIgnoreData[i].refFeatures = [];
+            if (resultIgnoreData[i].errorCode == 'FM-YW-20-215' || resultIgnoreData[i].errorCode == 'FM-YW-20-216') {
+                resultIgnoreData[i].poiType = resultIgnoreData[i].errorCode == 'FM-YW-20-215' ? '重复' : '冲突';
+                $scope.optionData.confusionInfoData.push(resultIgnoreData[i]);
+            } else {
+                $scope.optionData.checkResultData.push(resultIgnoreData[i])
+            }
+        }
+        if ($scope.poi.lifeCycle != 2) {
+            $scope.historyData = $scope.poi.editHistory[$scope.poi.editHistory.length - 1];
+            /*根据履历作业员id查找真实姓名*/
+            poi.queryUser($scope.historyData.operator.user.toString()).then(function(userInfo){
+                $scope.historyData.operator.name = userInfo.realName;
+            });
+        }else {
+            $scope.historyData = false;
         }
     }
-    $scope.$on("loadup", function(event, data) {
-        resultAllData = data.checkResults;
-        editHistoryData = data.editHistory;
-        console.log(checkResultData,editHistoryData)
+    /*编辑关联poi数据*/
+    $scope.$on('editPoiInfo', function (event, data) {
+        refreshPoiData(data);
     });
-    /*默认项*/
-    tags.selection = tags.optionBars[0];
+    /*改变poi父子关系*/
+    $scope.$on('changeRelateParent', function (event, data) {
+        $scope.poi.relateParent = data;
+    });
     /*切换tag按钮*/
-    $scope.changeTag = function(){
-        switch($scope.tagSelect) {
+    $scope.changeTag = function (tagName) {
+        switch (tagName) {
             case 'checkResult':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
-
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
-            case 'confusionResult':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/ConfusionResultCtl').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+            case 'confusionInfo':
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/confusionResultTpl.html';
                 });
                 break;
             case 'editHistory':
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/EditHistoryCtl').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function () {
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
+                    $scope.optionData.editHistoryData = {
+                        historyData: $scope.historyData,
+                        kindFormat: $scope.metaData.kindFormat
+                    };
                 });
                 break;
             case 'fileUpload':
-                $scope.tagContent = '';
-                break;
-            case 'remarks':
-                $scope.tagContent = '';
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/fileUploadCtl').then(function () {
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/fileUploadTpl.html';
+                });
                 break;
             default:
-                $ocll.load('../scripts/components/poi/ctrls/edit-tools/CheckResultCtl').then(function(){
-                    $scope.tagContent = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
+                $ocll.load('../scripts/components/poi/ctrls/edit-tools/checkResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/checkResultTpl.html';
                 });
                 break;
         }
     };
-    $scope.changeTag();
+    /*刷新poi对象*/
+    function refreshPoiData() {
+        $scope.snapshotPoi = $scope.poi.getSnapShot();
+        distinguishResult($scope.poi);
+        if ($scope.poi.lifeCycle == 1) {
+            $scope.pEditable = false;
+        } else {
+            $scope.pEditable = true;
+        }
+        $scope.$broadcast('checkResultData', $scope.optionData.checkResultData);
+        $scope.$broadcast('confusionInfoData', $scope.optionData.confusionInfoData);
+    }
+
+    /*所有初始化执行方法放在此*/
+    function initializeData() {
+        for (var i = 0, len = $scope.checkRuleList.length; i < len; i++) {
+            checkRuleObj[$scope.checkRuleList[i].ruleId] = $scope.checkRuleList[i].severity;
+        }
+        refreshPoiData();
+    }
+    initializeData();
+
+    /*当poi刷新broadcast此方法*/
+    $scope.$on('initOptionData',function(event,data){
+       initializeData();
+    });
+    /*判断默认显示哪个tab*/
+    function initShowTag(){
+        if($scope.optionData.checkResultData.length > 0){
+            $scope.tagSelect = 'checkResult';
+            $scope.changeTag('checkResult');
+        }else if($scope.optionData.confusionInfoData.length > 0){
+            $scope.tagSelect = 'confusionInfo';
+            $scope.changeTag('confusionInfo');
+        }else if($scope.optionData.editHistoryData.length > 0){
+            $scope.tagSelect = 'editHistory';
+            $scope.changeTag('editHistory');
+        }else{
+            $scope.tagSelect = 'fileUpload';
+            $scope.changeTag('fileUpload');
+        }
+    }
+    initShowTag();
 }]);
