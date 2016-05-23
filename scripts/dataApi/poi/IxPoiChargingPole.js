@@ -72,7 +72,7 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     	this.checkedPayArr = [];
     	for(var i = 0;i<this.paymentArray.length;i++){
     		if(this.paymentArray[i].check == true){
-    			this.checkedPayArr.push(this.paymentArray[i]);
+    			this.checkedPayArr.push(this.paymentArray[i].id);
     		}
     	};
     	ret["payment"] = this.checkedPayArr.join("|");
