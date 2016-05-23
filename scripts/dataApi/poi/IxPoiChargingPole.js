@@ -9,7 +9,11 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     setAttributes:function(data){
         this.groupId = data["groupId"] || 1;
         this.acdc = data["acdc"] || 0;
-        this.plugType = data["plugType"] || "9";
+        var plugTypeArr = (data["plugType"] || "9").split("|");
+        this.plugType = {};
+        for(var i=0;i<plugTypeArr.length;i++) {
+        	this.plugType[plugTypeArr[i]] = true;
+        }
         this.power = data["power"] || null;
         this.voltage = data["voltage"] || null;
         this.current = data["current"] || null;
@@ -17,7 +21,11 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
         this.count = data["count"] || 1;
         this.plugNum = data["plugNum"] || 1;
         this.prices = data["prices"] || null;
-        this.openType = data["openType"] || "1";
+        var openTypeArray = (data["openType"] || "1").split("|");
+        this.openType = {};
+        for (var i=0;i<openTypeArray.length;i++){
+        	this.openType[openTypeArray[i]] = true;
+        }
         this.availableState = data["availableState"] || 0;
         this.manufacturer = data["manufacturer"] || null;
         this.factoryNum = data["factoryNum"] || null;
@@ -26,7 +34,52 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
         this.parkingNum = data["parkingNum"] || null;
         this.floor = data["floor"] || 0;
         this.locationType = data["locationType"] || 0;
-        this.payment = data["payment"] || "4";
+    	var paymentArray = (data["payment"] || "4").split("|");
+    	this.payment = {};
+    	for(var i=0;i<paymentArray.length;i++){
+    		this.payment[paymentArray[i]] = true;
+    	}
+    },
+    getIntegrate: function(){
+    	var ret = {};
+    	ret["groupId"] = this.groupId;
+    	ret["acdc"] = this.acdc;
+    	var checkedPlugTypeArr = [];
+    	for(var key in this.plugType){
+    		if(this.plugType[key] == true){
+    			checkedPlugTypeArr.push(key);
+    		}
+    	}
+    	ret["plugType"] = checkedPlugTypeArr.join("|");
+    	ret["power"] = this.power;
+    	ret["voltage"] = this.voltage;
+    	ret["mode"] = this.mode;
+    	ret["count"] = this.count;
+    	ret["plugNum"] = this.plugNum;
+    	ret["prices"] = this.prices;
+    	var checkedOpenTypeArr = [];
+    	for(var key in this.plugType){
+    		if(this.openType[key] == true){
+    			checkedOpenTypeArr.push(key);
+    		}
+    	}
+    	ret["openType"] = checkedOpenTypeArr.join("|");
+    	ret["availableState"] = this.availableState;
+    	ret["manufacturer"] = this.manufacturer;
+    	ret["factoryNum"] = this.factoryNum;
+    	ret["plotNum"] = this.plotNum;
+    	ret["productNum"] = this.productNum;
+    	ret["floor"] = this.floor;
+    	ret["locationType"] = this.locationType;
+    	var checkedPayArr = [];
+    	for(var key in this.plugType){
+    		if(this.payment[key] == true){
+    			checkedPayArr.push(key);
+    		}
+    	}
+    	ret["payment"] = checkedPayArr.join("|");
+    	ret["productNum"] = this.productNum;
+    	return ret;
     }
 });
 

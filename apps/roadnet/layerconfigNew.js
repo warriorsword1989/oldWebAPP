@@ -1213,99 +1213,6 @@ function transformData(data, url) {
                 obj['properties']['style']['fillColor'] = '#CD0000';
                 obj['properties']['style']['fillOpacity'] = 0.2;
                 break;
-            case 1101://限速
-                break;
-            case 1301://车信
-                break;
-            case 1407://高速分歧
-                break;
-            case 1604://
-                break;
-            case 1704://交叉路口
-                break;
-            case 1501://上下线分离
-                break;
-            case 1302://普通交限
-                break;
-            case 1201://道路种别
-                break;
-            case 1901://道路名
-            //obj['properties']["featType"] = item.t;
-            //obj['geometry']['type'] = "LineString";
-            //
-            //obj['properties']['style'] = {
-            //    'strokeColor': '#7030A0',
-            //    'strokeWidth': 2,
-            //    'strokeOpacity': 0.8
-            //};
-            //break;
-            //case 2001://侧线
-            //    obj['properties']["featType"] = item.t;
-            //    obj['geometry']['type'] = "LineString";
-            //
-            //    obj['properties']['style'] = {
-            //        'strokeColor': '#000000',
-            //        'strokeWidth': 2,
-            //        'strokeOpacity': 0.8
-            //    };
-            //    break;
-            case 1203://道路方向
-                break;
-            case 1403://3d分歧
-
-                break;
-
-            //case 1510://桥
-            //    obj['properties']["featType"] = item.t;
-            //    obj['geometry']['type'] = "LineString";
-            //
-            //    obj['properties']['style'] = {
-            //        'strokeColor': '#336C0A',
-            //        'strokeWidth': 2,
-            //        'strokeOpacity': 0.8
-            //    };
-            //    break;
-            case 1514://施工维修
-                obj['properties']["featType"] = item.t;
-                obj['geometry']['type'] = "LineString";
-
-                obj['properties']['style'] = {
-                    'strokeColor': '#E36C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                break;
-            case 1801://立交
-                featArr.pop();
-                for (var num = 0; num < item.m.c.length; num++) {
-                    var overPassObj = {};
-                    overPassObj['geometry'] = {};
-                    overPassObj['geometry']['type'] = 'LineString';
-                    overPassObj['geometry']['coordinates'] = [];
-                    //for (var i = 0, len = item.m.c[num].g.length; i < len; i = i + 1) {
-                    overPassObj['geometry']['coordinates'] = item.m.c[num].g;
-                    //}
-                    overPassObj['properties'] = {
-                        'id': item.i,
-                        'featType': item.t
-                    }
-                    if (item.m.c[num].s === 1) {
-                        overPassObj['properties']['style'] = {
-                            'strokeColor': '#E36C0A',
-                            'strokeWidth': 2,
-                            'strokeOpacity': 0.8
-                        };
-                    } else {
-                        overPassObj['properties']['style'] = {
-                            'strokeColor': 'red',
-                            'strokeWidth': 2,
-                            'strokeOpacity': 0.8
-                        };
-                    }
-
-                    featArr.push(overPassObj);
-                }
-                break;
             case 1803://挂接
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
@@ -1827,14 +1734,12 @@ function transformDataForTips(data, param) {
                     featArr.push(obj);
                 }
 
-                /* var repairObj = {};
+                var repairObj = {};
                  repairObj['geometry'] = {};
                  repairObj['geometry']['coordinates'] = item.g;
                  repairObj['properties'] = {};
                  repairObj['properties']['style'] = {};
                  repairObj['properties']['id'] = item.i;
-                 repairObj['properties']["featType"] = item.t;
-                 repairObj['geometry']['type'] = "LineString";
                  repairObj['properties']["featType"] = item.t;
                  repairObj['geometry']['type'] = "LineString";
 
@@ -1843,7 +1748,7 @@ function transformDataForTips(data, param) {
                  'strokeWidth': 2,
                  'strokeOpacity': 0.8
                  };
-                 featArr.push(repairObj);*/
+                 featArr.push(repairObj);
                 break;
             case 1801://立交
 
