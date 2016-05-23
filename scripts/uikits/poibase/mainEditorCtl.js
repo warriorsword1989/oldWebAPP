@@ -36,7 +36,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             // distinguishResult($scope.poi);
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
                 console.log($scope.poi)
             });
@@ -236,6 +236,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
         poi.ignoreCheck(data,$scope.poi.fid).then(function () {
+            $scope.$broadcast('ignoreRefresh',data);
+            console.log(data)
+            // $scope.poi
             /*操作成功后刷新poi数据*/
             // refreshPoiData('0010060815LML01353');
         })
