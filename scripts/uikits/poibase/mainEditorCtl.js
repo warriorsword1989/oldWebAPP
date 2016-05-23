@@ -282,8 +282,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*接收新上传的图片数据*/
     $scope.$on('getImgItems', function (event, data) {
         for (var i = 0; i < data.length; i++) {
-            $scope.imagesArray.push(data[i]);
-            // $scope.poi.attachments.push(data[i]);
+            $scope.poi.attachmentsImage.push(data[i]);
         }
         $scope.$broadcast('loadImages', {
             "imgArray": initImages(),

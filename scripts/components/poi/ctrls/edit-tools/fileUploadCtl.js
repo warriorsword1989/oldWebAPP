@@ -49,7 +49,7 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         console.log(response)
         if(response.errcode == 0){
             var img = {
-                'url':response.data.filenames[0],
+                'url':App.Config.resourceUrl + '/photo' + response.data.filenames[0],
                 'type':1,
                 'tag':0
             };
