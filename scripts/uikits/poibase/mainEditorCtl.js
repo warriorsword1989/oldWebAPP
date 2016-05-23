@@ -236,12 +236,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
         poi.ignoreCheck(data,$scope.poi.fid).then(function () {
-            $scope.$broadcast('ignoreRefresh',data);
-            console.log(data)
-            // $scope.poi
+            $scope.poi.ckException.push({
+                errorCode:data.errorCode,
+                description:data.errorMsg
+            });
+            for (var i = 0; i < $scope.poi.checkResults.length; i++) {
+                if ($scope.poi.checkResults[i].errorCode == data.errorCode && $scope.poi.checkResults[i].errorMsg == data.errorMsg) {
+                    $scope.poi.checkResults.splice(i, 1);
+                    break;
+                }
+            }
+            if ($scope.poi.checkResultNum > 0) {
+                $scope.poi.checkResultNum = $scope.poi.checkResultNum - 1;
+            }
             /*操作成功后刷新poi数据*/
-            // refreshPoiData('0010060815LML01353');
-        })
+            $scope.$broadcast('initOptionData',data);
+        });
     });
     /*查找FIDlist*/
     meta.getParentFidList().then(function (list) {
