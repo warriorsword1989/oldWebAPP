@@ -67,12 +67,6 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
     ];
     $scope.initializeNodeData=function() {
         $scope.rdNodeData = {};
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                $scope.nodeForm.$setPristine();
-            });
-
-        }
         $scope.rdNodeData=objectEditCtrl.data;
         objectEditCtrl.setOriginalData(objectEditCtrl.data.getIntegrate());
         var highlightFeatures = [];
@@ -118,7 +112,13 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             highRenderCtrl.drawHighlight();
 
         });
-
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                if($scope.nodeForm!=undefined) {
+                    $scope.nodeForm.$setPristine();
+                }
+            });
+        }
     };
 
     $scope.initialForms = function(){
@@ -195,7 +195,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             });
         }
 
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("referenceLine");
             restrict.redraw();
             var info = null;
@@ -233,7 +233,7 @@ otherApp.controller("rdNodeFromController",function($scope,$ocLazyLoad){
             "objId": pid
         };
         //结束编辑状态
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             rdLink.redraw();
             var info = [];
             if (data.errcode == 0) {

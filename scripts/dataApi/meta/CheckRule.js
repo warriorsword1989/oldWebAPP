@@ -12,17 +12,12 @@ FM.dataApi.CheckRule = FM.dataApi.DataModel.extend({
         this.ruleDesc = data["ruleDesc"];
         this.ruleId = data["ruleId"];
     },
-    statics: {
-        getList: function(callback) {
-            FM.dataApi.ajax.get("meta/queryRule/", {}, function(data) {
-                var checkRules = [],
-                    checkRule;
-                for (var i = 0; i < data.data.length; i++) {
-                	checkRule = new FM.dataApi.CheckRule(data.data[i]);
-                    checkRules.push(checkRule);
-                }
-                callback(checkRules);
-            });
-        }
+    getIntegrate: function(){
+    	var ret = {};
+    	ret["severity"] = this.severity;
+    	ret["ruleType"] = this.ruleTyep;
+    	ret["ruleDesc"] = this.ruleDesc;
+    	ret["ruleId"] = this.ruleId;
+    	return ret;
     }
 });

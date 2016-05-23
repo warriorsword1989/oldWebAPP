@@ -8,12 +8,6 @@ FM.dataApi.GeoDataModel = FM.dataApi.DataModel.extend({
     /***
      *
      * @param id
-     * 模型几何
-     */
-    // geometry: null,
-    /***
-     *
-     * @param id
      * 模型类型
      */
     geoLiveType: "GLM",
@@ -26,50 +20,7 @@ FM.dataApi.GeoDataModel = FM.dataApi.DataModel.extend({
             this.options = options || {};
             FM.setOptions(this, options);
         }
-        // this.geometry = geometry;
         this.setAttributes(data);
-    },
-    getDiffProperties: function(integrateJson) {
-        var difJson = {};
-        var originJson = this.getIntegrate();
-        for (property in originJson.hasOwnProperty()) {
-            if (typeof originJson[property] == "number") {
-                if (originJson[property] != integrateJson[property]) {
-                    difJson[property] = originJson[property];
-                }
-            } else if (typeof originJson[property] == "string") {
-                if (originJson[property] != integrateJson[property]) {
-                    difJson[property] = originJson[property];
-                }
-            } else if (typeof originJson[property] == "boolean") {
-                if (originJson[property] != integrateJson[property]) {
-                    difJson[property] = originJson[property];
-                }
-            } else if (typeof originJson[property] == "object") {
-                if (JSON.stringify(originJson[property]) != JSON.stringify(integrateJson[property])) {
-                    difJson[property] = originJson[property];
-                }
-            }
-        }
-        return difJson;
-    },
-    /**
-     * 通过GeoJson生成模型对象
-     * @method fromGeoJson
-     *
-     * @param {string} geoJson.
-     * @return {fastmap.mapApi.Geometry} geometry.
-     */
-    fromGeoJson: function(geoJson) {
-        return null;
-    },
-    /**
-     * 几何生成GeoJSON
-     * @method toGeoJSON
-     *
-     * @return {string} geoJsonString.
-     */
-    toGeoJSON: function() {
-        return null;
+        this.originJson = this.getIntegrate();
     }
 });

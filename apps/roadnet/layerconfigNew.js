@@ -64,10 +64,10 @@ Application.layersConfig =
                     options: {
                         layername: '格网',
                         id: 'grid',
-                        gridInfo:null,
+                        gridInfo: null,
                         url: '',
-                        divideX:4,
-                        divideY:4,
+                        divideX: 4,
+                        divideY: 4,
                         visible: false,
                         zIndex: 3
                     }
@@ -418,7 +418,7 @@ Application.layersConfig =
                     restrictZoom: 10,
                     visible: false,
                     requestType: 'ADLINK',
-                    showNodeLevel: 17
+                    showNodeLevel: 5
                 }
             },
             {
@@ -446,6 +446,32 @@ Application.layersConfig =
                     visible: false,
                     requestType: 'ADFACE',
                     showNodeLevel: 13
+                }
+            }, {
+                url: createUrl('/render/obj/getByTileWithGap?', 'RWLINK'),
+                clazz: fastmap.mapApi.tileJSON,
+                options: {
+                    layername: '铁路线',
+                    id: 'rwLink',
+                    maxZoom: 20,
+                    debug: false,
+                    // this value should be equal to 'radius' of your points
+                    buffer: 5,
+                    boolPixelCrs: true,
+                    parse: transformData,
+                    boundsArr: [],
+                    unloadInvisibleTiles: true,
+                    reuseTiles: false,
+                    mecator: new fastmap.mapApi.MecatorTranform(),
+                    updateWhenIdle: true,
+                    tileSize: 256,
+                    type: 'LineString',
+                    zIndex: 120,
+                    restrictZoom: 10,
+                    editable: false,
+                    visible: true,
+                    requestType: 'RWLINK',
+                    showNodeLevel: 17
                 }
             }
         ]
@@ -478,7 +504,7 @@ Application.layersConfig =
                 showNodeLevel: 17
             }
         }, {
-            url: createUrl('/render/tip/getByTileWithGap?', ""),
+            url: createUrlForTips('/render/tip/getByTileWithGap?', ""),
             clazz: fastmap.mapApi.tileJSON,
             options: {
                 layername: '外业点数据',
@@ -648,17 +674,69 @@ function parseData(data){
                 obj['properties']['enode'] = item.m.f;
                 obj['properties']['limit'] = item.m.c;
                 obj['properties']['form'] = item.m.h;
-                var symbolNames = [];
+                var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+                var compositeSymbol = symbolFactory.createSymbol('CompositeLineSymbol');
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('30') !== -1) {
-                    symbolNames.push('L_2_' + item.m.a);
+                    var symbolData = {
+                        type: 'HashLineSymbol',
+                        hashHeight: 6,
+                        hashOffset: 0,
+                        hashAngle: -90,
+                        hashSymbol: {
+                            type: 'SampleLineSymbol',
+                            color: RD_LINK_Colors[parseInt(item.m.a)],
+                            width: 1,
+                            style: 'solid'
+                        },
+                        pattern: [2, 5]
+                    };
+
+                    var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                    compositeSymbol.symbols.push(subSymbol);
                 }
                 if (obj['properties']['limit'] && obj['properties']['limit'].indexOf('4') !== -1) {
-                    symbolNames.push('L_3');
+                    var symbolData = {
+                        type: 'MarkerLineSymbol',
+                        markerSymbol: {
+                            type: 'TiltedCrossPointSymbol',
+                            size: 3,
+                            color: 'red',
+                            angle: 0,
+                            offsetX: 0,
+                            offsetY: 0,
+                            hasOutLine: false,
+                            outLineColor: 'black',
+                            outLineWidth: 1
+                        },
+                        pattern: [2, 10]
+                    };
+
+                    var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                    compositeSymbol.symbols.push(subSymbol);
                 }
                 if (obj['properties']['form'] && obj['properties']['form'].indexOf('52') !== -1) {
-                    symbolNames.push('L_1');
+                    var symbolData = {
+                        type: 'CompositeLineSymbol',
+                        symbols: [
+                            {
+                                type: 'SampleLineSymbol',
+                                color: 'gray',
+                                width: 1,
+                                style: 'solid'
+                            },
+                            {
+                                type: 'CartoLineSymbol',
+                                color: 'blue',
+                                width: 1,
+                                pattern: [4, 4, 12, 4]
+                            }
+                        ]
+                    };
+
+                    var subSymbol = symbolFactory.dataToSymbol(symbolData);
+                    compositeSymbol.symbols.push(subSymbol);
                 }
-                obj['properties']['symbolNames'] = symbolNames;
+                obj['properties']['symbol'] = compositeSymbol;
                 obj['properties']['style']['strokeColor'] = RD_LINK_Colors[parseInt(item.m.a)];
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
@@ -744,67 +822,52 @@ function parseData(data){
                 break;
             case 6://点限速
                 var startEndArrow = null;//箭头图片
+                var iconName = '';
                 var resArray = item.m.b.split("|");
                 var type = item.m.a;
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
+
+
+
                 if (type == 0) {
                     var fieldCollection = resArray[0];//采集标志（0,现场采集;1,理论判断）
                     var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                     var speedValue = resArray[2];//限速值
-
-
                     if (fieldCollection === "1") {//理论判断，限速开始和结束都为蓝色
                         if (speedFlag === "1") {//解除限速
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_1_1_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            );
+                            iconName = '../../images/road/1101/theory_speedlimit_start' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
                         } else {
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_1_0_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            );
+                            iconName = '../../images/road/1101/theory_speedlimit_end' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_1_1_e.svg";
                         }
                         startEndArrow = "../../images/road/1101/1101_1_1_s.svg";
                     } else {//现场采集，限速开始为红色，结束为黑色
                         if (speedFlag === "1") {//解除限速
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_0_1_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            );
-                            startEndArrow = "../../images/road/1101/1101_1_1_e.svg";
+                            iconName = '../../images/road/1101/normal_speedlimit_start' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
 
 
                         } else {
-                            obj['properties']['markerStyle']["icon"].push(
-                                getIconStyle({
-                                        iconName: '../../images/road/1101/1101_0_0_' + speedValue + '.svg',
-                                        row: 0,
-                                        column: 0,
-                                        location: obj['geometry']['coordinates']
-                                    }
-                                )
-                            )
-                            startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
+                            iconName = '../../images/road/1101/normal_speedlimit_end' + '.svg';
+                            startEndArrow = "../../images/road/1101/1101_1_1_e.svg";
                         }
                     }
+                    obj['properties']['markerStyle']["icon"].push(
+                        {
+                            iconName: iconName,
+                            text: speedValue,
+                            row: 0,
+                            column: 0,
+                            dx: 0,
+                            dy: 5,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c - 90) * (Math.PI / 180)
+                        }
+                    );
+
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
                                 iconName: startEndArrow,
@@ -812,7 +875,7 @@ function parseData(data){
                                 column: 1,
                                 location: obj['geometry']['coordinates'],
                                 rotate: (item.m.c - 90) * (Math.PI / 180),
-                                dx: (speedFlag == "1" ? -36 : 6),//解除限速时，要使箭头冲着自己
+                                dx: (speedFlag == "1" ? -50 : 20),//解除限速时，要使箭头冲着自己,
                                 dy: 0
                             }
                         )
@@ -821,7 +884,7 @@ function parseData(data){
                     var limitSpeed = resArray[1];
                     var condition = resArray[2];
                     var limitSpeedFlag = resArray[0];
-                    var iconName = '';
+
                     var conditionObj = {
                         '1': '雨',
                         '2': '雪',
@@ -873,10 +936,7 @@ function parseData(data){
                         )
                     );
 
-                }
-
-                //车道限速
-                else if (type == 4) {
+                } else if (type == 4) { //车道限速
                     var limitSpeed = item.m.b.split(",")[0];
                     var laneSpeed = item.m.b.split(",")[1];
                     iconName = '../../images/road/1101/lane_speedlimit' + '.svg';
@@ -1082,6 +1142,7 @@ function parseData(data){
                 obj['geometry']['type'] = 'LineString';
                 obj['properties']['snode'] = item.m.a;
                 obj['properties']['enode'] = item.m.b;
+                obj['properties']['kind'] = item.m.c;
                 obj['properties']['style']['strokeColor'] = '#FBD356';
                 obj['properties']['style']['strokeWidth'] = 3;
                 obj['properties']['style']['strokeOpacity'] = 1;
@@ -1108,13 +1169,42 @@ function parseData(data){
                 }
                 break;
             case  14 ://铁路
+                obj['properties']['featType'] = "RWLINK";
+                obj['geometry']['type'] = 'LineString';
+                obj['properties']['name'] = item.m.a;
+                obj['properties']['color'] = item.m.b;
+                var color = '#' + obj['properties']['color'];
+                var symbolData = {
+                    type: 'CompositeLineSymbol',
+                    symbols: [
+                        {
+                            type: 'SampleLineSymbol',
+                            color: color,
+                            width: 3,
+                            style: 'solid'
+                        },
+                        {
+                            type: 'SampleLineSymbol',
+                            color: 'white',
+                            width: 2,
+                            style: 'solid'
+                        },
+                        {
+                            type: 'CartoLineSymbol',
+                            color: color,
+                            width: 1,
+                            pattern: [10, 10]
+                        }
+                    ]
+                };
+                obj['properties']['symbol'] = fastmap.mapApi.symbol.GetSymbolFactory().dataToSymbol(symbolData);
                 break;
             case 15://行政区划代表点
                 obj['geometry']['type'] = 'Point';
                 obj['properties']["featType"] = "ADADMIN";
                 obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
-
+                obj['properties']['kind'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
                         iconName: '../../images/road/img/star.svg',
@@ -1133,7 +1223,6 @@ function parseData(data){
                 obj['properties']['style']['strokeColor'] = 'black';
                 obj['properties']['style']['strokeWidth'] = 1;
                 obj['properties']['style']['strokeOpacity'] = 1;
-                ;
                 obj['properties']['style']['radius'] = 3;
 
                 obj['properties']['style']['fillColor'] = 'black';
@@ -1152,6 +1241,7 @@ function parseData(data){
                 obj['properties']['style']['fillColor'] = '#CD0000';
                 obj['properties']['style']['fillOpacity'] = 0.2;
                 break;
+
             case 1101://限速
                 break;
             case 1301://车信
@@ -1245,6 +1335,7 @@ function parseData(data){
                     featArr.push(overPassObj);
                 }
                 break;
+
             case 1803://挂接
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
@@ -1394,20 +1485,30 @@ function transformDataForTips(data, param) {
         switch (item.t) {
             case 1101://限速
                 obj['geometry']['coordinates'] = item.g;
-
+                obj['properties']['rotate'] = item.m.c;
                 obj['properties']['markerStyle']["icon"].push(
                     getIconStyle({
                         iconName: '../../images/road/tips/1101/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
                     })
                 );
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                            iconName: '../../images/road/1101/1101_1_1_s.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates'],
+                            rotate: (item.m.c - 90) * (Math.PI / 180),
+                            dx: ("0" == "1" ? -36 : 6),//解除限速时，要使箭头冲着自己
+                            dy: 0
 
-                if(param) {
+                        }
+                    )
+                );
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
-
-
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint": item.m.h,
@@ -1432,9 +1533,8 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
-
                     guideLineObj = {
                         "coordinates": linePoint,
                         "guidePoint": item.m.h,
@@ -1456,8 +1556,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1470,6 +1569,17 @@ function transformDataForTips(data, param) {
                 }
                 break;
             case 1604://区域内道路
+                obj['geometry']['coordinates'] = item.g;
+
+                obj['properties']['markerStyle']["icon"].push(
+                    getIconStyle({
+                        iconName: '../../images/road/tips/1604/0.svg',
+                        row: 0,
+                        column: 1,
+                        location: obj['geometry']['coordinates']
+                    })
+                );
+                break;
             case 1704://交叉路口
                 obj['geometry']['coordinates'] = item.g;
 
@@ -1490,7 +1600,9 @@ function transformDataForTips(data, param) {
                         iconName: '../../images/road/tips/1803/0.svg',
                         row: 0,
                         column: 1,
-                        location: obj['geometry']['coordinates']
+                        location: obj['geometry']['coordinates'],
+                        scalex: 0.7,
+                        scaley: 0.7
                     })
                 );
                 break;
@@ -1518,8 +1630,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1541,8 +1652,7 @@ function transformDataForTips(data, param) {
                         location: obj['geometry']['coordinates']
                     })
                 );
-
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1615,12 +1725,13 @@ function transformDataForTips(data, param) {
 
                 obj['geometry']['coordinates'] = item.g;
 
-                obj['properties']['rotate'] = item.m.c;
+                //obj['properties']['rotate'] = item.m.c;
                 if (item.m.d == 1) {
                     obj['properties']['markerStyle']["icon"].push(
                         getIconStyle({
                             iconName: '../../images/road/tips/road/1.svg',
                             row: 0,
+                            rotate: (item.m.c ) * (Math.PI / 180),
                             column: 1,
                             location: obj['geometry']['coordinates']
                         })
@@ -1630,13 +1741,13 @@ function transformDataForTips(data, param) {
                         getIconStyle({
                             iconName: '../../images/road/tips/road/2.svg',
                             row: 0,
+                            rotate: (item.m.c) * (Math.PI / 180),
                             column: 1,
                             location: obj['geometry']['coordinates']
                         })
                     );
                 }
-
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1660,7 +1771,7 @@ function transformDataForTips(data, param) {
                     })
                 );
 
-                if(param) {
+                if (param) {
                     linePoint = transform.PixelToLonlat(param.split(":")[0] * 256 + item.g[0], param.split(":")[1] * 256 + item.g[1], map.getZoom());
 
                     guideLineObj = {
@@ -1674,17 +1785,20 @@ function transformDataForTips(data, param) {
                 break;
 
             case 1510://桥
+                featArr.pop();
                 for (var i = 0; i < 2; i++) {
+                    var obj = {};
+                    obj['geometry'] = {};
+                    obj['properties'] = {};
+                    obj['properties']['markerStyle'] = {};
+                    obj['properties']['markerStyle']["icon"] = [];
+                    obj['properties']['id'] = item.i;
+                    obj['geometry']['type'] = 'Point';
+                    obj['geometry']['coordinates'] = [];
+                    obj['properties']["featType"] = item.t;
+                    obj['properties']['status'] = item.m.a;
                     if (i == 0) {
                         obj['geometry']['coordinates'] = item.m.c;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1510/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     } else {
                         obj['geometry']['coordinates'] = item.m.d;
                     }
@@ -1696,67 +1810,68 @@ function transformDataForTips(data, param) {
                             location: obj['geometry']['coordinates']
                         })
                     );
+                    featArr.push(obj);
                 }
-                var bridgeObj = {};
-                bridgeObj['geometry'] = {};
-                bridgeObj['geometry']['coordinates'] = item.g;
-                bridgeObj['properties'] = {};
-                bridgeObj['properties']['style'] = {};
-                bridgeObj['properties']['id'] = item.i;
-                bridgeObj['properties']["featType"] = item.t;
-                bridgeObj['geometry']['type'] = "LineString";
-                bridgeObj['properties']["featType"] = item.t;
-                bridgeObj['geometry']['type'] = "LineString";
+                /*        var bridgeObj = {};
+                 bridgeObj['geometry'] = {};
+                 bridgeObj['geometry']['coordinates'] = item.g;
+                 bridgeObj['properties'] = {};
+                 bridgeObj['properties']['style'] = {};
+                 bridgeObj['properties']['id'] = item.i;
+                 bridgeObj['properties']["featType"] = item.t;
+                 bridgeObj['geometry']['type'] = "LineString";
 
-                bridgeObj['properties']['style'] = {
-                    'strokeColor': '#336C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                featArr.push(bridgeObj);
+                 bridgeObj['properties']['style'] = {
+                 'strokeColor': '#336C0A',
+                 'strokeWidth': 2,
+                 'strokeOpacity': 0.8
+                 };
+                 featArr.push(bridgeObj);*/
                 break;
             case 1514://施工维修
+                featArr.pop();
                 for (var i = 0; i < 2; i++) {
+                    var obj = {};
+                    obj['geometry'] = {};
+                    obj['properties'] = {};
+                    obj['properties']['markerStyle'] = {};
+                    obj['properties']['markerStyle']["icon"] = [];
+                    obj['properties']['id'] = item.i;
+                    obj['geometry']['type'] = 'Point';
+                    obj['geometry']['coordinates'] = [];
+                    obj['properties']["featType"] = item.t;
+                    obj['properties']['status'] = item.m.a;
                     if (i == 0) {
                         obj['geometry']['coordinates'] = item.m.c;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1504/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     } else {
                         obj['geometry']['coordinates'] = item.m.d;
-                        obj['properties']['markerStyle']["icon"].push(
-                            getIconStyle({
-                                iconName: '../../images/road/tips/1504/0.svg',
-                                row: 0,
-                                column: 1,
-                                location: obj['geometry']['coordinates']
-                            })
-                        );
                     }
+                    obj['properties']['markerStyle']["icon"].push(
+                        getIconStyle({
+                            iconName: '../../images/road/tips/1504/0.svg',
+                            row: 0,
+                            column: 1,
+                            location: obj['geometry']['coordinates']
+                        })
+                    );
+                    featArr.push(obj);
                 }
 
                 var repairObj = {};
-                repairObj['geometry'] = {};
-                repairObj['geometry']['coordinates'] = item.g;
-                repairObj['properties'] = {};
-                repairObj['properties']['style'] = {};
-                repairObj['properties']['id'] = item.i;
-                repairObj['properties']["featType"] = item.t;
-                repairObj['geometry']['type'] = "LineString";
-                repairObj['properties']["featType"] = item.t;
-                repairObj['geometry']['type'] = "LineString";
+                 repairObj['geometry'] = {};
+                 repairObj['geometry']['coordinates'] = item.g;
+                 repairObj['properties'] = {};
+                 repairObj['properties']['style'] = {};
+                 repairObj['properties']['id'] = item.i;
+                 repairObj['properties']["featType"] = item.t;
+                 repairObj['geometry']['type'] = "LineString";
 
-                repairObj['properties']['style'] = {
-                    'strokeColor': '#E36C0A',
-                    'strokeWidth': 2,
-                    'strokeOpacity': 0.8
-                };
-                featArr.push(repairObj);
+                 repairObj['properties']['style'] = {
+                 'strokeColor': '#E36C0A',
+                 'strokeWidth': 2,
+                 'strokeOpacity': 0.8
+                 };
+                 featArr.push(repairObj);
                 break;
             case 1801://立交
 
@@ -1810,31 +1925,50 @@ function transformDataForTips(data, param) {
 
 /***
  * 构造请求数据的url
+ * @param url
  * @param requestType
  * @returns {{}}
  */
 function createUrl(url, requestType) {
 
     var urlObj = {};
-    if (requestType != "") {
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80,
             types: requestType.split(',')
         }
-
         if (requestType == "RDLINK") {
             urlObj.hbaseUrl = Application.url + '/render/link/getByTileWithGap?';
         }
-
-    } else {
+    return urlObj;
+}
+/**
+ *  构造请求数据的url
+ * @param url
+ * @param requestType
+ * @returns {{}}
+ */
+function createUrlForTips(url, requestType) {
+    var urlObj = {};
+    if (requestType != "") {
+        urlObj.url = Application.url + url;
+        urlObj.parameter = {
+            projectId: Application.projectid,
+            gap: 80,
+            types: requestType
+        }
+    }else{
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
             gap: 80
         }
     }
+
+
+
+
 
     return urlObj;
 }

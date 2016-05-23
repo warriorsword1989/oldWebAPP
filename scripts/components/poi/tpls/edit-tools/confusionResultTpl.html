@@ -8,16 +8,17 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-if="checkResult.length == 0" class="no-records-found">
+            <tr ng-if="!optionData.confusionInfoData || optionData.confusionInfoData.length == 0" class="no-records-found">
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
-            <tr ng-repeat="item in confusionInfo">
+            <tr ng-repeat="item in optionData.confusionInfoData">
                 <td>{{$index + 1}}</td>
                 <td>{{item.errorCode}}</td>
-                <td>{{item.errorMsg}}</td>
+                <td>{{item.errorMsg || item.description}}</td>
                 <td>
                     <a ng-if="item.type == 0" class="textColorRed" href="javascript:void(0);" ng-click="ignoreConfusionResult(item);">忽略</a>
                     <p ng-if="item.type == 1" class="text-muted">忽略</p>
+                    <p ng-if="item.type == 2" class="text-success">已忽略</p>
                 </td>
                 <td>
                     <p ng-if="item.refFeatures.length == 0">无</p>

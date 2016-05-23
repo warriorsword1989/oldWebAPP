@@ -44,7 +44,9 @@ adLinkApp.controller("adLinkController",function($scope) {
         $scope.adLinkData = objCtrl.data;
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.adLinkForm.$setPristine();
+                if($scope.adLinkForm!=undefined) {
+                    $scope.adLinkForm.$setPristine();
+                }
             });
         }
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -89,7 +91,7 @@ adLinkApp.controller("adLinkController",function($scope) {
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             adLink.redraw();
             adnode.redraw();
@@ -146,7 +148,7 @@ adLinkApp.controller("adLinkController",function($scope) {
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             adLink.redraw();
             adnode.redraw();

@@ -8,6 +8,9 @@ App.Util.split = function(str, sep) {
 App.Util.getFullUrl = function(url) {
     return App.Config.serviceUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
 };
+App.Util.getHbaseUrl = function(url) {
+    return App.Config.hbaseServiceUrl + "/" + url;
+};
 App.Util.ToDBC = function(str) {
     var tmp;
     if (str) {

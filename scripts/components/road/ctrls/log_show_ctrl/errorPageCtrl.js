@@ -6,16 +6,16 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     var checkResultC = fastmap.uikit.CheckResultController();
     var eventController = fastmap.uikit.EventController();
     $scope.itemsByPage = 1;
-    $scope.meshesId = [60560301,60560302,60560303,60560304];
+    $scope.meshesId = [60560301,60560302,60560303,60560311,60560312,60560313,60560322,60560323,60560331,60560332,60560333,60560320,60560330,60560300,60560321,60560310];
     //获取检查错误
     $scope.getCheckDate = function () {
         var param = {
             "projectId": Application.projectid,
             "pageNum": $scope.itemsByPage,
             "pageSize": 5,
-            "meshes": $scope.meshesId
+            "grids": $scope.meshesId
         };
-        Application.functions.getCheckDatas(JSON.stringify(param), function (data) {
+        Application.functions.getCheckData(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
                 var errorCheckObj = {
@@ -35,7 +35,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     $scope.getCheckDateAndCount = function () {
         var paramsOfCounts = {
             "projectId": Application.projectid,
-            "meshes": $scope.meshesId
+            "grids": $scope.meshesId
         };
         Application.functions.getCheckCount(JSON.stringify(paramsOfCounts), function (data) {
             if (data.errcode == 0) {

@@ -13,7 +13,9 @@ adFaceApp.controller("adFaceController",function($scope) {
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.adFaceForm.$setPristine();
+                if($scope.adFaceForm!=undefined) {
+                    $scope.adFaceForm.$setPristine();
+                }
             });
         }
 
@@ -43,7 +45,7 @@ adFaceApp.controller("adFaceController",function($scope) {
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             adface.redraw();
             if (data.errcode==0) {

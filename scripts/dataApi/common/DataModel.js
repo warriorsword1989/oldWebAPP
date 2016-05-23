@@ -18,10 +18,17 @@ FM.dataApi.DataModel = FM.Class.extend({
     dataModelType: "DATA_MODEL",
     /***
      *
+     * @param id
+     * 原始json
+     */
+    originJson: null,
+    /***
+     *
      * @param options
      */
     initialize: function(data) {
         this.setAttributes(data);
+        this.originJson = this.getIntegrate();
     },
     /*
      * 设置属性
@@ -62,5 +69,29 @@ FM.dataApi.DataModel = FM.Class.extend({
      */
     getSnapShot: function() {
         return this.getIntegrate();
-    }
+    },
+    getChanges: function () {
+        var changedJson = {};
+        var newJson = this.getIntegrate();
+        for (property in this.originJson.hasOwnProperty()) {
+            if (typeof this.originJson[property] == "number") {
+                if (this.originJson[property] != newJson[property]) {
+                    changedJson[property] = this.originJson[property];
+                }
+            } else if (typeof this.originJson[property] == "string") {
+                if (this.originJson[property] != newJson[property]) {
+                    changedJson[property] = this.originJson[property];
+                }
+            } else if (typeof this.originJson[property] == "boolean") {
+                if (this.originJson[property] != newJson[property]) {
+                    changedJson[property] = this.originJson[property];
+                }
+            } else if (typeof this.originJson[property] == "object") {
+                if (JSON.stringify(this.originJson[property]) != JSON.stringify(newJson[property])) {
+                    changedJson[property] = this.originJson[property];
+                }
+            }
+        }
+        return changedJson;
+    },
 });

@@ -32,7 +32,9 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         highRenderCtrl.drawHighlight();
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.speedLimitForm.$setPristine();
+                if($scope.speedLimitForm!=undefined) {
+                    $scope.speedLimitForm.$setPristine();
+                }
             });
         }
     }
@@ -114,7 +116,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             return;
         }
 
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info=null;
             if (data.errcode==0) {
                 var sinfo={
@@ -148,7 +150,7 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             if (data.errcode === -1) {
                 return;
             }

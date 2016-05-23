@@ -14,8 +14,9 @@ requirejs.config({
 //        'fm-util': 'fastmap/fastmap-util',
 //        'dataApi': 'dataApi/common/dataApi-ajax',
         'dataModel': 'dataApi/common/DataModel',
-        'dataService': 'uikits/poibase/dataService-singleton',
-        'poiService': 'uikits/poibase/dataService-angular',
+        'dataService': 'uikits/poibase/dataService',
+        'poiService': 'uikits/poibase/dataService-poi',
+        'metaService': 'uikits/poibase/dataService-meta',
         'ngTable':'libs/ng-table/ng-table',
         'ngSanitize':'libs/angularjs/1.4.4/angular-sanitize'
     },
@@ -23,14 +24,16 @@ requirejs.config({
         'angular':{exports:'angular'},                   //ngTable需要用angular的名字;
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
-        'poiService': ['angular'],
+        'dataService':['angular'],
+        'poiService': ['dataService'],
+        'metaService': ['dataService'],
         'fastmap': ['application'],
         'appUtil': ['application'],
         'select2':['jquery'],
         'ngTable':['angular'],
         'ngSanitize':['angular'],
 //        'dataApi':['fastmap'],
-        'DataListCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','ngTable','ngSanitize']
+        'DataListCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService', 'metaService', 'ngTable','ngSanitize']
     }
 });
 // Start the main app logic.

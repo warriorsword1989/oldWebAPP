@@ -272,7 +272,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 rdLink.redraw();
@@ -328,7 +328,7 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             rdLink.redraw();
             referenceNode.redraw();

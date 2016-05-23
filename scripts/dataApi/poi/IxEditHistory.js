@@ -1,5 +1,5 @@
 /**
- * Created by chenxiao on 2016/4/21.
+ * Created by wangmingdong on 2016/5/19.
  */
 FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
     dataModelType: "IX_EDIT_HISTORY",
@@ -25,16 +25,32 @@ FM.dataApi.IxEditHistory = FM.dataApi.DataModel.extend({
                 this.mergeContents.push(fieldName);
             }
         }
-        this.validationMethod = data['validationMethod'] || 1;
+        this.validationMethod = data['validationMethod'];
         this.comment = data['comment'] || null;
     },
-    statics: {
-        getList: function(id,callback) {
-            var params = {'userId':id};
-            FM.dataApi.ajax.get("/user/query/", params, function(data) {
-                callback(data.data.rows[0]);
-            });
+    getIntegrate: function(){
+        var ret = {};
+        ret["sourceName"] = this.sourceName;
+        ret["sourceProject"] = this.sourceProject;
+        ret["sourceTask"] = this.sourceTask;
+        ret['operator'] = {};
+        if(ret['operator']){
+            ret['operator'].latitude = this.operator.user;
+            ret['operator'].longitude = this.operator.role;
+            ret['operator'].linkPid = '';
         }
+        ret["operation"] = this.operation;
+        ret["mergeDate"] = this.mergeDate;
+        ret['mergeContents'] = [];
+        if (this.mergeContents && this.mergeContents.length > 0) {
+            for (var i = 0 , len = this.mergeContents.length ; i < len; i++) {
+                var fieldName = this.mergeContents[i];
+                ret['mergeContents'].push(fieldName);
+            }
+        }
+        ret["validationMethod"] = this.validationMethod;
+        ret["comment"] = this.comment;
+        return ret;
     }
 
 });

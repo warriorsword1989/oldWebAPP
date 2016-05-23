@@ -21,9 +21,6 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
     },
     draw: function (guideObj) {
         var g = this._ctx;
-        g.strokeStyle = "red";
-        g.lineWidth = 2;
-
         if (guideObj) {
             if (!this.linkFObj[guideObj["id"]]) {
                 this.linkFObj[guideObj["id"]] = guideObj;
@@ -34,8 +31,8 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
     },
     drawMove: function (obj) {
         var g = this._ctx;
-        g.strokeStyle = "red";
-        g.lineWidth = 2;
+        //g.strokeStyle = "red";
+        //g.lineWidth = 2;
         for (var item in obj) {
             this.drawLineString(obj[item]["coordinates"], obj[item]["guidePoint"], g, false, this);
         }
@@ -71,19 +68,28 @@ fastmap.mapApi.GuideLineLayer = fastmap.mapApi.WholeLayer.extend({
         if (!geom) {
             return;
         }
-        var proj = [];
-        proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
-        //console.log('[geom[1], geom[0]]'+[geom[1], geom[0]])
-        proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
-        //console.log('[guidePoint[1], guidePoint[0]]'+[guidePoint[1], guidePoint[0]])
-        g.beginPath();
-        for (i = 0; i < proj.length; i++) {
+        if(this.map.getZoom()>=17) {
+            var proj = [];
+            proj.push(this.map.latLngToLayerPoint([geom[1], geom[0]]));
+            proj.push(this.map.latLngToLayerPoint([guidePoint[1], guidePoint[0]]));
+            if (g.setLineDash) {
+                g.setLineDash([6, 6]);
+                //  Get the current offset
+                g.lineDashOffset = 0;  // To animate the lines
+                g.lineJoin = "round";
+                g.lineWidth = "1";
+                g.strokeStyle = "gray";
+                g.beginPath();
+                for (i = 0; i < proj.length; i++) {
 
-            var method = (i === 0 ? 'move' : 'line') + 'To';
-            g[method](proj[i].x, proj[i].y);
+                    var method = (i === 0 ? 'move' : 'line') + 'To';
+                    g[method](proj[i].x, proj[i].y);
+                }
+                g.stroke();
+            }
+
         }
 
-        g.stroke();
     },
     _redraw: function () {
         //this._resetCanvasPosition();

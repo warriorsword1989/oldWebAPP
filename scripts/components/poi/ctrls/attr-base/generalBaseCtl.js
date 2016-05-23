@@ -1,38 +1,8 @@
-angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
+angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta',function($scope, $timeout,meta) {
 
-    var pKindFormat = {},
+    var pKindFormat = {}, pKindList,
         pAllChain = {};
     var regionCode = "010"
-    var lifecycle = {
-        1: "删 除",
-        2: "修 改",
-        3: "新 增",
-        4: "未 知"
-    };
-    var auditStatus = {
-        0: "无",
-        1: "待审核",
-        2: "已审核",
-        3: "审核不通过",
-        4: "外业验证",
-        5: "鲜度验证",
-    };
-
-    var _conf_origin_prop = {
-        "name": 1,
-        "address": 1,
-        "contacts": 1,
-        "postCode": 1,
-        "adminCode": 1,
-        "kindCode": 1,
-        "brands": 1,
-        "level": 1,
-        "open24H": 1,
-        "relateParent": 1,
-        "relateChildren": 1,
-        "names": 1,
-        "indoor": 1
-    }
     var initOptionStyle = function(poiJson) {
         var editedProperty = new Object();
         var data = [];
@@ -45,7 +15,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -62,7 +32,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -79,7 +49,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     for (var i = 0, len = contents.length; i < len; i++) {
                         temp = FM.Util.stringToJson(contents[i].oldValue);
                         for (var kk in temp) {
-                            tt = _conf_origin_prop[kk];
+                            tt = FM.dataApi.Constant.CONF_ORIGIN_PROP[kk];
                             if (tt) {
                                 editedProperty[kk] = kk;
                             }
@@ -123,33 +93,12 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.isLevelSelected = function(val) {
         var kind = pKindFormat[$scope.selectedKind]
         if (kind && kind.level.split("|").length == 1){ //如果只有一个等级默认选中
+            $scope.poi.level = val;
             return true;
         }else {
            return $scope.poi.level == val; 
         }
         
-    }
-    $scope.isOpen24 = function (val){
-        if (val == 1){
-            return true;
-        } else { //val ==2
-            return false;
-        }
-    }
-    $scope.isIndoorType = function (indoor){
-        if(indoor){
-            var val = indoor.type;
-            if (val == 1 || val == 2 || val == 3){
-                return true;
-            } else { //val == 0 
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-    $scope.remarkChange = function (val){
-
     }
 
     //改变等级
@@ -173,7 +122,7 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         if (value != 1 && value != 2 && value != 3) {
             value = 4;
         }
-        $scope.ctrl.lifeCycleName = lifecycle[value];
+        $scope.ctrl.lifeCycleName =  FM.dataApi.Constant.LIFE_CYCLE[value];
         $scope.ctrl.lifeCycleLabel = label[value];
     };
 
@@ -200,16 +149,14 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     */
     $scope.addTelElem = function() {
         var contact = {
-            number: "",
             type: 1,
             linkman: null,
             priority: 1,
             weChatUrl: null,
             numRre: regionCode,
-            numSuf: "",
-            flag: true //true 带区号的电话，false手机号码
+            numSuf: ""
         }
-        $scope.poi.contacts.push(contact);
+        $scope.poi.contacts.push(new FM.dataApi.IxPoiContact(contact));
         resetBtnHeight();
     }
 
@@ -238,17 +185,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
             }
         }
     }
-    var initRemark = function (poi){
-        var remark = ""; 
-        for (var i = 0, len = poi.attachments.length; i < len; i++){
-            var attachment = poi.attachments[i];
-            if(attachment.type == 4 && attachment.tag == 0 ){
-                remark = attachment.url;
-                break ;
-            }
-        }
-        $scope.remark = remark;
-    }
     $scope.removeTelElem = function(index) {
         if ($scope.poi.contacts.length > 1) {
             $scope.poi.contacts.splice(index, 1);
@@ -259,10 +195,8 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     $scope.checkTelNo = function(index) {
         var contact = $scope.poi.contacts[index]
         if (contact.numSuf && contact.numSuf.length == 11 && /^1/.test(contact.numSuf)) {
-            contact.number = contact.numSuf;
-            contact.flag = false; // 用于控制电话控件是否隐藏区号
+            contact.type = 2;//手机
         } else {
-            contact.number = regionCode + contact.numSuf;
             if (contact.numSuf) {
                 var p = contact.numSuf.split("-");
                 if (p.length > 1) {
@@ -272,7 +206,6 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
                     contact.numRre = regionCode;
                 }
             }
-            contact.flag = true
         }
     }
 
@@ -285,23 +218,25 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
     }
 
     $scope.kindChange = function(evt, obj) {
-        if (obj.selectedKind) {
-            initChain(obj.selectedKind);
-            $scope.selectedKind = obj.selectedKind; //此处会触发selectedKind的监听方法
-            var level = pKindFormat[obj.selectedKind].level;
-            $scope.levelArr = [];
-            if (level) {
-                $scope.levelArr = level.split("|");
-            }
-            $scope.poi.level = "";
-            //$scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
-        }
+        $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
+        $scope.poi.brands[0].code = "";
+        $scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
     };
+    $scope.brandChange = function (evt, sco) {
+        $scope.poi.brands[0].code = sco.selectedChain;
+        meta.getChainLevel($scope.poi.kindCode,sco.selectedChain).then(function (data){
+            if (data) {
+                $scope.levelArr = [];
+                $scope.levelArr = data.split("|");
+            }
+        });
+    };
+
     $scope.showChildrenPoisInMap = function() {
-        $scope.$emit('emitMainEditorTransChildren', {});
+        $scope.$emit('emitChildren', {});
     };
     $scope.showParentPoiInMap = function() {
-        $scope.$emit('emitMainEditorTransParent', {});
+        $scope.$emit('emitParent', {});
     };
 
     //初始化时监听selectedKind,后续都是通过$scope.kindChange方法监听的
@@ -311,38 +246,44 @@ angular.module('app').controller('generalBaseCtl', function($scope, $timeout) {
         }
     });
 
-    //初始化时让品牌默认选中
-    $scope.$watch('poi.kindCode', function() {
-        for (var i = 0; i < $scope.kindList.length; i++) {
-            if ($scope.kindList[i].value == $scope.poi.kindCode) {
-                $scope.selectedKind = $scope.kindList[i].value;
-                initChain($scope.selectedKind);
+    //初始化时让分类、品牌默认选中
+    $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
+        $scope.selectedKind = newVlaue;
+        for (var i = 0; i < pKindList.length; i++) {
+            if (pKindList[i].value == newVlaue) {
+                initChain(newVlaue);
                 if ($scope.poi.brands.length > 0) { //如果存在品牌则显示品牌
                     $scope.selectedChain = $scope.poi.brands[0].code;
                 } else {
                     $scope.selectedChain = ""
+                }
+                var level = pKindFormat[newVlaue].level;
+                $scope.levelArr = [];
+                if (level) {
+                    $scope.levelArr = level.split("|");
                 }
                 break;
             }
         }
     });
 
-    $scope.$on("loadup", function(event, data) {
-        //console.info("loadup----------");
-        $scope.poi = data.poi;
-        $scope.kindList = data.kindList;
-        pKindFormat = data.kindFormat;
-        pAllChain = data.allChain;
+    var initData = function (){
+        $scope.poi = $scope.$parent.poi;
+        pKindList = $scope.$parent.metaData.kindList;
+        pKindFormat = $scope.$parent.metaData.kindFormat;
+        pAllChain = $scope.$parent.metaData.allChain;
         $scope.switchLifeCycle($scope.poi.lifecycle);
         $scope.switchRawFields($scope.poi.rawFields);
-        initBaseInfoIcon(data.poiIcon, $scope.poi.vipFlag);
+        initBaseInfoIcon($scope.$parent.poiIcon, $scope.poi.vipFlag);
         initOptionStyle($scope.poi);
         initKindBrandLevel($scope.poi);
-        initRemark($scope.poi);
+        //initRemark($scope.poi);
         resetBtnHeight();
-    });
+    }
+
+    initData();
 
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "baseInfo");
     });
-});
+}]);

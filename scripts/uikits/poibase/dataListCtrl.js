@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','ngSanitize']).controller('DataListCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'poi',function($scope, $ocll, $rs, $q, poi ) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService', 'ngSanitize']).controller('DataListCtl', ['$scope', '$ocLazyLoad','dsPoi', 'dsMeta', '$q', function($scope, $ocll, poi, meta, $q ) {
 	var promises = [];
 	var _code_project_type = {
 		1: "常规",
@@ -95,11 +95,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','
 		$scope.submitedData = data.data;
 	}));
 	var checkRuleObj = {};
-	FM.dataApi.CheckRule.getList(function(data){
-        for(var i=0,len=data.length;i<data.length;i++){
+	promises.push(meta.queryRule().then(function(data){
+		for(var i=0,len=data.length;i<data.length;i++){
         	checkRuleObj[data[i].ruleId] = data[i];
         }
-    });
+	}));
 	$scope.checkRuleObj = checkRuleObj;
 	var pKindFormat = new Object();
 	promises.push(poi.getKindList().then(function(data){

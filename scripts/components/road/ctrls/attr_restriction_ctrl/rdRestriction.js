@@ -89,7 +89,9 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.restricOrdinaryForm.$setPristine();
+                if($scope.restricOrdinaryForm!=undefined) {
+                    $scope.restricOrdinaryForm.$setPristine();
+                }
             });
         }
     };
@@ -405,7 +407,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             return;
         }
 
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {
                 var sinfo = {
@@ -475,7 +477,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
             "objId": pid
         };
         //结束编辑状态
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var restrict = layerCtrl.getLayerById("restriction");
             restrict.redraw();
             var info = null;

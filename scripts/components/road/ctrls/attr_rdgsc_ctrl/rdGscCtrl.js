@@ -32,7 +32,9 @@ rdGscApp.controller("rdGscController",function($scope) {
 
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.rdGscForm.$setPristine();
+                if($scope.rdGscForm!=undefined) {
+                    $scope.rdGscForm.$setPristine();
+                }
             });
 
         }
@@ -61,11 +63,11 @@ rdGscApp.controller("rdGscController",function($scope) {
     $scope.getLevels();
 
     $scope.tableName = [
-        {"id": "rd_link", "label": "RD_LINK"},
-        {"id": "lc_link ", "label": "LC_LINK "},
-        {"id": "rw_link", "label": "RW_LINK"},
-        {"id": "cmg_buildlink", "label": "CMG_BUILDLINK"},
-        {"id": "rd_gsc_link", "label": "RD_GSC_LINK"}
+        {"id": "RD_LINK", "label": "RD_LINK"},
+        {"id": "LC_LINK ", "label": "LC_LINK "},
+        {"id": "RW_LINK", "label": "RW_LINK"},
+        {"id": "CMG_BUILDLINK", "label": "CMG_BUILDLINK"},
+        {"id": "RD_GSC_LINK", "label": "RD_GSC_LINK"}
     ];
 
     $scope.save = function(){
@@ -80,7 +82,7 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "data": objCtrl.changedProperty
         };
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
                 if (selectCtrl.rowkey) {
@@ -149,7 +151,7 @@ rdGscApp.controller("rdGscController",function($scope) {
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 rdgsc.redraw();

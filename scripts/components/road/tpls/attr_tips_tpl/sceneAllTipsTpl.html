@@ -120,7 +120,6 @@
         border-radius: 4px;
     }
     .title img:not(:last-child){
-        border-right: none;
     }
     .title img{
         border:1px solid rgba(255,255,255,0.3);
@@ -152,8 +151,17 @@
         <label class="col-sm-12 control-label" ng-if="allTipsType==1801" style="padding: 7px;">Tips--立交</label>
     </div>
     <div class="title">
-        <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 9px;">
-            <img ng-repeat="phitem in photos track by $index  " ng-src="{{phitem}}" width="60px" height="60px" ng-click="openOrigin($index)">
+        <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
+            <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)">
+           <!-- <span style="color: white">{{number}}</span>-->
+            <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:0px;color: #fff;cursor: pointer;">{{number}}</span>
+        </div>
+        <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
+            <img ng-src="../../images/road/img/novoice.png" width="60px" height="60px" ng-click="openVideo(0)">
+            <!--<span style="color: white">0</span>-->
+        <!--    <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:-5px;color: #fff;cursor: pointer;"
+                  class="glyphicon glyphicon-remove-sign"></span>-->
+            <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:0px;color: #fff;cursor: pointer;">0</span>
         </div>
     </div>
     <div class="right" ng-if="allTipsType==1302" >
@@ -183,10 +191,10 @@
 
                         <div class="form-group" style="height: 6%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 6">
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 10">
                                 <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}"></span>
                             </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 6">
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 10">
                                 <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')" ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}"></span>
                             </div>
                         </div>
@@ -246,10 +254,10 @@
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length > 6">
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length > 10">
                                 <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id.substring(0,6)+'...'" title="{{fData.id}}"></span>
                             </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length <= 6">
+                            <div class="col-sm-7" style="padding: 4px" ng-if="fData.id.length <= 10">
                                 <span class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(fData.id,'RDLINK')" ng-bind="fData.id" title="{{fData.id}}"></span>
                             </div>
                         </div>
@@ -442,13 +450,21 @@
                 <div class="panel-body" ng-if="allTipsType==1604">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状态:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label label-info" ng-bind="showContent"></span>
                             </div>
                         </div>
 
+
+                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
+                            <label class="col-sm-5 control-label" style="padding: 4px">数据指令:</label>
+
+                            <div class="col-sm-7" style="padding: 4px">
+                                <span class="label " ng-repeat="zoneState in zoneRoadState|filter:{'type':dataTipsData.t_command}" ng-bind="zoneState.state"></span>
+                            </div>
+                        </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
 
@@ -458,20 +474,12 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">属性状态:</label>
-
-                            <div class="col-sm-7" style="padding: 4px">
-                                <span class="label " ng-repeat="zoneState in zoneRoadState|filter:{'type':dataTipsData.t_command}" ng-bind="zoneState.state"></span>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 <div class="panel-body" ng-if="allTipsType==1704">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
                                 <span class="label label-info" ng-bind="showContent"></span>
@@ -487,7 +495,7 @@
                         </div>
 
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
+                            <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
 
                             <div class="col-sm-7" style="padding: 4px">
                                 <span class="label " ng-bind="fData.name"></span>
@@ -508,10 +516,10 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">关联道路:</label>
 
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 6">
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length > 10">
                                 <span class="label " ng-bind="dataTipsData.f.id.substring(0,6)+'...'" title="{{dataTipsData.f.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
                             </div>
-                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 6">
+                            <div class="col-sm-7" style="padding: 4px" ng-if="dataTipsData.f.id.length <= 10">
                                 <span class="label " ng-bind="dataTipsData.f.id" title="{{dataTipsData.f.id}}" style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.f.id,'RDLINK')"></span>
                             </div>
                         </div>
@@ -699,12 +707,12 @@
             </div>
         </div>
         <div class="both" >
-            <div class="panel panel-default" ng-if="allTipsType!=1803" style="height: 100%; border: 0;background-color: transparent;border:0;border-radius:4px;">
+            <div class="panel panel-default" style="height: 100%; border: 0;background-color: transparent;border:0;border-radius:4px;">
                 <div class="panel-body" style="padding-bottom: 0px;padding-top: 5px; background-color: #555;border-radius:4px;">
                     <form class="form-horizontal" method="get" style="text-align:left ;padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 60%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
-                            <label class="col-sm-5 control-label" style="padding: 4px"> 备注：</label>
-                            <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px;color:#FFF;">
+                            <label class="col-sm-5 control-label" style="padding: 4px;width: 100px;"> 备注：</label>
+                            <div class="col-sm-7" ng-bind="remarksContent" style="padding: 4px;color:#FFF;width: 190px;margin-left: 30px;">
 
                             </div>
                         </div>

@@ -27,8 +27,8 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
             }
             this.location = {};
             if(data['location']){
-                this.guide.latitude = data['location'].latitude || 0;
-                this.guide.longitude = data['location'].longitude || 0;
+                this.location.latitude = data['location'].latitude || 0;
+                this.location.longitude = data['location'].longitude || 0;
             }
             this.attachments = [];
             if (data["attachments"] && data["attachments"].length > 0) {
@@ -62,5 +62,45 @@ FM.dataApi.IxCheckResult = FM.dataApi.DataModel.extend({
             }
         }
         this.type = data['type'] || 0;
+    },
+    getIntegrate: function(){
+        var ret = {},
+            ref = this.refFeatures[0];
+        if(!ref){
+            return;
+        }
+        ret["fid"] = ref.fid;
+        ret["pid"] = ref.pid;
+        ret["name"] = ref.name;
+        ret["kindCode"] = ref.kindCode;
+        ret["lifecycle"] = ref.lifecycle;
+        ret["severity"] = ref.severity;
+        ret["rowkey"] = ref.rowkey;
+        ret["level"] = ref.level;
+        ret["checkResultNum"] = ref.checkResultNum;
+        ret["address"] = ref.address;
+        ret['guide'] = {};
+        if(ref.guide){
+            ret['guide'].latitude = ref.guide.latitude;
+            ret['guide'].longitude = ref.guide.longitude;
+            ret['guide'].linkPid = ref.guide.linkPid;
+        }
+        ret['location'] = {};
+        if(ref.location){
+            ret['location'].latitude = ref.location.latitude;
+            ret['location'].longitude = ref.location.longitude;
+        }
+        ret['attachments'] = [];
+        if (ref.attachments && ref.attachments.length > 0) {
+            for (var i = 0 , len = ref.attachments.length ; i < len; i++) {
+                if (ref.attachments[i].type == 1) { //表示图片
+                    var attachment = new FM.dataApi.IxPoiImage(ref.attachments[i]);
+                    ret['attachments'].push(attachment);
+                }
+            }
+        }
+        ret["conflictFields"] = ref.conflictFields;
+        ret["duppoi"] = ref.duppoi;
+        return ret;
     }
 });

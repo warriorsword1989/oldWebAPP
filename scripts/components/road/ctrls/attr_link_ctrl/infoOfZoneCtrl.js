@@ -13,7 +13,9 @@ oridinaryInfoApp.controller("zoneInfoController",function($scope) {
     ];
     if($(".ng-dirty")) {
         $.each($('.ng-dirty'), function (i, v) {
-            $scope.zoneInfoForm.$setPristine();
+            if($scope.zoneInfoForm!=undefined) {
+                $scope.zoneInfoForm.$setPristine();
+            }
         });
 
     }

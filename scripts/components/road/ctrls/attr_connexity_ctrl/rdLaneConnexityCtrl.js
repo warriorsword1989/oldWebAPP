@@ -83,11 +83,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
         var reg = new RegExp("/\<|\>|\&/g");
         $scope.lanesData = objCtrl.data;
         $scope.lanesArr = $scope.lanesData["laneInfo"].split(",");
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                $scope.rdLaneConnexityForm.$setPristine();
-            });
-        }
+
         //高亮进入线和退出线
         var highLightFeatures = [];
         highLightFeatures.push({
@@ -135,6 +131,14 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                 $scope.getTransitData($scope.lanesArr[j]);
             }
 
+        }
+
+        if($(".ng-dirty")) {
+            $.each($('.ng-dirty'), function (i, v) {
+                if($scope.rdLaneConnexityForm!=undefined){
+                    $scope.rdLaneConnexityForm.$setPristine();
+                }
+            });
         }
     };
 
@@ -231,10 +235,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
                     }
 
 
-                    var highLightRender = new fastmap.uikit.HighLightRender(hLayer);
-
-                    highLightRender.highLightFeatures = highLightFeatures;
-                    highLightRender.drawHighlight();
+                    highRenderCtrl.highLightFeatures = highLightFeatures;
+                    highRenderCtrl.drawHighlight();
                 });
             }
         }
@@ -431,7 +433,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             return;
         }
 
-        Application.functions.saveLinkGeometry(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = [];
             if (data.data) {
                 var sinfo = {
@@ -465,7 +467,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
             "projectId": Application.projectid,
             "objId": objId
         }
-        Application.functions.saveProperty(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode == 0) {
                 rdConnexity.redraw();

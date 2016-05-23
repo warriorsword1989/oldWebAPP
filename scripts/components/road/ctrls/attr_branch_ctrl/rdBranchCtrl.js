@@ -23,7 +23,9 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
         if($(".ng-dirty")) {
             $.each($('.ng-dirty'), function (i, v) {
-                $scope.nameBranchForm.$setPristine();
+                if($scope.nameBranchForm!=undefined) {
+                    $scope.nameBranchForm.$setPristine();
+                }
             });
         }
 
@@ -410,7 +412,7 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
             swal("操作成功",'属性值没有变化！', "success");
             return false;
         }
-        Application.functions.saveBranchInfo(JSON.stringify(param), function (data) {
+        Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var outPutCtrl = fastmap.uikit.OutPutController();
             $scope.$apply();
             var info = null;
