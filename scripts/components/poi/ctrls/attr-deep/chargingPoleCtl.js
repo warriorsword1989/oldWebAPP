@@ -35,7 +35,34 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
             retObj[tmp[i]] = true;
         }
     };
+//    $scope.paymentArray = $scope.poi.chargingPole[0].paymentArray;
     $scope.charging = $scope.poi.chargingPole[0];
+//    $scope.paymentArr = [
+//         {id:"0",value:'其他',check:false},
+//         {id:"1",value:'现金',check:false},
+//         {id:"2",value:'信用卡',check:false},
+//         {id:"3",value:'借记卡',check:false},
+//         {id:"4",value:'特制充值卡',check:false},
+//         {id:"5",value:'APP',check:false}
+//         ];
+//    if($scope.charging.payment.indexOf('|') > 0){
+//    	var pDefaulArr = $scope.charging.payment.split('|');
+//    	for(var i = 0;i<pDefaulArr.length;i++){
+//    		for(var j = 0; j<$scope.paymentArr.length; j++){
+//    			if(pDefaulArr[i] == $scope.paymentArr[j].id){
+//    				$scope.paymentArr[j].check = true;
+//    				break;
+//    			}
+//    		}
+//    	}
+//    }else{
+//    	for(var j = 0; j<$scope.paymentArr.length; j++){
+//			if($scope.charging.payment == $scope.paymentArr[j].id){
+//				$scope.paymentArr[j].check = true;
+//				break;
+//			}
+//		}
+//    }
     $scope.initCheckbox($scope.charging.openType, $scope.charging.openType = {});
     $scope.initCheckbox($scope.charging.plugType, $scope.charging.plugType = {});
     $scope.initCheckbox($scope.charging.payment, $scope.charging.payment = {});
@@ -60,4 +87,5 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
     $scope.$on("save", function(event, data) {
         $scope.$emit("saveMe", "deepInfo");
     });
+    
 });
