@@ -51,7 +51,7 @@ require.config({
         'symbol.MarkerLineSymbol': 'scripts/mapApi/symbol/MarkerLineSymbol',
         'symbol.HashLineSymbol': 'scripts/mapApi/symbol/HashLineSymbol',
         'symbol.CompositeLineSymbol': 'scripts/mapApi/symbol/CompositeLineSymbol',
-        'symbol.SymbolsFile': '../../scripts/mapApi/symbol/SymbolsFile',
+        'symbol.SymbolsFile': 'scripts/mapApi/symbol/SymbolsFile',
         'symbol.SymbolFactory': 'scripts/mapApi/symbol/SymbolFactory'
     },
 
