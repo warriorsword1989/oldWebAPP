@@ -16,6 +16,76 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
+        $scope.poi.checkResults[0] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-14Sum-11-09",
+            "errorMsg": "内部POI必须有父",
+            "fields": ["kindCode", "indoor"],
+            'refFeatures': [{
+                "name": "５５５中信银行ＡＴＭ",
+                "level": "B1",
+                "auditStatus": 2,
+                "rowkey": "005956730006697336",
+                "pid": 6697336,
+                "guide": {
+                    "latitude": 39.9199,
+                    "linkPid": 49143560,
+                    "longitude": 116.45111
+                },
+                "location": {
+                    "latitude": 39.9199,
+                    "longitude": 116.45113
+                },
+                "fid": "0010060811LLJ02257",
+                "address": "东大桥路８号院１",
+                "checkResultNum": 2,
+                "lifecycle": 2,
+                "kindCode": "150101",
+                "attachments": [{
+                    "url": "/15win/2016013086/20160314/292520160314131656_48465.JPG",
+                    "tag": "4",
+                    "type": 1
+                }, {
+                    "url": "98798",
+                    "tag": 0,
+                    "type": 4
+                }]
+            }]
+        });
+        $scope.poi.checkResults[1] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-14Win-01-02",
+            "errorMsg": "重新确认成果中的设施名称是否正确",
+            "fields": ["name"]
+        });
+        $scope.poi.checkResults[2] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-YW-20-215",
+            "errorMsg": "内部POI必须有父",
+            "fields": ["kindCode", "indoor"]
+        });
+        $scope.poi.checkResults[3] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-YW-20-216",
+            "errorMsg": "分类冲突，请确认！",
+            "refFeatures": [{
+                "conflictFields": "kindCode",
+                "fid": "0010060815LML01264",
+                "duppoi": {
+                    "name": "北京马驹桥园林绿化有限公司",
+                    "contacts": "",
+                    "level": "B3",
+                    "pid": 7689,
+                    "postCode": "",
+                    "fid": "0010060815LML01264",
+                    "address": "",
+                    "brands": {
+                        "code": ""
+                    },
+                    "kindCode": "220100",
+                    "location": {
+                        "latitude": 39.74941,
+                        "longitude": 116.56383
+                    }
+                }
+            }]
+        });
         $scope.snapshotPoi = data.getSnapShot();
     }));
     //查询3DIcon
@@ -38,7 +108,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // distinguishResult($scope.poi);
             $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
-                console.log($scope.poi)
             });
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
@@ -116,13 +185,27 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.showSelectedSamePoiInfo = function(poi, index) {
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
+    /*获取关联poi数据——检查结果*/
+    $scope.$on('getRefFtInMap', function (event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.$emit('getLayerName','checkResultLayer');
+            for (var i = 0, len = data.length; i < len; i++) {
+                data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
+            }
+            $scope.refFt = {
+                title: '检查结果关联POI',
+                refList: data
+            };
+            $scope.$emit('showRelatedPoiInfo',$scope.refFt);
+        });
+    });
     /*显示关联poi详细信息*/
     $scope.showPoiDetailInfo = function(poi, index) {
         $scope.poiDetail = {
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
         };
-        console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid);
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
     /*显示地图上poi数组*/
@@ -225,7 +308,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     });
     /*显示关联poi面板*/
     $scope.$on('showRelatedPoiInfo',function(event,data){
-        console.log(data)
         $scope.refFt = data;
         $scope.$broadcast('showPoisInMap', {
             data: data.refList,
