@@ -81,7 +81,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['chargingPole'] = [];
         if (this.chargingPole){
             for (var i = 0 ,len = this.chargingPole.length ;i < len ; i++){
-                //ret['chargingPole'].push(this.chargingPole[i].getIntegrate());
+                ret['chargingPole'].push(this.chargingPole[i].getIntegrate());
             }
         }
         ret['kindCode'] = this.kindCode;

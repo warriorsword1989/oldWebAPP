@@ -59,45 +59,31 @@
                 <tr>
                     <td>支付方式</td>
                     <td id="charging-payment" colspan="3">
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.payment['0']"> 其他</div>
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="1" ng-model="charging.payment['1']"> 现金</div>
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="2" ng-model="charging.payment['2']"> 信用卡</div>
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="3" ng-model="charging.payment['3']"> 借记卡</div>
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="4" ng-model="charging.payment['4']"> 特制充值卡</div>
-                        <div class="col-sm-4" style="padding:0px"><input type='checkbox' value="5" ng-model="charging.payment['5']"> APP</div>
+                    	<div ng-repeat="(key, value) in chargingPayment"  class="col-sm-4" style="padding:0px"><input type='checkbox' value="{{key}}" ng-model="charging.payment[key]">{{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>充电模式</td>
                     <td id="charging-mode" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-mode' value="0" ng-model="charging.mode"> 慢速</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-mode' value="1" ng-model="charging.mode"> 快速</div>
+                        <div ng-repeat="(key,value) in chargingMode" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.mode"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>位置类型</td>
                     <td id="charging-locationtype" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="0" ng-model="charging.locationType"> 室外</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="1" ng-model="charging.locationType"> 室内地上</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-locationtype' value="2" ng-model="charging.locationType"> 地下</div>
+                    	<div ng-repeat="(key,value) in locationtype" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.locationType"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>电流类型</td>
                     <td id="charging-acdc" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-acdc' value="0" ng-model="charging.acdc"> 交流</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-acdc' value="1" ng-model="charging.acdc"> 直流</div>
+                    	<div ng-repeat="(key,value) in chargingAcdc" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.acdc"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>插头类型</td>
                     <td id="charging-plugType" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="0" ng-model="charging.plugType['0']"> 交流电3孔家用</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="1" ng-model="charging.plugType['1']"> 国标交流电7孔插槽</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="2" ng-model="charging.plugType['2']"> 国标直流电9孔插槽</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="3" ng-model="charging.plugType['8']"> 特斯拉专用插槽</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="4" ng-model="charging.plugType['9']"> 其他</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='checkbox' value="5" ng-model="charging.plugType['10']"> 无法采集</div>
+                    	<div ng-repeat="(key, value) in chargingPlugType" class="col-sm-6" style="padding:0px"><input type='checkbox' value="{{key}}" ng-model="charging.plugType[key]"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
@@ -136,33 +122,15 @@
                     <td >开放状态</td>
                     <td id="charging-openType" colspan="3">
                         <div class="row" style="margin:0px">
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green">
-                                <input type="checkbox" value="1" name="charging-openType" mutex="1" ng-model="charging.openType['1']" ng-click="changeOpenType($event)">对所有车辆开放
+                        	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green" ng-if="key == 1" style="padding:0px;color:green">
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
                             </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="2" name="charging-openType" ng-model="charging.openType['2']" ng-click="changeOpenType($event)">对环卫车开放
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="3" name="charging-openType" ng-model="charging.openType['3']" ng-click="changeOpenType($event)">对公交车开放
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="4" name="charging-openType" ng-model="charging.openType['4']" ng-click="changeOpenType($event)">对出租车开放
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="5" name="charging-openType" ng-model="charging.openType['5']" ng-click="changeOpenType($event)">对其他特种车辆开放
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="6" name="charging-openType" ng-model="charging.openType['6']" ng-click="changeOpenType($event)">对自有车辆开放
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="7" name="charging-openType" ng-model="charging.openType['7']" ng-click="changeOpenType($event)">个人充电桩
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                                <input type="checkbox" value="99" name="charging-openType" ng-model="charging.openType['99']" ng-click="changeOpenType($event)">对某品牌汽车开放
+                        	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px" ng-if="key != 1">
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
                                 <input select2 ng-model="charging.chain.data" config="charging.chain.data" select-model="charging.chain.data" type="text" class="form-control input-sm" id="charging-chain"
-                                        style="width:80%">
+                                        style="width:80%" placeholder="请选择">
                             </div>
                         </div>
                     </td>
@@ -170,11 +138,7 @@
                 <tr>
                     <td>服务状态</td>
                     <td id="charging-availableState" colspan="3">
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="0" ng-model="charging.availableState"> 可以使用（有电）</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="1" ng-model="charging.availableState"> 不可使用（没电）</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="2" ng-model="charging.availableState"> 维修中</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="3" ng-model="charging.availableState"> 建设中</div>
-                        <div class="col-sm-6" style="padding:0px"><input type='radio' name='charging-availableState' value="4" ng-model="charging.availableState"> 规划中</div>
+                        <div ng-repeat="(key,value) in chargingAvailableState" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.availableState"> {{value}}</div>
                     </td>
                 </tr>
 

@@ -47,7 +47,7 @@
                 <div class="col-xs-{{mapColumn}} col-sm-{{mapColumn}} col-md-{{mapColumn}} col-lg-{{mapColumn}} content-box" style="height: 500px;">
                     <div ng-include="mapTpl"></div>
                     <a id="mapLeftRight" ng-show="isShowArrow" href="javascript:void(0);" class="div_float image_ctl {{arrowStyle}}" ng-click="doLeftRight();"></a>
-                    <div id="info" class="info-tip" ng-show="showRelatedPoiInfo">
+                    <div id="info" class="info-tip" ng-show="showRelatedPoiInfo" ng-style="infoStyle">
                         <div class="tools">
                             <button type="button" class="close" ng-click="closeRelatedPoiInfo()">
                                 <span aria-hidden="true">&times;</span>
@@ -62,7 +62,7 @@
                                        ng-click="showSelectedSamePoiInfo(item,$index);" ng-bind="item.name"></a>
                                     <a ng-if="layerName!='mainPoiLayer'" href="javascript:;" class="has-popover"
                                        ng-click="showPoiDetailInfo(item,$index);" uib-popover-template="poiInfoTpl"
-                                       popover-placement="left" popover-title="POI属性" ng-bind="item.name"></a>
+                                       popover-placement="right" popover-append-to-body="true" popover-title="POI属性" ng-bind="item.name"></a>
                                     <span class="label label-info" ng-bind="item.kindInfo.kindName"></span>
                                     <span class="label label-{{item.labelRemark.labelClass}}" ng-bind="item.labelRemark.text"></span>
                                 </li>

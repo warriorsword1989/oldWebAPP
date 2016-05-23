@@ -36,13 +36,9 @@ namesOfLinkApp.controller("namesOfLinkController",function($scope,$timeout) {
             $scope.oridiData = $scope.names[i];
         }
     }
-
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.nameDetailForm!=undefined) {
-                $scope.nameDetailForm.$setPristine();
-            }
-        });
+//回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.nameDetailForm) {
+        $scope.nameDetailForm.$setPristine();
     }
     $scope.addRoadName=function(){
         var newName=fastmap.dataApi.linkname({"linkPid":objCtrl.data.pid})
