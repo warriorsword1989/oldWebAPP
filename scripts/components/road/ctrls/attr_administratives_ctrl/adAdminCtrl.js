@@ -14,6 +14,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.isbase=true;
 
+    //行政类型
     $scope.adminType = [
         {"id": 0, "label": "国家地区级"},
         {"id": 1, "label": "省/直辖市/自治区"},
@@ -30,6 +31,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         {"id": 8, "label": "KDZone"},
         {"id": 9, "label": "AOI"}
     ];
+    //代表点标识
     $scope.capital = [
         {"id": 0, "label": "未定义"},
         {"id": 1, "label": "首都"},
@@ -37,16 +39,20 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         {"id": 3, "label": "地级市"}
     ];
 
+    /**
+     * 初始化数据
+     */
     $scope.initializeData = function(){
-        $scope.adAdminData = objCtrl.data;
-        objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        var linkArr =$scope.adAdminData.geometry.coordinates, points = [];
+        $scope.adAdminData = objCtrl.data;//获取数据
+        objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据值
+        var linkArr =$scope.adAdminData.geometry.coordinates;
         var points = fastmap.mapApi.point(linkArr[0], linkArr[1]);
-        selectCtrl.onSelected({
+        selectCtrl.onSelected({//记录选中点信息
             geometry: points,
             id: $scope.adAdminData.pid
         });
 
+        //高亮行政区划代表点
         var highLightFeatures=[];
         highLightFeatures.push({
             id:$scope.adAdminData.pid.toString(),
@@ -56,12 +62,9 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.adAdminForm!=undefined) {
-                    $scope.adAdminForm.$setPristine();
-                }
-            });
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.adAdminForm) {
+            $scope.adAdminForm.$setPristine();
         }
     };
     if(objCtrl.data){
@@ -73,8 +76,9 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     };
 
 
-
-
+    /**
+     * 名称属性页面
+     */
     $scope.otherAdminName=function(){
         var showOtherObj={
             "loadType":"subAttrTplContainer",
@@ -84,6 +88,10 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         $scope.$emit("transitCtrlAndTpl", showOtherObj);
     }
 
+    /**
+     * 层级属性页面
+     * @param boolValue
+     */
     $scope.clickBasic=function(boolValue){
         $scope.isbase=boolValue;
         if($scope.isbase==false){
@@ -97,6 +105,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
 
     }
 
+    //保存
     $scope.save = function(){
         objCtrl.save();
         var param = {
@@ -110,16 +119,15 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             swal("操作成功",'属性值没有变化！', "success");
             return;
         }
+        //保存调用方法
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
-                adAdmin.redraw();
+                adAdmin.redraw();//代表点重绘
+                //清除数据清除高亮
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
-                    }
-                    if (toolTipsCtrl.getCurrentTooltip()) {
-                        toolTipsCtrl.onRemoveTooltip();
                     }
                     editLayer.drawGeometry = null;
                     editLayer.clear();
@@ -151,6 +159,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
                     "pid": data.errid
                 }];
             }
+            //数据解析存入output
             outputCtrl.pushOutput(info);
             if (outputCtrl.updateOutPuts !== "") {
                 outputCtrl.updateOutPuts();
@@ -158,6 +167,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
         })
     };
 
+    //删除
     $scope.delete = function(){
         var objId = parseInt($scope.adAdminData.regionId);
         var param = {
@@ -166,16 +176,15 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
             "projectId": Application.projectid,
             "objId": objId
         }
+        //删除调用方法
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             if (data.errcode==0) {
                 adAdmin.redraw();
+                //清除数据清除高亮
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
-                    }
-                    if (toolTipsCtrl.getCurrentTooltip()) {
-                        toolTipsCtrl.onRemoveTooltip();
                     }
                     editLayer.drawGeometry = null;
                     editLayer.clear();
@@ -183,17 +192,14 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                var sinfo={
+                var sInfo={
                     "op":"删除行政区划代表点成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
-                outputCtrl.pushOutput(info);
-                if (outputCtrl.updateOutPuts !== "") {
-                    outputCtrl.updateOutPuts();
-                }
+
             }else{
                 info=[{
                     "op":data.errcode,
@@ -201,9 +207,16 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
                     "pid": data.errid
                 }];
             }
+            //解析数据后，展示在output 输出框
+            if(info!=null){
+                outputCtrl.pushOutput(info);
+                if (outputCtrl.updateOutPuts !== "") {
+                    outputCtrl.updateOutPuts();
+                }
+            }
         })
     };
-
+    //监听保存 删除 取消 初始化
     eventController.on(eventController.eventTypes.SAVEPROPERTY, $scope.save);
     eventController.on(eventController.eventTypes.DELETEPROPERTY, $scope.delete);
     eventController.on(eventController.eventTypes.CANCELEVENT,  $scope.cancel);
