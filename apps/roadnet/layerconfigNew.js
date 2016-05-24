@@ -1164,7 +1164,7 @@ function transformData(data, url) {
                         {
                             type: 'CartoLineSymbol',
                             color: color,
-                            width: 1,
+                            width: 2,
                             pattern: [10, 10]
                         }
                     ]
