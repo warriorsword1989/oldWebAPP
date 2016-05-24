@@ -26,8 +26,8 @@ selectApp.controller("rdCrossController", function ($scope) {
         highLightFeatures.push({
 
             id:$scope.rdCrossData.pid.toString(),
-            layerid:'rdcross',
-            type:'rdcross',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;

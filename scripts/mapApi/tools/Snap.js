@@ -255,7 +255,7 @@ fastmap.mapApi.Snap = L.Handler.extend({
         }
         if (!result || result.distance > tolerance)
             return null;
-        console.log(JSON.stringify(result))
+
         return result;
 
     },
