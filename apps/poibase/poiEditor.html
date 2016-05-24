@@ -146,13 +146,13 @@
                                                 <label>等 级</label>
                                                 <div>
                                                     <label>
-                                                        <input type="radio" name="level" value="A" ng-model="poi.level"> A
+                                                        <input type="radio" name="level" value="A" ng-model="selectedPoi.level"> A
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="level" value="B" ng-model="poi.level"> B
+                                                        <input type="radio" name="level" value="B" ng-model="selectedPoi.level"> B
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="level" value="C" ng-model="poi.level"> C
+                                                        <input type="radio" name="level" value="C" ng-model="selectedPoi.level"> C
                                                     </label>
                                                 </div>
                                             </li>
@@ -160,11 +160,11 @@
                                                 <label class="control-label">24小时</label>
                                                 <div>
                                                     <label>
-                                                        <input type="radio" name="24h" value="0" ng-model="poi.h24">
+                                                        <input type="radio" name="24h" value="0" ng-model="selectedPoi.h24">
                                                         是
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="24h" value="1" ng-model="poi.h24">
+                                                        <input type="radio" name="24h" value="1" ng-model="selectedPoi.h24">
                                                         否
                                                     </label>
                                                 </div>
@@ -173,11 +173,11 @@
                                                 <label class="control-label">室内POI</label>
                                                 <div>
                                                     <label>
-                                                        <input type="radio" name="indoor" value="0" ng-model="poi.indoor">
+                                                        <input type="radio" name="indoor" value="0" ng-model="selectedPoi.indoor">
                                                         是
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="indoor" value="1" ng-model="poi.indoor">
+                                                        <input type="radio" name="indoor" value="1" ng-model="selectedPoi.indoor">
                                                         否
                                                     </label>
                                                 </div>
@@ -185,7 +185,7 @@
                                             <li>
                                                 <label class="control-label">备 注</label>
                                                 <div class="inline">
-                                                    <textarea></textarea>
+                                                    <textarea class="fm-control"></textarea>
                                                 </div>
                                             </li>
                                         </ul>
@@ -236,23 +236,8 @@
                                             <li>
                                                 <label>收费标准</label>
                                                 <div>
-                                                    <label>
-                                                        <input type="checkbox" name="parkingFee" value="A"> 包年
-                                                    </label>
-                                                    <label>
-                                                        <input type="checkbox" name="parkingFee" value="B"> 包月
-                                                    </label>
-                                                    <label>
-                                                        <input type="checkbox" name="parkingFee" value="C"> 记次
-                                                    </label>
-                                                    <label>
-                                                        <input type="checkbox" name="parkingFee" value="D"> 计时
-                                                    </label>
-                                                    <label>
-                                                        <input type="checkbox" name="parkingFee" value="E"> 分段计价
-                                                    </label>
-                                                    <label>
-                                                        <input type="checkbox" name="parkingFee" value="F"> 免费
+                                                    <label ng-repeat="(key, value) in parkingFee">
+                                                        <input type="checkbox" value="{{key}}" ng-model="selectedPoi.parkingFee[key]" ng-change="changeParkingFee(key)"> {{value}}
                                                     </label>
                                                 </div>
                                             </li>
@@ -411,7 +396,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fm-container fm-row fm-lvl1" style="bottom:0px;">
+                        <div class="fm-container fm-row fm-lvl1" style="width:auto;bottom:0px;left:5px; right:305px;border-radius: 5px 5px 0px 0px;">
                             <div class="fm-tabs">
                                 <a href="#" ng-class="{'tab': true, 'active': outputType == 1}" ng-click="changeOutput(1)">检查结果</a>
                                 <a href="#" ng-class="{'tab': true, 'active': outputType == 2}" ng-click="changeOutput(2)">冲突检测</a>
