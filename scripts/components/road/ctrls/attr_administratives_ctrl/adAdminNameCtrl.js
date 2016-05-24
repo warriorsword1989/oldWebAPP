@@ -7,8 +7,6 @@ otherApp.controller("adAdminNameController", function ($scope, $timeout, $ocLazy
     var objCtrl = fastmap.uikit.ObjectEditController();
     var objectEditCtrl = fastmap.uikit.ObjectEditController();
     $scope.indexName=0;
-    var selectCtrl = fastmap.uikit.SelectController();
-
     //获取数据
     $scope.names = objCtrl.data.names?objCtrl.data.names:0;
     $scope.nameGroup = [];
