@@ -6,10 +6,12 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     var speedLimit = layerCtrl.getLayerById("speedlimit");
     var eventController = fastmap.uikit.EventController();
+    var relationlayer = layerCtrl.getLayerById('relationdata')
     var editLayer = layerCtrl.getLayerById('edit');
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
+    var alllayers = 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'.split(',');
     $scope.flag = true;
     $scope.scenceArr = [
         {"id": 1, "label": "线限速场景", "selected": false},
@@ -28,10 +30,20 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
     ]
     var outLayers = [];
     for (var i = 0; i < layerCtrl.layers.length; i++) {
-        if (layerCtrl.layers[i].options.groupid == "dataLayers") {
+        if (layerCtrl.layers[i].options.groupid == "dataLayers"&&layerCtrl.layers[i].options.id!='relationdata') {
             outLayers.push(layerCtrl.layers[i]);
         }
     }
+
+    outLayers =outLayers.concat( [
+        {options:{relationdata:true,visible:true, layername:'交限',id:'RDRESTRICTION'}},
+        {options:{relationdata:true,visible:true, layername:'分歧',id:'RDBRANCH'}},
+        {options:{relationdata:true,visible:true, layername:'限速',id:'RDSPEEDLIMIT'}},
+        {options:{relationdata:true,visible:true, layername:'路口',id:'RDCROSS'}},
+        {options:{relationdata:true,visible:true, layername:'车信',id:'RDLANECONNEXITY'}},
+        {options:{relationdata:true,visible:true, layername:'立交',id:'RDGSC'}},
+        {options:{relationdata:true,visible:true, layername:'互联网RTIC',id:'RDLINKINTRTIC'}}
+    ])
     $scope.items = outLayers;
     $scope.resetLayers = function () {
         $scope.changeBtnClass("");
@@ -50,9 +62,25 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
         $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
     };
     $scope.showLayers = function (item) {
+
         //单击checkbox的处理
         item.options.visible = !item.options.visible;
-        eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+        if(item.options.relationdata == true ){
+            if(item.options.visible){
+                alllayers.push(item.options.id);
+            }else{
+                for(var i in alllayers){
+                    if(alllayers[i] ==item.options.id){
+                        alllayers.splice(i,1);
+                    }
+                }
+            }
+            relationlayer.url.parameter["types"] = alllayers;
+            relationlayer.redraw();
+        }else{
+            eventController.fire(eventController.eventTypes.LAYERONSWITCH, {layerArr: layerCtrl.layers});
+
+        }
 
     };
     $scope.ordSpeedScene = function () {
@@ -88,6 +116,8 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                 $scope.items[i].options.visible = false;
             }
         }
+
+
         $scope.flag = true;
         $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
     };
@@ -100,6 +130,9 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
                 $scope.items[i].options.visible = false;
             }
         }
+        relationlayer.url.parameter["types"] = ['RDLINKINTRTIC'];
+        relationlayer.redraw();
+
         $scope.flag = false;
         $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
 
@@ -134,6 +167,10 @@ sceneLayersModule.controller('sceneLayersController', function ($scope) {
             }
 
         }
+
+        relationlayer.url.parameter["types"] =alllayers;
+        relationlayer.redraw();
+
         $scope.$emit("SWITCHTOOLS", {"type": "rdTools"})
     };
 

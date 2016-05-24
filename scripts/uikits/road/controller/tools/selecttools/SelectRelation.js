@@ -18,7 +18,7 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         L.setOptions(this, options);
 
         this._map = this.options.map;
-        this.editLayerIds = ['speedlimit', 'rdcross', 'rdlaneconnexity', 'restriction', 'highSpeedDivergence','rdGsc']
+        this.editLayerIds = ['relationdata']
 
         this.currentEditLayers = [];
         this.tiles = [];
@@ -93,14 +93,14 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                 var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
 
                 for (var item in data) {
-                    if (this.currentEditLayers[layer].requestType == 'RDCROSS') {
+                    if (data[item].properties.featType == 'RDCROSS') {
 
                         for (var key in data[item].geometry.coordinates) {
                             if (this._TouchesPoint(data[item].geometry.coordinates[key], x, y, 20)) {
                                 this.overlays.push({layer: this.currentEditLayers[layer],id:data[item].properties.id, data: data[item]});
                             }
                         }
-                    }else if(this.currentEditLayers[layer].requestType == 'RDGSC'){
+                    }else if(data[item].properties.featType == 'RDGSC'){
                             if( data[item]['geometry']['type']!=="LineString") {
                                 if (this._TouchesPoint(data[item].geometry.coordinates, x, y, 20)) {
                                     this.overlays.push({layer: this.currentEditLayers[layer], data: data[item]});
@@ -119,12 +119,12 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
         if (this.overlays.length == 1) {
             frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
             frs.tiles = this.tiles;
-            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].layer.requestType);
+            frs.drawGeomCanvasHighlight(this.overlays[0].data, this.overlays[0].data.properties.featType);
         } else if (this.overlays.length > 1) {
             var html = '<ul id="layerpopup">';
             //this.overlays = this.unique(this.overlays);
             for (var item in this.overlays) {
-                html += '<li><a href="#" id="' + this.overlays[item].layer.options.requestType + this.overlays[item].id+'">' + this.overlays[item].layer.options.layername + '</a></li>';
+                html += '<li><a href="#" id="' + this.overlays[item].data.properties.featType + this.overlays[item].id+'">' +Application.relationNameObj[this.overlays[item].data.properties.featType] + '</a></li>';
             }
             html += '</ul>';
             this.popup
@@ -138,9 +138,9 @@ fastmap.uikit.SelectRelation = L.Handler.extend({
                         var d = '';
                         var layertype = ''
                         for (var key in that.overlays) {
-                            if (e.target.id == that.overlays[key].layer.requestType+that.overlays[key].id) {
+                            if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
                                 layer = that.overlays[key].layer;
-                                layertype = that.overlays[key].layer.requestType
+                                layertype = that.overlays[key].data.properties.featType
                                 d = that.overlays[key].data;
                             }
                         }

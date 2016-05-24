@@ -130,11 +130,11 @@ Application.layersConfig =
             }
         },
             {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDRESTRICTION'),
+                url: createUrl('/render/obj/getByTileWithGap?', 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDGSC'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
-                    layername: '交限',
-                    id: 'restriction',
+                    layername: '关系数据',
+                    id: 'relationdata',
                     maxZoom: 20,
                     debug: false,
                     // this value should be equal to 'radius' of your points
@@ -151,138 +151,12 @@ Application.layersConfig =
                     zIndex: 6,
                     restrictZoom: 10,
                     visible: true,
-                    requestType: 'RDRESTRICTION',
+                    requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
                     showNodeLevel: 17
                 }
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDBRANCH'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '分歧',
-                    id: 'highSpeedDivergence',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'Diverge',
-                    zIndex: 10,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDBRANCH',
-                    showNodeLevel: 17
-                }
+            },
 
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDSPEEDLIMIT'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '限速',
-                    id: 'speedlimit',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdSpeedLimitPoint',
-                    zIndex: 10,
-                    showType: 1,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDSPEEDLIMIT',
-                    showNodeLevel: 17
-                }
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDCROSS'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '路口',
-                    id: 'rdcross',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdCrossPoint',
-                    zIndex: 18,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDCROSS',
-                    showNodeLevel: 17
-                }
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDLANECONNEXITY'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '车信',
-                    id: 'rdlaneconnexity',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdlaneconnexityPoint',
-                    zIndex: 10,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDLANECONNEXITY',
-                    showNodeLevel: 17
-                }
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDLINKINTRTIC'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '互联网RTIC',
-                    id: 'rdrtic',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdrticPoint',
-                    zIndex: 11,
-                    restrictZoom: 10,
-                    visible: false,
-                    requestType: 'RDLINKINTRTIC',
-                    showNodeLevel: 17,
-                    isUpDirect: true
-                }
-            }, {
+            , {
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDLINK'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -308,58 +182,9 @@ Application.layersConfig =
                     requestType: 'RDLINK',
                     showNodeLevel: 17
                 }
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDGSC'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '立交',
-                    id: 'rdGsc',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdlaneconnexityPoint',
-                    zIndex: 10,
-                    restrictZoom: 10,
-                    visible: true,
-                    requestType: 'RDGSC',
-                    showNodeLevel: 17
-                }
-            }, {
-                url: createUrl('/render/obj/getByTileWithGap?', 'RDLINKINTRTIC'),
-                clazz: fastmap.mapApi.tileJSON,
-                options: {
-                    layername: '互联网RTIC',
-                    id: 'rdrtic',
-                    maxZoom: 20,
-                    debug: false,
-                    // this value should be equal to 'radius' of your points
-                    buffer: 10,
-                    boolPixelCrs: true,
-                    parse: transformData,
-                    boundsArr: [],
-                    unloadInvisibleTiles: true,
-                    reuseTiles: false,
-                    mecator: new fastmap.mapApi.MecatorTranform(),
-                    updateWhenIdle: true,
-                    tileSize: 256,
-                    type: 'rdrticPoint',
-                    zIndex: 11,
-                    restrictZoom: 10,
-                    visible: false,
-                    requestType: 'RDLINKINTRTIC',
-                    showNodeLevel: 17,
-                    isUpDirect: true
-                }
-            }, {
+            },
+
+            {
                 url: createUrl('/render/obj/getByTileWithGap?', 'ADADMIN'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
@@ -575,6 +400,27 @@ Application.layersConfig =
         }]
     }];
 function transformData(data, url) {
+
+    var result = [];
+
+    if( Object.prototype.toString.apply(data) == '[object Object]'){
+
+        for (var object  in data){
+            result = result.concat(parseData(data[object]));
+        }
+
+    }else if(Object.prototype.toString.apply(data) == '[object Array]'){
+        if(Object.prototype.toString.apply(data[0]) == '[object Array]'){
+            data = data[0];
+        }
+        result = parseData(data);
+    }
+
+    return result;
+
+}
+
+function parseData(data){
     var featArr = [];
     $.each(data, function (index, item) {
         var obj = {};
@@ -800,7 +646,7 @@ function transformData(data, url) {
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
                 obj['properties']['markerStyle']["icon"] = [];
-
+                obj['properties']["featType"] = "RDSPEEDLIMIT";
 
 
                 if (type == 0) {
@@ -1072,6 +918,7 @@ function transformData(data, url) {
                 rdGscMarkObj['geometry'] = {};
                 rdGscMarkObj['geometry']['coordinates'] = item.m.a;
                 rdGscMarkObj['properties'] = {};
+                rdGscMarkObj['properties']["featType"] = "RDGSC";
                 rdGscMarkObj['properties']['style'] = {};
                 rdGscMarkObj['properties']['id'] = item.i;
                 rdGscMarkObj['geometry']['type'] = 'Point';
@@ -1213,6 +1060,101 @@ function transformData(data, url) {
                 obj['properties']['style']['fillColor'] = '#CD0000';
                 obj['properties']['style']['fillOpacity'] = 0.2;
                 break;
+
+            case 1101://限速
+                break;
+            case 1301://车信
+                break;
+            case 1407://高速分歧
+                break;
+            case 1604://
+                break;
+            case 1704://交叉路口
+                break;
+            case 1501://上下线分离
+                break;
+            case 1302://普通交限
+                break;
+            case 1201://道路种别
+                break;
+            case 1901://道路名
+            //obj['properties']["featType"] = item.t;
+            //obj['geometry']['type'] = "LineString";
+            //
+            //obj['properties']['style'] = {
+            //    'strokeColor': '#7030A0',
+            //    'strokeWidth': 2,
+            //    'strokeOpacity': 0.8
+            //};
+            //break;
+            //case 2001://侧线
+            //    obj['properties']["featType"] = item.t;
+            //    obj['geometry']['type'] = "LineString";
+            //
+            //    obj['properties']['style'] = {
+            //        'strokeColor': '#000000',
+            //        'strokeWidth': 2,
+            //        'strokeOpacity': 0.8
+            //    };
+            //    break;
+            case 1203://道路方向
+                break;
+            case 1403://3d分歧
+
+                break;
+
+            //case 1510://桥
+            //    obj['properties']["featType"] = item.t;
+            //    obj['geometry']['type'] = "LineString";
+            //
+            //    obj['properties']['style'] = {
+            //        'strokeColor': '#336C0A',
+            //        'strokeWidth': 2,
+            //        'strokeOpacity': 0.8
+            //    };
+            //    break;
+            case 1514://施工维修
+                obj['properties']["featType"] = item.t;
+                obj['geometry']['type'] = "LineString";
+
+                obj['properties']['style'] = {
+                    'strokeColor': '#E36C0A',
+                    'strokeWidth': 2,
+                    'strokeOpacity': 0.8
+                };
+                break;
+            case 1801://立交
+                featArr.pop();
+                for (var num = 0; num < item.m.c.length; num++) {
+                    var overPassObj = {};
+                    overPassObj['geometry'] = {};
+                    overPassObj['geometry']['type'] = 'LineString';
+                    overPassObj['geometry']['coordinates'] = [];
+                    //for (var i = 0, len = item.m.c[num].g.length; i < len; i = i + 1) {
+                    overPassObj['geometry']['coordinates'] = item.m.c[num].g;
+                    //}
+                    overPassObj['properties'] = {
+                        'id': item.i,
+                        'featType': item.t
+                    }
+                    if (item.m.c[num].s === 1) {
+                        overPassObj['properties']['style'] = {
+                            'strokeColor': '#E36C0A',
+                            'strokeWidth': 2,
+                            'strokeOpacity': 0.8
+                        };
+                    } else {
+                        overPassObj['properties']['style'] = {
+                            'strokeColor': 'red',
+                            'strokeWidth': 2,
+                            'strokeOpacity': 0.8
+                        };
+                    }
+
+                    featArr.push(overPassObj);
+                }
+                break;
+
             case 1803://挂接
                 obj['properties']["featType"] = item.t;
                 obj['geometry']['type'] = "LineString";
@@ -1816,7 +1758,7 @@ function createUrl(url, requestType) {
             types: requestType.split(',')
         }
         if (requestType == "RDLINK") {
-            urlObj.hbaseUrl = Application.url + '/render/link/getByTileWithGap?';
+            urlObj.hbaseUrl = Application.url + '/render/obj/getByTileWithGap?';
         }
     return urlObj;
 }
@@ -1842,10 +1784,6 @@ function createUrlForTips(url, requestType) {
             gap: 80
         }
     }
-
-
-
-
 
     return urlObj;
 }
