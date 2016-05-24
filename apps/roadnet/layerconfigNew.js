@@ -410,6 +410,9 @@ function transformData(data, url) {
         }
 
     }else if(Object.prototype.toString.apply(data) == '[object Array]'){
+        if(Object.prototype.toString.apply(data[0]) == '[object Array]'){
+            data = data[0];
+        }
         result = parseData(data);
     }
 
