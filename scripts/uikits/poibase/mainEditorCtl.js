@@ -95,6 +95,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
+    promises.push(poi.queryChargeChain("230218").then(function(data) {
+        $scope.chargeChain = data;
+    }));
     $q.all(promises).then(function() {
         getParentPoiName();
         $scope.poiMap = {   
