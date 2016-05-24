@@ -97,27 +97,27 @@ fastmap.uikit.HighRenderController = (function () {
                                             geom: geo
                                         })
                                     }
-                                    else if (this.highLightFeatures[item].type == 'speedlimit') {
+                                    else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDSPEEDLIMIT') {
 
                                         this.drawSpeedLimit(id, hightlightfeature, ctx);
 
-                                    } else if (this.highLightFeatures[item].type == 'rdcross') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDCROSS') {
 
                                         this.drawCross(id, hightlightfeature, ctx);
 
-                                    } else if (this.highLightFeatures[item].type == 'restriction') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDRESTRICTION') {
 
                                         this.drawRestrict(id, hightlightfeature, ctx);
 
-                                    } else if (this.highLightFeatures[item].type == 'rdlaneconnexity') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDLANECONNEXITY') {
                                         this.drawLane(id, hightlightfeature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'highSpeedDivergence') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDBRANCH') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawBranch(this.highLightFeatures[item].id, feature, ctx);
                                     }  else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.highLightFeatures[item].type == 'rdgsc') {
+                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDGSC') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         cusFeature = this.highLightFeatures[item];
                                         this.drawOverpass(this.highLightFeatures[item].id, feature, ctx, cusFeature);

@@ -7,7 +7,7 @@ adFaceApp.controller("adFaceController",function($scope) {
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var adface = layerCtrl.getLayerById("adface");
+    var adFace = layerCtrl.getLayerById("adface");
     var outputCtrl = fastmap.uikit.OutPutController({});
     //初始化
     $scope.initializeData = function(){
@@ -49,15 +49,15 @@ adFaceApp.controller("adFaceController",function($scope) {
         //删除调用方法
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
-            adface.redraw();//重绘
+            adFace.redraw();//重绘
             //返回正确时解析数据
             if (data.errcode==0) {
-                var sinfo={
+                var sInfo={
                     "op":"删除行政区划面成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
 
             }else{

@@ -152,13 +152,15 @@
     </div>
     <div class="title">
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
-            <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)">
+            <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)" ng-if="number > 0">
+            <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="noPic()" ng-if="number == 0">
            <!-- <span style="color: white">{{number}}</span>-->
            <!-- <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:0px;color: #fff;cursor: pointer;">{{number}}</span>-->
             <span ng-if="number > 0" style=" float: right;top: 0px;right: 10px; margin-top: -10px;background: red;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 20px;display: inline-block;width: 20px;height: 20px;font-size: 13px;text-align: center">{{number}}</span>
         </div>
         <div class="col-sm-12" style="margin-left: 30px; display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
-            <img ng-src="../../images/road/img/novoice.png" width="60px" height="60px" ng-click="openVideo(0)">
+            <img ng-src="../../images/road/img/novoice.png" width="60px" height="60px" ng-click="noRad()" ng-if="0 == 0">
+            <img ng-src="../../images/road/img/voice.png" width="60px" height="60px" ng-click="openVideo(0)"ng-if="0 > 1">
             <!--<span style="color: white">0</span>-->
         <!--    <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:-5px;color: #fff;cursor: pointer;"
                   class="glyphicon glyphicon-remove-sign"></span>-->

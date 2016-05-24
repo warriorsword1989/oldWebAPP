@@ -45,7 +45,7 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
     $scope.initializeData = function(){
         $scope.adAdminData = objCtrl.data;//获取数据
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据值
-        var linkArr =$scope.adAdminData.geometry.coordinates, points = [];
+        var linkArr =$scope.adAdminData.geometry.coordinates;
         var points = fastmap.mapApi.point(linkArr[0], linkArr[1]);
         selectCtrl.onSelected({//记录选中点信息
             geometry: points,
@@ -129,9 +129,6 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
                     }
-                    if (toolTipsCtrl.getCurrentTooltip()) {
-                        toolTipsCtrl.onRemoveTooltip();
-                    }
                     editLayer.drawGeometry = null;
                     editLayer.clear();
                     shapeCtrl.stopEditing();
@@ -189,21 +186,18 @@ adAdminZone.controller("adAdminController",function($scope,$timeout,$document) {
                     if (typeof map.currentTool.cleanHeight === "function") {
                         map.currentTool.cleanHeight();
                     }
-                    if (toolTipsCtrl.getCurrentTooltip()) {
-                        toolTipsCtrl.onRemoveTooltip();
-                    }
                     editLayer.drawGeometry = null;
                     editLayer.clear();
                     shapeCtrl.stopEditing();
                     editLayer.bringToBack();
                     $(editLayer.options._div).unbind();
                 }
-                var sinfo={
+                var sInfo={
                     "op":"删除行政区划代表点成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
 
             }else{
