@@ -7,7 +7,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     var eventController = fastmap.uikit.EventController();
     $scope.itemsByPage = 1;
     $scope.meshesId = [60560301,60560302,60560303,60560311,60560312,60560313,60560322,60560323,60560331,60560332,60560333,60560320,60560330,60560300,60560321,60560310];
-    //获取检查错误
+    //获取检查错误数据
     $scope.getCheckDate = function () {
         var param = {
             "projectId": Application.projectid,
@@ -18,6 +18,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
         Application.functions.getCheckData(JSON.stringify(param), function (data) {
             if (data.errcode == 0) {
                 checkResultC.setCheckResult(data.data);
+                //获取数据并打开页面
                 var errorCheckObj = {
                     "loadType": "errorCheckTab",
                     "propertyCtrl": 'components/road/ctrls/log_show_ctrl/errorCheckCtrl',
@@ -30,8 +31,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
         });
     }
 
-    //刷新检查输出结果
-
+    //刷新检查输出结果，获取数量
     $scope.getCheckDateAndCount = function () {
         var paramsOfCounts = {
             "projectId": Application.projectid,
@@ -84,6 +84,7 @@ errorCheckModule.controller('errorCheckPageController', function ($scope) {
     }
 
 
+    //刷新检查
     $scope.refCheck = function () {
         $scope.getCheckDateAndCount();
     }

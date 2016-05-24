@@ -3,29 +3,34 @@
  */
 var errorCheckModule = angular.module('mapApp');
 errorCheckModule.controller('errorCheckController', function ($scope, $timeout) {
+    //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var restrictLayer = layerCtrl.getLayerById("referencePoint");
+    //检查数据ctrl(可以监听到检查数据变化)
     var checkResultC=fastmap.uikit.CheckResultController();
+    //事件ctrl
     var eventController = fastmap.uikit.EventController();
-
+    //高亮ctrl
     var highRenderCtrl = fastmap.uikit.HighRenderController();
    // $scope.itemsByPage = 1;
     $scope.initType = 0;
 
-
+    //获取检查结果数据
     if(checkResultC.errorCheckData){
         $scope.rowCollection=checkResultC.errorCheckData;
     }
 
+    //状态
     $scope.initTypeOptions = [
         {"id": 0, "label": " 未修改"},
         {"id": 1, "label": " 例外"},
         {"id": 2, "label": " 确认不修改"},
         {"id": 3, "label": " 确认已修改"}
     ];
+    //修改状态
     $scope.changeType = function (selectInd, rowid) {
         var params = {
             "projectId": Application.projectid,
@@ -41,6 +46,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
     }
 
 
+    //点击数据在地图上高亮
     $scope.showOnMap = function (targets) {
         highRenderCtrl._cleanHighLight();
         if(highRenderCtrl.highLightFeatures!=undefined){
@@ -51,6 +57,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
 
         var type = value1.split(",")[0].replace("_", "");
         var id = value1.split(",")[1];
+        //线高亮
         if (type == "RDLINK") {
             Application.functions.getRdObjectById(id, type, function (d) {
                 if (d.errcode === -1) {
@@ -76,7 +83,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 highRenderCtrl.drawHighlight();
 
             })
-        } else if (type == "RDRESTRICTION") {
+        } else if (type == "RDRESTRICTION") {//交限高亮
 
             var limitPicArr = [];
             layerCtrl.pushLayerFront('referencePoint');
@@ -109,15 +116,8 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
                 }
                 highRenderCtrl.highLightFeatures = highlightFeatures;
                 highRenderCtrl.drawHighlight();
-
-                $.each(objCtrl.data.details, function (i, v) {
-                    if (v)
-                        limitPicArr.push(v.timeDomain);
-                    else
-                        limitPicArr.push('');
-                })
             })
-        } else {
+        } else {//其他tips高亮
             layerCtrl.pushLayerFront("workPoint");
             Application.functions.getTipsResult(id, function (data) {
                 map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
@@ -136,6 +136,7 @@ errorCheckModule.controller('errorCheckController', function ($scope, $timeout) 
     }
 
 
+    //监听检查结果并获取
     eventController.on(eventController.eventTypes.CHEKCRESULT, function(event){
         $scope.rowCollection=event.errorCheckData;
     });
