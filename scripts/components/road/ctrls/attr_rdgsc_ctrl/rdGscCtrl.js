@@ -29,14 +29,9 @@ rdGscApp.controller("rdGscController",function($scope) {
         /*highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();*/
 
-
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.rdGscForm!=undefined) {
-                    $scope.rdGscForm.$setPristine();
-                }
-            });
-
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.rdGscForm) {
+            $scope.rdGscForm.$setPristine();
         }
     };
     $scope.initializeData();

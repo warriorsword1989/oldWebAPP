@@ -12,12 +12,10 @@ conditionSpeedApp.controller("conditionSpeedController",function($scope) {
             $scope.oridiData = $scope.speedLimitsData[i];
         }
     }
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.conditForm!=undefined) {
-                $scope.conditForm.$setPristine();
-            }
-        });
+
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.conditForm) {
+        $scope.conditForm.$setPristine();
     }
     $scope.auxiFlagoption=[
         {"id":0,"label":"无"},

@@ -25,12 +25,9 @@ oridinaryInfoApp.controller("oridinaryCarController",function($scope) {
         }
     }
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.ordinaryCarForm!=undefined) {
-                $scope.ordinaryCarForm.$setPristine();
-            }
-        });
+//回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.ordinaryCarForm) {
+        $scope.ordinaryCarForm.$setPristine();
     }
 
 })

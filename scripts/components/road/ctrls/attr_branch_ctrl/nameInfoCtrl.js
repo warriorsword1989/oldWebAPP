@@ -6,12 +6,9 @@ braName.controller("BraNameCtrl", function ($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
      $scope.details = objCtrl.data.details?objCtrl.data.details:0;
      $scope.nameGroup = [];
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.branchNameForm!=undefined) {
-                $scope.branchNameForm.$setPristine();
-            }
-        });
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.branchNameForm) {
+        $scope.branchNameForm.$setPristine();
     }
      /*根据nameGroupid排序*/
      $scope.details[0].names.sort(function(a,b){
