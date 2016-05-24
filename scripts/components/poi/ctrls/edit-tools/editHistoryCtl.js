@@ -1,19 +1,19 @@
 angular.module('app').controller('EditHistoryCtl', ['$scope', function($scope) {
     $scope.theadInfo = ['序号','作业员','操作时间','操作描述','平台'];
-    var data = $scope.optionData.editHistoryData;
+    // var data = $scope.optionData.editHistoryData;
     $scope.editHistory = [];
     function initData(){
         /*重组履历数据*/
-        for(var i=0,len=data.historyData.mergeContents.length;i<len;i++){
+        for(var i=0,len=$scope.optionData.editHistoryData.historyData.mergeContents.length;i<len;i++){
             var hisTemp = {};
-            hisTemp.name = data.historyData.operator.name;
-            hisTemp.mergeDate = FM.Util.dateFormat(data.historyData.mergeDate);
-            hisTemp.sourceName = FM.dataApi.Constant.CODE_SOURCE_NAME[data.historyData.sourceName];
-            hisTemp.operDesc = getOperDesc(FM.Util.stringToJson(data.historyData.mergeContents[i].oldValue));
+            hisTemp.name = $scope.optionData.editHistoryData.historyData.operator.name;
+            hisTemp.mergeDate = FM.Util.dateFormat($scope.optionData.editHistoryData.historyData.mergeDate);
+            hisTemp.sourceName = FM.dataApi.Constant.CODE_SOURCE_NAME[$scope.optionData.editHistoryData.historyData.sourceName];
+            hisTemp.operDesc = getOperDesc(FM.Util.stringToJson($scope.optionData.editHistoryData.historyData.mergeContents[i].oldValue));
             $scope.editHistory.push(hisTemp);
         }
     }
-    if(data.historyData){
+    if($scope.optionData.editHistoryData.historyData){
         initData();
     }
 
@@ -41,7 +41,7 @@ angular.module('app').controller('EditHistoryCtl', ['$scope', function($scope) {
         return msg;
     }
     function kindName(kindCode) {
-        var tmp = data.kindFormat[kindCode];
+        var tmp = $scope.optionData.editHistoryData.kindFormat[kindCode];
         if (tmp) {
             return tmp.kindName;
         } else {

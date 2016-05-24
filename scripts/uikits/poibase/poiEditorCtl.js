@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function ($scope, $ocLazyLoad, $rootScope, poiDS) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -6,8 +6,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('P
     $scope.dataListType = 1;
     $scope.propertyType = 'base';
     $scope.outputType = 1;
+    $scope.parkingFee = {
+        1: '包年',
+        2: '包月',
+        3: '免费'
+    };
     poiDS.getPoiList().then(function(data) {
-        $scope.poiList = data;
+        $scope.poiList = data.data;
     });
     loadMap();
     $scope.changeDataList = function(val) {
@@ -66,6 +71,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('P
             operateDesc: '修改了【分类】，修改前：中餐馆',
             platform: 'Android'
         }];
+        $scope.selectedPoi.parkingFee = {
+            1: true,
+            2: true
+        };
     };
     $scope.addContact = function() {
         $scope.selectedPoi.contacts.push({
@@ -83,6 +92,27 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('P
     $scope.showRelatedPoi = function(list) {
         alert(list.length);
     };
+    $scope.save = function() {
+        console.log($scope.selectedPoi);
+    };
+    $scope.changeParkingFee = function(data) {
+        mutex($scope.selectedPoi.parkingFee, ["3"], data);
+    };
+    var mutex = function(obj, mutexArray, val) {
+        if (obj[val]) {
+            for (var k in obj) {
+                if (mutexArray.indexOf(val) >= 0) {
+                    if (mutexArray.indexOf(k) < 0) {
+                        obj[k] = false;
+                    }
+                } else {
+                    if (mutexArray.indexOf(k) >= 0) {
+                        obj[k] = false;
+                    }
+                }
+            }
+        }
+    }
 }]);
 
 function loadMap() {

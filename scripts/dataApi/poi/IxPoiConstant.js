@@ -281,6 +281,14 @@ FM.dataApi.Constant = {
     'CHARGINGPOLE_ACDC': {
         0: "交流",
         1: "直流"
-    }
+    },
+    'IMAGE_TAG':[
+        {key:0,value:'请选择'},
+        {key:1,value:'全貌'},
+        {key:2,value:'水牌'},
+        {key:3,value:'名称'},
+        {key:4,value:'名牌'},
+        {key:5,value:'英文名'}
+    ]
 };
 

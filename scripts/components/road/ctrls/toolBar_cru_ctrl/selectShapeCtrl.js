@@ -224,7 +224,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
                         'class': "feaf",
                         callback: $scope.modifyTools
                     }, {
-                        'text': "<a class='glyphicon glyphicon-transfer' type=''></a>",
+                        'text': "<a class='glyphicon glyphicon-resize-full' type=''></a>",
                         'title': "打断link",
                         'type': 'PATHBREAK',
                         'class': "feaf",
