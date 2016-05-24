@@ -128,7 +128,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
                 $scope.limitSrcOption = [
                     {"id": 0, "label": "无"},
-                    {"id": 1, "label": "1现场标牌"},
+                    {"id": 1, "label": "现场标牌"},
                     {"id": 2, "label": "城区标识"},
                     {"id": 3, "label": "高速标识"},
                     {"id": 4, "label": "车道限速"},
@@ -407,6 +407,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/tipsPictureTpl.html"
         };
         $scope.$emit("transitCtrlAndTpl", openOriginObj);
+    };
+    $scope.noPic=function() {
+        swal("没有照片可被查看", "", "");
+    };
+    $scope.noRad=function() {
+        swal("没有音频数据", "", "");
     };
     $scope.openVideo=function(id) {
         selectCtrl.rowKey["VideoId"] = id;
