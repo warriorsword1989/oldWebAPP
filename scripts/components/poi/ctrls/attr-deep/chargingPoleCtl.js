@@ -29,16 +29,14 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
             }
         }
     };
-    $scope.initCheckbox = function(valueStr, retObj) {
-        var tmp = valueStr ? valueStr.split("|") : [];
-        for (var i = 0; i < tmp.length; i++) {
-            retObj[tmp[i]] = true;
-        }
-    };
+    $scope.chargingPlugType = FM.dataApi.Constant.CHARGINGPOLE_PLUGTYPE;
+    $scope.chargingOpenType = FM.dataApi.Constant.CHARGINGPOLE_OPENTYPE;
+    $scope.chargingPayment = FM.dataApi.Constant.CHARGINGPOLE_PAYMENT;
+    $scope.locationtype = FM.dataApi.Constant.CHARGINGPOLE_LOCATIONTYPE;
+    $scope.chargingAcdc = FM.dataApi.Constant.CHARGINGPOLE_ACDC;
+    $scope.chargingMode = FM.dataApi.Constant.CHARGINGPOLE_MODE;
+    $scope.chargingAvailableState = FM.dataApi.Constant.CHARGINGPOLE_AVAILABLESTATE;
     $scope.charging = $scope.poi.chargingPole[0];
-    $scope.initCheckbox($scope.charging.openType, $scope.charging.openType = {});
-    $scope.initCheckbox($scope.charging.plugType, $scope.charging.plugType = {});
-    $scope.initCheckbox($scope.charging.payment, $scope.charging.payment = {});
     //查询充电桩品牌列表
     $scope.$on("loaded",function (event, data) {
         FM.dataApi.ajax.get("charge/row_edit/queryChain/", {
@@ -56,8 +54,5 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
             }
             console.log(chargeChain);
         });
-    });
-    $scope.$on("save", function(event, data) {
-        $scope.$emit("saveMe", "deepInfo");
     });
 });

@@ -11,7 +11,8 @@ angular.module('fastmap.uikit').directive('showBox', function () {
         templateUrl: '../../scripts/components/directives/showBox/showBox.htm',
         scope: {
             dataList: '=fmData',
-            deletable: '@fmDeletable',
+            deletable: '=fmDeletable',
+            filter: '@fmFilter',
             onClick: '&fmClick',
             onSelect: '&fmSelect',
             beforeDelete: '&fmBeforeDelete',
@@ -38,9 +39,12 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             };
             $scope.deleteMe = function () {
                 if ($scope.beforeDelete) {
-                    $scope.beforeDelete({
+                    var f = $scope.beforeDelete({
                         item: $scope.selectedImg
                     });
+                    if(!f){
+                        return ;
+                    }
                 }
                 $scope.dataList.splice($scope.selectedIndex, 1);
                 if ($scope.selectedIndex > 0) {
@@ -83,7 +87,7 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                     }
                     $scope.page.pageCount = Math.ceil($scope.dataList.length / $scope.page.pageSize);
                 }
-            }, true);
+            });
             $scope.pageStyle = {
                 "margin-top": "0px"
             };
@@ -115,7 +119,7 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                 var rH = bh / nh;
                 var r = rW <= rH ? rW : rH;
                 if (r < 1) {
-                    that.css("width", Math.floor(nw * r) + "px");
+                    that.css("width", Math.floor(nw * r - 10) + "px");
                     that.css("height", Math.floor(nh * r) + "px");
                 }
                 var off = bh - this.offsetHeight;

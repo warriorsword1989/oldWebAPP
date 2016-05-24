@@ -1,11 +1,13 @@
 angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics.directives', 'angularFileUpload', 'angular-drag', 'fastmap.uikit']).controller('mainEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta', 'uibButtonConfig', '$http', '$timeout', function ($scope, $ocll, $rs, $q, poi, meta, uibBtnCfg, $http, $timeout) {
     uibBtnCfg.activeClass = "btn-success";
     $scope.isShowImages = true; //页面初始化需要设置成true。否则showbox控件计算高度有误
-    $scope.deleteFlag = 1;
+    $scope.deleteFlag = true;
     $scope.mapColumn = 12;
     $scope.meta = {};
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+    var allImages = [] , operSeasonImages = [];
+    var operSeason = "";
     var promises = [];
     promises.push(meta.getKindList().then(function(kindData) {
         //$scope.meta.kindList = [];
@@ -16,16 +18,92 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
+        $scope.poi.checkResults[0] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-14Sum-11-09",
+            "errorMsg": "内部POI必须有父",
+            "fields": ["kindCode", "indoor"],
+            'refFeatures': [{
+                "name": "５５５中信银行ＡＴＭ",
+                "level": "B1",
+                "auditStatus": 2,
+                "rowkey": "005956730006697336",
+                "pid": 6697336,
+                "guide": {
+                    "latitude": 39.9199,
+                    "linkPid": 49143560,
+                    "longitude": 116.45111
+                },
+                "location": {
+                    "latitude": 39.9199,
+                    "longitude": 116.45113
+                },
+                "fid": "0010060811LLJ02257",
+                "address": "东大桥路８号院１",
+                "checkResultNum": 2,
+                "lifecycle": 2,
+                "kindCode": "150101",
+                "attachments": [{
+                    "url": "/15win/2016013086/20160314/292520160314131656_48465.JPG",
+                    "tag": "4",
+                    "type": 1
+                }, {
+                    "url": "98798",
+                    "tag": 0,
+                    "type": 4
+                }]
+            }]
+        });
+        $scope.poi.checkResults[1] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-14Win-01-02",
+            "errorMsg": "重新确认成果中的设施名称是否正确",
+            "fields": ["name"]
+        });
+        $scope.poi.checkResults[2] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-YW-20-215",
+            "errorMsg": "内部POI必须有父",
+            "fields": ["kindCode", "indoor"]
+        });
+        $scope.poi.checkResults[3] = new FM.dataApi.IxCheckResult({
+            "errorCode": "FM-YW-20-216",
+            "errorMsg": "分类冲突，请确认！",
+            "refFeatures": [{
+                "conflictFields": "kindCode",
+                "fid": "0010060815LML01264",
+                "duppoi": {
+                    "name": "北京马驹桥园林绿化有限公司",
+                    "contacts": "",
+                    "level": "B3",
+                    "pid": 7689,
+                    "postCode": "",
+                    "fid": "0010060815LML01264",
+                    "address": "",
+                    "brands": {
+                        "code": ""
+                    },
+                    "kindCode": "220100",
+                    "location": {
+                        "latitude": 39.74941,
+                        "longitude": 116.56383
+                    }
+                }
+            }]
+        });
         $scope.snapshotPoi = data.getSnapShot();
     }));
     //查询3DIcon
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poiIcon = data;
     }));
+    //查询当前作业季
+    promises.push(poi.getOperSeason("2016013086").then(function(data) {
+        //$scope.operSeason = data;
+        operSeason = "15win";
+    }));
     promises.push(poi.getPoiList().then(function(data) {
         $scope.poiList = data;
     }));
     $q.all(promises).then(function() {
+        initImages();
         getParentPoiName();
         $scope.poiMap = {   
             data: $scope.snapshotPoi,
@@ -36,9 +114,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         $ocll.load('../../scripts/components/poi/ctrls/attr-base/generalBaseCtl.js').then(function() {
             $scope.baseInfoTpl = '../../scripts/components/poi/tpls/attr-base/generalBaseTpl.html';
             // distinguishResult($scope.poi);
-            $ocll.load('../scripts/components/poi/ctrls/edit-tools/OptionBarCtl').then(function() {
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
-                console.log($scope.poi)
             });
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
@@ -46,28 +123,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                 });
             });
         });
-        //$ocll.load('../../scripts/components/poi/ctrls/attr-base/imageCtl.js').then(function () {
-            //$scope.imageTpl = '../../scripts/components/poi/tpls/attr-base/imageTpl.html';
-            /*$scope.$on('$includeContentLoaded', function($event,url ) {
-                if(url == '../../scripts/components/poi/tpls/attr-base/imageTpl.html'){
-                    console.log("imageTpl.html-------------");
-                    $timeout(function (){
-                        $scope.$broadcast('loadImages',{"imgArray":imgs,"flag":1});
-                    },100);
-                }
-            });*/
-            var imgs = initImages();
-            $scope.imageArray =  imgs;
-            
-            // $scope.imageArray = [{
-            //     id: 1,
-            //     tag: 3,
-            //     tagName: '水牌',
-            //     url: '../../images/temp/01.jpg'
-            // }];
-        //});
+
+        
+
     });
 
+    $scope.tagKeyValue = FM.dataApi.Constant.IMAGE_TAG;
     var getParentPoiName = function (){
         if ($scope.poi.relateParent) {
             poi.getPoiSnapshot($scope.poi.relateParent.parentFid).then(function (parentPoi){
@@ -76,19 +137,58 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         }
     };
 
+    /*$scope.$watch("poi.attachmentsImage", function (newValue, oldValue) {
+        if (newValue) {
+            if (newValue.length == 0) {
+                $scope.mapColumn = 12;
+                $scope.isShowImages = false;
+                $scope.isShowArrow = false;
+            } else {
+                $scope.mapColumn = 6;
+                $scope.isShowImages = true;
+                $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
+                $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
+            }
+        }
+    });*/
+
+    $scope.imageFilterChange = function (evn){
+        var value = evn.target.value;
+        if (value == 1){
+            //$scope.imageArray = operSeasonImages;
+            $scope.poi.attachmentsImage = operSeasonImages;
+        } else {
+            //$scope.imageArray = allImages;
+            $scope.poi.attachmentsImage = allImages;
+        }
+    };
+    $scope.imageTagChange = function (){        
+        $scope.selectedImg.tag = $scope.imgTag.tagSelected;
+    }
+    $scope.beforeDeleteImg = function (item) {
+        return true; //通过return false可以阻止继续执行,默认return true;
+    };
+
+    $scope.afterDeleteImg = function (item) {
+    };
+
+    $scope.imgTag = { tagSelected:0 }; //使用showbox指令时特殊处理
+    $scope.selectImg = function (index, item) {
+        $scope.imgTag.tagSelected = item.tag;
+        $scope.selectedImg = item;
+    };
+    
+
     var initImages = function () {
         var attachments = $scope.poi.attachmentsImage;
-        var imageArr = attachments;
-        // for (var i = 0, len = attachments.length; i < len; i++) {
-        //     if (attachments[i].type == 1) {
-        //         if (attachments[i].url.indexOf(App.Config.resourceUrl) == -1) {
-        //             attachments[i].url = App.Config.resourceUrl + '/photo' + attachments[i].url
-        //         }
-        //         imageArr.push(attachments[i]);
-        //     }
-        // }
+        for (var i = 0, len = attachments.length; i < len; i++) {
+            if (attachments[i].url.indexOf(operSeason) > -1) {
+                operSeasonImages.push(attachments[i]);
+            }
+            allImages.push(attachments[i]);
+        }
         //控制是否显示图片
-        if (imageArr.length > 0) {
+        if (attachments.length > 0) {
             $scope.mapColumn = 6;
             $scope.isShowImages = true;
             $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
@@ -98,7 +198,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.isShowImages = false;
             $scope.isShowArrow = false;
         }
-        return imageArr;
     };
     $scope.doLeftRight = function () {
         if ($scope.mapColumn == 6) {
@@ -116,13 +215,31 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.showSelectedSamePoiInfo = function(poi, index) {
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
+    /*获取关联poi数据——检查结果*/
+    $scope.$on('getRefFtInMap', function (event, data) {
+        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+            $scope.$emit('getLayerName','checkResultLayer');
+            for (var i = 0, len = data.length; i < len; i++) {
+                data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
+            }
+            $scope.refFt = {
+                title: '检查结果关联POI',
+                refList: data
+            };
+            $scope.$emit('showRelatedPoiInfo',$scope.refFt);
+        });
+    });
+    /*隐藏关联POI界面*/
+    $scope.infoStyle = {
+        'display':'block'
+    };
     /*显示关联poi详细信息*/
     $scope.showPoiDetailInfo = function(poi, index) {
         $scope.poiDetail = {
             poi: poi,
             kindName: $scope.refFt.refList[index].kindInfo.kindName
         };
-        console.log($scope.refFt.refList[index], $scope.refFt.refList[index].fid);
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
     };
     /*显示地图上poi数组*/
@@ -225,7 +342,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     });
     /*显示关联poi面板*/
     $scope.$on('showRelatedPoiInfo',function(event,data){
-        console.log(data)
         $scope.refFt = data;
         $scope.$broadcast('showPoisInMap', {
             data: data.refList,
@@ -236,9 +352,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
         poi.ignoreCheck(data,$scope.poi.fid).then(function () {
+            $scope.poi.ckException.push({
+                errorCode:data.errorCode,
+                description:data.errorMsg
+            });
+            for (var i = 0; i < $scope.poi.checkResults.length; i++) {
+                if ($scope.poi.checkResults[i].errorCode == data.errorCode && $scope.poi.checkResults[i].errorMsg == data.errorMsg) {
+                    $scope.poi.checkResults.splice(i, 1);
+                    break;
+                }
+            }
+            if ($scope.poi.checkResultNum > 0) {
+                $scope.poi.checkResultNum = $scope.poi.checkResultNum - 1;
+            }
             /*操作成功后刷新poi数据*/
-            // refreshPoiData('0010060815LML01353');
-        })
+            $scope.$broadcast('initOptionData',data);
+        });
     });
     /*查找FIDlist*/
     meta.getParentFidList().then(function (list) {
@@ -282,8 +411,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*接收新上传的图片数据*/
     $scope.$on('getImgItems', function (event, data) {
         for (var i = 0; i < data.length; i++) {
-            $scope.imagesArray.push(data[i]);
-            // $scope.poi.attachments.push(data[i]);
+            $scope.poi.attachmentsImage.push(data[i]);
         }
         $scope.$broadcast('loadImages', {
             "imgArray": initImages(),
@@ -319,11 +447,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.doSave = function() {
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
-        $scope.saveButClass = "disabled";
-        poi.savePoi($scope.poi).then(function (data) {
-            var temp = data;
-            $scope.saveButClass = "";
-        });
+        //$scope.saveButClass = "disabled";
+        // poi.savePoi($scope.poi).then(function (data) {
+        //     var temp = data;
+        //     $scope.saveButClass = "";
+        // });
     };
 
     //接收从generalBase传过来的命令，查询并显示在地图上

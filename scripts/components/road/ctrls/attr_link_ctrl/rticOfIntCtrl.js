@@ -8,12 +8,9 @@ oridinaryInfoApp.controller("oridinaryRticsController",function($scope) {
     var layerCtrl = fastmap.uikit.LayerController();
     $scope.realtimeData = objCtrl.data;
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.ordinaryRticForm!=undefined) {
-                $scope.ordinaryRticForm.$setPristine();
-            }
-        });
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.ordinaryRticForm) {
+        $scope.ordinaryRticForm.$setPristine();
     }
     $scope.rticDroption =[
         {"id": 0,"label":"无"},

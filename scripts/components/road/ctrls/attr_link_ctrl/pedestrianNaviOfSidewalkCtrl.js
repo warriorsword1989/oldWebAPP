@@ -31,13 +31,9 @@ sidewalkApp.controller("sidewalkController",function($scope) {
         {"id": 8, "label":"混合"}
     ];
 
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.sideWalkForm!=undefined) {
-                $scope.sideWalkForm.$setPristine();
-            }
-        });
-
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.sideWalkForm) {
+        $scope.sideWalkForm.$setPristine();
     }
     $scope.minusSideWalk = function (id) {
         $scope.sidewalkData.splice(id, 1);
