@@ -154,14 +154,15 @@
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
             <img ng-src="{{photos[0]}}" width="60px" height="60px" ng-click="openOrigin(0)">
            <!-- <span style="color: white">{{number}}</span>-->
-            <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:0px;color: #fff;cursor: pointer;">{{number}}</span>
+           <!-- <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:0px;color: #fff;cursor: pointer;">{{number}}</span>-->
+            <span style=" float: right;top: 0px;margin-top: -10px;margin-left:0px; display: inline;background: blue;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 16px;display: inline-block;color: #fff;padding: 0 6px;">{{number}}</span>
         </div>
         <div class="col-sm-12" style="display: inline; cursor: pointer; padding-top: 2px; padding-left: 19px; width: 100px">
             <img ng-src="../../images/road/img/novoice.png" width="60px" height="60px" ng-click="openVideo(0)">
             <!--<span style="color: white">0</span>-->
         <!--    <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:-5px;color: #fff;cursor: pointer;"
                   class="glyphicon glyphicon-remove-sign"></span>-->
-            <span style=" float: right;font-size: 12px;top: 0px;margin-top: -10px;margin-left:0px;color: #fff;cursor: pointer;">0</span>
+            <span style=" float: right;top: 0px;margin-top: -10px;margin-left:0px; display: inline;background: blue;border-radius: 15px;color: #fff!important;cursor: pointer;position: relative;line-height: 16px;display: inline-block;color: #fff;padding: 0 6px;">0</span>
         </div>
     </div>
     <div class="right" ng-if="allTipsType==1302" >
@@ -325,8 +326,8 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
 
                             <div class="col-sm-7" style="padding: 4px">
-                                <span ng-if="dataTipsData.in.id.length>8" class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}">{{dataTipsData.in.id.substring(0,8)}}...</span>
-                                <span ng-if="dataTipsData.in.id.length<=8" class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}">{{dataTipsData.in.id}}</span>
+                                <span ng-if="dataTipsData.in.id.length>10" class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}">{{dataTipsData.in.id.substring(0,8)}}...</span>
+                                <span ng-if="dataTipsData.in.id.length<=10" class="label " style="cursor:pointer;" ng-click="getFeatDataCallback(dataTipsData.in.id,'RDLINK')" title="{{dataTipsData.in.id}}">{{dataTipsData.in.id}}</span>
                             </div>
                         </div>
 
@@ -369,7 +370,7 @@
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-4 control-label" style="padding: 4px">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;段:</label>
                             <div class="col-sm-8" style="padding: 4px">
-                                <span class="label label-default" ng-bind="dataTipsData.o_array[0].time"></span>
+                                <span class="label" ng-bind="dataTipsData.o_array[0].time"></span>
                             </div>
                         </div>
                     </form>
@@ -387,34 +388,34 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-default" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
+                                <span class="label" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty,'RDLINK')" ng-bind="sceneEnty"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
 
                             <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label label-default" ng-bind="item"></span>
+                                <span class="label" ng-bind="item"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">模式图号:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-default" ng-bind="schemaNo"></span>
+                                <span class="label" ng-bind="schemaNo"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-default" ng-bind="scheName"></span>
+                                <span class="label" ng-bind="scheName"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">出口编号:</label>
                             <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneExit">
-                                <span class="label label-default" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
+                                <span class="label" ng-bind="item" style="cursor:pointer;" ng-click="getFeatDataCallback(item,'RDLINK')"></span>
                             </div>
                         </div>
                     </form>
@@ -447,7 +448,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="panel-body" ng-if="allTipsType==1604">
+                <div class="panel-body" ng-if="allTipsType==1604" style="overflow-y: auto;max-height: 230px">
                     <form class="form-horizontal" method="get" style="padding: 0px 3px 0px 3px;">
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:</label>
@@ -673,14 +674,14 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">进&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;入:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-default" ng-bind="sceneEnty.id" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="sceneEnty.id" style="cursor:pointer;" ng-click="getFeatDataCallback(sceneEnty.id,'RDLINK')"></span>
                             </div>
                         </div>
                         <div class="form-group" style="height: 10%;margin-bottom: 3px;margin-top:3px;color:#fff;border-radius:4px;">
                             <label class="col-sm-5 control-label" style="padding: 4px">退&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;出:</label>
 
                             <div class="col-sm-7" style="padding: 3px" ng-repeat="item in sceneOut">
-                                <span class="label label-default" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
+                                <span class="label" ng-bind="item.out.id" style="cursor:pointer;" ng-click="getFeatDataCallback(item.out.id,'RDLINK')"></span>
                             </div>
                         </div>
 
@@ -688,7 +689,7 @@
                             <label class="col-sm-5 control-label" style="padding: 4px">模&nbsp; 式&nbsp; 图:</label>
 
                             <div class="col-sm-7" style="padding: 3px">
-                                <span class="label label-default" ng-bind="schemaNo"></span>
+                                <span class="label" ng-bind="schemaNo"></span>
                             </div>
                         </div>
                     </form>

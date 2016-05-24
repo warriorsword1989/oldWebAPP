@@ -5,13 +5,9 @@ var oridinaryInfoApp = angular.module("mapApp");
 oridinaryInfoApp.controller("ordinaryLimitController",function($scope,$timeout,$ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     $scope.linkData = objCtrl.data;
-
-    if($(".ng-dirty")) {
-        $.each($('.ng-dirty'), function (i, v) {
-            if($scope.ordinaryLimitFrom!=undefined) {
-                $scope.ordinaryLimitFrom.$setPristine();
-            }
-        });
+    //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+    if($scope.ordinaryLimitFrom) {
+        $scope.ordinaryLimitFrom.$setPristine();
     }
     $scope.appInfoOptions = [
         {"id": 0, "label": "调查中"},

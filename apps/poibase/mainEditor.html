@@ -31,6 +31,17 @@
                     <show-box fm-data="poi.attachmentsImage" fm-deletable="deleteFlag"
                           fm-select="selectImg(index, item)" fm-click="clickImg(index, item)"
                           fm-before-delete="beforeDeleteImg(item)" fm-before-delete="afterDeleteImg(item)">
+                        <div class="button button-default" style="margin:4px 10px;">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <select class="form-control input-sm" ng-model="imgTag.tagSelected" ng-options="x.key as x.value for x in tagKeyValue" ng-change="imageTagChange()"></select>
+                                </div>
+                                <div class="form-group pull-right" style="margin-top:5px;">
+                                    <input type="radio" value="1" name="imageFilter" ng-click="imageFilterChange($event)" > 当前作业季
+                                    <input type="radio" value="0" name="imageFilter" ng-click="imageFilterChange($event)" checked> 全部
+                                </div>
+                            </div>
+                        </div>
                     </show-box>
                 </div>
                 <div class="col-xs-{{mapColumn}} col-sm-{{mapColumn}} col-md-{{mapColumn}} col-lg-{{mapColumn}} content-box" style="height: 500px;">

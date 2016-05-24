@@ -10,24 +10,33 @@ FM.Util.extend(FM.Util, {
         return (Object.prototype.toString.call(obj) === '[object Array]');
     },
     clone: function(obj) {
-        var ret = {};
-        for (var key in obj) {
-            if (obj[key] && typeof obj[key] == 'object') {
-                if (this.isArray(obj[key])) {
-                    ret[key] = [];
-                    for (var i = 0, n = obj[key].length; i < n; i++) {
-                        ret[key].push(this.clone(obj[key][i]));
+        var ret = obj;
+        if (obj[key] && typeof obj[key] == 'object') {
+            ret = {};
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    if (obj[key] && typeof obj[key] == 'object') {
+                        if (this.isArray(obj[key])) {
+                            ret[key] = [];
+                            for (var i = 0, n = obj[key].length; i < n; i++) {
+                                if (obj[key][i] && typeof obj[key][i] == "object") {
+                                    ret[key].push(this.clone(obj[key][i]));
+                                } else {
+                                    ret[key].push(obj[key][i]);
+                                }
+                            }
+                        } else {
+                            ret[key] = this.clone(obj[key]);
+                        }
+                    } else {
+                        ret[key] = obj[key];
                     }
-                } else {
-                    ret[key] = this.clone(obj[key]);
                 }
-            } else {
-                ret[key] = obj[key];
             }
         }
         return ret;
     },
-    stringToJson: function (str){
+    stringToJson: function(str) {
         var ret = str;
         try {
             ret = JSON.parse(str);
@@ -44,7 +53,7 @@ FM.Util.extend(FM.Util, {
         }
         return ret;
     },
-    dateFormat:function(str){
+    dateFormat: function(str) {
         var ret;
         if (str.length < 14) {
             ret = str;

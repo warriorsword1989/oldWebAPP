@@ -13,13 +13,9 @@ adFaceApp.controller("adFaceController",function($scope) {
     $scope.initializeData = function(){
         $scope.adFaceData = objCtrl.data;//获取数据
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());//存储原始数据
-        //属性值监控
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.adFaceForm!=undefined) {
-                    $scope.adFaceForm.$setPristine();
-                }
-            });
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.adFaceForm) {
+            $scope.adFaceForm.$setPristine();
         }
 
         //高亮adface

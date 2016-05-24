@@ -176,18 +176,11 @@ input.fm-control {
     padding: 1px 5px;
     margin-top: 5px;
     border-radius: 4px;
-    border: 1px solid #FFFFFF;
-    border-style: ridge;
+    border: 1px ridge #FFFFFF;
     background-color: #333;
 }
 
 input.fm-control.ng-dirty {
-    width: 100%;
-    color: #F3F6FA;
-    padding: 1px 5px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px ridge #FFFFFF;
     background-color: #307BA3;
 }
 
@@ -202,12 +195,20 @@ select.fm-control {
 }
 
 select.fm-control.ng-dirty {
+    background-color: #307BA3;
+}
+
+textarea.fm-control {
     width: 100%;
     color: #F3F6FA;
     padding: 1px 5px;
     margin-top: 5px;
     border-radius: 4px;
     border: 1px ridge #FFFFFF;
+    background-color: #333;
+}
+
+textarea.fm-control.ng-dirty {
     background-color: #307BA3;
 }
 
