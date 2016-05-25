@@ -26,19 +26,15 @@ selectApp.controller("rdCrossController", function ($scope) {
         highLightFeatures.push({
 
             id:$scope.rdCrossData.pid.toString(),
-            layerid:'rdcross',
-            type:'rdcross',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
-
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.rdCrossForm!=undefined) {
-                    $scope.rdCrossForm.$setPristine();
-                }
-            });
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.rdCrossForm) {
+            $scope.rdCrossForm.$setPristine();
         }
     };
     if (objCtrl.data) {

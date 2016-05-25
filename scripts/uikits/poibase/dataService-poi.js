@@ -258,4 +258,22 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
+    this.queryChargeChain = function (kindCode){
+        var defer = $q.defer();
+        var params = {
+            "kindCode": kindCode,
+        };
+        ajax.get("charge/row_edit/queryChain/", {
+            parameter: params
+        }).success(function (data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("加载品牌信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);

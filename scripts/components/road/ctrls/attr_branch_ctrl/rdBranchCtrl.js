@@ -21,12 +21,9 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
         $scope.divergenceIds = objCtrl.data;
         $scope.diverObj = $scope.divergenceIds;
         objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.nameBranchForm!=undefined) {
-                    $scope.nameBranchForm.$setPristine();
-                }
-            });
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.nameBranchForm) {
+            $scope.nameBranchForm.$setPristine();
         }
 
     }
@@ -271,8 +268,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
 
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.details[0].pid.toString(),
-                layerid:'highSpeedDivergence',
-                type:'highSpeedDivergence',
+                layerid:'relationdata',
+                type:'relationdata',
                 style:{}
             });
             highRenderCtrl.drawHighlight();

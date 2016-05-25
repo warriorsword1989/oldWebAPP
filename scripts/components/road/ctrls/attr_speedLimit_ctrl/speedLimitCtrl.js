@@ -25,17 +25,15 @@ selectApp.controller("speedlimitTeplController", function ($scope, $timeout, $oc
         });
         highRenderCtrl.highLightFeatures.push({
             id:$scope.speedLimitData.pid,
-            layerid:'speedlimit',
-            type:'speedlimit',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         })
         highRenderCtrl.drawHighlight();
-        if($(".ng-dirty")) {
-            $.each($('.ng-dirty'), function (i, v) {
-                if($scope.speedLimitForm!=undefined) {
-                    $scope.speedLimitForm.$setPristine();
-                }
-            });
+
+        //回到初始状态（修改数据后样式会改变，新数据时让它回到初始的样式）
+        if($scope.speedLimitForm) {
+            $scope.speedLimitForm.$setPristine();
         }
     }
     if(objectEditCtrl.data){
