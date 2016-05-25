@@ -64,7 +64,7 @@
                                                 <button class="btn btn-danger" data-index="{{$index}}" ng-click="removeTelElem($index);" type="button"><i class="glyphicon glyphicon-remove"></i></button>
                                             </span>
                                         </div>
-                                        <div ng-if="contact.type != 1" class="input-group input-group-sm" style="width: 200px;margin-bottom:2px;margin-top: 2px" >
+                                        <div ng-if="contact.type == 2" class="input-group input-group-sm" style="width: 200px;margin-bottom:2px;margin-top: 2px" >
                                             <span class="input-group-addon" >{{$index+1}}</span>
                                             <input type="text" class="form-control" maxlength="11" style="width:202px;" placeholder="电话号码" ng-model="contact.numSuf" ng-blur="checkTelNo($index);" />
                                             <span class="input-group-btn close-btn">
