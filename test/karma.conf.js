@@ -20,6 +20,7 @@ module.exports = function (config) {
             {pattern: 'test/unit/symbol.LineStringSpec.js', included: false},
             {pattern: 'test/unit/symbol.SymbolFactorySpec.js', included: false},
             {pattern: 'test/unit/symbol.TemplateSpec.js', included: false},
+            {pattern: 'test/unit/TileSpec.js', included: false},
 
             'test/unit/test-main.js'
         ],

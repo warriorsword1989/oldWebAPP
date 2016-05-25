@@ -68,8 +68,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         }
         highLightFeatures.push({
             id:$scope.rdRestrictData.pid.toString(),
-            layerid:'restriction',
-            type:'restriction',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;

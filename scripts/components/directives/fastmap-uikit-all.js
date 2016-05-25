@@ -5,6 +5,7 @@
     jsFiles = [
         "components/directives/fastmap-uikit.js",
         "components/directives/loginForm/loginForm.js",
+        "components/directives/loginForm/newloginForm.js",
         "components/directives/showBox/showBox.js"
     ]; // etc.
 

@@ -7,7 +7,7 @@ adLinkApp.controller("adLinkController",function($scope) {
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
     var adLink = layerCtrl.getLayerById("adLink");
-    var adnode=layerCtrl.getLayerById("adnode");
+    var adNode=layerCtrl.getLayerById("adnode");
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var editLayer = layerCtrl.getLayerById('edit');
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
@@ -95,7 +95,7 @@ adLinkApp.controller("adLinkController",function($scope) {
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             adLink.redraw();//线重绘
-            adnode.redraw();//点重绘
+            adNode.redraw();//点重绘
             if (data.errcode==0) {
                 //清除数据清除高亮
                 if(shapeCtrl.shapeEditorResult.getFinalGeometry()!==null) {
@@ -160,12 +160,12 @@ adLinkApp.controller("adLinkController",function($scope) {
             adLink.redraw();
             adnode.redraw();
             if (data.errcode==0) {
-                var sinfo={
+                var sInfo={
                     "op":"删除行政区划线成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
 
             }else{

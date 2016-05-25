@@ -481,7 +481,7 @@ fastmap.mapApi.LayerRender = {
         g.restore();
 
         if (properties.hasOwnProperty('symbol')) {
-            //如果有symbolName，则使用符号绘制
+            //如果有symbol，则使用符号绘制
             this._drawLineStringWithSymbol(ctx, geom, boolPixelCrs, properties['symbol']);
         }
     },

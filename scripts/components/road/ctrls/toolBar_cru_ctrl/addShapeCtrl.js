@@ -466,7 +466,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 shapeCtrl.getCurrentTool().clickcount = 1;
                 shapeCtrl.getCurrentTool().catches.length = 0;
                 shapeCtrl.getCurrentTool().snodePid = 0;
-                shapeCtrl.getCurrentTool().sNodePid = 0;
+                shapeCtrl.getCurrentTool().enodePid = 0;
 
                 map.currentTool = shapeCtrl.getCurrentTool();
                 map.currentTool.enable();
