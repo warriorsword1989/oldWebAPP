@@ -156,8 +156,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             distaceResult = this.closest(geometry, mousePoint);
 
                             if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
-                            if (distance <= 10) {
-                                //mindistline = distance;
+                            if (distance <= mindistline) {
+                                mindistline = distance;
                                 result = {
                                     layer: geometry,
                                     latlng: [distaceResult.x, distaceResult.y],
@@ -175,8 +175,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
 
                         if (distaceResult) distance = distaceResult.distance.distance;  // Can return null if layer has no points.
 
-                        if (distance <= 10) {
-                            //mindistline = distance;
+                        if (distance <= mindistline) {
+                            mindistline = distance;
                             result = {
                                 layer: geometry,
                                 latlng: [distaceResult.x, distaceResult.y],
@@ -192,8 +192,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                             geometry = data[i].geometry.coordinates;
 
                             distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
-                            if (distaceResult.distance < 10 && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
-                                //mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
+                            if (distaceResult.distance < mindistvertex && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
+                                mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
 
                                 result = {
                                     latlng: [distaceResult.x, distaceResult.y],
@@ -207,8 +207,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                         geometry = data[i].geometry.coordinates;
 
                         distaceResult = this.closest(geometry, mousePoint, this.snapVertex);
-                        if (distaceResult.distance < 10 && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
-                            //mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
+                        if (distaceResult.distance < mindistvertex && (distaceResult.index > 0 && distaceResult.index < geometry.length - 1)) {
+                            mindistvertex = mousePoint.distanceTo(new fastmap.mapApi.Point(distaceResult[0], distaceResult[1]))
 
                             result = {
                                 latlng:[distaceResult.x, distaceResult.y],
@@ -226,7 +226,8 @@ fastmap.mapApi.Snap = L.Handler.extend({
                 if (this.snapNode) {
                     geometry = data[i].geometry.coordinates;
                     distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0], geometry[1]));
-                    if (distaceResult <= 10) {
+                    if (distaceResult <= mindistnode) {
+                        mindistnode = distaceResult;
                         result = {
                             latlng: geometry,
                             distance: distaceResult,
@@ -238,17 +239,6 @@ fastmap.mapApi.Snap = L.Handler.extend({
                 }
 
                 distaceResult = mousePoint.distanceTo(new fastmap.mapApi.point(geometry[0],geometry[1]));
-
-                if (distaceResult < mindist) {
-                    mindist = distaceResult;
-                    result = {
-                        latlng:geometry,
-                        distance: distaceResult,
-                        properties: data[i].properties,
-                        index:0
-                    };
-                }
-
 
             }
 
