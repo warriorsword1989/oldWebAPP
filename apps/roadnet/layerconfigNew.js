@@ -796,6 +796,7 @@ function transformData(data, url) {
                 var startEndArrow = null;//箭头图片
                 var iconName = '';
                 var resArray = item.m.b.split("|");
+                console.log(item.m.b);
                 var type = item.m.a;
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
@@ -808,7 +809,7 @@ function transformData(data, url) {
                     var speedFlag = resArray[1];//限速标志(0,限速开始;1,解除限速)
                     var speedValue = resArray[2];//限速值
                     if (fieldCollection === "1") {//理论判断，限速开始和结束都为蓝色
-                        if (speedFlag === "1") {//解除限速
+                        if (speedFlag === "0") {//解除限速
                             iconName = '../../images/road/1101/theory_speedlimit_start' + '.svg';
                             startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
                         } else {
@@ -817,7 +818,7 @@ function transformData(data, url) {
                         }
                         startEndArrow = "../../images/road/1101/1101_1_1_s.svg";
                     } else {//现场采集，限速开始为红色，结束为黑色
-                        if (speedFlag === "1") {//解除限速
+                        if (speedFlag === "0") {//解除限速
                             iconName = '../../images/road/1101/normal_speedlimit_start' + '.svg';
                             startEndArrow = "../../images/road/1101/1101_0_0_s.svg";
 
@@ -847,7 +848,7 @@ function transformData(data, url) {
                                 column: 1,
                                 location: obj['geometry']['coordinates'],
                                 rotate: (item.m.c - 90) * (Math.PI / 180),
-                                dx: (speedFlag == "1" ? -50 : 20),//解除限速时，要使箭头冲着自己,
+                                dx: (speedFlag == "1" ? -50 : 6),//解除限速时，要使箭头冲着自己,
                                 dy: 0
                             }
                         )
