@@ -3,21 +3,30 @@
  */
 var dataTipsApp = angular.module("mapApp");
 dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $ocLazyLoad) {
+    //保存选取的元素ctrl
     var selectCtrl = fastmap.uikit.SelectController();
+    //输出ctrl
     var outPutCtrl = fastmap.uikit.OutPutController();
+    //图层控制ctrl
     var layerCtrl = fastmap.uikit.LayerController();
+    //属性编辑ctrl(解析对比各个数据类型)
     var objCtrl = fastmap.uikit.ObjectEditController();
+    //线图层
     var rdLink = layerCtrl.getLayerById('referenceLine');
+    //交限图层
     var restrictLayer = layerCtrl.getLayerById("restriction");
     var workPoint = layerCtrl.getLayerById("workPoint");
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
+    //操作地图ctrl(划线，画点，移动等)
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var gpsLine = layerCtrl.getLayerById("gpsLine");
     var editLayer = layerCtrl.getLayerById('edit');
+    //高亮
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.eventController = fastmap.uikit.EventController();
     $scope.outIdS = [];
 
+    //清除地图数据
     $scope.resetToolAndMap = function () {
         if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
 
@@ -115,7 +124,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
         }
         switch ($scope.allTipsType) {
-            case "1101":
+            case "1101"://点限速
                 $scope.speedDirectTypeOptions = [
                     {"id": 0, "label": "未调查"},
                     {"id": 2, "label": "顺方向"},
@@ -128,7 +137,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
                 $scope.limitSrcOption = [
                     {"id": 0, "label": "无"},
-                    {"id": 1, "label": "1现场标牌"},
+                    {"id": 1, "label": "现场标牌"},
                     {"id": 2, "label": "城区标识"},
                     {"id": 3, "label": "高速标识"},
                     {"id": 4, "label": "车道限速"},
@@ -144,7 +153,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     }
                 }
                 break;
-            case "1201":
+            case "1201"://道路种别
                 $scope.returnKindType = function (code) {
                     switch (code) {
                         case 0:
@@ -199,7 +208,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     }
                 }
                 break;
-            case "1302":
+            case "1302"://交限
                 //高亮
                /* $scope.restrictOutLinks = [];*/
                 $scope.restrictOutLinks =  $scope.dataTipsData.o_array[0].out;
@@ -227,7 +236,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
 
                 break;
-            case "1407":
+            case "1407"://高速分歧
                 /*进入*/
                 $scope.sceneEnty = $scope.dataTipsData.in.id;
                 /*模式图号*/
@@ -271,7 +280,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 }
 
                 break;
-            case "1901":
+            case "1901"://道路名
                 $scope.nArrayData = $scope.dataTipsData.n_array;
 
          /*       highLightFeatures.push({
@@ -283,7 +292,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 });*/
 
                 break;
-            case "2001":
+            case "2001"://测线
                 $scope.returnLineType = function (code) {
                     switch (code) {
                         case 0:
@@ -365,6 +374,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                 break;
 
         }
+        //高亮
         highRenderCtrl.highLightFeatures = highLightFeatures;
         highRenderCtrl.drawHighlight();
         //获取数据中的图片数组
@@ -372,6 +382,9 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             $scope.photos = [];
         }
 
+        /**
+         * 图片显示
+         */
         $scope.photoTipsData =  $scope.dataTipsData.feedback.f_array;
         for (var i in  $scope.photoTipsData) {
             if ($scope.photoTipsData[i].type === 1) {
@@ -382,6 +395,10 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             }
 
         }
+        /**
+         * 图片数量为4个，没有那么多图片是用noimg.png 代替
+         * @type {Number}
+         */
         $scope.number = $scope.photos.length;
         if ($scope.photos.length != 0 && $scope.photos.length < 4) {
             for (var a = $scope.photos.length; a < 4; a++) {
@@ -399,6 +416,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         //dataTips的初始化数据
         $scope.initializeDataTips(selectCtrl.rowKey);
     }
+    //打开图片大图页面
     $scope.openOrigin=function(id) {
         selectCtrl.rowKey["pictureId"] = id;
         var openOriginObj = {
@@ -407,6 +425,12 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
             "propertyHtml":"../../scripts/components/road/tpls/attr_tips_tpl/tipsPictureTpl.html"
         };
         $scope.$emit("transitCtrlAndTpl", openOriginObj);
+    };
+    $scope.noPic=function() {
+        swal("没有照片可被查看", "", "");
+    };
+    $scope.noRad=function() {
+        swal("没有音频数据", "", "");
     };
     $scope.openVideo=function(id) {
         selectCtrl.rowKey["VideoId"] = id;
@@ -417,6 +441,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         };
         $scope.$emit("transitCtrlAndTpl", openVideoObj);
     };
+    //监控属性选择
     $scope.eventController.on($scope.eventController.eventTypes.SELECTBYATTRIBUTE,function(event) {
         $scope.initializeDataTips(event.feather);
         $scope.$apply();
@@ -502,6 +527,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         var stageLen = $scope.dataTipsData.t_trackInfo.length;
         var stage = parseInt($scope.dataTipsData.t_trackInfo[stageLen - 1]["stage"]);
         if ($scope.dataTipsData.s_sourceType === "2001") {  //测线
+            //修改测线的数据格式
             var paramOfLink = {
                 "command": "CREATE",
                 "type": "RDLINK",
@@ -514,6 +540,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     "geometry": {"type": "LineString", "coordinates": $scope.dataTipsData.g_location.coordinates}
                 }
             }
+            //等于3时不允许修改
             if($scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage == 3){
                 $timeout(function(){
                     $.showPoiMsg('状态已为 【回prj_gdb库】 ，不允许改变状态！',e);
@@ -560,7 +587,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                     outPutCtrl.updateOutPuts();
                 }
             });
-        } else if ($scope.dataTipsData.s_sourceType === "1201") {
+        } else if ($scope.dataTipsData.s_sourceType === "1201") {//道路种别
             var info=null;
             var kindObj = {
                 "objStatus": "UPDATE",
@@ -613,6 +640,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
 
 
     };
+    //修改状态
     $scope.upBridgeStatus = function (pid,e) {
         if ($scope.rowkey!== undefined) {
             var stageParam = {
@@ -635,6 +663,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         workPoint.redraw();
                     $scope.showContent = "外业新增";
                     $scope.dataTipsData.t_trackInfo[$scope.dataTipsData.t_trackInfo.length-1].stage = 3;
+                    //output 需要解析到固定的格式，做什么操作，然后是操作内容
                     if(data.data){
                         var sInfo={
                             "op":"状态修改成功",
@@ -653,6 +682,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         info=data.data;
                     }
 
+                    //弹出提示框
                     swal("操作成功", "状态修改成功！", "success");
                 } else {
                     info=[{
@@ -661,6 +691,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
                         "pid": data.errid
                     }];
 
+                    //弹出提示框
                     swal("操作失败",data.errmsg, "error");
                 }
                 outPutCtrl.pushOutput(info);
@@ -672,6 +703,7 @@ dataTipsApp.controller("sceneAllTipsController", function ($scope, $timeout, $oc
         }
     }
 
+    //关闭窗口
     $scope.closeTips = function () {
         $("#popoverTips").css("display", "none");
     }

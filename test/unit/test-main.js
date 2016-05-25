@@ -52,7 +52,8 @@ require.config({
         'symbol.HashLineSymbol': 'scripts/mapApi/symbol/HashLineSymbol',
         'symbol.CompositeLineSymbol': 'scripts/mapApi/symbol/CompositeLineSymbol',
         'symbol.SymbolsFile': 'scripts/mapApi/symbol/SymbolsFile',
-        'symbol.SymbolFactory': 'scripts/mapApi/symbol/SymbolFactory'
+        'symbol.SymbolFactory': 'scripts/mapApi/symbol/SymbolFactory',
+        'mapApi.Tile':'scripts/mapApi/Tile'
     },
 
     // example of using a shim, to load non AMD libraries (such as underscore)
@@ -88,6 +89,7 @@ require.config({
         'symbol.MarkerLineSymbol': {deps: ['fastmap', 'leaflet', 'symbol.Template']},
         'symbol.HashLineSymbol': {deps: ['fastmap', 'leaflet', 'symbol.Template']},
         'symbol.CompositeLineSymbol': {deps: ['fastmap', 'leaflet', 'symbol.Template']},
+        'mapApi.Tile':{deps: ['fastmap', 'leaflet']},
         'symbol.SymbolsFile': {deps: ['fastmap']},
         'symbol.SymbolFactory': {
             deps: ['symbol.CirclePointSymbol',
@@ -103,7 +105,9 @@ require.config({
                 'symbol.MarkerLineSymbol',
                 'symbol.HashLineSymbol',
                 'symbol.CompositeLineSymbol',
-                'symbol.SymbolsFile']
+                'symbol.SymbolsFile',
+                'mapApi.Tile'
+            ]
         }
     },
 

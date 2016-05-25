@@ -479,9 +479,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             featcode: 'poi',
             pagesize: 0
         };
-        poi.getPoiInfo(param).then(function (data) {
-            $scope.poi = data;
-            $scope.snapshotPoi = data.getSnapShot();
+        poi.getPoiInfo(param).then(function (children) {
+            var data = {};
+            data.data = children.data;
+            data.layerId = "childPoiLayer";
+            $scope.$broadcast("showPoisInMap", data);
         })
     });
     $scope.loadAdditionInfo = function() {
