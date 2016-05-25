@@ -22,6 +22,9 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
         this.plugNum = data["plugNum"] || 1;
         this.prices = data["prices"] || null;
         var openTypeArray = (data["openType"] || "1").split("|");
+        if(openTypeArray[openTypeArray.length-1] > 99){
+        	this.selectedChain = openTypeArray[openTypeArray.length-1];
+        }
         this.openType = {};
         for (var i=0;i<openTypeArray.length;i++){
         	this.openType[openTypeArray[i]] = true;
