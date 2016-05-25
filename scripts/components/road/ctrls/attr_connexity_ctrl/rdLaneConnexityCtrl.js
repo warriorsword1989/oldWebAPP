@@ -108,8 +108,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
         highLightFeatures.push({
             id:$scope.lanesData.pid.toString(),
-            layerid:'rdlaneconnexity',
-            type:'rdlaneconnexity',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;

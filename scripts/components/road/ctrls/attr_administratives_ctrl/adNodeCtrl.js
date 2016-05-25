@@ -6,8 +6,8 @@ adNodeApp.controller("adNodeController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var adLink = layerCtrl.getLayerById("referenceLine");
-    var adnode = layerCtrl.getLayerById("adnode");
+    var adLink = layerCtrl.getLayerById("adLink");
+    var adNode = layerCtrl.getLayerById("adnode");
     var selectCtrl = fastmap.uikit.SelectController();
     var outputCtrl = fastmap.uikit.OutPutController({});
     var highRenderCtrl = fastmap.uikit.HighRenderController();
@@ -113,16 +113,16 @@ adNodeApp.controller("adNodeController",function($scope) {
             if (data.errcode==0) {
                 swal("操作成功",'保存成功！', "success");
                 objCtrl.setOriginalData(objCtrl.data.getIntegrate());
-                var sinfo={
+                var sInfo={
                     "op":"修改ADNODE成功",
                     "type":"",
                     "pid": ""
                 };
-                data.data.log.push(sinfo);
+                data.data.log.push(sInfo);
                 info=data.data.log;
-                var restrict = layerCtrl.getLayerById("adLink");
-                restrict.redraw();
-                adnode.redraw();
+
+                adLink.redraw();
+                adNode.redraw();
             }else{
                 info=[{
                     "op":data.errcode,
@@ -162,9 +162,8 @@ adNodeApp.controller("adNodeController",function($scope) {
                 };
                 data.data.log.push(sinfo);
                 info = data.data.log;
-                var restrict = layerCtrl.getLayerById("adLink");
-                restrict.redraw();
-                adnode.redraw();
+                adLink.redraw();
+                adNode.redraw();
             } else {
                 info = [{
                     "op": data.errcode,

@@ -268,8 +268,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
 
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.details[0].pid.toString(),
-                layerid:'highSpeedDivergence',
-                type:'highSpeedDivergence',
+                layerid:'relationdata',
+                type:'relationdata',
                 style:{}
             });
             highRenderCtrl.drawHighlight();

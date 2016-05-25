@@ -1,0 +1,57 @@
+<div class="wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 text">
+                <h1><strong>FastMap</strong> | 室内作业系统</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 form-box">
+                <div class="form-top">
+                    <div class="form-top-left">
+                        <h3><i class="glyphicon glyphicon-user"></i> 用户登录</h3>
+                        <p>Enter your username and password to log on:</p>
+                    </div>
+                    <div class="form-top-right">
+                        <i class="glyphicon glyphicon-lock"></i>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <form name='myForm' novalidate>
+                        <div class="form-group has-feedback" ng-class="{'has-error':myForm.user.$invalid && myForm.user.$dirty && showInputError,'has-success':myForm.user.$valid && myForm.user.$dirty && showInputError}">
+                            <input type="text" ng-model="username" name="user" class="form-control" required ng-pattern='/^[a-zA-z]/' minlength="3" maxlength="50" placeholder="用户名" autofocus />
+                            <div style="" ng-show="myForm.user.$error && (myForm.user.$dirty || validType == 3) && showErrorMsg">
+                                <div class="warn-info" ng-show="myForm.user.$error.required">用户名不能为空</div>
+                                <div class="warn-info" ng-show="myForm.user.$error.minlength">用户名不能小于3位</div>
+                                <div class="warn-info" ng-show="myForm.user.$error.maxlength">用户名不能大于50位</div>
+                                <div class="warn-info" ng-show="myForm.user.$error.pattern">用户名必须是以英文字母开头</div>
+                            </div>
+                        </div>
+                        <!-- password part -->
+                        <div class="form-group has-feedback" ng-class="{'has-error':myForm.userpassword.$invalid && myForm.userpassword.$dirty && showInputError,'has-success':myForm.userpassword.$valid && myForm.userpassword.$dirty && showInputError}">
+                            <input type="password" ng-model="pwd" name="userpassword" class="form-control" required minlength="6" maxlength="16" placeholder="密 码" />
+                            <div style="color: red" ng-show="myForm.userpassword.$error && (myForm.userpassword.$dirty || validType == 3) && showErrorMsg">
+                                <div class="warn-info" ng-show="myForm.userpassword.$error.required">密码不能为空</div>
+                                <div class="warn-info" ng-show="myForm.userpassword.$error.minlength">密码名不能小于5位</div>
+                                <div class="warn-info" ng-show="myForm.userpassword.$error.maxlength">密码名不能大于16位</div>
+                            </div>
+                        </div>
+                        <!-- loginButton part -->
+                        <div class="form-group">
+                            <button ng-click="handleEvent()" ng-disabled="myForm.$invalid && validType != 3" class="btn" type="submit">登 录</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-xs-offset-2 col-sm-offset-2 col-md-offset-3 social-login">
+                <div class="social-login-buttons">
+                    <span>
+                        Copyright©2014 北京四维图新科技股份有限公司
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

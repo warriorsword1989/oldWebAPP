@@ -91,7 +91,7 @@ addAdShapeApp.controller("addAdShapeController", ['$scope', '$ocLazyLoad', funct
             shapeCtrl.getCurrentTool().clickcount = 1;
             shapeCtrl.getCurrentTool().catches.length = 0;
             shapeCtrl.getCurrentTool().snodePid = 0;
-            shapeCtrl.getCurrentTool().sNodePid = 0;
+            shapeCtrl.getCurrentTool().enodePid = 0;
 
             //把点和线图层加到捕捉工具中
             map.currentTool.snapHandler.addGuideLayer(adLink);

@@ -1,4 +1,4 @@
-angular.module('app').controller('headCtl', ['$scope', function($scope) {
+angular.module('app').controller('headCtl',['$scope','$cookies',function($scope,$cookies) {
     $scope.goback = function() {
         var pathName = window.document.location.pathname;
         var appName = pathName.substring(0, pathName.indexOf('/poibase'));
@@ -16,13 +16,13 @@ angular.module('app').controller('headCtl', ['$scope', function($scope) {
     };
     $scope.clearCookie = function() {
     };
-    var realName = "";
-    var arr = document.cookie.split('; ');
-    for(var i=0;i<arr.length;i++){
-        if(arr[i].indexOf('FM_USER_NAME') > -1){
-            realName = arr[i].split('=')[1];
-            break;
-        }
-    }
-    $scope.realName = realName;
+//    var realName = "";
+//    var arr = document.cookie.split('; ');
+//    for(var i=0;i<arr.length;i++){
+//        if(arr[i].indexOf('FM_USER_NAME') > -1){
+//            realName = arr[i].split('=')[1];
+//            break;
+//        }
+//    }
+    $scope.realName = $cookies.get('FM_USER_NAME');
 }]);
