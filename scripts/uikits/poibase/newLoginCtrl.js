@@ -2,11 +2,13 @@
  * Created by Administrator on 2016/5/4.
  */
 angular.module('loginApp', ['fastmap.uikit','ng-backstretch','ngCookies']).controller('loginPageCtrl', function($scope, $http, $cookies) {
+    //设置切换的北景图片;
     $scope.images = [
         '../../images/poi/main/bg_road.png',
         '../../images/poi/main/bg_poi.png',
         '../../images/poi/main/bg_world.jpg'
     ];
+    //登录的事件监听;
     $scope.$on("startLogin", function(event, data) {
         //请求登录接口;
         $http({
