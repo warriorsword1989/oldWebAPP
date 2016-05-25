@@ -140,31 +140,23 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         }
     };
 
-    /*$scope.$watch("poi.attachmentsImage", function (newValue, oldValue) {
-        if (newValue) {
-            if (newValue.length == 0) {
-                $scope.mapColumn = 12;
-                $scope.isShowImages = false;
-                $scope.isShowArrow = false;
-            } else {
-                $scope.mapColumn = 6;
-                $scope.isShowImages = true;
-                $scope.arrowStyle = "arrow_left"; //用于控制缩放图片
-                $scope.isShowArrow = true; //用于控制是否显示缩放图片的按钮
-            }
-        }
-    });*/
 
     $scope.imageFilterChange = function (evn){
         var value = evn.target.value;
-        if (value == 1){
-            //$scope.imageArray = operSeasonImages;
-            $scope.poi.attachmentsImage = operSeasonImages;
+        $scope.imageArray = [];
+        if (value == 1){ //当前作业季
+            var attachments = $scope.poi.attachmentsImage;
+            for (var i = 0, len = attachments.length; i < len; i++) {
+                if (attachments[i].url.indexOf(operSeason) > -1) {
+                    $scope.imageArray.push(attachments[i])
+                }
+            }
         } else {
-            //$scope.imageArray = allImages;
-            $scope.poi.attachmentsImage = allImages;
+            $scope.imageArray = $scope.poi.attachmentsImage;
         }
     };
+
+
     $scope.imageTagChange = function (){        
         $scope.selectedImg.tag = $scope.imgTag.tagSelected;
     }
@@ -177,19 +169,25 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
 
     $scope.imgTag = { tagSelected:0 }; //使用showbox指令时特殊处理
     $scope.selectImg = function (index, item) {
-        $scope.imgTag.tagSelected = item.tag;
-        $scope.selectedImg = item;
+        if (item) {
+            $scope.imgTag.tagSelected = item.tag;
+            $scope.selectedImg = item;
+        }
     };
-    
+
 
     var initImages = function () {
+        $scope.imageArray = [];
         var attachments = $scope.poi.attachmentsImage;
         for (var i = 0, len = attachments.length; i < len; i++) {
             if (attachments[i].url.indexOf(operSeason) > -1) {
-                operSeasonImages.push(attachments[i]);
+                attachments[i].operSeason = 1; //当前作业季
+                $scope.imageArray.push(attachments[i]);
+            }else {
+                attachments[i].operSeason = 0;
             }
-            allImages.push(attachments[i]);
         }
+        //$scope.imageArray = $scope.poi.attachmentsImage;
         //控制是否显示图片
         if (attachments.length > 0) {
             $scope.mapColumn = 6;
@@ -455,6 +453,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
         //     var temp = data;
         //     $scope.saveButClass = "";
         // });
+        swal("保存成功",'', "success");
     };
 
     //接收从generalBase传过来的命令，查询并显示在地图上

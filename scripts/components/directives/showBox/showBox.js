@@ -78,9 +78,7 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             */
             $scope.$watch("dataList", function (newValue, oldValue) {
                 if($scope.dataList){
-                    if ( newValue || !oldValue){
-                        $scope.selectMe(0);
-                    } else if ( newValue && (newValue.length > oldValue.length)) { // 新增时，选中最后一个，即选中新增的
+                    if ( newValue && oldValue && (newValue.length > oldValue.length)) { // 新增时，选中最后一个，即选中新增的
                         $scope.selectMe(newValue.length - 1);
                     } else {
                         $scope.selectMe(0);
