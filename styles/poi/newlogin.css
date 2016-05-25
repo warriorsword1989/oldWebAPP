@@ -170,11 +170,15 @@ button.btn {
     strong{
         font-size: 28px;
     }
-    h1, h2 { font-size: 22px; }
+    h1, h2 { font-size: 14px; }
     h3 {
         font-size: 12px;}
     .form-top-right{
         font-size: 22px;
+    }
+
+    .form-top-left p{
+        display: none;
     }
 }
 
