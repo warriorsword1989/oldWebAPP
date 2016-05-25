@@ -154,9 +154,7 @@ Application.layersConfig =
                     requestType: 'RDRESTRICTION,RDSPEEDLIMIT,RDBRANCH,RDCROSS,RDLANECONNEXITY,RDLINKINTRTIC,RDGSC',
                     showNodeLevel: 17
                 }
-            },
-
-            , {
+            }, {
                 url: createUrl('/render/obj/getByTileWithGap?', 'RDLINK'),
                 clazz: fastmap.mapApi.tileJSON,
                 options: {
