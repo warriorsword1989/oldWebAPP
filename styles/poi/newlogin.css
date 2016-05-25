@@ -1,9 +1,9 @@
 body{
     margin: 0;
+    height: 100%;
     overflow: hidden;
 }
 .wrapper{
-    /*padding: 130px 0 170px 0;*/
     animation: bg-show 2s;
     -moz-animation: bg-show 2s;	/* Firefox */
     -webkit-animation: bg-show 2s;	/* Safari 和 Chrome */
@@ -148,15 +148,34 @@ button.btn {
 
 }
 
-@media (min-width: 768px) and (max-width: 991px) {}
+@media (min-width: 768px) and (max-width: 991px) {
+    strong{
+        font-size: 38px;
+    }
+}
 
 @media (max-width: 767px) {
-
-    .inner-bg { padding: 60px 0 110px 0; }
+    strong{
+        font-size: 38px;
+    }
+    h1, h2 { font-size: 18px; }
+    h3 {
+        font-size: 18px;}
+    .form-top-right{
+        font-size: 38px;
+    }
 
 }
 @media (max-width: 415px) {
-    h1, h2 { font-size: 32px; }
+    strong{
+        font-size: 28px;
+    }
+    h1, h2 { font-size: 22px; }
+    h3 {
+        font-size: 12px;}
+    .form-top-right{
+        font-size: 22px;
+    }
 }
 
 /************************** backstrecth style **************************/

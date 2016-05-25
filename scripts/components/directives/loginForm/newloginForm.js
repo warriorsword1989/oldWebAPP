@@ -28,7 +28,7 @@ angular.module('fastmap.uikit').directive('login', function() {
                     password: $scope.pwd
                 });
             }
-        },
+    },
         link: function(scope, element, attrs) {
             scope.showInputError = false;
             scope.showErrorMsg = false;
@@ -41,8 +41,9 @@ angular.module('fastmap.uikit').directive('login', function() {
             //登录框垂直居中;
             function countPos() {
                 var top = (element[0].offsetParent.clientHeight - element[0].clientHeight) / 2;
-                console.log(element[0].offsetParent.clientHeight)
-                element.css('paddingTop', top + 'px');
+                top = top>0?top:-top;
+                console.log(element[0].clientHeight)
+                element.css('marginTop', top+20 + 'px');
             }
             countPos();
             window.onresize = function() {
