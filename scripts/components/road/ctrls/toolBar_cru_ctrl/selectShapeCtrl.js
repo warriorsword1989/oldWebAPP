@@ -17,9 +17,7 @@ selectApp.controller("selectShapeController", ["$scope", '$ocLazyLoad', '$rootSc
     $scope.toolTipText = "";
     //重新设置选择工具
     $scope.resetToolAndMap = function () {
-        if (map.currentTool && typeof map.currentTool.cleanHeight === "function") {
-
-            map.currentTool.cleanHeight();
+        if (map.currentTool) {
             map.currentTool.disable();//禁止当前的参考线图层的事件捕获
 
         }
