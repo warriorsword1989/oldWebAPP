@@ -1,5 +1,6 @@
 body{
     margin: 0;
+    overflow: hidden;
 }
 .wrapper{
     /*padding: 130px 0 170px 0;*/
