@@ -1,11 +1,11 @@
 /**
  * Created by Administrator on 2016/5/4.
  */
-angular.module('loginApp', ['fastmap.uikit','ng-backstretch']).controller('loginPageCtrl', function($scope, $http) {
+angular.module('loginApp', ['fastmap.uikit','ng-backstretch','ngCookies']).controller('loginPageCtrl', function($scope, $http, $cookies) {
     $scope.images = [
-        '../../images/poi/main/7.png',
-        '../../images/poi/main/6.png',
-        '../../images/poi/main/7.jpg'
+        '../../images/poi/main/bg_road.png',
+        '../../images/poi/main/bg_poi.png',
+        '../../images/poi/main/bg_world.jpg'
     ];
     $scope.$on("startLogin", function(event, data) {
         //请求登录接口;
@@ -21,14 +21,12 @@ angular.module('loginApp', ['fastmap.uikit','ng-backstretch']).controller('login
             }
         }).success(function(data) {
             if (data.errcode == 0) {
-                if (data) {
-                    document.cookie = "FM_USER_ID=" + escape(data.data.userId) + ';path=/';
-                    document.cookie = "FM_USER_NAME=" + data.data.realName + ';path=/';
-                    document.cookie = "FM_USER_TYPE=" + data.data.userType + ';path=/';
-                    document.cookie = "FM_USER_ROLES=" + data.data.roleCode.join(",") + ';path=/';
-                    document.cookie = "FM_USER_GROUPS=" + (data.data.userGroups ? data.data.userGroups : []).join(",") + ';path=/';
-                    window.location.href = "./projectManage.html?access_token=" + data.data.access_token;
-                }
+                $cookies.put('FM_USER_ID',data.data.userId);
+                $cookies.put('FM_USER_NAME',data.data.realName);
+                $cookies.put('FM_USER_TYPE',data.data.userType);
+                $cookies.put('FM_USER_ROLES',data.data.roleCode.join(","));
+                $cookies.put('FM_USER_GROUPS',(data.data.userGroups ? data.data.userGroups : []).join(","));
+                window.location.href = "./projectManage.html?access_token=" + data.data.access_token;
             } else if (data.errcode < 0) {
                 swal("登陆出错", data.errmsg, "error");
             }
