@@ -18,7 +18,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     }));
     promises.push(poi.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
-        $scope.poi.checkResults[0] = new FM.dataApi.IxCheckResult({
+        console.log(data)
+        /*$scope.poi.checkResults[0] = new FM.dataApi.IxCheckResult({
             "errorCode": "FM-14Sum-11-09",
             "errorMsg": "内部POI必须有父",
             "fields": ["kindCode", "indoor"],
@@ -87,7 +88,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
                     }
                 }
             }]
-        });
+        });*/
         $scope.snapshotPoi = data.getSnapShot();
     }));
     //查询3DIcon
@@ -119,6 +120,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             // distinguishResult($scope.poi);
             $ocll.load('../scripts/components/poi/ctrls/edit-tools/optionBarCtl').then(function() {
                 $scope.optionBarTpl = '../../scripts/components/poi/tpls/edit-tools/optionBarTpl.html';
+            });
+            $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoListCtl').then(function() {
+                $scope.poiInfoListTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoListTpl.html';
             });
             $ocll.load('../scripts/components/poi/ctrls/attr-map/poiMapCtl').then(function() {
                 $scope.mapTpl = '../../scripts/components/poi/tpls/attr-map/poiMapTpl.html';
@@ -218,18 +222,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     };
     /*获取关联poi数据——检查结果*/
     $scope.$on('getRefFtInMap', function (event, data) {
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
-            $scope.$emit('getLayerName','checkResultLayer');
-            for (var i = 0, len = data.length; i < len; i++) {
-                data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
-            }
-            $scope.refFt = {
-                title: '检查结果关联POI',
-                refList: data
-            };
-            $scope.$emit('showRelatedPoiInfo',$scope.refFt);
+        for (var i = 0, len = data.length; i < len; i++) {
+            data[i].kindInfo = $scope.metaData.kindFormat[data[i].kindCode];
+        }
+        $scope.refFt = {
+            title: '检查结果关联POI',
+            refList: data
+        };
+        $scope.$broadcast('showPoisInMap', {
+            data: data,
+            layerId: "checkResultLayer"
         });
+        $scope.showRelatedPoiInfo = true;
+        $scope.$broadcast('showPoiListData',data);
     });
     /*隐藏关联POI界面*/
     $scope.infoStyle = {
@@ -319,10 +324,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*接收框选点信息*/
     $scope.$on('drawPois', function (event, data) {
         loadPoiInfoPopover(data,'框选区域内关联POI');
+        $scope.$broadcast('showPoiListData',data);
     });
     /*接收周边查询点信息*/
     $scope.$on('searchPois', function (event, data) {
         loadPoiInfoPopover(data,'周边1KM范围内的POI');
+        $scope.$broadcast('showPoiListData',data);
     });
     /*接收同位点信息*/
     $scope.$on('samePois', function (event, data) {
@@ -340,15 +347,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     /*获取检查规则*/
     meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
-    });
-    /*显示关联poi面板*/
-    $scope.$on('showRelatedPoiInfo',function(event,data){
-        $scope.refFt = data;
-        $scope.$broadcast('showPoisInMap', {
-            data: data.refList,
-            layerId: "checkResultLayer"
-        });
-        $scope.showRelatedPoiInfo = true;
     });
     /*检查结果忽略请求*/
     $scope.$on('ignoreItem', function (event, data) {
@@ -404,6 +402,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.optionData.confusionData = data;
             $scope.showConflictInfo = true;
         });
+        /*地图上高亮*/
+        $scope.$broadcast('showPoisInMap', {
+            data: data.refData,
+            layerId: "checkResultLayer"
+        });
     });
     /*显示冲突检测面板*/
     $scope.$on('showConflictInMap',function(event,data){
@@ -448,8 +451,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.doSave = function() {
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
-        //$scope.saveButClass = "disabled";
-        // poi.savePoi($scope.poi).then(function (data) {
+        // $scope.saveButClass = "disabled";
+        // poi.savePoi($scope.poi.getIntegrate()).then(function (data) {
         //     var temp = data;
         //     $scope.saveButClass = "";
         // });
