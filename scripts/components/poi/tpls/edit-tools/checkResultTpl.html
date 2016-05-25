@@ -8,10 +8,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-if="!optionData.checkResultData || optionData.checkResultData.length == 0" class="no-records-found">
+            <tr ng-if="!poi.checkResultData || poi.checkResultData.length == 0" class="no-records-found">
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
-            <tr ng-repeat="item in optionData.checkResultData">
+            <tr ng-repeat="item in poi.checkResultData">
                 <td>{{$index + 1}}</td>
                 <td>{{item.errorCode}}</td>
                 <td>{{item.errorMsg || item.description}}</td>
