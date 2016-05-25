@@ -130,9 +130,9 @@
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
                             	<select
-                                    ng-model="selectedKind"
+                                    ng-model="selectedChain"
                                     ng-options="value as lable.chainName for (value, lable) in chargeChainObj"
-                                    chosen ng-change="kindChange($event, this)" style="width: 80%;">
+                                    chosen ng-change="chainChange($event, this)" style="width: 80%;">
                                 </select>
                             </div>
                         </div>

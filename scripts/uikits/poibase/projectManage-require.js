@@ -5,6 +5,7 @@ requirejs.config({
     baseUrl: '../../scripts/',
     paths: {
         'angular': 'libs/angularjs/1.4.4/angular',
+        'ngCookies':'libs/angularjs/1.4.4/angular-cookies.min',
         'ocLazyLoad': 'libs/ocLazyLoad/ocLazyLoad.require',
         'uiBootstrap': 'libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
         'application': 'uikits/Application',
@@ -12,7 +13,6 @@ requirejs.config({
         'projectManageCtl': 'uikits/poibase/projectManageCtl',
         'fastmap': 'fastmap/fastmap',
         'fm-util': 'fastmap/fastmap-util',
-        'dataApi': 'dataApi/common/dataApi-ajax',
         'dataModel': 'dataApi/common/DataModel',
         'dataService': 'uikits/poibase/dataService',
         'poiService': 'uikits/poibase/dataService-poi',
@@ -22,6 +22,7 @@ requirejs.config({
     },
     shim: {
         'angular':{exports:'angular'},                   //ngTable需要用angular的名字;
+        'ngCookies': ['angular'],
         'ocLazyLoad': ['angular'],
         'uiBootstrap': ['angular'],
         'dataService':['angular'],
@@ -32,8 +33,7 @@ requirejs.config({
         'select2':['jquery'],
         'ngTable':['angular'],
         'ngSanitize':['angular'],
-        'dataApi':['fastmap'],
-        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','metaService','ngTable','ngSanitize','dataApi']
+        'projectManageCtl': ['ocLazyLoad' ,'uiBootstrap', 'application', 'appUtil', 'poiService','metaService','ngTable','ngSanitize','ngCookies']
     }
 });
 // Start the main app logic.
