@@ -640,7 +640,6 @@ function parseData(data){
                 var startEndArrow = null;//箭头图片
                 var iconName = '';
                 var resArray = item.m.b.split("|");
-                console.log(item.m.b);
                 var type = item.m.a;
                 obj['geometry']['type'] = 'Point';
                 obj['properties']['markerStyle'] = {};
