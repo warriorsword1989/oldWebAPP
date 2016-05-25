@@ -38,6 +38,17 @@ angular.module('fastmap.uikit').directive('login', function() {
                 scope.showInputError = true;
                 scope.showErrorMsg = true;
             }
+            //登录框垂直居中;
+            function countPos() {
+                var top = (element[0].offsetParent.clientHeight - element[0].clientHeight) / 2;
+                console.log(element[0].offsetParent.clientHeight)
+                element.css('paddingTop', top + 'px');
+            }
+            countPos();
+            window.onresize = function() {
+                countPos();
+            }
+
         }
     };
 });
