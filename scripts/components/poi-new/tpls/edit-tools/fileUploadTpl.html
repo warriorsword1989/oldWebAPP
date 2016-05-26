@@ -1,0 +1,116 @@
+<div ng-controller="FileUploadCtl" nv-file-drop="" uploader="uploader">
+
+    <div class="fm-panel">
+        <div class="progress fm-progress" ng-show="showProgress">
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">
+                {{item.progress}}%
+            </div>
+        </div>
+        <div class="title">上传文件
+            <span class="upload-btn upload-add">
+                <a href="javascript:void(0);">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                    <input type="file" nv-file-select="" uploader="uploader" multiple  />
+                </a>
+                <a href="javascript:void(0);" title="全部上传" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                    <i class="glyphicon glyphicon-upload"></i>
+                </a>
+                <a href="javascript:void(0);" title="全部取消" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                </a>
+                <a href="javascript:void(0);" title="移除全部" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                    <i class="glyphicon glyphicon-remove-circle"></i>
+                </a>
+            </span>
+        </div>
+        <div class="content">
+            <ul class="fm-ul fm-ul-list">
+                <li ng-repeat="item in uploader.queue" class="fm-upload-list">
+                    <label class="col-sm-7">
+                        <strong>{{ item.file.name }}</strong>
+                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </label>
+                    <div class="col-sm-3">
+                        <a href="javascript:void(0);" titile="上传" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </a>
+                        <a href="javascript:void(0);" title="取消" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                        </a>
+                        <a href="javascript:void(0);" title="移除" ng-click="item.remove()">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--<div class="tab-header">
+        图片上传
+        <span class="upload-option-group pull-right">
+            <button class="btn btn-primary upload-btn upload-add" title="选择文件" type="button">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                <input type="file" nv-file-select="" uploader="uploader" multiple  />
+            </button>
+            <button type="button" class="btn btn-primary upload-btn upload-img" title="全部上传" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                <span class="glyphicon glyphicon-upload"></span>
+            </button>
+            <button type="button" class="btn btn-primary upload-btn upload-cancel" title="全部取消" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+            </button>
+            <button type="button" class="btn btn-primary upload-btn upload-remove" title="移除全部" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                <span class="glyphicon glyphicon-remove-circle"></span>
+            </button>
+        </span>
+    </div>-->
+    <!--<div>
+        <table class="table table-bordered table-hover table-striped navi-table">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th ng-show="uploader.isHTML5">大小</th>
+                <th ng-show="uploader.isHTML5" width="50%">进度</th>
+                <th width="7%">状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="!uploader.queue || uploader.queue.length == 0" class="no-records-found">
+                <td colspan="5" class="text-center">目前无要上传的图片</td>
+            </tr>
+            <tr ng-repeat="item in uploader.queue">
+                <td class="nowrap-text">
+                    <strong>{{ item.file.name }}</strong>
+                    &lt;!&ndash;<div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>&ndash;&gt;
+                </td>
+                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="uploader.isHTML5">
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }">
+                            {{item.progress}}%
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                    <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                    <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                        <span class="glyphicon glyphicon-upload"></span> 上传
+                    </button>
+                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                        <span class="glyphicon glyphicon-ban-circle"></span> 取消
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span> 移除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>-->
+</div>

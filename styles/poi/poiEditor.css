@@ -108,6 +108,7 @@ a:hover {
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, .8);
     background-color: #313131;
+    transition: all .3ss;
 }
 
 .fm-panel {
@@ -234,4 +235,52 @@ input[type='radio'] {
 
 .fm-btn {
     border: 1px solid #aaa;
+}
+/******************************** 文件上传 **************************************/
+.upload-option-group{
+    position: relative;
+    margin-top: -4px;
+}
+.upload-btn{
+    position: relative;
+    z-index: 1;
+    padding: 2px;
+    font-size: 15px;
+    line-height: 20px;
+    margin: -3px 5px;
+    float: right;
+}
+.dom-hide{
+    display:none !important;
+}
+.upload-add {
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    cursor: pointer;
+}
+.upload-add input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.nowrap-text {
+    white-space: nowrap;
+}
+.fm-upload-ico{
+    background-color: rgba(154, 205, 50, 0);
+    border: 0;
+    float: left;
+    padding:3px;
+}
+.fm-upload-list{
+    padding:0 !important;
+}
+.fm-progress{
+    height:3px;
+}
+.fm-progress-bar{
+    border-right:5px solid rgb(13, 194, 248);
 }

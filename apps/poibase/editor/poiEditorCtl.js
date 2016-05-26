@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -113,6 +113,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('P
             }
         }
     }
+    /*初始化tpl加载*/
+    function initOcll(){
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/fileUploadCtl').then(function() {
+            $scope.fileUploadTpl = '../../../scripts/components/poi-new/tpls/edit-tools/fileUploadTpl.html';
+        });
+    }
+    initOcll();
 }]);
 
 function loadMap() {

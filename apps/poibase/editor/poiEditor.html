@@ -345,36 +345,7 @@
                                 </div>
                             </div>
                             <div ng-show="propertyType=='file'">
-                                <div class="fm-panel">
-                                    <div class="title">上传文件
-                                        <span style="float:right;">
-                                        <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-plus-sign"></i></a>
-                                        <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-cloud-upload"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="content">
-                                        <ul class="fm-ul fm-ul-list">
-                                            <li>
-                                                <label>
-                                                    图片1.jpg
-                                                </label>
-                                                <div>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-remove-sign"></i></a>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-cloud-upload"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label>
-                                                    图片2.png
-                                                </label>
-                                                <div>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-remove-sign"></i></a>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-cloud-upload"></i></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <div ng-include="fileUploadTpl"></div>
                             </div>
                             <div style="bottom: 0px;position:absolute;margin: 0px 10px;">
                                 <div class="btn-group btn-group-justified">

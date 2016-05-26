@@ -2,21 +2,23 @@
  * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
-    baseUrl: '../../../scripts/',
+    baseUrl: '../../../',
     paths: {
-        'angular': 'libs/angularjs/1.4.4/angular',
-        'jquery': 'libs/jquery/2.1.1/jquery-2.1.1',
-        'ocLazyLoad': 'libs/ocLazyLoad/ocLazyLoad.require',
-        'ngLayout': 'libs/ui-layout/ui-layout',
-        'uiBootstrap': 'libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
-        'leaflet': 'libs/leaflet-0.7.3/leaflet-src',
-        "chosenJquery": "libs/angular-chosen/chosen.jquery.min",
-        "angularChosen": "libs/angular-chosen/angular-chosen.min",
-        'application': 'uikits/Application',
-        'appUtil': 'uikits/common/app-util',
-        'dataService': 'uikits/poibase/dataService',
-        'poiService': 'uikits/poibase/dataService-poi',
-        'PoiEditorCtl': 'uikits/poibase/poiEditorCtl'
+        'angular': 'scripts/libs/angularjs/1.4.4/angular',
+        'jquery': 'scripts/libs/jquery/2.1.1/jquery-2.1.1',
+        'ocLazyLoad': 'scripts/libs/ocLazyLoad/ocLazyLoad.require',
+        'ngLayout': 'scripts/libs/ui-layout/ui-layout',
+        'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
+        'leaflet': 'scripts/libs/leaflet-0.7.3/leaflet-src',
+        "chosenJquery": "scripts/libs/angular-chosen/chosen.jquery.min",
+        "angularChosen": "scripts/libs/angular-chosen/angular-chosen.min",
+        'application': 'scripts/uikits/Application',
+        'appUtil': 'scripts/uikits/common/app-util',
+        'dataService': 'scripts/uikits/poibase/dataService',
+        'poiService': 'scripts/uikits/poibase/dataService-poi',
+        'fileUpload':'scripts/libs/angular-file-upload/angular-file-upload',
+        "angularDrag":"scripts/libs/angular-drag/angular-drag",
+        'PoiEditorCtl': 'apps/poibase/editor/poiEditorCtl',
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -26,8 +28,10 @@ requirejs.config({
         'angularChosen': ['angular'],
         'appUtil': ['application'],
         'dataService': ['angular'],
+        'fileUpload':['angular'],
+        'angularDrag':['angular','jquery'],
         'poiService': ['dataService'],
-        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService']
+        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService','fileUpload','angularDrag']
     }
 });
 // Start the main app logic.
