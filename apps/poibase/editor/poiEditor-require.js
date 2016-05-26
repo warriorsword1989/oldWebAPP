@@ -2,7 +2,7 @@
  * modified by liuyang on 2016/05/04.
  */
 requirejs.config({
-    baseUrl: '../../scripts/',
+    baseUrl: '../../../scripts/',
     paths: {
         'angular': 'libs/angularjs/1.4.4/angular',
         'jquery': 'libs/jquery/2.1.1/jquery-2.1.1',

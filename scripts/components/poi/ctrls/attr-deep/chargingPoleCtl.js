@@ -1,34 +1,35 @@
 angular.module('app').controller('chargingPoleCtl', function($scope) {
 	$scope.charging = $scope.poi.chargingPole[0];
-    $scope.chargeChainObj = {};
+    var chargeChainFmt = {};
     for(var i=0;i<$scope.chargeChain.length;i++){
-    	$scope.chargeChainObj[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
+    	chargeChainFmt[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
     }
-     
-    $scope.chainChange = function(evt, obj){
-
-        $scope.poi.kindCode = obj.selectedKind;
-    
-    };
     $scope.ctrl = {
         open: true,
         btShow: true
     };
+    if(!$scope.charging.selectedChain || $scope.charging.selectedChain < 99){
+    	$scope.chargeChainObj = {};
+    }else{
+    	$scope.chargeChainObj = chargeChainFmt;
+    }
     $scope.changeOpenType = function(event) {
         if (event.target.value == "1") {
             if (event.target.checked) {
                 for (var key in $scope.charging.openType) {
                     if (key != "1") {
                         $scope.charging.openType[key] = false;
+                        $scope.chargeChainObj = {};
                     }
                 }
             }
-        } else if(event.target.value >= "99"){
+        } else if(event.target.value >= 99){
             if (event.target.checked) {
                 $scope.charging.openType["1"] = false;
+                $scope.chargeChainObj = chargeChainFmt;
             }
             else {
-                $scope.charging.chargeChainObj = {};
+                $scope.chargeChainObj = {};
             }
         } else {
             if (event.target.checked) {
