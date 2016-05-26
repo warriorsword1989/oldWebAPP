@@ -26,13 +26,15 @@
                     目前无要上传的图片
                 </li>
                 <li ng-repeat="item in uploader.queue" class="fm-upload-list">
-                    <label class="col-sm-7">
-                        <strong>{{ item.file.name }}</strong>
-                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    <label class="col-sm-4 fm-uploder-file-name">
+                        <strong title="{{ item.file.name }}">{{ item.file.name }}</strong>
                     </label>
-                    <div class="col-sm-3">
+                    <div class="fm-uploder-file-flag">
+                        <span ng-show="item.isSuccess" class="fm-flag-ico"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span ng-show="item.isCancel" class="fm-flag-ico"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span ng-show="item.isError" class="fm-flag-ico"><i class="glyphicon glyphicon-remove"></i></span>
+                    </div>
+                    <div class="fm-uploder-file-option">
                         <button class="fm-upload-ico" titile="上传" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                             <i class="glyphicon glyphicon-upload"></i>
                         </button>

@@ -290,6 +290,32 @@ input[type='radio'] {
 .fm-progress-bar{
     border-right:5px solid rgb(13, 194, 248);
 }
+.fm-flag-ico{
+    /*position: absolute;*/
+    right: 10px;
+}
+.fm-flag-ico > .glyphicon-ok{
+    color: #34B734;
+}
+.fm-flag-ico > .glyphicon-remove{
+    color: #FF3252;
+}
+.fm-uploder-file-name{
+    width: 140px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fm-uploder-file-option{
+    /*position: absolute;*/
+    right: 42px;
+}
+.fm-uploder-file-flag{
+    width: 50px;
+    text-align: center;
+    top: -8px;
+    position: relative;
+}
 /**************************控制台************************/
 .fm-option-bar{
     width:auto;

@@ -60,6 +60,13 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
         }
         // console.info('onSuccessItem', fileItem, response, status, headers);
     };
+    /*移除文件*/
+    uploader.remove = function(){
+        console.log($scope.uploader.queue.length)
+        if($scope.uploader.queue.length == 0){
+            $scope.showProgress = false;
+        }
+    }
     uploader.onErrorItem = function(fileItem, response, status, headers) {
         // console.info('onErrorItem', fileItem, response, status, headers);
     };
