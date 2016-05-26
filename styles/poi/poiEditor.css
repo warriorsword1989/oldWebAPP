@@ -108,7 +108,7 @@ a:hover {
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, .8);
     background-color: #313131;
-    transition: all .3ss;
+    transition: all .3s;
 }
 
 .fm-panel {
