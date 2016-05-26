@@ -89,22 +89,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
         var kind = pKindFormat[poi.kindCode]
         $scope.levelArr = kind.level.split("|");
     }
-    //等级的默认选中
-    $scope.isLevelSelected = function(val) {
-        var kind = pKindFormat[$scope.selectedKind]
-        if (kind && kind.level.split("|").length == 1){ //如果只有一个等级默认选中
-            $scope.poi.level = val;
-            return true;
-        }else {
-           return $scope.poi.level == val; 
-        }
-        
-    }
-
-    //改变等级
-    $scope.updateLevelSelected = function(val) {
-        $scope.poi.level = val;
-    }
 
     $scope.ctrl = {
         openBase: true,
@@ -224,10 +208,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
     };
     $scope.brandChange = function (evt, sco) {
         $scope.poi.brands[0].code = sco.selectedChain;
-        meta.getChainLevel($scope.poi.kindCode,sco.selectedChain).then(function (data){
-            if (data) {
-                $scope.levelArr = [];
-                $scope.levelArr = data.split("|");
+        meta.getChainLevel($scope.poi.kindCode,sco.selectedChain).then(function (dataLevel){
+            if (dataLevel) {
+
+                checkLevel(dataLevel);
             }
         });
     };
@@ -258,32 +242,35 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
                     $scope.selectedChain = ""
                 }
                 var level = pKindFormat[newVlaue].level;
-                $scope.levelArr = [];
-                if (level) {
-                    $scope.levelArr = level.split("|");
-                }
+                checkLevel(level);
                 break;
             }
         }
     });
 
-    var initData = function (){
-        $scope.poi = $scope.$parent.poi;
-        pKindList = $scope.$parent.metaData.kindList;
-        pKindFormat = $scope.$parent.metaData.kindFormat;
-        pAllChain = $scope.$parent.metaData.allChain;
-        $scope.switchLifeCycle($scope.poi.lifecycle);
-        $scope.switchRawFields($scope.poi.rawFields);
-        initBaseInfoIcon($scope.$parent.poiIcon, $scope.poi.vipFlag);
-        initOptionStyle($scope.poi);
-        initKindBrandLevel($scope.poi);
-        //initRemark($scope.poi);
-        resetBtnHeight();
+    var checkLevel = function (level){
+        $scope.poi.level = "";//清空等级
+        $scope.levelArr = [];
+        if (level) {
+            $scope.levelArr = level.split("|");
+            if($scope.levelArr.length == 1){ //如果只有一个等级，默认选中
+                $scope.poi.level = level;
+            }
+        }
     }
 
-    initData();
+    $scope.poi = $scope.$parent.poi;
+    pKindList = $scope.$parent.metaData.kindList;
+    pKindFormat = $scope.$parent.metaData.kindFormat;
+    pAllChain = $scope.$parent.metaData.allChain;
+    $scope.switchLifeCycle($scope.poi.lifecycle);
+    $scope.switchRawFields($scope.poi.rawFields);
+    initBaseInfoIcon($scope.$parent.poiIcon, $scope.poi.vipFlag);
+    initOptionStyle($scope.poi);
+    initKindBrandLevel($scope.poi);
+    //initRemark($scope.poi);
+    resetBtnHeight();
 
-    $scope.$on("save", function(event, data) {
-        $scope.$emit("saveMe", "baseInfo");
-    });
+
+
 }]);
