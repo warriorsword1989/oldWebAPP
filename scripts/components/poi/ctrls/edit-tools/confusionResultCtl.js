@@ -6,7 +6,7 @@ angular.module('app').controller('ConfusionResultCtl', ['$scope', function($scop
     }
     /*显示关联poi数据*/
     $scope.showConflictInMap = function(index){
-        var confData = $scope.optionData.confusionInfoData[index],
+        var confData = $scope.poi.confusionInfoData[index],
             confDataObj = {
                 poiType:confData.poiType,
                 refData:confData.refFeatures[0]

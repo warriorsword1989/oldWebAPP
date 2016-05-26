@@ -2,43 +2,21 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     var resultAllData = [],
         resultIgnoreData = [],
         checkRuleObj = {};
+    // $scope.editHistoryData = $scope.poi.editHistoryData;
     var distinguishResult = function (data) {
         resultAllData = $scope.poi.checkResults;
         resultIgnoreData = $scope.poi.ckException;
-        $scope.optionData = {
-            confusionInfoData:[],
-            checkResultData:[],
-            editHistoryData:[]
-        };
-        for (var i = 0, len = resultAllData.length; i < len; i++) {
-            if (resultAllData[i].errorCode == 'FM-YW-20-215' || resultAllData[i].errorCode == 'FM-YW-20-216') {
-                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
-                resultAllData[i].poiType = resultAllData[i].errorCode == 'FM-YW-20-215' ? '重复' : '冲突';
-                $scope.optionData.confusionInfoData.push(resultAllData[i]);
-            } else {
-                resultAllData[i].type = checkRuleObj[resultAllData[i].errorCode];
-                $scope.optionData.checkResultData.push(resultAllData[i])
-            }
-        }
-        /*ekException*/
-        for (var i = 0, len = resultIgnoreData.length; i < len; i++) {
-            resultIgnoreData[i].type = 2;
-            resultIgnoreData[i].refFeatures = [];
-            if (resultIgnoreData[i].errorCode == 'FM-YW-20-215' || resultIgnoreData[i].errorCode == 'FM-YW-20-216') {
-                resultIgnoreData[i].poiType = resultIgnoreData[i].errorCode == 'FM-YW-20-215' ? '重复' : '冲突';
-                $scope.optionData.confusionInfoData.push(resultIgnoreData[i]);
-            } else {
-                $scope.optionData.checkResultData.push(resultIgnoreData[i])
-            }
+        /*检查规则*/
+        for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
+            $scope.poi.checkResults[i].setCheckRule(checkRuleObj[$scope.poi.checkResults[i].errorCode])
         }
         if ($scope.poi.lifeCycle != 2) {
-            $scope.historyData = $scope.poi.editHistory[$scope.poi.editHistory.length - 1];
             /*根据履历作业员id查找真实姓名*/
-            poi.queryUser($scope.historyData.operator.user.toString()).then(function(userInfo){
-                $scope.historyData.operator.name = userInfo.realName;
+            poi.queryUser($scope.poi.editHistoryData.operator.user.toString()).then(function(userInfo){
+                $scope.poi.editHistoryData.operator.name = userInfo.realName;
             });
         }else {
-            $scope.historyData = false;
+            $scope.poi.editHistoryData = false;
         }
     }
     /*编辑关联poi数据*/
@@ -65,10 +43,6 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
             case 'editHistory':
                 $ocll.load('../scripts/components/poi/ctrls/edit-tools/editHistoryCtl').then(function () {
                     $scope.tagContentTpl = '../../scripts/components/poi/tpls/edit-tools/editHistoryTpl.html';
-                    $scope.optionData.editHistoryData = {
-                        historyData: $scope.historyData,
-                        kindFormat: $scope.metaData.kindFormat
-                    };
                 });
                 break;
             case 'fileUpload':
@@ -92,8 +66,8 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
         } else {
             $scope.pEditable = true;
         }
-        $scope.$broadcast('checkResultData', $scope.optionData.checkResultData);
-        $scope.$broadcast('confusionInfoData', $scope.optionData.confusionInfoData);
+        $scope.$broadcast('checkResultData', $scope.poi.checkResultData);
+        $scope.$broadcast('confusionInfoData', $scope.poi.confusionInfoData);
     }
 
     /*所有初始化执行方法放在此*/
@@ -111,13 +85,13 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     });
     /*判断默认显示哪个tab*/
     function initShowTag(){
-        if($scope.optionData.checkResultData.length > 0){
+        if($scope.poi.checkResultData.length > 0){
             $scope.tagSelect = 'checkResult';
             $scope.changeTag('checkResult');
-        }else if($scope.optionData.confusionInfoData.length > 0){
+        }else if($scope.poi.confusionInfoData.length > 0){
             $scope.tagSelect = 'confusionInfo';
             $scope.changeTag('confusionInfo');
-        }else if($scope.optionData.editHistoryData.length > 0){
+        }else if($scope.poi.editHistory.length > 0){
             $scope.tagSelect = 'editHistory';
             $scope.changeTag('editHistory');
         }else{
