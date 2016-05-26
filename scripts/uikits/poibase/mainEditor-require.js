@@ -40,6 +40,7 @@ requirejs.config({
         "angularDrag":"libs/angular-drag/angular-drag",
         "fastmapUikit":"components/directives/fastmap-uikit",
         "showBox":"components/directives/showBox/showBox",
+        'sweet-alert':'libs/sweet-alert/js/sweet-alert.min',
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -59,7 +60,8 @@ requirejs.config({
         'angularDrag':['angular','jquery'],
         'fastmapUikit':['angular'],
         'showBox':['fastmapUikit'],
-        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil','poiService','metaService','select2','chosenJquery','angularChosen','fileUpload','angularDrag','showBox']
+        'sweet-alert':['jquery'],
+        'mainEditorCtl': ['ocLazyLoad', 'uiBootstrap', 'application', 'appUtil','poiService','metaService','select2','chosenJquery','angularChosen','fileUpload','angularDrag','showBox','sweet-alert']
     }
 });
 // Start the main app logic.
