@@ -71,7 +71,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
                 if (tmp[i] == 1) {
                     $scope.poiCarIcon = true;
                 } else if (tmp[i] == 2) {
-                    $("#poiCarIcon").show();
                     $scope.poiRmbIcon = true;
                 }
             }
@@ -80,11 +79,6 @@ angular.module('app').controller('generalBaseCtl', ['$scope','$timeout','dsMeta'
 
     var initKindBrandLevel = function(poi) {
         $scope.kindFormat = pKindFormat;
-
-        $scope.directiveOptions = {
-            no_results_text: "SO SORRY"
-        };
-
         $scope.levelArr = []; //用于存放等级的数组
         var kind = pKindFormat[poi.kindCode]
         $scope.levelArr = kind.level.split("|");
