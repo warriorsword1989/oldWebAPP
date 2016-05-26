@@ -367,7 +367,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fm-container fm-row fm-lvl1" style="width:auto;bottom:0px;left:5px; right:305px;border-radius: 5px 5px 0px 0px;">
+                        <div ng-include="consoleDeskTpl"></div>
+                        <div class="fm-container fm-row fm-lvl1 hide" style="width:auto;bottom:0px;left:5px; right:305px;border-radius: 5px 5px 0px 0px;">
                             <div class="fm-tabs">
                                 <a href="#" ng-class="{'tab': true, 'active': outputType == 1}" ng-click="changeOutput(1)">检查结果</a>
                                 <a href="#" ng-class="{'tab': true, 'active': outputType == 2}" ng-click="changeOutput(2)">冲突检测</a>

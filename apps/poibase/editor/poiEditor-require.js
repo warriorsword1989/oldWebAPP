@@ -16,6 +16,7 @@ requirejs.config({
         'appUtil': 'scripts/uikits/common/app-util',
         'dataService': 'scripts/uikits/poibase/dataService',
         'poiService': 'scripts/uikits/poibase/dataService-poi',
+        'metaService': 'scripts/uikits/poibase/dataService-meta',
         'fileUpload':'scripts/libs/angular-file-upload/angular-file-upload',
         "angularDrag":"scripts/libs/angular-drag/angular-drag",
         'PoiEditorCtl': 'apps/poibase/editor/poiEditorCtl',
@@ -31,7 +32,8 @@ requirejs.config({
         'fileUpload':['angular'],
         'angularDrag':['angular','jquery'],
         'poiService': ['dataService'],
-        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService','fileUpload','angularDrag']
+        'metaService': ['dataService'],
+        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService','metaService','fileUpload','angularDrag']
     }
 });
 // Start the main app logic.
