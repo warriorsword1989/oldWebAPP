@@ -265,6 +265,7 @@ input[type='radio'] {
     right: 0;
     top: 0;
     opacity: 0;
+    cursor: pointer;
 }
 .nowrap-text {
     white-space: nowrap;
@@ -274,6 +275,10 @@ input[type='radio'] {
     border: 0;
     float: left;
     padding:3px;
+    cursor: pointer;
+}
+.fm-upload-ico[disabled]{
+    color: #8c8787;
 }
 .fm-upload-list{
     padding:0 !important;
@@ -296,6 +301,10 @@ input[type='radio'] {
 .fm-console-table{
     color: #ffffff;
     margin-top:5px;
+}
+.fm-console-table > tbody > tr > td{
+    padding: 0px 3px;
+    line-height: 2;
 }
 .fm-console-content{
     height:200px;

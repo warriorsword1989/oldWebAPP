@@ -5,19 +5,19 @@
         </div>
         <div class="title">上传文件
             <span class="upload-btn upload-add">
-                <a href="javascript:void(0);">
+                <button class="fm-upload-ico">
                     <i class="glyphicon glyphicon-plus-sign"></i>
                     <input type="file" nv-file-select="" uploader="uploader" multiple  />
-                </a>
-                <a href="javascript:void(0);" title="全部上传" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                </button>
+                <button class="fm-upload-ico" title="全部上传" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
                     <i class="glyphicon glyphicon-upload"></i>
-                </a>
-                <a href="javascript:void(0);" title="全部取消" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                </button>
+                <button class="fm-upload-ico" title="全部取消" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                </a>
-                <a href="javascript:void(0);" title="移除全部" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                </button>
+                <button class="fm-upload-ico" title="移除全部" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
                     <i class="glyphicon glyphicon-remove-circle"></i>
-                </a>
+                </button>
             </span>
         </div>
         <div class="content">
