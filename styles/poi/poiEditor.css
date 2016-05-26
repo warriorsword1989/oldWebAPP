@@ -237,6 +237,9 @@ input[type='radio'] {
     border: 1px solid #aaa;
 }
 /******************************** 文件上传 **************************************/
+.ng-upload-title{
+    margin-top:-20px;
+}
 .upload-option-group{
     position: relative;
     margin-top: -4px;
@@ -283,4 +286,19 @@ input[type='radio'] {
 }
 .fm-progress-bar{
     border-right:5px solid rgb(13, 194, 248);
+}
+/**************************控制台************************/
+.fm-option-bar{
+    width:auto;
+    bottom:0px;
+    left:5px;
+    right:305px;
+    border-radius: 5px 5px 0px 0px;
+}
+.fm-console-table{
+    color: #ffffff;
+    margin-top:5px;
+}
+.fm-console-content{
+    height:200px;
 }

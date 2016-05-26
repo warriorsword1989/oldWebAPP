@@ -3,7 +3,7 @@
         <div class="progress fm-progress" ng-show="showProgress">
             <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
         </div>
-        <div class="title">上传文件
+        <div class="title ng-upload-title">上传文件
             <span class="upload-btn upload-add">
                 <a href="javascript:void(0);">
                     <i class="glyphicon glyphicon-plus-sign"></i>
@@ -22,6 +22,9 @@
         </div>
         <div class="content">
             <ul class="fm-ul fm-ul-list">
+                <li ng-if="!uploader.queue || uploader.queue.length == 0" class="text-center">
+                    目前无要上传的图片
+                </li>
                 <li ng-repeat="item in uploader.queue" class="fm-upload-list">
                     <label class="col-sm-7">
                         <strong>{{ item.file.name }}</strong>
