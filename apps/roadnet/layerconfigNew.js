@@ -461,7 +461,7 @@ Application.layersConfig =
                     editable: false,
                     visible: true,
                     requestType: 'RWLINK',
-                    showNodeLevel: 17
+                    showNodeLevel: 12
                 }
             }
         ]
