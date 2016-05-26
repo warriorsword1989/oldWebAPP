@@ -11,7 +11,7 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
     var outPutCtrl = fastmap.uikit.OutPutController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var eventController = fastmap.uikit.EventController();
-    var rdRestriction = layerCtrl.getLayerById('restriction');
+    var rdRestriction = layerCtrl.getLayerById('relationdata');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var limitPicArr = [];
     /*时间控件*/
@@ -68,8 +68,8 @@ objectEditApp.controller("normalController", function ($scope, $timeout, $ocLazy
         }
         highLightFeatures.push({
             id:$scope.rdRestrictData.pid.toString(),
-            layerid:'restriction',
-            type:'restriction',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         })
         highRenderCtrl.highLightFeatures = highLightFeatures;

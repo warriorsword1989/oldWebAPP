@@ -11,7 +11,7 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
-    var rdConnexity = layerCtrl.getLayerById("rdlaneconnexity");
+    var rdConnexity = layerCtrl.getLayerById("relationdata");
 
     var linksObj = {};//存放需要高亮的进入线和退出线的id
     objCtrl.setOriginalData(objCtrl.data.getIntegrate());
@@ -108,8 +108,8 @@ otherApp.controller("rdLaneConnexityController", function ($scope, $ocLazyLoad, 
 
         highLightFeatures.push({
             id:$scope.lanesData.pid.toString(),
-            layerid:'rdlaneconnexity',
-            type:'rdlaneconnexity',
+            layerid:'relationdata',
+            type:'relationdata',
             style:{}
         });
         highRenderCtrl.highLightFeatures = highLightFeatures;

@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','ngSanitize']).controller('projectManageCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta','$timeout',function($scope, $ocll, $rs, $q, poi, meta, $timeout) {
+angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'ngTable', 'dataService','ngSanitize','ngCookies']).controller('projectManageCtl', ['$scope', '$ocLazyLoad', '$rootScope', '$q', 'dsPoi', 'dsMeta','$timeout',function($scope, $ocll, $rs, $q, poi, meta, $timeout) {
 	$ocll.load("components/poi/ctrls/data-list/headCtl").then(function() {
         $scope.headTpl = "../../scripts/components/poi/tpls/data-list/header.html";
     });

@@ -122,6 +122,9 @@ fastmap.mapApi.adAdminMove = L.Handler.extend({
         this.targetIndex = null;
         this.snapHandler.setTargetIndex(this.targetIndex);
 
+        if(this.targetPoint == null){
+            return;
+        }
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
         var nodePid = null;
 

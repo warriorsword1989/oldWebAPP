@@ -7,6 +7,6 @@ angular.module('app').controller('CheckResultCtl', ['$scope', function($scope) {
     }
     /*显示关联poi数据*/
     $scope.showCRRefFtInMap = function(index){
-        $scope.$emit('getRefFtInMap',$scope.optionData.checkResultData[index].refFeatures);
+        $scope.$emit('getRefFtInMap',$scope.poi.checkResultData[index].refFeatures);
     }
 }]);

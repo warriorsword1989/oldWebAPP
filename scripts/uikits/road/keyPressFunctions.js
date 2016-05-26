@@ -181,7 +181,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": laneInfo
                     };
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("restriction").redraw();
+                        layerCtrl.getLayerById("relationdata").redraw();
                         map.currentTool.disable();
                         treatmentOfChanged(data, "RDRESTRICTION", "创建交限成功",
                             'attr_restriction_ctrl/rdRestriction', 'attr_restrict_tpl/rdRestricOfOrdinaryTpl.html')
@@ -279,7 +279,7 @@ function keyEvent(ocLazyLoad, scope) {
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
                         selectCtrl.selectedFeatures = null;
                         shapeCtrl.shapeEditorResult.setFinalGeometry(null);
-                        layerCtrl.getLayerById("speedlimit").redraw();
+                        layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDSPEEDLIMIT", "创建RDSPEEDLIMIT成功",
                             'attr_speedLimit_ctrl/speedLimitCtrl', 'attr_speedLimit_tpl/speedLimitTpl.html');
                     })
@@ -378,7 +378,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": featCodeCtrl.getFeatCode()
                     };
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("highSpeedDivergence").redraw();
+                        layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
@@ -390,7 +390,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": selectCtrl.selectedFeatures
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("rdcross").redraw();
+                        layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDCROSS", "创建RDCROSS成功",
                             'attr_cross_ctrl/rdCrossCtrl', 'attr_cross_tpl/rdCrossTpl.html');
                     })
@@ -411,7 +411,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": laneInfo
                     };
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("rdlaneconnexity").redraw();
+                        layerCtrl.getLayerById("relationdata").redraw();
                         treatmentOfChanged(data, "RDLANECONNEXITY", "创建车信成功",
                             'attr_connexity_ctrl/rdLaneConnexityCtrl', 'attr_connexity_tpl/rdLaneConnexityTpl.html');
                     })
@@ -440,7 +440,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": selectCtrl.selectedFeatures
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
-                        layerCtrl.getLayerById("rdGsc").redraw();
+                        layerCtrl.getLayerById("relationdata").redraw();
                         layerCtrl.getLayerById("referenceLine").redraw();
                         highRenderCtrl._cleanHighLight();
                         highRenderCtrl.highLightFeatures.length = 0;
@@ -472,7 +472,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": {
                             "longitude": geo.x,
                             "latitude": geo.y,
-                            "linkPid": parseInt(selectCtrl.selectedFeatures.linkPid)
+                            "linkPid": (selectCtrl.selectedFeatures.linkPid==null?0:parseInt(selectCtrl.selectedFeatures.linkPid))
                         }
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {

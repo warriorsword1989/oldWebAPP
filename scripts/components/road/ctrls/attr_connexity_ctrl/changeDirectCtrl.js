@@ -5,7 +5,7 @@ var directConnexityApp = angular.module("mapApp");
 directConnexityApp.controller("directOfConnexityController",function($scope) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var hLayer = layerCtrl.getLayerById('highlightlayer');
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.flagNum = 0;
     $scope.addRdLancdData = [
         {"id": 'a', "class": false},
@@ -94,9 +94,8 @@ directConnexityApp.controller("directOfConnexityController",function($scope) {
                 })
             }
         }
-        var highLightLinks = new fastmap.uikit.HighLightRender(hLayer);
-        highLightLinks.highLightFeatures = highLightFeatures;
-        highLightLinks.drawHighlight();
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
     }
     $scope.lanesArr = $scope.laneInfo["laneInfo"].split(",");
 

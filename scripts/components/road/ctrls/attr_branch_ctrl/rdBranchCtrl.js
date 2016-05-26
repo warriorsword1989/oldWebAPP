@@ -5,7 +5,7 @@ var namesOfBranch = angular.module("mapApp");
 namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLazyLoad) {
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
-    var rdBranch = layerCtrl.getLayerById("highSpeedDivergence");
+    var rdBranch = layerCtrl.getLayerById("relationdata");
     var eventController = fastmap.uikit.EventController();
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -268,8 +268,8 @@ namesOfBranch.controller("namesOfBranchCtrl", function ($scope, $timeout, $ocLaz
 
             highRenderCtrl.highLightFeatures.push({
                 id:$scope.diverObj.details[0].pid.toString(),
-                layerid:'highSpeedDivergence',
-                type:'highSpeedDivergence',
+                layerid:'relationdata',
+                type:'relationdata',
                 style:{}
             });
             highRenderCtrl.drawHighlight();
