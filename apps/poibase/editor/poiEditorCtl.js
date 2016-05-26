@@ -1,4 +1,8 @@
 angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', function($scope, $ocLazyLoad, $rootScope, poiDS) {
+    var eventController = fastmap.uikit.EventController();
+    var objectCtrl = fastmap.uikit.ObjectEditController();
+    var output = fastmap.uikit.OutPutController();
+
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -115,18 +119,36 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService']).controller('P
     }
 }]);
 
+var map = null;
 function loadMap() {
-    //初始化地图
-    pMap = L.map('map', {
+    map = L.map('map', {
         attributionControl: false,
+        doubleClickZoom: false,
         zoomControl: false
     }).setView([40.012834, 116.476293], 17);
-    //加载各个图层
-    var layer = new L.TileLayer('http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0', {
-        subdomains: ["rt0", "rt1", "rt2", "rt3"],
-        tms: true,
-        maxZoom: 18,
-        id: 'qqLayer',
-    });
-    pMap.addLayer(layer);
+    var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var outPutCtrl = new fastmap.uikit.OutPutController();
+    var objCtrl = new fastmap.uikit.ObjectEditController({});
+    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
+    var featCode = new fastmap.uikit.FeatCodeController();
+    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var highLayerCtrl = new fastmap.uikit.HighRenderController();
+    var eventCtrl = new fastmap.uikit.EventController();
+    var speedLimit = layerCtrl.getLayerById("speedlimit")
+    tooltipsCtrl.setMap(map, 'tooltip');
+    shapeCtrl.setMap(map);
+    layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
+        if (event.flag == true) {
+            map.addLayer(event.layer);
+        } else {
+            map.removeLayer(event.layer);
+        }
+    })
+    for (var layer in layerCtrl.getVisibleLayers()) {
+        map.addLayer(layerCtrl.getVisibleLayers()[layer]);
+    }
+
+
+
 }

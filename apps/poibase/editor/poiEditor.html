@@ -3,17 +3,21 @@
     <head lang="en">
         <meta charset="UTF-8">
         <title>FastMap设施编辑系统</title>
-        <link href="../../favicon.ico" rel="icon" type="image/x-icon" />
+        <link href="../../../favicon.ico" rel="icon" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert/css/sweet-alert.css">
         <link rel="stylesheet" type="text/css" href="../../../styles/poi/poiEditor.css">
-        <script type="text/javascript" src="../../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script><!--//不能require-->
+        <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
+        <!--<script type="text/javascript" src="mapRelated-poi.js"></script>-->
+        <script src="mapApi-poi.js"></script>
+        <script src="uikitApi-poi.js"></script>
+        <!--<script src="../../../scripts/dataApi/dataApi.js"></script>-->
     </head>
     <body ng-controller="PoiEditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
@@ -30,7 +34,7 @@
                         <a><i title="图层" class="glyphicon glyphicon-tasks"></i></a>
                     </div>
                     <div ng-class="{3:'selected'}[selectedTool]" ng-click="changeEditTool('layerPanel')">
-                        <a href="../roadnet/editor.html"><i title="道路编辑" class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="../../roadnet/editor.html"><i title="道路编辑" class="glyphicon glyphicon-pencil"></i></a>
                     </div>
                 </div>
                 <div class="banner-bottom">
@@ -50,7 +54,7 @@
                         <div class="content">
                             <div class="table-toolbar">
                                 <div class="table-search fm-inline">
-                                    <button>名称</button><input class="fm-ctl" placeholder="搜索"></input>
+                                    <button>名称</button><input class="fm-ctl" placeholder="搜索">
                                 </div>
                             </div>
                             <table class="table table-bordered table-condensed" style="color:#fff;margin-top:8px;margin-bottom:0px;">
@@ -305,7 +309,7 @@
                                     </div>
                                 </div>
                                 <div class="fm-panel">
-                                    <div class="title">子POI <span style="float:right;">共 <span ng-bind="selectedPoi.relatedChildren.length">4</span> 条</div>
+                                    <div class="title">子POI <span style="float:right;">共 </span><span ng-bind="selectedPoi.relatedChildren.length">4</span> 条</div>
                                     <div class="content">
                                         <ul class="fm-ul fm-ul-list">
                                             <li>
@@ -448,6 +452,7 @@
                     </div>
                 </div>
             </div>
+        </div>
             <script type="text/javascript" data-main="poiEditor-require" src="../../../scripts/libs/require/require.js"></script>
         </body>
     </html>
