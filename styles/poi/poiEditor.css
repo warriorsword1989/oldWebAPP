@@ -309,3 +309,6 @@ input[type='radio'] {
 .fm-console-content{
     height:200px;
 }
+.fm-console-table-p{
+    margin:0;
+}
