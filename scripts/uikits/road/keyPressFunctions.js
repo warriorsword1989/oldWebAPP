@@ -472,7 +472,7 @@ function keyEvent(ocLazyLoad, scope) {
                         "data": {
                             "longitude": geo.x,
                             "latitude": geo.y,
-                            "linkPid": parseInt(selectCtrl.selectedFeatures.linkPid)
+                            "linkPid": (selectCtrl.selectedFeatures.linkPid==null?0:parseInt(selectCtrl.selectedFeatures.linkPid))
                         }
                     }
                     Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {

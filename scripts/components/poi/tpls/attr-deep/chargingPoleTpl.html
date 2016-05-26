@@ -122,17 +122,18 @@
                     <td >开放状态</td>
                     <td id="charging-openType" colspan="3">
                         <div class="row" style="margin:0px">
-                        	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green" ng-if="key == 1" style="padding:0px;color:green">
+                        	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green" ng-if="key == 1">
                                 <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
                             </div>
                         	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px" ng-if="key != 1">
                                 <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
-                            	<select
-                                    ng-model="selectedChain"
+                            	<!-- ng-model处有坑，如果直接绑定属性需要手动改值 -->
+                            	<select 
+                                    ng-model="charging.selectedChain"
                                     ng-options="value as lable.chainName for (value, lable) in chargeChainObj"
-                                    chosen ng-change="chainChange($event, this)" style="width: 80%;">
+                                    chosen style="width: 80%;">
                                 </select>
                             </div>
                         </div>
