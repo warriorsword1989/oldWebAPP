@@ -148,8 +148,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     };
     /*显示地图上poi数组*/
     function loadPoiInfoPopover(data,title){
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiInfoPopover.html';
             $scope.drawPois = data;
             var _fid = $scope.poi.fid;
             var fidList;
@@ -231,8 +231,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     });
     /*接收同位点信息*/
     $scope.$on('samePois', function (event, data) {
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
-            $scope.poiInfoTpl = '../../scripts/components/poi/tpls/edit-tools/poiInfoPopover.html';
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiInfoPopoverCtl').then(function () {
+            $scope.poiInfoTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiInfoPopover.html';
             // $scope.samePois = data;
             $scope.refFt = {
                 title: '同位点POI',
@@ -288,8 +288,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     /*获取关联poi数据——冲突检测*/
     $scope.$on('getConflictInMap', function (event, data) {
         $scope.optionData = {};
-        $ocll.load('../scripts/components/poi/ctrls/edit-tools/confusionDataCtl').then(function () {
-            $scope.confusionDataTpl = '../../scripts/components/poi/tpls/edit-tools/confusionDataTpl.html';
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/confusionDataCtl').then(function () {
+            $scope.confusionDataTpl = '../../../scripts/components/poi-new/tpls/edit-tools/confusionDataTpl.html';
             $scope.showConflictPoiInfo = true;
             data.refData.duppoi.kindName = $scope.metaData.kindFormat[data.refData.duppoi.kindCode].kindName;
             data.refData.duppoi.brandList = $scope.metaData.allChain[data.refData.duppoi.kindCode];
