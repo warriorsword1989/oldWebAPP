@@ -33,15 +33,14 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     uploader.onAfterAddingFile = function(fileItem) {
         $scope.showProgress = true;
     };
+    uploader.onBeforeUploadItem = function(item) {
+        $scope.showProgress = true;
+    };
     /*uploader.onAfterAddingFile = function(fileItem) {
         console.info('onAfterAddingFile', fileItem);
     };
     uploader.onAfterAddingAll = function(addedFileItems) {
         console.info('onAfterAddingAll', addedFileItems);
-    };
-    uploader.onBeforeUploadItem = function(item) {
-        chargeFileType(item.file);
-        console.info('onBeforeUploadItem', item);
     };
     uploader.onProgressItem = function(fileItem, progress) {
         console.info('onProgressItem', fileItem, progress);
@@ -72,6 +71,8 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     };
     uploader.onCompleteAll = function() {
         $scope.$emit('getImgItems',imgItems);
-        $scope.showProgress = false;
+        if($scope.uploader.progress == 100){
+            $scope.showProgress = false;
+        }
     };
 }]);

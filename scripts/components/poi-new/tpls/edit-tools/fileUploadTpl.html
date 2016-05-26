@@ -2,9 +2,7 @@
 
     <div class="fm-panel">
         <div class="progress fm-progress" ng-show="showProgress">
-            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }">
-                {{item.progress}}%
-            </div>
+            <div class="progress-bar progress-bar-info progress-bar-striped fm-progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
         </div>
         <div class="title">上传文件
             <span class="upload-btn upload-add">
@@ -33,7 +31,7 @@
                         <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                     </label>
                     <div class="col-sm-3">
-                        <a href="javascript:void(0);" titile="上传" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                        <!--<a href="javascript:void(0);" titile="上传" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                             <i class="glyphicon glyphicon-upload"></i>
                         </a>
                         <a href="javascript:void(0);" title="取消" ng-click="item.cancel()" ng-disabled="!item.isUploading">
@@ -41,7 +39,16 @@
                         </a>
                         <a href="javascript:void(0);" title="移除" ng-click="item.remove()">
                             <i class="glyphicon glyphicon-trash"></i>
-                        </a>
+                        </a>-->
+                        <button class="fm-upload-ico" titile="上传" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                            <i class="glyphicon glyphicon-upload"></i>
+                        </button>
+                        <button class="fm-upload-ico" title="取消" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                            <i class="glyphicon glyphicon-ban-circle"></i>
+                        </button>
+                        <button class="fm-upload-ico" title="移除" ng-click="item.remove()">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </button>
                     </div>
                 </li>
             </ul>
