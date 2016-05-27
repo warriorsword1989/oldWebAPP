@@ -2,6 +2,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     var eventController = fastmap.uikit.EventController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
+
+    $scope.metaData = {}; //存放元数据
+    $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -321,8 +325,35 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
             "flag": 1
         });
     });
+    /*解析分类，组成select-chonse认识的数据*/
+    var initKindFormat = function (kindData) {
+        for (var i = 0; i < kindData.length; i++) {
+            $scope.metaData.kindFormat[kindData[i].kindCode] = {
+                kindId: kindData[i].id,
+                kindName: kindData[i].kindName,
+                level: kindData[i].level,
+                extend: kindData[i].extend,
+                parentFlag: kindData[i].parent,
+                chainFlag: kindData[i].chainFlag,
+                dispOnLink: kindData[i].dispOnLink,
+                mediumId: kindData[i].mediumId
+            };
+            $scope.metaData.kindList.push({
+                value: kindData[i].kindCode,
+                text: kindData[i].kindName,
+                mediumId: kindData[i].mediumId
+            });
+        }
+    };
+
     var promises = [];
+    promises.push(meta.getKindList().then(function(kindData) {
+        initKindFormat(kindData);
+    }));
     /*获取检查规则*/
+    promises.push(meta.queryRule().then(function (data) {
+        $scope.checkRuleList = data;
+    }));
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
     }));
