@@ -14,126 +14,149 @@
                 </div>
             </div>
         </uib-accordion-heading>
-        <div class="panel-bady" style="margin:-15px;">
+        <div class="panel-bady" style="margin:-15px;" ng-repeat="charging in chargingArr">
+        	<table class="table property-table" style="border:0px;">
+        		<tr>
+            		<td width="100%">
+            			<ul class="nav nav-tabs nav-justified">
+		                <li role="presentation" class="active">
+		                    <a href="#deepInfoOne" data-toggle="tab" data-width="">专有信息{{$index+1}}
+		                    <div class="btn-group"  style="display: inline-block;float: right;" ng-if="chargingArr.length==2">
+		                        <button  data-toggle="tooltip"  data-index="{{$index}}" title="删除" class="glyphicon glyphicon-remove" type="button" ng-click="removeChargPole($index)"/>
+		                    </div>
+		                    <div class="btn-group"  style="display: inline-block;float: right;" ng-if="chargingArr.length==1">
+		                        <button  data-toggle="tooltip"  title="添加"  class="glyphicon glyphicon-plus"  style="margin-right: 5px;" type="button" ng-click="addChargPole()"/>
+		                    </div>
+		                </a></li>
+                		</ul>
+            		</td>
+            	</tr>
+        	</table>
             <table class="table property-table" style="border:0px;">
                 <tr>
                     <td width="20%">分组号</td>
                     <td width="30%" >
-                        <input ng-model="charging.groupId" type="text" maxLength="20" class="form-control input-sm" id="charging-groupid" readonly>
+                        <input ng-model="charging.groupId" type="text" maxLength="20" class="form-control input-sm" readonly>
                     </td>
                     <td width="20%">充电桩编号</td>
                     <td width="30%">
-                        <input ng-model="charging.plotNum" type="text" class="form-control input-sm" id="charging-plotnum">
+                        <input ng-model="charging.plotNum" type="text" class="form-control input-sm">
                     </td>
                 </tr>
                 <tr>
                     <td>设备生产商</td>
                     <td colspan="3">
-                        <input ng-model="charging.manufacturer" type="text" class="form-control input-sm" id="charging-manufacturer" required>
+                        <input ng-model="charging.manufacturer" type="text" class="form-control input-sm" required>
                     </td>
                 </tr>
                 <tr>
                     <td>出厂编号</td>
                     <td colspan="3">
-                        <input ng-model="charging.factoryNum" type="text" class="form-control input-sm" id="charging-factorynum">
+                        <input ng-model="charging.factoryNum" type="text" class="form-control input-sm">
                     </td>
                 </tr>
                 <tr>
                     <td>产品型号</td>
                     <td colspan="3">
-                        <input ng-model="charging.productNum" type="text" class="form-control input-sm" id="charging-productnum">
+                        <input ng-model="charging.productNum" type="text" class="form-control input-sm">
                     </td>
                 </tr>
                 <tr>
                     <td width="20%">泊位号码</td>
                     <td width="30%">
-                        <input ng-model="charging.parkingNum" type="text" class="form-control input-sm" id="charging-parkingnum">
+                        <input ng-model="charging.parkingNum" type="text" class="form-control input-sm">
                     </td>
                     <td width="20%">楼层</td>
                     <td width="30%">
                         <input ng-model="charging.floor" type="number"  min="-5" maxLength="6"
-                               class="form-control input-sm" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                               id="charging-floor">
+                               class="form-control input-sm" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </td>
                 </tr>
                 <tr>
                     <td>支付方式</td>
-                    <td id="charging-payment" colspan="3">
+                    <td colspan="3">
                     	<div ng-repeat="(key, value) in chargingPayment"  class="col-sm-4" style="padding:0px"><input type='checkbox' value="{{key}}" ng-model="charging.payment[key]">{{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>充电模式</td>
-                    <td id="charging-mode" colspan="3">
+                    <td colspan="3">
                         <div ng-repeat="(key,value) in chargingMode" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.mode"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>位置类型</td>
-                    <td id="charging-locationtype" colspan="3">
+                    <td colspan="3">
                     	<div ng-repeat="(key,value) in locationtype" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.locationType"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>电流类型</td>
-                    <td id="charging-acdc" colspan="3">
+                    <td colspan="3">
                     	<div ng-repeat="(key,value) in chargingAcdc" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.acdc"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td>插头类型</td>
-                    <td id="charging-plugType" colspan="3">
+                    <td colspan="3">
                     	<div ng-repeat="(key, value) in chargingPlugType" class="col-sm-6" style="padding:0px"><input type='checkbox' value="{{key}}" ng-model="charging.plugType[key]"> {{value}}</div>
                     </td>
                 </tr>
                 <tr>
                     <td width="20%">充电功率</td>
                     <td width="30%">
-                        <input ng-model="charging.power" type="text" class="form-control input-sm" id="charging-power" >
+                        <input ng-model="charging.power" type="text" class="form-control input-sm">
                     </td>
                     <td width="20%">充电电压</td>
                     <td width="30%">
-                        <input type="text" ng-model="charging.voltage" class="form-control input-sm" id="charging-voltage" >
+                        <input type="text" ng-model="charging.voltage" class="form-control input-sm">
                     </td>
                 </tr>
                 <tr>
                     <td width="20%">充电电流</td>
                     <td width="30%">
-                        <input ng-model="charging.current" type="text" class="form-control input-sm" id="charging-current">
+                        <input ng-model="charging.current" type="text" class="form-control input-sm">
                     </td>
                     <td width="20%">充电价格</td>
                     <td width="30%">
-                        <input ng-model="charging.prices" type="text" class="form-control input-sm" id="charging-prices">
+                        <input ng-model="charging.prices" type="text" class="form-control input-sm">
                     </td>
                 </tr>
                 <tr>
                     <td width="20%">同组桩数</td>
                     <td width="30%" >
-                        <input ng-model="charging.count" type="text" class="form-control input-sm" id="charging-count" readonly>
+                        <input ng-model="charging.count" type="text" class="form-control input-sm"readonly>
                     </td>
                     <td width="20%">充电口数</td>
                     <td width="30%">
                         <input ng-model="charging.plugNum" type="number"  min="0" maxLength="6"
-                               class="form-control input-sm" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                               id="charging-plugNum">
+                               class="form-control input-sm" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </td>
                 </tr>
                 <tr>
                     <td >开放状态</td>
-                    <td id="charging-openType" colspan="3">
+                    <td colspan="3">
                         <div class="row" style="margin:0px">
                         	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding:0px;color:green" ng-if="key == 1">
-                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event,charging)">{{value}}
                             </div>
                         	<div ng-repeat="(key, value) in chargingOpenType" class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px" ng-if="key != 1">
-                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event)">{{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event,charging)">{{value}}
                             </div>
+                            <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px" ng-if="charging.selectedChain || charging.selectedChain < 99">
+                            	ng-model处有坑，如果直接绑定属性需要手动改值
+                            	<select 
+                                    ng-model="charging.selectedChain"
+                                    ng-options="value as lable.chainName for (value, lable) in {}"
+                                    chosen style="width: 80%;">
+                                </select>
+                            </div> -->
                             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="padding:0px">
                             	<!-- ng-model处有坑，如果直接绑定属性需要手动改值 -->
                             	<select 
                                     ng-model="charging.selectedChain"
-                                    ng-options="value as lable.chainName for (value, lable) in chargeChainObj"
-                                    chosen style="width: 80%;">
+                                    ng-options="value as lable.chainName for (value, lable) in charging.chargeChainObj"
+                                    chosen style="width: 80%;" ng-change="chianChange($event, charging)">
                                 </select>
                             </div>
                         </div>
@@ -141,7 +164,7 @@
                 </tr>
                 <tr>
                     <td>服务状态</td>
-                    <td id="charging-availableState" colspan="3">
+                    <td colspan="3">
                         <div ng-repeat="(key,value) in chargingAvailableState" class="col-sm-6" style="padding:0px"><input type='radio' value="{{key}}" ng-model="charging.availableState"> {{value}}</div>
                     </td>
                 </tr>
