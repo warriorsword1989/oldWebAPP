@@ -2,7 +2,7 @@
  * Created by liwanchong on 2016/4/28.
  */
 (function() {
-     var jsFiles = [
+    var jsFiles = [
         "geometry/Geometry.js",
         "geometry/Collection.js",
         "geometry/Point.js",
@@ -18,7 +18,7 @@
         "Tile.js",
         "ShapeOptionTypeEnum.js",
         // layer
-        "layer/Layer.js",
+                "layer/Layer.js",
         "layer/WholeLayer.js",
         "layer/MeshLayer.js",
         "LayerRender.js",
@@ -78,14 +78,12 @@
         "symbol/SymbolsFile.js",
         "symbol/SymbolFactory.js"
     ]; // etc.
-
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/
     var scriptTags = new Array(jsFiles.length);
     var host = App.Util.getAppPath() + "/scripts/mapApi/";
-    for (var i=0, len=jsFiles.length; i<len; i++) {
-        scriptTags[i] = "<script src='" + host + jsFiles[i] +
-            "'></script>";
+    for (var i = 0, len = jsFiles.length; i < len; i++) {
+        scriptTags[i] = "<script src='" + host + jsFiles[i] + "'></script>";
     }
     if (scriptTags.length > 0) {
         document.write(scriptTags.join(""));

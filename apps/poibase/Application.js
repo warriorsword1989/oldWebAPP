@@ -8,12 +8,14 @@ App.Config = {
     accessToken: "0000029900O7PKU4799128A9A06BD9B85262945271208735",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
-    roadUrl: 'http://192.168.4.188/service',
-    roadTipsServer: "/fcc/tip",
-    roadEditServer: "/edit",
-    roadMetaServer: "/metadata",
-    roadProjectid: 11,
-    meshIdArr: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
+    generalUrl: 'http://192.168.4.188/service',
+    tipsServer: "/fcc/tip",
+    editServer: "/edit",
+    metaServer: "/metadata",
+};
+App.Temp = {
+    projectId: 11,
+    meshList: [60560301, 60560302, 60560303, 60560311, 60560312, 60560313, 60560322, 60560323, 60560331, 60560332, 60560333, 60560320, 60560330, 60560300, 60560321, 60560310],
     relationNameObj: {
         RDRESTRICTION: '交限',
         RDSPEEDLIMIT: '限速',
@@ -34,5 +36,31 @@ App.Util = {
     },
     getHbaseUrl: function(url) {
         return App.Config.hbaseServiceUrl + "/" + url;
+    },
+    createTileRequestObject: function(url, requestType) {
+        var reqObj = {};
+        reqObj.url = App.Config.generalUrl + url;
+        reqObj.parameter = {
+            projectId: App.Temp.projectId,
+            gap: 80
+        }
+        if (requestType) {
+            if (requestType == "RDLINK") {
+                reqObj.hbaseUrl = App.Config.generalUrl + '/render/obj/getByTileWithGap?';
+            }
+            reqObj.parameter['types'] = requestType.split(',');
+        }
+        return reqObj;
+    },
+    createTileRequestObjectForPoi: function(url, requestType) {
+        return {
+            url: App.Config.serviceUrl + "/" + url,
+            parameter: {
+                x: 3370,
+                y: 1552,
+                z: 12,
+                condition: {}
+            }
+        };
     },
 };
