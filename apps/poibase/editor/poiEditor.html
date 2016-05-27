@@ -99,7 +99,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;">
+                        <!--<div class="fm-container fm-col fm-lvl1" style="right:0px;width:300px;">
                             <div class="title"><i class="glyphicon glyphicon-edit"></i> POI属性</div>
                             <div class="fm-tabs">
                                 <a href="#" ng-class="{'tab': true, 'active': propertyType == 'base'}" ng-click="changeProperty('base')">基本属性</a>
@@ -127,7 +127,7 @@
                                                 <label>种 别</label>
                                                 <div>
                                                     <select class="fm-control">
-                                                        <option>--</option>
+                                                        <option>&#45;&#45;</option>
                                                         <option>停车场</option>
                                                         <option>中餐馆</option>
                                                         <option>学校</option>
@@ -138,7 +138,7 @@
                                                 <label>品 牌</label>
                                                 <div>
                                                     <select class="fm-control">
-                                                        <option>--</option>
+                                                        <option>&#45;&#45;</option>
                                                         <option>肯德基</option>
                                                         <option>麦当劳</option>
                                                         <option>德克士</option>
@@ -262,7 +262,7 @@
                                                 <label>收费备注</label>
                                                 <div>
                                                     <select class="fm-control">
-                                                        <option>--</option>
+                                                        <option>&#45;&#45;</option>
                                                         <option>停车场</option>
                                                         <option>中餐馆</option>
                                                         <option>学校</option>
@@ -369,7 +369,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
+                        <div ng-include="generalBaseTpl"></div>
                         <div ng-include="consoleDeskTpl"></div>
                     </div>
                 </div>
