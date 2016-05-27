@@ -572,7 +572,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     });
 }]).directive("myResize", ["$timeout", function($timeout) {
     function _resize(elem) {
-        
+
         var vh = 0;
         if (window.innerHeight) {
             vh = window.innerHeight;

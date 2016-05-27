@@ -2,7 +2,7 @@
     <div class='image'>
         <a href='javascript:void(0);' class='image-trigger' ng-click="clickMe()" ng-show="selectedImg">
             <img ng-src="{{selectedImg.url}}">
-            <div class='img-tag' ng-bind="selectedImg.tagName"></div>
+            <div class='img-tag' ng-bind="selectedImg.tagName()"></div>
         </a>
         <a href='javascript:void(0);' class='delete-btn' title='删除图片' ng-show="deletable && selectedImg"
            ng-click="deleteMe()"></a>
@@ -17,5 +17,23 @@
             </ul>
         </div>
         <div class='next' ng-click="next()"></div>
+    </div>
+    <div class="showboxModal"  ng-show="isShowBoxModal">
+        <div class="modal-body" style="background-color:RGB(66,66,66)">
+            <div class="showbox-buttons" >
+                <ul>
+                    <li><a class="btnPrev" title="Previous" ng-click="switchPic(0);" href="javascript:void(0);"></a></li>
+                    <li><a class="btnNext" title="Next" ng-click="switchPic(1);" href="javascript:void(0);"></a></li>
+                    <li><a class="btnRotateL" title="Turn left" ng-click="rotateImage(0);" href="javascript:void(0);"></a></li>
+                    <li><a class="btnRotateR" title="Turn right" ng-click="rotateImage(1);" href="javascript:void(0);"></a></li>
+                    <li><a class="btnClose" title="close" ng-click="closePicContainer();" href="javascript:void(0);"></a></li>
+                </ul>
+            </div>
+            <div class="imgContainer" style="text-align: center;overflow-y: auto;">
+                <img id="showImg" ng-style="dataTipsOriginImg" ng-src="{{selectedImg.url}}"/>
+            </div>
+            <div class="showbox-title-over-wrap showbox-title-over-wrap-left" ng-bind="selectedImg.tagName()"></div>
+            <div class="showbox-title-over-wrap showbox-title-over-wrap-rigth">{{selectedIndex+1}}/{{dataList.length}}</div>
+        </div>
     </div>
 </div>
