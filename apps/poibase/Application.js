@@ -5,7 +5,7 @@ var App = {};
 App.Config = {
     appType: "WEB",
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "0000029900O7PKU4799128A9A06BD9B85262945271208735",
+    accessToken: "0000029900O7V4ZKED42E0580778FC0811A469D352E929AC",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     roadUrl: 'http://192.168.4.188/service',
@@ -27,7 +27,7 @@ App.Config = {
 // web app的公用函数命名空间
 App.Util = {
     getAppPath: function() {
-        return location.pathname.substr(0, location.pathname.indexOf("/", 2));
+        return location.pathname.substr(0, location.pathname.indexOf("/apps"));
     },
     getFullUrl: function(url) {
         return App.Config.serviceUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
