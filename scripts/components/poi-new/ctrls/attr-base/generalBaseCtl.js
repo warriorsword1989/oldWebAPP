@@ -1,24 +1,22 @@
 angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
 
-
-
     /*切换tag按钮*/
     $scope.changeProperty = function (tagName) {
         $scope.propertyType = tagName;
         switch (tagName) {
             case 'base':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/checkResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/checkResultTpl.html';
+                $ocll.load('scripts/components/poi-new/ctrls/attr-base/baseInfoCtl').then(function () {
+                    $scope.baseInfoTpl = '../../../scripts/components/poi-new/tpls/attr-base/baseInfoTpl.html';
                 });
                 break;
             case 'deep':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/confusionResultCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/confusionResultTpl.html';
+                $ocll.load('scripts/components/poi-new/ctrls/attr-deep/deepInfoCtl').then(function () {
+                    $scope.deepInfoTpl = '../../../scripts/components/poi-new/tpls/attr-deep/deepInfoTpl.html';
                 });
                 break;
             case 'relate':
-                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/editHistoryCtl').then(function () {
-                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/editHistoryTpl.html';
+                $ocll.load('scripts/components/poi-new/ctrls/attr-base/relationInfoCtl').then(function () {
+                    $scope.relationInfoTpl = '../../../scripts/components/poi-new/tpls/attr-base/relationInfoTpl.html';
                 });
                 break;
             case 'file':
@@ -34,7 +32,12 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         }
     };
 
-    /*判断默认显示哪个tab*/
-    $scope.propertyType = 'base';
+    /*默认显示baseInfo的tab页*/
+    function initShowTag(){
+        $scope.propertyType = "base";
+        $scope.changeProperty('base');
+    }
+
+    initShowTag();
 
 }]);
