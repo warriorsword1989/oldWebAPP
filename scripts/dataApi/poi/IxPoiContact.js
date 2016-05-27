@@ -39,7 +39,7 @@ FM.dataApi.IxPoiContact = FM.dataApi.DataModel.extend({
                 this.numSuf = temp[1];
             }
         } else {
-            this.numSuf = this.number
+            this.numSuf = data["number"] || "";
         }
     }
 });

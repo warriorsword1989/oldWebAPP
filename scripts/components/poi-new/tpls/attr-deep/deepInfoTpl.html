@@ -1,0 +1,80 @@
+<div ng-controller="deepInfoCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="title">停车场</div>
+            <div class="content">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>类 型</label>
+                        <div>
+                            <label>
+                                <input type="radio" name="parkingType" value="A"> 室内
+                            </label>
+                            <label>
+                                <input type="radio" name="parkingType" value="B"> 室内地上
+                            </label>
+                            <label>
+                                <input type="radio" name="parkingType" value="C"> 室外
+                            </label>
+                            <label>
+                                <input type="radio" name="parkingType" value="D"> 占道
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>收费标准</label>
+                        <div>
+                            <label ng-repeat="(key, value) in parkingFee">
+                                <input type="checkbox" value="{{key}}" ng-model="selectedPoi.parkingFee[key]" ng-change="changeParkingFee(key)"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>收费方式</label>
+                        <div>
+                            <label>
+                                <input type="checkbox" name="parkingFeeType" value="A"> 人工收费
+                            </label>
+                            <label>
+                                <input type="checkbox" name="parkingFeeType" value="B"> 电子收费
+                            </label>
+                            <label>
+                                <input type="checkbox" name="parkingFeeType" value="C"> 自助缴费
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label>收费备注</label>
+                        <div>
+                            <select class="fm-control">
+                                <option>&#45;&#45;</option>
+                                <option>停车场</option>
+                                <option>中餐馆</option>
+                                <option>学校</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>车位数</label>
+                        <div>
+                            <input type="text" class="fm-control"/>
+                        </div>
+                    </li>
+                    <li>
+                        <label>营业时间</label>
+                        <div>
+                            <textarea></textarea>
+                        </div>
+                    </li>
+                    <li>
+                        <label>收费描述</label>
+                        <div>
+                            <textarea></textarea>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

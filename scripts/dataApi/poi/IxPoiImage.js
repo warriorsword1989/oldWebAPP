@@ -11,8 +11,11 @@
      getIntegrate: function (){
         var ret = {};
         ret['type'] = this.type;
-        ret['url'] = this.url; 
-        ret['tag'] = this.tag;  
+        if(this.url && this.url.indexOf('?') > -1){
+            this.url = this.url.substring(0,this.url.indexOf('?'));
+        }
+        ret['url'] = this.url;
+        ret['tag'] = this.tag;
         return ret;
      },
     /*

@@ -153,6 +153,20 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
+    this.excuteImageRotate = function (imgUrl,degree) {
+        var defer = $q.defer();
+        ajax.get("editsupport/poi/photo/rotate/", {
+            path: imgUrl,
+            degree: degree
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("图片旋转出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
+    };
     this.getPoiInfo = function (param) {
     	var defer = $q.defer();
         ajax.get("editsupport/poi/query", {
