@@ -212,6 +212,31 @@
     margin-top: 2px;
 }
 
+.poi_icon{
+    width: 22px;
+    height: 22px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    float: left;
+    margin: auto 4px;
+}
+.icon_3d{
+    background-image: url('../../images/poi/icon/3D.png');
+
+}
+.icon_car{
+    background-image: url('../../images/poi/icon/poi_car.png');
+}
+.icon_rmb{
+    background-image: url('../../images/poi/icon/poi_rmb.png');
+}
+.icon_prompt{
+    background-image: url('../../images/poi/icon/prompt.png');
+}
+.icon_map{
+    background-image: url('../../images/poi/map/icon_map.png');
+}
+
 /*刘杨新增
 for 地图上的两个按钮*/
 .leaflet-control-navbar-reset {

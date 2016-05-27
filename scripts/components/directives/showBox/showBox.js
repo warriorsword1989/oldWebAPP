@@ -15,11 +15,12 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             onClick: '&fmClick',
             onSelect: '&fmSelect',
             beforeDelete: '&fmBeforeDelete',
-            afterDelete: '&fmAfterDelete'
+            afterDelete: '&fmAfterDelete',
+            beforeRotate:'&fmBeforeRotate'
         },
         controller: function ($scope, $element) {
             $scope.selectMe = function (index) {
-                $scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
+                //$scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
                 $scope.page.pageNo = Math.ceil((index + 1) / $scope.page.pageSize);
                 $scope.selectedIndex = index;
                 $scope.selectedImg = $scope.dataList[index];
@@ -109,17 +110,23 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                 }
             };
             $scope.rotateImage = function (flag){
-                var rotate = $scope.dataTipsOriginImg.rotate ;
-                if (!rotate){
-                    rotate = 0;
+                // var rotate = $scope.dataTipsOriginImg.rotate ;
+                // if (!rotate){
+                //     rotate = 0;
+                // }
+                // if (flag) {
+                //     rotate = parseInt(rotate) + 90;
+                // } else {
+                //     rotate = parseInt(rotate) - 90;
+                // }
+                if ($scope.beforeRotate){
+                    $scope.beforeRotate({
+                        "degree":flag ? 90 : 270,
+                        'item': $scope.selectedImg
+                    });
                 }
-                if (flag) {
-                    rotate = parseInt(rotate) + 90;
-                } else {
-                    rotate = parseInt(rotate) - 90;
-                }
-                $scope.dataTipsOriginImg.rotate = rotate;
-                $scope.dataTipsOriginImg.transform = 'rotate('+rotate+'deg)';
+                //$scope.dataTipsOriginImg.rotate = rotate;
+                //$scope.dataTipsOriginImg.transform = 'rotate('+rotate+'deg)';
             }
         },
         link: function (scope, element, attrs) {
