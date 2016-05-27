@@ -16,7 +16,6 @@ requirejs.config({
         "angularDrag": "scripts/libs/angular-drag/angular-drag",
         "sweet-alert": "scripts/libs/sweet-alert/js/sweet-alert",
         // app相关
-        'application': 'apps/poibase/Application',
         'dataService': 'apps/poibase/service/dataService',
         'poiService': 'apps/poibase/service/dataService-poi',
         'metaService': 'apps/poibase/service/dataService-meta',
@@ -33,9 +32,8 @@ requirejs.config({
         'angularDrag': ['angular', 'jquery'],
         'dataService': ['angular', "sweet-alert"],
         'poiService': ['dataService'],
-        'layers': ['application'],
         'metaService': ['dataService'],
-        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'application', 'poiService', 'metaService', 'layers'],
+        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers'],
     }
 });
 // Start the main app logic.
