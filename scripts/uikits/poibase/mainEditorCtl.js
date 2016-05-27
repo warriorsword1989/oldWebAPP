@@ -464,11 +464,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.doSave = function() {
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
-        // $scope.saveButClass = "disabled";
-        // poi.savePoi($scope.poi.getIntegrate()).then(function (data) {
-        //     var temp = data;
-        //     $scope.saveButClass = "";
-        // });
+        $scope.saveButClass = "disabled";
+        poi.savePoi($scope.poi.getIntegrate()).then(function (data) {
+            var temp = data;
+            $scope.saveButClass = "";
+        });
         swal("保存成功",'', "success");
     };
 
