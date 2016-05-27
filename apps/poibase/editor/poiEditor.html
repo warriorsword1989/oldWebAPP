@@ -14,10 +14,10 @@
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
         <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
-        <!--<script type="text/javascript" src="mapRelated-poi.js"></script>-->
+        <script type="text/javascript" src="mapRelated-poi.js"></script>
         <script src="mapApi-poi.js"></script>
         <script src="uikitApi-poi.js"></script>
-        <!--<script src="../../../scripts/dataApi/dataApi.js"></script>-->
+        <script src="../../../scripts/dataApi/dataApi.js"></script>
     </head>
     <body ng-controller="PoiEditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
@@ -372,6 +372,11 @@
                             </div>
                         </div>
                         <div ng-include="consoleDeskTpl"></div>
+                        <div class="popoverTips" ng-class="tips_show">
+                            <div class="tipsPanel">
+                                <div ng-include="" style="width:100%;"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

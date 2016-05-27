@@ -15,6 +15,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
         3: '免费'
     };
 
+
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
     });
@@ -29,6 +30,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
         $scope.outputType = val;
     };
     $scope.selectData = function(data) {
+        $scope.tips_show = 'animated fadeInLeft';
         $scope.selectedPoi = data;
         $scope.selectedPoi.contacts = [{
             type: 1,
