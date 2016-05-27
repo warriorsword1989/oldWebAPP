@@ -22,6 +22,9 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
         this.plugNum = data["plugNum"] || 1;
         this.prices = data["prices"] || null;
         var openTypeArray = (data["openType"] || "1").split("|");
+        if(openTypeArray[openTypeArray.length-1] >= 99){
+        	this.selectedChain = openTypeArray[openTypeArray.length-1];
+        }
         this.openType = {};
         for (var i=0;i<openTypeArray.length;i++){
         	this.openType[openTypeArray[i]] = true;
@@ -60,7 +63,11 @@ FM.dataApi.IxPoiChargingPole = FM.dataApi.DataModel.extend({
     	var checkedOpenTypeArr = [];
     	for(var key in this.openType){
     		if(this.openType[key] == true){
-    			checkedOpenTypeArr.push(key);
+    			if(key == "99"){
+    				checkedOpenTypeArr.push(this.selectedChain);
+    			}else{
+    				checkedOpenTypeArr.push(key);
+    			}
     		}
     	}
     	ret["openType"] = checkedOpenTypeArr.join("|");

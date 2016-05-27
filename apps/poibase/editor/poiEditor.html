@@ -3,17 +3,21 @@
     <head lang="en">
         <meta charset="UTF-8">
         <title>FastMap设施编辑系统</title>
-        <link href="../../favicon.ico" rel="icon" type="image/x-icon" />
-        <link rel="stylesheet" type="text/css" href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
-        <link rel="stylesheet" type="text/css" href="../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
-        <link rel="stylesheet" type="text/css" href="../../scripts/libs/ui-layout/ui-layout.css">
-        <link rel="stylesheet" type="text/css" href="../../scripts/libs/leaflet-0.7.3/leaflet.css">
-        <link rel="stylesheet" type="text/css" href="../../scripts/libs/sweet-alert/css/sweet-alert.css">
-        <link rel="stylesheet" type="text/css" href="../../styles/poi/poiEditor.css">
-        <script type="text/javascript" src="../../scripts/libs/leaflet-0.7.3/plugins/wicket.js"></script><!--//不能require-->
-        <script type="text/javascript" src="../../scripts/fastmap/fastmap.js"></script>
-        <script type="text/javascript" src="../../scripts/fastmap/fastmap-util.js"></script>
-        <script type="text/javascript" src="../../scripts/dataApi/dataModel-poi.js"></script>
+        <link href="../../../favicon.ico" rel="icon" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/bootstrap-3.3.5/css/bootstrap-theme.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/ui-layout/ui-layout.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/leaflet-0.7.3/leaflet.css">
+        <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert/css/sweet-alert.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/poi/poiEditor.css">
+        <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
+        <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
+        <script type="text/javascript" src="../../../scripts/fastmap/fastmap-util.js"></script>
+        <script type="text/javascript" src="../../../scripts/dataApi/dataModel-poi-new.js"></script>
+        <!--<script type="text/javascript" src="mapRelated-poi.js"></script>-->
+        <script src="mapApi-poi.js"></script>
+        <script src="uikitApi-poi.js"></script>
+        <!--<script src="../../../scripts/dataApi/dataApi.js"></script>-->
     </head>
     <body ng-controller="PoiEditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
@@ -30,7 +34,7 @@
                         <a><i title="图层" class="glyphicon glyphicon-tasks"></i></a>
                     </div>
                     <div ng-class="{3:'selected'}[selectedTool]" ng-click="changeEditTool('layerPanel')">
-                        <a href="../roadnet/editor.html"><i title="道路编辑" class="glyphicon glyphicon-pencil"></i></a>
+                        <a href="../../roadnet/editor.html"><i title="道路编辑" class="glyphicon glyphicon-pencil"></i></a>
                     </div>
                 </div>
                 <div class="banner-bottom">
@@ -50,7 +54,7 @@
                         <div class="content">
                             <div class="table-toolbar">
                                 <div class="table-search fm-inline">
-                                    <button>名称</button><input class="fm-ctl" placeholder="搜索"></input>
+                                    <button>名称</button><input class="fm-ctl" placeholder="搜索">
                                 </div>
                             </div>
                             <table class="table table-bordered table-condensed" style="color:#fff;margin-top:8px;margin-bottom:0px;">
@@ -305,7 +309,7 @@
                                     </div>
                                 </div>
                                 <div class="fm-panel">
-                                    <div class="title">子POI <span style="float:right;">共 <span ng-bind="selectedPoi.relatedChildren.length">4</span> 条</div>
+                                    <div class="title">子POI <span style="float:right;">共 </span><span ng-bind="selectedPoi.relatedChildren.length">4</span> 条</div>
                                     <div class="content">
                                         <ul class="fm-ul fm-ul-list">
                                             <li>
@@ -345,36 +349,7 @@
                                 </div>
                             </div>
                             <div ng-show="propertyType=='file'">
-                                <div class="fm-panel">
-                                    <div class="title">上传文件
-                                        <span style="float:right;">
-                                        <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-plus-sign"></i></a>
-                                        <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-cloud-upload"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="content">
-                                        <ul class="fm-ul fm-ul-list">
-                                            <li>
-                                                <label>
-                                                    图片1.jpg
-                                                </label>
-                                                <div>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-remove-sign"></i></a>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-cloud-upload"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <label>
-                                                    图片2.png
-                                                </label>
-                                                <div>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-remove-sign"></i></a>
-                                                    <a href="javascript:void(0);" style="margin-left: 5px;"><i class="glyphicon glyphicon-cloud-upload"></i></a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                <div ng-include="fileUploadTpl"></div>
                             </div>
                             <div style="bottom: 0px;position:absolute;margin: 0px 10px;">
                                 <div class="btn-group btn-group-justified">
@@ -396,58 +371,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="fm-container fm-row fm-lvl1" style="width:auto;bottom:0px;left:5px; right:305px;border-radius: 5px 5px 0px 0px;">
-                            <div class="fm-tabs">
-                                <a href="#" ng-class="{'tab': true, 'active': outputType == 1}" ng-click="changeOutput(1)">检查结果</a>
-                                <a href="#" ng-class="{'tab': true, 'active': outputType == 2}" ng-click="changeOutput(2)">冲突检测</a>
-                                <a href="#" ng-class="{'tab': true, 'active': outputType == 3}" ng-click="changeOutput(3)">操作履历</a>
-                            </div>
-                            <div class="content" style="height:200px;">
-                                <div ng-show="outputType==1 || outputType==2">
-                                    <table class="table table-bordered table-condensed" style="color:#fff;margin-bottom:0px;">
-                                        <thead>
-                                            <td>序号</td>
-                                            <td>规则编码</td>
-                                            <td>错误描述</td>
-                                            <td>操 作</td>
-                                            <td>关联POI</td>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in selectedPoi.checkResults">
-                                                <td ng-bind="$index + 1"></td>
-                                                <td ng-bind="item.errorCode"></td>
-                                                <td ng-bind="item.errorMessage"></td>
-                                                <td><a href="javascript:void(0);" ng-click="doIgnore($index)">忽 略</a></td>
-                                                <td><a href="javascript:void(0);" ng-click="showRelatedPoi(item.refFeatures)" ng-bind="item.refFeatures.length"></a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div ng-show="outputType==3">
-                                    <table class="table table-bordered table-condensed" style="color:#fff;margin-bottom:0px;">
-                                        <thead>
-                                            <td>序号</td>
-                                            <td>作业员</td>
-                                            <td>操作时间</td>
-                                            <td>操作描述</td>
-                                            <td>作业平台</td>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in selectedPoi.editHistory">
-                                                <td ng-bind="$index + 1"></td>
-                                                <td ng-bind="item.operator"></td>
-                                                <td ng-bind="item.operateDate"></td>
-                                                <td ng-bind="item.operateDesc"></td>
-                                                <td ng-bind="item.platform"></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <div ng-include="consoleDeskTpl"></div>
                     </div>
                 </div>
             </div>
-            <script type="text/javascript" data-main="../../scripts/uikits/poibase/poiEditor-require" src="../../scripts/libs/require/require.js"></script>
+        </div>
+            <script type="text/javascript" data-main="poiEditor-require" src="../../../scripts/libs/require/require.js"></script>
         </body>
     </html>

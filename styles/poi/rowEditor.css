@@ -206,6 +206,12 @@
     background-position: -27px -27px;
 }
 
+.telephone_box{
+    width: 200px;
+    margin-bottom:2px;
+    margin-top: 2px;
+}
+
 /*刘杨新增
 for 地图上的两个按钮*/
 .leaflet-control-navbar-reset {

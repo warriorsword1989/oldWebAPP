@@ -1,27 +1,35 @@
 angular.module('app').controller('chargingPoleCtl', function($scope) {
-    var chargeChain = {
-        data:[]
-    };
+	$scope.charging = $scope.poi.chargingPole[0];
+    var chargeChainFmt = {};
+    for(var i=0;i<$scope.chargeChain.length;i++){
+    	chargeChainFmt[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
+    }
     $scope.ctrl = {
         open: true,
         btShow: true
     };
+    if(!$scope.charging.selectedChain || $scope.charging.selectedChain < 99){
+    	$scope.chargeChainObj = {};
+    }else{
+    	$scope.chargeChainObj = chargeChainFmt;
+    }
     $scope.changeOpenType = function(event) {
         if (event.target.value == "1") {
             if (event.target.checked) {
                 for (var key in $scope.charging.openType) {
                     if (key != "1") {
                         $scope.charging.openType[key] = false;
+                        $scope.chargeChainObj = {};
                     }
                 }
             }
-        } else if(event.target.value == "99"){
+        } else if(event.target.value >= 99){
             if (event.target.checked) {
                 $scope.charging.openType["1"] = false;
-                $scope.charging.chain = chargeChain;
+                $scope.chargeChainObj = chargeChainFmt;
             }
             else {
-                $scope.charging.chain = {};
+                $scope.chargeChainObj = {};
             }
         } else {
             if (event.target.checked) {
@@ -36,28 +44,4 @@ angular.module('app').controller('chargingPoleCtl', function($scope) {
     $scope.chargingAcdc = FM.dataApi.Constant.CHARGINGPOLE_ACDC;
     $scope.chargingMode = FM.dataApi.Constant.CHARGINGPOLE_MODE;
     $scope.chargingAvailableState = FM.dataApi.Constant.CHARGINGPOLE_AVAILABLESTATE;
-    $scope.charging = $scope.poi.chargingPole[0];
-    $scope.chargeChainObj = {};
-    for(var i=0;i<$scope.chargeChain.length;i++){
-    	$scope.chargeChainObj[$scope.chargeChain[i].chainCode] = $scope.chargeChain[i];
-    }
-     
-    //查询充电桩品牌列表
-    $scope.$on("loaded",function (event, data) {
-        FM.dataApi.ajax.get("charge/row_edit/queryChain/", {
-            kindCode: data.kindCode
-        }, function(data) {
-            if (data.errcode == 0) {
-                for(var i = 0;i<data.data.length;i++){
-                    chargeChain.data.push({
-                        id:data.data[i].chainCode,
-                        text:data.data[i].chainName
-                    });
-                }
-            } else {
-                chargeChain = {};
-            }
-            console.log(chargeChain);
-        });
-    });
 });

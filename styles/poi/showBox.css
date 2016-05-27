@@ -144,14 +144,14 @@
     border-radius: 4px;
 }
 
-#showbox-buttons {
+.showbox-buttons {
     position: relative;
     left: 0;
     z-index: 1050;
     margin: auto auto 10px auto;
 }
 
-#showbox-buttons ul {
+.showbox-buttons ul {
     display: block;
     width: 163px;
     height: 31px;
@@ -166,38 +166,38 @@
     background: rgb(50, 50, 50);
 }
 
-#showbox-buttons ul li {
+.showbox-buttons ul li {
     float: left;
     margin: 0;
     padding: 0;
 }
 
-#showbox-buttons a.btnPrev {
+.showbox-buttons a.btnPrev {
     background-position: 5px 0;
 }
 
-#showbox-buttons a.btnNext {
+.showbox-buttons a.btnNext {
     background-position: -33px 0;
     border-right: 1px solid #3e3e3e;
 }
 
-#showbox-buttons a.btnRotateL {
+.showbox-buttons a.btnRotateL {
     background-position: -58px -30px;
     border-left: 1px solid #111;
 }
 
-#showbox-buttons a.btnRotateR {
+.showbox-buttons a.btnRotateR {
     background-position: -58px -60px;
     border-right: 1px solid #111;
     width: 34px;
 }
 
-#showbox-buttons a.btnClose {
+.showbox-buttons a.btnClose {
     width: 35px;
     background-position: -56px 0px;
 }
 
-#showbox-buttons a {
+.showbox-buttons a {
     display: block;
     width: 30px;
     height: 29px;

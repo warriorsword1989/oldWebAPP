@@ -31,7 +31,9 @@ a:hover {
     letter-spacing: 0;
     margin-top: 20px;
 }
-
+.text-success{
+    color:#34B734;
+}
 .fm-banner .banner-center div.selected {
     background-color: #313131;
 }
@@ -108,6 +110,7 @@ a:hover {
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, .8);
     background-color: #313131;
+    transition: all .3s;
 }
 
 .fm-panel {
@@ -234,4 +237,106 @@ input[type='radio'] {
 
 .fm-btn {
     border: 1px solid #aaa;
+}
+/******************************** 文件上传 **************************************/
+.upload-option-group{
+    position: relative;
+    margin-top: -4px;
+}
+.upload-btn{
+    position: relative;
+    z-index: 1;
+    padding: 2px;
+    font-size: 15px;
+    line-height: 20px;
+    margin: -3px 5px;
+    float: right;
+}
+.dom-hide{
+    display:none !important;
+}
+.upload-add {
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    text-indent: 0;
+    cursor: pointer;
+}
+.upload-add input {
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+.nowrap-text {
+    white-space: nowrap;
+}
+.fm-upload-ico{
+    background-color: rgba(154, 205, 50, 0);
+    border: 0;
+    float: left;
+    padding:3px;
+    cursor: pointer;
+}
+.fm-upload-ico[disabled]{
+    color: #8c8787;
+}
+.fm-upload-list{
+    padding:0 !important;
+}
+.fm-progress{
+    height:3px;
+    margin-bottom: 0;
+}
+.fm-progress-bar{
+    border-right:5px solid rgb(13, 194, 248);
+}
+.fm-flag-ico{
+    /*position: absolute;*/
+    right: 10px;
+}
+.fm-flag-ico > .glyphicon-ok{
+    color: #34B734;
+}
+.fm-flag-ico > .glyphicon-remove{
+    color: #FF3252;
+}
+.fm-uploder-file-name{
+    width: 140px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fm-uploder-file-option{
+    /*position: absolute;*/
+    right: 42px;
+}
+.fm-uploder-file-flag{
+    width: 50px;
+    text-align: center;
+    top: -8px;
+    position: relative;
+}
+/**************************控制台************************/
+.fm-option-bar{
+    width:auto;
+    bottom:0px;
+    left:5px;
+    right:305px;
+    border-radius: 5px 5px 0px 0px;
+}
+.fm-console-table{
+    color: #ffffff;
+    margin-top:5px;
+}
+.fm-console-table > tbody > tr > td{
+    padding: 0px 3px;
+    line-height: 2;
+}
+.fm-console-content{
+    height:200px;
+}
+.fm-console-table-p{
+    margin:0;
 }

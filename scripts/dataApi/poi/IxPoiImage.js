@@ -22,5 +22,16 @@
         this.type = data["type"];
         this.url = data["url"] || null;
         this.tag = data["tag"];
+        this.tagName = function (){
+            var temp = FM.dataApi.Constant.IMAGE_TAG;
+            var val = "";
+            for (var i = 0 ;i < temp.length ; i++){
+                if(temp[i].key == this.tag){
+                    val = temp[i].value;
+                    break;
+                }
+            }
+            return val;
+        }
     },
 });
