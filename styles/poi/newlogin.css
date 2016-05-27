@@ -11,7 +11,7 @@ body{
 }
 /*********************rewrite default style**************************/
 strong {
-    font-size: 68px;
+    font-size: 60px;
     font-weight: 500;
 }
 
@@ -38,7 +38,6 @@ h3 {
     margin: 20px 0 10px 0;
 }
 .wrapper .description p { opacity: 0.8; }
-.form-box { margin-top: 35px; }
 .form-top {
     overflow: hidden;
     padding: 0 25px 15px 25px;
@@ -126,9 +125,6 @@ button.btn {
     -webkit-transition: all .3s;
     -ms-transition: all .3s;
     transition: all .3s;
-}
-.social-login {
-    margin-top: 35px;
 }
 .social-login h3 {
     color: #fff;

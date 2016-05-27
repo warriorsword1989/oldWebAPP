@@ -59,6 +59,7 @@ a:hover {
     position: absolute;
     border: 1px solid #555;
     overflow-y: auto;
+    z-index: 1;
 }
 
 .fm-container.fm-col {
@@ -345,4 +346,57 @@ input[type='radio'] {
 }
 .fm-console-table-p{
     margin:0;
+}
+
+
+/**********tips style**********/
+.popoverTips{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index:0;
+    overflow-y: hidden;
+    width:250px;
+    height: 100%;
+    background-color: transparent;
+    padding: 42px 0 0px 0;
+    opacity: 0;
+
+}
+.popoverTips > div.tipsPanel{
+    height: 100%;
+    background-color: #313131;
+    opacity: 0.9;
+}
+/*fadeIn animte*/
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        width: 0px;
+    }
+
+    to {
+        opacity: 0.9;
+        width: 250px;
+    }
+}
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        width: 0;
+    }
+    to {
+        opacity: 0.9;
+        width: 250px;
+    }
+}
+.fadeInLeft {
+    -webkit-animation-name: fadeInLeft;
+    animation-name: fadeInLeft;
 }
