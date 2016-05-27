@@ -1,11 +1,6 @@
 angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
-    var resultAllData = [],
-        resultIgnoreData = [],
-        checkRuleObj = {};
-    // $scope.editHistoryData = $scope.poi.editHistoryData;
+    var checkRuleObj = {};
     var distinguishResult = function (data) {
-        resultAllData = $scope.poi.checkResults;
-        resultIgnoreData = $scope.poi.ckException;
         /*检查规则*/
         for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
             $scope.poi.checkResults[i].setCheckRule(checkRuleObj[$scope.poi.checkResults[i].errorCode])
