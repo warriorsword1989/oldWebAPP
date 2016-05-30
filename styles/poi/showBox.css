@@ -143,6 +143,9 @@
     box-shadow: 4px 4px 8px 4px #333;
     border-radius: 4px;
 }
+.showboxModal > div {
+    background-color:RGB(66,66,66);
+}
 
 .showbox-buttons {
     position: relative;

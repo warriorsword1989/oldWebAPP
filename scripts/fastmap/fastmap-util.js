@@ -6,6 +6,9 @@ FM.Util.extend(FM.Util, {
     split: function(str, sep) {
         return FM.Util.trim(str).split(sep || /\s+/);
     },
+    isObject: Object.isObject || function(obj) {
+        return (Object.prototype.toString.call(obj) === '[object Object]');
+    },
     isArray: Array.isArray || function(obj) {
         return (Object.prototype.toString.call(obj) === '[object Array]');
     },

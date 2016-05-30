@@ -2,6 +2,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     var eventController = fastmap.uikit.EventController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
+
+    $scope.metaData = {}; //存放元数据
+    $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
+
     $scope.show = true;
     $scope.panelFlag = true;
     $scope.suspendFlag = true;
@@ -14,6 +18,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
         2: '包月',
         3: '免费'
     };
+
 
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
@@ -29,6 +34,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
         $scope.outputType = val;
     };
     $scope.selectData = function(data) {
+        $scope.tips_show = 'animated fadeInLeft';
         $scope.selectedPoi = data;
         $scope.selectedPoi.contacts = [{
             type: 1,
@@ -319,8 +325,35 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
             "flag": 1
         });
     });
+    /*解析分类，组成select-chonse认识的数据*/
+    var initKindFormat = function (kindData) {
+        for (var i = 0; i < kindData.length; i++) {
+            $scope.metaData.kindFormat[kindData[i].kindCode] = {
+                kindId: kindData[i].id,
+                kindName: kindData[i].kindName,
+                level: kindData[i].level,
+                extend: kindData[i].extend,
+                parentFlag: kindData[i].parent,
+                chainFlag: kindData[i].chainFlag,
+                dispOnLink: kindData[i].dispOnLink,
+                mediumId: kindData[i].mediumId
+            };
+            $scope.metaData.kindList.push({
+                value: kindData[i].kindCode,
+                text: kindData[i].kindName,
+                mediumId: kindData[i].mediumId
+            });
+        }
+    };
+
     var promises = [];
+    promises.push(meta.getKindList().then(function(kindData) {
+        initKindFormat(kindData);
+    }));
     /*获取检查规则*/
+    promises.push(meta.queryRule().then(function (data) {
+        $scope.checkRuleList = data;
+    }));
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
     }));
@@ -333,9 +366,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     });
     /*初始化tpl加载*/
     function initOcll(){
-        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/fileUploadCtl').then(function() {
-            $scope.fileUploadTpl = '../../../scripts/components/poi-new/tpls/edit-tools/fileUploadTpl.html';
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function() {
+            $scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
         });
+        // $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/fileUploadCtl').then(function() {
+        //     $scope.fileUploadTpl = '../../../scripts/components/poi-new/tpls/edit-tools/fileUploadTpl.html';
+        // });
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function() {
             $scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
         });
