@@ -85,16 +85,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             2: true
         };
     };
-    $scope.addContact = function() {
-        $scope.selectedPoi.contacts.push({
-            type: 1,
-            code: null,
-            number: null
-        });
-    };
-    $scope.deleteContact = function(val) {
-        $scope.selectedPoi.contacts.splice(val, 1);
-    };
+
     $scope.doIgnore = function(val) {
         alert(val);
     };
@@ -324,7 +315,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             "flag": 1
         });
     });
-    /*解析分类，组成select-chonse认识的数据*/
+    /*解析分类，组成select-chosen需要的数据格式*/
     var initKindFormat = function (kindData) {
         for (var i = 0; i < kindData.length; i++) {
             $scope.metaData.kindFormat[kindData[i].kindCode] = {
@@ -349,6 +340,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     promises.push(meta.getKindList().then(function(kindData) {
         initKindFormat(kindData);
     }));
+    promises.push(meta.getAllBrandList().then(function(chainData) {
+        $scope.metaData.allChain = chainData;
+    }));
     /*获取检查规则*/
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
@@ -359,6 +353,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     /*临时数据*/
     promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
+        
     }));
     $q.all(promises).then(function(){
         initOcll();
