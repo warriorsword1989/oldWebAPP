@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
     var eventController = fastmap.uikit.EventController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
@@ -11,7 +11,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     $scope.suspendFlag = true;
     $scope.selectedTool = 1;
     $scope.dataListType = 1;
-    $scope.propertyType = 'base';
     $scope.outputType = 1;
     $scope.parkingFee = {
         1: '包年',

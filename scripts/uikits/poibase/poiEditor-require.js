@@ -16,7 +16,7 @@ requirejs.config({
         'appUtil': 'uikits/common/app-util',
         'dataService': 'uikits/poibase/dataService',
         'poiService': 'uikits/poibase/dataService-poi',
-        'PoiEditorCtl': 'uikits/poibase/poiEditorCtl2'
+        'PoiEditorCtl': 'uikits/poibase/poiEditorCtl'
     },
     shim: {
         'ocLazyLoad': ['angular'],
