@@ -285,6 +285,7 @@ FM.leafletUtil = {
                 e.target.setLatLng(latlng);
                 FM.leafletUtil.drawNewline(locPoint, e.target);
             } else {
+                e.target.setLatLng(FM.mapConf.pGuideGeo._latlng);
                 FM.leafletUtil.drawNewline(locPoint, FM.mapConf.pGuideGeo);
                 // G.ui.tips.warn("当前点位1000米范围内未找到可用的引导LINK，请检查");
             }
