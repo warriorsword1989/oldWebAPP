@@ -283,7 +283,6 @@ FM.dataApi.Constant = {
         1: "直流"
     },
     'IMAGE_TAG':[
-        {key:0,value:'请选择'},
         {key:1,value:'全貌'},
         {key:2,value:'水牌'},
         {key:3,value:'名称'},

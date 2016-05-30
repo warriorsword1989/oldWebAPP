@@ -134,5 +134,8 @@
         this.prototype._initHooks.push(init);
     };
     FM.dataApi = {};
-    FM.mapApi = {};
+    FM.mapApi = {
+        symbol: {},
+    };
+    FM.uikit = {};
 }(window, document))

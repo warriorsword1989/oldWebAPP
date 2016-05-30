@@ -12,14 +12,15 @@ angular.module('fastmap.uikit').directive('showBox', function () {
         scope: {
             dataList: '=fmData',
             deletable: '=fmDeletable',
-            filter: '@fmFilter',
             onClick: '&fmClick',
             onSelect: '&fmSelect',
             beforeDelete: '&fmBeforeDelete',
-            afterDelete: '&fmAfterDelete'
+            afterDelete: '&fmAfterDelete',
+            beforeRotate:'&fmBeforeRotate'
         },
         controller: function ($scope, $element) {
             $scope.selectMe = function (index) {
+                //$scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
                 $scope.page.pageNo = Math.ceil((index + 1) / $scope.page.pageSize);
                 $scope.selectedIndex = index;
                 $scope.selectedImg = $scope.dataList[index];
@@ -36,6 +37,8 @@ angular.module('fastmap.uikit').directive('showBox', function () {
                         item: $scope.selectedImg
                     });
                 }
+                $scope.isShowBoxModal = true;
+                $scope.dataTipsOriginImg = { "transform":"", "rotate":"", "transform":""}
             };
             $scope.deleteMe = function () {
                 if ($scope.beforeDelete) {
@@ -92,6 +95,39 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             $scope.$watch("page.pageNo", function () {
                 $scope.pageStyle["margin-top"] = -(($scope.page.pageNo - 1) * 53) + "px";
             });
+            $scope.closePicContainer = function (){
+                $scope.isShowBoxModal = false;
+            };
+            $scope.switchPic = function (flag){
+                if(flag){
+                    if($scope.selectedIndex < $scope.dataList.length - 1){
+                        $scope.selectMe(++$scope.selectedIndex);
+                    }
+                }else {
+                    if($scope.selectedIndex > 0){
+                        $scope.selectMe(--$scope.selectedIndex);
+                    }
+                }
+            };
+            $scope.rotateImage = function (flag){
+                // var rotate = $scope.dataTipsOriginImg.rotate ;
+                // if (!rotate){
+                //     rotate = 0;
+                // }
+                // if (flag) {
+                //     rotate = parseInt(rotate) + 90;
+                // } else {
+                //     rotate = parseInt(rotate) - 90;
+                // }
+                if ($scope.beforeRotate){
+                    $scope.beforeRotate({
+                        "degree":flag ? 90 : 270,
+                        'item': $scope.selectedImg
+                    });
+                }
+                //$scope.dataTipsOriginImg.rotate = rotate;
+                //$scope.dataTipsOriginImg.transform = 'rotate('+rotate+'deg)';
+            }
         },
         link: function (scope, element, attrs) {
             scope.selectedIndex = -1;
@@ -99,7 +135,14 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             var divs = element.children("div");
             var imgBox = angular.element(divs[0]),
                 toobar = angular.element(divs[1]);
-            thumb = angular.element(divs[2]);
+            var thumb = angular.element(divs[2]);
+
+            var showboxModal = angular.element(divs[3]);
+            var showboxModalParent = angular.element(divs[3])[0].parentElement.parentElement.parentElement;
+            angular.element(showboxModal.children("div")[0]).css({"width":showboxModalParent.scrollWidth-20+"px","height":element[0].clientHeight+"px"});
+            showboxModal.find("img").css({"width":showboxModalParent.scrollWidth-70+"px","height":element[0].clientHeight-70+"px","max-width":showboxModalParent.scrollWidth-20+"px","max-height":element[0].clientHeight-70+"px"});
+
+
             if (toobar.children().length > 0) {
                 scope.hasToolbar = true;
                 imgBox.css("height", (element[0].clientHeight - 70 - toobar[0].offsetHeight) + "px");
@@ -109,10 +152,10 @@ angular.module('fastmap.uikit').directive('showBox', function () {
             }
             var bh = imgBox[0].clientHeight;
             var bw = imgBox[0].clientWidth;
-            imgBox.find("img").on("load", function () {
+            imgBox.find('img').on("load", function () {
                 var that = angular.element(this);
                 var nw = this.naturalWidth;
-                var nh = this.naturalHeight
+                var nh = this.naturalHeight;
                 var rW = bw / nw;
                 var rH = bh / nh;
                 var r = rW <= rH ? rW : rH;

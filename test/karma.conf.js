@@ -12,6 +12,8 @@ module.exports = function (config) {
             {pattern: "scripts/components/road/ctrls/*/*.js", included: false},
             {pattern: "scripts/mapApi/*.js", included: false},
             {pattern: "scripts/mapApi/*/*.js", included: false},
+            {pattern: "scripts/dataApi/*.js", included: false},
+            {pattern: "scripts/dataApi/road/*.js", included: false},
             //{pattern: 'test/unit/*Spec.js', included: false},
             {pattern: 'test/unit/symbol.MatrixSpec.js', included: false},
             {pattern: 'test/unit/symbol.VectorSpec.js', included: false},
@@ -21,7 +23,7 @@ module.exports = function (config) {
             {pattern: 'test/unit/symbol.SymbolFactorySpec.js', included: false},
             {pattern: 'test/unit/symbol.TemplateSpec.js', included: false},
             {pattern: 'test/unit/TileSpec.js', included: false},
-
+            {pattern: 'test/unit/adLinkSpec.js', included: false},
             'test/unit/test-main.js'
         ],
 
