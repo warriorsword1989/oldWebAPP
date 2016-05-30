@@ -5,35 +5,33 @@
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>名 称</label>
-                        <div><input type="text" class="fm-control" ng-model="selectedPoi.name"/></div>
+                        <div><input type="text" class="fm-control" ng-model="poi.name"/></div>
                     </li>
                     <li>
                         <label>地 址</label>
-                        <div><input type="text" class="fm-control" ng-model="selectedPoi.address"/></div>
+                        <div><input type="text" class="fm-control" ng-model="poi.address"/></div>
                     </li>
                     <li>
                         <label>邮政编码</label>
-                        <div><input type="text" class="fm-control" ng-model="selectedPoi.zipCode"/></div>
+                        <div><input type="text" class="fm-control" ng-model="poi.postCode"/></div>
                     </li>
                     <li>
                         <label>种 别</label>
                         <div>
-                            <select class="fm-control">
-                                <option>&#45;&#45;</option>
-                                <option>停车场</option>
-                                <option>中餐馆</option>
-                                <option>学校</option>
+                            <select class="fm-control" ng-model="selectedKind"
+                                    no_results_text="'没有找到'" single_text=""  placeholder_text="" placeholder_text_single="'--请选择--'"
+                                    ng-options="value as lable.kindName for (value, lable) in metaData.kindFormat"
+                                    chosen ng-change="kindChange($event, this)">
                             </select>
                         </div>
                     </li>
                     <li>
                         <label>品 牌</label>
                         <div>
-                            <select class="fm-control">
-                                <option>&#45;&#45;</option>
-                                <option>肯德基</option>
-                                <option>麦当劳</option>
-                                <option>德克士</option>
+                            <select no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'"
+                                    ng-model="selectedChain"
+                                    ng-options="value as lable.chainName for (value, lable) in chainList"
+                                    chosen ng-change="brandChange($event, this)" style="width: 80%;">
                             </select>
                         </div>
                     </li>

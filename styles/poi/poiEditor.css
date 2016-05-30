@@ -53,25 +53,33 @@ a:hover {
     text-align: center;
     cursor: pointer;
     height: 15px;
-    bottom: 237px;
-    position: absolute;
-    width:81%;
 }
-a.fm-panel-controlArrowUpAndDown>span {
+a.fm-panel-controlArrowUp>span {
     background: url("../../images/road/img/arrow-up.png") no-repeat;
-    margin-top: 5px;
+    margin-top: 3px;
     height: 10px;
     width: 20px;
     position: absolute;
     margin-left: -10px;
+    transition: all 0s;
 }
-a.fm-panel-controlArrowUpAndDown {
+a.fm-panel-controlArrowDown>span {
+    background: url("../../images/road/img/arrow-down.png") no-repeat;
+    margin-top: 3px;
+    height: 10px;
+    width: 20px;
+    position: absolute;
+    margin-left: -10px;
+    transition: all 0s;
+}
+a.fm-panel-controlArrowUp,a.fm-panel-controlArrowDown {
     background-color: #404040;
     opacity: 0.95;
     display: inline-block;
     width: 40px;
     height: 15px;
     text-align: center;
+    transition: all 0s;
 }
 /**************************************nnade***************************************************/
 
@@ -267,6 +275,9 @@ input[type='radio'] {
 .fm-btn {
     border: 1px solid #aaa;
 }
+.fm-no-scroll{
+    overflow-y: hidden;
+}
 /******************************** 文件上传 **************************************/
 .upload-option-group{
     position: relative;
@@ -348,13 +359,23 @@ input[type='radio'] {
     position: relative;
 }
 /**************************控制台************************/
+.fm-console-panel{
+    bottom: 237px;
+    position: absolute;
+}
+.fm-console-show{
+    margin-bottom: 0;
+}
+.fm-console-hide{
+    margin-bottom: -237px;
+}
 .fm-option-bar{
     width:auto;
-    bottom:0px;
-    left:5px;
-    right:305px;
+    bottom:237px;
+    left:0;
+    right:300px;
     border-radius: 5px 5px 0px 0px;
-    transition: all .3s ease-in-out;
+    transition: all .1s ease-in-out;
 }
 .fm-console-table{
     color: #ffffff;
@@ -370,7 +391,9 @@ input[type='radio'] {
 .fm-console-table-p{
     margin:0;
 }
-
+.full-width{
+    width:100%;
+}
 
 /**********tips style**********/
 .popoverTips{
@@ -390,11 +413,12 @@ input[type='radio'] {
     height: 100%;
     background-color: #313131;
     opacity: 0.9;
+    padding:10px;
 }
 /*fadeIn animte*/
 .animated {
-    -webkit-animation-duration: .3s;
-    animation-duration: .3s;
+    -webkit-animation-duration: .1s;
+    animation-duration: .1s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -422,4 +446,38 @@ input[type='radio'] {
 .fadeInLeft {
     -webkit-animation-name: fadeInLeft;
     animation-name: fadeInLeft;
+}
+/*重写了部分angular-chosen的样式*/
+.chosen-container{
+    font-size: 12px;
+    margin-top: 5px;
+}
+.chosen-container .chosen-results{
+    max-height: 120px;
+}
+.chosen-container-single .chosen-default{
+    color:#F3F6FA;
+    background-color:#333;
+}
+.chosen-container-single .chosen-single{
+    background:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(50%, #333), color-stop(52%, #333), color-stop(100%, #333));
+    padding:0px 5px;
+    color: #F3F6FA;
+}
+.chosen-container .chosen-drop{
+    background-color:#333;
+}
+.chosen-container .chosen-results{
+    color: #F3F6FA;
+}
+.chosen-container-active.chosen-with-drop .chosen-single{
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(80%, #333));
+    color: #F3F6FA;
+}
+.chosen-container .chosen-results li{
+    padding:2px 6px;
+}
+.chosen-container .chosen-results li.no-results{
+    color: #F3F6FA;
+    background: #333;
 }
