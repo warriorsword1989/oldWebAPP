@@ -377,6 +377,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $scope.poi = data;
         
     }));
+    /*查询3DIcon*/
+    promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
+        $scope.poi3DIcon = data;
+    }));
     $q.all(promises).then(function(){
         initOcll();
     });
@@ -385,9 +389,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function() {
             $scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
         });
-        // $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/fileUploadCtl').then(function() {
-        //     $scope.fileUploadTpl = '../../../scripts/components/poi-new/tpls/edit-tools/fileUploadTpl.html';
-        // });
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function() {
             $scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
         });
