@@ -89,7 +89,7 @@
                             </nav>
                         </div>
                     </div>
-                    <div ui-layout-container>
+                    <div ui-layout-container class="fm-no-scroll">
                         <div ui-layout="{flow:'row',dividerSize:'0'}">
                             <div ui-layout-container id="map" style="background-color:#FFF;width: 100%;height: 100%;position: absolute;"></div>
                             <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
@@ -101,11 +101,20 @@
                             </div>
                         </div>
                         <div ng-include="generalBaseTpl"></div>
-                        <div ng-include="consoleDeskTpl"></div>
-                        <div class="popoverTips" ng-class="tips_show">
-                            <div class="tipsPanel">
-                                <div ng-include="" style="width:100%;"></div>
+                        <div ng-class="{'fm-console-panel fm-option-bar':true,'fm-console-hide':hideConsole}">
+                            <!--控制台箭头图标-->
+                            <div class="fm-panel-arrow">
+                                <a ng-class="{true:'fm-panel-controlArrowUp',false:'fm-panel-controlArrowDown'}[hideConsole]" ng-click="changePanelShow('bottom');">
+                                    <span></span>
+                                </a>
                             </div>
+                            <div ng-include="consoleDeskTpl"></div>
+                        </div>
+                        <div class="popoverTips" ng-class="tips_show">
+                            <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
+                            <!--<div class="tipsPanel">
+                                <div ng-include="poiPopoverTipsTpl" style="width:100%;"></div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
