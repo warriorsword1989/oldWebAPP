@@ -85,9 +85,6 @@ angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q',
         }else if($scope.poi.editHistory.length > 0){
             $scope.tagSelect = 'editHistory';
             $scope.changeTag('editHistory');
-        }else{
-            $scope.tagSelect = 'fileUpload';
-            $scope.changeTag('fileUpload');
         }
     }
     initShowTag();
