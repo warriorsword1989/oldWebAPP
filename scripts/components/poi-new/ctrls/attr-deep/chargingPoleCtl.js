@@ -15,7 +15,6 @@ angular.module('app').controller('deepInfoCtl', function($scope) {
             $scope.chargingArr[i].chargeChainObj = chargeChainFmt;
         }
     }
-    console.log('------------'+JSON.stringify($scope.chargingArr))
     $scope.changeOpenType = function(event,charging) {
         if (event.target.value == "1") {
             if (event.target.checked) {
