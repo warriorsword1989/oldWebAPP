@@ -17,4 +17,13 @@ angular.module('app').controller('relationInfoCtl', ['$scope', function($scope) 
         "chindrenFid":"0010071122LK106169",
         "name":"太和收费站"
     }]
+
+
+    $scope.showChildrenPoisInMap = function (obj){
+        $scope.$emit('emitChildren', obj);
+    }
+    $scope.showParentPoiInMap = function(obj) {
+        $scope.$emit('emitParent', obj);
+    };
+
 }]);
