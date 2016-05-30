@@ -1,75 +1,133 @@
 <div ng-controller="deepInfoCtl">
     <div ng-show="propertyType=='deep'">
-        <div class="fm-panel" >
-            <div class="title">停车场</div>
-            <div class="content">
+        <div class="fm-panel">
+            <div class="content" ng-repeat="charging in chargingArr">
+                <ul >
+                    <a href="#deepInfoOne" data-toggle="tab" data-width="">专有信息{{$index+1}}
+                        <div class="btn-group"  style="display: inline-block;float: right;" ng-if="chargingArr.length==2">
+                            <button  data-toggle="tooltip"  data-index="{{$index}}" title="删除" class="glyphicon glyphicon-remove" type="button" ng-click="removeChargPole($index)"/>
+                        </div>
+                        <div class="btn-group"  style="display: inline-block;float: right;" ng-if="chargingArr.length==1">
+                            <button  data-toggle="tooltip"  title="添加"  class="glyphicon glyphicon-plus"  style="margin-right: 5px;" type="button" ng-click="addChargPole()"/>
+                        </div>
+                    </a>
+                </ul>
                 <ul class="fm-ul fm-ul-form">
                     <li>
-                        <label>类 型</label>
+                        <label>分组号</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.groupId"/></div>
+                    </li>
+                    <li>
+                        <label>充电桩编号</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.plotNum"/></div>
+                    </li>
+                    <li>
+                        <label>设备生产商</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.manufacturer"/></div>
+                    </li>
+                    <li>
+                        <label>出厂编号</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.factoryNum"/></div>
+                    </li>
+                    <li>
+                        <label>产品型号</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.productNum"/></div>
+                    </li>
+                    <li>
+                        <label>泊位号码</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.parkingNum"/></div>
+                    </li>
+                    <li>
+                        <label>楼层</label>
+                        <div><input type="number" class="fm-control" ng-model="charging.floor" min="-5" maxLength="6" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div>
+                    </li>
+                    <li>
+                        <label>支付方式</label>
                         <div>
-                            <label>
-                                <input type="radio" name="parkingType" value="A"> 室内
-                            </label>
-                            <label>
-                                <input type="radio" name="parkingType" value="B"> 室内地上
-                            </label>
-                            <label>
-                                <input type="radio" name="parkingType" value="C"> 室外
-                            </label>
-                            <label>
-                                <input type="radio" name="parkingType" value="D"> 占道
+                            <label ng-repeat="(key, value) in chargingPayment">
+                                <input type="checkbox" value="{{key}}" ng-model="charging.payment[key]"> {{value}}
                             </label>
                         </div>
                     </li>
                     <li>
-                        <label>收费标准</label>
+                        <label>充电模式</label>
                         <div>
-                            <label ng-repeat="(key, value) in parkingFee">
-                                <input type="checkbox" value="{{key}}" ng-model="selectedPoi.parkingFee[key]" ng-change="changeParkingFee(key)"> {{value}}
+                            <label ng-repeat="(key, value) in chargingMode">
+                                <input type="radio" value="{{key}}" ng-model="charging.mode"> {{value}}
                             </label>
                         </div>
                     </li>
                     <li>
-                        <label>收费方式</label>
+                        <label>位置类型</label>
                         <div>
-                            <label>
-                                <input type="checkbox" name="parkingFeeType" value="A"> 人工收费
-                            </label>
-                            <label>
-                                <input type="checkbox" name="parkingFeeType" value="B"> 电子收费
-                            </label>
-                            <label>
-                                <input type="checkbox" name="parkingFeeType" value="C"> 自助缴费
+                            <label ng-repeat="(key, value) in locationtype">
+                                <input type="radio" value="{{key}}" ng-model="charging.locationType"> {{value}}
                             </label>
                         </div>
                     </li>
                     <li>
-                        <label>收费备注</label>
+                        <label>电流类型</label>
                         <div>
-                            <select class="fm-control">
-                                <option>&#45;&#45;</option>
-                                <option>停车场</option>
-                                <option>中餐馆</option>
-                                <option>学校</option>
-                            </select>
+                            <label ng-repeat="(key, value) in chargingAcdc">
+                                <input type="radio" value="{{key}}" ng-model="charging.acdc"> {{value}}
+                            </label>
                         </div>
                     </li>
                     <li>
-                        <label>车位数</label>
+                        <label>插头类型</label>
                         <div>
-                            <input type="text" class="fm-control"/>
+                            <label ng-repeat="(key, value) in chargingPlugType">
+                                <input type="radio" value="{{key}}" ng-model="charging.acdc"> {{value}}
+                            </label>
                         </div>
                     </li>
                     <li>
-                        <label>营业时间</label>
+                        <label>充电功率</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.power"/></div>
+                    </li>
+                    <li>
+                        <label>充电电压</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.voltage"/></div>
+                    </li>
+                    <li>
+                        <label>充电电流</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.current"/></div>
+                    </li>
+                    <li>
+                        <label>充电价格</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.prices"/></div>
+                    </li>
+                    <li>
+                        <label>同组桩数</label>
+                        <div><input type="text" class="fm-control" ng-model="charging.count"/></div>
+                    </li>
+                    <li>
+                        <label>充电口数</label>
+                        <div><input type="number" class="fm-control" ng-model="charging.plugNum"/></div>
+                    </li>
+                    <li>
+                        <label>开放状态</label>
                         <div>
-                            <textarea></textarea>
+                            <label ng-repeat="(key, value) in chargingOpenType" ng-if="key == 1" style="padding:0px;color:green">
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event,charging)"> {{value}}
+                            </label>
+                            <label ng-repeat="(key, value) in chargingOpenType" ng-if="key != 1">
+                                <input type="checkbox" value="{{key}}" ng-model="charging.openType[key]" ng-click="changeOpenType($event,charging)"> {{value}}
+                            </label>
+                            <div>
+                                <select class="fm-control" ng-model="charging.selectedChain"
+                                        ng-options="value as lable.chainName for (value, lable) in charging.chargeChainObj"
+                                        chosen style="width: 80%;" ng-change="chianChange($event, charging)">
+                                </select>
+                            </div>
                         </div>
                     </li>
                     <li>
-                        <label>收费描述</label>
+                        <label>服务状态</label>
                         <div>
-                            <textarea></textarea>
+                            <label ng-repeat="(key, value) in chargingAvailableState">
+                                <input type="radio" value="{{key}}" ng-model="charging.availableState"> {{value}}
+                            </label>
                         </div>
                     </li>
                 </ul>

@@ -20,6 +20,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     };
 
 
+    poiDS.queryChargeChain("230218").then(function(data) {
+        $scope.chargeChain = data;
+    })
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
     });
