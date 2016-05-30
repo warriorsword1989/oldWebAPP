@@ -5,13 +5,13 @@ var App = {};
 App.Config = {
     appType: "WEB",
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "000002TJ00O80OTYA833C6D7C0A07A5D3109B2C5E5AC24CE",
+    accessToken: "0000029900O80P507408DF42944F04CBD8E41C3AEEC215B3",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     generalUrl: 'http://192.168.4.188/service',
     tipsServer: "/fcc/tip",
     editServer: "/edit",
-    metaServer: "/metadata",
+    metaServer: "/metadata"
 };
 App.Temp = {
     projectId: 11,
