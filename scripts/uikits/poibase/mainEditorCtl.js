@@ -222,10 +222,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.mapColumn = 12;
             $scope.isShowImages = false;
             $scope.arrowStyle = "arrow_right";
+            $scope.$broadcast('doLeftRight');
         } else {
             $scope.mapColumn = 6;
             $scope.isShowImages = true;
             $scope.arrowStyle = "arrow_left";
+            $scope.$broadcast('doLeftRight');
         }
     };
 

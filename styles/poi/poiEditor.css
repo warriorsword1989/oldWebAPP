@@ -423,3 +423,37 @@ input[type='radio'] {
     -webkit-animation-name: fadeInLeft;
     animation-name: fadeInLeft;
 }
+/*重写了部分angular-chosen的样式*/
+.chosen-container{
+    font-size: 12px;
+    margin-top: 5px;
+}
+.chosen-container .chosen-results{
+    max-height: 120px;
+}
+.chosen-container-single .chosen-default{
+    color:#F3F6FA;
+    background-color:#333;
+}
+.chosen-container-single .chosen-single{
+    background:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(50%, #333), color-stop(52%, #333), color-stop(100%, #333));
+    padding:0px 5px;
+    color: #F3F6FA;
+}
+.chosen-container .chosen-drop{
+    background-color:#333;
+}
+.chosen-container .chosen-results{
+    color: #F3F6FA;
+}
+.chosen-container-active.chosen-with-drop .chosen-single{
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(80%, #333));
+    color: #F3F6FA;
+}
+.chosen-container .chosen-results li{
+    padding:2px 6px;
+}
+.chosen-container .chosen-results li.no-results{
+    color: #F3F6FA;
+    background: #333;
+}

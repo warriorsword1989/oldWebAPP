@@ -11,7 +11,7 @@ App.Config = {
     generalUrl: 'http://192.168.4.188/service',
     tipsServer: "/fcc/tip",
     editServer: "/edit",
-    metaServer: "/metadata",
+    metaServer: "/metadata"
 };
 App.Temp = {
     projectId: 11,
