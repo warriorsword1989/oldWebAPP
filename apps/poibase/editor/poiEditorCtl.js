@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
     var eventController = fastmap.uikit.EventController();
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
@@ -11,14 +11,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
     $scope.suspendFlag = true;
     $scope.selectedTool = 1;
     $scope.dataListType = 1;
-    $scope.propertyType = 'base';
     $scope.outputType = 1;
     $scope.parkingFee = {
         1: '包年',
         2: '包月',
         3: '免费'
     };
-
+    $scope.hideConsole = true;
 
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
@@ -85,6 +84,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
             1: true,
             2: true
         };
+        /*弹出tips*/
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
+            $scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+        });
     };
     $scope.addContact = function() {
         $scope.selectedPoi.contacts.push({
@@ -122,6 +125,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'dataService', 'angularFileUp
                 }
             }
         }
+    }
+    /*弹出/弹入面板*/
+    $scope.changePanelShow = function(type){
+        switch(type){
+            case 'bottom':
+                $scope.hideConsole = !$scope.hideConsole;
+                break;
+            case 'left':
+                break;
+            case 'right':
+                break;
+            default:
+                break;
+        }
+        console.log($scope.hideConsole)
     }
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {
