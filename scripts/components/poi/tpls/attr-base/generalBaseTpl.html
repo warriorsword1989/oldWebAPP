@@ -116,7 +116,7 @@
                     <tr> <!--   -->
                         <td ng-class="{'textColorRed':brandsStyleFlag}">品 牌</td>
                         <td class="form-inline" colspan='3'>
-                            <select no_results_text="'--无--'" single_text="'--请选择--'"  placeholder_text="" placeholder_text_single=""
+                            <select no_results_text="'--无--'" single_text="'--请选择--'"  placeholder_text="'--请选择--'" placeholder_text_single=""
                                     ng-model="selectedChain"
                                     ng-options="value as lable.chainName for (value, lable) in chainList"
                                     chosen ng-change="brandChange($event, this)" style="width: 80%;">
