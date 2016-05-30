@@ -379,6 +379,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
     }));
+    /*查询3DIcon*/
+    promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
+        $scope.poi3DIcon = data;
+    }));
     $q.all(promises).then(function(){
         initOcll();
     });
