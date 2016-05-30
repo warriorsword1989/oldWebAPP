@@ -1,10 +1,5 @@
 <div ng-controller="optionBarCtl">
-    <!--<div class="fm-panel-arrow">
-        <a class="fm-panel-controlArrowUpAndDown" ng-click="changeOutOrErrorStyle()">
-            <span></span>
-        </a>
-    </div>-->
-    <div class="fm-container fm-option-bar fm-lvl1">
+    <div class="fm-container fm-lvl1 full-width">
         <div class="fm-tabs">
             <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'checkResult'}" ng-model="tagSelect" uib-btn-radio="'checkResult'" ng-click="changeTag('checkResult')">检查结果</a>
             <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'confusionInfo'}" ng-model="tagSelect" uib-btn-radio="'confusionInfo'" ng-click="changeTag('confusionInfo')">冲突检测</a>

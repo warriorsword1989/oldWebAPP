@@ -17,8 +17,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         2: '包月',
         3: '免费'
     };
+    $scope.hideConsole = true;
 
-
+    poiDS.queryChargeChain("230218").then(function(data) {
+        $scope.chargeChain = data;
+    })
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
     });
@@ -84,6 +87,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             1: true,
             2: true
         };
+        /*弹出tips*/
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
+            $scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+        });
     };
 
     $scope.doIgnore = function(val) {
@@ -112,6 +119,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 }
             }
         }
+    }
+    /*弹出/弹入面板*/
+    $scope.changePanelShow = function(type){
+        switch(type){
+            case 'bottom':
+                $scope.hideConsole = !$scope.hideConsole;
+                break;
+            case 'left':
+                break;
+            case 'right':
+                break;
+            default:
+                break;
+        }
+        console.log($scope.hideConsole)
     }
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {
