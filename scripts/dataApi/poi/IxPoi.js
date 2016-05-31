@@ -139,6 +139,18 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         ret['relateChildren'] = this.relateChildren;
         ret['rowkey'] = this.rowkey;
         ret['vipFlag'] = this.vipFlag;
+         if (this.vipFlag) {
+             var tmp = this.vipFlag.split("|");
+             for (var i = 0; i < tmp.length; i++) {
+                 if (tmp[i] == 1) {
+                     /*重要车场*/
+                     ret['poiCarIcon'] = true;
+                 } else if (tmp[i] == 2) {
+                     /*后项收费*/
+                     ret['poiRmbIcon'] = true;
+                 }
+             }
+         }
         ret['postCode'] = this.postCode;
         ret['adminCode'] = this.adminCode;
         ret['latestMergeDate'] = this.latestMergeDate;
@@ -282,6 +294,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         this.rawFields = data["rawFields"] || null;
         this.rental = data["rental"] || null;
         this.lifecycle = data["lifecycle"] || null;
+        this.lifecycleName = FM.dataApi.Constant.LIFE_CYCLE[this.lifecycle] || null;
         this.submitStatus = data["submitStatus"] || 0;
         this.gasStation = data["gasStation"] || null;
         this.name = data['name'] || null;
@@ -302,6 +315,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
         // 
         this.guide = data['guide'] || null;
         this.auditStatus = data['auditStatus'] || 0;
+        this.auditStatusText = FM.dataApi.Constant.AUDITU_STATUS[this.auditStatus] || null;
     },
     /*getSnapShot: function() {
         var data = {};

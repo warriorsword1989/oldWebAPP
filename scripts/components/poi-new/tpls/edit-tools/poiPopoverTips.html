@@ -1,3 +1,68 @@
 <div ng-controller="PoiPopoverTipsCtl">
-
+    <div class="tips-title">
+        <label class="col-sm-12 control-label title-label">
+            Tips
+        </label>
+    </div>
+    <div class="meta-info col-sm-12">
+        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+    </div>
+    <div class="tips-middle">
+        <div class="panel panel-default tips-panel">
+            <div class="panel-body panel-tips">
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">审核状态：</label>
+                    <label class="label label-primary" ng-class="{1:'info', 2: 'success',3: 'danger', 4: 'default', 5: 'warning'}[poi.auditStatus]" ng-bind="poi.auditStatusText"></label>
+                </div>
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">数据状态：</label>
+                    <label class="label label-primary" ng-class="{1: 'danger', 2: 'warning', 3: 'success', 4: 'default'}[poi.lifecycle]" ng-bind="poi.lifecycleName"></label>
+                </div>
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">鲜度认证：</label>
+                    <div class="col-sm-6" ng-if="poi.freshnessVerification == 1">
+                        是
+                    </div>
+                    <div class="col-sm-6" ng-if="poi.freshnessVerification == 0">
+                        否
+                    </div>
+                </div>
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">检查抽样：</label>
+                    <div class="col-sm-6" ng-if="poi.evaluatePlanningLabel == 1 || poi.evaluatePlanningLabel == 2">
+                        是
+                    </div>
+                    <div class="col-sm-6" ng-if="poi.evaluatePlanningLabel != 1 && poi.evaluatePlanningLabel != 2">
+                        否
+                    </div>
+                </div>
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">3D标识：</label>
+                    <div ng-show="poi3DIcon" class="poi_icon icon_3d" title="3DIcon"></div>
+                    <div class="col-sm-6">
+                        否
+                    </div>
+                </div>
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">重要POI标识：</label>
+                    <div ng-if="poiCarIcon" class="poi_icon icon_car" title="重要车厂"></div>
+                    <div ng-if="poiRmbIcon" class="poi_icon icon_rmb" title="后项收费"></div>
+                    <div ng-if="!poiCarIcon && !poiRmbIcon">无</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tips-middle">
+        <div class="panel panel-default tips-panel">
+            <div class="panel-body panel-tips">
+                <div class="col-sm-12 tips-info">
+                    <label class="col-sm-6 control-label text-right">备注：</label>
+                    <div class="col-sm-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
