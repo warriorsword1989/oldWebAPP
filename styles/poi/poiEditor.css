@@ -277,6 +277,7 @@ input[type='radio'] {
 }
 .fm-no-scroll{
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 /************************* 图片资源 ******************************/
 .icon_3d{
@@ -412,6 +413,7 @@ input[type='radio'] {
 }
 
 .fm-editor-panel{
+    width: 315px;
     height: 100%;
     position: absolute;
     right: 0px;
@@ -419,10 +421,10 @@ input[type='radio'] {
     border: none;
 }
 .fm-editor-panel-normal{
-    width: 315px;
+    margin-right: 0px;
 }
 .fm-editor-panel-sm{
-    width: 15px;
+    margin-right: -300px;
 }
 .fm-editor-arrow{
     width: 15px;
