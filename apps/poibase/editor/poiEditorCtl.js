@@ -18,10 +18,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         3: '免费'
     };
     $scope.hideConsole = true;
+    $scope.hideEditorPanel = true;
 
-    poiDS.queryChargeChain("230218").then(function(data) {
-        $scope.chargeChain = data;
-    })
+
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
     });
@@ -129,6 +128,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             case 'left':
                 break;
             case 'right':
+                $scope.hideEditorPanel = !$scope.hideEditorPanel;
                 break;
             default:
                 break;
@@ -359,6 +359,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
 
     var promises = [];
+    promises.push(poiDS.queryChargeChain("230218").then(function(data) {
+        $scope.chargeChain = data;
+    }));
     promises.push(meta.getKindList().then(function(kindData) {
         initKindFormat(kindData);
     }));
