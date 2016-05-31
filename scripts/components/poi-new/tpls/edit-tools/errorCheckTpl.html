@@ -8,13 +8,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-if="!poi.checkResultData || poi.checkResultData.length == 0">
+            <tr ng-if="!errorCheckData || errorCheckData.length == 0">
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
-            <tr ng-repeat="item in poi.checkResultData">
-                <td>{{$index + 1}}</td>
-                <td>{{item.errorCode}}</td>
-                <td>{{item.errorMsg || item.description}}</td>
+            <tr ng-repeat="row in errorCheckData">
+                <td>{{row.ruleid}}</td>
+                <td>
+                    <span ng-if="row.rank==0" >无</span>
+                    <span ng-if="row.rank==1" >Fatal</span>
+                    <span ng-if="row.rank==2" >Critical</span>
+                    <span ng-if="row.rank==3" >Error</span>
+                    <span ng-if="row.rank==4" >warning</span>
+                </td>
+                <td>
+                    <a href="#" ng-click="showOnMap(row.targets)">{{row.targets }}</a>
+                </td>
                 <td>
                     <a ng-if="item.type == 0" class="textColorRed" href="javascript:void(0);" ng-click="ignoreCheckResult(item);">忽略</a>
                     <p ng-if="item.type == 1" class="fm-console-table-p text-muted">忽略</p>
