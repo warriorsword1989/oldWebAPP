@@ -159,6 +159,7 @@ function keyEvent(ocLazyLoad, scope) {
                             ctrl = 'attr_link_ctrl/rdLinkCtrl';
                             tpl = 'attr_link_tpl/rdLinkTpl.html';
 
+
                         } else if (shapeCtrl.editFeatType === "adLink") {
                             param["type"] = "ADLINK";
                             showContent = "创建AdLink成功";
