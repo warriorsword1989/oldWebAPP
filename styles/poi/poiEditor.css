@@ -305,7 +305,9 @@ label > input[type='radio'], label > input[type='checkbox'] {
     overflow-y: hidden;
 }
 
-
+.fm-specialopt {
+    color: greenyellow;
+};
 /************************* 图片资源 ******************************/
 
 .icon_3d {
