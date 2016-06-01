@@ -411,6 +411,50 @@ input[type='radio'] {
     width:100%;
 }
 
+.fm-editor-panel{
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    background-color: transparent;
+    border: none;
+}
+.fm-editor-panel-normal{
+    width: 315px;
+}
+.fm-editor-panel-sm{
+    width: 15px;
+}
+.fm-editor-arrow{
+    width: 15px;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.fm-editor-arrow a.fm-panel-controlArrowLeft>span{
+    background: url("../../images/road/img/arrow-left.png");
+}
+
+.fm-editor-arrow a.fm-panel-controlArrowRight>span{
+    background: url("../../images/road/img/arrow-right.png");
+}
+a.fm-panel-controlArrowLeft,a.fm-panel-controlArrowRight{
+    background-color: #404040;
+    opacity: 0.95;
+    display: inline-block;
+    width: 15px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+a.fm-panel-controlArrowLeft>span,a.fm-panel-controlArrowRight>span{
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    margin-top: 10px;
+}
+
 /**********tips style**********/
 .popoverTips{
     position: absolute;
