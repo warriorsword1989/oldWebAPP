@@ -42,14 +42,12 @@ angular.module('fastmap.uikit').directive('login', function() {
             function countPos() {
                 var top = (element[0].offsetParent.clientHeight - element[0].clientHeight) / 2;
                 top = top>0?top:-top;
-                console.log(element[0].clientHeight)
-                element.css('marginTop', top+20 + 'px');
+                element.css('marginTop', top+30 + 'px');
             }
             countPos();
             window.onresize = function() {
                 countPos();
             }
-
         }
     };
 });

@@ -1,0 +1,102 @@
+<div ng-controller="baseInfoCtl">
+    <div ng-show="propertyType=='base'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>名 称</label>
+                        <div><input type="text" class="fm-control" ng-model="poi.name"/></div>
+                    </li>
+                    <li>
+                        <label>地 址</label>
+                        <div><input type="text" class="fm-control" ng-model="poi.address"/></div>
+                    </li>
+                    <li>
+                        <label>邮政编码</label>
+                        <div><input type="text" class="fm-control" ng-model="poi.postCode"/></div>
+                    </li>
+                    <li>
+                        <label>种 别</label>
+                        <div>
+                            <select class="fm-control" ng-model="selectedKind"
+                                    no_results_text="'没有找到'" single_text=""  placeholder_text="" placeholder_text_single="'--请选择--'"
+                                    ng-options="value as lable.kindName for (value, lable) in metaData.kindFormat"
+                                    chosen ng-change="kindChange($event, this)">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>品 牌</label>
+                        <div>
+                            <select class="fm-control"  ng-model="selectedChain"
+                                    no_results_text="'--无--'"  placeholder_text_single="'--请选择--'"
+                                    ng-options="value as lable.chainName for (value, lable) in chainList"
+                                    chosen ng-change="brandChange($event, this)">
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <label>等 级</label>
+                        <div>
+                            <label ng-repeat="lev in levelArr">
+                                <input type="radio"  ng-model="poi.level" value="{{lev}}"> {{lev}}
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">24小时</label>
+                        <div>
+                            <label>
+                                <input type="radio" name="24h" value="1" ng-model="poi.open24H">
+                                是
+                            </label>
+                            <label>
+                                <input type="radio" name="24h" value="2" ng-model="poi.open24H">
+                                否
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">室内POI</label>
+                        <div>
+                            <label>
+                                <input type="radio" name="indoor" value="3" ng-model="poi.indoor.type">
+                                是
+                            </label>
+                            <label>
+                                <input type="radio" name="indoor" value="0" ng-model="poi.indoor.type">
+                                否
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">备 注</label>
+                        <div class="inline">
+                            <textarea class="fm-control" ng-model="poi.attachmentsRemark"> </textarea>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="fm-panel">
+            <div class="title"><a href="javascript:void(0);" title="点击添加电话" ng-click="addContact()">联系电话 &nbsp;&nbsp;<i class="glyphicon glyphicon-plus-sign"></i></a>
+                <span style="float:right;">共 <span ng-bind="poi.contacts.length"></span> 条</span>
+            </div>
+            <div class="content" style="max-height: 300px;">
+                <ul class="fm-ul fm-ul-list">
+                    <li ng-repeat="item in poi.contacts">
+                        <div>
+                            <input type='text' class="fm-control tel-code" maxlength="5" ng-model="item.code" ng-show="item.type==1">
+                            <span ng-show="item.type==1"> - </span>
+                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.type == 2}" maxlength="11" ng-model="item.number">
+                        </div>
+                        <div>
+                            <a href="javascript:void(0);" ng-click="deleteContact($index);"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

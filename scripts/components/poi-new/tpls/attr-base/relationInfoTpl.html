@@ -1,0 +1,45 @@
+<div ng-controller="relationInfoCtl">
+    <div ng-show="propertyType=='relate'">
+        <div class="fm-panel">
+            <div class="title">父POI</div>
+            <div class="content">
+                <ul class="fm-ul fm-ul-list">
+                    <li ng-if="relateParent">
+                        <label>
+                            {{relateParent.name}}
+                        </label>
+                        <div>
+                            <a href="javascript:void(0);" ng-click="showParentPoiInMap(relateParent)"><i class="glyphicon glyphicon-link"></i></a>
+                        </div>
+                    </li>
+                    <li ng-if="!relateParent">
+                        <label>
+                            无
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="fm-panel">
+            <div class="title">子POI &nbsp;&nbsp;<span style="float: right;">共 <span >{{relateChildren.length}}</span> 条</span> </div>
+            <div class="content">
+                <ul class="fm-ul fm-ul-list">
+                    <li ng-if="relateChildren.length == 0" >
+                        <label>
+                            无
+                        </label>
+                    </li >
+                    <li ng-if="relateChildren.length > 0" ng-repeat="child in relateChildren">
+                        <label>
+                            {{child.name}}
+                        </label>
+                        <div>
+                            <a href="javascript:void(0);" ng-click="showChildrenPoisInMap(child);"><i class="glyphicon glyphicon-link"></i></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

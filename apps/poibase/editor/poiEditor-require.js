@@ -4,21 +4,23 @@
 requirejs.config({
     baseUrl: '../../../',
     paths: {
+        // 第三方库
         'angular': 'scripts/libs/angularjs/1.4.4/angular',
         'jquery': 'scripts/libs/jquery/2.1.1/jquery-2.1.1',
         'ocLazyLoad': 'scripts/libs/ocLazyLoad/ocLazyLoad.require',
         'ngLayout': 'scripts/libs/ui-layout/ui-layout',
         'uiBootstrap': 'scripts/libs/bootstrap-3.3.5/js/ui-bootstrap-tpls-1.3.2',
-        'leaflet': 'scripts/libs/leaflet-0.7.3/leaflet-src',
         "chosenJquery": "scripts/libs/angular-chosen/chosen.jquery.min",
         "angularChosen": "scripts/libs/angular-chosen/angular-chosen.min",
-        'application': 'scripts/uikits/Application',
-        'appUtil': 'scripts/uikits/common/app-util',
-        'dataService': 'scripts/uikits/poibase/dataService',
-        'poiService': 'scripts/uikits/poibase/dataService-poi',
-        'fileUpload':'scripts/libs/angular-file-upload/angular-file-upload',
-        "angularDrag":"scripts/libs/angular-drag/angular-drag",
+        'fileUpload': 'scripts/libs/angular-file-upload/angular-file-upload',
+        "angularDrag": "scripts/libs/angular-drag/angular-drag",
+        "sweet-alert": "scripts/libs/sweet-alert/js/sweet-alert",
+        // app相关
+        'dataService': 'apps/poibase/service/dataService',
+        'poiService': 'apps/poibase/service/dataService-poi',
+        'metaService': 'apps/poibase/service/dataService-meta',
         'PoiEditorCtl': 'apps/poibase/editor/poiEditorCtl',
+        'layers': "apps/poibase/editor/layerConfig",
     },
     shim: {
         'ocLazyLoad': ['angular'],
@@ -26,12 +28,12 @@ requirejs.config({
         'uiBootstrap': ['angular'],
         'chosenJquery': ['jquery'],
         'angularChosen': ['angular'],
-        'appUtil': ['application'],
-        'dataService': ['angular'],
-        'fileUpload':['angular'],
-        'angularDrag':['angular','jquery'],
+        'fileUpload': ['angular'],
+        'angularDrag': ['angular', 'jquery'],
+        'dataService': ['angular', "sweet-alert"],
         'poiService': ['dataService'],
-        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'leaflet', 'chosenJquery', 'angularChosen', 'application', 'appUtil', 'poiService','fileUpload','angularDrag']
+        'metaService': ['dataService'],
+        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers'],
     }
 });
 // Start the main app logic.

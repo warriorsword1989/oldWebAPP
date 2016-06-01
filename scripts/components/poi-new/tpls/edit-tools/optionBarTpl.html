@@ -1,0 +1,16 @@
+<div ng-controller="optionBarCtl">
+    <div class="fm-container fm-lvl1 full-width">
+        <div class="fm-tabs">
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'outputResult'}" ng-model="tagSelect" uib-btn-radio="'outputResult'" ng-click="changeTag('outputResult')">输出结果</a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'errorCheck'}" ng-model="tagSelect" uib-btn-radio="'errorCheck'" ng-click="changeTag('errorCheck')">检查结果</a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'searchResult'}" ng-model="tagSelect" uib-btn-radio="'searchResult'" ng-click="changeTag('searchResult')">搜索结果</a>
+            <!--<a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'checkResult'}" ng-model="tagSelect" uib-btn-radio="'checkResult'" ng-click="changeTag('checkResult')">检查结果</a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'confusionInfo'}" ng-model="tagSelect" uib-btn-radio="'confusionInfo'" ng-click="changeTag('confusionInfo')">冲突检测</a>
+            <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'editHistory'}" ng-model="tagSelect" uib-btn-radio="'editHistory'" ng-click="changeTag('editHistory')">作业履历</a>-->
+        </div>
+        <div class="fm-console-content">
+            <div ng-include="tagContentTpl"></div>
+        </div>
+    </div>
+</div>
+

@@ -171,6 +171,19 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.afterDeleteImg = function (item) {
     };
 
+    $scope.rotateImg = function (degree,item) {
+
+        if(item.url.indexOf('?') > -1 ){
+            item.url = item.url.substring(0,item.url.indexOf('?'));
+        }
+        var url = item.url;
+        url = url.substr((App.Config.resourceUrl + "/photo").length);
+        poi.excuteImageRotate(url,degree).then(function (data){
+            item.url = item.url +"?_time=" + Date.parse( new Date());
+            item.timestamp = Date.parse( new Date());
+        });
+    };
+
     $scope.imgTag = { tagSelected:0 }; //使用showbox指令时特殊处理
     $scope.selectImg = function (index, item) {
         if (item) {
@@ -209,10 +222,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
             $scope.mapColumn = 12;
             $scope.isShowImages = false;
             $scope.arrowStyle = "arrow_right";
+            $scope.$broadcast('doLeftRight');
         } else {
             $scope.mapColumn = 6;
             $scope.isShowImages = true;
             $scope.arrowStyle = "arrow_left";
+            $scope.$broadcast('doLeftRight');
         }
     };
 
@@ -451,11 +466,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     $scope.doSave = function() {
         console.info("poi", $scope.poi);
         console.info("save", $scope.poi.getIntegrate());
-        // $scope.saveButClass = "disabled";
-        // poi.savePoi($scope.poi.getIntegrate()).then(function (data) {
-        //     var temp = data;
-        //     $scope.saveButClass = "";
-        // });
+        $scope.saveButClass = "disabled";
+        poi.savePoi($scope.poi.getIntegrate()).then(function (data) {
+            var temp = data;
+            $scope.saveButClass = "";
+        });
         swal("保存成功",'', "success");
     };
 
@@ -572,7 +587,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.bootstrap', 'dataService', 'localytics
     });
 }]).directive("myResize", ["$timeout", function($timeout) {
     function _resize(elem) {
-        
+
         var vh = 0;
         if (window.innerHeight) {
             vh = window.innerHeight;

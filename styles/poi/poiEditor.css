@@ -32,6 +32,14 @@ a:hover {
     margin-top: 20px;
 }
 
+.text-success{
+    color:#34B734;
+}
+
+.text-muted {
+    color: #A2A2A2;
+}
+
 .fm-banner .banner-center div.selected {
     background-color: #313131;
 }
@@ -41,8 +49,38 @@ a:hover {
     bottom: 0px;
     width: 100%;
 }
-
-
+.fm-panel-arrow{
+    text-align: center;
+    cursor: pointer;
+    height: 15px;
+}
+a.fm-panel-controlArrowUp>span {
+    background: url("../../images/road/img/arrow-up.png") no-repeat;
+    margin-top: 3px;
+    height: 10px;
+    width: 20px;
+    position: absolute;
+    margin-left: -10px;
+    transition: all 0s;
+}
+a.fm-panel-controlArrowDown>span {
+    background: url("../../images/road/img/arrow-down.png") no-repeat;
+    margin-top: 3px;
+    height: 10px;
+    width: 20px;
+    position: absolute;
+    margin-left: -10px;
+    transition: all 0s;
+}
+a.fm-panel-controlArrowUp,a.fm-panel-controlArrowDown {
+    background-color: #404040;
+    opacity: 0.95;
+    display: inline-block;
+    width: 40px;
+    height: 15px;
+    text-align: center;
+    transition: all 0s;
+}
 /**************************************nnade***************************************************/
 
 .fm-container {
@@ -51,6 +89,7 @@ a:hover {
     position: absolute;
     border: 1px solid #555;
     overflow-y: auto;
+    z-index: 1;
 }
 
 .fm-container.fm-col {
@@ -236,6 +275,25 @@ input[type='radio'] {
 .fm-btn {
     border: 1px solid #aaa;
 }
+.fm-no-scroll{
+    overflow-y: hidden;
+}
+/************************* 图片资源 ******************************/
+.icon_3d{
+    background-image: url('../../images/poi/icon/3D.png');
+    width: 24px;
+    height:24px;
+}
+.icon_car{
+    background-image: url('../../images/poi/icon/poi_car.png');
+    width: 24px;
+    height:24px;
+}
+.icon_rmb{
+    background-image: url('../../images/poi/icon/poi_rmb.png');
+    width: 24px;
+    height:24px;
+}
 /******************************** 文件上传 **************************************/
 .upload-option-group{
     position: relative;
@@ -265,6 +323,7 @@ input[type='radio'] {
     right: 0;
     top: 0;
     opacity: 0;
+    cursor: pointer;
 }
 .nowrap-text {
     white-space: nowrap;
@@ -274,13 +333,245 @@ input[type='radio'] {
     border: 0;
     float: left;
     padding:3px;
+    cursor: pointer;
+}
+.fm-upload-ico[disabled]{
+    color: #8c8787;
 }
 .fm-upload-list{
     padding:0 !important;
 }
 .fm-progress{
     height:3px;
+    margin-bottom: 0;
 }
 .fm-progress-bar{
     border-right:5px solid rgb(13, 194, 248);
+}
+.fm-flag-ico{
+    /*position: absolute;*/
+    right: 10px;
+}
+.fm-flag-ico > .glyphicon-ok{
+    color: #34B734;
+}
+.fm-flag-ico > .glyphicon-remove{
+    color: #FF3252;
+}
+.fm-uploder-file-name{
+    width: 140px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.fm-uploder-file-option{
+    /*position: absolute;*/
+    right: 42px;
+}
+.fm-uploder-file-flag{
+    width: 50px;
+    text-align: center;
+    top: -8px;
+    position: relative;
+}
+/**************************控制台************************/
+.fm-console-panel{
+    bottom: 237px;
+    position: absolute;
+}
+.fm-console-show{
+    margin-bottom: 0;
+}
+.fm-console-hide{
+    margin-bottom: -237px;
+}
+.fm-option-bar{
+    width:auto;
+    bottom:237px;
+    left:0;
+    right:300px;
+    border-radius: 5px 5px 0px 0px;
+    transition: all .2s ease-in-out;
+}
+.fm-console-table{
+    color: #ffffff;
+    margin-top:5px;
+}
+.fm-console-table > tbody > tr > td{
+    padding: 0px 3px;
+    line-height: 2;
+}
+.fm-console-content{
+    height:200px;
+}
+.fm-console-table-p{
+    margin:0;
+}
+.full-width{
+    width:100%;
+}
+
+.fm-editor-panel{
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    background-color: transparent;
+    border: none;
+}
+.fm-editor-panel-normal{
+    width: 315px;
+}
+.fm-editor-panel-sm{
+    width: 15px;
+}
+.fm-editor-arrow{
+    width: 15px;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.fm-editor-arrow a.fm-panel-controlArrowLeft>span{
+    background: url("../../images/road/img/arrow-left.png");
+}
+
+.fm-editor-arrow a.fm-panel-controlArrowRight>span{
+    background: url("../../images/road/img/arrow-right.png");
+}
+a.fm-panel-controlArrowLeft,a.fm-panel-controlArrowRight{
+    background-color: #404040;
+    opacity: 0.95;
+    display: inline-block;
+    width: 15px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+a.fm-panel-controlArrowLeft>span,a.fm-panel-controlArrowRight>span{
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+/**********tips style**********/
+.popoverTips{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index:0;
+    overflow-y: hidden;
+    width:250px;
+    height: 100%;
+    background-color: transparent;
+    padding: 42px 0 0px 0;
+    opacity: 0;
+
+}
+.popoverTips > div.tipsPanel{
+    height: 100%;
+    background-color: #313131;
+    /*opacity: 0.9;*/
+    padding:10px;
+}
+/*fadeIn animte*/
+.animated {
+    -webkit-animation-duration: .2s;
+    animation-duration: .2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        width: 0px;
+    }
+
+    to {
+        opacity: 0.9;
+        width: 250px;
+    }
+}
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        width: 0;
+    }
+    to {
+        opacity: 0.9;
+        width: 250px;
+    }
+}
+.fadeInLeft {
+    -webkit-animation-name: fadeInLeft;
+    animation-name: fadeInLeft;
+}
+/*重写了部分angular-chosen的样式*/
+.chosen-container{
+    font-size: 12px;
+    margin-top: 5px;
+}
+.chosen-container .chosen-results{
+    max-height: 120px;
+}
+.chosen-container-single .chosen-default{
+    color:#F3F6FA;
+    background-color:#333;
+}
+.chosen-container-single .chosen-single{
+    background:-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(50%, #333), color-stop(52%, #333), color-stop(100%, #333));
+    padding:0px 5px;
+    color: #F3F6FA;
+}
+.chosen-container .chosen-drop{
+    background-color:#333;
+}
+.chosen-container .chosen-results{
+    color: #F3F6FA;
+}
+.chosen-container-active.chosen-with-drop .chosen-single{
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(80%, #333));
+    color: #F3F6FA;
+}
+.chosen-container .chosen-results li{
+    padding:2px 6px;
+}
+.chosen-container .chosen-results li.no-results{
+    color: #F3F6FA;
+    background: #333;
+}
+/*********************tips**********************/
+.tips-title{
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.tips-title > label{
+    color: #fff;
+}
+.panel-tips{
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.42857143;
+    background-color: #555;
+    margin-bottom: 0;
+    width: 100%;
+}
+.tips-img{
+    width: 57px;
+    margin: 0;
+    float: left;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+.tips-panel{
+    border: 1px solid #595959;
+}
+.tips-middle{
+    margin-top: 10px;
+    float: left;
+    width: 100%;
+    color: #fff;
+}
+.tips-info{
+    margin:3px 0;
 }
