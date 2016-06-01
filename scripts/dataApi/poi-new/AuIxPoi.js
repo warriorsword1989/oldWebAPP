@@ -62,6 +62,90 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.paramEx3 = data['description'] || null;
 		this.paramEx4 = data['description'] || null;
 		this.verifiedFlag = data['verifiedFlag'] || 9;
+
+
+		this.name = {}; //主名称
+		this.names = [];
+		if (this.names) {
+			for (var i = 0, len = this.names.length; i < len; i++) {
+				var obj = new FM.dataApi.AuIxPoiName(this.names[i]);
+				this.names.push(obj);
+				if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
+					this.name = obj;
+				}
+			}
+		}
+		this.address = {};//主地址
+		this.addresses = [];
+		if(this.addresses){
+			for (var i = 0, len = this.addresses.length; i < len; i++) {
+				var obj = new FM.dataApi.AuIxPoiAddress(this.addresses[i]);
+				this.addresses.push(obj);
+				if(obj.langCode == "CHI"){
+					this.address = obj;
+				}
+			}
+		}
+		this.contacts = [];
+		if (this.contacts){
+			for (var i = 0 ,len = this.contacts.length ;i < len ; i++){
+				this.contacts.push(new FM.dataApi.AuIxPoiContact(this.contacts[i]));
+			}
+		}
+		this.photos = [];
+		if (this.photos){
+			for (var i = 0 ,len = this.photos.length ;i < len ; i++){
+				this.photos.push(new FM.dataApi.AuIxPoiPhoto(this.photos[i]));
+			}
+		}
+		this.children = [];
+		if(this.children){
+			for (var i = 0 ,len = this.children.length ;i < len ; i++){
+				this.children.push(new FM.dataApi.AuIxPoiChildren(this.children[i]));
+			}
+		}
+		this.parents = [];
+		if(this.parents){
+			for (var i = 0 ,len = this.parents.length ;i < len ; i++){
+				this.parents.push(new FM.dataApi.AuIxPoiParent(this.parents[i]));
+			}
+		}
+		this.buildings = [];
+		if(this.buildings){
+			for (var i = 0 ,len = this.buildings.length ;i < len ; i++){
+				this.buildings.push(new FM.dataApi.AuIxPoiBuilding(this.buildings[i]));
+			}
+		}
+		this.gasstationes = [];
+		if(this.gasstationes){
+			for (var i = 0 ,len = this.gasstationes.length ;i < len ; i++){
+				this.gasstationes.push(new FM.dataApi.AuIxPoiGasstation(this.gasstationes[i]));
+			}
+		}
+		this.hotels = [];
+		if(this.hotels){
+			for (var i = 0 ,len = this.hotels.length ;i < len ; i++){
+				this.hotels.push(new FM.dataApi.AuIxPoiHotel(this.hotels[i]));
+			}
+		}
+		this.restaurantes = [];
+		if(this.restaurantes){
+			for (var i = 0 ,len = this.restaurantes.length ;i < len ; i++){
+				this.restaurantes.push(new FM.dataApi.AuIxPoiRestaurant(this.restaurantes[i]));
+			}
+		}
+		this.samePois = [];
+		if(this.samePois){
+			for (var i = 0 ,len = this.samePois.length ;i < len ; i++){
+				this.samePois.push(new FM.dataApi.AuIxSamepoi(this.samePois[i]));
+			}
+		}
+		this.samePoiParts = [];
+		if(this.samePoiParts){
+			for (var i = 0 ,len = this.samePoiParts.length ;i < len ; i++){
+				this.samePoiParts.push(new FM.dataApi.AuIxSamepoiPart(this.samePoiParts[i]));
+			}
+		}
 	},
 	/*
 	 * UI-->DB
