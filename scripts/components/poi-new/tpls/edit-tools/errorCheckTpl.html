@@ -1,0 +1,43 @@
+<div ng-controller="ErrorCheckCtl">
+    <table class="table table-bordered table-condensed fm-console-table">
+        <thead>
+            <tr>
+                <th ng-repeat="item in theadInfo">
+                    {{item}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!errorCheckData || errorCheckData.length == 0">
+                <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
+            </tr>
+            <tr ng-repeat="row in errorCheckData">
+                <td>{{row.ruleid}}</td>
+                <td>
+                    <span ng-if="row.rank==0" >无</span>
+                    <span ng-if="row.rank==1" >Fatal</span>
+                    <span ng-if="row.rank==2" >Critical</span>
+                    <span ng-if="row.rank==3" >Error</span>
+                    <span ng-if="row.rank==4" >warning</span>
+                </td>
+                <td>
+                    <a href="#" ng-click="showOnMap(row.targets)">{{row.targets }}</a>
+                </td>
+                <td>
+                    <div title="{{row.information}}">{{row.shortInfo}}</div>
+                </td>
+                <td>
+                    <div>{{row.create_date}}</div>
+                </td>
+                <td>
+                    <div>{{row.worker}}</div>
+                </td>
+                <td>
+                    <select class="fm-control" ng-model="initType"
+                            ng-options="value.id as value.label for value in initTypeOptions"   ng-change="changeType(initType,row.id)">
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
