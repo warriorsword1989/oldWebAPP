@@ -133,7 +133,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             default:
                 break;
         }
-        console.log($scope.hideConsole)
     }
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {

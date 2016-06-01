@@ -448,6 +448,10 @@ a.fm-panel-controlArrowLeft,a.fm-panel-controlArrowRight{
     height: 40px;
     text-align: center;
     vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    cursor: pointer;
 }
 
 a.fm-panel-controlArrowLeft>span,a.fm-panel-controlArrowRight>span{
