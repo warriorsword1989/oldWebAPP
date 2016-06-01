@@ -37,6 +37,9 @@ App.Util = {
     getHbaseUrl: function(url) {
         return App.Config.hbaseServiceUrl + "/" + url;
     },
+    getGeneralUrl:function(url) {
+        return App.Config.generalUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
+    },
     createTileRequestObject: function(url, requestType) {
         var reqObj = {};
         reqObj.url = App.Config.generalUrl + url;
