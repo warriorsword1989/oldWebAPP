@@ -34,8 +34,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
         alert(data.extend)
         switch (data.extend) {
             case 1: //停车场
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 2: //加油站
