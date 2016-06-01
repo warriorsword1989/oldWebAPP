@@ -123,7 +123,34 @@ App.layersConfig = [{
             requestType: 'RDLINK',
             showNodeLevel: 17
         }
-    }, {
+    },
+        {
+            url: App.Util.createTileRequestObject('/render/obj/getByTileWithGap?', 'ADADMIN'),
+            clazz: fastmap.mapApi.tileJSON,
+            options: {
+                layername: 'POI点数据',
+                id: 'poiPoint',
+                maxZoom: 20,
+                debug: false,
+                // this value should be equal to 'radius' of your points
+                buffer: 10,
+                boolPixelCrs: true,
+                parse: fastmap.uikit.canvasFeature.Feature.transform,
+                boundsArr: [],
+                unloadInvisibleTiles: true,
+                reuseTiles: false,
+                mecator: new fastmap.mapApi.MecatorTranform(),
+                updateWhenIdle: true,
+                tileSize: 256,
+                type: 'adAdminPoint',
+                zIndex: 18,
+                restrictZoom: 10,
+                visible: true,
+                requestType: 'ADADMIN',
+                showNodeLevel: 17
+            }
+        },
+        {
         url: App.Util.createTileRequestObjectForPoi('editsupport/infor/tile/?'),
         clazz: fastmap.mapApi.tileJSON,
         options: {
