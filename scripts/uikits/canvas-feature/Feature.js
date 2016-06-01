@@ -38,6 +38,9 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 11: //立交
                     ret = new fastmap.uikit.canvasFeature.RdGsc(data);
                     break;
+                case 15: //adadmin模拟poi
+                    ret = new fastmap.uikit.canvasFeature.poiMarker(data);
+                    break;
             }
             return ret;
         },

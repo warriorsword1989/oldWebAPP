@@ -26,6 +26,21 @@ angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     $scope.changeTag = function (tagName) {
         $scope.tagSelect = tagName;
         switch (tagName) {
+            case 'outputResult':
+                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/outputResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/outputResultTpl.html';
+                });
+                break;
+            case 'errorCheck':
+                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/errorCheckCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/errorCheckTpl.html';
+                });
+                break;
+            case 'searchResult':
+                $ocll.load('scripts/components/poi-new/ctrls/edit-tools/searchResultCtl').then(function () {
+                    $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/searchResultTpl.html';
+                });
+                break;
             case 'checkResult':
                 $ocll.load('scripts/components/poi-new/ctrls/edit-tools/checkResultCtl').then(function () {
                     $scope.tagContentTpl = '../../../scripts/components/poi-new/tpls/edit-tools/checkResultTpl.html';
@@ -76,7 +91,9 @@ angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     });
     /*判断默认显示哪个tab*/
     function initShowTag(){
-        if($scope.poi.checkResultData.length > 0){
+        $scope.tagSelect = 'outputResult';
+        $scope.changeTag('outputResult');
+        /*if($scope.poi.checkResultData.length > 0){
             $scope.tagSelect = 'checkResult';
             $scope.changeTag('checkResult');
         }else if($scope.poi.confusionInfoData.length > 0){
@@ -85,7 +102,7 @@ angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q',
         }else if($scope.poi.editHistory.length > 0){
             $scope.tagSelect = 'editHistory';
             $scope.changeTag('editHistory');
-        }
+        }*/
     }
     initShowTag();
 }]);

@@ -1,7 +1,7 @@
 <div ng-controller="baseInfoCtl">
     <div ng-show="propertyType=='base'">
         <div class="fm-panel" >
-            <div class="content">
+            <div class="content" style="padding-bottom: 76px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>名 称</label>
@@ -28,24 +28,18 @@
                     <li>
                         <label>品 牌</label>
                         <div>
-                            <select no_results_text="'没有找到'"  placeholder_text_single="'--请选择--'"
-                                    ng-model="selectedChain"
+                            <select class="fm-control"  ng-model="selectedChain"
+                                    no_results_text="'--无--'"  placeholder_text_single="'--请选择--'"
                                     ng-options="value as lable.chainName for (value, lable) in chainList"
-                                    chosen ng-change="brandChange($event, this)" style="width: 80%;">
+                                    chosen ng-change="brandChange($event, this)">
                             </select>
                         </div>
                     </li>
-                    <li>
+                    <li style="margin-top: 8px;">
                         <label>等 级</label>
                         <div>
-                            <label>
-                                <input type="radio" name="level" value="A" ng-model="selectedPoi.level"> A
-                            </label>
-                            <label>
-                                <input type="radio" name="level" value="B" ng-model="selectedPoi.level"> B
-                            </label>
-                            <label>
-                                <input type="radio" name="level" value="C" ng-model="selectedPoi.level"> C
+                            <label ng-repeat="lev in levelArr">
+                                <input type="radio"  ng-model="poi.level" value="{{lev}}"> {{lev}}
                             </label>
                         </div>
                     </li>
@@ -53,11 +47,11 @@
                         <label class="control-label">24小时</label>
                         <div>
                             <label>
-                                <input type="radio" name="24h" value="0" ng-model="selectedPoi.h24">
+                                <input type="radio" name="24h" value="1" ng-model="poi.open24H">
                                 是
                             </label>
                             <label>
-                                <input type="radio" name="24h" value="1" ng-model="selectedPoi.h24">
+                                <input type="radio" name="24h" value="2" ng-model="poi.open24H">
                                 否
                             </label>
                         </div>
@@ -66,19 +60,13 @@
                         <label class="control-label">室内POI</label>
                         <div>
                             <label>
-                                <input type="radio" name="indoor" value="0" ng-model="selectedPoi.indoor">
+                                <input type="radio" name="indoor" value="3" ng-model="poi.indoor.type">
                                 是
                             </label>
                             <label>
-                                <input type="radio" name="indoor" value="1" ng-model="selectedPoi.indoor">
+                                <input type="radio" name="indoor" value="0" ng-model="poi.indoor.type">
                                 否
                             </label>
-                        </div>
-                    </li>
-                    <li>
-                        <label class="control-label">备 注</label>
-                        <div class="inline">
-                            <textarea class="fm-control"></textarea>
                         </div>
                     </li>
                 </ul>
@@ -86,15 +74,15 @@
         </div>
         <div class="fm-panel">
             <div class="title"><a href="javascript:void(0);" title="点击添加电话" ng-click="addContact()">联系电话 &nbsp;&nbsp;<i class="glyphicon glyphicon-plus-sign"></i></a>
-                <span style="float:right;">共 <span ng-bind="selectedPoi.contacts.length"></span> 条</span>
+                <span style="float:right;">共 <span ng-bind="poi.contacts.length"></span> 条</span>
             </div>
             <div class="content" style="max-height: 300px;">
                 <ul class="fm-ul fm-ul-list">
-                    <li ng-repeat="item in selectedPoi.contacts">
+                    <li ng-repeat="item in poi.contacts">
                         <div>
                             <input type='text' class="fm-control tel-code" maxlength="5" ng-model="item.code" ng-show="item.type==1">
                             <span ng-show="item.type==1"> - </span>
-                            <input type='text' ng-class="{'fm-control': true, 'tel-number': item.type == 1, 'tel-cellphone': item.type == 2}" maxlength="11" ng-model="item.number">
+                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.type == 2}" maxlength="11" ng-model="item.number">
                         </div>
                         <div>
                             <a href="javascript:void(0);" ng-click="deleteContact($index);"><i class="glyphicon glyphicon-remove-sign"></i></a>

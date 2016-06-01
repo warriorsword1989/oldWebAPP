@@ -10,9 +10,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 'deep':
-                $ocll.load('scripts/components/poi-new/ctrls/attr-deep/deepInfoCtl').then(function () {
-                    $scope.deepInfoTpl = '../../../scripts/components/poi-new/tpls/attr-deep/deepInfoTpl.html';
-                });
+
                 break;
             case 'relate':
                 $ocll.load('scripts/components/poi-new/ctrls/attr-base/relationInfoCtl').then(function () {
@@ -31,6 +29,64 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 break;
         }
     };
+    //接收分类改变后出发的事件
+    $scope.$on("kindChange", function(event, data) {
+        switch (data.extend) {
+            case 1: //停车场
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                });
+                break;
+            case 2: //加油站
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 3: //充电站
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 4: //宾馆酒店
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 5: //运动场馆
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 6: //餐馆
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 7: //加气站
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 8: //旅游景点
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                });
+                break;
+            case 9:
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                    // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                    $scope.$on('$includeContentLoaded', function ($event) {
+                        $scope.$broadcast("loaded", data);
+                    });
+                    // });
+                });
+                break;
+            default:
+                $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                break;
+        }
+    });
 
     /*默认显示baseInfo的tab页*/
     function initShowTag(){

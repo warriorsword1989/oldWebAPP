@@ -10,6 +10,7 @@
         "RdGscMarker.js",
         "RdGscPart.js",
         "RdGsc.js",
+        "poiMarker.js"
     ]; // etc.
     // use "parser-inserted scripts" for guaranteed execution order
     // http://hsivonen.iki.fi/script-execution/

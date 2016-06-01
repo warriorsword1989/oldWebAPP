@@ -18,6 +18,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         3: '免费'
     };
     $scope.hideConsole = true;
+    $scope.hideEditorPanel = true;
+
 
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
@@ -89,16 +91,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             $scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
         });
     };
-    $scope.addContact = function() {
-        $scope.selectedPoi.contacts.push({
-            type: 1,
-            code: null,
-            number: null
-        });
-    };
-    $scope.deleteContact = function(val) {
-        $scope.selectedPoi.contacts.splice(val, 1);
-    };
+
     $scope.doIgnore = function(val) {
         alert(val);
     };
@@ -135,11 +128,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             case 'left':
                 break;
             case 'right':
+                $scope.hideEditorPanel = !$scope.hideEditorPanel;
                 break;
             default:
                 break;
         }
-        console.log($scope.hideConsole)
     }
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {
@@ -343,7 +336,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             "flag": 1
         });
     });
-    /*解析分类，组成select-chonse认识的数据*/
+    /*解析分类，组成select-chosen需要的数据格式*/
     var initKindFormat = function (kindData) {
         for (var i = 0; i < kindData.length; i++) {
             $scope.metaData.kindFormat[kindData[i].kindCode] = {
@@ -365,8 +358,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
 
     var promises = [];
+    promises.push(poiDS.queryChargeChain("230218").then(function(data) {
+        $scope.chargeChain = data;
+    }));
     promises.push(meta.getKindList().then(function(kindData) {
         initKindFormat(kindData);
+    }));
+    promises.push(meta.getAllBrandList().then(function(chainData) {
+        $scope.metaData.allChain = chainData;
     }));
     /*获取检查规则*/
     promises.push(meta.queryRule().then(function (data) {
@@ -378,6 +377,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     /*临时数据*/
     promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
         $scope.poi = data;
+        
+    }));
+    /*查询3DIcon*/
+    promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
+        $scope.poi3DIcon = data;
     }));
     $q.all(promises).then(function(){
         initOcll();
@@ -387,9 +391,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function() {
             $scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
         });
-        // $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/fileUploadCtl').then(function() {
-        //     $scope.fileUploadTpl = '../../../scripts/components/poi-new/tpls/edit-tools/fileUploadTpl.html';
-        // });
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function() {
             $scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
         });
