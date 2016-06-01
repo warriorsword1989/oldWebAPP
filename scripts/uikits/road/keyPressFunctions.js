@@ -131,6 +131,10 @@ function keyEvent(ocLazyLoad, scope) {
                     }
                 }
                 if (shapeCtrl.editType === 'drawPath') {
+                    //if(map.currentTool._enabled) {
+                    //    swal("操作失败", "请双击结束增加线段", "error");
+                    //    return;
+                    //}
                     var properties = shapeCtrl.shapeEditorResult.getProperties();
                     var showContent, ctrl, tpl, type;
                     param["command"] = "CREATE";
