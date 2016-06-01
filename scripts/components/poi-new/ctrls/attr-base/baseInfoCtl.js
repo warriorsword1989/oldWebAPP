@@ -47,6 +47,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
                 break;
             }
         }
+        $scope.$emit("kindChange", pKindFormat[newVlaue]);
     });
     /*初始化品牌*/
     var initChain = function(kindCode) {
@@ -76,13 +77,20 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         }
     }
 
-    /*分类切换*/
+    /*切换 分类（种别）*/
     $scope.kindChange = function(evt, obj) {
         $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
         $scope.poi.brands[0].code = "";
-        $scope.$emit("kindChange", pKindFormat[obj.selectedKind]);
     };
-
+    /*切换 品牌*/
+    $scope.brandChange = function (evt, obj){
+        $scope.poi.brands[0].code = obj.selectedChain;
+        meta.getChainLevel($scope.poi.kindCode,obj.selectedChain).then(function (dataLevel){
+            if (dataLevel) {
+                checkLevel(dataLevel);
+            }
+        });
+    }
 
     $scope.addContact = function() {
         $scope.poi.contacts.push({
