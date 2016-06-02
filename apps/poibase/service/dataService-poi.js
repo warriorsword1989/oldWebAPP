@@ -41,6 +41,32 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
+    this.queryParentPoi = function (pid){
+        var defer = $q.defer();
+        ajax.getLocalJson("../service/poiParent.json").success(function(data) {
+            if (data) {
+                defer.resolve(data);
+            } else {
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    this.queryChildren = function (pid){
+        var defer = $q.defer();
+        ajax.getLocalJson("../service/poiChildren.json").success(function(data) {
+            if (data) {
+                defer.resolve(data);
+            } else {
+                defer.resolve(null);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     this.getPoiSnapshot = function (fid) {
         var defer = $q.defer();
         var param = {

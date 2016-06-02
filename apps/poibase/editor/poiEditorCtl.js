@@ -24,6 +24,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
     $scope.hideConsole = true;
     $scope.hideEditorPanel = true;
+    $scope.parentPoi = {};//父POI
+    $scope.childrenPoi = []; //子POI
 
 
     poiDS.getPoiList().then(function(data) {
@@ -464,12 +466,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     // }));
     promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
+        $scope.parentPoi = {};
+        $scope.childrenPoi = [];
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poi3DIcon = data;
     }));
     $q.all(promises).then(function(){
+        initParentAndChildren();
         initOcll();
     });
     /*初始化tpl加载*/
@@ -480,6 +485,26 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function() {
             $scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
         });
+    }
+    function initParentAndChildren(){
+        if($scope.poi.parents && $scope.poi.parents.length > 0){
+            var parentPid = $scope.poi.parents[0].parentPoiPid;
+            poiDS.queryParentPoi(parentPid).then(function (data){
+                $scope.parentPoi = new FM.dataApi.AuIxPoi(data);
+            });
+        }
+        if($scope.poi.children && $scope.poi.children.length > 0){
+            var childrenArr = [];
+            for (var i = 0 , len = $scope.poi.children.length; i < len ; i ++ ){
+                childrenArr.push($scope.poi.children[i].childPoiPid)
+            }
+            poiDS.queryChildren(childrenArr.join(",")).then(function (data){
+                // $scope.childrenPoi = data
+                for(var i = 0 , len = data.length ;i < len ; i ++){
+                    $scope.childrenPoi.push(new FM.dataApi.AuIxPoi(data[i]));
+                }
+            });
+        }
     }
 }]);
 
