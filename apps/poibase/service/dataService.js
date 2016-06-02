@@ -91,4 +91,7 @@ angular.module("dataService", [], function ($httpProvider) {
     this.post = function(url, param) {
         return $http.post(App.Util.getFullUrl(url), param);
     };
+    this.getLocalJson = function (url){
+        return $http.get(url,{});
+    };
 }]);

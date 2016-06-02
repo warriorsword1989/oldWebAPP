@@ -40,17 +40,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $scope.outputType = val;
     };
     $scope.selectData = function(data) {
-        $scope.tips_show = 'animated fadeInLeft';
         $scope.selectedPoi = data;
-        $scope.selectedPoi.contacts = [{
-            type: 1,
-            code: '010',
-            number: '8877669978'
-        }, {
-            type: 2,
-            code: null,
-            number: '18877669978'
-        }];
         $scope.selectedPoi.checkResults = [{
             errorCode: 'YYMM-1001',
             errorMessage: '这是一个检查结果测试',
@@ -94,9 +84,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         /*弹出tips*/
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
             $scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+            $scope.showPopoverTips = true;
         });
     };
-
+    /*关闭popoverTips状态框*/
+    $scope.$on('closePopoverTips',function(event,data){
+        $scope.showPopoverTips = false;
+    })
     $scope.doIgnore = function(val) {
         alert(val);
     };
@@ -104,7 +98,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         alert(list.length);
     };
     $scope.save = function() {
-        console.log($scope.selectedPoi);
+        console.log("poi:",$scope.poi);
+        console.info("poi.getIntegrate",$scope.poi.getIntegrate());
     };
     $scope.changeParkingFee = function(data) {
         mutex($scope.selectedPoi.parkingFee, ["3"], data);
@@ -219,6 +214,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 highRenderCtrl.drawHighlight();
             });
         }
+    });
+    /*修改状态*/
+    $scope.$on('updateCheckType',function(event,param){
+        poiDS.updateCheckType(param.id,param.type).then(function(data){
+            console.log('修改成功')
+        });
     });
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {
@@ -457,13 +458,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
     }));
-    promises.push(meta.queryRule().then(function (data) {
-        $scope.checkRuleList = data;
-    }));
     /*临时数据*/
-    promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    // promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    //     $scope.poi = data;
+    // }));
+    promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
-        
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {

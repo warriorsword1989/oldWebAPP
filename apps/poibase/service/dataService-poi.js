@@ -27,6 +27,20 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
 
         return defer.promise;
     };
+    this.getPoiDetailByFidTest = function() {
+        var defer = $q.defer();
+        ajax.getLocalJson("../service/poi.json").success(function(data) {
+            if (data) {
+                var poi = new FM.dataApi.AuIxPoi(data);
+                defer.resolve(poi);
+            } else {
+                defer.resolve("读取POI文件出错了.");
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
     this.getPoiSnapshot = function (fid) {
         var defer = $q.defer();
         var param = {
@@ -316,6 +330,28 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
                 defer.resolve(data.data);
             } else {
                 defer.resolve("查找道路属性信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    //获取检查状态
+    this.updateCheckType = function(id,type){
+        var defer = $q.defer();
+        var params = {
+            projectId: App.Temp.projectId,
+            type: type,
+            id: id
+        };
+        ajax.get("edit/check/update", {
+            parameter:JSON.stringify(params),
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取检查状态出错：" + data.errmsg);
             }
         }).error(function(rejection) {
             defer.reject(rejection);

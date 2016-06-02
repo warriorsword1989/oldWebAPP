@@ -2,17 +2,17 @@ angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     var checkRuleObj = {};
     var distinguishResult = function (data) {
         /*检查规则*/
-        for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
-            $scope.poi.checkResults[i].setCheckRule(checkRuleObj[$scope.poi.checkResults[i].errorCode])
-        }
-        if ($scope.poi.lifeCycle != 2) {
-            /*根据履历作业员id查找真实姓名*/
-            poi.queryUser($scope.poi.editHistoryData.operator.user.toString()).then(function(userInfo){
-                $scope.poi.editHistoryData.operator.name = userInfo.realName;
-            });
-        }else {
-            $scope.poi.editHistoryData = false;
-        }
+        // for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
+        //     $scope.poi.checkResults[i].setCheckRule(checkRuleObj[$scope.poi.checkResults[i].errorCode])
+        // }
+        // if ($scope.poi.lifeCycle != 2) {
+        //     /*根据履历作业员id查找真实姓名*/
+        //     poi.queryUser($scope.poi.editHistoryData.operator.user.toString()).then(function(userInfo){
+        //         $scope.poi.editHistoryData.operator.name = userInfo.realName;
+        //     });
+        // }else {
+        //     $scope.poi.editHistoryData = false;
+        // }
     }
     /*编辑关联poi数据*/
     $scope.$on('editPoiInfo', function (event, data) {

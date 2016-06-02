@@ -5,31 +5,6 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     pKindFormat = $scope.$parent.metaData.kindFormat;
     pAllChain = $scope.$parent.metaData.allChain;
 
-    /*临时假数据*/
-    $scope.poi.contacts = [{
-        "priority": 1,
-        "type": 1,
-        "linkman": null,
-        "weChatUrl": null,
-        "number": "60509788",
-        "code":"010"
-    },
-        {
-            "priority": 2,
-            "type": 1,
-            "linkman": null,
-            "weChatUrl": null,
-            "number": "3456789",
-            "code":"0314"
-        },
-        {
-            "priority": 1,
-            "type": 2,
-            "linkman": null,
-            "weChatUrl": null,
-            "number": "18291898987",
-            "code":""
-        }]
 
     //初始化时让分类、品牌默认选中
     $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
@@ -37,8 +12,8 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         for (var i = 0; i < pKindList.length; i++) {
             if (pKindList[i].value == newVlaue) {
                 initChain(newVlaue);
-                if ($scope.poi.brands.length > 0) { //如果存在品牌则显示品牌
-                    $scope.selectedChain = $scope.poi.brands[0].code;
+                if ($scope.poi.chain) { //如果存在品牌则显示品牌
+                    $scope.selectedChain = $scope.poi.chain;
                 } else {
                     $scope.selectedChain = ""
                 }
@@ -80,11 +55,11 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     /*切换 分类（种别）*/
     $scope.kindChange = function(evt, obj) {
         $scope.poi.kindCode = obj.selectedKind; //会触发$scope.$watch('poi.kindCode'方法
-        $scope.poi.brands[0].code = "";
+        $scope.poi.chain = "";
     };
     /*切换 品牌*/
     $scope.brandChange = function (evt, obj){
-        $scope.poi.brands[0].code = obj.selectedChain;
+        $scope.poi.chain = obj.selectedChain;
         meta.getChainLevel($scope.poi.kindCode,obj.selectedChain).then(function (dataLevel){
             if (dataLevel) {
                 checkLevel(dataLevel);
@@ -93,14 +68,24 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     }
 
     $scope.addContact = function() {
-        $scope.poi.contacts.push({
-            type: 1,
-            code: "010",
-            number: null
-        });
+        $scope.poi.contacts.push(
+            new FM.dataApi.AuIxPoiContact({
+                contactType: 1,
+                code: "010",
+                contact: ""
+            })
+        );
+
     };
     $scope.deleteContact = function(index) {
         $scope.poi.contacts.splice(index, 1);
+    };
+
+    $scope.checkTelNo = function (index){
+        var temp = $scope.poi.contacts[index];
+        if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
+            temp.contactType = 2;
+        }
     };
 
 

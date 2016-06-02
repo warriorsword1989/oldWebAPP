@@ -38,44 +38,44 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 2: //加油站
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 3: //充电站
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 4: //宾馆酒店
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 5: //运动场馆
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 6: //餐馆
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 7: //加气站
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 8: //旅游景点
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 });
                 break;
             case 9:
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/chargingPoleCtl").then(function() {
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
                     // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                     $scope.$on('$includeContentLoaded', function ($event) {
                         $scope.$broadcast("loaded", data);
                     });
@@ -83,7 +83,7 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             default:
-                $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/chargingPoleTpl.html";
+                $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
                 break;
         }
     });
