@@ -669,6 +669,10 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     margin: 3px 0;
 }
 
+.tips-close > .close {
+    color: #fff;
+}
+
 
 /* ---------------------滚动条-------------------------------------------------- */
 

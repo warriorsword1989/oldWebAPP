@@ -1,12 +1,3 @@
-<style>
-   .checkboxbox {
-       border: 1px solid #aaa;
-       border-radius: 4px;
-       color: #fff;
-       margin-top: 5px;
-   }
-
-</style>
 <div ng-controller="parkingCtl">
     <div ng-show="propertyType=='deep'">
         <div class="fm-panel" >
@@ -14,7 +5,7 @@
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>类 型</label>
-                        <div class="checkboxbox">
+                        <div class="block">
                             <label ng-repeat="(key, value) in parkingBuildingType">
                                 <input type="radio" value="{{key}}" ng-model="buildingType"> {{value}}
                             </label>
@@ -22,18 +13,18 @@
                     </li>
                     <li>
                         <label>收费标准</label>
-                        <div class="checkboxbox">
+                        <div class="block">
                             <label ng-repeat="(key, value) in tollStd" ng-if="key != 5">
                                 <input type="checkbox" value="{{key}}" ng-model="tollStd" ng-change="tollStdChange($event, parking)"> {{value}}
                             </label>
-                            <label ng-repeat="(key, value) in tollStd" ng-if="key == 5" style="padding:0px;color:green">
+                            <label ng-repeat="(key, value) in tollStd" ng-if="key == 5" class="fm-specialopt">
                                 <input type="checkbox" value="{{key}}" ng-model="tollStd" ng-change="tollStdChange($event, parking)"> {{value}}
                             </label>
                         </div>
                     </li>
                     <li>
                         <label>收费方式</label>
-                        <div class="checkboxbox">
+                        <div class="block">
                             <label ng-repeat="(key, value) in tollWay">
                                 <input type="checkbox" value="{{key}}" ng-model="tollWay"> {{value}}
                             </label>
@@ -41,7 +32,7 @@
                     </li>
                     <li>
                         <label>收费备注</label>
-                        <div class="checkboxbox">
+                        <div class="block">
                             <label ng-repeat="(key, value) in remark">
                                 <input type="checkbox" value="{{key}}" ng-model="remark"> {{value}}
                             </label>
