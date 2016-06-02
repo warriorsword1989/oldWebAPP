@@ -124,6 +124,9 @@ fastmap.uikit.HighRenderController = (function () {
                                     } else if (this.highLightFeatures[item].type == 'adadmin') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawAdAdmin(this.highLightFeatures[item].id, feature, ctx);
+                                    } else if (this.highLightFeatures[item].type == 'poi') {
+                                        var feature = this.currentEditLayer.tiles[tile].data[feature];
+                                        this.drawPoi(this.highLightFeatures[item].id, feature, ctx);
                                     } else if (this.highLightFeatures[item].type == 'adface') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawPolygon(this.highLightFeatures[item].id, feature, ctx);
@@ -390,6 +393,36 @@ fastmap.uikit.HighRenderController = (function () {
                         drawy: -10
 
                     })
+                }
+            },
+            drawPoi: function (id, feature, ctx) {
+                if (feature.properties.id == id) {
+                    if (feature.properties.id === undefined) {
+                        return;
+                    }
+                    var geo = [];
+                    geo.push(feature.geometry.coordinates);
+                    geo.push([172,205]);
+                    this.layer._drawImg({
+                        ctx:ctx,
+                        geo:feature.geometry.coordinates,
+                        style:{src:'../../../images/poi/map/marker_red_16.png'},
+                        boolPixelCrs:true,
+                        drawy:-31
+                    });
+                    this.layer._drawLineString(ctx, geo, true, {
+                        strokeWidth: 1,
+                        strokeColor: 'red'
+                    }, {
+                        strokeWidth: 3,
+                        strokeColor: 'red'
+                    }, feature.properties);
+                    this.layer._drawImg({
+                        ctx:ctx,
+                        geo:[172,205],
+                        style:{src:'../../../images/poi/map/marker_circle.png'},
+                        boolPixelCrs:true
+                    });
                 }
             },
             drawPolygon: function (id, feature, ctx) {
