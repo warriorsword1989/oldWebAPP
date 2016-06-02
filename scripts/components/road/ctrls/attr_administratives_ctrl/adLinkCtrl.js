@@ -158,7 +158,7 @@ adLinkApp.controller("adLinkController",function($scope) {
         Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
             var info = null;
             adLink.redraw();
-            adnode.redraw();
+            adNode.redraw();
             if (data.errcode==0) {
                 var sInfo={
                     "op":"删除行政区划线成功",
