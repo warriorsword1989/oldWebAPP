@@ -6,7 +6,7 @@ fastmap.uikit.canvasFeature.RdGscMarker = fastmap.uikit.canvasFeature.Feature.ex
         this.geometry['coordinates'] = data.m.a;
         this.properties["featType"] = "RDGSC";
         this.properties['style'] = {};
-        this.properties['id'] = item.i;
+        this.properties['id'] = data.i;
         
     }
 });
