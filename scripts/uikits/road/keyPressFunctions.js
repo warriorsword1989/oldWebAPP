@@ -529,6 +529,10 @@ function keyEvent(ocLazyLoad, scope) {
                     })
                 } else if (shapeCtrl.editType === "addAdFaceLine") {
                     var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                    if(adLinksArr.length<2) {
+                        swal("操作失败", "请双击结束增加线段", "error");
+                        return;
+                    }
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",

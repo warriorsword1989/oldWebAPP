@@ -3,7 +3,7 @@ fastmap.uikit.canvasFeature.poiMarker = fastmap.uikit.canvasFeature.Feature.exte
     properties: {},
     setAttribute: function(data) {
         this.geometry['type'] = 'Point';
-        this.geometry['coordinates'] = data.m.a;
+        this.geometry['coordinates'] =data.g; //data.m.a;
         this.properties["featType"] = "poi";
         this.properties['markerStyle'] = {};
         this.properties['markerStyle']["icon"] = [];
