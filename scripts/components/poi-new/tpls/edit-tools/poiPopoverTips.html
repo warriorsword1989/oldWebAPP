@@ -8,10 +8,10 @@
         <button type="button" class="close" ng-click="closeTips();" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="meta-info col-sm-12">
-        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
-        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
-        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
-        <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+        <div ng-repeat="item in poi.attachmentsImage">
+            <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}" class="tips-img" alt="">
+        </div>
     </div>
     <div class="tips-middle">
         <div class="panel panel-default tips-panel">
@@ -62,8 +62,8 @@
         <div class="panel panel-default tips-panel">
             <div class="panel-body panel-tips">
                 <div class="col-sm-12 tips-info">
-                    <label class="col-sm-6 control-label text-right">备注：</label>
-                    <div class="col-sm-6"></div>
+                    <label class="col-sm-3 control-label text-right">备注：</label>
+                    <div class="col-sm-9" ng-bind="poi.poiMemo"></div>
                 </div>
             </div>
         </div>

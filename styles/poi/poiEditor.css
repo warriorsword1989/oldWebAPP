@@ -18,6 +18,10 @@ a:hover {
 .fm-banner {
     width: 50px;
     background-color: #222;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left: 0;
 }
 
 .fm-banner div {
@@ -31,7 +35,14 @@ a:hover {
     letter-spacing: 0;
     margin-top: 20px;
 }
-
+.fm-list-panel{
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    left:50px;
+}
 .text-success {
     color: #34B734;
 }
@@ -562,8 +573,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /*fadeIn animte*/
-
-.animated {
+.animated-fast {
+    -webkit-animation-duration: .2s !important;
+    animation-duration: .2s !important;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+/*.animated {
     -webkit-animation-duration: .2s;
     animation-duration: .2s;
     -webkit-animation-fill-mode: both;
@@ -622,7 +638,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fadeOutLeft {
     -webkit-animation-name: fadeOutLeft;
     animation-name: fadeOutLeft;
-}
+}*/
 
 /*重写了部分angular-chosen的样式*/
 
@@ -689,8 +705,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .tips-img {
     width: 57px;
+    height:57px;
     margin: 0;
     float: left;
+    cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 

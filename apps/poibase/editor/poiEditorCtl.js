@@ -25,7 +25,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.hideConsole = true;
     $scope.hideEditorPanel = true;
 
-
+    
     poiDS.getPoiList().then(function(data) {
         $scope.poiList = data.data;
     });
