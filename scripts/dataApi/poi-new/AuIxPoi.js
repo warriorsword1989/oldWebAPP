@@ -138,7 +138,6 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 	 */
 	getIntegrate: function(){
 		var ret = {};
-		ret["audataId"] = this.audataId;
 		ret["pid"] = this.pid;
 		ret["kindCode"] = this.kindCode;
 		ret["geometry"] = this.geometry;

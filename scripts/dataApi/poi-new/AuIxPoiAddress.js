@@ -7,10 +7,9 @@ FM.dataApi.AuIxPoiAddress = FM.dataApi.DataModel.extend({
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.audataId = data['audataId'];
         this.nameId = data['nameId'] || 0;
-        this.nameGroupId = data['nameGroupId'] || 1;
         this.poiPid = data['poiPid'] || 0;
+        this.nameGroupId = data['nameGroupId'] || 1;
         this.langCode = data['langCode'];
         this.srcFlag = data['srcFlag'];
         this.fullname = data['fullname'];
@@ -22,11 +21,11 @@ FM.dataApi.AuIxPoiAddress = FM.dataApi.DataModel.extend({
         this.town = data['town'];
         this.place = data['place'];
         this.street = data['street'];
-        this.landMark = data['landMark'];
+        this.landmark = data['landmark'];
         this.prefix = data['prefix'];
-        this.houseNum = data['houseNum'];
+        this.housenum = data['housenum'];
         this.type = data['type'];
-        this.subNum = data['subNum'];
+        this.subnum = data['subnum'];
         this.surfix = data['surfix'];
         this.estab = data['estab'];
         this.building = data['building'];
@@ -34,10 +33,6 @@ FM.dataApi.AuIxPoiAddress = FM.dataApi.DataModel.extend({
         this.unit = data['unit'];
         this.room = data['room'];
         this.addons = data['addons'];
-        this.attTaskId = data['attTaskId'];
-        this.fieldTaskId = data['fieldTaskId'];
-        this.attOprstatus = data['attOprstatus'];
-        this.attCheckStatus = data['attCheckStatus'];
     },
     getIntegrate: function(){
         var ret = {};
@@ -56,11 +51,11 @@ FM.dataApi.AuIxPoiAddress = FM.dataApi.DataModel.extend({
         ret['town'] = this.town;
         ret['place'] = this.place;
         ret['street'] = this.street;
-        ret['landMark'] = this.landMark;
+        ret['landmark'] = this.landmark;
         ret['prefix'] = this.prefix;
-        ret['houseNum'] = this.houseNum;
+        ret['housenum'] = this.housenum;
         ret['type'] = this.type;
-        ret['subNum'] = this.subNum;
+        ret['subnum'] = this.subnum;
         ret['surfix'] = this.surfix;
         ret['estab'] = this.estab;
         ret['building'] = this.building;
@@ -68,10 +63,6 @@ FM.dataApi.AuIxPoiAddress = FM.dataApi.DataModel.extend({
         ret['unit'] = this.unit;
         ret['room'] = this.room;
         ret['addons'] = this.addons;
-        ret['attTaskId'] = this.attTaskId;
-        ret['fieldTaskId'] = this.fieldTaskId;
-        ret['attOprstatus'] = this.attOprstatus;
-        ret['attCheckStatus'] = this.attCheckStatus;
         return ret;
     }
 });

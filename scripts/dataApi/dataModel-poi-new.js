@@ -26,7 +26,7 @@
 
                 "dataApi/poi-new/AuIxPoi.js",
                 "dataApi/poi-new/AuIxCheckResult.js",
-                "dataApi/poi-new/AuIxPoiAddresss.js",
+                "dataApi/poi-new/AuIxPoiAddress.js",
                 "dataApi/poi-new/AuIxPoiBuilding.js",
                 "dataApi/poi-new/AuIxPoiChildren.js",
                 "dataApi/poi-new/AuIxPoiContact.js",
