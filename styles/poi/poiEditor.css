@@ -657,9 +657,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .chosen-container-single .chosen-single {
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(50%, #333), color-stop(52%, #333), color-stop(100%, #333));
     padding: 0px 5px;
     color: #F3F6FA;
+    background-image: linear-gradient(#333 100%, #333 100%);
+    box-shadow: 0px 1px 0px #333 inset;
 }
 
 .chosen-container .chosen-drop {
@@ -682,6 +683,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .chosen-container .chosen-results li.no-results {
     color: #F3F6FA;
     background: #333;
+}
+.chosen-container-active.chosen-with-drop .chosen-single{
+    background-image:linear-gradient(#333 100%, #333 100%);
+    box-shadow: 0px 1px 0px #333 inset;
 }
 
 /*********************tips**********************/
@@ -722,9 +727,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     width: 100%;
     color: #fff;
 }
-
-.tips-info {
-    margin: 3px 0;
+.tips-info{
+    margin:3px 0;
 }
 
 .tips-close > .close{
@@ -756,4 +760,32 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     padding: 5px;
     margin-top: 30%;
     right:15px;
+}
+/*********************floatMenu**********************/
+.floatMenu{
+    display: none;
+    list-style-type: none;
+}
+.floatMenu>li{
+    /*position:absolute;*/
+    left:200px;
+    top:300px;
+    padding: 8px;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: blueviolet;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.floatMenu>li:hover{
+    color:blueviolet;
+    background-color: #00FF33;
+}
+
+.floatMenu>li>a {
+    font-size: 16px;
+    color: #FFF;
 }

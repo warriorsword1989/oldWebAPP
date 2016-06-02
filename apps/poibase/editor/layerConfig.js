@@ -130,7 +130,7 @@ App.layersConfig = [{
             options: {
                 layername: 'POI点数据',
                 id: 'poiPoint',
-                maxZoom: 20,
+                maxZoom: 22,
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,
@@ -142,40 +142,41 @@ App.layersConfig = [{
                 mecator: new fastmap.mapApi.MecatorTranform(),
                 updateWhenIdle: true,
                 tileSize: 256,
-                type: 'adAdminPoint',
+                type: 'poiPoint',
                 zIndex: 18,
                 restrictZoom: 10,
                 visible: true,
-                requestType: 'ADADMIN',
+                requestType: 'POI',
                 showNodeLevel: 17
             }
         },
+    //     {
+    //     url: App.Util.createTileRequestObjectForPoi('editsupport/infor/tile/?'),
+    //     clazz: fastmap.mapApi.tileJSON,
+    //     options: {
+    //         layername: 'POI点数据',
+    //         id: 'poiPoint',
+    //         maxZoom: 22,
+    //         debug: false,
+    //         // this value should be equal to 'radius' of your points
+    //         buffer: 8,
+    //         boolPixelCrs: true,
+    //         // parse: transformDataForPoi,
+    //         boundsArr: [],
+    //         unloadInvisibleTiles: true,
+    //         reuseTiles: false,
+    //         mecator: new fastmap.mapApi.MecatorTranform(),
+    //         updateWhenIdle: true,
+    //         tileSize: 256,
+    //         type: 'Point',
+    //         zIndex: 9,
+    //         restrictZoom: 10,
+    //         visible: false,
+    //         requestType: "",
+    //         showNodeLevel: 17
+    //     }
+    // },
         {
-        url: App.Util.createTileRequestObjectForPoi('editsupport/infor/tile/?'),
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: 'POI点数据',
-            id: 'poiPoint',
-            maxZoom: 22,
-            debug: false,
-            // this value should be equal to 'radius' of your points
-            buffer: 8,
-            boolPixelCrs: true,
-            // parse: transformDataForPoi,
-            boundsArr: [],
-            unloadInvisibleTiles: true,
-            reuseTiles: false,
-            mecator: new fastmap.mapApi.MecatorTranform(),
-            updateWhenIdle: true,
-            tileSize: 256,
-            type: 'Point',
-            zIndex: 9,
-            restrictZoom: 10,
-            visible: false,
-            requestType: "",
-            showNodeLevel: 17
-        }
-    }, {
         url: '',
         clazz: fastmap.mapApi.tileJSON,
         options: {
