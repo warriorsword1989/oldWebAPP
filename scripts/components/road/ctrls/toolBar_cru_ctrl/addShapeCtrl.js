@@ -739,7 +739,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         highlightFeatures.push({
                             id: data[i].data.properties.id.toString(),
                             layerid: 'referenceLine',
-                            type: 'rdgsc',
+                            type: 'RDGSC',
                             index: i,
                             style: {
                                 size: 5
@@ -848,7 +848,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                 highlightFeatures.push({
                                     id: jsonData.linkObjs[i].pid.toString(),
                                     layerid: 'referenceLine',
-                                    type: 'rdgsc',
+                                    type: 'RDGSC',
                                     index: jsonData.linkObjs[i].level_index,
                                     style: {
                                         size: 5
@@ -943,6 +943,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
+                        $scope.limitRelation.outLinkPid = data.id;
 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);

@@ -1,7 +1,7 @@
 <div ng-controller="baseInfoCtl">
     <div ng-show="propertyType=='base'">
         <div class="fm-panel" >
-            <div class="content" style="padding-bottom: 30px;">
+            <div class="content" style="padding-bottom: 76px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>名 称</label>
@@ -35,7 +35,7 @@
                             </select>
                         </div>
                     </li>
-                    <li>
+                    <li style="margin-top: 8px;">
                         <label>等 级</label>
                         <div>
                             <label ng-repeat="lev in levelArr">
@@ -67,12 +67,6 @@
                                 <input type="radio" name="indoor" value="0" ng-model="poi.indoor.type">
                                 否
                             </label>
-                        </div>
-                    </li>
-                    <li>
-                        <label class="control-label">备 注</label>
-                        <div class="inline">
-                            <textarea class="fm-control" ng-model="poi.attachmentsRemark"> </textarea>
                         </div>
                     </li>
                 </ul>

@@ -1,8 +1,13 @@
 angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
     var eventController = fastmap.uikit.EventController();
+    //属性编辑ctrl(解析对比各个数据类型)
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
-
+    var layerCtrl =  new fastmap.uikit.LayerController({config: App.layersConfig});
+    //检查数据ctrl(可以监听到检查数据变化)
+    var checkResultC=fastmap.uikit.CheckResultController();
+    //高亮ctrl
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
 
@@ -133,8 +138,88 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             default:
                 break;
         }
-        console.log($scope.hideConsole)
     }
+    /*检查结果中根据道路id获得道路的详细属性*/
+    $scope.$on('getRdObjectById',function(event,param){
+        var rdLink = layerCtrl.getLayerById('referenceLine');
+        var workPoint = layerCtrl.getLayerById('workPoint');
+        var restrictLayer = layerCtrl.getLayerById("referencePoint");
+        highRenderCtrl._cleanHighLight();
+        if(highRenderCtrl.highLightFeatures!=undefined){
+            highRenderCtrl.highLightFeatures.length = 0;
+        }
+        //线高亮
+        if(param.type == 'RDLINK'){
+            poiDS.getRdObjectById(param.id,param.type).then(function(data) {
+                var highlightFeatures = [];
+                var linkArr = data.geometry.coordinates, points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point = L.latLng(linkArr[i][1], linkArr[i][0]);
+                    points.push(point);
+                }
+                var line = new L.polyline(points);
+                var bounds = line.getBounds();
+                map.fitBounds(bounds, {"maxZoom": 19});
+
+                highlightFeatures.push({
+                    id: param.id.toString(),
+                    layerid: 'referenceLine',
+                    type: 'line',
+                    style: {}
+                });
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        } else if (type == "RDRESTRICTION") {//交限高亮
+            var limitPicArr = [];
+            layerCtrl.pushLayerFront('referencePoint');
+            poiDS.getRdObjectById(param.id,param.type).then(function(data) {
+                objectCtrl.setCurrentObject("RDRESTRICTION", data);
+
+                ////高亮进入线和退出线
+                var hightlightFeatures = [];
+                hightlightFeatures.push({
+                    id: data.pid.toString(),
+                    layerid: 'restriction',
+                    type: 'restriction',
+                    style: {}
+                })
+                hightlightFeatures.push({
+                    id: objectCtrl.data["inLinkPid"].toString(),
+                    layerid: 'referenceLine',
+                    type: 'line',
+                    style: {}
+                })
+
+                for (var i = 0, len = (objectCtrl.data.details).length; i < len; i++) {
+
+                    hightlightFeatures.push({
+                        id: objectCtrl.data.details[i].outLinkPid.toString(),
+                        layerid: 'referenceLine',
+                        type: 'line',
+                        style: {}
+                    })
+                }
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        } else {//其他tips高亮
+            layerCtrl.pushLayerFront("workPoint");
+            Application.functions.getTipsResult(id, function (data) {
+                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+
+                var highlightFeatures=[];
+                highlightFeatures.push({
+                    id:data.rowkey,
+                    layerid:'workPoint',
+                    type:'workPoint',
+                    style:{}
+                });
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        }
+    });
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);

@@ -397,6 +397,18 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
+                }else if (shapeCtrl.editType === "RDBRANCH") {
+                    param = {
+                        "command": "CREATE",
+                        "type": "RDBRANCH",
+                        "projectId": Application.projectid,
+                        "data": featCodeCtrl.getFeatCode()
+                    };
+                    Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("relationdata").redraw();
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
+                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
+                    })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",

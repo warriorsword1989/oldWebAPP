@@ -8,7 +8,7 @@ rdRestrictionApp.controller("addRdRestrictionController", ["$scope", '$ocLazyLoa
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var eventController = fastmap.uikit.EventController();
-    var rdLink = layerCtrl.getLayerById('relationdata');
+    var rdLink = layerCtrl.getLayerById('referenceLine');
     var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.inLaneInfoArr = [];
     $scope.directData = objCtrl.originalData;

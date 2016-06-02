@@ -18,6 +18,8 @@
                 "dataApi/poi/IxPoiContact.js",
                 "dataApi/poi/IxPoiImage.js",
                 "dataApi/poi/IxPoiName.js",
+                "dataApi/poi-new/AuIxCheckResult.js",
+                "dataApi/poi-new/AuIxOutput.js",
                 "dataApi/poi/IxPoiConstant.js",
                 "dataApi/poi/IxCheckResult.js",
                 "dataApi/poi/IxEditHistory.js"

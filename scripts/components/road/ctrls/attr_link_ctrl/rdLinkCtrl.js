@@ -8,11 +8,8 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var rdLink = layerCtrl.getLayerById("referenceLine");
     var referenceNode=layerCtrl.getLayerById("referenceNode");
-    var restriction=layerCtrl.getLayerById("restriction");
-    var rdlaneconnexity=layerCtrl.getLayerById("rdlaneconnexity");
     var editLayer = layerCtrl.getLayerById('edit');
-    var rdCross = layerCtrl.getLayerById("rdcross");
-    var rdgsc = layerCtrl.getLayerById('rdGsc');
+    var rdCross = layerCtrl.getLayerById("relationdata");
     var outputCtrl = fastmap.uikit.OutPutController({});
     var toolTipsCtrl = fastmap.uikit.ToolTipsController();
     var eventController = fastmap.uikit.EventController();
@@ -333,9 +330,6 @@ myApp.controller('linkObjectController', ['$scope', '$ocLazyLoad',function ($sco
             rdLink.redraw();
             referenceNode.redraw();
             rdCross.redraw();
-            restriction.redraw();
-            rdlaneconnexity.redraw();
-            rdgsc.redraw();
 
             if (data.errcode==0) {
                 var sinfo={

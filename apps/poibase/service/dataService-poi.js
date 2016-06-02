@@ -276,4 +276,50 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
+    /*获取检查结果*/
+    this.getCheckData = function(num){
+        var defer = $q.defer();
+        var params = {
+            projectId: App.Temp.projectId,
+            pageNum: num,
+            pageSize: 5,
+            grids: App.Temp.meshList
+        };
+        ajax.get("edit/check/get", {parameter:JSON.stringify(params)}).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查找检查结果信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
+    /**
+     * 根据道路id获得道路的详细属性
+     * @param id
+     * @param type
+     */
+    this.getRdObjectById = function(id,type){
+        var defer = $q.defer();
+        var params = {
+            projectId: App.Temp.projectId,
+            type: type,
+            pid: id
+        };
+        ajax.get("edit/getByPid", {
+            parameter:JSON.stringify(params),
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查找道路属性信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    }
 }]);
