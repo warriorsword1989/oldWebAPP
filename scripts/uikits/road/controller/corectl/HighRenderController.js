@@ -117,7 +117,7 @@ fastmap.uikit.HighRenderController = (function () {
                                     }  else if (this.highLightFeatures[item].type == 'workPoint') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         this.drawTips(this.highLightFeatures[item].id, feature, ctx);
-                                    } else if (this.currentEditLayer.tiles[tile].data[feature].properties.featType == 'RDGSC') {
+                                    } else if (this.highLightFeatures[item].type == 'RDGSC') {
                                         var feature = this.currentEditLayer.tiles[tile].data[feature];
                                         cusFeature = this.highLightFeatures[item];
                                         this.drawOverpass(this.highLightFeatures[item].id, feature, ctx, cusFeature);

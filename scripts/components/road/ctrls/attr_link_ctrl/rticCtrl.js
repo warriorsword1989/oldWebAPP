@@ -10,7 +10,7 @@ realtimeTrafficApp.controller("realtimeTrafficController", function ($scope) {
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var rdLink = layerCtrl.getLayerById('referenceLine');
-    var rdCross = layerCtrl.getLayerById("rdcross")
+    var rdCross = layerCtrl.getLayerById("relationdata")
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     $scope.rticData =  objCtrl.data;
