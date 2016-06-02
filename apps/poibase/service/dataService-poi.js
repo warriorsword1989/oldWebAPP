@@ -335,5 +335,27 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             defer.reject(rejection);
         });
         return defer.promise;
+    };
+    //获取检查状态
+    this.updateCheckType = function(id,type){
+        var defer = $q.defer();
+        var params = {
+            projectId: App.Temp.projectId,
+            type: type,
+            id: id
+        };
+        ajax.get("edit/check/update", {
+            parameter:JSON.stringify(params),
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("获取检查状态出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
     }
 }]);

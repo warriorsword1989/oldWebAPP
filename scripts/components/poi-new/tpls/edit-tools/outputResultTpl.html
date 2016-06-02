@@ -11,14 +11,10 @@
             <tr ng-if="!poi.checkResultData || poi.checkResultData.length == 0">
                 <td colspan="{{theadInfo.length}}" class="text-center">暂时无输出结果</td>
             </tr>
-            <tr ng-repeat="item in poi.checkResultData">
-                <td>{{item.errorMsg || item.description}}</td>
-                <td>
-                    <a ng-if="item.type == 0" class="textColorRed" href="javascript:void(0);" ng-click="ignoreCheckResult(item);">忽略</a>
-                    <p ng-if="item.type == 1" class="fm-console-table-p text-muted">忽略</p>
-                    <p ng-if="item.type == 2" class="fm-console-table-p text-success">已忽略</p>
-                </td>
-                <td>{{item.errorCode}}</td>
+            <tr ng-repeat="item in outputResult">
+                <td>{{item.op}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.pid}}</td>
             </tr>
         </tbody>
     </table>
