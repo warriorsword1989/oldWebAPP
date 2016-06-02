@@ -27,6 +27,20 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
 
         return defer.promise;
     };
+    this.getPoiDetailByFidTest = function(fid) {
+        var defer = $q.defer();
+
+
+
+            // $http.get("../service/poi.json")
+            //     .success(function(response) {
+            //         console.info("2",data);
+            //     }).error(function(data,header,config,status){
+            //     console.info("1",data);
+            // });
+
+        return defer.promise;
+    };
     this.getPoiSnapshot = function (fid) {
         var defer = $q.defer();
         var param = {

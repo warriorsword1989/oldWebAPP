@@ -128,7 +128,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             case 'left':
                 break;
             case 'right':
-                $scope.hideEditorPanel = !$scope.hideEditorPanel;
+                $scope.hideEditorPanel = !$scope.hideEditorPanel
                 break;
             default:
                 break;
@@ -375,7 +375,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $scope.checkRuleList = data;
     }));
     /*临时数据*/
-    promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    promises.push(poiDS.getPoiDetailByFidTest("0010060815LML01353").then(function(data) {
         $scope.poi = data;
         
     }));

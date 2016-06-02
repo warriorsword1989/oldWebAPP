@@ -1,0 +1,80 @@
+{
+  "pid": 6718,
+  "postCode": "710010",
+  "kindCode": "230227",
+  "open24H": 2,
+  "chain": "3049",
+  "names": [
+    {
+      "namePhonetic": "Bei Jing Shi Jing Lian Xin Lu Yong Cai Liao You Xian Gong Si",
+      "nameType": 2,
+      "langCode": "CHI",
+      "nameClass": 1,
+      "name": "北京市京联鑫路用材料有限公司"
+    },
+    {
+      "namePhonetic": "Jing Lian Xin Lu Yong Cai Liao Gong Si",
+      "nameType": 1,
+      "langCode": "CHI",
+      "nameClass": 1,
+      "name": "京联鑫路用材料公司"
+    }
+  ],
+  "addresses": [
+    {
+      "langCode": "CHI",
+      "fullname": "北京市马驹桥镇西田阳村"
+    }
+  ],
+  "contacts": [
+    {
+      "priority": 1,
+      "type": 1,
+      "number": "010-60509788"
+    },
+    {
+      "priority": 2,
+      "type": 1,
+      "number": "0314-3456789"
+    },
+    {
+      "priority": 3,
+      "type": 2,
+      "number": "18219898903"
+    }
+  ],
+  "parents":[
+    {
+      "parentPoiPid":'6718'
+    }
+  ],
+  "children":[
+    {
+      "childPoiPid":'6718'
+    },{
+      "childPoiPid":'6718'
+    }
+  ],
+  "nameFlag":[],
+  "entryimages":[],
+  "icons":[],
+  "photos":[],
+  "samppois":[],
+  "samepoiParts":[],
+  "buildings":[],
+  "details":[],
+  "businesstimes":[],
+  "introductions":[],
+  "advertisements":[],
+  "gasstations":[],
+  "chargingstations":[],
+  "chargingplots":[],
+  "parkings":[],
+  "parkings":[],
+  "attractions":[],
+  "hotels":[],
+  "restrurants":[],
+  "tourroutes":[],
+  "enents":[],
+  "carrentals":[]
+}
