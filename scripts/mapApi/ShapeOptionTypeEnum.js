@@ -61,6 +61,14 @@ fastmap.mapApi.ShapeOptionType={
     /*
      上下线分离
      */
-    'PATHBUFFER':"pathBuffer"
+    'PATHBUFFER':"pathBuffer",
+    /*
+     移动显示坐标点
+     */
+    'POILOCMOVE':"poiLocMove",
+    /*
+     移动引导坐标点
+     */
+    'POIGUIDEMOVE':"poiGuideMove"
 
 }

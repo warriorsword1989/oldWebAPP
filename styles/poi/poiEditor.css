@@ -708,6 +708,39 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     width: 100%;
     color: #fff;
 }
+<<<<<<< HEAD
+.tips-info{
+    margin:3px 0;
+}
+
+/*********************floatMenu**********************/
+.floatMenu{
+    display: none;
+    list-style-type: none;
+}
+.floatMenu>li{
+    /*position:absolute;*/
+    left:200px;
+    top:300px;
+    padding: 8px;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: blueviolet;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.floatMenu>li:hover{
+    color:blueviolet;
+    background-color: #00FF33;
+}
+
+.floatMenu>li>a{
+    font-size: 16px;
+    color:#FFF;
+=======
 
 .tips-info {
     margin: 3px 0;
@@ -715,4 +748,5 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .tips-close > .close{
     color: #fff;
+>>>>>>> 0f23eea41ea61c27d5594012c5ba22bcbc97a4e3
 }

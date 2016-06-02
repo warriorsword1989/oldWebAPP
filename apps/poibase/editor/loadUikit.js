@@ -19,6 +19,7 @@
         "controller/tools/selecttools/SelectDataTips.js",
         "controller/tools/selecttools/SelectForRestriction.js",
         "controller/tools/selecttools/SelectNode.js",
+        "controller/tools/selecttools/SelectPoi.js",
         "controller/tools/selecttools/SelectObject.js",
         "controller/tools/selecttools/SelectPath.js",
         "controller/tools/selecttools/SelectPolygon.js",
