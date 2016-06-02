@@ -40,7 +40,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $scope.outputType = val;
     };
     $scope.selectData = function(data) {
-        $scope.tips_show = 'animated fadeInLeft';
         $scope.selectedPoi = data;
         $scope.selectedPoi.contacts = [{
             type: 1,
@@ -94,9 +93,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         /*弹出tips*/
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
             $scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+            $scope.showPopoverTips = true;
         });
     };
-
+    /*关闭popoverTips状态框*/
+    $scope.$on('closePopoverTips',function(event,data){
+        $scope.showPopoverTips = false;
+    })
     $scope.doIgnore = function(val) {
         alert(val);
     };
@@ -219,6 +222,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 highRenderCtrl.drawHighlight();
             });
         }
+    });
+    /*修改状态*/
+    $scope.$on('updateCheckType',function(event,param){
+        poiDS.updateCheckType(param.id,param.type).then(function(data){
+            console.log('修改成功')
+        });
     });
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {

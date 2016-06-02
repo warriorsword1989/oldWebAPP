@@ -62,17 +62,22 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
     ];
     //修改状态
     $scope.changeType = function (selectInd, rowid) {
-        var params = {
+        /*var params = {
             "projectId": Application.projectid,
             "id": rowid,
             "type": selectInd
-        };
-        Application.functions.updateCheckType(JSON.stringify(params), function (data) {
+        };*/
+        var params = {
+            id:rowid,
+            type:selectInd
+        }
+        $scope.$emit('updateCheckType',params);
+        /*Application.functions.updateCheckType(JSON.stringify(params), function (data) {
             if (data.errcode == 0) {
                 $scope.$apply();
                 $scope.getCheckDateAndCount();
             }
-        });
+        });*/
     }
 
 

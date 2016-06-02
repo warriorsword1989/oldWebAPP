@@ -56,7 +56,7 @@ a:hover {
     height: 15px;
 }
 
-a.fm-panel-controlArrowUp>span {
+a.fm-panel-controlArrowUp > span {
     background: url("../../images/road/img/arrow-up.png") no-repeat;
     margin-top: 3px;
     height: 10px;
@@ -66,7 +66,7 @@ a.fm-panel-controlArrowUp>span {
     transition: all 0s;
 }
 
-a.fm-panel-controlArrowDown>span {
+a.fm-panel-controlArrowDown > span {
     background: url("../../images/road/img/arrow-down.png") no-repeat;
     margin-top: 3px;
     height: 10px;
@@ -85,7 +85,6 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     text-align: center;
     transition: all 0s;
 }
-
 
 /**************************************nnade***************************************************/
 
@@ -308,7 +307,9 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .fm-specialopt {
     color: greenyellow;
-};
+}
+
+;
 /************************* 图片资源 ******************************/
 
 .icon_3d {
@@ -328,7 +329,6 @@ label > input[type='radio'], label > input[type='checkbox'] {
     width: 24px;
     height: 24px;
 }
-
 
 /******************************** 文件上传 **************************************/
 
@@ -428,8 +428,18 @@ label > input[type='radio'], label > input[type='checkbox'] {
     position: relative;
 }
 
-
 /**************************控制台************************/
+.fm-target {
+    color: #a4a4e1 !important;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.fm-target:hover {
+    color: #7F7FE7 !important;
+    cursor: pointer;
+    font-weight: bold;
+}
 
 .fm-console-panel {
     bottom: 237px;
@@ -475,7 +485,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     width: 100%;
 }
 
-.fm-editor-panel{
+.fm-editor-panel {
     width: 315px;
     height: 100%;
     position: absolute;
@@ -483,12 +493,15 @@ label > input[type='radio'], label > input[type='checkbox'] {
     background-color: transparent;
     border: none;
 }
-.fm-editor-panel-normal{
+
+.fm-editor-panel-normal {
     margin-right: 0px;
 }
-.fm-editor-panel-sm{
+
+.fm-editor-panel-sm {
     margin-right: -300px;
 }
+
 .fm-editor-arrow {
     width: 15px;
     height: 100%;
@@ -497,11 +510,11 @@ label > input[type='radio'], label > input[type='checkbox'] {
     left: 0px;
 }
 
-.fm-editor-arrow a.fm-panel-controlArrowLeft>span {
+.fm-editor-arrow a.fm-panel-controlArrowLeft > span {
     background: url("../../images/road/img/arrow-left.png");
 }
 
-.fm-editor-arrow a.fm-panel-controlArrowRight>span {
+.fm-editor-arrow a.fm-panel-controlArrowRight > span {
     background: url("../../images/road/img/arrow-right.png");
 }
 
@@ -519,13 +532,12 @@ a.fm-panel-controlArrowLeft, a.fm-panel-controlArrowRight {
     cursor: pointer;
 }
 
-a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
+a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     display: inline-block;
     width: 10px;
     height: 20px;
     margin-top: 10px;
 }
-
 
 /**********tips style**********/
 
@@ -548,7 +560,6 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     /*opacity: 0.9;*/
     padding: 10px;
 }
-
 
 /*fadeIn animte*/
 
@@ -586,6 +597,32 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     animation-name: fadeInLeft;
 }
 
+@-webkit-keyframes fadeOutLeft {
+    from {
+        opacity: 0.9;
+        width: 250px;
+    }
+    to {
+        opacity: 0;
+        width: 0px;
+    }
+}
+
+@keyframes fadeOutLeft {
+    from {
+        opacity: 0.9;
+        width: 250px;
+    }
+    to {
+        opacity: 0;
+        width: 0;
+    }
+}
+
+.fadeOutLeft {
+    -webkit-animation-name: fadeOutLeft;
+    animation-name: fadeOutLeft;
+}
 
 /*重写了部分angular-chosen的样式*/
 
@@ -631,12 +668,10 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     background: #333;
 }
 
-
 /*********************tips**********************/
 
 .tips-title {
     float: left;
-    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -672,4 +707,8 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 
 .tips-info {
     margin: 3px 0;
+}
+
+.tips-close > .close{
+    color: #fff;
 }

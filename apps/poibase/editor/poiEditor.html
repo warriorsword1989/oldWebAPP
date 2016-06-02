@@ -139,7 +139,7 @@
                             </div>
                             <div ng-include="consoleDeskTpl"></div>
                         </div>
-                        <div class="popoverTips" ng-class="tips_show">
+                        <div ng-class="{true:'popoverTips animated fadeInLeft',false:'popoverTips animated fadeOutLeft'}[showPopoverTips]">
                             <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
                             <!--<div class="tipsPanel">
                                 <div ng-include="poiPopoverTipsTpl" style="width:100%;"></div>
