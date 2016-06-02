@@ -1,4 +1,4 @@
-angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope) {
+angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$ocLazyLoad', function($scope,$uibModal,$ocll) {
     initData();
     function initData(){
         // console.log($scope.poi.attachmentsImage)
@@ -10,6 +10,24 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
             }
         }
     }
+    /*查看图片*/
+    $scope.showImage = function(img){
+        $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
+            console.log(img)
+            $uibModal.open({
+                animation: true,
+                templateUrl: 'tipsModalContent',
+                controller: 'ShowTipsPicCtl',
+                backdrop:false,
+                resolve: {
+                    $image: function () {
+                        return img;
+                    }
+                }
+            });
+        });
+    }
+    /*关闭tips事件*/
     $scope.closeTips = function(){
         $scope.$emit('closePopoverTips',true);
     }

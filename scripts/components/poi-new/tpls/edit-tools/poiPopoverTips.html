@@ -10,7 +10,7 @@
     <div class="meta-info col-sm-12">
         <div ng-repeat="item in poi.attachmentsImage">
             <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
-            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}" class="tips-img" alt="">
+            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}" ng-click="showImage(item);" class="tips-img" alt="">
         </div>
     </div>
     <div class="tips-middle">
@@ -68,4 +68,26 @@
             </div>
         </div>
     </div>
+    <!--照片查看model-->
+    <script type="text/ng-template" id="tipsModalContent">
+        <div class="modal-header">
+            <h3 class="modal-title">查看照片</h3>
+        </div>
+        <div class="modal-body">
+            <div class="switch-left">
+                <span></span>
+                <img src="../../../images/road/img/left.png" alt="">
+            </div>
+            <div class="switch-right">
+                <span></span>
+                <img src="../../../images/road/img/right.png" alt="">
+            </div>
+            <div id="originImgPanel">
+                <img id="poiTipsOriginImg" ng-src="{{imageNow.url}}"/>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-default" type="button" ng-click="cancel()">关闭</button>
+        </div>
+    </script>
 </div>

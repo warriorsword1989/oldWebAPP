@@ -730,3 +730,30 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .tips-close > .close{
     color: #fff;
 }
+
+#poiTipsOriginImg{
+    width:100%;
+}
+.switch-left > span{
+    background: url("../../../images/road/img/left.png");
+    height:40px;
+    width:40px;
+    position: absolute;
+}
+.switch-left > img{
+    position: absolute;
+    background-color: #e5e5e5;
+    height: 43px;
+    width: 27px;
+    padding: 5px;
+    margin-top: 30%;
+}
+.switch-right > img{
+    position: absolute;
+    background-color: #e5e5e5;
+    height: 43px;
+    width: 27px;
+    padding: 5px;
+    margin-top: 30%;
+    right:15px;
+}
