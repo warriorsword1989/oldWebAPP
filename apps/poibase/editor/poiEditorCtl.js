@@ -104,7 +104,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         alert(list.length);
     };
     $scope.save = function() {
-        console.log($scope.selectedPoi);
+        console.log("poi:",$scope.poi);
+        console.info("poi.getIntegrate",$scope.poi.getIntegrate());
     };
     $scope.changeParkingFee = function(data) {
         mutex($scope.selectedPoi.parkingFee, ["3"], data);
@@ -461,9 +462,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $scope.checkRuleList = data;
     }));
     /*临时数据*/
+    // promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    //     $scope.poi = data;
+    // }));
     promises.push(poiDS.getPoiDetailByFidTest("0010060815LML01353").then(function(data) {
         $scope.poi = data;
-        
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {

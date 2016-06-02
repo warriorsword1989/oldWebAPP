@@ -29,16 +29,16 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     };
     this.getPoiDetailByFidTest = function(fid) {
         var defer = $q.defer();
-
-
-
-            // $http.get("../service/poi.json")
-            //     .success(function(response) {
-            //         console.info("2",data);
-            //     }).error(function(data,header,config,status){
-            //     console.info("1",data);
-            // });
-
+        ajax.getLocalJson("../service/poi.json").success(function(data) {
+            if (data) {
+                var poi = new FM.dataApi.AuIxPoi(data);
+                defer.resolve(poi);
+            } else {
+                defer.resolve("读取POI文件出错了.");
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
         return defer.promise;
     };
     this.getPoiSnapshot = function (fid) {
