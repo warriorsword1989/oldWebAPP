@@ -27,7 +27,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
 
         return defer.promise;
     };
-    this.getPoiDetailByFidTest = function(fid) {
+    this.getPoiDetailByFidTest = function() {
         var defer = $q.defer();
         ajax.getLocalJson("../service/poi.json").success(function(data) {
             if (data) {

@@ -41,15 +41,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
     $scope.selectData = function(data) {
         $scope.selectedPoi = data;
-        $scope.selectedPoi.contacts = [{
-            type: 1,
-            code: '010',
-            number: '8877669978'
-        }, {
-            type: 2,
-            code: null,
-            number: '18877669978'
-        }];
         $scope.selectedPoi.checkResults = [{
             errorCode: 'YYMM-1001',
             errorMessage: '这是一个检查结果测试',
@@ -137,7 +128,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             case 'left':
                 break;
             case 'right':
-                $scope.hideEditorPanel = !$scope.hideEditorPanel
+                $scope.hideEditorPanel = !$scope.hideEditorPanel;
                 break;
             default:
                 break;
@@ -467,14 +458,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
     }));
-    promises.push(meta.queryRule().then(function (data) {
-        $scope.checkRuleList = data;
-    }));
     /*临时数据*/
     // promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
     //     $scope.poi = data;
     // }));
-    promises.push(poiDS.getPoiDetailByFidTest("0010060815LML01353").then(function(data) {
+    promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
     }));
     /*查询3DIcon*/
