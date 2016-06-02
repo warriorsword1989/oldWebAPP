@@ -1,12 +1,12 @@
 angular.module('app').controller('OutputResultCtl', ['$scope', function($scope) {
 
     $scope.theadInfo = ['操作','类型','编号'];
-    /*检查结果忽略操作*/
-    $scope.ignoreCheckResult = function(item){
-        $scope.$emit('ignoreItem',item);
-    }
-    /*显示关联poi数据*/
-    $scope.showCRRefFtInMap = function(index){
-        $scope.$emit('getRefFtInMap',$scope.poi.checkResultData[index].refFeatures);
-    }
+
+    $scope.outputResult = [
+        new FM.dataApi.AuIxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+        new FM.dataApi.AuIxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+        new FM.dataApi.AuIxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+        new FM.dataApi.AuIxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
+        new FM.dataApi.AuIxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"})
+    ];
 }]);

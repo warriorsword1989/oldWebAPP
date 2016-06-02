@@ -159,6 +159,7 @@ function keyEvent(ocLazyLoad, scope) {
                             ctrl = 'attr_link_ctrl/rdLinkCtrl';
                             tpl = 'attr_link_tpl/rdLinkTpl.html';
 
+
                         } else if (shapeCtrl.editFeatType === "adLink") {
                             param["type"] = "ADLINK";
                             showContent = "创建AdLink成功";
@@ -396,6 +397,18 @@ function keyEvent(ocLazyLoad, scope) {
                         treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
                             'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
                     })
+                }else if (shapeCtrl.editType === "RDBRANCH") {
+                    param = {
+                        "command": "CREATE",
+                        "type": "RDBRANCH",
+                        "projectId": Application.projectid,
+                        "data": featCodeCtrl.getFeatCode()
+                    };
+                    Application.functions.editGeometryOrProperty(JSON.stringify(param), function (data) {
+                        layerCtrl.getLayerById("relationdata").redraw();
+                        treatmentOfChanged(data, "RDBRANCH", "创建RDBRANCH成功",
+                            'attr_branch_ctrl/rdBranchCtrl', 'attr_branch_Tpl/namesOfBranch.html');
+                    })
                 } else if (shapeCtrl.editType === "addRdCross") {
                     param = {
                         "command": "CREATE",
@@ -516,6 +529,10 @@ function keyEvent(ocLazyLoad, scope) {
                     })
                 } else if (shapeCtrl.editType === "addAdFaceLine") {
                     var adLinksArr = selectCtrl.selectedFeatures.adLinks;
+                    if(adLinksArr.length<2) {
+                        swal("操作失败", "请双击结束增加线段", "error");
+                        return;
+                    }
                     param = {
                         "command": "CREATE",
                         "type": "ADFACE",

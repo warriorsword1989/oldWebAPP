@@ -5,7 +5,7 @@ var App = {};
 App.Config = {
     appType: "WEB",
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "000002TJ00O86LN5FABC9FED222F8533BD8B8255C4AA1F2C",
+    accessToken: "0000029900O86931496D25316A803D1331D9726359A3F772",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     generalUrl: 'http://192.168.4.188/service',
@@ -36,6 +36,9 @@ App.Util = {
     },
     getHbaseUrl: function(url) {
         return App.Config.hbaseServiceUrl + "/" + url;
+    },
+    getGeneralUrl:function(url) {
+        return App.Config.generalUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
     },
     createTileRequestObject: function(url, requestType) {
         var reqObj = {};

@@ -73,9 +73,15 @@ angular.module("dataService", [], function ($httpProvider) {
     });
 }).service("ajax", ["$http", function($http) {
     this.get = function(url, param) {
-        return $http.get(App.Util.getFullUrl(url), {
-            params: param
-        });
+        if(param.urlType == 'general'){
+            return $http.get(App.Util.getGeneralUrl(url), {
+                params: param
+            });
+        }else{
+            return $http.get(App.Util.getFullUrl(url), {
+                params: param
+            });
+        }
     };
     this.hbaseGet = function(url, param) {
         return $http.get(App.Util.getHbaseUrl(url), {
@@ -84,5 +90,8 @@ angular.module("dataService", [], function ($httpProvider) {
     };
     this.post = function(url, param) {
         return $http.post(App.Util.getFullUrl(url), param);
+    };
+    this.getLocalJson = function (url){
+        return $http.get(url,{});
     };
 }]);

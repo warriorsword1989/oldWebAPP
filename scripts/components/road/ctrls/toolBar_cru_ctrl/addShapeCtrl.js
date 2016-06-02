@@ -563,14 +563,35 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                 eventController.on(eventController.eventTypes.GETLINKID, function (data) {
                     if (data.index === 0) {
                         $scope.limitRelation.inLinkPid = parseInt(data.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id:  $scope.limitRelation.inLinkPid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setStyleTooltip("color:black;");
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入线,选择进入点!");
                     } else if (data.index === 1) {
                         $scope.limitRelation.nodePid = parseInt(data.id);
+                        highRenderCtrl.highLightFeatures.push({
+                            id:  $scope.limitRelation.nodePid.toString(),
+                            layerid: 'referenceLine',
+                            type: 'rdnode',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
                         tooltipsCtrl.setStyleTooltip("color:red;");
                         tooltipsCtrl.setChangeInnerHtml("已经选择进入点,选择退出线!");
                     } else if (data.index > 1) {
                         $scope.excitLineArr.push(parseInt(data.id));
+                        highRenderCtrl.highLightFeatures.push({
+                            id:  data.id.toString(),
+                            layerid: 'referenceLine',
+                            type: 'line',
+                            style: {}
+                        });
+                        highRenderCtrl.drawHighlight();
                         $scope.limitRelation.outLinkPid = $scope.excitLineArr[0];
                         tooltipsCtrl.setChangeInnerHtml("已选退出线,点击空格键保存!");
                     }
@@ -718,7 +739,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         highlightFeatures.push({
                             id: data[i].data.properties.id.toString(),
                             layerid: 'referenceLine',
-                            type: 'rdgsc',
+                            type: 'RDGSC',
                             index: i,
                             style: {
                                 size: 5
@@ -822,12 +843,12 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                                     jsonData.linkObjs[i].level_index = +1;
                                 }
                             }
-                            /*重绘link颜色*/
+                            /*重绘link颜f色*/
                             for (var i = 0; i < jsonData.linkObjs.length; i++) {
                                 highlightFeatures.push({
                                     id: jsonData.linkObjs[i].pid.toString(),
                                     layerid: 'referenceLine',
-                                    type: 'rdgsc',
+                                    type: 'RDGSC',
                                     index: jsonData.linkObjs[i].level_index,
                                     style: {
                                         size: 5
@@ -922,6 +943,7 @@ addShapeApp.controller("addShapeController", ['$scope', '$ocLazyLoad', function 
                         }
                     } else if (data.index > 1) {
                         $scope.getOutLink(data.id);
+                        $scope.limitRelation.outLinkPid = data.id;
 
                     }
                     featCodeCtrl.setFeatCode($scope.limitRelation);

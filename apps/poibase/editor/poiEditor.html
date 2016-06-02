@@ -104,11 +104,30 @@
                         </div>
                         <div class="fm-editor-panel" ng-class="{false:'fm-editor-panel-sm',true:'fm-editor-panel-normal'}[hideEditorPanel]">
                             <div class="fm-editor-arrow">
-                                <a ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#" style="position: absolute;top: 50%;margin-top: -20px;cursor: pointer;">
+                                <a ng-class="{false:'fm-panel-controlArrowLeft',true:'fm-panel-controlArrowRight'}[hideEditorPanel]" ng-click="changePanelShow('right')" href="#" style="">
                                     <span></span>
                                 </a>
                             </div>
                             <div ng-include="generalBaseTpl"></div>
+                            <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;">
+                                <div class="btn-group btn-group-justified">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-xs fm-btn" ng-click="save()">
+                                            <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-xs fm-btn" ng-click="delete()">
+                                            <i class="glyphicon glyphicon-trash"></i> 删 除
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-xs fm-btn" ng-click="cancel()">
+                                            <i class="glyphicon glyphicon-floppy-remove"></i> 取 消
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -121,31 +140,13 @@
                             </div>
                             <div ng-include="consoleDeskTpl"></div>
                         </div>
-                        <div class="popoverTips" ng-class="tips_show">
+                        <div ng-class="{true:'popoverTips animated fadeInLeft',false:'popoverTips animated fadeOutLeft'}[showPopoverTips]">
                             <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
                             <!--<div class="tipsPanel">
                                 <div ng-include="poiPopoverTipsTpl" style="width:100%;"></div>
                             </div>-->
                         </div>
-                        <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;">
-                            <div class="btn-group btn-group-justified">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs fm-btn" ng-click="save()">
-                                        <i class="glyphicon glyphicon-floppy-disk"></i> 保 存
-                                    </button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs fm-btn" ng-click="delete()">
-                                        <i class="glyphicon glyphicon-trash"></i> 删 除
-                                    </button>
-                                </div>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-xs fm-btn" ng-click="cancel()">
-                                        <i class="glyphicon glyphicon-floppy-remove"></i> 取 消
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <div id='tooltip' class="tooltipclass"></div>
                 </div>

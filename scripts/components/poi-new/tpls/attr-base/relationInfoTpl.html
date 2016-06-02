@@ -4,15 +4,15 @@
             <div class="title">父POI</div>
             <div class="content">
                 <ul class="fm-ul fm-ul-list">
-                    <li ng-if="relateParent">
+                    <li ng-if="parentPoi">
                         <label>
-                            {{relateParent.name}}
+                            {{parentPoi.name.name}}
                         </label>
                         <div>
-                            <a href="javascript:void(0);" ng-click="showParentPoiInMap(relateParent)"><i class="glyphicon glyphicon-link"></i></a>
+                            <a href="javascript:void(0);" ng-click="showParentPoiInMap(parentPoi)"><i class="glyphicon glyphicon-link"></i></a>
                         </div>
                     </li>
-                    <li ng-if="!relateParent">
+                    <li ng-if="!parentPoi">
                         <label>
                             无
                         </label>
@@ -21,17 +21,17 @@
             </div>
         </div>
         <div class="fm-panel">
-            <div class="title">子POI &nbsp;&nbsp;<span style="float: right;">共 <span >{{relateChildren.length}}</span> 条</span> </div>
+            <div class="title">子POI &nbsp;&nbsp;<span style="float: right;">共 <span >{{childrenPoi.length}}</span> 条</span> </div>
             <div class="content">
                 <ul class="fm-ul fm-ul-list">
-                    <li ng-if="relateChildren.length == 0" >
+                    <li ng-if="childrenPoi.length == 0" >
                         <label>
                             无
                         </label>
                     </li >
-                    <li ng-if="relateChildren.length > 0" ng-repeat="child in relateChildren">
+                    <li ng-if="childrenPoi.length > 0" ng-repeat="child in childrenPoi">
                         <label>
-                            {{child.name}}
+                            {{child.name.name}}
                         </label>
                         <div>
                             <a href="javascript:void(0);" ng-click="showChildrenPoisInMap(child);"><i class="glyphicon glyphicon-link"></i></a>

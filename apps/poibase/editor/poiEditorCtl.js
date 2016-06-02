@@ -1,8 +1,22 @@
 angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
     var eventController = fastmap.uikit.EventController();
+    //属性编辑ctrl(解析对比各个数据类型)
+    var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var outPutCtrl = new fastmap.uikit.OutPutController();
+    var objCtrl = new fastmap.uikit.ObjectEditController({});
+    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
+    var featCode = new fastmap.uikit.FeatCodeController();
+    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var highLayerCtrl = new fastmap.uikit.HighRenderController();
+    var eventCtrl = new fastmap.uikit.EventController();
+    var speedLimit = layerCtrl.getLayerById("speedlimit")
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
-
+    //检查数据ctrl(可以监听到检查数据变化)
+    var checkResultC=fastmap.uikit.CheckResultController();
+    //高亮ctrl
+    var highRenderCtrl = fastmap.uikit.HighRenderController();
     $scope.metaData = {}; //存放元数据
     $scope.metaData.kindFormat = {}, $scope.metaData.kindList = [], $scope.metaData.allChain = {};
 
@@ -19,6 +33,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
     $scope.hideConsole = true;
     $scope.hideEditorPanel = true;
+    $scope.parentPoi = {};//父POI
+    $scope.childrenPoi = []; //子POI
 
 
     poiDS.getPoiList().then(function(data) {
@@ -35,17 +51,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $scope.outputType = val;
     };
     $scope.selectData = function(data) {
-        $scope.tips_show = 'animated fadeInLeft';
         $scope.selectedPoi = data;
-        $scope.selectedPoi.contacts = [{
-            type: 1,
-            code: '010',
-            number: '8877669978'
-        }, {
-            type: 2,
-            code: null,
-            number: '18877669978'
-        }];
         $scope.selectedPoi.checkResults = [{
             errorCode: 'YYMM-1001',
             errorMessage: '这是一个检查结果测试',
@@ -89,9 +95,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         /*弹出tips*/
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
             $scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+            $scope.showPopoverTips = true;
         });
     };
-
+    /*关闭popoverTips状态框*/
+    $scope.$on('closePopoverTips',function(event,data){
+        $scope.showPopoverTips = false;
+    })
     $scope.doIgnore = function(val) {
         alert(val);
     };
@@ -99,7 +109,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         alert(list.length);
     };
     $scope.save = function() {
-        console.log($scope.selectedPoi);
+        console.log("poi:",$scope.poi);
+        console.info("poi.getIntegrate",$scope.poi.getIntegrate());
     };
     $scope.changeParkingFee = function(data) {
         mutex($scope.selectedPoi.parkingFee, ["3"], data);
@@ -133,8 +144,94 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             default:
                 break;
         }
-        console.log($scope.hideConsole)
     }
+    /*检查结果中根据道路id获得道路的详细属性*/
+    $scope.$on('getRdObjectById',function(event,param){
+        var rdLink = layerCtrl.getLayerById('referenceLine');
+        var workPoint = layerCtrl.getLayerById('workPoint');
+        var restrictLayer = layerCtrl.getLayerById("referencePoint");
+        highRenderCtrl._cleanHighLight();
+        if(highRenderCtrl.highLightFeatures!=undefined){
+            highRenderCtrl.highLightFeatures.length = 0;
+        }
+        //线高亮
+        if(param.type == 'RDLINK'){
+            poiDS.getRdObjectById(param.id,param.type).then(function(data) {
+                var highlightFeatures = [];
+                var linkArr = data.geometry.coordinates, points = [];
+                for (var i = 0, len = linkArr.length; i < len; i++) {
+                    var point = L.latLng(linkArr[i][1], linkArr[i][0]);
+                    points.push(point);
+                }
+                var line = new L.polyline(points);
+                var bounds = line.getBounds();
+                map.fitBounds(bounds, {"maxZoom": 19});
+
+                highlightFeatures.push({
+                    id: param.id.toString(),
+                    layerid: 'referenceLine',
+                    type: 'line',
+                    style: {}
+                });
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        } else if (type == "RDRESTRICTION") {//交限高亮
+            var limitPicArr = [];
+            layerCtrl.pushLayerFront('referencePoint');
+            poiDS.getRdObjectById(param.id,param.type).then(function(data) {
+                objectCtrl.setCurrentObject("RDRESTRICTION", data);
+
+                ////高亮进入线和退出线
+                var hightlightFeatures = [];
+                hightlightFeatures.push({
+                    id: data.pid.toString(),
+                    layerid: 'restriction',
+                    type: 'restriction',
+                    style: {}
+                })
+                hightlightFeatures.push({
+                    id: objectCtrl.data["inLinkPid"].toString(),
+                    layerid: 'referenceLine',
+                    type: 'line',
+                    style: {}
+                })
+
+                for (var i = 0, len = (objectCtrl.data.details).length; i < len; i++) {
+
+                    hightlightFeatures.push({
+                        id: objectCtrl.data.details[i].outLinkPid.toString(),
+                        layerid: 'referenceLine',
+                        type: 'line',
+                        style: {}
+                    })
+                }
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        } else {//其他tips高亮
+            layerCtrl.pushLayerFront("workPoint");
+            Application.functions.getTipsResult(id, function (data) {
+                map.setView([data.g_location.coordinates[1], data.g_location.coordinates[0]], 20);
+
+                var highlightFeatures=[];
+                highlightFeatures.push({
+                    id:data.rowkey,
+                    layerid:'workPoint',
+                    type:'workPoint',
+                    style:{}
+                });
+                highRenderCtrl.highLightFeatures = highlightFeatures;
+                highRenderCtrl.drawHighlight();
+            });
+        }
+    });
+    /*修改状态*/
+    $scope.$on('updateCheckType',function(event,param){
+        poiDS.updateCheckType(param.id,param.type).then(function(data){
+            console.log('修改成功')
+        });
+    });
     /*显示同位点poi详细信息*/
     $scope.showSelectedSamePoiInfo = function(poi, index) {
         $scope.$broadcast('highlightChildInMap', $scope.refFt.refList[index].fid);
@@ -390,19 +487,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
     }));
-    promises.push(meta.queryRule().then(function (data) {
-        $scope.checkRuleList = data;
-    }));
     /*临时数据*/
-    promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    // promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    //     $scope.poi = data;
+    // }));
+    promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
-        
+        $scope.parentPoi = {};
+        $scope.childrenPoi = [];
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poi3DIcon = data;
     }));
     $q.all(promises).then(function(){
+        initParentAndChildren();
         initOcll();
     });
     /*初始化tpl加载*/
@@ -417,6 +516,26 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             $scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
         });
     }
+    function initParentAndChildren(){
+        if($scope.poi.parents && $scope.poi.parents.length > 0){
+            var parentPid = $scope.poi.parents[0].parentPoiPid;
+            poiDS.queryParentPoi(parentPid).then(function (data){
+                $scope.parentPoi = new FM.dataApi.AuIxPoi(data);
+            });
+        }
+        if($scope.poi.children && $scope.poi.children.length > 0){
+            var childrenArr = [];
+            for (var i = 0 , len = $scope.poi.children.length; i < len ; i ++ ){
+                childrenArr.push($scope.poi.children[i].childPoiPid)
+            }
+            poiDS.queryChildren(childrenArr.join(",")).then(function (data){
+                // $scope.childrenPoi = data
+                for(var i = 0 , len = data.length ;i < len ; i ++){
+                    $scope.childrenPoi.push(new FM.dataApi.AuIxPoi(data[i]));
+                }
+            });
+        }
+    }
     // var map = null;
     function loadMap() {
         map = L.map('map', {
@@ -424,16 +543,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             doubleClickZoom: false,
             zoomControl: false
         }).setView([40.012834, 116.476293], 17);
-        var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
-        var selectCtrl = new fastmap.uikit.SelectController();
-        var outPutCtrl = new fastmap.uikit.OutPutController();
-        var objCtrl = new fastmap.uikit.ObjectEditController({});
-        var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-        var featCode = new fastmap.uikit.FeatCodeController();
-        var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-        var highLayerCtrl = new fastmap.uikit.HighRenderController();
-        var eventCtrl = new fastmap.uikit.EventController();
-        var speedLimit = layerCtrl.getLayerById("speedlimit")
         tooltipsCtrl.setMap(map, 'tooltip');
         shapeCtrl.setMap(map);
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
@@ -448,5 +557,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         }
     }
 }]);
+
 
 
