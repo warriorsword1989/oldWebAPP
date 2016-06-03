@@ -60,7 +60,9 @@
   "nameFlag": [],
   "entryimages": [],
   "icons": [],
-  "photos": [],
+  "photos": [
+    {}
+  ],
   "samppois": [],
   "samepoiParts": [],
   "buildings": [],

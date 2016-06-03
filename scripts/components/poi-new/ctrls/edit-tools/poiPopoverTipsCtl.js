@@ -10,6 +10,13 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
             }
         }
     }
+    /*记录状态*/
+    $scope.statusObject = {
+        0:'无',
+        1:'删除',
+        2:'修改',
+        3:'新增'
+    };
     /*查看图片*/
     $scope.showImage = function(img){
         $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
