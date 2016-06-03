@@ -13,9 +13,10 @@ FM.Util.extend(FM.Util, {
         return (Object.prototype.toString.call(obj) === '[object Array]');
     },
     clone: function(obj) {
-        var ret = obj;
-        if (obj[key] && typeof obj[key] == 'object') {
-            ret = {};
+        // var ret = obj;
+        // if (obj[key] && typeof obj[key] == 'object') {
+        console.log(typeof obj);
+            var ret = {};
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
                     if (obj[key] && typeof obj[key] == 'object') {
@@ -36,7 +37,7 @@ FM.Util.extend(FM.Util, {
                     }
                 }
             }
-        }
+        // }
         return ret;
     },
     stringToJson: function(str) {

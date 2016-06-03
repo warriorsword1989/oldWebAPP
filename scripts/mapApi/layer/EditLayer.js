@@ -138,6 +138,9 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             case 'Buffer':
                 drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
                 break;
+            case 'Poi':
+                drawPoiAndLink(currentGeo.components, null, {color: 'red', size: 2}, false, null, false, false, self);
+                break;
         }
 
         function drawCross(geom, style, boolPixelCrs, self) {
@@ -466,7 +469,87 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 }
             }
         }
+
+        function drawPoiAndLink(geom, direct, style, boolPixelCrs, index, boolnode, boolselectnode, self) {
+            if (!geom) {
+                return;
+            }
+
+            var proj = [];
+            for (var i = 0; i < geom.length; i++) {
+                proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
+                if (i == 0) {
+                    drawPoi(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                        src:"../../../images/poi/map/marker_red_16.png",
+                        drawy:-31
+                    }, true);
+                } else {
+                    drawPoi(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
+                        src:"../../../images/poi/map/marker_circle.png"
+                    }, true);
+                }
+            }
+            var g = self._ctx;
+            g.strokeStyle = style.color;
+            g.lineWidth = style.size;
+            //g.opacity = 0.5;
+            g.beginPath();
+            for (i = 0; i < proj.length; i++) {
+                var method = (i === 0 ? 'move' : 'line') + 'To';
+                g[method](proj[i].x, proj[i].y);
+            }
+            g.stroke();
+            g.restore();
+            if (direct == 2 || direct == 3) {
+                var coords = proj;
+                var arrowList = [];
+                for (var k = 0; k < coords.length; k++) {
+                    if (k < coords.length - 1) {
+                        var oneArrow = [{x: coords[k]['x'], y: coords[k]['y']}, {
+                            x: coords[k + 1]['x'],
+                            y: coords[k + 1]['y']
+                        }];
+                        arrowList.push(oneArrow);
+                    }
+                }
+                drawArrow(self._ctx, direct, arrowList, self)
+            }
+        }
+        function drawPoi(geom, style, boolPixelCrs) {
+            if (!geom) {
+                return;
+            }
+            var p = null;
+            if (boolPixelCrs) {
+                p = {x: geom.x, y: geom.y}
+            } else {
+                p = this.map.latLngToContainerPoint([geom.y, geom.x]);
+            }
+            var g = self._ctx;
+            var image = new Image();
+            image.src = style.src;
+            image.onload = function () {
+                var scalex = style.scalex ? style.scalex : 1;
+                var scaley = style.scaley ? style.scaley : 1;
+                var drawx = style.drawx ? style.drawx : -image.width * scalex / 2;
+                var drawy = style.drawy ? style.drawy : -image.height * scalex / 2;
+                //var drawx = -options.c * image.width/2;
+                //var drawy = 0
+                g.save();
+                g.translate(p.x, p.y);
+                if (style.fillStyle) {
+                    g.strokeStyle = style.fillStyle.lineColor;  //边框颜色
+                    g.fillStyle = style.fillStyle.fillColor;
+                    g.linewidth = style.fillStyle.lineWidth;  //边框宽
+                    g.fillRect(drawx + style.fillStyle.dx, drawy + style.fillStyle.dy, style.fillStyle.width, style.fillStyle.height);  //填充颜色 x y坐标 宽 高
+                    g.strokeRect(drawx + style.fillStyle.dx, drawy + style.fillStyle.dy, style.fillStyle.width, style.fillStyle.height);  //填充边框 x y坐标 宽 高
+                }
+                g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
+                g.restore();
+            }
+        }
     },
+
 
     /***
      * 清空图层
