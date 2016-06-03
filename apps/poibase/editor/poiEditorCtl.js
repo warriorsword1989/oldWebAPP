@@ -1,9 +1,18 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi','dsMeta', '$q', function($scope, $ocLazyLoad, $rootScope, poiDS, meta ,$q) {
     var eventController = fastmap.uikit.EventController();
     //属性编辑ctrl(解析对比各个数据类型)
+    var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
+    var selectCtrl = new fastmap.uikit.SelectController();
+    var outPutCtrl = new fastmap.uikit.OutPutController();
+    var objCtrl = new fastmap.uikit.ObjectEditController({});
+    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
+    var featCode = new fastmap.uikit.FeatCodeController();
+    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
+    var highLayerCtrl = new fastmap.uikit.HighRenderController();
+    var eventCtrl = new fastmap.uikit.EventController();
+    var speedLimit = layerCtrl.getLayerById("speedlimit")
     var objectCtrl = fastmap.uikit.ObjectEditController();
     var output = fastmap.uikit.OutPutController();
-    var layerCtrl =  new fastmap.uikit.LayerController({config: App.layersConfig});
     //检查数据ctrl(可以监听到检查数据变化)
     var checkResultC=fastmap.uikit.CheckResultController();
     //高亮ctrl
@@ -24,6 +33,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
     $scope.hideConsole = true;
     $scope.hideEditorPanel = true;
+    $scope.parentPoi = {};//父POI
+    $scope.childrenPoi = []; //子POI
 
 
     poiDS.getPoiList().then(function(data) {
@@ -41,15 +52,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     };
     $scope.selectData = function(data) {
         $scope.selectedPoi = data;
-        $scope.selectedPoi.contacts = [{
-            type: 1,
-            code: '010',
-            number: '8877669978'
-        }, {
-            type: 2,
-            code: null,
-            number: '18877669978'
-        }];
         $scope.selectedPoi.checkResults = [{
             errorCode: 'YYMM-1001',
             errorMessage: '这是一个检查结果测试',
@@ -107,7 +109,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         alert(list.length);
     };
     $scope.save = function() {
-        console.log($scope.selectedPoi);
+        console.log("poi:",$scope.poi);
+        console.info("poi.getIntegrate",$scope.poi.getIntegrate());
     };
     $scope.changeParkingFee = function(data) {
         mutex($scope.selectedPoi.parkingFee, ["3"], data);
@@ -431,6 +434,24 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             "flag": 1
         });
     });
+
+    $scope.$on("SWITCHCONTAINERSTATE", function (event, data) {//在此处写属性栏的控制
+        // if (data.hasOwnProperty("attrContainerTpl")) {
+            // $scope.attrTplContainerSwitch(data["attrContainerTpl"]);
+        // } else if (data.hasOwnProperty("subAttrContainerTpl")) {
+        //     $scope.subAttrTplContainerSwitch(data["subAttrContainerTpl"]);
+        // }
+    });
+    $scope.classArr = [false, false, false, false, false, false, false, false, false, false, false, false, false, false,false];//按钮样式的变化
+    $scope.changeBtnClass = function (id) {
+        for (var claFlag = 0, claLen = $scope.classArr.length; claFlag < claLen; claFlag++) {
+            if (claFlag === id) {
+                $scope.classArr[claFlag] = !$scope.classArr[claFlag];
+            } else {
+                $scope.classArr[claFlag] = false;
+            }
+        }
+    };
     /*解析分类，组成select-chosen需要的数据格式*/
     var initKindFormat = function (kindData) {
         for (var i = 0; i < kindData.length; i++) {
@@ -466,19 +487,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     promises.push(meta.queryRule().then(function (data) {
         $scope.checkRuleList = data;
     }));
-    promises.push(meta.queryRule().then(function (data) {
-        $scope.checkRuleList = data;
-    }));
     /*临时数据*/
-    promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    // promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
+    //     $scope.poi = data;
+    // }));
+    promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
-        
+        $scope.parentPoi = {};
+        $scope.childrenPoi = [];
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poi3DIcon = data;
     }));
     $q.all(promises).then(function(){
+        initParentAndChildren();
         initOcll();
     });
     /*初始化tpl加载*/
@@ -489,39 +512,51 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         $ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function() {
             $scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
         });
+        $ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function (){
+            $scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+        });
+    }
+    function initParentAndChildren(){
+        if($scope.poi.parents && $scope.poi.parents.length > 0){
+            var parentPid = $scope.poi.parents[0].parentPoiPid;
+            poiDS.queryParentPoi(parentPid).then(function (data){
+                $scope.parentPoi = new FM.dataApi.AuIxPoi(data);
+            });
+        }
+        if($scope.poi.children && $scope.poi.children.length > 0){
+            var childrenArr = [];
+            for (var i = 0 , len = $scope.poi.children.length; i < len ; i ++ ){
+                childrenArr.push($scope.poi.children[i].childPoiPid)
+            }
+            poiDS.queryChildren(childrenArr.join(",")).then(function (data){
+                // $scope.childrenPoi = data
+                for(var i = 0 , len = data.length ;i < len ; i ++){
+                    $scope.childrenPoi.push(new FM.dataApi.AuIxPoi(data[i]));
+                }
+            });
+        }
+    }
+    // var map = null;
+    function loadMap() {
+        map = L.map('map', {
+            attributionControl: false,
+            doubleClickZoom: false,
+            zoomControl: false
+        }).setView([40.012834, 116.476293], 17);
+        tooltipsCtrl.setMap(map, 'tooltip');
+        shapeCtrl.setMap(map);
+        layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
+            if (event.flag == true) {
+                map.addLayer(event.layer);
+            } else {
+                map.removeLayer(event.layer);
+            }
+        })
+        for (var layer in layerCtrl.getVisibleLayers()) {
+            map.addLayer(layerCtrl.getVisibleLayers()[layer]);
+        }
     }
 }]);
 
-var map = null;
-function loadMap() {
-    map = L.map('map', {
-        attributionControl: false,
-        doubleClickZoom: false,
-        zoomControl: false
-    }).setView([40.012834, 116.476293], 17);
-    var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
-    var selectCtrl = new fastmap.uikit.SelectController();
-    var outPutCtrl = new fastmap.uikit.OutPutController();
-    var objCtrl = new fastmap.uikit.ObjectEditController({});
-    var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-    var featCode = new fastmap.uikit.FeatCodeController();
-    var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-    var highLayerCtrl = new fastmap.uikit.HighRenderController();
-    var eventCtrl = new fastmap.uikit.EventController();
-    var speedLimit = layerCtrl.getLayerById("speedlimit")
-    tooltipsCtrl.setMap(map, 'tooltip');
-    shapeCtrl.setMap(map);
-    layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
-        if (event.flag == true) {
-            map.addLayer(event.layer);
-        } else {
-            map.removeLayer(event.layer);
-        }
-    })
-    for (var layer in layerCtrl.getVisibleLayers()) {
-        map.addLayer(layerCtrl.getVisibleLayers()[layer]);
-    }
 
 
-
-}

@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/sweet-alert/css/sweet-alert.css">
         <link rel="stylesheet" type="text/css" href="../../../scripts/libs/angular-chosen/chosen.css"/>
         <link rel="stylesheet" type="text/css" href="../../../styles/poi/poiEditor.css">
+        <link rel="stylesheet" type="text/css" href="../../../styles/poi/animate.min.css">
         <script src="../../../scripts/libs/leaflet-0.7.3/leaflet-src.js"></script>
         <script type="text/javascript" src="../Application.js"></script>
         <script type="text/javascript" src="../../../scripts/fastmap/fastmap.js"></script>
@@ -22,7 +23,7 @@
     </head>
     <body ng-controller="PoiEditorCtl">
         <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
-            <div ui-layout-container class="fm-banner" size="50px">
+            <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
                 <div class="banner-top"><a><strong>FM</strong></a></div>
                 <div class="banner-center">
                     <div ng-class="{1:'selected'}[selectedTool]" ng-click="changeEditTool('tipsPanel')">
@@ -43,9 +44,9 @@
                     <div><a><i title="退出" class="glyphicon glyphicon-log-out"></i></a></div>
                 </div>
             </div>
-            <div ui-layout-container>
+            <div ui-layout-container class="fm-list-panel">
                 <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
-                    <div class="fm-container fm-col" ui-layout-container size="250px" min-size="250px">
+                    <div class="fm-container fm-col animated fadeInLeft" ui-layout-container size="250px" min-size="250px">
                         <div class="title"><i class="glyphicon glyphicon-list"></i> POI数据</div>
                         <div class="fm-tabs">
                             <a href="#" ng-class="{'tab': true, 'active': dataListType == 1}" ng-click="changeDataList(1)">待作业</a>
@@ -96,6 +97,7 @@
                             <div id="toolsDiv" style="left:5px;top:5px;height: 40px;position: absolute;z-index:1;background-color: transparent">
                                 <div class="btn-toolbar" style="margin-left: 0px">
                                     <div ng-include="selectShapeURL" style="float: left"></div>
+                                    <div ng-include="selectPoiURL" style="float: left"></div>
                                     <div ng-include="addShapeURL" style="float: left;"></div>
                                     <div ng-include="modifyToolURL" style="float: left"></div>
                                 </div>
@@ -139,7 +141,7 @@
                             </div>
                             <div ng-include="consoleDeskTpl"></div>
                         </div>
-                        <div ng-class="{true:'popoverTips animated fadeInLeft',false:'popoverTips animated fadeOutLeft'}[showPopoverTips]">
+                        <div ng-class="{true:'popoverTips animated-fast fadeInLeft',false:'popoverTips animated-fast fadeOutLeft'}[showPopoverTips]">
                             <div ng-include="poiPopoverTipsTpl" class="tipsPanel"></div>
                             <!--<div class="tipsPanel">
                                 <div ng-include="poiPopoverTipsTpl" style="width:100%;"></div>
@@ -147,6 +149,7 @@
                         </div>
 
                     </div>
+                    <div id='tooltip' class="tooltipclass"></div>
                 </div>
             </div>
         </div>

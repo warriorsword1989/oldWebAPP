@@ -18,6 +18,10 @@ a:hover {
 .fm-banner {
     width: 50px;
     background-color: #222;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
 }
 
 .fm-banner div {
@@ -30,6 +34,15 @@ a:hover {
     line-height: 20px;
     letter-spacing: 0;
     margin-top: 20px;
+}
+
+.fm-list-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    left: 50px;
 }
 
 .text-success {
@@ -547,38 +560,11 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 
 /*fadeIn animte*/
 
-.animated {
-    -webkit-animation-duration: .2s;
-    animation-duration: .2s;
+.animated-fast {
+    -webkit-animation-duration: .2s !important;
+    animation-duration: .2s !important;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
-}
-
-@-webkit-keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        width: 0px;
-    }
-    to {
-        opacity: 0.9;
-        width: 250px;
-    }
-}
-
-@keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        width: 0;
-    }
-    to {
-        opacity: 0.9;
-        width: 250px;
-    }
-}
-
-.fadeInLeft {
-    -webkit-animation-name: fadeInLeft;
-    animation-name: fadeInLeft;
 }
 
 
@@ -599,9 +585,10 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 }
 
 .chosen-container-single .chosen-single {
-    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #333), color-stop(50%, #333), color-stop(52%, #333), color-stop(100%, #333));
     padding: 0px 5px;
     color: #F3F6FA;
+    background-image: linear-gradient(#333 100%, #333 100%);
+    box-shadow: 0px 1px 0px #333 inset;
 }
 
 .chosen-container .chosen-drop {
@@ -624,6 +611,11 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 .chosen-container .chosen-results li.no-results {
     color: #F3F6FA;
     background: #333;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single {
+    background-image: linear-gradient(#333 100%, #333 100%);
+    box-shadow: 0px 1px 0px #333 inset;
 }
 
 
@@ -649,8 +641,10 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 
 .tips-img {
     width: 57px;
+    height: 57px;
     margin: 0;
     float: left;
+    cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -671,6 +665,68 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 
 .tips-close > .close {
     color: #fff;
+}
+
+#poiTipsOriginImg {
+    width: 100%;
+}
+
+.switch-left > span {
+    background: url("../../../images/road/img/left.png");
+    height: 40px;
+    width: 40px;
+    position: absolute;
+}
+
+.switch-left > img {
+    position: absolute;
+    background-color: #e5e5e5;
+    height: 43px;
+    width: 27px;
+    padding: 5px;
+    margin-top: 30%;
+}
+
+.switch-right > img {
+    position: absolute;
+    background-color: #e5e5e5;
+    height: 43px;
+    width: 27px;
+    padding: 5px;
+    margin-top: 30%;
+    right: 15px;
+}
+
+
+/*********************floatMenu**********************/
+
+.floatMenu {
+    display: none;
+    list-style-type: none;
+}
+
+.floatMenu>li {
+    /*position:absolute;*/
+    left: 200px;
+    top: 300px;
+    padding: 8px;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: blueviolet;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.floatMenu>li:hover {
+    color: blueviolet;
+    background-color: #00FF33;
+}
+
+.floatMenu>li>a {
+    font-size: 16px;
+    color: #FFF;
 }
 
 

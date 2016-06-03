@@ -31,6 +31,8 @@
         // tools
         "tools/adAdminAdd.js",
         "tools/adAdminMove.js",
+        "tools/poiLocMove.js",
+        "tools/poiGuideMove.js",
         "tools/CrossingAdd.js",
         "tools/DrawPath.js",
         "tools/DrawPolygon.js",

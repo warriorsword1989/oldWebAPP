@@ -7,7 +7,6 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 	 * DB-->UI
 	 */
 	setAttributes: function(data) {
-		this.audataId = data['audataId'];
 		this.pid = data['pid'] || 0;
 		this.kindCode = data['kindCode'] || null;
 		this.geometry = data['geometry'];
@@ -27,7 +26,7 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.meshId = data['meshId'] || 0;
 		this.regionId = data['regionId'] || 0;
 		this.postCode = data['postCode'] || null;
-		this.difGroupid = data['difGroupid'] || mull;
+		this.difGroupid = data['difGroupid'] || null;
 		this.editFlag = data['editFlag'] || 1;
 		this.state = data['state'] || 0;
 		this.fieldState = data['fieldState'] || null;
@@ -43,32 +42,19 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.oldKind = data['oldKind'] || null;
 		this.poiNum = data['poiNum'] || null;
 		this.log = data['log'] || null;
+		this.taskId = data["taskId"] || 0
 		this.dataVersion = data['dataVersion'] || null;
-		this.geoTaskId = data['geoTaskId'] || 0;
-		this.label = data['label'] || 0;
-		this.attTaskId = data['attTaskId'] || 0;
-		this.geoOprstatus = data['geoOprstatus'] || 0;
-		this.geoCheckstatus = data['geoCheckstatus'] || 0;
-		this.attOprstatus = data['attOprstatus'] || 0;
-		this.attCheckstatus = data['attCheckstatus'] || 0;
-		this.impDate = data['impDate'] || null;
 		this.fieldTaskid = data['fieldTaskid'] || 0;
-		this.fieldTaskSubId = data['fieldTaskSubId'] || null;
-		this.fieldGuid = data['fieldGuid'] || null;
-		this.fieldDayTime = data['fieldDayTime'] || null;
-		this.fieldSource = data['fieldSource'] || 0;
-		this.paramEx1 = data['description'] || null;
-		this.paramEx2 = data['description'] || null;
-		this.paramEx3 = data['description'] || null;
-		this.paramEx4 = data['description'] || null;
 		this.verifiedFlag = data['verifiedFlag'] || 9;
-
+		this.collectTime = data['collectTime'] || null;
+		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
+		this.fullAttrFlag = data['fullAttrFlag'] || 9;
 
 		this.name = {}; //主名称
 		this.names = [];
-		if (this.names) {
-			for (var i = 0, len = this.names.length; i < len; i++) {
-				var obj = new FM.dataApi.AuIxPoiName(this.names[i]);
+		if (data['names']) {
+			for (var i = 0, len = data['names'].length; i < len; i++) {
+				var obj = new FM.dataApi.AuIxPoiName(data['names'][i]);
 				this.names.push(obj);
 				if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
 					this.name = obj;
@@ -77,9 +63,9 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		}
 		this.address = {};//主地址
 		this.addresses = [];
-		if(this.addresses){
-			for (var i = 0, len = this.addresses.length; i < len; i++) {
-				var obj = new FM.dataApi.AuIxPoiAddress(this.addresses[i]);
+		if(data["addresses"]){
+			for (var i = 0, len = data["addresses"].length; i < len; i++) {
+				var obj = new FM.dataApi.AuIxPoiAddress(data["addresses"][i]);
 				this.addresses.push(obj);
 				if(obj.langCode == "CHI"){
 					this.address = obj;
@@ -87,63 +73,63 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 			}
 		}
 		this.contacts = [];
-		if (this.contacts){
-			for (var i = 0 ,len = this.contacts.length ;i < len ; i++){
-				this.contacts.push(new FM.dataApi.AuIxPoiContact(this.contacts[i]));
+		if (data["contacts"]){
+			for (var i = 0 ,len = data["contacts"].length ;i < len ; i++){
+				this.contacts.push(new FM.dataApi.AuIxPoiContact(data["contacts"][i]));
 			}
 		}
 		this.photos = [];
-		if (this.photos){
-			for (var i = 0 ,len = this.photos.length ;i < len ; i++){
-				this.photos.push(new FM.dataApi.AuIxPoiPhoto(this.photos[i]));
+		if (data['photos']){
+			for (var i = 0 ,len = data['photos'].length ;i < len ; i++){
+				this.photos.push(new FM.dataApi.AuIxPoiPhoto(data['photos'][i]));
 			}
 		}
 		this.children = [];
-		if(this.children){
-			for (var i = 0 ,len = this.children.length ;i < len ; i++){
-				this.children.push(new FM.dataApi.AuIxPoiChildren(this.children[i]));
+		if(data["children"]){
+			for (var i = 0 ,len = data["children"].length ;i < len ; i++){
+				this.children.push(new FM.dataApi.AuIxPoiChildren(data["children"][i]));
 			}
 		}
 		this.parents = [];
-		if(this.parents){
-			for (var i = 0 ,len = this.parents.length ;i < len ; i++){
-				this.parents.push(new FM.dataApi.AuIxPoiParent(this.parents[i]));
+		if(data['parents']){
+			for (var i = 0 ,len = data['parents'].length ;i < len ; i++){
+				this.parents.push(new FM.dataApi.AuIxPoiParent(data['parents'][i]));
 			}
 		}
 		this.buildings = [];
-		if(this.buildings){
-			for (var i = 0 ,len = this.buildings.length ;i < len ; i++){
-				this.buildings.push(new FM.dataApi.AuIxPoiBuilding(this.buildings[i]));
+		if(data['buildings']){
+			for (var i = 0 ,len = data['buildings'].length ;i < len ; i++){
+				this.buildings.push(new FM.dataApi.AuIxPoiBuilding(data['buildings'][i]));
 			}
 		}
 		this.gasstationes = [];
-		if(this.gasstationes){
-			for (var i = 0 ,len = this.gasstationes.length ;i < len ; i++){
-				this.gasstationes.push(new FM.dataApi.AuIxPoiGasstation(this.gasstationes[i]));
+		if(data['gasstationes']){
+			for (var i = 0 ,len = data['gasstationes'].length ;i < len ; i++){
+				this.gasstationes.push(new FM.dataApi.AuIxPoiGasstation(data['gasstationes'][i]));
 			}
 		}
 		this.hotels = [];
-		if(this.hotels){
-			for (var i = 0 ,len = this.hotels.length ;i < len ; i++){
-				this.hotels.push(new FM.dataApi.AuIxPoiHotel(this.hotels[i]));
+		if(data["hotels"]){
+			for (var i = 0 ,len = data["hotels"].length ;i < len ; i++){
+				this.hotels.push(new FM.dataApi.AuIxPoiHotel(data["hotels"][i]));
 			}
 		}
 		this.restaurantes = [];
-		if(this.restaurantes){
-			for (var i = 0 ,len = this.restaurantes.length ;i < len ; i++){
-				this.restaurantes.push(new FM.dataApi.AuIxPoiRestaurant(this.restaurantes[i]));
+		if(data["restaurantes"]){
+			for (var i = 0 ,len = data["restaurantes"].length ;i < len ; i++){
+				this.restaurantes.push(new FM.dataApi.AuIxPoiRestaurant(data["restaurantes"][i]));
 			}
 		}
 		this.samePois = [];
-		if(this.samePois){
-			for (var i = 0 ,len = this.samePois.length ;i < len ; i++){
-				this.samePois.push(new FM.dataApi.AuIxSamepoi(this.samePois[i]));
+		if(data["samePois"]){
+			for (var i = 0 ,len = data["samePois"].length ;i < len ; i++){
+				this.samePois.push(new FM.dataApi.AuIxSamepoi(data["samePois"][i]));
 			}
 		}
 		this.samePoiParts = [];
-		if(this.samePoiParts){
-			for (var i = 0 ,len = this.samePoiParts.length ;i < len ; i++){
-				this.samePoiParts.push(new FM.dataApi.AuIxSamepoiPart(this.samePoiParts[i]));
+		if(data["samePoiParts"]){
+			for (var i = 0 ,len = data["samePoiParts"].length ;i < len ; i++){
+				this.samePoiParts.push(new FM.dataApi.AuIxSamepoiPart(data["samePoiParts"][i]));
 			}
 		}
 	},
@@ -152,7 +138,6 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 	 */
 	getIntegrate: function(){
 		var ret = {};
-		ret["audataId"] = this.audataId;
 		ret["pid"] = this.pid;
 		ret["kindCode"] = this.kindCode;
 		ret["geometry"] = this.geometry;
@@ -188,25 +173,86 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		ret["oldKind"] = this.oldKind;
 		ret["poiNum"] = this.poiNum;
 		ret["log"] = this.log;
+		ret["taskId"] = this.taskId;
 		ret["dataVersion"] = this.dataVersion;
-		ret["geoTaskId"] = this.geoTaskId;
-		ret["label"] = this.label;
-		ret["attTaskId"] = this.attTaskId;
-		ret["geoOprstatus"] = this.geoOprstatus;
-		ret["geoCheckstatus"] = this.geoCheckstatus;
-		ret["attOprstatus"] = this.attOprstatus;
-		ret["attCheckstatus"] = this.attCheckstatus;
-		ret["impDate"] = this.impDate;
 		ret["fieldTaskid"] = this.fieldTaskid;
-		ret["fieldTaskSubId"] = this.fieldTaskSubId;
-		ret["fieldGuid"] = this.fieldGuid;
-		ret["fieldDayTime"] = this.fieldDayTime;
-		ret["fieldSource"] = this.fieldSource;
-		ret["paramEx1"] = this.paramEx1;
-		ret["paramEx2"] = this.paramEx2;
-		ret["paramEx3"] = this.paramEx3;
-		ret["paramEx4"] = this.paramEx4;
 		ret["verifiedFlag"] = this.verifiedFlag;
+		ret["collectTime"] = this.collectTime;
+		ret["geoAdjustFlag"] = this.geoAdjustFlag;
+		ret["fullAttrFlag"] = this.fullAttrFlag;
+
+		ret["names"] = [];
+		if(this.names){
+			for (var i = 0 , len = this.names.length ; i < len ; i ++){
+				ret["names"].push(this.names[i].getIntegrate());
+			}
+		}
+		ret["addresses"] = [];
+		if(this.addresses){
+			for (var i = 0 , len = this.addresses.length ; i < len ; i ++){
+				ret["addresses"].push(this.addresses[i].getIntegrate());
+			}
+		}
+		ret["contacts"] = [];
+		if(this.contacts){
+			for (var i = 0 , len = this.contacts.length ; i < len ; i ++){
+				ret["contacts"].push(this.contacts[i].getIntegrate());
+			}
+		}
+		ret["photos"] = [];
+		if(this.photos){
+			for (var i = 0 , len = this.photos.length ; i < len ; i ++){
+				ret["photos"].push(this.photos[i].getIntegrate());
+			}
+		}
+		ret["children"] = [];
+		if(this.children){
+			for (var i = 0 , len = this.children.length ; i < len ; i ++){
+				ret["children"].push(this.children[i].getIntegrate());
+			}
+		}
+		ret["parents"] = [];
+		if(this.parents){
+			for (var i = 0 , len = this.parents.length ; i < len ; i ++){
+				ret["parents"].push(this.parents[i].getIntegrate());
+			}
+		}
+		ret["buildings"] = [];
+		if(this.buildings){
+			for (var i = 0 , len = this.buildings.length ; i < len ; i ++){
+				ret["buildings"].push(this.buildings[i].getIntegrate());
+			}
+		}
+		ret["gasstationes"] = [];
+		if(this.gasstationes){
+			for (var i = 0 , len = this.gasstationes.length ; i < len ; i ++){
+				ret["gasstationes"].push(this.gasstationes[i].getIntegrate());
+			}
+		}
+		ret["hotels"] = [];
+		if(this.gasstationes){
+			for (var i = 0 , len = this.hotels.length ; i < len ; i ++){
+				ret["hotels"].push(this.hotels[i].getIntegrate());
+			}
+		}
+		ret["restaurantes"] = [];
+		if(this.restaurantes){
+			for (var i = 0 , len = this.restaurantes.length ; i < len ; i ++){
+				ret["restaurantes"].push(this.restaurantes[i].getIntegrate());
+			}
+		}
+		ret["samePois"] = [];
+		if(this.samePois){
+			for (var i = 0 , len = this.samePois.length ; i < len ; i ++){
+				ret["samePois"].push(this.samePois[i].getIntegrate());
+			}
+		}
+		ret["samePoiParts"] = [];
+		if(this.samePoiParts){
+			for (var i = 0 , len = this.samePoiParts.length ; i < len ; i ++){
+				ret["samePoiParts"].push(this.samePoiParts[i].getIntegrate());
+			}
+		}
 		return ret;
 	}
 });

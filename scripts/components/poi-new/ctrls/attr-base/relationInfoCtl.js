@@ -20,9 +20,11 @@ angular.module('app').controller('relationInfoCtl', ['$scope', function($scope) 
 
 
     $scope.showChildrenPoisInMap = function (obj){
+        console.info(obj);
         $scope.$emit('emitChildren', obj);
     }
     $scope.showParentPoiInMap = function(obj) {
+        console.info(obj);
         $scope.$emit('emitParent', obj);
     };
 

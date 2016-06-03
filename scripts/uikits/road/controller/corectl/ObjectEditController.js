@@ -96,6 +96,9 @@ fastmap.uikit.ObjectEditController = (function () {
                     case "ADNODE":
                         this.data = fastmap.dataApi.adNode(obj);
                         break;
+                    case "POI":
+                        this.data = obj;
+                        break;
                     default:
                         throw "无法解析当前选择的类型!";
                         break;
