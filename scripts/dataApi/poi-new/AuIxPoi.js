@@ -50,26 +50,18 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
 
-		this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
 			for (var i = 0, len = data['names'].length; i < len; i++) {
 				var obj = new FM.dataApi.AuIxPoiName(data['names'][i]);
 				this.names.push(obj);
-				if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
-					this.name = obj;
-				}
 			}
 		}
-		this.address = {};//主地址
 		this.addresses = [];
 		if(data["addresses"]){
 			for (var i = 0, len = data["addresses"].length; i < len; i++) {
 				var obj = new FM.dataApi.AuIxPoiAddress(data["addresses"][i]);
 				this.addresses.push(obj);
-				if(obj.langCode == "CHI"){
-					this.address = obj;
-				}
 			}
 		}
 		this.contacts = [];
