@@ -10,6 +10,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
     var eventController = fastmap.uikit.EventController();
     var adLink = layerCtrl.getLayerById('adLink');
+    var rdLink = layerCtrl.getLayerById('referenceLine');
     var workPoint = layerCtrl.getLayerById('workPoint');
     var editLayer = layerCtrl.getLayerById('edit');
     var poi = layerCtrl.getLayerById('poiPoint');
@@ -56,7 +57,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         if (shapeCtrl.getCurrentTool()['options']) {
             shapeCtrl.stopEditing();
         }
-        var feature = null;
+        var feature = null,feature1 = null,feature2 = null;
         if (map.currentTool) {
             map.currentTool.disable();
         }
@@ -86,6 +87,23 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
 
             feature = selectCtrl.selectedFeatures.geometry;//获取要编辑的几何体的geometry
+            //组装一个线
+            feature1 = feature.clone();
+            feature2 = feature.clone();
+            feature1.x=116.47654;
+            feature1.y=40.01341;
+            feature1.type = "Point";
+
+            feature.components = [];
+            feature.points = [];
+            feature.components.push(feature2);
+            feature.components.push(feature1);
+            feature.points.push(feature2);
+            feature.points.push(feature1);
+            delete feature.x;
+            delete feature.y;
+            feature.type = "Poi";
+
             layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
             var sObj = shapeCtrl.shapeEditorResult;
             editLayer.drawGeometry = feature;

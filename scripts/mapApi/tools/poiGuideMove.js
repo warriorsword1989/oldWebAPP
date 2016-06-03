@@ -71,7 +71,7 @@ fastmap.mapApi.poiGuideMove = L.Handler.extend({
         var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
 
         //for (var j = 0, len = points.length; j < len; j++) {
-            var disAB = this.distance(this._map.latLngToLayerPoint([points.y,points.x]), layerPoint);
+            var disAB = this.distance(this._map.latLngToLayerPoint([points.points[1].y,points.points[1].x]), layerPoint);
             if (disAB < 20) {
                 this.targetIndex = 0;
             }
