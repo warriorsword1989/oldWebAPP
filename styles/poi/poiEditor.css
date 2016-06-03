@@ -19,8 +19,8 @@ a:hover {
     width: 50px;
     background-color: #222;
     position: absolute;
-    top:0;
-    bottom:0;
+    top: 0;
+    bottom: 0;
     left: 0;
 }
 
@@ -35,14 +35,16 @@ a:hover {
     letter-spacing: 0;
     margin-top: 20px;
 }
-.fm-list-panel{
+
+.fm-list-panel {
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
-    left:50px;
+    left: 50px;
 }
+
 .text-success {
     color: #34B734;
 }
@@ -67,7 +69,7 @@ a:hover {
     height: 15px;
 }
 
-a.fm-panel-controlArrowUp > span {
+a.fm-panel-controlArrowUp>span {
     background: url("../../images/road/img/arrow-up.png") no-repeat;
     margin-top: 3px;
     height: 10px;
@@ -77,7 +79,7 @@ a.fm-panel-controlArrowUp > span {
     transition: all 0s;
 }
 
-a.fm-panel-controlArrowDown > span {
+a.fm-panel-controlArrowDown>span {
     background: url("../../images/road/img/arrow-down.png") no-repeat;
     margin-top: 3px;
     height: 10px;
@@ -96,6 +98,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     text-align: center;
     transition: all 0s;
 }
+
 
 /**************************************nnade***************************************************/
 
@@ -313,14 +316,9 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .fm-no-scroll {
     overflow-y: hidden;
-    overflow-x: hidden;
 }
 
-.fm-specialopt {
-    color: greenyellow;
-}
 
-;
 /************************* 图片资源 ******************************/
 
 .icon_3d {
@@ -340,6 +338,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     width: 24px;
     height: 24px;
 }
+
 
 /******************************** 文件上传 **************************************/
 
@@ -439,18 +438,8 @@ label > input[type='radio'], label > input[type='checkbox'] {
     position: relative;
 }
 
-/**************************控制台************************/
-.fm-target {
-    color: #a4a4e1 !important;
-    cursor: pointer;
-    font-weight: bold;
-}
 
-.fm-target:hover {
-    color: #7F7FE7 !important;
-    cursor: pointer;
-    font-weight: bold;
-}
+/**************************控制台************************/
 
 .fm-console-panel {
     bottom: 237px;
@@ -497,7 +486,6 @@ label > input[type='radio'], label > input[type='checkbox'] {
 }
 
 .fm-editor-panel {
-    width: 315px;
     height: 100%;
     position: absolute;
     right: 0px;
@@ -506,11 +494,11 @@ label > input[type='radio'], label > input[type='checkbox'] {
 }
 
 .fm-editor-panel-normal {
-    margin-right: 0px;
+    width: 315px;
 }
 
 .fm-editor-panel-sm {
-    margin-right: -300px;
+    width: 15px;
 }
 
 .fm-editor-arrow {
@@ -521,11 +509,11 @@ label > input[type='radio'], label > input[type='checkbox'] {
     left: 0px;
 }
 
-.fm-editor-arrow a.fm-panel-controlArrowLeft > span {
+.fm-editor-arrow a.fm-panel-controlArrowLeft>span {
     background: url("../../images/road/img/arrow-left.png");
 }
 
-.fm-editor-arrow a.fm-panel-controlArrowRight > span {
+.fm-editor-arrow a.fm-panel-controlArrowRight>span {
     background: url("../../images/road/img/arrow-right.png");
 }
 
@@ -537,18 +525,15 @@ a.fm-panel-controlArrowLeft, a.fm-panel-controlArrowRight {
     height: 40px;
     text-align: center;
     vertical-align: middle;
-    position: absolute;
-    top: 50%;
-    margin-top: -20px;
-    cursor: pointer;
 }
 
-a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
+a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     display: inline-block;
     width: 10px;
     height: 20px;
     margin-top: 10px;
 }
+
 
 /**********tips style**********/
 
@@ -572,73 +557,16 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     padding: 10px;
 }
 
+
 /*fadeIn animte*/
+
 .animated-fast {
     -webkit-animation-duration: .2s !important;
     animation-duration: .2s !important;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
-/*.animated {
-    -webkit-animation-duration: .2s;
-    animation-duration: .2s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-}
 
-@-webkit-keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        width: 0px;
-    }
-    to {
-        opacity: 0.9;
-        width: 250px;
-    }
-}
-
-@keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        width: 0;
-    }
-    to {
-        opacity: 0.9;
-        width: 250px;
-    }
-}
-
-.fadeInLeft {
-    -webkit-animation-name: fadeInLeft;
-    animation-name: fadeInLeft;
-}
-
-@-webkit-keyframes fadeOutLeft {
-    from {
-        opacity: 0.9;
-        width: 250px;
-    }
-    to {
-        opacity: 0;
-        width: 0px;
-    }
-}
-
-@keyframes fadeOutLeft {
-    from {
-        opacity: 0.9;
-        width: 250px;
-    }
-    to {
-        opacity: 0;
-        width: 0;
-    }
-}
-
-.fadeOutLeft {
-    -webkit-animation-name: fadeOutLeft;
-    animation-name: fadeOutLeft;
-}*/
 
 /*重写了部分angular-chosen的样式*/
 
@@ -684,15 +612,18 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #F3F6FA;
     background: #333;
 }
-.chosen-container-active.chosen-with-drop .chosen-single{
-    background-image:linear-gradient(#333 100%, #333 100%);
+
+.chosen-container-active.chosen-with-drop .chosen-single {
+    background-image: linear-gradient(#333 100%, #333 100%);
     box-shadow: 0px 1px 0px #333 inset;
 }
+
 
 /*********************tips**********************/
 
 .tips-title {
     float: left;
+    width: 100%;
     margin-bottom: 10px;
 }
 
@@ -710,7 +641,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .tips-img {
     width: 57px;
-    height:57px;
+    height: 57px;
     margin: 0;
     float: left;
     cursor: pointer;
@@ -727,49 +658,57 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     width: 100%;
     color: #fff;
 }
-.tips-info{
-    margin:3px 0;
+
+.tips-info {
+    margin: 3px 0;
 }
 
-.tips-close > .close{
+.tips-close > .close {
     color: #fff;
 }
 
-#poiTipsOriginImg{
-    width:100%;
+#poiTipsOriginImg {
+    width: 100%;
 }
-.switch-left > span{
+
+.switch-left > span {
     background: url("../../../images/road/img/left.png");
-    height:40px;
-    width:40px;
+    height: 40px;
+    width: 40px;
     position: absolute;
 }
-.switch-left > img{
-    position: absolute;
-    background-color: #e5e5e5;
-    height: 43px;
-    width: 27px;
-    padding: 5px;
-    margin-top: 30%;
-}
-.switch-right > img{
+
+.switch-left > img {
     position: absolute;
     background-color: #e5e5e5;
     height: 43px;
     width: 27px;
     padding: 5px;
     margin-top: 30%;
-    right:15px;
 }
+
+.switch-right > img {
+    position: absolute;
+    background-color: #e5e5e5;
+    height: 43px;
+    width: 27px;
+    padding: 5px;
+    margin-top: 30%;
+    right: 15px;
+}
+
+
 /*********************floatMenu**********************/
-.floatMenu{
+
+.floatMenu {
     display: none;
     list-style-type: none;
 }
-.floatMenu>li{
+
+.floatMenu>li {
     /*position:absolute;*/
-    left:200px;
-    top:300px;
+    left: 200px;
+    top: 300px;
     padding: 8px;
     text-align: center;
     width: 32px;
@@ -780,12 +719,52 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     z-index: 1000;
 }
 
-.floatMenu>li:hover{
-    color:blueviolet;
+.floatMenu>li:hover {
+    color: blueviolet;
     background-color: #00FF33;
 }
 
 .floatMenu>li>a {
     font-size: 16px;
     color: #FFF;
+}
+
+
+/* ---------------------滚动条-------------------------------------------------- */
+
+.scroll-styled::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background: transparent;
+}
+
+.scroll-styled::-webkit-scrollbar:hover {
+    background: transparent;
+}
+
+.scroll-styled::-webkit-scrollbar-track {
+    background: none;
+}
+
+.scroll-styled::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .18);
+    border-color: transparent;
+    width: 6px;
+    border-radius: 3px;
+}
+
+.scroll-styled::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, .25);
+}
+
+.scroll-styled::-webkit-scrollbar-track:hover {
+    background: transparent;
+}
+
+.dark .scroll-styled::-webkit-scrollbar-thumb, .dark.scroll-styled::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .18);
+}
+
+.dark .scroll-styled::-webkit-scrollbar-thumb:hover, .dark.scroll-styled::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, .25);
 }

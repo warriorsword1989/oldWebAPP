@@ -2,9 +2,9 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
     initData();
     function initData(){
         // console.log($scope.poi.attachmentsImage)
-        if($scope.poi.attachmentsImage.length < 4){
-            for(var i=0,len=4-$scope.poi.attachmentsImage.length;i<len;i++){
-                $scope.poi.attachmentsImage.push({
+        if($scope.poi.photos.length < 4){
+            for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
+                $scope.poi.photos.push({
                     url:'../../../images/road/img/noimg.png'
                 });
             }

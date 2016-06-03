@@ -8,7 +8,7 @@
         <button type="button" class="close" ng-click="closeTips();" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="meta-info col-sm-12">
-        <div ng-repeat="item in poi.attachmentsImage">
+        <div ng-repeat="item in poi.photos">
             <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
             <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}" ng-click="showImage(item);" class="tips-img" alt="">
         </div>
