@@ -15,6 +15,7 @@ requirejs.config({
         'fileUpload': 'scripts/libs/angular-file-upload/angular-file-upload',
         "angularDrag": "scripts/libs/angular-drag/angular-drag",
         "sweet-alert": "scripts/libs/sweet-alert/js/sweet-alert",
+        "e-smart-zoom": "scripts/libs/e-smart-zoom/js/e-smart-zoom-jquery",
         // app相关
         'dataService': 'apps/poibase/service/dataService',
         'poiService': 'apps/poibase/service/dataService-poi',
@@ -27,13 +28,14 @@ requirejs.config({
         'ngLayout': ['angular'],
         'uiBootstrap': ['angular'],
         'chosenJquery': ['jquery'],
+        'e-smart-zoom':['jquery'],
         'angularChosen': ['angular'],
         'fileUpload': ['angular'],
         'angularDrag': ['angular', 'jquery'],
         'dataService': ['angular', "sweet-alert"],
         'poiService': ['dataService'],
         'metaService': ['dataService'],
-        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers'],
+        'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers','e-smart-zoom'],
     }
 });
 // Start the main app logic.
