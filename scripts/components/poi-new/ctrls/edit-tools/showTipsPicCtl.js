@@ -1,13 +1,11 @@
-angular.module('app').controller('ShowTipsPicCtl', ['$scope', '$uibModalInstance', '$image', function ($scope, $uibModalInstance, $image) {
+angular.module('app').controller('ShowTipsPicCtl', ['$scope', '$uibModalInstance', '$image' ,'$index', '$imgs', function ($scope, $uibModalInstance, $image ,$index, $imgs) {
 	initImgs();
 	function initImgs() {
 		$scope.imageNow = $image;
-		var originImg = angular.element("#poiTipsOriginImg");
-
-		// originImg.attr('src',$image.url);
-		originImg.attr('src','http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg');
-		// originImg.smartZoom({'containerClass':'zoomableContainer'});
-		wheelzoom(originImg);
+		$scope.indexNow = $index + 1;
+		$scope.imgsLength = $imgs.length;
+		console.log($imgs)
+		wheelzoom(document.getElementById("poiTipsOriginImg"), {zoom:0.05});
 	}
 
 

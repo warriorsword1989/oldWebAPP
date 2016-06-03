@@ -587,7 +587,18 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     transition: all .3s;
     cursor: pointer;
 }
-
+.close-tips{
+    position: absolute;
+    color: #fff;
+    top: 40px;
+    right: 0px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all .3s;
+}
+.close-tips:hover{
+    color: #A5A1A1;
+}
 .close-tips-ico:hover {
     color: #323131;
 }
@@ -718,6 +729,7 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     width: 27px;
     padding: 5px;
     margin-top: 30%;
+    cursor: pointer;
 }
 
 .switch-right > img {
@@ -728,6 +740,7 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     padding: 5px;
     margin-top: 30%;
     right: 15px;
+    cursor: pointer;
 }
 
 /*********************floatMenu**********************/

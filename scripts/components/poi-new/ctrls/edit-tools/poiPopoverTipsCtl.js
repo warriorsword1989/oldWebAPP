@@ -5,7 +5,8 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
         if($scope.poi.photos.length < 4){
             for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
                 $scope.poi.photos.push({
-                    url:'../../../images/road/img/noimg.png'
+                    url:'../../../images/road/img/noimg.png',
+                    nothing:true
                 });
             }
         }
@@ -18,21 +19,30 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
         3:'新增'
     };
     /*查看图片*/
-    $scope.showImage = function(img){
-        $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
-            console.log(img)
-            $uibModal.open({
-                animation: true,
-                templateUrl: 'tipsModalContent',
-                controller: 'ShowTipsPicCtl',
-                backdrop:false,
-                resolve: {
-                    $image: function () {
-                        return img;
+    $scope.showImage = function(img,index){
+        if(img.nothing == false){
+            $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
+                console.log(img)
+                wheelzoom(document.getElementById("poiTipsOriginImg"));
+                $uibModal.open({
+                    animation: true,
+                    templateUrl: 'tipsModalContent',
+                    controller: 'ShowTipsPicCtl',
+                    backdrop:false,
+                    resolve: {
+                        $image: function () {
+                            return img;
+                        },
+                        $index:function(){
+                            return index;
+                        },
+                        $imgs:function(){
+                            return $scope.poi.photos;
+                        }
                     }
-                }
+                });
             });
-        });
+        }
     }
     /*关闭tips事件*/
     $scope.closeTips = function(){
