@@ -403,25 +403,27 @@ fastmap.uikit.HighRenderController = (function () {
                     var geo = [];
                     geo.push(feature.geometry.coordinates);
                     geo.push([172,205]);
-                    this.layer._drawImg({
-                        ctx:ctx,
-                        geo:feature.geometry.coordinates,
-                        style:{src:'../../../images/poi/map/marker_red_16.png'},
-                        boolPixelCrs:true,
-                        drawy:-31
+
+                    this.layer._drawPoint({
+                        boolPixelCrs: true,
+                        ctx: ctx,
+                        fillColor: 'red',
+                        radius: 3,
+                        geom: feature.geometry.coordinates
                     });
                     this.layer._drawLineString(ctx, geo, true, {
                         strokeWidth: 1,
-                        strokeColor: 'red'
+                        strokeColor: '#00F5FF'
                     }, {
                         strokeWidth: 3,
-                        strokeColor: 'red'
+                        strokeColor: '#00F5FF'
                     }, feature.properties);
-                    this.layer._drawImg({
-                        ctx:ctx,
-                        geo:[172,205],
-                        style:{src:'../../../images/poi/map/marker_circle.png'},
-                        boolPixelCrs:true
+                    this.layer._drawPoint({
+                        boolPixelCrs: true,
+                        ctx: ctx,
+                        fillColor: 'red',
+                        radius: 3,
+                        geom: [172,205]
                     });
                 }
             },
