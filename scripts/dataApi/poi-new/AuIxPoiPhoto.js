@@ -7,35 +7,21 @@ FM.dataApi.AuIxPoiPhoto = FM.dataApi.DataModel.extend({
 	 * 返回参数赋值
 	 */
 	setAttributes: function(data) {
-		this.audataId = data['audataId'];
-		this.poiPid = data['poiPid'] || 0;
+		this.poiPid = data['poiPid'];
 		this.photoId = data['photoId'] || 0;
-		this.photoGuid = data['photoGuid'] || null;
 		this.status = data['status'] || null;
-		this.attTaskId = data['attTaskId'] || 0;
-		this.attOprstatus = data['attOprstatus'] || 0;
-		this.attCheckstatus = data['attCheckstatus'] || 0;
-		this.fieldTaskId = data['fieldTaskId'] || 0;
-		this.fieldTaskSubId = data['fieldTaskSubId'] || null;
-		this.poiFieldGuid = data['poiFieldGuid'] || null;
-		this.type = data['type'] || 2;
-		this.fieldSource = data['fieldSource'];
+		this.memo = data['memo'] || 0;
+		this.uRecord = data['uRecord'] || 0;
+		this.uFields = data['uFields'] || 0;
 	},
 	getIntegrate: function(){
 		var ret = {};
-		ret["audataId"] = this.audataId;
 		ret["poiPid"] = this.poiPid;
 		ret["photoId"] = this.photoId;
-		ret["photoGuid"] = this.photoGuid;
 		ret["status"] = this.status;
-		ret["attTaskId"] = this.attTaskId;
-		ret["attOprstatus"] = this.attOprstatus;
-		ret["attCheckstatus"] = this.attCheckstatus;
-		ret["fieldTaskId"] = this.fieldTaskId;
-		ret["fieldTaskSubId"] = this.fieldTaskSubId;
-		ret["poiFieldGuid"] = this.poiFieldGuid;
-		ret["type"] = this.type;
-		ret["fieldSource"] = this.fieldSource;
+		ret["memo"] = this.memo;
+		ret["uRecord"] = this.uRecord;
+		ret["uFields"] = this.uFields;
 		return ret;
 	}
 });
