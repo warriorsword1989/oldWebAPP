@@ -31,7 +31,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         var defer = $q.defer();
         ajax.getLocalJson("../service/poi.json").success(function(data) {
             if (data) {
-                var poi = new FM.dataApi.AuIxPoi(data);
+                var poi = new FM.dataApi.IxPoi(data);
                 defer.resolve(poi);
             } else {
                 defer.resolve("读取POI文件出错了.");

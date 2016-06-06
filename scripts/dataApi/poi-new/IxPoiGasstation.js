@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016/5/27.
  */
-FM.dataApi.AuIxPoiGasstation = FM.dataApi.DataModel.extend({
-    dataModelType: "AU_IX_POI_GASSTATION",
+FM.dataApi.IxPoiGasstation = FM.dataApi.DataModel.extend({
+    dataModelType: "IX_POI_GASSTATION",
     /*
      * 返回参数赋值
      */

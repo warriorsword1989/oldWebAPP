@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016/5/27.
  */
-FM.dataApi.AuIxPoiBuilding = FM.dataApi.DataModel.extend({
-    dataModelType: "AU_IX_POI_BUILDING",
+FM.dataApi.IxPoiBuilding = FM.dataApi.DataModel.extend({
+    dataModelType: "IX_POI_BUILDING",
     /*
      * 返回参数赋值
      */
