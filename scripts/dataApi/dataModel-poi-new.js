@@ -10,19 +10,6 @@
                 "dataApi/meta/IxPoiKind.js",
                 "dataApi/meta/IxPoiMediumKind.js",
                 "dataApi/meta/IxPoiTopKind.js",
-                // "dataApi/poi/IxPoi.js",
-                // "dataApi/poi/IxPoiSnapShot.js",
-                // "dataApi/poi/IxPoiAddress.js",
-                // "dataApi/poi/IxPoiChargingPole.js",
-                // "dataApi/poi/IxPoiChargingStation.js",
-                //
-                // "dataApi/poi/IxPoiImage.js",
-                // "dataApi/poi/IxPoiName.js",
-                // "dataApi/poi-new/IxCheckResult.js",
-                //
-                // "dataApi/poi/IxPoiConstant.js",
-                // "dataApi/poi/IxCheckResult.js",
-                //"dataApi/poi/IxEditHistory.js",
 
                 "dataApi/poi-new/IxPoiConstant.js",
                 "dataApi/poi-new/IxPoi.js",
