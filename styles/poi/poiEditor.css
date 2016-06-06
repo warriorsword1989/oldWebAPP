@@ -316,6 +316,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .fm-no-scroll {
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 
@@ -491,22 +492,22 @@ label > input[type='radio'], label > input[type='checkbox'] {
     right: 0px;
     background-color: transparent;
     border: none;
-}
-
-.fm-editor-panel-normal {
     width: 315px;
 }
 
+.fm-editor-panel-normal {
+    right: 0px;
+}
+
 .fm-editor-panel-sm {
-    width: 15px;
+    right: -300px;
 }
 
 .fm-editor-arrow {
     width: 15px;
     height: 100%;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 50%;
 }
 
 .fm-editor-arrow a.fm-panel-controlArrowLeft>span {
