@@ -579,7 +579,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     right: -5px;
     top: -5px;
-    color: #958F8F;
+    color: #fff;
     transition: all .3s;
     cursor: pointer;
 }
@@ -599,7 +599,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .close-tips-ico:hover {
-    color: #323131;
+    color: #A9A6A6;
 }
 
 /*fadeIn animte*/
@@ -739,44 +739,36 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
 }
 
-.btnPrev {
+.tips-option-well > li {
+    float: left;
+}
+
+.tips-btn-group {
     display: block;
     width: 30px;
     height: 29px;
     outline: none;
     opacity: 0.8;
+    padding:5px;
+    background-color: rgba(48, 48, 48, 0);
+    border: 0;
+    transition: all .3s;
 }
-
-.btnPrev > li {
-    float: left;
+.tips-btn-group:hover{
+    color: #3FB5F5;
 }
-.btnPrev > li > .glyphicon {
-    position: absolute;
-    top: 7px;
-    left: 10px;
+.tips-btn-group[disabled] {
+    cursor: no-drop;
+    color: #9C9E9F;
 }
-
-.btnNext {
-    display: block;
-    width: 30px;
-    height: 29px;
-    outline: none;
-    opacity: 0.8;
+.btn-close-tips:hover{
+    color: #f50d3c;
 }
-
-.btnNext > li {
-    float: left;
-}
-.btnNext > li > .glyphicon {
-    position: absolute;
-    top: 7px;
-    left: 40px;
-}
-
 .modal-body {
     background-color: #464646;
     border-radius: 4px;
     color: #fff;
+    transition: all 1s;
 }
 
 .switch-left > span {

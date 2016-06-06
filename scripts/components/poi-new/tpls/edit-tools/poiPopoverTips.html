@@ -82,40 +82,41 @@
     <!--照片查看model-->
     <script type="text/ng-template" id="tipsModalContent">
         <div class="modal-body">
-            <span class="pull-right">
-                <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="cancel()"></i>
-            </span>
             <ul class="tips-option-well">
                 <li>
-                    <a href="javascript:;" class="btn-prev" title="上一张">
+                    <button class="tips-btn-group btn-prev" title="上一张" ng-disabled="indexNow == 1" ng-click="showImgPre();">
                         <i class='glyphicon glyphicon-arrow-left'></i>
-                    </a>
+                    </button>
                 </li>
                 <li>
-                    <a href="javascript:;" class="btn-next" title="下一张">
+                    <button class="tips-btn-group btn-next" title="下一张" ng-disabled="indexNow == imgList.length" ng-click="showImgNext();">
                         <i class='glyphicon glyphicon-arrow-right'></i>
-                    </a>
+                    </button>
                 </li>
                 <li>
-                    <a href="javascript:;" class="btn-fullscreen" title="全屏">
+                    <button class="tips-btn-group btn-fullscreen" title="全屏" ng-click="imgFullScreen();">
                         <i class='glyphicon glyphicon-fullscreen'></i>
-                    </a>
+                    </button>
+                </li>
+                <li>
+                    <button class="tips-btn-group btn-close-tips" title="关闭" ng-click="cancel()">
+                        <i class='glyphicon glyphicon-remove'></i>
+                    </button>
                 </li>
             </ul>
-            <div class="switch-left" ng-hide="indexNow == 1" ng-click="showImgPre();">
-                <span></span>
-                <img src="../../../images/road/img/left.png" alt="">
-            </div>
-            <div class="switch-right" ng-hide="indexNow == imgList.length" ng-click="showImgNext();">
-                <span></span>
-                <img src="../../../images/road/img/right.png" alt="">
-            </div>
             <div id="originImgPanel">
                 <img id="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.url}}"/>
                 <!--<img id="poiTipsOriginImg" ng-src="{{imageNow.url}}"/>-->
             </div>
-            <div>
+            <div class="text-center">
                 {{indexNow}}/{{imgList.length}}
+            </div>
+            <!--全屏-->
+            <div class="full-screen-img-panel" ng-show="showFullScreen">
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="cancel()"></i>
+                </span>
+                <img ng-src="{{imageNow.url}}"/>
             </div>
         </div>
     </script>
