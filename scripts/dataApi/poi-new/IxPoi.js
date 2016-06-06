@@ -132,6 +132,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				this.samePoiParts.push(new FM.dataApi.IxSamepoiPart(data["samePoiParts"][i]));
 			}
 		}
+		this.parkings = [];
+		if(data["parkings"]){
+			for (var i = 0 ,len = data["parkings"].length ;i < len ; i++){
+				this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
+			}
+		}
 	},
 	/*
 	 * UI-->DB
