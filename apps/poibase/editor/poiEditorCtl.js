@@ -26,11 +26,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.selectedTool = 1;
     $scope.dataListType = 1;
     $scope.outputType = 1;
-    $scope.parkingFee = {
-        1: '包年',
-        2: '包月',
-        3: '免费'
-    };
     $scope.hideConsole = true;
     $scope.hideEditorPanel = true;
     $scope.parentPoi = {};//父POI
