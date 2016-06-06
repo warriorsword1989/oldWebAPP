@@ -10,10 +10,22 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
     setAttributes: function(data) {
         this.parkingId = data['parkingId'];
         this.poiPid = data['poiPid'] || 0;
-        this.parkingType = data['parkingType'];
-        this.tollStd = data['tollStd'];
+        var parkingTypeArr = (data["parkingType"]).split("|");
+        this.parkingType = {};
+        for(var i=0;i<parkingTypeArr.length;i++) {
+            this.parkingType[parkingTypeArr[i]] = true;
+        }
+        var tollStdArr = (data["tollStd"]).split("|");
+        this.tollStd = {};
+        for(var i=0;i<tollStdArr.length;i++) {
+            this.tollStd[tollStdArr[i]] = true;
+        }
         this.tollDes = data['tollDes'];
-        this.tollWay = data['tollWay'];
+        var tollWayArr = (data["tollWay"]).split("|");
+        this.tollWay = {};
+        for(var i=0;i<tollWayArr.length;i++) {
+            this.tollWay[tollWayArr[i]] = true;
+        }
         this.payment = data['payment'];
         this.remark = data['remark'];
         this.source = data['source'];
@@ -35,10 +47,28 @@ FM.dataApi.IxPoiParking = FM.dataApi.DataModel.extend({
         var ret = {};
         ret['parkingId'] = this.parkingId;
         ret['poiPid'] = this.poiPid;
-        ret['parkingType'] = this.parkingType;
-        ret['tollStd'] = this.tollStd;
+        var checkedParkingTypeArr = [];
+        for(var key in this.parkingType){
+            if(this.parkingType[key] == true){
+                checkedParkingTypeArr.push(key);
+            }
+        }
+        ret["parkingType"] = checkedParkingTypeArr.join("|");
+        var checkedTollStdArr = [];
+        for(var key in this.tollStd){
+            if(this.tollStd[key] == true){
+                checkedTollStdArr.push(key);
+            }
+        }
+        ret["tollStd"] = checkedTollStdArr.join("|");
         ret['tollDes'] = this.tollDes;
-        ret['tollWay'] = this.tollWay;
+        var checkedTollWayArr = [];
+        for(var key in this.tollWay){
+            if(this.tollWay[key] == true){
+                checkedTollWayArr.push(key);
+            }
+        }
+        ret["tollWay"] = checkedTollWayArr.join("|");
         ret['payment'] = this.payment;
         ret['remark'] = this.remark;
         ret['source'] = this.source;
