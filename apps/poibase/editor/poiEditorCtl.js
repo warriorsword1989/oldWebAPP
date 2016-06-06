@@ -25,6 +25,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	$scope.suspendFlag = true;
 	$scope.selectedTool = 1;
 	$scope.dataListType = 1;
+	$scope.projectType = 1;
 	$scope.outputType = 1;
 	$scope.hideConsole = true;
 	$scope.hideEditorPanel = true;
@@ -36,6 +37,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 		$scope.poiList = data.data;
 	});
 	loadMap();
+	/*切换项目平台*/
+	$scope.changeProject = function(type){
+		$scope.projectType = type;
+	}
+	/*切换poi列表类型*/
 	$scope.changeDataList = function (val) {
 		$scope.dataListType = val;
 	};
@@ -101,15 +107,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	})
 	/*键盘控制poilist切换*/
 	$document.bind("keyup", function (event) {
-		if ($scope.itemActive<$scope.poiList.length-1 && event.keyCode == 40) {
+		if ($scope.itemActive<$scope.poiList.length-1 && event.keyCode == 34) {
 			$scope.itemActive++;
 		}
-		if ($scope.itemActive!=0 && event.keyCode == 38) {
+		if ($scope.itemActive!=0 && event.keyCode == 33) {
 			$scope.itemActive--;
 		}
 		$scope.$apply();
 		refreshPoiData($scope.poiList[$scope.itemActive].fid);
-		console.log($scope.poiList[$scope.itemActive])
 	});
 	$scope.doIgnore = function (val) {
 		alert(val);
