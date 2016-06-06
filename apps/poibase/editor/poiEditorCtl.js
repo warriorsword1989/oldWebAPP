@@ -493,15 +493,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     // }));
     promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
-        $scope.parentPoi = {};
-        $scope.childrenPoi = [];
+        //$scope.parentPoi = {};
+        //$scope.childrenPoi = [];
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poi3DIcon = data;
     }));
     $q.all(promises).then(function(){
-        initParentAndChildren();
+        //initParentAndChildren();
         initOcll();
     });
     /*初始化tpl加载*/
