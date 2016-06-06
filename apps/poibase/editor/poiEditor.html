@@ -59,14 +59,14 @@
                                     <button>名称</button><input class="fm-ctl" placeholder="搜索">
                                 </div>
                             </div>
-                            <table class="table table-bordered table-condensed" style="color:#fff;margin-top:8px;margin-bottom:0px;">
+                            <table class="table table-bordered table-condensed poi-list">
                                 <thead>
-                                    <td>序号</td>
+                                    <td width=35>序号</td>
                                     <td>名称</td>
                                     <td>分类</td>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="item in poiList" ng-click="selectData(item)" style="cursor:pointer;">
+                                    <tr ng-repeat="item in poiList" ng-click="selectData(item,$index)" ng-class="{true:'active'}[itemActive == $index]">
                                         <td>{{$index + 1}}</td>
                                         <td>{{item.name}}</td>
                                         <td>{{item.kindCode}}</td>
