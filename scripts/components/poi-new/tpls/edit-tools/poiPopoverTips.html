@@ -4,9 +4,7 @@
             POI状态
         </label>
     </div>
-    <span class="pull-right close-tips">
-        <i class="glyphicon glyphicon-remove-sign" ng-click="closeTips()"></i>
-    </span>
+    <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
     <div class="meta-info col-sm-12">
         <div ng-repeat="item in poi.photos ">
             <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
@@ -106,7 +104,6 @@
             </ul>
             <div id="originImgPanel">
                 <img id="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.url}}"/>
-                <!--<img id="poiTipsOriginImg" ng-src="{{imageNow.url}}"/>-->
             </div>
             <div class="text-center">
                 {{indexNow}}/{{imgList.length}}

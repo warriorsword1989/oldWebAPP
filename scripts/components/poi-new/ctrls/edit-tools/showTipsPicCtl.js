@@ -36,8 +36,6 @@ angular.module('app').controller('ShowTipsPicCtl', ['$scope', '$uibModalInstance
 }]).directive('imgShow', function () {
 	return {
 		link: function (scope, element, attr) {
-			element[0].dispatchEvent(new CustomEvent('wheelzoom.destroy'));
-			element[0].dispatchEvent(new CustomEvent('wheelzoom.reset'));
 			wheelzoom(element);
 			console.log(element)
 		}
