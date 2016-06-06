@@ -1,8 +1,8 @@
 /**
  * Created by wuz on 2016/5/27.
  */
-FM.dataApi.AuIxPoiName = FM.dataApi.DataModel.extend({
-	dataModelType: "AU_IX_POI_NAME",
+FM.dataApi.IxPoiName = FM.dataApi.DataModel.extend({
+	dataModelType: "IX_POI_NAME",
 	/*
 	 * DB-->UI
 	 */

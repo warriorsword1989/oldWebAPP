@@ -515,7 +515,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         if($scope.poi.parents && $scope.poi.parents.length > 0){
             var parentPid = $scope.poi.parents[0].parentPoiPid;
             poiDS.queryParentPoi(parentPid).then(function (data){
-                $scope.parentPoi = new FM.dataApi.AuIxPoi(data);
+                $scope.parentPoi = new FM.dataApi.IxPoi(data);
             });
         }
         if($scope.poi.children && $scope.poi.children.length > 0){
@@ -526,7 +526,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             poiDS.queryChildren(childrenArr.join(",")).then(function (data){
                 // $scope.childrenPoi = data
                 for(var i = 0 , len = data.length ;i < len ; i ++){
-                    $scope.childrenPoi.push(new FM.dataApi.AuIxPoi(data[i]));
+                    $scope.childrenPoi.push(new FM.dataApi.IxPoi(data[i]));
                 }
             });
         }

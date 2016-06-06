@@ -69,7 +69,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
 
     $scope.addContact = function() {
         $scope.poi.contacts.push(
-            new FM.dataApi.AuIxPoiContact({
+            new FM.dataApi.IxPoiContact({
                 contactType: 1,
                 code: "010",
                 contact: ""
