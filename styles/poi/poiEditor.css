@@ -717,7 +717,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .tips-option-well {
     display: block;
     position: absolute;
-    width: 163px;
+    width: 125px;
     left: 0;
     right: 0;
     margin-bottom: 10px;
@@ -742,7 +742,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .tips-option-well > li {
     float: left;
 }
-
+.tips-option-li:not(:first-child){
+    border-left:1px solid #3f3f3f;
+}
 .tips-btn-group {
     display: block;
     width: 30px;
@@ -770,7 +772,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #fff;
     transition: all 1s;
 }
-
+.modal{
+    width:600px;
+    margin:0 auto;
+}
 .switch-left > span {
     background: url("../../../images/road/img/left.png");
     height: 40px;

@@ -15,20 +15,15 @@ angular.module('app').controller('ShowTipsPicCtl', ['$scope', '$uibModalInstance
 	$scope.showImgNext = function () {
 		$scope.indexNow++;
 		$scope.imageNow = $scope.imgList[$scope.indexNow - 1];
-		console.log($scope.indexNow,$index,$scope.imgList)
-		// $scope.imgNowSrc = $scope.imgList[num + 1].url;
-		// $scope.imgNowSrc = 'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095316_81341.png?t=0.5543549361724707';
 	};
 	/*下一站*/
 	$scope.showImgPre = function () {
 		$scope.indexNow--;
 		$scope.imageNow = $scope.imgList[$scope.indexNow - 1];
-		console.log($scope.indexNow,$index,$scope.imgList)
-		// $scope.imgNowSrc = $scope.imgList[num - 1].url;
 	};
 	/*全屏*/
 	$scope.imgFullScreen = function(){
-		$scope.showFullScreen = true;
+		// $scope.showFullScreen = true;
 	}
 	$scope.ok = function () {
 		// $uibModalInstance.close($scope.selected.item);

@@ -27,7 +27,7 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
                     animation: true,
                     templateUrl: 'tipsModalContent',
                     controller: 'ShowTipsPicCtl',
-                    backdrop:true,
+                    backdrop:false,
                     resolve: {
                         $image: function () {
                             return img;
