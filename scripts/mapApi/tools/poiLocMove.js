@@ -102,8 +102,10 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
 
         }
-
-        that.resetVertex(layerPoint);
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        points.components[0].x = this.targetPoint.lng;
+        points.components[0].y = this.targetPoint.lat;
+        that.resetVertex(points);
 
         that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
     },
@@ -178,8 +180,8 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
     /***
      * 重新设置节点
      */
-    resetVertex:function(){
-        this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+    resetVertex:function(points){
+        this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
         //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
         //distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
         //distance = distance1<distance2?distance1:distance2
