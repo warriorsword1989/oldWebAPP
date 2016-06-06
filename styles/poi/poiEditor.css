@@ -588,7 +588,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     top: 40px;
-    right: 0px;
+    right: 2px;
     cursor: pointer;
     font-size: 20px;
     transition: all .3s;
