@@ -93,6 +93,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             $scope.showPopoverTips = true;
         });
     };
+    
     /*关闭popoverTips状态框*/
     $scope.$on('closePopoverTips',function(event,data){
         $scope.showPopoverTips = false;

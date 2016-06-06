@@ -83,22 +83,22 @@
     <script type="text/ng-template" id="tipsModalContent">
         <div class="modal-body">
             <ul class="tips-option-well">
-                <li>
+                <li class="tips-option-li">
                     <button class="tips-btn-group btn-prev" title="上一张" ng-disabled="indexNow == 1" ng-click="showImgPre();">
                         <i class='glyphicon glyphicon-arrow-left'></i>
                     </button>
                 </li>
-                <li>
+                <li class="tips-option-li">
                     <button class="tips-btn-group btn-next" title="下一张" ng-disabled="indexNow == imgList.length" ng-click="showImgNext();">
                         <i class='glyphicon glyphicon-arrow-right'></i>
                     </button>
                 </li>
-                <li>
+                <li class="tips-option-li">
                     <button class="tips-btn-group btn-fullscreen" title="全屏" ng-click="imgFullScreen();">
                         <i class='glyphicon glyphicon-fullscreen'></i>
                     </button>
                 </li>
-                <li>
+                <li class="tips-option-li">
                     <button class="tips-btn-group btn-close-tips" title="关闭" ng-click="cancel()">
                         <i class='glyphicon glyphicon-remove'></i>
                     </button>
