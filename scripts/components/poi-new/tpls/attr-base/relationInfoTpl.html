@@ -6,7 +6,7 @@
                 <ul class="fm-ul fm-ul-list">
                     <li ng-if="parentPoi">
                         <label>
-                            {{parentPoi.name.name}}
+                            {{parentPoi.name.parentPoiPid}}
                         </label>
                         <div>
                             <a href="javascript:void(0);" ng-click="showParentPoiInMap(parentPoi)"><i class="glyphicon glyphicon-link"></i></a>
@@ -31,7 +31,7 @@
                     </li >
                     <li ng-if="childrenPoi.length > 0" ng-repeat="child in childrenPoi">
                         <label>
-                            {{child.name.name}}
+                            {{child.name.childPoiPid}}
                         </label>
                         <div>
                             <a href="javascript:void(0);" ng-click="showChildrenPoisInMap(child);"><i class="glyphicon glyphicon-link"></i></a>

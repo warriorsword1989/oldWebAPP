@@ -5,31 +5,6 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     pKindFormat = $scope.$parent.metaData.kindFormat;
     pAllChain = $scope.$parent.metaData.allChain;
 
-    /*临时假数据*/
-    // $scope.poi.contacts = [{
-    //     "priority": 1,
-    //     "type": 1,
-    //     "linkman": null,
-    //     "weChatUrl": null,
-    //     "number": "60509788",
-    //     "code":"010"
-    // },
-    // {
-    //     "priority": 2,
-    //     "type": 1,
-    //     "linkman": null,
-    //     "weChatUrl": null,
-    //     "number": "3456789",
-    //     "code":"0314"
-    // },
-    // {
-    //     "priority": 1,
-    //     "type": 2,
-    //     "linkman": null,
-    //     "weChatUrl": null,
-    //     "number": "18291898987",
-    //     "code":""
-    // }]
 
     //初始化时让分类、品牌默认选中
     $scope.$watch('poi.kindCode', function (newVlaue, oldValue) {
