@@ -1,8 +1,8 @@
 /**
  * Created by mali on 2016/5/27.
  */
-FM.dataApi.AuIxPoiAddress = FM.dataApi.DataModel.extend({
-    dataModelType: "AU_IX_POI_ADDRESS",
+FM.dataApi.IxPoiAddress = FM.dataApi.DataModel.extend({
+    dataModelType: "IX_POI_ADDRESS",
     /*
      * 返回参数赋值
      */

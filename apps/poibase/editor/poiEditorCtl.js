@@ -26,11 +26,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.selectedTool = 1;
     $scope.dataListType = 1;
     $scope.outputType = 1;
-    $scope.parkingFee = {
-        1: '包年',
-        2: '包月',
-        3: '免费'
-    };
     $scope.hideConsole = true;
     $scope.hideEditorPanel = true;
     $scope.parentPoi = {};//父POI
@@ -98,6 +93,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             $scope.showPopoverTips = true;
         });
     };
+    
     /*关闭popoverTips状态框*/
     $scope.$on('closePopoverTips',function(event,data){
         $scope.showPopoverTips = false;
@@ -493,15 +489,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     // }));
     promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function(data) {
         $scope.poi = data;
-        $scope.parentPoi = {};
-        $scope.childrenPoi = [];
+        //$scope.parentPoi = {};
+        //$scope.childrenPoi = [];
     }));
     /*查询3DIcon*/
     promises.push(meta.getCiParaIcon("0010060815LML01353").then(function(data) {
         $scope.poi3DIcon = data;
     }));
     $q.all(promises).then(function(){
-        initParentAndChildren();
+        //initParentAndChildren();
         initOcll();
     });
     /*初始化tpl加载*/
@@ -520,7 +516,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         if($scope.poi.parents && $scope.poi.parents.length > 0){
             var parentPid = $scope.poi.parents[0].parentPoiPid;
             poiDS.queryParentPoi(parentPid).then(function (data){
-                $scope.parentPoi = new FM.dataApi.AuIxPoi(data);
+                $scope.parentPoi = new FM.dataApi.IxPoi(data);
             });
         }
         if($scope.poi.children && $scope.poi.children.length > 0){
@@ -531,7 +527,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             poiDS.queryChildren(childrenArr.join(",")).then(function (data){
                 // $scope.childrenPoi = data
                 for(var i = 0 , len = data.length ;i < len ; i ++){
-                    $scope.childrenPoi.push(new FM.dataApi.AuIxPoi(data[i]));
+                    $scope.childrenPoi.push(new FM.dataApi.IxPoi(data[i]));
                 }
             });
         }

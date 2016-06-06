@@ -61,7 +61,20 @@
   "entryimages": [],
   "icons": [],
   "photos": [
-    {}
+    {
+      "poiPid":123,
+      "photoId":1234,
+      "status":1,
+      "memo":1,
+      "url":"http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg"
+    },
+    {
+      "poiPid":123,
+      "photoId":12345,
+      "status":1,
+      "memo":1,
+      "url":"http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095316_81341.png?t=0.5543549361724707"
+    }
   ],
   "samppois": [],
   "samepoiParts": [],

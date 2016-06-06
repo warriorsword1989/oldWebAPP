@@ -4,13 +4,12 @@
             POI状态
         </label>
     </div>
-    <div class="tips-close">
-        <button type="button" class="close" ng-click="closeTips();" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
+    <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
     <div class="meta-info col-sm-12">
         <div ng-repeat="item in poi.photos ">
             <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
-            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}" ng-click="showImage(item);" class="tips-img" alt="">
+            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}"
+                 ng-click="showImage(item,$index);" class="tips-img" alt="">
         </div>
     </div>
     <div class="tips-middle">
@@ -18,15 +17,21 @@
             <div class="panel-body panel-tips">
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">审核状态：</label>
-                    <label class="label label-primary" ng-class="{1:'info', 2: 'success',3: 'danger', 4: 'default', 5: 'warning'}[poi.auditStatus]" ng-bind="poi.auditStatusText"></label>
+                    <label class="label label-primary"
+                           ng-class="{1:'info', 2: 'success',3: 'danger', 4: 'default', 5: 'warning'}[poi.auditStatus]"
+                           ng-bind="poi.auditStatusText"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">记录状态：</label>
-                    <label class="label label-primary" ng-class="{0: 'default', 1:'danger', 2: 'info', 3: 'success'}[poi.state]" ng-bind="statusObject[poi.state]"></label>
+                    <label class="label label-primary"
+                           ng-class="{0: 'default', 1:'danger', 2: 'info', 3: 'success'}[poi.state]"
+                           ng-bind="statusObject[poi.state]"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">数据状态：</label>
-                    <label class="label label-primary" ng-class="{1: 'danger', 2: 'warning', 3: 'success', 4: 'default'}[poi.lifecycle]" ng-bind="poi.lifecycleName"></label>
+                    <label class="label label-primary"
+                           ng-class="{1: 'danger', 2: 'warning', 3: 'success', 4: 'default'}[poi.lifecycle]"
+                           ng-bind="poi.lifecycleName"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">鲜度认证：</label>
@@ -75,23 +80,40 @@
     <!--照片查看model-->
     <script type="text/ng-template" id="tipsModalContent">
         <div class="modal-body">
-            <span class="pull-right">
-                <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="cancel()"></i>
-            </span>
-            <div class="tips-option-well">
-
-            </div>
-            <div class="switch-left">
-                <span></span>
-                <img src="../../../images/road/img/left.png" alt="">
-            </div>
-            <div class="switch-right">
-                <span></span>
-                <img src="../../../images/road/img/right.png" alt="">
-            </div>
+            <ul class="tips-option-well">
+                <li class="tips-option-li">
+                    <button class="tips-btn-group btn-prev" title="上一张" ng-disabled="indexNow == 1" ng-click="showImgPre();">
+                        <i class='glyphicon glyphicon-arrow-left'></i>
+                    </button>
+                </li>
+                <li class="tips-option-li">
+                    <button class="tips-btn-group btn-next" title="下一张" ng-disabled="indexNow == imgList.length" ng-click="showImgNext();">
+                        <i class='glyphicon glyphicon-arrow-right'></i>
+                    </button>
+                </li>
+                <li class="tips-option-li">
+                    <button class="tips-btn-group btn-fullscreen" title="全屏" ng-click="imgFullScreen();">
+                        <i class='glyphicon glyphicon-fullscreen'></i>
+                    </button>
+                </li>
+                <li class="tips-option-li">
+                    <button class="tips-btn-group btn-close-tips" title="关闭" ng-click="cancel()">
+                        <i class='glyphicon glyphicon-remove'></i>
+                    </button>
+                </li>
+            </ul>
             <div id="originImgPanel">
-                <img id="poiTipsOriginImg" ng-src="http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg"/>
-                <!--<img id="poiTipsOriginImg" ng-src="{{imageNow.url}}"/>-->
+                <img id="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.url}}"/>
+            </div>
+            <div class="text-center">
+                {{indexNow}}/{{imgList.length}}
+            </div>
+            <!--全屏-->
+            <div class="full-screen-img-panel" ng-show="showFullScreen">
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="cancel()"></i>
+                </span>
+                <img ng-src="{{imageNow.url}}"/>
             </div>
         </div>
     </script>

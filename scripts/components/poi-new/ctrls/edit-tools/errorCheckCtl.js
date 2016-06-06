@@ -10,7 +10,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
         {"id": 3, "label": " 确认已修改"}
     ];
     $scope.initType = 0;
-    $scope.errorCheckData = [new FM.dataApi.AuIxCheckResult({"id": "ef9be156fb6e58aabefbaa88c130eb04",
+    $scope.errorCheckData = [new FM.dataApi.IxCheckResult({"id": "ef9be156fb6e58aabefbaa88c130eb04",
             "ruleid": "GLM56004",
             "rank": 1,
             "targets": "[RD_LINK,100005324]",
@@ -19,7 +19,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
             "create_date": "2016-05-31 13:53:46",
             "worker": "TEST"
         }),
-        new FM.dataApi.AuIxCheckResult({
+        new FM.dataApi.IxCheckResult({
             "id": "03aa39d0fea15a8e3d5b402869a980d1",
             "ruleid": "SHAPING_CHECK_CROSS_RDLINK_RDLINK",
             "rank": 1,
@@ -29,7 +29,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
             "create_date": "2016-05-31 13:53:46",
             "worker": "TEST"
         }),
-        new FM.dataApi.AuIxCheckResult({
+        new FM.dataApi.IxCheckResult({
             "id": "1ee57e22921da83bf212353956356a2f",
             "ruleid": "GLM56004",
             "rank": 1,
@@ -39,7 +39,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
             "create_date": "2016-05-31 08:58:39",
             "worker": "TEST"
         }),
-        new FM.dataApi.AuIxCheckResult({
+        new FM.dataApi.IxCheckResult({
             "id": "c7430b0f1066e63fec21dafcdd84aa9b",
             "ruleid": "PERMIT_CHECK_NO_REPEAT",
             "rank": 1,
@@ -49,7 +49,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
             "create_date": "2016-05-31 08:58:39",
             "worker": "TEST"
         }),
-        new FM.dataApi.AuIxCheckResult({
+        new FM.dataApi.IxCheckResult({
             "id": "53d600548b704ad1a0d6286a8dde1f4a",
             "ruleid": "SHAPING_CHECK_CROSS_RDLINK_RDLINK",
             "rank": 1,
