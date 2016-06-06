@@ -10,7 +10,8 @@
     <div class="meta-info col-sm-12">
         <div ng-repeat="item in poi.photos ">
             <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
-            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}" ng-click="showImage(item,$index);" class="tips-img" alt="">
+            <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}"
+                 ng-click="showImage(item,$index);" class="tips-img" alt="">
         </div>
     </div>
     <div class="tips-middle">
@@ -18,15 +19,21 @@
             <div class="panel-body panel-tips">
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">审核状态：</label>
-                    <label class="label label-primary" ng-class="{1:'info', 2: 'success',3: 'danger', 4: 'default', 5: 'warning'}[poi.auditStatus]" ng-bind="poi.auditStatusText"></label>
+                    <label class="label label-primary"
+                           ng-class="{1:'info', 2: 'success',3: 'danger', 4: 'default', 5: 'warning'}[poi.auditStatus]"
+                           ng-bind="poi.auditStatusText"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">记录状态：</label>
-                    <label class="label label-primary" ng-class="{0: 'default', 1:'danger', 2: 'info', 3: 'success'}[poi.state]" ng-bind="statusObject[poi.state]"></label>
+                    <label class="label label-primary"
+                           ng-class="{0: 'default', 1:'danger', 2: 'info', 3: 'success'}[poi.state]"
+                           ng-bind="statusObject[poi.state]"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">数据状态：</label>
-                    <label class="label label-primary" ng-class="{1: 'danger', 2: 'warning', 3: 'success', 4: 'default'}[poi.lifecycle]" ng-bind="poi.lifecycleName"></label>
+                    <label class="label label-primary"
+                           ng-class="{1: 'danger', 2: 'warning', 3: 'success', 4: 'default'}[poi.lifecycle]"
+                           ng-bind="poi.lifecycleName"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">鲜度认证：</label>
@@ -78,23 +85,37 @@
             <span class="pull-right">
                 <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="cancel()"></i>
             </span>
-            <div class="tips-option-well">
-
-            </div>
-            <div class="switch-left">
+            <ul class="tips-option-well">
+                <li>
+                    <a href="javascript:;" class="btn-prev" title="上一张">
+                        <i class='glyphicon glyphicon-arrow-left'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn-next" title="下一张">
+                        <i class='glyphicon glyphicon-arrow-right'></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="btn-fullscreen" title="全屏">
+                        <i class='glyphicon glyphicon-fullscreen'></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="switch-left" ng-hide="indexNow == 1" ng-click="showImgPre();">
                 <span></span>
                 <img src="../../../images/road/img/left.png" alt="">
             </div>
-            <div class="switch-right">
+            <div class="switch-right" ng-hide="indexNow == imgList.length" ng-click="showImgNext();">
                 <span></span>
                 <img src="../../../images/road/img/right.png" alt="">
             </div>
             <div id="originImgPanel">
-                <img id="poiTipsOriginImg" src="http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg"/>
+                <img id="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.url}}"/>
                 <!--<img id="poiTipsOriginImg" ng-src="{{imageNow.url}}"/>-->
             </div>
             <div>
-                {{indexNow}}/{{imgsLength}}
+                {{indexNow}}/{{imgList.length}}
             </div>
         </div>
     </script>

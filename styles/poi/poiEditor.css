@@ -69,7 +69,7 @@ a:hover {
     height: 15px;
 }
 
-a.fm-panel-controlArrowUp>span {
+a.fm-panel-controlArrowUp > span {
     background: url("../../images/road/img/arrow-up.png") no-repeat;
     margin-top: 3px;
     height: 10px;
@@ -79,7 +79,7 @@ a.fm-panel-controlArrowUp>span {
     transition: all 0s;
 }
 
-a.fm-panel-controlArrowDown>span {
+a.fm-panel-controlArrowDown > span {
     background: url("../../images/road/img/arrow-down.png") no-repeat;
     margin-top: 3px;
     height: 10px;
@@ -98,7 +98,6 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     text-align: center;
     transition: all 0s;
 }
-
 
 /**************************************nnade***************************************************/
 
@@ -316,8 +315,8 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .fm-no-scroll {
     overflow-y: hidden;
+    overflow-x: hidden;
 }
-
 
 /************************* 图片资源 ******************************/
 
@@ -338,7 +337,6 @@ label > input[type='radio'], label > input[type='checkbox'] {
     width: 24px;
     height: 24px;
 }
-
 
 /******************************** 文件上传 **************************************/
 
@@ -438,7 +436,6 @@ label > input[type='radio'], label > input[type='checkbox'] {
     position: relative;
 }
 
-
 /**************************控制台************************/
 
 .fm-console-panel {
@@ -491,29 +488,29 @@ label > input[type='radio'], label > input[type='checkbox'] {
     right: 0px;
     background-color: transparent;
     border: none;
-}
-
-.fm-editor-panel-normal {
     width: 315px;
 }
 
+.fm-editor-panel-normal {
+    right: 0px;
+}
+
 .fm-editor-panel-sm {
-    width: 15px;
+    right: -300px;
 }
 
 .fm-editor-arrow {
     width: 15px;
     height: 100%;
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 50%;
 }
 
-.fm-editor-arrow a.fm-panel-controlArrowLeft>span {
+.fm-editor-arrow a.fm-panel-controlArrowLeft > span {
     background: url("../../images/road/img/arrow-left.png");
 }
 
-.fm-editor-arrow a.fm-panel-controlArrowRight>span {
+.fm-editor-arrow a.fm-panel-controlArrowRight > span {
     background: url("../../images/road/img/arrow-right.png");
 }
 
@@ -527,13 +524,12 @@ a.fm-panel-controlArrowLeft, a.fm-panel-controlArrowRight {
     vertical-align: middle;
 }
 
-a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
+a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     display: inline-block;
     width: 10px;
     height: 20px;
     margin-top: 10px;
 }
-
 
 /**********tips style**********/
 
@@ -587,7 +583,8 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     transition: all .3s;
     cursor: pointer;
 }
-.close-tips{
+
+.close-tips {
     position: absolute;
     color: #fff;
     top: 40px;
@@ -596,9 +593,11 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     font-size: 20px;
     transition: all .3s;
 }
-.close-tips:hover{
+
+.close-tips:hover {
     color: #A5A1A1;
 }
+
 .close-tips-ico:hover {
     color: #323131;
 }
@@ -662,7 +661,6 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     box-shadow: 0px 1px 0px #333 inset;
 }
 
-
 /*********************tips**********************/
 
 .tips-title {
@@ -713,6 +711,72 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
 
 #poiTipsOriginImg {
     width: 100%;
+    cursor: move;
+}
+
+.tips-option-well {
+    display: block;
+    position: absolute;
+    width: 163px;
+    left: 0;
+    right: 0;
+    margin-bottom: 10px;
+    height: 31px;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #111;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    -moz-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .05);
+    background: rgb(50, 50, 50);
+    background: -moz-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgb(68, 68, 68)), color-stop(50%, rgb(52, 52, 52)), color-stop(50%, rgb(41, 41, 41)), color-stop(100%, rgb(51, 51, 51)));
+    background: -webkit-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
+    background: -o-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
+    background: -ms-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
+    background: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
+}
+
+.btnPrev {
+    display: block;
+    width: 30px;
+    height: 29px;
+    outline: none;
+    opacity: 0.8;
+}
+
+.btnPrev > li {
+    float: left;
+}
+.btnPrev > li > .glyphicon {
+    position: absolute;
+    top: 7px;
+    left: 10px;
+}
+
+.btnNext {
+    display: block;
+    width: 30px;
+    height: 29px;
+    outline: none;
+    opacity: 0.8;
+}
+
+.btnNext > li {
+    float: left;
+}
+.btnNext > li > .glyphicon {
+    position: absolute;
+    top: 7px;
+    left: 40px;
+}
+
+.modal-body {
+    background-color: #464646;
+    border-radius: 4px;
+    color: #fff;
 }
 
 .switch-left > span {
@@ -750,7 +814,7 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     list-style-type: none;
 }
 
-.floatMenu>li {
+.floatMenu > li {
     /*position:absolute;*/
     left: 200px;
     top: 300px;
@@ -764,7 +828,7 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     z-index: 1000;
 }
 
-.floatMenu>li:hover {
+.floatMenu > li:hover {
     color: blueviolet;
     background-color: #00FF33;
 }
@@ -773,7 +837,6 @@ a.fm-panel-controlArrowLeft>span, a.fm-panel-controlArrowRight>span {
     font-size: 16px;
     color: #FFF;
 }
-
 
 /* ---------------------滚动条-------------------------------------------------- */
 

@@ -1,7 +1,7 @@
 /**
  * Created by wuz on 2016/5/27.
  */
-FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
+FM.dataApi.AuIxPoi = FM.dataApi.GeoDataModel.extend({
 	dataModelType: "AU_IX_POI",
 	/*
 	 * DB-->UI
@@ -50,7 +50,7 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
 
-		this.name = {}; //主名称
+		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
 			for (var i = 0, len = data['names'].length; i < len; i++) {
