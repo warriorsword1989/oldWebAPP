@@ -2,7 +2,7 @@
  * Created by mali on 2016/5/31.
  */
 angular.module('app').controller('parkingCtl', function($scope) {
-    // $scope.parking = $scope.poi.parking[0];
+    $scope.parking = $scope.poi.parkings[0];
     $scope.parkingBuildingType = FM.dataApi.Constant.PARKING_TYPE;
     $scope.tollStd = FM.dataApi.Constant.TOLLSTD;
     $scope.tollWay = FM.dataApi.Constant.TOLLWAY;
