@@ -55,5 +55,14 @@ FM.dataApi.Constant = {
         15: "准五星级",
         16: "准一星级",
         17: "准二星级"
+    },
+    'CREDIT_CARD':{
+        0: "不支持信用卡",
+        1: "维士(visa)",
+        2: "万事达(mastercard)",
+        3: "大来(dinas)",
+        4: "日本国际信用卡(jcb)",
+        5: "美 国 运 通 (AmericaExpress)",
+        6: "银联(unionpay)"
     }
 }

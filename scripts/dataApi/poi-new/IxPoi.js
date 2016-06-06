@@ -114,10 +114,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
 			}
 		}
-		this.restaurantes = [];
-		if(data["restaurantes"]){
-			for (var i = 0 ,len = data["restaurantes"].length ;i < len ; i++){
-				this.restaurantes.push(new FM.dataApi.IxPoiRestaurant(data["restaurantes"][i]));
+		this.restaurants = [];
+		if(data["restaurants"]){
+			for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
+				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurantes"][i]));
 			}
 		}
 		this.samePois = [];
