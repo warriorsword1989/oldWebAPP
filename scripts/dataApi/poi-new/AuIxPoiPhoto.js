@@ -14,7 +14,8 @@ FM.dataApi.AuIxPoiPhoto = FM.dataApi.DataModel.extend({
 		this.uRecord = data['uRecord'] || 0;
 		this.uFields = data['uFields'] || 0;
 		this.nothing = false;
-		this.url = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
+		this.url = data['url'];
+		// this.url = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
 	},
 	getIntegrate: function(){
 		var ret = {};

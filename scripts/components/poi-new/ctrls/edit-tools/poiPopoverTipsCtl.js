@@ -23,7 +23,6 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
         if(img.nothing == false){
             $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
                 console.log(img)
-                wheelzoom(document.getElementById("poiTipsOriginImg"));
                 $uibModal.open({
                     animation: true,
                     templateUrl: 'tipsModalContent',
