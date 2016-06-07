@@ -107,6 +107,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.save = function() {
         console.log("poi:",$scope.poi);
         console.info("poi.getIntegrate",$scope.poi.getIntegrate());
+        console.info("poi.getChanged",$scope.poi.getChanges());
     };
     $scope.changeParkingFee = function(data) {
         mutex($scope.selectedPoi.parkingFee, ["3"], data);
