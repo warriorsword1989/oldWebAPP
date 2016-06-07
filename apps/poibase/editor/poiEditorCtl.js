@@ -1,20 +1,10 @@
 angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
-	var eventController = fastmap.uikit.EventController();
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
-	var selectCtrl = new fastmap.uikit.SelectController();
-	var outPutCtrl = new fastmap.uikit.OutPutController();
-	var objCtrl = new fastmap.uikit.ObjectEditController({});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-	var featCode = new fastmap.uikit.FeatCodeController();
 	var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-	var highLayerCtrl = new fastmap.uikit.HighRenderController();
 	var eventCtrl = new fastmap.uikit.EventController();
-	var speedLimit = layerCtrl.getLayerById("speedlimit")
 	var objectCtrl = fastmap.uikit.ObjectEditController();
-	var output = fastmap.uikit.OutPutController();
-	//检查数据ctrl(可以监听到检查数据变化)
-	var checkResultC = fastmap.uikit.CheckResultController();
 	//高亮ctrl
 	var highRenderCtrl = fastmap.uikit.HighRenderController();
 	$scope.metaData = {}; //存放元数据
@@ -94,13 +84,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 			2: true
 		};
 		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
 			$scope.showPopoverTips = true;
 		});
 		$scope.itemActive = index;
 	};
-
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
@@ -109,13 +98,28 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	$document.bind("keyup", function (event) {
 		if ($scope.itemActive<$scope.poiList.length-1 && event.keyCode == 34) {
 			$scope.itemActive++;
+			refreshData();
 		}
 		if ($scope.itemActive!=0 && event.keyCode == 33) {
 			$scope.itemActive--;
+			refreshData();
 		}
-		$scope.$apply();
-		refreshPoiData($scope.poiList[$scope.itemActive].fid);
+		/*刷新poi，弹出tips*/
+		function refreshData(){
+			refreshPoiData($scope.poiList[$scope.itemActive].fid);
+			$scope.selectData($scope.poi,$scope.itemActive);
+			$scope.$apply();
+		}
 	});
+	/*全屏显示*/
+	$scope.$on('showFullScreen',function(event,img){
+		$scope.pImageNow = img;
+		$scope.showFullScreen = true;
+	});
+	/*关闭全屏查看*/
+	$scope.closeFullScreen = function(){
+		$scope.showFullScreen = false;
+	}
 	$scope.doIgnore = function (val) {
 		alert(val);
 	};
@@ -577,7 +581,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	}
 	/*初始化列表*/
 	function initTableList(){
-		$scope.itemActive = 0;
+		$scope.itemActive = -1;
 	}
 	/*初始化tpl加载*/
 	function initOcll() {

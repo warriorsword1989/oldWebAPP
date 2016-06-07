@@ -1,12 +1,10 @@
-angular.module('app').controller('ShowTipsPicCtl', ['$scope', '$uibModalInstance', '$image', '$index', '$imgs', function ($scope, $uibModalInstance, $image, $index, $imgs) {
+angular.module('app').controller('ShowImgModalCtl', ['$scope', function ($scope) {
 	initImgs();
 	function initImgs() {
-		$scope.imageNow = $image;
-		$scope.indexNow = $index + 1;
 		$scope.imgList = [];
-		for (var i = 0, len = $imgs.length; i < len; i++) {
-			if ($imgs[i].nothing == false) {
-				$scope.imgList.push($imgs[i]);
+		for (var i = 0, len = $scope.poi.photos.length; i < len; i++) {
+			if ($scope.poi.photos[i].nothing == false) {
+				$scope.imgList.push($scope.poi.photos[i]);
 			}
 		}
 		$scope.imgNowSrc = 'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg';
@@ -23,21 +21,16 @@ angular.module('app').controller('ShowTipsPicCtl', ['$scope', '$uibModalInstance
 	};
 	/*全屏*/
 	$scope.imgFullScreen = function(){
-		// $scope.showFullScreen = true;
+		$scope.$emit('showFullScreen',$scope.imageNow);
 	}
-	$scope.ok = function () {
-		// $uibModalInstance.close($scope.selected.item);
-		console.log($image)
-	};
 
-	$scope.cancel = function () {
-		$uibModalInstance.dismiss('cancel');
+	$scope.closeTipsImg = function () {
+		$scope.$emit('closeTipsImg',false);
 	};
 }]).directive('imgShow', function () {
 	return {
 		link: function (scope, element, attr) {
 			wheelzoom(element);
-			console.log(element)
 		}
 	}
 });

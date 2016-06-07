@@ -5,7 +5,7 @@ var App = {};
 App.Config = {
     appType: "WEB",
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "0000029900O8FJ76DC5835697BBF4F6D2B36D3C088C80C46",
+    accessToken: "0000029900O8FI4CA85A8208B7BA63BF42D0F1DD3056F269",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     generalUrl: 'http://192.168.4.188/service',

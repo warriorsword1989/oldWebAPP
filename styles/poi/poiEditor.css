@@ -457,6 +457,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     bottom: 237px;
     left: 0;
     right: 300px;
+    z-index: 9999;
     border-radius: 5px 5px 0px 0px;
     transition: all .2s ease-in-out;
 }
@@ -542,13 +543,17 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /**********tips style**********/
-
+.modal-tips-img{
+    left: 250px;
+    position: relative;
+    width:600px;
+    top:-10px;
+}
 .popoverTips {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 0;
-    overflow-y: hidden;
     width: 250px;
     height: 100%;
     background-color: transparent;
@@ -585,10 +590,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .close-tips-ico {
-    font-size: 25px;
+    font-size: 30px;
     position: absolute;
-    right: -5px;
-    top: -5px;
+    right: 0;
+    top: 0;
     color: #fff;
     transition: all .3s;
     cursor: pointer;
@@ -699,7 +704,20 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
+.full-screen-img-panel{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: #242323;
+    text-align: center;
+    padding-top: 10px;
+}
+.full-screen-img-panel > img{
+    max-height: 100%;
+    max-width: 100%;
+}
 .tips-panel {
     border: 1px solid #595959;
 }
@@ -722,6 +740,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 #poiTipsOriginImg {
     width: 100%;
     cursor: move;
+    margin-top:-380px;
 }
 
 .tips-option-well {
@@ -782,16 +801,18 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #f50d3c;
 }
 
-.modal-body {
+.img-modal-body {
     background-color: #464646;
     border-radius: 4px;
     color: #fff;
     transition: all 1s;
+    padding: 15px;
 }
 
 .modal {
     width: 600px;
     margin: 0 auto;
+    overflow: visible !important;
 }
 
 .switch-left > span {
