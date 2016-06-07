@@ -170,7 +170,7 @@
                 </div>
             </div>
             <!--全屏-->
-            <div ng-class="{true:'full-screen-img-panel animated-fast zoomIn',false:'full-screen-img-panel animated-fast zoomOut'}[showFullScreen]" ng-show="showFullScreen">
+            <div ng-class="{true:'full-screen-img-panel animated-fast zoomIn',false:'full-screen-img-panel animated-fast zoomOut'}[showFullScreen]" ng-show="showFullScreen" ng-click="closeFullScreen();">
                 <span class="pull-right">
                     <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="closeFullScreen();"></i>
                 </span>

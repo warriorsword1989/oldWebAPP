@@ -9,6 +9,11 @@ angular.module('app').controller('ShowImgModalCtl', ['$scope', function ($scope)
 		}
 		$scope.imgNowSrc = 'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg';
 	}
+	/*点击切换图片显示*/
+	$scope.$on('changeImgShow',function(event,data){
+		$scope.indexNow = data.index;
+		$scope.imageNow = data.img;
+	});
 	/*上一张*/
 	$scope.showImgNext = function () {
 		$scope.indexNow++;
