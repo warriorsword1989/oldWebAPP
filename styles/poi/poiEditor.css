@@ -431,6 +431,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .fm-uploder-file-flag {
     width: 50px;
+    height: 1px;
     text-align: center;
     top: -8px;
     position: relative;
@@ -480,6 +481,15 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .full-width {
     width: 100%;
+}
+
+.fm-target {
+    color: #A4A4E1 !important;
+    font-weight: bold;
+}
+
+.fm-target:hover {
+    opacity: .8;
 }
 
 .fm-editor-panel {
@@ -588,7 +598,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     top: 40px;
-    right: 0px;
+    right: 2px;
     cursor: pointer;
     font-size: 20px;
     transition: all .3s;
@@ -742,40 +752,48 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .tips-option-well > li {
     float: left;
 }
-.tips-option-li:not(:first-child){
-    border-left:1px solid #3f3f3f;
+
+.tips-option-li:not(:first-child) {
+    border-left: 1px solid #3f3f3f;
 }
+
 .tips-btn-group {
     display: block;
     width: 30px;
     height: 29px;
     outline: none;
     opacity: 0.8;
-    padding:5px;
+    padding: 5px;
     background-color: rgba(48, 48, 48, 0);
     border: 0;
     transition: all .3s;
 }
-.tips-btn-group:hover{
+
+.tips-btn-group:hover {
     color: #3FB5F5;
 }
+
 .tips-btn-group[disabled] {
     cursor: no-drop;
     color: #9C9E9F;
 }
-.btn-close-tips:hover{
+
+.btn-close-tips:hover {
     color: #f50d3c;
 }
+
 .modal-body {
     background-color: #464646;
     border-radius: 4px;
     color: #fff;
     transition: all 1s;
 }
-.modal{
-    width:600px;
-    margin:0 auto;
+
+.modal {
+    width: 600px;
+    margin: 0 auto;
 }
+
 .switch-left > span {
     background: url("../../../images/road/img/left.png");
     height: 40px;
@@ -872,4 +890,75 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .dark .scroll-styled::-webkit-scrollbar-thumb:hover, .dark.scroll-styled::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, .25);
+}
+
+/***************************poi-list**********************/
+.fm-project-switch {
+    background-color: rgb(64, 64, 64);
+}
+
+.fm-project-switch a.tab.active {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, .8);
+    background-color: #4C4B4B;
+    transition: all .3s;
+}
+
+.fm-project-switch a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+.fm-left-datalist {
+    width: 250px;
+}
+
+.poi-list {
+    color: #fff;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+.poi-list > tbody > tr {
+    cursor: pointer;
+}
+
+.poi-list > tbody > tr.active > td {
+    background-color: #307BA3;
+    transition: all .3s;
+}
+
+#fm-poiList-btnGroup {
+    margin-top: 5px;
+}
+
+#fm-poiList-btnGroup > div > button {
+    background: rgba(138, 138, 203, 0.7);
+    color: #FFF;
+}
+
+#fm-poiList-btnGroup > div > button > a {
+    color: #FFF;
+}
+
+#fm-poiList-btnGroup > div > button:hover {
+    background: rgba(164, 164, 229, 0.9);
+}
+
+#fm-poiList-btnGroup > div > button.active {
+    background: rgba(164, 164, 229, 0.9);
+}
+
+#fm-poiList-btnGroup > div > button:focus {
+    border: none;
+    box-shadow: none
+}
+
+.data-list-btn-middle {
+    border-left: 1px solid #404040;
+    border-right: 1px solid #404040
 }
