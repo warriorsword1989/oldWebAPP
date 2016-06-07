@@ -3,10 +3,10 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$ocLazyLoad', f
     function initData(){
         if($scope.poi.photos.length < 4){
             for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
-                $scope.poi.photos.push({
+                $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
                     url:'../../../images/road/img/noimg.png',
                     nothing:true
-                });
+                }));
             }
         }
     }
