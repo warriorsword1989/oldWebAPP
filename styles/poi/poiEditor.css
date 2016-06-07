@@ -269,6 +269,10 @@ select.fm-control {
 select.fm-control.ng-dirty {
     background-color: #307BA3;
 }
+select.fm-control.ng-dirty + div.chosen-container > a.chosen-single {
+    border: solid white 1px;
+    background-image: linear-gradient(#307BA3 100%, #307BA3 100%);
+}
 
 textarea.fm-control {
     width: 100%;
@@ -291,6 +295,13 @@ label > input[type='radio'], label > input[type='checkbox'] {
     vertical-align: middle;
     margin: 3px 0px;
     line-height: 12px;
+}
+label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:checked.ng-dirty  {
+    -webkit-appearance: none;
+    background: #307BA3;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
 }
 
 .fm-inline > * {
@@ -656,6 +667,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #F3F6FA;
     background-image: linear-gradient(#333 100%, #333 100%);
     box-shadow: 0px 1px 0px #333 inset;
+    height: 22px;
+}
+
+.chosen-container-single .chosen-single  > span {
+    margin-top: -2px;
 }
 
 .chosen-container .chosen-drop {

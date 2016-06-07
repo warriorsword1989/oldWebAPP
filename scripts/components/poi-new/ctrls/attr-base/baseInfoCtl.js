@@ -99,4 +99,8 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             temp.contactType = 1;
         }
     };
+    //清除ng-ditry样式
+    $scope.$on("clearBaseInfo",function (){
+        $scope.nodeForm.$setPristine();
+    });
 }]);

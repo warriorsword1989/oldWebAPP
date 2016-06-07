@@ -172,13 +172,22 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	var savePoi = function (callback){
 		//此处调用接口暂时省略
 		if(callback){
-			callback()
+			callback();
 		}
 	}
 
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
+
+		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
+
+	$scope.$on("emitChildren",function (childrenPid){
+
+	});
+	$scope.$on("emitParent",function (parentPid){
+
+	});
 
 	$scope.changeParkingFee = function (data) {
 		mutex($scope.selectedPoi.parkingFee, ["3"], data);
