@@ -42,53 +42,55 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 		$scope.outputType = val;
 	};
 	$scope.selectData = function (data,index) {
-		$scope.selectedPoi = data;
-		$scope.selectedPoi.checkResults = [{
-			errorCode: 'YYMM-1001',
-			errorMessage: '这是一个检查结果测试',
-			refFeatures: [{
-				fid: 123,
-				pid: 225,
-				name: 'test'
+		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
+			$scope.selectedPoi = data;
+			$scope.selectedPoi.checkResults = [{
+				errorCode: 'YYMM-1001',
+				errorMessage: '这是一个检查结果测试',
+				refFeatures: [{
+					fid: 123,
+					pid: 225,
+					name: 'test'
+				}, {
+					fid: 125,
+					pid: 227,
+					name: 'test'
+				}]
 			}, {
-				fid: 125,
-				pid: 227,
-				name: 'test'
-			}]
-		}, {
-			errorCode: 'YYMM-1111',
-			errorMessage: '这是一个检查结果测试',
-			refFeatures: [{
-				fid: 123,
-				pid: 225,
-				name: 'test'
+				errorCode: 'YYMM-1111',
+				errorMessage: '这是一个检查结果测试',
+				refFeatures: [{
+					fid: 123,
+					pid: 225,
+					name: 'test'
+				}, {
+					fid: 125,
+					pid: 227,
+					name: 'test'
+				}]
+			}];
+			$scope.selectedPoi.editHistory = [{
+				operator: '刘莎',
+				operateDate: '2016-05-22',
+				operateDesc: '修改了【名称】，修改前：张三',
+				platform: 'Web'
 			}, {
-				fid: 125,
-				pid: 227,
-				name: 'test'
-			}]
-		}];
-		$scope.selectedPoi.editHistory = [{
-			operator: '刘莎',
-			operateDate: '2016-05-22',
-			operateDesc: '修改了【名称】，修改前：张三',
-			platform: 'Web'
-		}, {
-			operator: '刘彩霞',
-			operateDate: '2016-04-22',
-			operateDesc: '修改了【分类】，修改前：中餐馆',
-			platform: 'Android'
-		}];
-		$scope.selectedPoi.parkingFee = {
-			1: true,
-			2: true
-		};
-		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
-			$scope.showPopoverTips = true;
+				operator: '刘彩霞',
+				operateDate: '2016-04-22',
+				operateDesc: '修改了【分类】，修改前：中餐馆',
+				platform: 'Android'
+			}];
+			$scope.selectedPoi.parkingFee = {
+				1: true,
+				2: true
+			};
+			/*弹出tips*/
+			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+				$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
+				$scope.showPopoverTips = true;
+			});
+			$scope.itemActive = index;
 		});
-		$scope.itemActive = index;
 	};
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {

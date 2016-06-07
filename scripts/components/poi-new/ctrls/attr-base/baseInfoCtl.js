@@ -81,16 +81,16 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         $scope.poi.contacts.splice(index, 1);
     };
 
-    $scope.checkTelNo = function (index){
+    $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
-        if(!/^[0-9]*$/.test(temp.contact)){
-            temp.contact = "";
+        if(temp.contact && !/^[0-9]*$/.test(temp.contact)){
             swal({
                 title: "电话格式有误，请重新输入!",
                 type: "warning",
                 timer: 1000,
                 showConfirmButton: false
             });
+            //t.target.focus();
             return ;
         }
         if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
@@ -99,20 +99,4 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             temp.contactType = 1;
         }
     };
-    // $scope.checkTelNo = function(index) {
-    //     var contact = $scope.poi.contacts[index]
-    //     if (contact.numSuf && contact.numSuf.length == 11 && /^1/.test(contact.numSuf)) {
-    //         contact.type = 2;//手机
-    //     } else {
-    //         if (contact.numSuf) {
-    //             var p = contact.numSuf.split("-");
-    //             if (p.length > 1) {
-    //                 contact.numRre = p[0];
-    //                 contact.numSuf = p[1];
-    //             } else {
-    //                 contact.numRre = regionCode;
-    //             }
-    //         }
-    //     }
-    // }
 }]);

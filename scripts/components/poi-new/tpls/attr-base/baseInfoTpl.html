@@ -94,7 +94,7 @@
                         <div>
                             <input type='text' class="fm-control tel-code" maxlength="5" ng-model="item.code" ng-show="item.contactType==1">
                             <span ng-show="item.contactType==1"> - </span>
-                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2}" maxlength="11" ng-blur="checkTelNo($index)" ng-model="item.contact">
+                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2}" maxlength="11" ng-blur="checkTelNo($index,$event)" ng-model="item.contact">
                         </div>
                         <div>
                             <a href="javascript:void(0);" ng-click="deleteContact($index);"><i class="glyphicon glyphicon-remove-sign"></i></a>
