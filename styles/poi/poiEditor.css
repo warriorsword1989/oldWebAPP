@@ -750,11 +750,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 #poiTipsOriginImg {
     width: 100%;
     cursor: move;
-    margin-top:-280px;
+    margin-top:-325px;
 }
 
 .tips-option-well {
     display: block;
+    transition: all .7s;
+    opacity: .3;
     position: absolute;
     width: 125px;
     left: 0;
@@ -777,7 +779,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background: -ms-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
     background: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
 }
-
+.tips-option-well:hover{
+    opacity: 1;
+}
 .tips-option-well > li {
     float: left;
 }
