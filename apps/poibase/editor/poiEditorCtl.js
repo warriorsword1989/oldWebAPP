@@ -595,6 +595,3 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 		}
 	}
 }]);
-
-
-

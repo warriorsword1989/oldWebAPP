@@ -1,7 +1,7 @@
 <div ng-controller="baseInfoCtl">
     <div ng-show="propertyType=='base'">
         <div class="fm-panel" >
-            <div class="content" style="padding-bottom: 76px;">
+            <div class="content" style="padding-bottom: 12px;">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>名 称</label>
@@ -71,6 +71,12 @@
                                 <input type="radio" name="indoor" value="0" ng-model="poi.indoor.type">
                                 否
                             </label>
+                        </div>
+                    </li>
+                    <li>
+                        <label class="control-label">备注</label>
+                        <div>
+                            <textarea class="fm-control" ng-model="poi.poiMemo" rows=""></textarea>
                         </div>
                     </li>
                 </ul>
