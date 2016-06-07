@@ -438,7 +438,16 @@ label > input[type='radio'], label > input[type='checkbox'] {
 }
 
 /**************************控制台************************/
-
+.fm-output-btn{
+    margin-top:5px;
+    background-color: rgb(123, 122, 122);
+    color: #fff;
+    border: 0;
+    transition: all .2s;
+}
+.fm-output-btn:hover{
+    background-color: rgba(255,255,255,0.8);
+}
 .fm-console-panel {
     bottom: 237px;
     position: absolute;
@@ -457,7 +466,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     bottom: 237px;
     left: 0;
     right: 300px;
-    z-index: 9999;
+    z-index: 1;
     border-radius: 5px 5px 0px 0px;
     transition: all .2s ease-in-out;
 }
@@ -713,6 +722,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background-color: #242323;
     text-align: center;
     padding-top: 10px;
+    cursor: pointer;
 }
 .full-screen-img-panel > img{
     max-height: 100%;

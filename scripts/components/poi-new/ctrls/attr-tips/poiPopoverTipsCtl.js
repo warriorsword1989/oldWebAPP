@@ -20,9 +20,12 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
     /*查看图片*/
     $scope.showImage = function(img,index){
         if(img.nothing == false){
+            var temp = {
+                img:img,
+                index:index+1
+            }
+            $scope.$broadcast('changeImgShow',temp);
             $scope.showImgModal = true;
-            $scope.imageNow = img;
-            $scope.indexNow = index + 1;
         }
     }
     /*关闭tips事件*/

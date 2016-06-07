@@ -16,6 +16,18 @@
             <!--<a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'checkResult'}" ng-model="tagSelect" uib-btn-radio="'checkResult'" ng-click="changeTag('checkResult')">检查结果</a>
             <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'confusionInfo'}" ng-model="tagSelect" uib-btn-radio="'confusionInfo'" ng-click="changeTag('confusionInfo')">冲突检测</a>
             <a href="javascript:;" ng-class="{'tab': true, 'active': tagSelect == 'editHistory'}" ng-model="tagSelect" uib-btn-radio="'editHistory'" ng-click="changeTag('editHistory')">作业履历</a>-->
+            <button ng-show="tagSelect == 'outputResult'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="emptyTableResult('outputResult');">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                清空
+            </button>
+            <button ng-show="tagSelect == 'errorCheck'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="refreshCheckResult();">
+                <i class="glyphicon glyphicon-refresh"></i>
+                刷新检查
+            </button>
+            <button ng-show="tagSelect == 'searchResult'" class="btn btn-xs fm-btn fm-output-btn pull-right" ng-click="emptyTableResult('searchResult');">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                清空
+            </button>
         </div>
         <div class="fm-console-content">
             <div ng-include="tagContentTpl"></div>
