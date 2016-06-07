@@ -457,6 +457,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     bottom: 237px;
     left: 0;
     right: 300px;
+    z-index: 9999;
     border-radius: 5px 5px 0px 0px;
     transition: all .2s ease-in-out;
 }
@@ -800,11 +801,12 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #f50d3c;
 }
 
-.modal-body {
+.img-modal-body {
     background-color: #464646;
     border-radius: 4px;
     color: #fff;
     transition: all 1s;
+    padding: 15px;
 }
 
 .modal {
