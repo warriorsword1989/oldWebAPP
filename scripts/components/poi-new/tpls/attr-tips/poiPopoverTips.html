@@ -6,7 +6,7 @@
     </div>
     <button type="button" class="close pull-right close-tips" aria-label="Close" ng-click="closeTips();"><span aria-hidden="true">&times;</span></button>
     <div class="meta-info col-sm-12">
-        <div ng-repeat="item in poi.photos ">
+        <div ng-repeat="item in poi.tempPhotos ">
             <img ng-if="!item.url" src="../../../images/road/img/noimg.png" class="tips-img" alt="">
             <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}"
                  ng-click="showImage(item,$index);" class="tips-img" alt="">
@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    <div class="tips-middle">
+    <!--<div class="tips-middle">
         <div class="panel panel-default tips-panel">
             <div class="panel-body panel-tips">
                 <div class="col-sm-12 tips-info">
@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <div ng-show="showImgModal" ng-class="{true:'modal-tips-img animated-fast fadeInDown',false:'modal-tips-img animated fadeOutDown'}[showImgModal]">
         <div oc-lazy-load="['scripts/components/poi-new/ctrls/attr-tips/showImgModalCtl']">
             <div ng-include="'../../../scripts/components/poi-new/tpls/attr-tips/showImgModalTpl.html'">

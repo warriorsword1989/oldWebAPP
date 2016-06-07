@@ -1,15 +1,20 @@
-angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$ocLazyLoad', function($scope,$ocll) {
+angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope) {
     initData();
     function initData(){
-        if($scope.poi.photos.length < 4){
-            for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
-                $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        if($scope.poi.tempPhotos.length < 4){
+            for(var i=0,len=4-$scope.poi.tempPhotos.length;i<len;i++){
+                $scope.poi.tempPhotos.push(new FM.dataApi.IxPoiPhoto({
                     url:'../../../images/road/img/noimg.png',
                     nothing:true
                 }));
             }
         }
     }
+    /*更新图片数组*/
+    $scope.$on('refreshImgsData',function(event,data){
+        $scope.poi.tempPhotos = data;
+        initData();
+    });
     /*记录状态*/
     $scope.statusObject = {
         0:'无',

@@ -505,12 +505,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	/*接收新上传的图片数据*/
 	$scope.$on('getImgItems', function (event, data) {
 		for (var i = 0; i < data.length; i++) {
-			$scope.poi.attachmentsImage.push(data[i]);
+			$scope.poi.photos.push(data[i]);
+			$scope.poi.tempPhotos.push(data[i]);
 		}
-		$scope.$broadcast('loadImages', {
-			"imgArray": initImages(),
-			"flag": 1
-		});
+		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 	});
 
 	$scope.$on("SWITCHCONTAINERSTATE", function (event, data) {//在此处写属性栏的控制

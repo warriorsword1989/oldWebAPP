@@ -13,7 +13,7 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
 		this.memo = data['memo'] || 0;
 		this.uRecord = data['uRecord'] || 0;
 		this.uFields = data['uFields'] || 0;
-		this.nothing = false;
+		this.nothing = data['nothing'] ||false;
 		this.url = data['url'];
 		// this.url = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
 	},

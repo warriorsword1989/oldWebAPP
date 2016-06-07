@@ -84,6 +84,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				this.photos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
 			}
 		}
+		this.tempPhotos = [];
+		if (data['photos']){
+			for (var i = 0 ,len = data['photos'].length ;i < len ; i++){
+				this.tempPhotos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
+			}
+		}
 		this.children = [];
 		if(data["children"]){
 			for (var i = 0 ,len = data["children"].length ;i < len ; i++){
