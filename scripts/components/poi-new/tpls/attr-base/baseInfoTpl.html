@@ -2,6 +2,7 @@
     <div ng-show="propertyType=='base'">
         <div class="fm-panel" >
             <div class="content" style="padding-bottom: 12px;">
+                <form name="nodeForm">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>名 称</label>
@@ -80,6 +81,7 @@
                         </div>
                     </li>
                 </ul>
+                </form>
             </div>
         </div>
         <div class="fm-panel">
@@ -92,7 +94,7 @@
                         <div>
                             <input type='text' class="fm-control tel-code" maxlength="5" ng-model="item.code" ng-show="item.contactType==1">
                             <span ng-show="item.contactType==1"> - </span>
-                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2}" maxlength="11" ng-model="item.contact">
+                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2}" maxlength="11" ng-blur="checkTelNo($index)" ng-model="item.contact">
                         </div>
                         <div>
                             <a href="javascript:void(0);" ng-click="deleteContact($index);"><i class="glyphicon glyphicon-remove-sign"></i></a>

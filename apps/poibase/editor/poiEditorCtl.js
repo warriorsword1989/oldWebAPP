@@ -125,7 +125,55 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	$scope.save = function () {
 		console.log("poi:", $scope.poi);
 		console.info("poi.getIntegrate", $scope.poi.getIntegrate());
+		console.info("poi.getChanges", $scope.poi.getChanges());
+		var change = $scope.poi.getChanges();
+		savePoi(function (data){
+			if (FM.Util.isEmptyObject(change)){
+				swal("操作成功!", "属性值没有发生变化", "success");
+			} else {
+				swal("操作成功!", "属性值发生了变化", "success");
+			}
+		});
 	};
+	/*切换POI*/
+	var changePoi = function (callback){
+		var change = $scope.poi.getChanges();
+		if (!FM.Util.isEmptyObject(change)){
+			swal({
+				title: "数据发生了修改是否保存？",
+				type: "warning",
+				animation:'slide-from-top',
+				showCancelButton: true,
+				closeOnConfirm: true,
+				confirmButtonText: "保存",
+				cancelButtonText: "不保存"
+			}, function(f) {
+				if (f) {
+					savePoi(callback);
+				} else {
+					if(callback){
+						callback();
+					}
+				}
+			});
+		} else {
+			if(callback){
+				callback();
+			}
+		}
+	}
+
+	var savePoi = function (callback){
+		//此处调用接口暂时省略
+		if(callback){
+			callback()
+		}
+	}
+
+	$scope.cancel = function (){
+		$scope.poi =  angular.copy($scope.origPoi);
+	}
+
 	$scope.changeParkingFee = function (data) {
 		mutex($scope.selectedPoi.parkingFee, ["3"], data);
 	};
@@ -508,6 +556,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	// }));
 	promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function (data) {
 		$scope.poi = data;
+		$scope.origPoi = angular.copy(data);
 		//$scope.parentPoi = {};
 		//$scope.childrenPoi = [];
 	}));
