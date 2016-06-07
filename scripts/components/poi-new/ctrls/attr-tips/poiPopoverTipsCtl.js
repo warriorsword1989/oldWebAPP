@@ -1,4 +1,4 @@
-angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$ocLazyLoad', function($scope,$uibModal,$ocll) {
+angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$ocLazyLoad', function($scope,$ocll) {
     initData();
     function initData(){
         if($scope.poi.photos.length < 4){
