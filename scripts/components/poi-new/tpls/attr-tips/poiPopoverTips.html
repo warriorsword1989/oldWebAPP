@@ -34,15 +34,6 @@
                            ng-bind="poi.lifecycleName"></label>
                 </div>
                 <div class="col-sm-12 tips-info">
-                    <label class="col-sm-6 control-label text-right">鲜度认证：</label>
-                    <div class="col-sm-6" ng-if="poi.freshnessVerification == 1">
-                        是
-                    </div>
-                    <div class="col-sm-6" ng-if="poi.freshnessVerification == 0">
-                        否
-                    </div>
-                </div>
-                <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">检查抽样：</label>
                     <div class="col-sm-6" ng-if="poi.evaluatePlanningLabel == 1 || poi.evaluatePlanningLabel == 2">
                         是
@@ -77,44 +68,10 @@
             </div>
         </div>
     </div>
-    <!--照片查看model-->
-    <script type="text/ng-template" id="tipsModalContent">
-        <div class="modal-body animate fadeInUp">
-            <ul class="tips-option-well">
-                <li class="tips-option-li">
-                    <button class="tips-btn-group btn-prev" title="上一张" ng-disabled="indexNow == 1" ng-click="showImgPre();">
-                        <i class='glyphicon glyphicon-arrow-left'></i>
-                    </button>
-                </li>
-                <li class="tips-option-li">
-                    <button class="tips-btn-group btn-next" title="下一张" ng-disabled="indexNow == imgList.length" ng-click="showImgNext();">
-                        <i class='glyphicon glyphicon-arrow-right'></i>
-                    </button>
-                </li>
-                <li class="tips-option-li">
-                    <button class="tips-btn-group btn-fullscreen" title="全屏" ng-click="imgFullScreen();">
-                        <i class='glyphicon glyphicon-fullscreen'></i>
-                    </button>
-                </li>
-                <li class="tips-option-li">
-                    <button class="tips-btn-group btn-close-tips" title="关闭" ng-click="cancel()">
-                        <i class='glyphicon glyphicon-remove'></i>
-                    </button>
-                </li>
-            </ul>
-            <div id="originImgPanel">
-                <img id="poiTipsOriginImg" img-show title="滑轮滚动可放大缩小" ng-src="{{imageNow.url}}"/>
-            </div>
-            <div class="text-center">
-                {{indexNow}}/{{imgList.length}}
-            </div>
-            <!--全屏-->
-            <div class="full-screen-img-panel" ng-show="showFullScreen">
-                <span class="pull-right">
-                    <i class="glyphicon glyphicon-remove-sign close-tips-ico" ng-click="cancel()"></i>
-                </span>
-                <img ng-src="{{imageNow.url}}"/>
+    <div ng-show="showImgModal" ng-class="{true:'modal-tips-img animated-fast fadeInDown',false:'modal-tips-img animated fadeOutDown'}[showImgModal]">
+        <div oc-lazy-load="['scripts/components/poi-new/ctrls/attr-tips/showImgModalCtl']">
+            <div ng-include="'../../../scripts/components/poi-new/tpls/attr-tips/showImgModalTpl.html'">
             </div>
         </div>
-    </script>
+    </div>
 </div>

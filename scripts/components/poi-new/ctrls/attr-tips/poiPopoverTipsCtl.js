@@ -1,7 +1,6 @@
 angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$ocLazyLoad', function($scope,$uibModal,$ocll) {
     initData();
     function initData(){
-        // console.log($scope.poi.attachmentsImage)
         if($scope.poi.photos.length < 4){
             for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
                 $scope.poi.photos.push({
@@ -21,32 +20,20 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
     /*查看图片*/
     $scope.showImage = function(img,index){
         if(img.nothing == false){
-            $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
-                console.log(img)
-                $uibModal.open({
-                    animation: true,
-                    templateUrl: 'tipsModalContent',
-                    controller: 'ShowTipsPicCtl',
-                    backdrop:false,
-                    resolve: {
-                        $image: function () {
-                            return img;
-                        },
-                        $index:function(){
-                            return index;
-                        },
-                        $imgs:function(){
-                            return $scope.poi.photos;
-                        }
-                    }
-                });
-            });
+            $scope.showImgModal = true;
+            $scope.imageNow = img;
+            $scope.indexNow = index + 1;
         }
     }
     /*关闭tips事件*/
     $scope.closeTips = function(){
-        $scope.$emit('closePopoverTips',true);
+        $scope.showImgModal = false;
+        $scope.$emit('closePopoverTips',false);
     }
+    /*关闭tips图片事件*/
+    $scope.$on('closeTipsImg',function(event,data){
+        $scope.showImgModal = false;
+    });
 }]).directive('image404', function(){   //图片404时显示默认图片
     return {
         restrict: 'A',

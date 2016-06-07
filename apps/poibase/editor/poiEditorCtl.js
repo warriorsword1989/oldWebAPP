@@ -94,13 +94,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 			2: true
 		};
 		/*弹出tips*/
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/poiPopoverTipsCtl').then(function () {
-			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/edit-tools/poiPopoverTips.html';
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
 			$scope.showPopoverTips = true;
 		});
 		$scope.itemActive = index;
 	};
-
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
@@ -109,13 +108,24 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	$document.bind("keyup", function (event) {
 		if ($scope.itemActive<$scope.poiList.length-1 && event.keyCode == 34) {
 			$scope.itemActive++;
+			refreshPoiData($scope.poiList[$scope.itemActive].fid);
+			$scope.$apply();
 		}
 		if ($scope.itemActive!=0 && event.keyCode == 33) {
 			$scope.itemActive--;
+			refreshPoiData($scope.poiList[$scope.itemActive].fid);
+			$scope.$apply();
 		}
-		$scope.$apply();
-		refreshPoiData($scope.poiList[$scope.itemActive].fid);
 	});
+	/*全屏显示*/
+	$scope.$on('showFullScreen',function(event,img){
+		$scope.pImageNow = img;
+		$scope.showFullScreen = true;
+	});
+	/*关闭全屏查看*/
+	$scope.closeFullScreen = function(){
+		$scope.showFullScreen = false;
+	}
 	$scope.doIgnore = function (val) {
 		alert(val);
 	};
