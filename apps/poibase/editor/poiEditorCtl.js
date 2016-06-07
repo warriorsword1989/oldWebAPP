@@ -498,7 +498,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 		for (var i = 0; i < data.length; i++) {
 			$scope.poi.photos.push(data[i]);
 			$scope.poi.tempPhotos.push(data[i]);
-			console.log($scope.poi)
 		}
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 	});
