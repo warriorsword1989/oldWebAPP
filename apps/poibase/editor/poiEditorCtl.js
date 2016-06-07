@@ -1,20 +1,10 @@
 angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
-	var eventController = fastmap.uikit.EventController();
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
-	var selectCtrl = new fastmap.uikit.SelectController();
-	var outPutCtrl = new fastmap.uikit.OutPutController();
-	var objCtrl = new fastmap.uikit.ObjectEditController({});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
-	var featCode = new fastmap.uikit.FeatCodeController();
 	var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
-	var highLayerCtrl = new fastmap.uikit.HighRenderController();
 	var eventCtrl = new fastmap.uikit.EventController();
-	var speedLimit = layerCtrl.getLayerById("speedlimit")
 	var objectCtrl = fastmap.uikit.ObjectEditController();
-	var output = fastmap.uikit.OutPutController();
-	//检查数据ctrl(可以监听到检查数据变化)
-	var checkResultC = fastmap.uikit.CheckResultController();
 	//高亮ctrl
 	var highRenderCtrl = fastmap.uikit.HighRenderController();
 	$scope.metaData = {}; //存放元数据
@@ -108,12 +98,16 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	$document.bind("keyup", function (event) {
 		if ($scope.itemActive<$scope.poiList.length-1 && event.keyCode == 34) {
 			$scope.itemActive++;
-			refreshPoiData($scope.poiList[$scope.itemActive].fid);
-			$scope.$apply();
+			refreshData();
 		}
 		if ($scope.itemActive!=0 && event.keyCode == 33) {
 			$scope.itemActive--;
+			refreshData();
+		}
+		/*刷新poi，弹出tips*/
+		function refreshData(){
 			refreshPoiData($scope.poiList[$scope.itemActive].fid);
+			$scope.selectData($scope.poi,$scope.itemActive);
 			$scope.$apply();
 		}
 	});
@@ -538,7 +532,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	}
 	/*初始化列表*/
 	function initTableList(){
-		$scope.itemActive = 0;
+		$scope.itemActive = -1;
 	}
 	/*初始化tpl加载*/
 	function initOcll() {
