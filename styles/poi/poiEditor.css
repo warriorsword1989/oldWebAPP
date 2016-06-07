@@ -553,9 +553,9 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 /**********tips style**********/
 .modal-tips-img{
-    left: 250px;
+    left: 241px;
     position: relative;
-    width:600px;
+    width:500px;
     top:-10px;
 }
 .popoverTips {
@@ -816,7 +816,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .img-modal-body {
-    background-color: #464646;
+    background-color: #313131;
     border-radius: 4px;
     color: #fff;
     transition: all 1s;
