@@ -1,7 +1,9 @@
 fastmap.uikit.canvasFeature.poiMarker = fastmap.uikit.canvasFeature.Feature.extend({
-	geometry: {},
-    properties: {},
     setAttribute: function(data) {
+        var guidePoint = [];
+        guidePoint.push(data.g[0]+73,data.g[1]-22);
+        this.guide['coordinates'] = guidePoint;
+        this.guide['type'] = 'Point';
         this.geometry['type'] = 'Point';
         this.properties["featType"] = "poi";
         this.properties['markerStyle'] = {};

@@ -5,6 +5,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
     initialize: function(data) {
         this.geometry = {};
         this.properties = {};
+        this.guide = {};
         this.geometry['coordinates'] = data.g;
         this.properties['id'] = data.i;
         this.properties['style'] = {};

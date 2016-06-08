@@ -130,7 +130,7 @@ App.layersConfig = [{
             options: {
                 layername: 'POI点数据',
                 id: 'poiPoint',
-                maxZoom: 22,
+                maxZoom: 20,
                 debug: false,
                 // this value should be equal to 'radius' of your points
                 buffer: 10,

@@ -139,7 +139,7 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 drawBuffer(currentGeo.geometry.components, currentGeo.linkWidth, self);
                 break;
             case 'Poi':
-                drawPoiAndLink(currentGeo.components, null, {color: 'red', size: 2}, false, null, false, false, self);
+                drawPoiAndLink(currentGeo.components,{color: 'blue', size: 2}, self);
                 break;
         }
 
@@ -470,50 +470,33 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
             }
         }
 
-        function drawPoiAndLink(geom, direct, style, boolPixelCrs, index, boolnode, boolselectnode, self) {
+        function drawPoiAndLink(geom, style, self) {
             if (!geom) {
                 return;
             }
-
+            this.transform = new fastmap.mapApi.MecatorTranform();
             var proj = [];
             for (var i = 0; i < geom.length; i++) {
-                proj.push(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]));
+                var point = this.map.latLngToContainerPoint([geom[i].y, geom[i].x])
+                proj.push([point.x,point.y]);
                 if (i == 0) {
-                    drawPoi(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                        src:"../../../images/poi/map/marker_red_16.png",
-                        drawy:-31
+                    drawPoi(point, {
+                        src:"../../../images/poi/map/marker_blue_32.png",
+                        drawy:-32
                     }, true);
-                } else {
-                    drawPoi(this.map.latLngToContainerPoint([geom[i].y, geom[i].x]), {
-                        src:"../../../images/poi/map/marker_circle.png"
+                } else if (i == 1) {
+                    drawPoi(point, {
+                        src:"../../../images/poi/map/marker_circle_blue_16.png"
                     }, true);
                 }
             }
-            var g = self._ctx;
-            g.strokeStyle = style.color;
-            g.lineWidth = style.size;
-            //g.opacity = 0.5;
-            g.beginPath();
-            for (i = 0; i < proj.length; i++) {
-                var method = (i === 0 ? 'move' : 'line') + 'To';
-                g[method](proj[i].x, proj[i].y);
-            }
-            g.stroke();
-            g.restore();
-            if (direct == 2 || direct == 3) {
-                var coords = proj;
-                var arrowList = [];
-                for (var k = 0; k < coords.length; k++) {
-                    if (k < coords.length - 1) {
-                        var oneArrow = [{x: coords[k]['x'], y: coords[k]['y']}, {
-                            x: coords[k + 1]['x'],
-                            y: coords[k + 1]['y']
-                        }];
-                        arrowList.push(oneArrow);
-                    }
-                }
-                drawArrow(self._ctx, direct, arrowList, self)
-            }
+            var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+            var symbol = symbolFactory.dataToSymbol({
+                type:'SampleLineSymbol',
+                style:'dash',
+                color:'blue'
+            });
+            drawSymbolLineString(self._ctx, proj, true,symbol);
         }
         function drawPoi(geom, style, boolPixelCrs) {
             if (!geom) {
@@ -533,20 +516,29 @@ fastmap.mapApi.EditLayer = fastmap.mapApi.WholeLayer.extend({
                 var scaley = style.scaley ? style.scaley : 1;
                 var drawx = style.drawx ? style.drawx : -image.width * scalex / 2;
                 var drawy = style.drawy ? style.drawy : -image.height * scalex / 2;
-                //var drawx = -options.c * image.width/2;
-                //var drawy = 0
                 g.save();
                 g.translate(p.x, p.y);
-                if (style.fillStyle) {
-                    g.strokeStyle = style.fillStyle.lineColor;  //边框颜色
-                    g.fillStyle = style.fillStyle.fillColor;
-                    g.linewidth = style.fillStyle.lineWidth;  //边框宽
-                    g.fillRect(drawx + style.fillStyle.dx, drawy + style.fillStyle.dy, style.fillStyle.width, style.fillStyle.height);  //填充颜色 x y坐标 宽 高
-                    g.strokeRect(drawx + style.fillStyle.dx, drawy + style.fillStyle.dy, style.fillStyle.width, style.fillStyle.height);  //填充边框 x y坐标 宽 高
-                }
                 g.drawImage(image, drawx, drawy, image.width * scalex, image.height * scaley);
                 g.restore();
             }
+        }
+        function drawSymbolLineString(ctx, geom, boolPixelCrs, symbol) {
+                if (!symbol) {
+                    return;
+                }
+                var geometry = [];
+                for (var i = 0; i < geom.length; i++) {
+                    if (boolPixelCrs) {
+                        geometry.push([geom[i][0], geom[i][1]]);
+                    } else {
+                        var point = this._tilePoint(ctx, geom[i]);
+                        geometry.push([point.x, point.y]);
+                    }
+                }
+                var lsGeometry = new fastmap.mapApi.symbol.LineString(geometry);
+                var g = ctx.canvas.getContext('2d');
+                symbol.geometry = lsGeometry;
+                symbol.draw(g);
         }
     },
 

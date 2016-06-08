@@ -402,28 +402,36 @@ fastmap.uikit.HighRenderController = (function () {
                     }
                     var geo = [];
                     geo.push(feature.geometry.coordinates);
-                    geo.push([172,205]);
-
-                    this.layer._drawPoint({
-                        boolPixelCrs: true,
-                        ctx: ctx,
-                        fillColor: 'red',
-                        radius: 3,
-                        geom: feature.geometry.coordinates
+                    geo.push(feature.guide.coordinates);
+                    this.layer._drawImg({
+                        ctx:ctx,
+                        geo:feature.geometry.coordinates,
+                        style:{src:'../../../images/poi/map/marker_red_16.png'},
+                        boolPixelCrs:true,
+                        drawy:-31
                     });
-                    this.layer._drawLineString(ctx, geo, true, {
-                        strokeWidth: 1,
-                        strokeColor: '#00F5FF'
-                    }, {
-                        strokeWidth: 3,
-                        strokeColor: '#00F5FF'
-                    }, feature.properties);
-                    this.layer._drawPoint({
-                        boolPixelCrs: true,
-                        ctx: ctx,
-                        fillColor: 'red',
-                        radius: 3,
-                        geom: [172,205]
+                    // this.layer._drawPoint({
+                    //     boolPixelCrs: true,
+                    //     ctx: ctx,
+                    //     fillColor: 'red',
+                    //     radius: 3,
+                    //     geom: feature.geometry.coordinates
+                    // });
+
+                    var symbolFactory = fastmap.mapApi.symbol.GetSymbolFactory();
+                    feature.properties['symbol'] = symbolFactory.dataToSymbol({
+                        type:'SampleLineSymbol',
+                        style:'dash',
+                        color:'red'
+                    });
+                    this.layer._drawLineStringWithSymbol(ctx, geo, true,feature.properties['symbol']);
+
+                    this.layer._drawImg({
+                        ctx:ctx,
+                        geo:feature.guide.coordinates,
+                        style:{src:'../../../images/poi/map/marker_circle.png'},
+                        boolPixelCrs:true,
+                        drawy:0
                     });
                 }
             },
