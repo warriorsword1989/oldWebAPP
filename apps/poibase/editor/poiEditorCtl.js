@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
