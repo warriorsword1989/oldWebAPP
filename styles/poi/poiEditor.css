@@ -741,12 +741,17 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     z-index: 999;
     background-color: #242323;
     text-align: center;
-    padding-top: 10px;
     cursor: pointer;
 }
 .full-screen-img-panel > img{
     max-height: 100%;
     max-width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 .tips-panel {
     border: 1px solid #595959;
@@ -1016,4 +1021,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .data-list-btn-middle {
     border-left: 1px solid #404040;
     border-right: 1px solid #404040
+}
+/********************* poiList *****************/
+.fm-dropdown-menu{
+    padding: 10px;
+    background-color: #1F1E1E;
+    border: 1px solid #fff;
+    color: #fff;
 }
