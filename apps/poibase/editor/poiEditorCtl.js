@@ -25,7 +25,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 
 	poiDS.getPoiList().then(function (data) {
-		$scope.poiList = data.data;
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
+			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			$scope.poiList = data.data;
+		});
 	});
 	loadMap();
 	/*切换项目平台*/
@@ -198,6 +201,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
+		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
