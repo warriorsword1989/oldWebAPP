@@ -1,0 +1,51 @@
+<div class='fm-table' style="padding: 15px;border: 1px solid red;">
+    <div>
+        <div class="btn-group pull-right" style="margin:15px 5px;">
+            <button class="btn btn-default" title="刷新" ng-click="">
+            <i class="glyphicon glyphicon-refresh"></i>
+            </button>
+            <div class="btn-group dropdown" uib-dropdown auto-close="outsideClick">
+                <button class="btn btn-default dropdown-toggle" uib-dropdown-toggle title="列">
+                <i class="glyphicon glyphicon-th"></i> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" uib-dropdown-menu role="menu">
+                    <li ng-repeat="item in columns" role="menuitem">
+                        <label style="padding: 3px 20px;margin: 0px;">
+                            <input type="checkbox" ng-model='item.visible'> {{item.title}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="btn-group input-group pull-right" style="margin:15px 5px;width:300px;">
+            <div class="input-group-btn" uib-dropdown>
+                <button class="btn btn-default dropdown-toggle" uib-dropdown-toggle ng-init="searchType='全局搜索'">
+                {{searchType}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                    <li ng-model="searchType" uib-btn-radio="'全局搜索'" role="menuitem"><a href="#">全局搜索</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li ng-model="$parent.searchType" ng-repeat="item in columns" uib-btn-radio="'{{item.title}}'" role="menuitem"><a href="#" ng-bind="item.title"></a></li>
+                </ul>
+            </div>
+            <input ng-model="searchText" class="form-control" type="text" placeholder="关键词搜索...">
+        </div>
+        <div class="pull-right" style="margin:15px 5px;">
+            <div class="btn-group">
+                <button class="btn btn-default" title="刷新" ng-click="">
+                <i class="glyphicon glyphicon-edit"></i> 自定义组件
+                </button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead ng-transclude>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in fmList" ng-click="click()" ng-dblclick="dblclick()">
+                <td ng-repeat="cell in columns">{{row[cell.field]}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="fm-table-pager"></div>
+</div>

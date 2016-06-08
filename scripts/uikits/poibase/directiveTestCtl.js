@@ -1,4 +1,4 @@
-angular.module('testApp', ['fastmap.uikit']).controller('DirectiveTestCtl', function($scope, $http, $timeout) {
+angular.module('testApp', ['fastmap.uikit', 'ngTable']).controller('DirectiveTestCtl', function($scope, $http, $timeout) {
     $scope.tagList = [{
         "id": 1,
         text: 'test1'
@@ -12,7 +12,9 @@ angular.module('testApp', ['fastmap.uikit']).controller('DirectiveTestCtl', func
     $scope.imageArray = [{
         id: 1,
         tag: 3,
-        tagName: '水牌',
+        tagName: function() {
+            return '水牌';
+        },
         url: '../../images/temp/01.jpg'
     }];
     /*$timeout(function (){ //此种方法会导致watch方法执行两次
@@ -39,11 +41,24 @@ angular.module('testApp', ['fastmap.uikit']).controller('DirectiveTestCtl', func
         $scope.imageArray.push({
             id: $scope.imageArray.length + 1,
             tag: 3,
-            tagName: '水牌',
+            tagName: function() {
+                return '水牌';
+            },
             url: '../../images/temp/0' + ($scope.imageArray.length + 1) + ".jpg"
         });
     };
     $scope.test = function() {
         console.log($scope.selectedTag);
     };
-});
+    $scope.tableData = [{
+        test1: 'abc',
+        test2: '123',
+        test3: 'ddsfdsfsf'
+    }, {
+        test1: 'abc',
+        test2: '123',
+        test3: 'ddsfdsfsf'
+    }];
+}).controller("ngTableDemoCtl", ["NgTableParams", "", function() {
+    var self = this;
+}]);
