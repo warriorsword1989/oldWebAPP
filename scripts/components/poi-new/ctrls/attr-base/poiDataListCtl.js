@@ -28,7 +28,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
 		{field: "num_index", title: "序号", show: true},
 		{field: "name", title: "名称", sortable: "name", show: true},
 		{field: "kindCode", title: "分类", sortable: "kindCode", show: true},
-		{field: "latestBatchDate", title: "采集时间", sortable: "latestBatchDate", show: false, getValue: formatBatchDate},
+		{field: "uRecord", title: "更新记录", sortable: "uRecord", show: true},
+		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false, getValue: formatCollectDate},
 		{field: "pid", title: "PID", sortable: "pid", show: false},
 		{field: "geometry", title: "几何", sortable: "geometry", show: false, getValue: formatGeometry},
 		{field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: false}
@@ -59,7 +60,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
 		})
 	});
 	/*日期格式化*/
-	function formatBatchDate($scope, row) {
+	function formatCollectDate($scope, row) {
 		return row.formatBatchDate;
 	}
 
