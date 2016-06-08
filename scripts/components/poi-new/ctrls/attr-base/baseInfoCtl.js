@@ -81,14 +81,26 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         $scope.poi.contacts.splice(index, 1);
     };
 
-    $scope.checkTelNo = function (index){
+    $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
-        if(temp.contact && temp.contact.length == 11){
-
+        if(temp.contact && !/^[0-9]*$/.test(temp.contact)){
+            swal({
+                title: "电话格式有误，请重新输入!",
+                type: "warning",
+                timer: 1000,
+                showConfirmButton: false
+            });
+            //t.target.focus();
+            return ;
+        }
+        if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
+            temp.contactType = 2;
+        }else {
+            temp.contactType = 1;
         }
     };
-
-
-
-
+    //清除ng-ditry样式
+    $scope.$on("clearBaseInfo",function (){
+        $scope.nodeForm.$setPristine();
+    });
 }]);

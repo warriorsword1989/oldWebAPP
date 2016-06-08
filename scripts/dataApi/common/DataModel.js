@@ -73,22 +73,24 @@ FM.dataApi.DataModel = FM.Class.extend({
     getChanges: function () {
         var changedJson = {};
         var newJson = this.getIntegrate();
-        for (property in this.originJson.hasOwnProperty()) {
-            if (typeof this.originJson[property] == "number") {
-                if (this.originJson[property] != newJson[property]) {
-                    changedJson[property] = this.originJson[property];
-                }
-            } else if (typeof this.originJson[property] == "string") {
-                if (this.originJson[property] != newJson[property]) {
-                    changedJson[property] = this.originJson[property];
-                }
-            } else if (typeof this.originJson[property] == "boolean") {
-                if (this.originJson[property] != newJson[property]) {
-                    changedJson[property] = this.originJson[property];
-                }
-            } else if (typeof this.originJson[property] == "object") {
-                if (JSON.stringify(this.originJson[property]) != JSON.stringify(newJson[property])) {
-                    changedJson[property] = this.originJson[property];
+        for (property in this.originJson) {
+            if(this.originJson.hasOwnProperty(property)){
+                if (typeof this.originJson[property] == "number") {
+                    if (this.originJson[property] != newJson[property]) {
+                        changedJson[property] = newJson[property];
+                    }
+                } else if (typeof this.originJson[property] == "string") {
+                    if (this.originJson[property] != newJson[property]) {
+                        changedJson[property] = newJson[property];
+                    }
+                } else if (typeof this.originJson[property] == "boolean") {
+                    if (this.originJson[property] != newJson[property]) {
+                        changedJson[property] = newJson[property];
+                    }
+                } else if (typeof this.originJson[property] == "object") {
+                    if (JSON.stringify(this.originJson[property]) != JSON.stringify(newJson[property])) {
+                        changedJson[property] = newJson[property];
+                    }
                 }
             }
         }

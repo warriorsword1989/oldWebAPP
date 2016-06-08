@@ -269,6 +269,10 @@ select.fm-control {
 select.fm-control.ng-dirty {
     background-color: #307BA3;
 }
+select.fm-control.ng-dirty + div.chosen-container > a.chosen-single {
+    border: solid white 1px;
+    background-image: linear-gradient(#307BA3 100%, #307BA3 100%);
+}
 
 textarea.fm-control {
     width: 100%;
@@ -291,6 +295,13 @@ label > input[type='radio'], label > input[type='checkbox'] {
     vertical-align: middle;
     margin: 3px 0px;
     line-height: 12px;
+}
+label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:checked.ng-dirty  {
+    -webkit-appearance: none;
+    background: #307BA3;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
 }
 
 .fm-inline > * {
@@ -431,13 +442,23 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .fm-uploder-file-flag {
     width: 50px;
+    height: 1px;
     text-align: center;
     top: -8px;
     position: relative;
 }
 
 /**************************控制台************************/
-
+.fm-output-btn{
+    margin-top:5px;
+    background-color: rgb(123, 122, 122);
+    color: #fff;
+    border: 0;
+    transition: all .2s;
+}
+.fm-output-btn:hover{
+    background-color: rgba(255,255,255,0.8);
+}
 .fm-console-panel {
     bottom: 237px;
     position: absolute;
@@ -456,6 +477,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     bottom: 237px;
     left: 0;
     right: 300px;
+    z-index: 1;
     border-radius: 5px 5px 0px 0px;
     transition: all .2s ease-in-out;
 }
@@ -480,6 +502,15 @@ label > input[type='radio'], label > input[type='checkbox'] {
 
 .full-width {
     width: 100%;
+}
+
+.fm-target {
+    color: #A4A4E1 !important;
+    font-weight: bold;
+}
+
+.fm-target:hover {
+    opacity: .8;
 }
 
 .fm-editor-panel {
@@ -532,13 +563,17 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /**********tips style**********/
-
+.modal-tips-img{
+    left: 241px;
+    position: relative;
+    width:500px;
+    top:-10px;
+}
 .popoverTips {
     position: absolute;
     top: 0px;
     left: 0px;
     z-index: 0;
-    overflow-y: hidden;
     width: 250px;
     height: 100%;
     background-color: transparent;
@@ -575,10 +610,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .close-tips-ico {
-    font-size: 25px;
+    font-size: 30px;
     position: absolute;
-    right: -5px;
-    top: -5px;
+    right: 0;
+    top: 0;
     color: #fff;
     transition: all .3s;
     cursor: pointer;
@@ -588,7 +623,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     position: absolute;
     color: #fff;
     top: 40px;
-    right: 0px;
+    right: 2px;
     cursor: pointer;
     font-size: 20px;
     transition: all .3s;
@@ -632,6 +667,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     color: #F3F6FA;
     background-image: linear-gradient(#333 100%, #333 100%);
     box-shadow: 0px 1px 0px #333 inset;
+    height: 22px;
+}
+
+.chosen-container-single .chosen-single  > span {
+    margin-top: -2px;
 }
 
 .chosen-container .chosen-drop {
@@ -689,7 +729,21 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
+.full-screen-img-panel{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: #242323;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+}
+.full-screen-img-panel > img{
+    max-height: 100%;
+    max-width: 100%;
+}
 .tips-panel {
     border: 1px solid #595959;
 }
@@ -712,10 +766,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 #poiTipsOriginImg {
     width: 100%;
     cursor: move;
+    margin-top:-325px;
 }
 
 .tips-option-well {
     display: block;
+    transition: all .7s;
+    opacity: .3;
     position: absolute;
     width: 125px;
     left: 0;
@@ -738,44 +795,56 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background: -ms-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
     background: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
 }
-
+.tips-option-well:hover{
+    opacity: 1;
+}
 .tips-option-well > li {
     float: left;
 }
-.tips-option-li:not(:first-child){
-    border-left:1px solid #3f3f3f;
+
+.tips-option-li:not(:first-child) {
+    border-left: 1px solid #3f3f3f;
 }
+
 .tips-btn-group {
     display: block;
     width: 30px;
     height: 29px;
     outline: none;
     opacity: 0.8;
-    padding:5px;
+    padding: 5px;
     background-color: rgba(48, 48, 48, 0);
     border: 0;
     transition: all .3s;
 }
-.tips-btn-group:hover{
+
+.tips-btn-group:hover {
     color: #3FB5F5;
 }
+
 .tips-btn-group[disabled] {
     cursor: no-drop;
     color: #9C9E9F;
 }
-.btn-close-tips:hover{
+
+.btn-close-tips:hover {
     color: #f50d3c;
 }
-.modal-body {
-    background-color: #464646;
+
+.img-modal-body {
+    background-color: #313131;
     border-radius: 4px;
     color: #fff;
     transition: all 1s;
+    padding: 15px;
 }
-.modal{
-    width:600px;
-    margin:0 auto;
+
+.modal {
+    width: 600px;
+    margin: 0 auto;
+    overflow: visible !important;
 }
+
 .switch-left > span {
     background: url("../../../images/road/img/left.png");
     height: 40px;
@@ -872,4 +941,75 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .dark .scroll-styled::-webkit-scrollbar-thumb:hover, .dark.scroll-styled::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, .25);
+}
+
+/***************************poi-list**********************/
+.fm-project-switch {
+    background-color: rgb(64, 64, 64);
+}
+
+.fm-project-switch a.tab.active {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, .8);
+    background-color: #4C4B4B;
+    transition: all .3s;
+}
+
+.fm-project-switch a.tab {
+    color: #ccc;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 6px 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+.fm-left-datalist {
+    width: 250px;
+}
+
+.poi-list {
+    color: #fff;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+.poi-list > tbody > tr {
+    cursor: pointer;
+}
+
+.poi-list > tbody > tr.active > td {
+    background-color: #307BA3;
+    transition: all .3s;
+}
+
+.fm-poiList-btnGroup {
+    margin-top: 5px;
+}
+
+.fm-poiList-btnGroup > div > button {
+    background: rgba(138, 138, 203, 0.7);
+    color: #FFF;
+}
+
+.fm-poiList-btnGroup > div > button > a {
+    color: #FFF;
+}
+
+.fm-poiList-btnGroup > div > button:hover {
+    background: rgba(164, 164, 229, 0.9);
+}
+
+.fm-poiList-btnGroup > div > button.active {
+    background: rgba(164, 164, 229, 0.9);
+}
+
+.fm-poiList-btnGroup > div > button:focus {
+    border: none;
+    box-shadow: none
+}
+
+.data-list-btn-middle {
+    border-left: 1px solid #404040;
+    border-right: 1px solid #404040
 }
