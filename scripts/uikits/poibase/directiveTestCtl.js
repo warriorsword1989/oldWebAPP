@@ -59,6 +59,22 @@ angular.module('testApp', ['fastmap.uikit', 'ngTable']).controller('DirectiveTes
         test2: '123',
         test3: 'ddsfdsfsf'
     }];
-}).controller("ngTableDemoCtl", ["NgTableParams", "", function() {
+}).controller("ngTableDemoCtl", ["NgTableParams", "$scope", function(NgTableParams, $scope) {
     var self = this;
+    var data = [{
+        name: "Moroni",
+        age: 50,
+        money: 100
+    }, {
+        name: "Angelly",
+        age: 23,
+        money: 100
+    }, {
+        name: "Tony",
+        age: 76,
+        money: 100
+    }];
+    self.tableParams = new NgTableParams({}, {
+        dataset: data
+    });
 }]);

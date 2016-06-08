@@ -22,15 +22,15 @@
         <!-- login-Form directive  -->
         <!-- <login-Form valid-type="2"></login-Form> -->
         <!-- <div style="height: 600px;width:400px;">
-                <show-box fm-data="imageArray" fm-deletable="true"
-                fm-select="selectImg(index, item)"
-                fm-click="clickImg(index, item)"
-                fm-before-delete="beforeDeleteImg(item)"
-                fm-before-delete="afterDeleteImg(item)">
-                <select ng-model="$parent.$parent.selectedTag" ng-options="x.id as x.text for x in tagList" ng-change="test()">
-                </select>
-                <button ng-click="addImg()">添加图片</button>
-                </show-box>
+                                                    <show-box fm-data="imageArray" fm-deletable="true"
+                                                    fm-select="selectImg(index, item)"
+                                                    fm-click="clickImg(index, item)"
+                                                    fm-before-delete="beforeDeleteImg(item)"
+                                                    fm-before-delete="afterDeleteImg(item)">
+                                                    <select ng-model="$parent.$parent.selectedTag" ng-options="x.id as x.text for x in tagList" ng-change="test()">
+                                                    </select>
+                                                    <button ng-click="addImg()">添加图片</button>
+                                                    </show-box>
         </div> -->
         <fm-table fm-list="tableData">
         <fm-tr>
@@ -46,8 +46,18 @@
                 <div fm-td field="test3">test3</div>
             </div>
         </div>
-
-        <div id="ngTableDemo">
+        <div id="ngTableDemo" ng-controller="ngTableDemoCtl as demo" style="padding: 15px;">
+            <div style="margin-bottom: 20px">
+                <label class="checkbox-inline" ng-repeat="col in demo.cols">
+                    <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show" /> {{col.title()}}
+                </label>
+            </div>
+            <table ng-table="demo.tableParams" class="table table-bordered table-striped table-condensed" ng-table-columns-binding="demo.cols" show-filter="false">
+                <tr ng-repeat="user in $data">
+                    <td title="'Name'" filter="{ name: 'text'}" sortable="'name'" ng-if="true">{{user.name}}</td>
+                    <td title="'Age'" filter="{ age: 'number'}" sortable="'age'" ng-if="true">{{user.age}}</td>
+                </tr>
+            </table>
         </div>
     </body>
 </html>
