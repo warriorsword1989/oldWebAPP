@@ -701,6 +701,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     box-shadow: 0px 1px 0px #333 inset;
 }
 
+
+.tel-empty{
+    border:  solid #ff8888 1px !important;
+}
+
 /*********************tips**********************/
 
 .tips-title {

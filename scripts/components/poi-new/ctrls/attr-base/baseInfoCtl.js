@@ -80,18 +80,14 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     $scope.deleteContact = function(index) {
         $scope.poi.contacts.splice(index, 1);
     };
-
+    $scope.controlFlag.isTelEmptyArr = [];
     $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
         if(temp.contact && !/^[0-9]*$/.test(temp.contact)){
-            swal({
-                title: "电话格式有误，请重新输入!",
-                type: "warning",
-                timer: 1000,
-                showConfirmButton: false
-            });
-            //t.target.focus();
+            $scope.controlFlag.isTelEmptyArr[index] = true;
             return ;
+        }else {
+            $scope.controlFlag.isTelEmptyArr[index] = false;
         }
         if(temp.contact && temp.contact.length == 11 && /^1/.test(temp.contact)){
             temp.contactType = 2;
@@ -99,8 +95,5 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
             temp.contactType = 1;
         }
     };
-    //清除ng-ditry样式
-    $scope.$on("clearBaseInfo",function (){
-        $scope.nodeForm.$setPristine();
-    });
+    
 }]);
