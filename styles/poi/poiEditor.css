@@ -296,7 +296,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
-label > input[type='radio']:checked.ng-dirty {
+form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
     background: #307BA3;
     width: 12px;
@@ -304,7 +304,7 @@ label > input[type='radio']:checked.ng-dirty {
     border-radius: 50%;
 }
 
-label > input[type='checkbox']:checked.ng-dirty  {
+form input[type='checkbox']:checked.ng-dirty  {
     -webkit-appearance: none;
     background: #307BA3;
     width: 12px;
