@@ -1,7 +1,7 @@
 angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', 'ngTableEventsChannel', function ($scope, NgTableParams, ngTableEventsChannel) {
 	initData();
 	function initData() {
-		console.log($scope.poiList)
+		console.log($scope.$parent.$parent.poiList)
 		// $scope.tableParams = new NgTableParams({count: 10, dataset: $scope.poiList});
 		$scope.tableParams = new NgTableParams({page:1,count:10}, {getData:function($defer, params){
 			scope.initShowField(['序号','项目名称','类型','创建时间','开始时间','结束时间','状态']);
@@ -15,11 +15,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
 				orderFeild:scope.constructSortParams(params),
 				projectName:params.filter().value
 			};
-			scope.$emit("getPageData",currparam);
-			scope.$on('getPageDataResult',function(event, data){
-				$scope.tableParams.total(data.total);
-				$defer.resolve($scope.filterData(data.rows,params.page(),params.count()));
-			});
+			//scope.$emit("getPageData",currparam);
+			//scope.$on('getPageDataResult',function(event, data){
+			//	$scope.tableParams.total(data.total);
+			//	$defer.resolve($scope.filterData(data.rows,params.page(),params.count()));
+			//});
 		}});
 	}
 
@@ -28,7 +28,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
 		{field: "num_index", title: "序号", show: true},
 		{field: "name", title: "名称", sortable: "name", show: true},
 		{field: "kindCode", title: "分类", sortable: "kindCode", show: true},
-		{field: "latestBatchDate", title: "采集时间", sortable: "latestBatchDate", show: false, getValue: formatBatchDate},
+		{field: "uRecord", title: "更新记录", sortable: "uRecord", show: true},
+		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false, getValue: formatCollectDate},
 		{field: "pid", title: "PID", sortable: "pid", show: false},
 		{field: "geometry", title: "几何", sortable: "geometry", show: false, getValue: formatGeometry},
 		{field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: false}
@@ -59,12 +60,12 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams', '
 		})
 	});
 	/*日期格式化*/
-	function formatBatchDate($scope, row) {
-		return row.formatBatchDate;
+	function formatCollectDate($scope, row) {
+		//return row.formatBatchDate;
 	}
 
 	/*几何格式化*/
 	function formatGeometry($scope, row) {
-		return row.geometry;
+		//return row.geometry;
 	}
 }]);

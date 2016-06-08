@@ -76,23 +76,23 @@
                                     <button>名称</button><input class="fm-ctl" placeholder="搜索">
                                 </div>
                             </div>
-                            <!--<div oc-lazy-load="['scripts/components/poi-new/ctrls/attr-base/poiDataListCtl']">
+                            <div oc-lazy-load="['scripts/components/poi-new/ctrls/attr-base/poiDataListCtl']">
                                 <div ng-include="'../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html'"></div>
-                            </div>-->
-                            <table class="table table-bordered table-condensed poi-list">
-                                <thead>
-                                    <td width=35>序号</td>
-                                    <td>名称</td>
-                                    <td>分类</td>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="item in poiList" ng-click="selectData(item,$index)" ng-class="{true:'active'}[itemActive == $index]">
-                                        <td>{{$index + 1}}</td>
-                                        <td>{{item.name}}</td>
-                                        <td>{{item.kindCode}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            </div>
+                            <!--<table class="table table-bordered table-condensed poi-list">-->
+                                <!--<thead>-->
+                                    <!--<td width=35>序号</td>-->
+                                    <!--<td>名称</td>-->
+                                    <!--<td>分类</td>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                    <!--<tr ng-repeat="item in poiList" ng-click="selectData(item,$index)" ng-class="{true:'active'}[itemActive == $index]">-->
+                                        <!--<td>{{$index + 1}}</td>-->
+                                        <!--<td>{{item.name}}</td>-->
+                                        <!--<td>{{item.kindCode}}</td>-->
+                                    <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
                             <nav>
                                 <ul class="pagination" style="margin:8px 0px 0px;">
                                     <li>
