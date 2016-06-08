@@ -107,7 +107,7 @@ fastmap.mapApi.poiGuideMove = L.Handler.extend({
         points.components[1].y = this.targetPoint.lat;
         that.resetVertex(points);
 
-        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
+        that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:1});
     },
 
     contains:function(obj,arr){

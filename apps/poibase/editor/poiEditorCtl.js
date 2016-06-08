@@ -581,6 +581,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 		//initParentAndChildren();
 		initOcll();
 		initTableList();
+		setTimeout(function () {
+			$scope.$broadcast("highlightPoiInMap", {});
+		},5000)
 	});
 	/*刷新poi数据*/
 	function refreshPoiData(fid){
@@ -646,4 +649,5 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 			map.addLayer(layerCtrl.getVisibleLayers()[layer]);
 		}
 	}
+
 }]);

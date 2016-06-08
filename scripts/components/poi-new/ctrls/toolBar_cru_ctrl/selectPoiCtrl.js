@@ -71,19 +71,19 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             if(shapeCtrl.shapeEditorResult){
                 var sObj = shapeCtrl.shapeEditorResult;
                 var oFeature = sObj.getOriginalGeometry();
-                oFeature.components = originalFeature;
-                oFeature.points = originalFeature;
-                // editLayer.drawGeometry = oFeature;
-                editLayer.clear();
-                // editLayer.draw(oFeature, editLayer);//在编辑图层中画出需要编辑的几何体
-
-                sObj.setOriginalGeometry(oFeature);
-                sObj.setFinalGeometry(oFeature);
-                // sObj.setOriginalGeometry(null);
-                // sObj.setFinalGeometry(oFeature);
-
-                // map.currentTool = shapeCtrl.getCurrentTool();
-                // shapeCtrl.shapeEditorResult.setFinalGeometry(oFeature);
+                var of_1 = originalFeature[0].clone();
+                var of_2 = originalFeature[1].clone();
+                var comsAndPoints = [];
+                comsAndPoints.push(of_1);
+                comsAndPoints.push(of_2);
+                oFeature.components = comsAndPoints;
+                oFeature.points = comsAndPoints;
+                setTimeout(function () {
+                    editLayer.clear();
+                    editLayer.draw(oFeature, editLayer);//在编辑图层中画出需要编辑的几何体
+                },100);
+                map.currentTool = shapeCtrl.getCurrentTool();
+                shapeCtrl.shapeEditorResult.setFinalGeometry(oFeature);
                 return;
             }
         }
@@ -166,7 +166,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         }
         //重置上一步中的属性栏和tips框
         $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
-
+        originalFeature = []
         selectCount = 0;
 
         $scope.changeBtnClass(num);
@@ -339,5 +339,24 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.floatMenu.setVisible(true);
         }
     };
+
+
+    //高亮显示指定的子poi
+    $scope.$on("highlightPoiInMap",function (event) {
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            // id:$scope.poi.pid,
+            id:"100000160",
+            layerid:'poiPoint',
+            type:'poi',
+            style:{}
+        });
+        //高亮
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
+        map.setView([$scope.poi.geometry.coordinates[1], $scope.poi.geometry.coordinates[0]], 20);
+    });
 
 }])
