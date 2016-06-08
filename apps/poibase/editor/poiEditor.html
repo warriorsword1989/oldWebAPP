@@ -76,36 +76,37 @@
                                     <button>名称</button><input class="fm-ctl" placeholder="搜索">
                                 </div>
                             </div>
-                            <table class="table table-bordered table-condensed poi-list">
-                                <thead>
-                                    <td width=35>序号</td>
-                                    <td>名称</td>
-                                    <td>分类</td>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="item in poiList" ng-click="selectData(item,$index)" ng-class="{true:'active'}[itemActive == $index]">
-                                        <td>{{$index + 1}}</td>
-                                        <td>{{item.name}}</td>
-                                        <td>{{item.kindCode}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <nav>
-                                <ul class="pagination" style="margin:8px 0px 0px;">
-                                    <li>
-                                        <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li>
-                                        <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <div ng-include="poiDataListTpl"></div>
+                            <!--<table class="table table-bordered table-condensed poi-list">-->
+                                <!--<thead>-->
+                                    <!--<td width=35>序号</td>-->
+                                    <!--<td>名称</td>-->
+                                    <!--<td>分类</td>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                    <!--<tr ng-repeat="item in poiList" ng-click="selectData(item,$index)" ng-class="{true:'active'}[itemActive == $index]">-->
+                                        <!--<td>{{$index + 1}}</td>-->
+                                        <!--<td>{{item.name}}</td>-->
+                                        <!--<td>{{item.kindCode}}</td>-->
+                                    <!--</tr>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                            <!--<nav>-->
+                                <!--<ul class="pagination" style="margin:8px 0px 0px;">-->
+                                    <!--<li>-->
+                                        <!--<a href="#" aria-label="Previous">-->
+                                        <!--<span aria-hidden="true">&laquo;</span>-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                    <!--<li><a href="#">1</a></li>-->
+                                    <!--<li><a href="#">2</a></li>-->
+                                    <!--<li>-->
+                                        <!--<a href="#" aria-label="Next">-->
+                                        <!--<span aria-hidden="true">&raquo;</span>-->
+                                        <!--</a>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</nav>-->
                         </div>
                     </div>
                     <div ui-layout-container class="fm-no-scroll">
@@ -149,7 +150,7 @@
                         </div>
 
 
-                        <div ng-class="{'fm-console-panel fm-option-bar':true,'fm-console-hide':hideConsole}">
+                        <div ng-class="{'fm-console-panel fm-option-bar':true,'fm-console-hide':hideConsole,'fm-console-whole-width':wholeWidth}">
                             <!--控制台箭头图标-->
                             <div class="fm-panel-arrow">
                                 <a ng-class="{true:'fm-panel-controlArrowUp',false:'fm-panel-controlArrowDown'}[hideConsole]" ng-click="changePanelShow('bottom');">

@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -21,10 +21,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 	$scope.hideEditorPanel = true;
 	$scope.parentPoi = {};//父POI
 	$scope.childrenPoi = []; //子POI
+	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
 	poiDS.getPoiList().then(function (data) {
-		$scope.poiList = data.data;
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
+			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			$scope.poiList = data.data;
+		});
 	});
 	loadMap();
 	/*切换项目平台*/
@@ -132,6 +136,25 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 		console.log("poi:", $scope.poi);
 		console.info("poi.getIntegrate", $scope.poi.getIntegrate());
 		console.info("poi.getChanges", $scope.poi.getChanges());
+		//判断电话是否符合规则
+		if($scope.controlFlag.isTelEmptyArr){
+			var flag = false ;
+			for(var i = 0 , len = $scope.controlFlag.isTelEmptyArr.length ;i < len ; i ++){
+				if($scope.controlFlag.isTelEmptyArr[i]){
+					flag = true;
+					break;
+				}
+			}
+			if(flag){
+				swal({
+				    title: "电话格式有误，请重新输入!",
+				    type: "warning",
+				    timer: 1000,
+				    showConfirmButton: false
+				});
+				return ;
+			}
+		}
 		var change = $scope.poi.getChanges();
 		savePoi(function (data){
 			if (FM.Util.isEmptyObject(change)){
@@ -178,6 +201,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
+		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
@@ -217,6 +241,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout', 'localytics.directives', 'dat
 				break;
 			case 'right':
 				$scope.hideEditorPanel = !$scope.hideEditorPanel;
+				$scope.wholeWidth = !$scope.wholeWidth;
 				break;
 			default:
 				break;

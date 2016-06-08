@@ -1,0 +1,11 @@
+<div ng-controller="PoiDataListCtl">
+    <label class="checkbox-inline" ng-repeat="col in cols">
+        <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show"/> {{col.title()}}
+    </label>
+    <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
+        <tr ng-repeat="row in $data">
+            <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+        </tr>
+    </table>
+</div>
+
