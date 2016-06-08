@@ -45,13 +45,30 @@
         </div>
     </div>
     <div ui-layout="{flow:'row',dividerSize:'0',disableToggle:true}">
-        <div class="table-toolbar" ui-layout-container size="33px" max-size="33px" min-size="33px">
-            <div class="fm-tabs" style="margin-left: 50px;">
-                <a href="#" ng-class="{'tab': true, 'active': dataListType == 1}" ng-click="changeDataList(1)">日 一体化任务</a>
+        <div class="table-toolbar" ui-layout-container size="33px" max-size="33px" min-size="33px" style="margin-left: 50px;background-color: black;">
+            <div class="fm-tabs">
+                <!--<a href="#" ng-class="{'tab': true, 'active': dataListType == 1}" ng-click="changeDataList(1)">日 一体化任务</a>
                 <a href="#" ng-class="{'tab': true, 'active': dataListType == 2}" ng-click="changeDataList(2)">日 POI任务</a>
                 <a href="#" ng-class="{'tab': true, 'active': dataListType == 3}" ng-click="changeDataList(3)">日 道路任务</a>
                 <a href="#" ng-class="{'tab': true, 'active': dataListType == 3}" ng-click="changeDataList(3)">月 POI任务</a>
-                <a href="#" ng-class="{'tab': true, 'active': dataListType == 3}" ng-click="changeDataList(3)">专项作业任务</a>
+                <a href="#" ng-class="{'tab': true, 'active': dataListType == 3}" ng-click="changeDataList(3)">专项作业任务</a>-->
+                <div class="fm-poiList-btnGroup" class="btn-group col-sm-12" role="group" aria-label="...">
+                    <div class="btn-group col-sm-1" role="group">
+                        <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 1}" ng-click="changeDataList(1)"><a href="#allTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">日 一体化任务</a></button>
+                    </div>
+                    <div class="btn-group col-sm-1 data-list-btn-middle" role="group">
+                        <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 2}" ng-click="changeDataList(2)"><a href="#pendingTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">日 POI任务</a></button>
+                    </div>
+                    <div class="btn-group col-sm-1" role="group">
+                        <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 3}" ng-click="changeDataList(3)"><a href="#solvedTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">日 道路任务</a></button>
+                    </div>
+                    <div class="btn-group col-sm-1" role="group">
+                        <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 4}" ng-click="changeDataList(4)"><a href="#" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">月 POI任务</a></button>
+                    </div>
+                    <div class="btn-group col-sm-1" role="group">
+                        <button type="button" ng-class="{'btn btn-xs col-sm-12': true, 'active': dataListType == 5}" ng-click="changeDataList(5)"><a href="#" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">专项作业任务</a></button>
+                    </div>
+                </div>
             </div>
         </div>
         <div ui-layout-container class="fm-list-panel">
@@ -60,9 +77,22 @@
                     <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
                         <div ui-layout-container size="45px">
                             <div class="fm-tabs" style="margin-top: 40px;">
-                                <a href="#" ng-class="{'tab': true, 'active': dataListType == 1}" ng-click="changeDataList(1)">全<br>部</a>
-                                <a href="#" ng-class="{'tab': true, 'active': dataListType == 2}" ng-click="changeDataList(2)">开<br>启</a>
-                                <a href="#" ng-class="{'tab': true, 'active': dataListType == 3}" ng-click="changeDataList(3)">关<br>闭</a>
+                                <a href="#" ng-class="{'tab': true, 'active': dataListType == 1}" ng-click="changeDataList(1)" style="background: rgba(138, 138, 203, 0.7);border-bottom-color: white">全<br>部</a>
+                                <a href="#" ng-class="{'tab': true, 'active': dataListType == 2}" ng-click="changeDataList(2)" style="background: rgba(138, 138, 203, 0.7);border-bottom-color: white">开<br>启</a>
+                                <a href="#" ng-class="{'tab': true, 'active': dataListType == 3}" ng-click="changeDataList(3)" style="background: rgba(138, 138, 203, 0.7);border-bottom-color: white">关<br>闭</a>
+                                <div class="fm-poiList-btnGroup" class="btn-group" role="group" aria-label="...">
+                                    <div class="btn-group col-sm-1" role="group">
+                                        <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 1}" ng-click="changeDataList(1)"><a href="#allTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">全<br>部</a></button>
+                                        <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 2}" ng-click="changeDataList(2)"><a href="#pendingTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">开<br>启</a></button>
+                                        <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 3}" ng-click="changeDataList(3)"><a href="#solvedTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">关<br>闭</a></button>
+                                    </div>
+                                    <!--<div class="btn-group col-sm-1 data-list-btn-middle" role="group">
+                                        <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 2}" ng-click="changeDataList(2)"><a href="#pendingTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">开<br>启</a></button>
+                                    </div>
+                                    <div class="btn-group col-sm-1" role="group">
+                                        <button type="button" ng-class="{'btn btn-xs': true, 'active': dataListType == 3}" ng-click="changeDataList(3)"><a href="#solvedTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">关<br>闭</a></button>
+                                    </div>-->
+                                </div>
                             </div>
                         </div>
                         <div ui-layout-container>

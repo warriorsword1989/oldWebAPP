@@ -38,7 +38,9 @@ fastmap.mapApi.ShapeEditorFactory = (function() {
                     'pointVertexAdd':new fastmap.mapApi.PointVertexAdd({shapeEditor:shapeEditor}),
                     'addAdAdmin':new fastmap.mapApi.adAdminAdd({shapeEditor:shapeEditor}),
                     'adAdminMove':new fastmap.mapApi.adAdminMove({shapeEditor:shapeEditor}),
-                    'poiLocMove':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor}),
+                    'poiLocMove':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:false}),
+                    'poiAutoDrag':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor,autoDrag:true}),
+                    // 'poiReset':new fastmap.mapApi.poiLocMove({shapeEditor:shapeEditor}),
                     'poiGuideMove':new fastmap.mapApi.poiGuideMove({shapeEditor:shapeEditor}),
                     'pathBuffer':new fastmap.mapApi.pathBuffer({shapeEditor:shapeEditor})
                 };
