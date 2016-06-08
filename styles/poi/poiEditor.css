@@ -483,6 +483,10 @@ label > input[type='checkbox']:checked.ng-dirty  {
     margin-bottom: -237px;
 }
 
+.fm-console-whole-width{
+    right: 0px !important;
+}
+
 .fm-option-bar {
     width: auto;
     bottom: 237px;
@@ -531,6 +535,7 @@ label > input[type='checkbox']:checked.ng-dirty  {
     background-color: transparent;
     border: none;
     width: 315px;
+    transition: all .2s ease-in-out;
 }
 
 .fm-editor-panel-normal {

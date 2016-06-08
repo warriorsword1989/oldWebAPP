@@ -241,6 +241,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				break;
 			case 'right':
 				$scope.hideEditorPanel = !$scope.hideEditorPanel;
+				$scope.wholeWidth = !$scope.wholeWidth;
 				break;
 			default:
 				break;
