@@ -296,12 +296,19 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
-label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:checked.ng-dirty  {
+label > input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
     background: #307BA3;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+}
+
+label > input[type='checkbox']:checked.ng-dirty  {
+    -webkit-appearance: none;
+    background: #307BA3;
+    width: 12px;
+    height: 12px;
 }
 
 .fm-inline > * {
