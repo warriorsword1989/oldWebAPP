@@ -1,9 +1,9 @@
 /**
  * Created by wuz on 2016/5/2.
  */
-FM.dataApi.AuIxPoiSnapShot = FM.dataApi.GeoDataModel.extend({
+FM.dataApi.IxPoiSnapShot = FM.dataApi.GeoDataModel.extend({
 
-    geoLiveType: "AU_IX_POI_SNAP_SHOT",
+    geoLiveType: "IX_POI_SNAP_SHOT",
 
     /*
      * UI-->DB

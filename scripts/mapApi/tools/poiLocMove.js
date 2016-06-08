@@ -13,6 +13,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         this.options = options || {};
         L.setOptions(this, options);
         this.shapeEditor = this.options.shapeEditor;
+        this.autoDrag = this.options.autoDrag;
         this._map = this.options.shapeEditor.map;
         this.container = this._map._container;
         this._mapDraggable = this._map.dragging.enabled();
@@ -29,6 +30,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         var layerCtrl = fastmap.uikit.LayerController();
         this.currentEditLayer = layerCtrl.getLayerById('referenceLine');
         this.tiles = this.currentEditLayer.tiles;
+
     },
 
     /***
@@ -89,22 +91,29 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         if(this.targetIndex == null){
             return;
         }
-
         var that = this;
-
-        if(this.snapHandler.snaped == true){
+        var points = this.shapeEditor.shapeEditorResult.getFinalGeometry();
+        if(this.autoDrag){
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.snapHandler.targetIndex = this.targetIndex;
             this.selectCtrl.setSnapObj(this.snapHandler);
-            this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
+            var guide = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+            points.components[1].x = guide.lng;
+            points.components[1].y = guide.lat;
+        } else {
+            if(this.snapHandler.snaped == true){
+                this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
+                this.snapHandler.targetIndex = this.targetIndex;
+                this.selectCtrl.setSnapObj(this.snapHandler);
+                this.targetPoint = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0])
 
-        }else{
-            this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
-
+            }else{
+                this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':false});
+            }
         }
-
-        that.resetVertex(layerPoint);
-
+        points.components[0].x = this.targetPoint.lng;
+        points.components[0].y = this.targetPoint.lat;
+        that.resetVertex(points);
         that.shapeEditor.shapeEditorResultFeedback.setupFeedback({index:that.targetIndex});
     },
 
@@ -122,7 +131,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
         this.targetIndex = null;
         this.snapHandler.setTargetIndex(this.targetIndex);
 
-        if(this.targetPoint == null){
+        if (this.targetPoint == null) {
             return;
         }
         this.shapeEditor.shapeEditorResultFeedback.stopFeedback();
@@ -130,42 +139,49 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
 
         var tileCoordinate = this.transform.lonlat2Tile(this.targetPoint.lng, this.targetPoint.lat, this._map.getZoom());
         this.drawGeomCanvasHighlight(tileCoordinate, event);
-        if(this.snapHandler.snaped == true){
-            if(this.snapHandler){
-                if(this.snapHandler.targetIndex == 0){
+        if (this.snapHandler.snaped == true) {
+            if (this.snapHandler) {
+                if (this.snapHandler.targetIndex == 0) {
                     nodePid = this.selectCtrl.selectedFeatures.snode;
-                }else if(this.snapHandler.targetIndex == this.selectCtrl.selectedFeatures.geometry.components.length-1) {
+                } else if (this.snapHandler.targetIndex == this.selectCtrl.selectedFeatures.geometry.components.length - 1) {
                     nodePid = this.selectCtrl.selectedFeatures.enode;
-                }else{
+                } else {
                     nodePid = null;
                 }
             }
 
-            if(this.snapHandler.selectedVertex == true){
-                if(this.interNodes.length==0 ||!this.contains(nodePid,this.interNodes )){
-                if(this.snapHandler.snapIndex == 0){
+            if (this.snapHandler.selectedVertex == true) {
+                if (this.interNodes.length == 0 || !this.contains(nodePid, this.interNodes)) {
+                    if (this.snapHandler.snapIndex == 0) {
 
-                    this.snapHandler.interNodes.push({pid:parseInt(this.snapHandler.properties.snode),nodePid:nodePid});
-                }else{
-                    this.snapHandler.interNodes.push({pid:parseInt(this.snapHandler.properties.enode),nodePid:nodePid});
+                        this.snapHandler.interNodes.push({
+                            pid: parseInt(this.snapHandler.properties.snode),
+                            nodePid: nodePid
+                        });
+                    } else {
+                        this.snapHandler.interNodes.push({
+                            pid: parseInt(this.snapHandler.properties.enode),
+                            nodePid: nodePid
+                        });
+                    }
                 }
-                }
 
 
-            }else{
-                if(this.interLinks.length ==0 || !this.contains({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid},this.interLinks )){
-                    this.snapHandler.interLinks.push({pid:parseInt(this.snapHandler.properties.id),nodePid:nodePid});
+            } else {
+                if (this.interLinks.length == 0 || !this.contains({
+                        pid: parseInt(this.snapHandler.properties.id),
+                        nodePid: nodePid
+                    }, this.interLinks)) {
+                    this.snapHandler.interLinks.push({pid: parseInt(this.snapHandler.properties.id), nodePid: nodePid});
                 }
 
 
             }
 
-            if(nodePid == null){
+            if (nodePid == null) {
                 this.snapHandler.interNodes = [];
                 this.snapHandler.interLinks = [];
             }
-
-
         }
     },
 
@@ -178,8 +194,8 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
     /***
      * 重新设置节点
      */
-    resetVertex:function(){
-        this.shapeEditor.shapeEditorResult.setFinalGeometry(fastmap.mapApi.point(this.targetPoint.lng, this.targetPoint.lat));
+    resetVertex:function(points){
+        this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
         //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
         //distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
         //distance = distance1<distance2?distance1:distance2

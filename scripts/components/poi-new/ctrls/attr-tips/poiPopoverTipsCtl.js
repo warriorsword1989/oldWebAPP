@@ -1,16 +1,20 @@
-angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$ocLazyLoad', function($scope,$uibModal,$ocll) {
+angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope) {
     initData();
     function initData(){
-        // console.log($scope.poi.attachmentsImage)
-        if($scope.poi.photos.length < 4){
-            for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
-                $scope.poi.photos.push({
+        if($scope.poi.tempPhotos.length < 4){
+            for(var i=0,len=4-$scope.poi.tempPhotos.length;i<len;i++){
+                $scope.poi.tempPhotos.push(new FM.dataApi.IxPoiPhoto({
                     url:'../../../images/road/img/noimg.png',
                     nothing:true
-                });
+                }));
             }
         }
     }
+    /*更新图片数组*/
+    $scope.$on('refreshImgsData',function(event,data){
+        $scope.poi.tempPhotos = data;
+        initData();
+    });
     /*记录状态*/
     $scope.statusObject = {
         0:'无',
@@ -21,33 +25,23 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope','$uibModal','$oc
     /*查看图片*/
     $scope.showImage = function(img,index){
         if(img.nothing == false){
-            $ocll.load('scripts/components/poi-new/ctrls/edit-tools/showTipsPicCtl').then(function () {
-                console.log(img)
-                wheelzoom(document.getElementById("poiTipsOriginImg"));
-                $uibModal.open({
-                    animation: true,
-                    templateUrl: 'tipsModalContent',
-                    controller: 'ShowTipsPicCtl',
-                    backdrop:false,
-                    resolve: {
-                        $image: function () {
-                            return img;
-                        },
-                        $index:function(){
-                            return index;
-                        },
-                        $imgs:function(){
-                            return $scope.poi.photos;
-                        }
-                    }
-                });
-            });
+            var temp = {
+                img:img,
+                index:index+1
+            }
+            $scope.$broadcast('changeImgShow',temp);
+            $scope.showImgModal = true;
         }
     }
     /*关闭tips事件*/
     $scope.closeTips = function(){
-        $scope.$emit('closePopoverTips',true);
+        $scope.showImgModal = false;
+        $scope.$emit('closePopoverTips',false);
     }
+    /*关闭tips图片事件*/
+    $scope.$on('closeTipsImg',function(event,data){
+        $scope.showImgModal = false;
+    });
 }]).directive('image404', function(){   //图片404时显示默认图片
     return {
         restrict: 'A',

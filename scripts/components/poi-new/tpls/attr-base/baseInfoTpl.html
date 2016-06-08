@@ -1,15 +1,20 @@
 <div ng-controller="baseInfoCtl">
     <div ng-show="propertyType=='base'">
         <div class="fm-panel" >
-            <div class="content" style="padding-bottom: 76px;">
+            <div class="content" style="padding-bottom: 18px;">
+                <form name="nodeForm">
                 <ul class="fm-ul fm-ul-form">
                     <li>
                         <label>名 称</label>
-                        <div><input type="text" class="fm-control" ng-model="poi.name.name"/></div>
+                        <div ng-repeat="name in poi.names|filter:{nameClass:1,nameType:2,langCode:'CHI'}">
+                            <input type="text" class="fm-control" ng-model="name.name"/>
+                        </div>
                     </li>
                     <li>
                         <label>地 址</label>
-                        <div><input type="text" class="fm-control" ng-model="poi.address.fullname"/></div>
+                        <div ng-repeat="address in poi.addresses|filter:{langCode:'CHI'}">
+                            <input type="text" class="fm-control" ng-model="address.fullname"/>
+                        </div>
                     </li>
                     <li>
                         <label>邮政编码</label>
@@ -35,7 +40,7 @@
                             </select>
                         </div>
                     </li>
-                    <li style="margin-top: 8px;">
+                    <li>
                         <label>等 级</label>
                         <div>
                             <label ng-repeat="lev in levelArr">
@@ -69,7 +74,14 @@
                             </label>
                         </div>
                     </li>
+                    <li>
+                        <label class="control-label">备注</label>
+                        <div>
+                            <textarea class="fm-control" ng-model="poi.poiMemo" rows=""></textarea>
+                        </div>
+                    </li>
                 </ul>
+                </form>
             </div>
         </div>
         <div class="fm-panel">
@@ -82,7 +94,7 @@
                         <div>
                             <input type='text' class="fm-control tel-code" maxlength="5" ng-model="item.code" ng-show="item.contactType==1">
                             <span ng-show="item.contactType==1"> - </span>
-                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2}" maxlength="11" ng-model="item.number">
+                            <input type='text' ng-class="{'fm-control': true, 'tel-number': true, 'tel-cellphone': item.contactType == 2}" maxlength="11" ng-blur="checkTelNo($index,$event)" ng-model="item.contact">
                         </div>
                         <div>
                             <a href="javascript:void(0);" ng-click="deleteContact($index);"><i class="glyphicon glyphicon-remove-sign"></i></a>

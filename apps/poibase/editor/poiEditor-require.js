@@ -14,7 +14,7 @@ requirejs.config({
         "angularChosen": "scripts/libs/angular-chosen/angular-chosen.min",
         'fileUpload': 'scripts/libs/angular-file-upload/angular-file-upload',
         "angularDrag": "scripts/libs/angular-drag/angular-drag",
-        "sweet-alert": "scripts/libs/sweet-alert/js/sweet-alert",
+        "sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",
         "wheelZoom":"scripts/libs/wheelzoom/wheelzoom",
         // app相关
         'dataService': 'apps/poibase/service/dataService',

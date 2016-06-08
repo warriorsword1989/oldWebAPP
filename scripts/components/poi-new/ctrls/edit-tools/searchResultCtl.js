@@ -1,6 +1,6 @@
 angular.module('app').controller('SearchResultCtl', ['$scope', function($scope) {
 
-    $scope.theadInfo = ['序号','规则编码','错误描述','操作','关联POI'];
+    $scope.theadInfo = ['要素PID','要素类型','名称','属性1','属性2'];
     /*检查结果忽略操作*/
     $scope.ignoreCheckResult = function(item){
         $scope.$emit('ignoreItem',item);

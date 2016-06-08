@@ -1,23 +1,17 @@
 /**
  * Created by mali on 2016/5/27.
  */
-FM.dataApi.AuIxPoiHotel = FM.dataApi.DataModel.extend({
-    dataModelType: "AU_IX_POI_HOTEL",
+FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
+    dataModelType: "IX_POI_RESTAURANT",
     /*
      * 返回参数赋值
      */
     setAttributes: function(data) {
-        this.hotelId = data['hotelId'] || 0;
+        this.restaurantId = data['restaurantId'] || 0;
         this.poiPid = data['poiPid'] || 0;
+        this.foodType = data['foodType'];
         this.creditCard = data['creditCard'];
-        this.rating = data['rating'] || 0;
-        this.checkinTime = data['checkinTime'] || '14:00';
-        this.checkoutTime = data['checkoutTime'] || '12:00';
-        this.roomCount = data['roomCount'] || 0;
-        this.roomType = data['roomType'];
-        this.roomPrice = data['roomPrice'];
-        this.breakfast = data['breakfast'] || 0;
-        this.service = data['service'];
+        this.avgCost = data['avgCost'] || 0;
         this.parking = data['parking'] || 0;
         this.longDescription = data['longDescription'];
         this.longDescriptionEng = data['longDescriptionEng'];
@@ -33,17 +27,11 @@ FM.dataApi.AuIxPoiHotel = FM.dataApi.DataModel.extend({
     },
     getIntegrate: function(){
         var ret = {};
-        ret['hotelId'] = this.hotelId;
+        ret['restaurantId'] = this.restaurantId;
         ret['poiPid'] = this.poiPid;
+        ret['foodType'] = this.foodType;
         ret['creditCard'] = this.creditCard;
-        ret['rating'] = this.rating;
-        ret['checkinTime'] = this.checkinTime;
-        ret['checkoutTime'] = this.checkoutTime;
-        ret['roomCount'] = this.roomCount;
-        ret['roomType'] = this.roomType;
-        ret['roomPrice'] = this.roomPrice;
-        ret['breakfast'] = this.breakfast;
-        ret['service'] = this.service;
+        ret['avgCost'] = this.avgCost;
         ret['parking'] = this.parking;
         ret['longDescription'] = this.longDescription;
         ret['longDescriptionEng'] = this.longDescriptionEng;

@@ -51,11 +51,12 @@ angular.module('app').controller('FileUploadCtl', ['$scope', 'FileUploader', fun
     uploader.onSuccessItem = function(fileItem, response, status, headers) {
         console.log(response)
         if(response.errcode == 0){
-            var img = {
+            var img = new FM.dataApi.IxPoiPhoto({
                 'url':App.Config.resourceUrl + '/photo' + response.data.filenames[0],
-                'type':1,
-                'tag':0
-            };
+                'poiPid':1,
+                'photoId':0,
+                'status':null
+            });
             imgItems.push(img);
         }
         // console.info('onSuccessItem', fileItem, response, status, headers);

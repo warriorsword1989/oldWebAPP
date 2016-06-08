@@ -69,6 +69,10 @@ fastmap.mapApi.ShapeOptionType={
     /*
      移动引导坐标点
      */
-    'POIGUIDEMOVE':"poiGuideMove"
+    'POIGUIDEMOVE':"poiGuideMove",
+    /*
+     引导坐标点随着显示坐标移动
+     */
+    'POIAUTODRAG':"poiAutoDrag"
 
 }

@@ -48,8 +48,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 4: //宾馆酒店
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/hotelCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/hotelTpl.html";
                 });
                 break;
             case 5: //运动场馆
@@ -58,8 +58,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 6: //餐馆
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/restaurantCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/restaurantTpl.html";
                 });
                 break;
             case 7: //加气站

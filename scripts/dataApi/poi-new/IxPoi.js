@@ -1,8 +1,8 @@
 /**
  * Created by wuz on 2016/5/27.
  */
-FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
-	dataModelType: "AU_IX_POI",
+FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
+	dataModelType: "IX_POI",
 	/*
 	 * DB-->UI
 	 */
@@ -50,11 +50,11 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
 
-		this.name = {}; //主名称
+		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
 			for (var i = 0, len = data['names'].length; i < len; i++) {
-				var obj = new FM.dataApi.AuIxPoiName(data['names'][i]);
+				var obj = new FM.dataApi.IxPoiName(data['names'][i]);
 				this.names.push(obj);
 				if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
 					this.name = obj;
@@ -65,7 +65,7 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.addresses = [];
 		if(data["addresses"]){
 			for (var i = 0, len = data["addresses"].length; i < len; i++) {
-				var obj = new FM.dataApi.AuIxPoiAddress(data["addresses"][i]);
+				var obj = new FM.dataApi.IxPoiAddress(data["addresses"][i]);
 				this.addresses.push(obj);
 				if(obj.langCode == "CHI"){
 					this.address = obj;
@@ -75,61 +75,73 @@ FM.dataApi.AuIxPoi = FM.dataApi.DataModel.extend({
 		this.contacts = [];
 		if (data["contacts"]){
 			for (var i = 0 ,len = data["contacts"].length ;i < len ; i++){
-				this.contacts.push(new FM.dataApi.AuIxPoiContact(data["contacts"][i]));
+				this.contacts.push(new FM.dataApi.IxPoiContact(data["contacts"][i]));
 			}
 		}
 		this.photos = [];
 		if (data['photos']){
 			for (var i = 0 ,len = data['photos'].length ;i < len ; i++){
-				this.photos.push(new FM.dataApi.AuIxPoiPhoto(data['photos'][i]));
+				this.photos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
+			}
+		}
+		this.tempPhotos = [];
+		if (data['photos']){
+			for (var i = 0 ,len = data['photos'].length ;i < len ; i++){
+				this.tempPhotos.push(new FM.dataApi.IxPoiPhoto(data['photos'][i]));
 			}
 		}
 		this.children = [];
 		if(data["children"]){
 			for (var i = 0 ,len = data["children"].length ;i < len ; i++){
-				this.children.push(new FM.dataApi.AuIxPoiChildren(data["children"][i]));
+				this.children.push(new FM.dataApi.IxPoiChildren(data["children"][i]));
 			}
 		}
 		this.parents = [];
 		if(data['parents']){
 			for (var i = 0 ,len = data['parents'].length ;i < len ; i++){
-				this.parents.push(new FM.dataApi.AuIxPoiParent(data['parents'][i]));
+				this.parents.push(new FM.dataApi.IxPoiParent(data['parents'][i]));
 			}
 		}
 		this.buildings = [];
 		if(data['buildings']){
 			for (var i = 0 ,len = data['buildings'].length ;i < len ; i++){
-				this.buildings.push(new FM.dataApi.AuIxPoiBuilding(data['buildings'][i]));
+				this.buildings.push(new FM.dataApi.IxPoiBuilding(data['buildings'][i]));
 			}
 		}
 		this.gasstationes = [];
 		if(data['gasstationes']){
 			for (var i = 0 ,len = data['gasstationes'].length ;i < len ; i++){
-				this.gasstationes.push(new FM.dataApi.AuIxPoiGasstation(data['gasstationes'][i]));
+				this.gasstationes.push(new FM.dataApi.IxPoiGasstation(data['gasstationes'][i]));
 			}
 		}
 		this.hotels = [];
 		if(data["hotels"]){
 			for (var i = 0 ,len = data["hotels"].length ;i < len ; i++){
-				this.hotels.push(new FM.dataApi.AuIxPoiHotel(data["hotels"][i]));
+				this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
 			}
 		}
-		this.restaurantes = [];
-		if(data["restaurantes"]){
-			for (var i = 0 ,len = data["restaurantes"].length ;i < len ; i++){
-				this.restaurantes.push(new FM.dataApi.AuIxPoiRestaurant(data["restaurantes"][i]));
+		this.restaurants = [];
+		if(data["restaurants"]){
+			for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
+				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurantes"][i]));
 			}
 		}
 		this.samePois = [];
 		if(data["samePois"]){
 			for (var i = 0 ,len = data["samePois"].length ;i < len ; i++){
-				this.samePois.push(new FM.dataApi.AuIxSamepoi(data["samePois"][i]));
+				this.samePois.push(new FM.dataApi.IxSamepoi(data["samePois"][i]));
 			}
 		}
 		this.samePoiParts = [];
 		if(data["samePoiParts"]){
 			for (var i = 0 ,len = data["samePoiParts"].length ;i < len ; i++){
-				this.samePoiParts.push(new FM.dataApi.AuIxSamepoiPart(data["samePoiParts"][i]));
+				this.samePoiParts.push(new FM.dataApi.IxSamepoiPart(data["samePoiParts"][i]));
+			}
+		}
+		this.parkings = [];
+		if(data["parkings"]){
+			for (var i = 0 ,len = data["parkings"].length ;i < len ; i++){
+				this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
 			}
 		}
 	},
