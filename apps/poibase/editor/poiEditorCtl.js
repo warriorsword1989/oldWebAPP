@@ -181,6 +181,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
+		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
