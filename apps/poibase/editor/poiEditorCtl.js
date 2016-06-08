@@ -96,6 +96,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.itemActive = index;
 		});
 	};
+	
+	/*查询poi列表信息*/
+	$scope.$on('getPoiListData',function(event,param){
+		var data = $scope.poiList;
+		$scope.$broadcast('getPoiDataResult',data);
+	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
@@ -606,6 +612,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		//initParentAndChildren();
 		initOcll();
 		initTableList();
+		setTimeout(function () {
+			$scope.$broadcast("highlightPoiInMap", {});
+		},5000)
 	});
 	/*刷新poi数据*/
 	function refreshPoiData(fid){
@@ -671,4 +680,5 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			map.addLayer(layerCtrl.getVisibleLayers()[layer]);
 		}
 	}
+
 }]);
