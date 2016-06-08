@@ -95,5 +95,10 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
     }
 
     initShowTag();
-
+    
+    //清除样式
+    $scope.$on("clearBaseInfo",function (){
+        $scope.nodeForm.$setPristine(); //清除ng-ditry
+        $scope.controlFlag.isTelEmptyArr = []; //清除异常电话样式
+    });
 }]);
