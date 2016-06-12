@@ -598,11 +598,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	// promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
 	//     $scope.poi = data;
 	// }));
-	promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function (data) {
+	// promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function (data) {
+	// 	$scope.poi = data;
+	// 	$scope.origPoi = angular.copy(data);
+	// 	//$scope.parentPoi = {};
+	// 	//$scope.childrenPoi = [];
+	// }));
+	promises.push(poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":164}).then(function (data) {
 		$scope.poi = data;
 		$scope.origPoi = angular.copy(data);
-		//$scope.parentPoi = {};
-		//$scope.childrenPoi = [];
 	}));
 	/*查询3DIcon*/
 	promises.push(meta.getCiParaIcon("0010060815LML01353").then(function (data) {
