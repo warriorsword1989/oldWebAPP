@@ -46,21 +46,21 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.hideEditorPanel = true;
 
 			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":29137}).then(function (data) {
-			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (poi) {
+			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
 				if(data){
-					specialDetail(poi);//名称组和地址组特殊处理
-					//var poi = new FM.dataApi.IxPoi(data);
-					$scope.poi = poi;
-					$scope.origPoi = angular.copy(poi);
-
-					$scope.$broadcast("highlightPoiByPid",poi.pid); //高亮poi点位
+					specialDetail(data);//名称组和地址组特殊处理
+					$scope.poi = data;
+					$scope.origPoi = angular.copy(data);
+					$scope.$broadcast('refreshImgsData',$scope.poi.photos);
+					initOcll();
+					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
 
 					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
 						$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
 					});
 
 
-					$scope.selectedPoi = poi;
+					$scope.selectedPoi = data;
 					$scope.selectedPoi.checkResults = [{
 						errorCode: 'YYMM-1001',
 						errorMessage: '这是一个检查结果测试',
@@ -649,7 +649,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	}));
 	$q.all(promises).then(function () {
 		//initParentAndChildren();
-		initOcll();
 		initTableList();
 		setTimeout(function () {
 			$scope.$broadcast("highlightPoiInMap", {});
