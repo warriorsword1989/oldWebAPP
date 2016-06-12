@@ -1,4 +1,4 @@
-<div ng-controller="OilStationCtl">
+<div ng-controller="GasStationCtl">
     <div ng-show="propertyType=='deep'">
         <div class="fm-panel" >
             <div class="content" style="padding-bottom: 30px;">
@@ -26,37 +26,10 @@
                         </div>
                     </li>
                     <li>
-                        <label>汽油</label>
+                        <label>燃气类型</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in oilType">
                                 <input type="checkbox" value="{{key}}" ng-model="gasstation.oilType"> {{value}}
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <label>甲醇汽油</label>
-                        <div class="block">
-                            <label ng-repeat="(key, value) in mgType">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.mgType"> {{value}}
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <label>乙醇汽油</label>
-                        <div class="block">
-                            <label ng-repeat="(key, value) in egType">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.egType"> {{value}}
-                            </label>
-                        </div>
-                    </li>
-                    <li>
-                        <label>柴油</label>
-                        <div class="block">
-                            <label ng-repeat="(key, value) in fuelTypeML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.fuelType"> {{value}}
-                            </label>
-                            <label ng-repeat="(key, value) in fuelTypeHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.fuelType"> {{value}}
                             </label>
                         </div>
                     </li>

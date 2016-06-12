@@ -51,6 +51,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
 		this.level = data['level']
 		this.indoor = data['indoor'] || 0;
+		this.freshnessVefication = data['freshnessVefication'];
 		this.poiRmbIcon = false;
 		this.poiCarIcon = false;
 		this.poiIcon = false;
@@ -68,7 +69,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 					}
 				}
 			}
-		}
+		};
 		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
@@ -127,10 +128,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				this.buildings.push(new FM.dataApi.IxPoiBuilding(data['buildings'][i]));
 			}
 		}
-		this.gasstationes = [];
-		if(data['gasstationes']){
-			for (var i = 0 ,len = data['gasstationes'].length ;i < len ; i++){
-				this.gasstationes.push(new FM.dataApi.IxPoiGasstation(data['gasstationes'][i]));
+		this.gasstations = [];
+		if(data['gasstations']){
+			for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
+				this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
 			}
 		}
 		this.hotels = [];
@@ -211,6 +212,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["collectTime"] = this.collectTime;
 		ret["geoAdjustFlag"] = this.geoAdjustFlag;
 		ret["fullAttrFlag"] = this.fullAttrFlag;
+		ret["level"] = this.level;
+		ret["indoor"] = this.indoor;
+		ret["vipFlag"] = this.vipFlag;
+		ret["freshnessVefication"] = this.freshnessVefication;
 
 		ret["names"] = [];
 		if(this.names){
