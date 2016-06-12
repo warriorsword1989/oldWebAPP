@@ -1,0 +1,19 @@
+<div ng-controller="SportsVenuesCtl">
+    <div ng-show="propertyType=='deep'">
+        <div class="fm-panel" >
+            <div class="content" style="padding-bottom: 30px;">
+                <ul class="fm-ul fm-ul-form">
+                    <li>
+                        <label>场馆类型</label>
+                        <div class="block">
+                            <label ng-repeat="(key, value) in sportsVenuesBuildingType" ng-if="true">
+                                <input type="checkbox" value="{{key}}" ng-model="label"> {{value}}
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+

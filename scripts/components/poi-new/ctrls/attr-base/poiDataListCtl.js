@@ -1,10 +1,7 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel',  function (scope, NgTableParams,ngTableEventsChannel) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce) {
 	var _self = scope;
-	_self.items = [
-		'The first choice!',
-		'And another choice for you.',
-		'but wait! A third!'
-	];
+	uibBtnCfg.activeClass = "btn-success";
+	scope.radio_select = '全局';
 	//当前表格数据;
 	scope.finalData = null;
 	//初始化ng-table表头;
@@ -13,10 +10,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		{field: "name", title: "名称", sortable: "name", show: true},
 		{field: "kindCode", title: "分类", sortable: "kindCode", show: true},
 		{field: "uRecord", title: "更新记录", sortable: "uRecord", show: false},
-		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false},
+		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false,getValue:getCollectTime},
 		{field: "pid", title: "PID", sortable: "pid", show: false},
 		{field: "geometry", title: "几何", sortable: "geometry", show: false},
-		{field: "freshnessVerification", title: "鲜度验证", sortable: "freshnessVerification", show: false}
+		{field: "freshnessVefication", title: "鲜度验证", sortable: "freshnessVefication", show: false}
 	];
 	//初始化显示表格字段方法;
 	scope.initShowField = function(params){
@@ -37,11 +34,18 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			}
 		}
 	}
+	//表格配置搜索;
+	scope.filters = {
+		value:''
+	};
+	//切换搜索条件清空输入;
+	scope.$watch('radio_select',function(newValue,oldValue,scope){
+		scope.filters.value = '';
+	})
 	//刷新表格方法;
 	scope.refreshData = function(){
 		_self.tableParams.reload();
 	}
-
 	scope.intit = function(){
 		_self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
@@ -53,10 +57,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			scope.$emit("getPoiListData",param);
 			_self.tableParams.total(scope.poiListTotal);
 			scope.$on('getPoiDataResult',function(event, data){
-				return data.rows;
+				$defer.resolve(data.rows);
 			});
-			console.log(scope.poiList)
-			return scope.poiList;
 		}});
 	}
 
@@ -78,5 +80,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	/*-----------------------------------格式化函数部分----------------------------------*/
 
 	scope.intit();
+	/*采集时间*/
+	function getCollectTime(scope,row){
+		console.log(App.Util.dateFormat(row.collectTime))
+		return $sce.trustAsHtml(App.Util.dateFormat(row.collectTime));
+	}
 }]);
 
