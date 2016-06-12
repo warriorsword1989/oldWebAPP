@@ -296,12 +296,19 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
-label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:checked.ng-dirty  {
+form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
     background: #307BA3;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
+}
+
+form input[type='checkbox']:checked.ng-dirty  {
+    -webkit-appearance: none;
+    background: #307BA3;
+    width: 12px;
+    height: 12px;
 }
 
 .fm-inline > * {
@@ -454,6 +461,10 @@ label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:ch
     background-color: rgb(123, 122, 122);
     color: #fff;
     border: 0;
+    margin-right:1px;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
     transition: all .2s;
 }
 .fm-output-btn:hover{
@@ -470,6 +481,10 @@ label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:ch
 
 .fm-console-hide {
     margin-bottom: -237px;
+}
+
+.fm-console-whole-width{
+    right: 0px !important;
 }
 
 .fm-option-bar {
@@ -520,6 +535,7 @@ label > input[type='radio']:checked.ng-dirty , label > input[type='checkbox']:ch
     background-color: transparent;
     border: none;
     width: 315px;
+    transition: all .2s ease-in-out;
 }
 
 .fm-editor-panel-normal {
@@ -701,6 +717,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     box-shadow: 0px 1px 0px #333 inset;
 }
 
+
+.tel-empty{
+    border:  solid #ff8888 1px !important;
+}
+
 /*********************tips**********************/
 
 .tips-title {
@@ -737,12 +758,17 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     z-index: 999;
     background-color: #242323;
     text-align: center;
-    padding-top: 10px;
     cursor: pointer;
 }
 .full-screen-img-panel > img{
     max-height: 100%;
     max-width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 .tips-panel {
     border: 1px solid #595959;
@@ -1012,4 +1038,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .data-list-btn-middle {
     border-left: 1px solid #404040;
     border-right: 1px solid #404040
+}
+/********************* poiList *****************/
+.fm-dropdown-menu{
+    padding: 10px;
+    background-color: #1F1E1E;
+    border: 1px solid #fff;
+    color: #fff;
 }

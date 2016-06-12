@@ -5,6 +5,9 @@
   "open24H": 2,
   "chain": "3049",
   "poiMemo":"我是备注",
+  "geometry":{
+    "coordinates":[116.47654,40.01341]
+  },
   "names": [
     {
       "namePhonetic": "Bei Jing Shi Jing Lian Xin Lu Yong Cai Liao You Xian Gong Si",

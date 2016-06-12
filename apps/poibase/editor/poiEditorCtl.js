@@ -21,10 +21,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.hideEditorPanel = true;
 	$scope.parentPoi = {};//父POI
 	$scope.childrenPoi = []; //子POI
+	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
 	poiDS.getPoiList().then(function (data) {
-		$scope.poiList = data.data;
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
+			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			$scope.poiList = data.data;
+		});
 	});
 	loadMap();
 	/*切换项目平台*/
@@ -92,6 +96,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.itemActive = index;
 		});
 	};
+	
+	/*查询poi列表信息*/
+	$scope.$on('getPoiListData',function(event,param){
+		var data = $scope.poiList;
+		$scope.$broadcast('getPoiDataResult',data);
+	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
@@ -132,6 +142,25 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		console.log("poi:", $scope.poi);
 		console.info("poi.getIntegrate", $scope.poi.getIntegrate());
 		console.info("poi.getChanges", $scope.poi.getChanges());
+		//判断电话是否符合规则
+		if($scope.controlFlag.isTelEmptyArr){
+			var flag = false ;
+			for(var i = 0 , len = $scope.controlFlag.isTelEmptyArr.length ;i < len ; i ++){
+				if($scope.controlFlag.isTelEmptyArr[i]){
+					flag = true;
+					break;
+				}
+			}
+			if(flag){
+				swal({
+				    title: "电话格式有误，请重新输入!",
+				    type: "warning",
+				    timer: 1000,
+				    showConfirmButton: false
+				});
+				return ;
+			}
+		}
 		var change = $scope.poi.getChanges();
 		savePoi(function (data){
 			if (FM.Util.isEmptyObject(change)){
@@ -178,6 +207,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
+		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
@@ -217,6 +247,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				break;
 			case 'right':
 				$scope.hideEditorPanel = !$scope.hideEditorPanel;
+				$scope.wholeWidth = !$scope.wholeWidth;
 				break;
 			default:
 				break;
@@ -581,6 +612,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		//initParentAndChildren();
 		initOcll();
 		initTableList();
+		setTimeout(function () {
+			$scope.$broadcast("highlightPoiInMap", {});
+		},5000)
 	});
 	/*刷新poi数据*/
 	function refreshPoiData(fid){
@@ -646,4 +680,5 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			map.addLayer(layerCtrl.getVisibleLayers()[layer]);
 		}
 	}
+
 }]);

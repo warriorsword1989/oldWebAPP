@@ -1,10 +1,18 @@
 <div ng-controller="PoiDataListCtl">
-    <label class="checkbox-inline" ng-repeat="col in cols">
-        <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show"/> {{col.title()}}
-    </label>
-    <table ng-table-dynamic="tableParams with cols"
-           class="table table-condensed table-bordered table-striped">
-        <tr ng-repeat="row in $data">
+    <span uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+        <button type="button" class="btn dropdown-toggle btn-xs fm-output-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+            <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+            <li ng-repeat="col in cols">
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model-options="{ getterSetter: true }" ng-model="col.show"/> {{col.title}}
+                </label>
+            </li>
+        </ul>
+    </span>
+    <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
+        <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
             <td ng-repeat="col in $columns">{{row[col.field]}}</td>
         </tr>
     </table>
