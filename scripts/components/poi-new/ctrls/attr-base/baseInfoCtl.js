@@ -80,7 +80,7 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
     $scope.deleteContact = function(index) {
         $scope.poi.contacts.splice(index, 1);
     };
-    $scope.controlFlag.isTelEmptyArr = [];
+    $scope.controlFlag.isTelEmptyArr = [];//用于保存时对电话的校验
     $scope.checkTelNo = function (index,t){
         var temp = $scope.poi.contacts[index];
         if(temp.contact && !/^[0-9]*$/.test(temp.contact)){

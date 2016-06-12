@@ -27,20 +27,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
 
         return defer.promise;
     };
-    this.getPoiDetailByFidTest = function() {
-        var defer = $q.defer();
-        ajax.getLocalJson("../service/poi.json").success(function(data) {
-            if (data) {
-                var poi = new FM.dataApi.IxPoi(data);
-                defer.resolve(poi);
-            } else {
-                defer.resolve("读取POI文件出错了.");
-            }
-        }).error(function(rejection) {
-            defer.reject(rejection);
-        });
-        return defer.promise;
-    };
+
     this.getPoiByPid = function (param){
         var defer = $q.defer();
         var params = {
@@ -57,7 +44,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
                 var poi = new FM.dataApi.IxPoi(data.data);
                 defer.resolve(poi);
             } else {
-                defer.resolve("查询poi详情出错：" + data.errmsg);
+                alert("查询poi详情出错：" + data.errmsg);
+                defer.resolve(0);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
