@@ -92,18 +92,25 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	};
 	
 	/*查询poi列表信息*/
-	poiDS.getPoiList({
+	$scope.$on('getPoiListData',function(event,param){
+		getPoiList(param);
+	});
+	function getPoiList(param){
+		poiDS.getPoiList(param).then(function (data) {
+			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+				$scope.poiList = data.rows;
+				console.log('new',data.rows)
+				$scope.poiListTotal = data.total;
+				$scope.$broadcast('getPoiDataResult',data);
+			});
+		});
+	}
+	getPoiList({
 		dbId: App.Temp.dbId,
 		// type: [1,2,3],
 		pageNum: 1,
 		pageSize: 10
-	}).then(function (data) {
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-			$scope.poiList = data.rows;
-			$scope.poiListTotal = data.total;
-			$scope.$broadcast('getPoiDataResult',data);
-		});
 	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
