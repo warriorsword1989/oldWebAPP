@@ -96,6 +96,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.itemActive = index;
 		});
 	};
+	
+	/*查询poi列表信息*/
+	$scope.$on('getPoiListData',function(event,param){
+		var data = $scope.poiList;
+		$scope.$broadcast('getPoiDataResult',data);
+	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
