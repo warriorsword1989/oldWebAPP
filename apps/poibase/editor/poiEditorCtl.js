@@ -24,10 +24,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
-	poiDS.getPoiList().then(function (data) {
+	poiDS.getPoiList(1).then(function (data) {
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
 			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-			$scope.poiList = data.data;
+			$scope.poiList = data.rows;
 		});
 	});
 	loadMap();
@@ -99,8 +99,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	
 	/*查询poi列表信息*/
 	$scope.$on('getPoiListData',function(event,param){
-		var data = $scope.poiList;
-		$scope.$broadcast('getPoiDataResult',data);
+		poiDS.getPoiList(1).then(function(data){
+			$scope.$broadcast('getPoiDataResult',data.rows);
+		});
 	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
