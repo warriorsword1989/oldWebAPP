@@ -111,10 +111,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				this.buildings.push(new FM.dataApi.IxPoiBuilding(data['buildings'][i]));
 			}
 		}
-		this.gasstationes = [];
-		if(data['gasstationes']){
-			for (var i = 0 ,len = data['gasstationes'].length ;i < len ; i++){
-				this.gasstationes.push(new FM.dataApi.IxPoiGasstation(data['gasstationes'][i]));
+		this.gasstations = [];
+		if(data['gasstations']){
+			for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
+				this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
 			}
 		}
 		this.hotels = [];
