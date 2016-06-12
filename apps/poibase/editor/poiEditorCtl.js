@@ -120,7 +120,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		poiDS.getPoiList(param).then(function (data) {
 			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
 				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-				$scope.poiList = data.rows;
+				// $scope.poiList = new FM.dataApi.IxPoi(data.rows);
 				$scope.poiListTotal = data.total;
 				$scope.$broadcast('getPoiDataResult',data);
 			});

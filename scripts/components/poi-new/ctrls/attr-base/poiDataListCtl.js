@@ -12,8 +12,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		{field: "uRecord", title: "更新记录", sortable: "uRecord", show: false},
 		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false,getValue:getCollectTime},
 		{field: "pid", title: "PID", sortable: "pid", show: false},
-		{field: "geometry", title: "几何", sortable: "geometry", show: false},
-		{field: "freshnessVefication", title: "鲜度验证", sortable: "freshnessVefication", show: false}
+		// {field: "geometry", title: "几何", sortable: "geometry", show: false},
+		{field: "freshnessVefication", title: "鲜度验证", sortable: "freshnessVefication", show: false,getValue:getFreshnessVefication}
 	];
 	//初始化显示表格字段方法;
 	scope.initShowField = function(params){
@@ -82,8 +82,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.intit();
 	/*采集时间*/
 	function getCollectTime(scope,row){
-		console.log(App.Util.dateFormat(row.collectTime))
 		return $sce.trustAsHtml(App.Util.dateFormat(row.collectTime));
+	}
+	/*新鲜度验证*/
+	function getFreshnessVefication(scope,row){
+		return $sce.trustAsHtml(row.freshnessVefication==0?'否':'是');
 	}
 }]);
 
