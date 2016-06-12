@@ -24,10 +24,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
-	poiDS.getPoiList().then(function (data) {
+	poiDS.getPoiList(1).then(function (data) {
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
 			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-			$scope.poiList = data.data;
+			$scope.poiList = data.rows;
 		});
 	});
 	loadMap();
@@ -99,8 +99,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	
 	/*查询poi列表信息*/
 	$scope.$on('getPoiListData',function(event,param){
-		var data = $scope.poiList;
-		$scope.$broadcast('getPoiDataResult',data);
+		poiDS.getPoiList(1).then(function(data){
+			$scope.$broadcast('getPoiDataResult',data.rows);
+		});
 	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
@@ -212,11 +213,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
 
-	$scope.$on("emitChildren",function (childrenPid){
-
+	$scope.$on("emitChildren",function (event,childrenPid){
+		$scope.$broadcast("highlightPoiByPid",childrenPid);
 	});
-	$scope.$on("emitParent",function (parentPid){
-
+	$scope.$on("emitParent",function (event,parentPid){
+		$scope.$broadcast("highlightPoiByPid",parentPid);
 	});
 
 	$scope.changeParkingFee = function (data) {
@@ -637,27 +638,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
 			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
 		});
-	}
-
-	function initParentAndChildren() {
-		if ($scope.poi.parents && $scope.poi.parents.length > 0) {
-			var parentPid = $scope.poi.parents[0].parentPoiPid;
-			poiDS.queryParentPoi(parentPid).then(function (data) {
-				$scope.parentPoi = new FM.dataApi.IxPoi(data);
-			});
-		}
-		if ($scope.poi.children && $scope.poi.children.length > 0) {
-			var childrenArr = [];
-			for (var i = 0, len = $scope.poi.children.length; i < len; i++) {
-				childrenArr.push($scope.poi.children[i].childPoiPid)
-			}
-			poiDS.queryChildren(childrenArr.join(",")).then(function (data) {
-				// $scope.childrenPoi = data
-				for (var i = 0, len = data.length; i < len; i++) {
-					$scope.childrenPoi.push(new FM.dataApi.IxPoi(data[i]));
-				}
-			});
-		}
 	}
 
 	// var map = null;

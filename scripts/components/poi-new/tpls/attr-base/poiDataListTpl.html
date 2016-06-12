@@ -1,6 +1,6 @@
 <div ng-controller="PoiDataListCtl">
-    <span uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
-        <button type="button" class="btn dropdown-toggle btn-xs fm-output-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
+    <span class="fm-list-filter" uib-dropdown on-toggle="toggled(open)" auto-close="outsideClick">
+        <button type="button" class="btn dropdown-toggle btn-xs fm-xs-btn" uib-dropdown-toggle aria-haspopup="true" aria-expanded="true">
             <i class="glyphicon glyphicon-th icon-th"></i> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
@@ -11,6 +11,19 @@
             </li>
         </ul>
     </span>
+    <div class="table-search fm-inline fm-list-dropdown">
+        <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button type="button" class="btn btn-xs dropdown-toggle fm-xs-btn fm-group-btn" uib-dropdown-toggle ng-disabled="disabled">
+                全局 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu fm-dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                <li role="menuitem" ng-repeat="col in cols">
+                    <a href="#" ng-bind="col.title"></a>
+                </li>
+            </ul>
+        </div>
+        <input class="fm-search-control" type="text" placeholder="搜索"/>
+    </div>
     <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
         <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
             <td ng-repeat="col in $columns">{{row[col.field]}}</td>

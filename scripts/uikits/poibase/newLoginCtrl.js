@@ -28,7 +28,7 @@ angular.module('loginApp', ['fastmap.uikit','ng-backstretch','ngCookies']).contr
                 $cookies.put('FM_USER_TYPE',data.data.userType);
                 $cookies.put('FM_USER_ROLES',data.data.roleCode.join(","));
                 $cookies.put('FM_USER_GROUPS',(data.data.userGroups ? data.data.userGroups : []).join(","));
-                window.location.href = "./projectManage.html?access_token=" + data.data.access_token;
+                window.location.href = "./editor/taskSelection.html?access_token=" + data.data.access_token;
             } else if (data.errcode < 0) {
                 swal("登陆出错", data.errmsg, "error");
             }

@@ -91,29 +91,6 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     };
-    this.getPoiList = function() {var defer = $q.defer();
-        var params = {
-            "projectId": 6,
-            "condition": {},
-            "type": "integrate",
-            "phase": "4",
-            "featcode": "poi",
-            "pagesize": 10,
-            "pageno": 1
-        };
-
-        ajax.get("editsupport/poi/query", {
-            parameter : JSON.stringify(params)
-        }).success(function(data) {
-            if (data.errcode == 0) {
-                defer.resolve(data.data);
-            } else {
-                defer.resolve("查询poi列表信息出错：" + data.errmsg);
-            }
-        });
-
-        return defer.promise;
-    };
     this.getProjectList = function (param) {
     	var defer = $q.defer();
     	ajax.get("project/list/",{parameter: JSON.stringify(param)}).success(function(data){
@@ -320,7 +297,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     this.getCheckData = function(num){
         var defer = $q.defer();
         var params = {
-            projectId: App.Temp.projectId,
+            projectId: App.Temp.dbId,
             pageNum: num,
             pageSize: 5,
             grids: App.Temp.meshList
@@ -344,7 +321,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     this.getRdObjectById = function(id,type){
         var defer = $q.defer();
         var params = {
-            projectId: App.Temp.projectId,
+            projectId: App.Temp.dbId,
             type: type,
             pid: id
         };
@@ -366,7 +343,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     this.updateCheckType = function(id,type){
         var defer = $q.defer();
         var params = {
-            projectId: App.Temp.projectId,
+            projectId: App.Temp.dbId,
             type: type,
             id: id
         };
@@ -384,4 +361,26 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         });
         return defer.promise;
     }
+    /*获取poi列表*/
+    this.getPoiList = function (num) {
+        var defer = $q.defer();
+        var params = {
+	        "dbId": App.Temp.dbId,
+	        "pageNum": num,
+	        "pageSize": 10
+        };
+        ajax.get("edit/poi/base/list", {
+	        parameter:JSON.stringify(params),
+	        urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                defer.resolve(data.data);
+            } else {
+                defer.resolve("查询poi列表信息出错：" + data.errmsg);
+            }
+        }).error(function(rejection) {
+            defer.reject(rejection);
+        });
+        return defer.promise;
+    };
 }]);
