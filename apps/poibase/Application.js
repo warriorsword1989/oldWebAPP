@@ -37,7 +37,7 @@ App.Util = {
     getHbaseUrl: function(url) {
         return App.Config.hbaseServiceUrl + "/" + url;
     },
-    getGeneralUrl:function(url) {
+    getGeneralUrl: function(url) {
         return App.Config.generalUrl + "/" + url + "?access_token=" + (App.Config.accessToken || "");
     },
     createTileRequestObject: function(url, requestType) {
@@ -48,22 +48,8 @@ App.Util = {
             gap: 80
         }
         if (requestType) {
-            if (requestType == "RDLINK") {
-                reqObj.hbaseUrl = App.Config.generalUrl + '/render/obj/getByTileWithGap?';
-            }
             reqObj.parameter['types'] = requestType.split(',');
         }
         return reqObj;
-    },
-    createTileRequestObjectForPoi: function(url, requestType) {
-        return {
-            url: App.Config.serviceUrl + "/" + url,
-            parameter: {
-                x: 3370,
-                y: 1552,
-                z: 12,
-                condition: {}
-            }
-        };
-    },
+    }
 };
