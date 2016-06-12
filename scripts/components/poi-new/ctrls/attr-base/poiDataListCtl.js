@@ -1,12 +1,7 @@
-angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg) {
+angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce',  function (scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce) {
 	var _self = scope;
 	uibBtnCfg.activeClass = "btn-success";
 	scope.radio_select = '全局';
-	_self.items = [
-		'The first choice!',
-		'And another choice for you.',
-		'but wait! A third!'
-	];
 	//当前表格数据;
 	scope.finalData = null;
 	//初始化ng-table表头;
@@ -15,7 +10,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		{field: "name", title: "名称", sortable: "name", show: true},
 		{field: "kindCode", title: "分类", sortable: "kindCode", show: true},
 		{field: "uRecord", title: "更新记录", sortable: "uRecord", show: false},
-		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false},
+		{field: "collectTime", title: "采集时间", sortable: "collectTime", show: false,getValue:getCollectTime},
 		{field: "pid", title: "PID", sortable: "pid", show: false},
 		{field: "geometry", title: "几何", sortable: "geometry", show: false},
 		{field: "freshnessVefication", title: "鲜度验证", sortable: "freshnessVefication", show: false}
@@ -85,5 +80,10 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	/*-----------------------------------格式化函数部分----------------------------------*/
 
 	scope.intit();
+	/*采集时间*/
+	function getCollectTime(scope,row){
+		console.log(App.Util.dateFormat(row.collectTime))
+		return $sce.trustAsHtml(App.Util.dateFormat(row.collectTime));
+	}
 }]);
 
