@@ -27,20 +27,32 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
 
         return defer.promise;
     };
-    this.getPoiDetailByFidTest = function() {
+
+    this.getPoiByPid = function (param){
         var defer = $q.defer();
-        ajax.getLocalJson("../service/poi.json").success(function(data) {
-            if (data) {
-                var poi = new FM.dataApi.IxPoi(data);
+        var params = {
+            "dbId" : param.dbId,
+            "type" : param.type,
+            "pid" : param.pid
+        };
+
+        ajax.get("edit/getByPid", {
+            parameter: JSON.stringify(params),
+            urlType:'general'
+        }).success(function(data) {
+            if (data.errcode == 0) {
+                var poi = new FM.dataApi.IxPoi(data.data);
                 defer.resolve(poi);
             } else {
-                defer.resolve("读取POI文件出错了.");
+                alert("查询poi详情出错：" + data.errmsg);
+                defer.resolve(0);
             }
         }).error(function(rejection) {
             defer.reject(rejection);
         });
+
         return defer.promise;
-    };
+    }
     this.queryParentPoi = function (pid){
         var defer = $q.defer();
         ajax.getLocalJson("../service/poiParent.json").success(function(data) {

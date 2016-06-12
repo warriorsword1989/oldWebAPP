@@ -607,11 +607,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	// promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
 	//     $scope.poi = data;
 	// }));
-	promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function (data) {
-		$scope.poi = data;
-		$scope.origPoi = angular.copy(data);
-		//$scope.parentPoi = {};
-		//$scope.childrenPoi = [];
+
+	promises.push(poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":164}).then(function (data) {
+		if(data){
+			specialDetail(data);//名称组和地址组特殊处理
+			$scope.poi = data;
+			$scope.origPoi = angular.copy(data);
+		}
 	}));
 	/*查询3DIcon*/
 	promises.push(meta.getCiParaIcon("0010060815LML01353").then(function (data) {
@@ -625,6 +627,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.$broadcast("highlightPoiInMap", {});
 		},5000)
 	});
+	/**
+	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
+	 * 如果名称组不存在12CHI的名称，则增加一组12CHI的名称
+	 * 如果地址组不存在CHI的地址，则增加一组CHI的地址
+	 * @param data
+     */
+	function specialDetail(data){
+		var flag = true;
+		for (var i = 0 ,len = data.names.length;i < len ; i++){
+			if(data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI"){
+				flag = false;
+			}
+		}
+		if(flag){
+			var name = {
+				langCode : "CHI",
+				nameClass : data['nameClass'] || 1,
+				nameType : data['nameType'] || 2
+			}
+			data.names.push(new FM.dataApi.IxPoiName(name));
+		}
+		flag = true;
+		for (var i = 0 ,len = data.addresses.length;i < len ; i++){
+			if(data.addresses[i].langCode == "CHI"){
+				flag = false;
+			}
+		}
+		if(flag){
+			var address = {
+				langCode : "CHI"
+			}
+			data.addresses.push(new FM.dataApi.IxPoiAddress(address));
+		}
+	}
+
 	/*刷新poi数据*/
 	function refreshPoiData(fid){
 		poiDS.getPoiDetailByFid(fid).then(function(data) {
