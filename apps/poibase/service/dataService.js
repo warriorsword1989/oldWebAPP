@@ -77,6 +77,10 @@ angular.module("dataService", [], function ($httpProvider) {
             return $http.get(App.Util.getGeneralUrl(url), {
                 params: param
             });
+        }else if(param.urlType == 'special'){
+            return $http.get(App.Util.getSpecialUrl(url), {
+                params: param
+            });
         }else{
             return $http.get(App.Util.getFullUrl(url), {
                 params: param

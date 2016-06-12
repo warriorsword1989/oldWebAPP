@@ -52,6 +52,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 				pagesize: params.count()
 			};
 			scope.$emit("getPoiListData",param);
+			console.log(scope.poiList)
 			return scope.poiList;
 			/*scope.$on('getPoiDataResult',function(event, data){
 				console.log(data)
