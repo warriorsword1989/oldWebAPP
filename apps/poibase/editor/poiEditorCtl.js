@@ -613,9 +613,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		//initParentAndChildren();
 		initOcll();
 		initTableList();
-		setTimeout(function () {
-			$scope.$broadcast("highlightPoiInMap", {});
-		},5000)
+		// setTimeout(function () {
+		// 	$scope.$broadcast("highlightPoiInMap", {});
+		// },5000)
 	});
 	/*刷新poi数据*/
 	function refreshPoiData(fid){
