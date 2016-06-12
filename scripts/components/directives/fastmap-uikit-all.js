@@ -5,7 +5,7 @@
     jsFiles = [
         "components/directives/fastmap-uikit.js",
         "components/directives/loginForm/loginForm.js",
-        "components/directives/loginForm/newloginForm.js",
+        "../apps/poibase/newloginForm.js",
         "components/directives/showBox/showBox.js",
         "components/directives/fmTable/fmTable.js"
     ]; // etc.

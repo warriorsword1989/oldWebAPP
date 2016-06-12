@@ -49,16 +49,36 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.collectTime = data['collectTime'] || null;
 		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
-
+		this.level = data['level']
+		this.indoor = data['indoor'] || 0;
+		this.freshnessVefication = data['freshnessVefication'];
+		this.poiRmbIcon = false;
+		this.poiCarIcon = false;
+		this.poiIcon = false;
+		this.vipFlag = data['vipFlag'];
+		if(data['vipFlag']){
+			var vFlag = data['vipFlag'].split('|');
+			if(vFlag.length > 1){
+				for(var i=0,len=vFlag.length-1;i<len;i++){
+					if(vFlag[i] == 1){
+						this.poiRmbIcon = true;
+					}else if(vFlag[i] == 2){
+						this.poiCarIcon = true;
+					}else if(vFlag[i] == 3){
+						this.poiIcon = true;
+					}
+				}
+			}
+		};
 		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
 			for (var i = 0, len = data['names'].length; i < len; i++) {
 				var obj = new FM.dataApi.IxPoiName(data['names'][i]);
 				this.names.push(obj);
-				if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
-					this.name = obj;
-				}
+				// if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
+				// 	this.name = obj;
+				// }
 			}
 		}
 		this.address = {};//主地址
@@ -67,9 +87,9 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 			for (var i = 0, len = data["addresses"].length; i < len; i++) {
 				var obj = new FM.dataApi.IxPoiAddress(data["addresses"][i]);
 				this.addresses.push(obj);
-				if(obj.langCode == "CHI"){
-					this.address = obj;
-				}
+				// if(obj.langCode == "CHI"){
+				// 	this.address = obj;
+				// }
 			}
 		}
 		this.contacts = [];
@@ -108,10 +128,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				this.buildings.push(new FM.dataApi.IxPoiBuilding(data['buildings'][i]));
 			}
 		}
-		this.gasstationes = [];
-		if(data['gasstationes']){
-			for (var i = 0 ,len = data['gasstationes'].length ;i < len ; i++){
-				this.gasstationes.push(new FM.dataApi.IxPoiGasstation(data['gasstationes'][i]));
+		this.gasstations = [];
+		if(data['gasstations']){
+			for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
+				this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
 			}
 		}
 		this.hotels = [];
@@ -192,6 +212,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["collectTime"] = this.collectTime;
 		ret["geoAdjustFlag"] = this.geoAdjustFlag;
 		ret["fullAttrFlag"] = this.fullAttrFlag;
+		ret["level"] = this.level;
+		ret["indoor"] = this.indoor;
+		ret["vipFlag"] = this.vipFlag;
+		ret["freshnessVefication"] = this.freshnessVefication;
 
 		ret["names"] = [];
 		if(this.names){

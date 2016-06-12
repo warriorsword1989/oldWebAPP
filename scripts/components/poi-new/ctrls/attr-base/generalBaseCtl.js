@@ -38,8 +38,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 2: //加油站
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/oilStationCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/oilStationTpl.html";
                 });
                 break;
             case 3: //充电站
@@ -53,8 +53,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 5: //运动场馆
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/sportsVenuesCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/sportsVenuesTpl.html";
                 });
                 break;
             case 6: //餐馆
@@ -63,8 +63,8 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                 });
                 break;
             case 7: //加气站
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/gasStationCtl").then(function() {
+                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/gasStationTpl.html";
                 });
                 break;
             case 8: //旅游景点

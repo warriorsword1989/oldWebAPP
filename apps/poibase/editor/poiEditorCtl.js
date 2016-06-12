@@ -1,4 +1,4 @@
-angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
+angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directives', 'dataService', 'angularFileUpload', 'angular-drag', 'ui.bootstrap','ngSanitize']).controller('PoiEditorCtl', ['$scope', '$ocLazyLoad', '$rootScope', 'dsPoi', 'dsMeta', '$q','$document', function ($scope, $ocLazyLoad, $rootScope, poiDS, meta, $q,$document) {
 	//属性编辑ctrl(解析对比各个数据类型)
 	var layerCtrl = new fastmap.uikit.LayerController({config: App.layersConfig});
 	var shapeCtrl = new fastmap.uikit.ShapeEditorController();
@@ -18,18 +18,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.projectType = 1;
 	$scope.outputType = 1;
 	$scope.hideConsole = true;
-	$scope.hideEditorPanel = true;
+	$scope.hideEditorPanel = false;
 	$scope.parentPoi = {};//父POI
 	$scope.childrenPoi = []; //子POI
 	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
-	poiDS.getPoiList(1).then(function (data) {
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-			$scope.poiList = data.rows;
-		});
-	});
 	loadMap();
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
@@ -47,61 +41,96 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	};
 	$scope.selectData = function (data,index) {
 		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
-			$scope.selectedPoi = data;
-			$scope.selectedPoi.checkResults = [{
-				errorCode: 'YYMM-1001',
-				errorMessage: '这是一个检查结果测试',
-				refFeatures: [{
-					fid: 123,
-					pid: 225,
-					name: 'test'
-				}, {
-					fid: 125,
-					pid: 227,
-					name: 'test'
-				}]
-			}, {
-				errorCode: 'YYMM-1111',
-				errorMessage: '这是一个检查结果测试',
-				refFeatures: [{
-					fid: 123,
-					pid: 225,
-					name: 'test'
-				}, {
-					fid: 125,
-					pid: 227,
-					name: 'test'
-				}]
-			}];
-			$scope.selectedPoi.editHistory = [{
-				operator: '刘莎',
-				operateDate: '2016-05-22',
-				operateDesc: '修改了【名称】，修改前：张三',
-				platform: 'Web'
-			}, {
-				operator: '刘彩霞',
-				operateDate: '2016-04-22',
-				operateDesc: '修改了【分类】，修改前：中餐馆',
-				platform: 'Android'
-			}];
-			$scope.selectedPoi.parkingFee = {
-				1: true,
-				2: true
-			};
-			/*弹出tips*/
-			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-				$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
-				$scope.showPopoverTips = true;
+
+			$scope.$broadcast("clearBaseInfo"); //清除样式
+			$scope.hideEditorPanel = true;
+
+			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":29137}).then(function (data) {
+			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
+				if(data){
+					specialDetail(data);//名称组和地址组特殊处理
+					$scope.poi = data;
+					$scope.origPoi = angular.copy(data);
+					$scope.$broadcast('refreshImgsData',$scope.poi.photos);
+					initOcll();
+					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
+
+					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
+						$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
+					});
+
+
+					$scope.selectedPoi = data;
+					$scope.selectedPoi.checkResults = [{
+						errorCode: 'YYMM-1001',
+						errorMessage: '这是一个检查结果测试',
+						refFeatures: [{
+							fid: 123,
+							pid: 225,
+							name: 'test'
+						}, {
+							fid: 125,
+							pid: 227,
+							name: 'test'
+						}]
+					}, {
+						errorCode: 'YYMM-1111',
+						errorMessage: '这是一个检查结果测试',
+						refFeatures: [{
+							fid: 123,
+							pid: 225,
+							name: 'test'
+						}, {
+							fid: 125,
+							pid: 227,
+							name: 'test'
+						}]
+					}];
+					$scope.selectedPoi.editHistory = [{
+						operator: '刘莎',
+						operateDate: '2016-05-22',
+						operateDesc: '修改了【名称】，修改前：张三',
+						platform: 'Web'
+					}, {
+						operator: '刘彩霞',
+						operateDate: '2016-04-22',
+						operateDesc: '修改了【分类】，修改前：中餐馆',
+						platform: 'Android'
+					}];
+					$scope.selectedPoi.parkingFee = {
+						1: true,
+						2: true
+					};
+					/*弹出tips*/
+					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+						$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
+						$scope.showPopoverTips = true;
+					});
+					$scope.itemActive = index;
+				}
 			});
-			$scope.itemActive = index;
 		});
 	};
 	
 	/*查询poi列表信息*/
 	$scope.$on('getPoiListData',function(event,param){
-		poiDS.getPoiList(1).then(function(data){
-			$scope.$broadcast('getPoiDataResult',data.rows);
+		getPoiList(param);
+	});
+	function getPoiList(param){
+		poiDS.getPoiList(param).then(function (data) {
+			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
+				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+				$scope.poiList = data.rows;
+				$scope.poiListTotal = data.total;
+				$scope.$broadcast('getPoiDataResult',data);
+			});
 		});
+	}
+	getPoiList({
+		dbId: App.Temp.dbId,
+		// type: [1,2,3],
+		pageNum: 1,
+		pageSize: 10
 	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
@@ -119,10 +148,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		}
 		/*刷新poi，弹出tips*/
 		function refreshData(){
-			refreshPoiData($scope.poiList[$scope.itemActive].fid);
-			$scope.selectData($scope.poi,$scope.itemActive);
+			// refreshPoiData($scope.poiList[$scope.itemActive]);
+			$scope.selectData($scope.poiList[$scope.itemActive],$scope.itemActive);
 			$scope.$apply();
 		}
+	});
+	/*翻页时初始化itemActive*/
+	$scope.$on('initItemActive',function(event,data){
+		initTableList();
 	});
 	/*全屏显示*/
 	$scope.$on('showFullScreen',function(event,img){
@@ -171,28 +204,34 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			}
 		});
 	};
-	/*切换POI*/
+	/*切换POI时进行保存提醒*/
 	var changePoi = function (callback){
-		var change = $scope.poi.getChanges();
-		if (!FM.Util.isEmptyObject(change)){
-			swal({
-				title: "数据发生了修改是否保存？",
-				type: "warning",
-				animation:'slide-from-top',
-				showCancelButton: true,
-				closeOnConfirm: true,
-				confirmButtonText: "保存",
-				cancelButtonText: "不保存"
-			}, function(f) {
-				if (f) {
-					savePoi(callback);
-				} else {
-					if(callback){
-						callback();
+		if($scope.poi){
+			var change = $scope.poi.getChanges();
+			if (!FM.Util.isEmptyObject(change)){
+				swal({
+					title: "数据发生了修改是否保存？",
+					type: "warning",
+					animation:'slide-from-top',
+					showCancelButton: true,
+					closeOnConfirm: true,
+					confirmButtonText: "保存",
+					cancelButtonText: "不保存"
+				}, function(f) {
+					if (f) {
+						savePoi(callback);
+					} else {
+						if(callback){
+							callback();
+						}
 					}
+				});
+			} else {
+				if(callback){
+					callback();
 				}
-			});
-		} else {
+			}
+		}else {
 			if(callback){
 				callback();
 			}
@@ -599,24 +638,60 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	// promises.push(poiDS.getPoiDetailByFid("0010060815LML01353").then(function(data) {
 	//     $scope.poi = data;
 	// }));
-	promises.push(poiDS.getPoiDetailByFidTest("查找的是poi.json文件").then(function (data) {
-		$scope.poi = data;
-		$scope.origPoi = angular.copy(data);
-		//$scope.parentPoi = {};
-		//$scope.childrenPoi = [];
-	}));
+
+	// promises.push(poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":29137}).then(function (data) {
+	// 	if(data){
+	// 		specialDetail(data);//名称组和地址组特殊处理
+	// 		$scope.poi = data;
+	// 		$scope.origPoi = angular.copy(data);
+	// 	}
+	// }));
 	/*查询3DIcon*/
 	promises.push(meta.getCiParaIcon("0010060815LML01353").then(function (data) {
 		$scope.poi3DIcon = data;
 	}));
 	$q.all(promises).then(function () {
 		//initParentAndChildren();
-		initOcll();
 		initTableList();
 		// setTimeout(function () {
 		// 	$scope.$broadcast("highlightPoiInMap", {});
 		// },5000)
 	});
+	/**
+	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
+	 * 如果名称组不存在12CHI的名称，则增加一组12CHI的名称
+	 * 如果地址组不存在CHI的地址，则增加一组CHI的地址
+	 * @param data
+     */
+	function specialDetail(data){
+		var flag = true;
+		for (var i = 0 ,len = data.names.length;i < len ; i++){
+			if(data.names[i].nameClass == 1 && data.names[i].nameType == 2 && data.names[i].langCode == "CHI"){
+				flag = false;
+			}
+		}
+		if(flag){
+			var name = {
+				langCode : "CHI",
+				nameClass : data['nameClass'] || 1,
+				nameType : data['nameType'] || 2
+			}
+			data.names.push(new FM.dataApi.IxPoiName(name));
+		}
+		flag = true;
+		for (var i = 0 ,len = data.addresses.length;i < len ; i++){
+			if(data.addresses[i].langCode == "CHI"){
+				flag = false;
+			}
+		}
+		if(flag){
+			var address = {
+				langCode : "CHI"
+			}
+			data.addresses.push(new FM.dataApi.IxPoiAddress(address));
+		}
+	}
+
 	/*刷新poi数据*/
 	function refreshPoiData(fid){
 		poiDS.getPoiDetailByFid(fid).then(function(data) {
@@ -629,9 +704,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	}
 	/*初始化tpl加载*/
 	function initOcll() {
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
-		});
+		// $ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
+		// 	$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
+		// });
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
 			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
 		});

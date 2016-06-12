@@ -17,6 +17,7 @@ requirejs.config({
 		"sweet-alert": "scripts/libs/sweet-alert-upgrade/sweetalert.min",
 		"wheelZoom": "scripts/libs/wheelzoom/wheelzoom",
 		'ngTable': 'scripts/libs/ng-table/ng-table',
+		'ngSanitize':'scripts/libs/angularjs/1.4.4/angular-sanitize',
 		// app相关
 		'dataService': 'apps/poibase/service/dataService',
 		'poiService': 'apps/poibase/service/dataService-poi',
@@ -26,6 +27,7 @@ requirejs.config({
 	},
 	shim: {
 		'angular': {exports: 'angular'},
+		'ngSanitize':['angular'],
 		'ocLazyLoad': ['angular'],
 		'ngLayout': ['angular'],
 		'uiBootstrap': ['angular'],
@@ -37,7 +39,7 @@ requirejs.config({
 		'dataService': ['angular', "sweet-alert"],
 		'poiService': ['dataService'],
 		'metaService': ['dataService'],
-		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable'],
+		'PoiEditorCtl': ['ocLazyLoad', 'ngLayout', 'uiBootstrap', 'chosenJquery', 'angularChosen', 'fileUpload', 'angularDrag', 'sweet-alert', 'poiService', 'metaService', 'layers', 'wheelZoom', 'ngTable','ngSanitize'],
 	}
 });
 // Start the main app logic.

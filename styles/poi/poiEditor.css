@@ -269,6 +269,7 @@ select.fm-control {
 select.fm-control.ng-dirty {
     background-color: #307BA3;
 }
+
 select.fm-control.ng-dirty + div.chosen-container > a.chosen-single {
     border: solid white 1px;
     background-image: linear-gradient(#307BA3 100%, #307BA3 100%);
@@ -296,6 +297,7 @@ label > input[type='radio'], label > input[type='checkbox'] {
     margin: 3px 0px;
     line-height: 12px;
 }
+
 form input[type='radio']:checked.ng-dirty {
     -webkit-appearance: none;
     background: #307BA3;
@@ -304,7 +306,7 @@ form input[type='radio']:checked.ng-dirty {
     border-radius: 50%;
 }
 
-form input[type='checkbox']:checked.ng-dirty  {
+form input[type='checkbox']:checked.ng-dirty {
     -webkit-appearance: none;
     background: #307BA3;
     width: 12px;
@@ -456,20 +458,22 @@ form input[type='checkbox']:checked.ng-dirty  {
 }
 
 /**************************控制台************************/
-.fm-output-btn{
-    margin-top:5px;
+.fm-output-btn {
+    margin-top: 5px;
     background-color: rgb(123, 122, 122);
     color: #fff;
     border: 0;
-    margin-right:1px;
-    -webkit-border-radius:0;
-    -moz-border-radius:0;
-    border-radius:0;
+    margin-right: 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
     transition: all .2s;
 }
-.fm-output-btn:hover{
-    background-color: rgba(255,255,255,0.8);
+
+.fm-output-btn:hover {
+    background-color: rgba(255, 255, 255, 0.8);
 }
+
 .fm-console-panel {
     bottom: 237px;
     position: absolute;
@@ -483,7 +487,7 @@ form input[type='checkbox']:checked.ng-dirty  {
     margin-bottom: -237px;
 }
 
-.fm-console-whole-width{
+.fm-console-whole-width {
     right: 0px !important;
 }
 
@@ -579,12 +583,13 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 /**********tips style**********/
-.modal-tips-img{
+.modal-tips-img {
     left: 241px;
     position: relative;
-    width:500px;
-    top:-10px;
+    width: 500px;
+    top: -10px;
 }
+
 .popoverTips {
     position: absolute;
     top: 0px;
@@ -686,7 +691,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     height: 22px;
 }
 
-.chosen-container-single .chosen-single  > span {
+.chosen-container-single .chosen-single > span {
     margin-top: -2px;
 }
 
@@ -717,9 +722,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     box-shadow: 0px 1px 0px #333 inset;
 }
 
-
-.tel-empty{
-    border:  solid #ff8888 1px !important;
+.tel-empty {
+    border: solid #ff8888 1px !important;
 }
 
 /*********************tips**********************/
@@ -750,7 +754,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     cursor: pointer;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
-.full-screen-img-panel{
+
+.full-screen-img-panel {
     position: fixed;
     top: 0;
     width: 100%;
@@ -760,7 +765,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     text-align: center;
     cursor: pointer;
 }
-.full-screen-img-panel > img{
+
+.full-screen-img-panel > img {
     max-height: 100%;
     max-width: 100%;
     position: absolute;
@@ -770,6 +776,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     right: 0;
     margin: auto;
 }
+
 .tips-panel {
     border: 1px solid #595959;
 }
@@ -792,7 +799,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 #poiTipsOriginImg {
     width: 100%;
     cursor: move;
-    margin-top:-325px;
+    margin-top: -325px;
 }
 
 .tips-option-well {
@@ -821,9 +828,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     background: -ms-linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
     background: linear-gradient(top, rgb(68, 68, 68) 0%, rgb(52, 52, 52) 50%, rgb(41, 41, 41) 50%, rgb(51, 51, 51) 100%);
 }
-.tips-option-well:hover{
+
+.tips-option-well:hover {
     opacity: 1;
 }
+
 .tips-option-well > li {
     float: left;
 }
@@ -897,6 +906,11 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-top: 30%;
     right: 15px;
     cursor: pointer;
+}
+
+.poi_icon {
+    float: left;
+    margin-right: 5px;
 }
 
 /*********************floatMenu**********************/
@@ -1002,14 +1016,17 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     overflow-x: auto;
 }
 
+.poi-list > thead > tr > th {
+    white-space: nowrap;
+}
+
 .poi-list > tbody > tr {
     cursor: pointer;
 }
-/*.poi-list > tbody > tr > td{
-    text-overflow: ellipsis;
+
+.poi-list > tbody > tr > td {
     white-space: nowrap;
-    overflow: hidden;
-}*/
+}
 
 .poi-list > tbody > tr.active > td {
     background-color: #307BA3;
@@ -1046,14 +1063,16 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     border-left: 1px solid #404040;
     border-right: 1px solid #404040
 }
+
 /********************* poiList *****************/
-.fm-dropdown-menu{
+.fm-dropdown-menu {
     padding: 10px;
     background-color: #1F1E1E;
     border: 1px solid #fff;
     color: #fff;
 }
-.fm-dropdown-menu > li > a{
+
+.fm-dropdown-menu > li > a {
     display: block;
     clear: both;
     font-weight: normal;
@@ -1061,38 +1080,68 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     white-space: nowrap;
     color: #fff;
 }
-.fm-dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
+
+.fm-dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
     color: #e5e5e5;
     background-color: #1D1B1B;
     background-image: linear-gradient(to bottom, #1F1E1E 0%, #1F1E1E 100%)
 }
-.fm-xs-btn{
+
+.fm-xs-btn {
     background-color: rgb(123, 122, 122);
     color: #fff;
     border: 0;
-    margin-right:1px;
-    -webkit-border-radius:0;
-    -moz-border-radius:0;
-    border-radius:0;
+    margin-right: 1px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
     transition: all .2s;
     height: 25px;
 }
-.fm-xs-btn:hover{
-    background-color: rgba(255,255,255,0.8);
+
+.fm-xs-btn:hover {
+    background-color: rgba(255, 255, 255, 0.8);
 }
-.fm-search-control{
+
+.fm-search-control {
     margin-top: 5px;
     margin-left: -5px;
     height: 25px;
 }
-.fm-list-dropdown{
+
+.fm-list-dropdown {
     margin-bottom: 5px;
     height: 25px;
 }
-.fm-group-btn{
+
+.fm-group-btn {
     margin-top: -2px;
 }
-.fm-list-filter{
+
+.fm-list-filter {
     margin-top: 5px;
     float: left;
+}
+
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 1px 4px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #E9ECEF;
+    text-decoration: none;
+    background-color: #383636;
+    border: 1px solid #ddd;
+}
+
+.pagination > .disabled > a {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #B7B4B4;
+    border-color: #ddd;
+}
+
+.ng-table-pager {
+    margin-top: -15px;
 }
