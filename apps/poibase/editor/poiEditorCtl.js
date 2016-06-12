@@ -100,7 +100,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
 				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
 				$scope.poiList = data.rows;
-				console.log('new',data.rows)
 				$scope.poiListTotal = data.total;
 				$scope.$broadcast('getPoiDataResult',data);
 			});
