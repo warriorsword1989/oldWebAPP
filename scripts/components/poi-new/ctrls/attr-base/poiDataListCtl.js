@@ -46,19 +46,14 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		// _self.tableParams = new NgTableParams({page:1,count:10,filter:{'name':''}}, {total:scope.poiList.length,dataset:scope.poiList});
 		_self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
-				subtaskId: 11,
-				type: [1,2,3],
+				dbId: App.Temp.dbId,
+				// type: [1,2,3],
 				pageNum: params.page(),
-				pagesize: params.count()
+				pageSize: params.count()
 			};
-			scope.$emit("getPoiListData",param);
 			console.log(scope.poiList)
+			_self.tableParams.total(scope.poiListTotal);
 			return scope.poiList;
-			/*scope.$on('getPoiDataResult',function(event, data){
-				console.log(data)
-				_self.tableParams.total(data.length);
-				return data;
-			})*/
 		}});
 	}
 

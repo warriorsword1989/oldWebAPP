@@ -362,13 +362,8 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     }
     /*获取poi列表*/
-    this.getPoiList = function (num) {
+    this.getPoiList = function (params) {
         var defer = $q.defer();
-        var params = {
-	        "dbId": App.Temp.dbId,
-	        "pageNum": num,
-	        "pageSize": 10
-        };
         ajax.get("edit/poi/base/list", {
 	        parameter:JSON.stringify(params),
 	        urlType:'general'

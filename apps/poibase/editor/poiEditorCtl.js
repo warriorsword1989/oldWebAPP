@@ -24,12 +24,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.controlFlag = {};//用于父Scope控制子Scope
 
 
-	poiDS.getPoiList(1).then(function (data) {
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
-			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-			$scope.poiList = data.rows;
-		});
-	});
 	loadMap();
 	/*切换项目平台*/
 	$scope.changeProject = function(type){
@@ -98,9 +92,17 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	};
 	
 	/*查询poi列表信息*/
-	$scope.$on('getPoiListData',function(event,param){
-		poiDS.getPoiList(1).then(function(data){
-			$scope.$broadcast('getPoiDataResult',data.rows);
+	poiDS.getPoiList({
+		dbId: App.Temp.dbId,
+		// type: [1,2,3],
+		pageNum: 1,
+		pageSize: 10
+	}).then(function (data) {
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
+			$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
+			$scope.poiList = data.rows;
+			$scope.poiListTotal = data.total;
+			$scope.$broadcast('getPoiDataResult',data);
 		});
 	});
 	/*关闭popoverTips状态框*/
