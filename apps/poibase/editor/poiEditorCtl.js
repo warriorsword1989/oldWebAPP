@@ -51,7 +51,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					specialDetail(data);//名称组和地址组特殊处理
 					$scope.poi = data;
 					$scope.origPoi = angular.copy(data);
-
+					$scope.$broadcast('refreshImgsData',$scope.poi.photos);
+					initOcll();
 					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
 
 					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
@@ -647,7 +648,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	}));
 	$q.all(promises).then(function () {
 		//initParentAndChildren();
-		initOcll();
 		initTableList();
 		setTimeout(function () {
 			$scope.$broadcast("highlightPoiInMap", {});
