@@ -1,1 +1,1 @@
-angular.module('fastmap.uikit', ['ui.bootstrap', ]);
+angular.module('fastmap.uikit', []);
