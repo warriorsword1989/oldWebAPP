@@ -49,9 +49,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.collectTime = data['collectTime'] || null;
 		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
-		this.level = data['level']
-		this.indoor = data['indoor'] || 0
-		this.vipFlag = data['vipFlag']
+		this.level = data['level'];
+		this.indoor = data['indoor'] || 0;
+		this.vipFlag = data['vipFlag'];
+		this.freshnessVefication = data['freshnessVefication'];
 
 		//this.name = {}; //主名称
 		this.names = [];
@@ -195,6 +196,10 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["collectTime"] = this.collectTime;
 		ret["geoAdjustFlag"] = this.geoAdjustFlag;
 		ret["fullAttrFlag"] = this.fullAttrFlag;
+		ret["level"] = this.level;
+		ret["indoor"] = this.indoor;
+		ret["vipFlag"] = this.vipFlag;
+		ret["freshnessVefication"] = this.freshnessVefication;
 
 		ret["names"] = [];
 		if(this.names){
