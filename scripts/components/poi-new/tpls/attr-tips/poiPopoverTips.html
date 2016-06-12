@@ -51,9 +51,12 @@
                 </div>
                 <div class="col-sm-12 tips-info">
                     <label class="col-sm-6 control-label text-right">重要POI标识：</label>
-                    <div ng-if="poiCarIcon" class="poi_icon icon_car" title="重要车厂"></div>
-                    <div ng-if="poiRmbIcon" class="poi_icon icon_rmb" title="后项收费"></div>
-                    <div ng-if="!poiCarIcon && !poiRmbIcon">无</div>
+                    <div class="col-sm-6">
+                        <div ng-if="poiCarIcon" class="poi_icon icon_car " title="重要车厂"></div>
+                        <div ng-if="poiRmbIcon" class="poi_icon icon_rmb" title="后项收费"></div>
+                        <div ng-if="poiIcon" class="poi_icon icon_default" title="ICON">ICON</div>
+                        <div ng-if="!poiCarIcon && !poiRmbIcon && !poiIcon">无</div>
+                    </div>
                 </div>
             </div>
         </div>

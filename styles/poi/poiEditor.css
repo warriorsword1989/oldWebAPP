@@ -898,7 +898,10 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     right: 15px;
     cursor: pointer;
 }
-
+.poi_icon{
+    float: left;
+    margin-right: 5px;
+}
 /*********************floatMenu**********************/
 
 .floatMenu {

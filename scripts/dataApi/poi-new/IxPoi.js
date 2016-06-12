@@ -50,9 +50,25 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.geoAdjustFlag = data['geoAdjustFlag'] || 9;
 		this.fullAttrFlag = data['fullAttrFlag'] || 9;
 		this.level = data['level']
-		this.indoor = data['indoor'] || 0
-		this.vipFlag = data['vipFlag']
-
+		this.indoor = data['indoor'] || 0;
+		this.poiRmbIcon = false;
+		this.poiCarIcon = false;
+		this.poiIcon = false;
+		this.vipFlag = data['vipFlag'];
+		if(data['vipFlag']){
+			var vFlag = data['vipFlag'].split('|');
+			if(vFlag.length > 1){
+				for(var i=0,len=vFlag.length-1;i<len;i++){
+					if(vFlag[i] == 1){
+						this.poiRmbIcon = true;
+					}else if(vFlag[i] == 2){
+						this.poiCarIcon = true;
+					}else if(vFlag[i] == 3){
+						this.poiIcon = true;
+					}
+				}
+			}
+		}
 		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
