@@ -43,28 +43,25 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	}
 
 	scope.intit = function(){
-		// _self.tableParams = new NgTableParams({page:1,count:10,filter:{'name':''}}, {total:scope.poiList.length,dataset:scope.poiList});
 		_self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
-				subtaskId: 11,
-				type: [1,2,3],
+				dbId: App.Temp.dbId,
+				// type: [1,2,3],
 				pageNum: params.page(),
-				pagesize: params.count()
+				pageSize: params.count()
 			};
 			scope.$emit("getPoiListData",param);
+			_self.tableParams.total(scope.poiListTotal);
+			scope.$on('getPoiDataResult',function(event, data){
+				return data.rows;
+			});
 			console.log(scope.poiList)
 			return scope.poiList;
-			/*scope.$on('getPoiDataResult',function(event, data){
-				console.log(data)
-				_self.tableParams.total(data.length);
-				return data;
-			})*/
 		}});
 	}
 
 	//给每条数据安排序号;
 	ngTableEventsChannel.onAfterReloadData(function(){
-		console.log(scope.tableParams.page())
 		angular.forEach(scope.tableParams.data,function(data,index){
 			data.num_index = (scope.tableParams.page()-1)*scope.tableParams.count()+index+1;
 		})

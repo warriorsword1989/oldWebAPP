@@ -1096,3 +1096,23 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     margin-top: 5px;
     float: left;
 }
+.pagination > li > a, .pagination > li > span{
+    position: relative;
+    float: left;
+    padding: 1px 4px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #E9ECEF;
+    text-decoration: none;
+    background-color: #383636;
+    border: 1px solid #ddd;
+}
+.pagination > .disabled > a{
+    color: #777;
+    cursor: not-allowed;
+    background-color: #B7B4B4;
+    border-color: #ddd;
+}
+.ng-table-pager{
+    margin-top:-15px;
+}
