@@ -12,7 +12,6 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     }
     /*更新图片数组*/
     $scope.$on('refreshImgsData',function(event,data){
-        console.log(data)
         $scope.poi.tempPhotos = data;
         initData();
     });
