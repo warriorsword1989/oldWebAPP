@@ -129,6 +129,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         }
         shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);//设置编辑的类型
         shapeCtrl.startEditing();// 开始编辑
+        console.log(objCtrl.data);
         map.currentTool = shapeCtrl.getCurrentTool();
         if (type === "POILOCMOVE") {
             shapeCtrl.editFeatType = "poi";
@@ -227,7 +228,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
      * @param data
      */
     $scope.selectObjCallback = function (data) {
-        $scope.$emit("checkPoiSave", data);
+        $scope.$emit("mapSelectPoiBefore", data);
     };
     $scope.$on("clickSelectedPoi",function (event,data) {
         //移除上一步中的悬浮按钮
