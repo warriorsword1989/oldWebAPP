@@ -143,7 +143,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.restaurants = [];
 		if(data["restaurants"]){
 			for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
-				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurantes"][i]));
+				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
 			}
 		}
 		this.samePois = [];
@@ -290,5 +290,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 			}
 		}
 		return ret;
-	}
+	},
+	getSnapShot: function() { //这样写的原因是为了返回的UI对象
+		return new FM.dataApi.IxPoiSnapShot(this.getIntegrate());
+	},
 });
