@@ -6,6 +6,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     var shapeCtrl = new fastmap.uikit.ShapeEditorController();
     var tooltipsCtrl = new fastmap.uikit.ToolTipsController();
     var eventCtrl = new fastmap.uikit.EventController();
+    var gridLayer = new fastmap.mapApi.GridLayer();
+    $scope.currentHighLight = [];
 
     /*加载子任务列表*/
     poiDS.getPoiList().then(function(data) {
@@ -42,6 +44,30 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         }
     }
 
+    $scope.highlightGrid = function (gridId){
+        console.log(map)
+        if($scope.currentHighLight.length) {
+            for(var i=0;i<$scope.currentHighLight.length;i++){
+                map.removeLayer($scope.currentHighLight[i])
+            }
+
+        }
+        var gridid = gridId?gridId:['605603_01','605603_02'];
+        var gridarr = [];
+        for(var i=0;i<layerCtrl.getVisibleLayers()[1].gridArr.length;i++){
+            for(var j=0;j<gridid.length;j++){
+                if(layerCtrl.getVisibleLayers()[1].gridArr[i].options.gridId===gridid[j]){
+                    gridarr.push(layerCtrl.getVisibleLayers()[1].gridArr[i])
+                }
+            }
+        }
+
+        for(var i=0;i<gridarr.length;i++){
+            $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "rgba(164, 164, 229, 0.9)", weight: 0,fillOpacity:0.4}).addTo(map));
+        }
+    }
+    //highlightGrid()
+
     // var map = null;
     function loadMap() {
         map = L.map('map', {
@@ -50,7 +76,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             zoomControl: false
         }).setView([40.012834, 116.476293], 13);
         tooltipsCtrl.setMap(map, 'tooltip');
-        shapeCtrl.setMap(map);
+        //shapeCtrl.setMap(map);
         layerCtrl.eventController.on(eventCtrl.eventTypes.LAYERONSHOW, function (event) {
             if (event.flag == true) {
                 map.addLayer(event.layer);
@@ -61,6 +87,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         for (var layer in layerCtrl.getVisibleLayers()) {
             map.addLayer(layerCtrl.getVisibleLayers()[layer]);
         }
+        //var gridlayer = layerCtrl.getVisibleLayers()[1];
+        //map.on("click",function(e){
+        //    console.log(gridlayer.gridArr)
+        //})
     }
 }]);
 

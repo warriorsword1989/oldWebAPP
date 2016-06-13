@@ -88,8 +88,11 @@
                                     <div class="fm-panel" >
                                         <div class="content" style="padding-bottom: 30px;">
                                             <ul class="fm-ul fm-ul-form">
+                                                <li style="cursor:pointer"  ng-click="highlightGrid()">
+                                                    121212
+                                                </li>
                                                 <li ng-repeat="item in poiList" style="cursor:pointer">
-                                                    <a href='javascript:void(0);'>{{item.name}}</a>
+                                                    <a href='javascript:void(0);' ng-click="highlightGrid()">{{item.name}}</a>
                                                 </li>
                                             </ul>
                                         </div>
