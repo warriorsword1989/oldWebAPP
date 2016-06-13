@@ -1055,7 +1055,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .fm-poiList-btnGroup > div > button:focus {
-    border: none;
+    /*border: none;*/
     box-shadow: none
 }
 

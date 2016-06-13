@@ -1,15 +1,16 @@
 angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
 
     //初始化ng-table表头;
-    /*$scope.cols = [
-        {field: "num_index", title: "检查规则号", show: true},
-        {field: "name", title: "错误等级", sortable: "name", show: true},
-        {field: "kindCode", title: "错误对象", sortable: "kindCode", show: true},
-        {field: "uRecord", title: "错误信息", sortable: "uRecord", show: false},
-        {field: "collectTime", title: "检查时间", sortable: "collectTime", show: false,getValue:getCollectTime},
-        {field: "pid", title: "作业员", sortable: "pid", show: false},
-        {field: "freshnessVefication", title: "检查管理", sortable: "freshnessVefication", show: false,getValue:getFreshnessVefication}
-    ];*/
+    $scope.cols = [
+        {field: "ruleid", title: "检查规则号", show: true},
+        {field: "rank", title: "错误等级", sortable: "rank", show: true},
+        {field: "targets", title: "错误对象", sortable: "targets", show: true},
+        {field: "information", title: "错误信息", sortable: "information", show: true},
+        {field: "geometry", title: "几何信息", sortable: "geometry", show: false},
+        {field: "create_date", title: "检查时间", sortable: "create_date", show: false,getValue:getCreateData},
+        {field: "worker", title: "作业员", sortable: "pid", show: false},
+        {field: "option", title: "检查管理", sortable: "option", show: false,getValue:getOption}
+    ];
     $scope.theadInfo = ['检查规则号','错误等级','错误对象','错误信息','检查时间','作业员','检查管理'];
     //状态
     $scope.initTypeOptions = [
@@ -78,4 +79,13 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
     /*eventController.on(eventController.eventTypes.CHEKCRESULT, function(event){
         $scope.rowCollection=event.errorCheckData;
     });*/
+    /************** 数据格式化 **************/
+    /*检查时间*/
+    function getCreateData($scope,rows){
+        return rows;
+    }
+
+    function getOption ($scope,rows){
+        return rows;
+    }
 }]);

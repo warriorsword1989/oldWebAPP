@@ -52,14 +52,24 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					$scope.poi = data;
 					$scope.origPoi = angular.copy(data);
 					$scope.$broadcast('refreshImgsData',$scope.poi.photos);
-					initOcll();
 					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
-
+					/*查询3DIcon*/
+					meta.getCiParaIcon(data.poiNum).then(function (data) {
+						$scope.poi.poi3DIcon = data;
+						console.log(data)
+						initTableList();
+					});
 
 					/*弹出tips*/
 					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
 						$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
 						$scope.showPopoverTips = true;
+					});
+					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
+						$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
+					});
+					$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
+						$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
 					});
 					$scope.itemActive = index;
 				}
@@ -88,12 +98,24 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		pageSize: 10
 	});
 	/*获取检查结果*/
+	$scope.$on('getCheckReusltData',function(event,param){
+		getCheckResultData(param);
+	});
 	function getCheckResultData(param){
 		poiDS.getCheckData(param).then(function(data){
-			$scope.checkResultData = new FM.dataApi.IxCheckResult(data);
+			$scope.checkResultData = [];
+			for(var i=0,len=data.length;i<len;i++){
+				$scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
+			}
 			console.log(data)
-		})
+		});
 	}
+	getCheckResultData({
+		dbId: App.Temp.dbId,
+		pageNum: 1,
+		pageSize: 5,
+		grids: App.Temp.meshList
+	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
@@ -599,17 +621,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	// 		$scope.origPoi = angular.copy(data);
 	// 	}
 	// }));
-	/*查询3DIcon*/
-	promises.push(meta.getCiParaIcon("0010060815LML01353").then(function (data) {
-		$scope.poi3DIcon = data;
-	}));
-	$q.all(promises).then(function () {
-		initTableList();
 
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
-		});
-	});
 	/**
 	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
 	 * 如果名称组不存在12CHI的名称，则增加一组12CHI的名称
@@ -657,14 +669,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	}
 	/*初始化tpl加载*/
 	function initOcll() {
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
-			$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
-		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
-			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
 		});
 	}
-
+	initOcll();
 	// var map = null;
 	function loadMap() {
 		map = L.map('map', {
