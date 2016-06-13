@@ -42,11 +42,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/oilStationTpl.html";
                 });
                 break;
-            case 3: //充电站
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
-                });
-                break;
+            // case 3: //充电站
+            //     $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+            //         $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+            //     });
+            //     break;
             case 4: //宾馆酒店
                 $ocll.load("scripts/components/poi-new/ctrls/attr-deep/hotelCtl").then(function() {
                     $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/hotelTpl.html";
@@ -67,11 +67,11 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/gasStationTpl.html";
                 });
                 break;
-            case 8: //旅游景点
-                $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
-                    $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
-                });
-                break;
+            // case 8: //旅游景点
+            //     $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
+            //         $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+            //     });
+            //     break;
             case 9:
                 $ocll.load("scripts/components/poi-new/ctrls/attr-deep/parkingCtl").then(function() {
                     // $ocll.load("components/poi/drtvs/directives/select2_drtv").then(function() {
@@ -82,9 +82,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     // });
                 });
                 break;
-            default:
-                $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
-                break;
+            // default:
+            //     $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
+            //     break;
         }
     });
 

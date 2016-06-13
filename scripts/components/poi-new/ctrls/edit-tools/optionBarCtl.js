@@ -1,4 +1,4 @@
-angular.module('app').controller('optionBarCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
+angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
     var checkRuleObj = {};
     var distinguishResult = function (data) {
         /*检查规则*/

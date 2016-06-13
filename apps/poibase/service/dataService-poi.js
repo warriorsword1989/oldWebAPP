@@ -309,12 +309,15 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
     this.getCheckData = function(num){
         var defer = $q.defer();
         var params = {
-            projectId: App.Temp.dbId,
+            dbId: App.Temp.dbId,
             pageNum: num,
             pageSize: 5,
             grids: App.Temp.meshList
         };
-        ajax.get("edit/check/get", {parameter:JSON.stringify(params)}).success(function(data) {
+        ajax.get("edit/check/get", {
+            parameter:JSON.stringify(params),
+            urlType:'general'
+        }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
             } else {

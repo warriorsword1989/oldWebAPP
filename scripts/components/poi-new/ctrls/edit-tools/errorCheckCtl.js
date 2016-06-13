@@ -1,6 +1,15 @@
 angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
 
-
+    //初始化ng-table表头;
+    /*$scope.cols = [
+        {field: "num_index", title: "检查规则号", show: true},
+        {field: "name", title: "错误等级", sortable: "name", show: true},
+        {field: "kindCode", title: "错误对象", sortable: "kindCode", show: true},
+        {field: "uRecord", title: "错误信息", sortable: "uRecord", show: false},
+        {field: "collectTime", title: "检查时间", sortable: "collectTime", show: false,getValue:getCollectTime},
+        {field: "pid", title: "作业员", sortable: "pid", show: false},
+        {field: "freshnessVefication", title: "检查管理", sortable: "freshnessVefication", show: false,getValue:getFreshnessVefication}
+    ];*/
     $scope.theadInfo = ['检查规则号','错误等级','错误对象','错误信息','检查时间','作业员','检查管理'];
     //状态
     $scope.initTypeOptions = [

@@ -45,8 +45,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.$broadcast("clearBaseInfo"); //清除样式
 			$scope.hideEditorPanel = true;
 
-			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":6131753}).then(function (data) {
-			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
+			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":6131753}).then(function (data) {
+			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
 				if(data){
 					specialDetail(data);//名称组和地址组特殊处理
 					$scope.poi = data;
@@ -87,6 +87,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		pageNum: 1,
 		pageSize: 10
 	});
+	/*获取检查结果*/
+	function getCheckResultData(param){
+		poiDS.getCheckData(param).then(function(data){
+			$scope.checkResultData = new FM.dataApi.IxCheckResult(data);
+			console.log(data)
+		})
+	}
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
@@ -200,6 +207,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			callback();
 		}
 	}
+	/**
+	 * 用于接收地图上点击poi的事件
+	 */
+	$scope.$on('mapSelectPoi',function(event,data){
+		$scope.poi = data;
+		$scope.hideEditorPanel = true;
+		$scope.$broadcast("clearBaseInfo"); //清除样式
+	});
 
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
@@ -589,11 +604,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.poi3DIcon = data;
 	}));
 	$q.all(promises).then(function () {
-		//initParentAndChildren();
 		initTableList();
-		// setTimeout(function () {
-		// 	$scope.$broadcast("highlightPoiInMap", {});
-		// },5000)
+
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
+			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
+		});
 	});
 	/**
 	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）
@@ -647,9 +662,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		});
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
 			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
-		});
-		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
-			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
 		});
 	}
 
