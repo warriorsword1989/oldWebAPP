@@ -48,7 +48,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 break;
         }
     }
-
+    //高亮显示网格;
     $scope.highlightGrid = function (gridId){
         console.log(map)
         if($scope.currentHighLight.length) {
@@ -66,12 +66,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
                 }
             }
         }
-
         for(var i=0;i<gridarr.length;i++){
             $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "rgba(164, 164, 229, 0.9)", weight: 0,fillOpacity:0.4}).addTo(map));
         }
     }
-    //highlightGrid()
 
     // var map = null;
     function loadMap() {
