@@ -1146,3 +1146,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .ng-table-pager {
     margin-top: -15px;
 }
+
+.fm-specialopt {
+    color: greenyellow;
+}
