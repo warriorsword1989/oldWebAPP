@@ -56,7 +56,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					/*查询3DIcon*/
 					meta.getCiParaIcon(data.poiNum).then(function (data) {
 						$scope.poi.poi3DIcon = data;
-						console.log(data)
 						initTableList();
 					});
 
