@@ -5,7 +5,7 @@ var App = {};
 App.Config = {
     appType: "WEB",
     serviceUrl: "http://192.168.4.189/fos",
-    accessToken: "0000029900O8ORMI3FD0DE5A7B9741C7E788930B0F3713BF",
+    accessToken: "0000029900O8QOGEB1899049C26A0A2B429A721E3409D8A9",
     hbaseServiceUrl: "http://fastmap.navinfo.com/fos/datum",
     resourceUrl: "http://192.168.4.189/resources",
     generalUrl: 'http://192.168.4.188:8000/service',
@@ -49,6 +49,9 @@ App.Util = {
         }
         if (requestType) {
             reqObj.parameter['types'] = requestType.split(',');
+            if (requestType == "RDLINK") {//小于17级的时候用hbase渲染道路
+                reqObj.hbaseUrl = reqObj.url;
+            }
         }
         return reqObj;
     },

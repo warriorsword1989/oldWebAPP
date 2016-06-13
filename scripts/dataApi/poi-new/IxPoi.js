@@ -52,6 +52,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.level = data['level']
 		this.indoor = data['indoor'] || 0;
 		this.freshnessVefication = data['freshnessVefication'];
+		this.poi3DIcon = false;
 		this.poiRmbIcon = false;
 		this.poiCarIcon = false;
 		this.poiIcon = false;
@@ -70,6 +71,13 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				}
 			}
 		};
+		this.guide = {
+			"type": "Point",
+			"coordinates":[
+				data['xGuide'],data['yGuide']
+			]
+		};
+
 		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
@@ -143,7 +151,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.restaurants = [];
 		if(data["restaurants"]){
 			for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
-				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurantes"][i]));
+				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
 			}
 		}
 		this.samePois = [];
@@ -216,6 +224,9 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["indoor"] = this.indoor;
 		ret["vipFlag"] = this.vipFlag;
 		ret["freshnessVefication"] = this.freshnessVefication;
+
+		ret["xGuide"] = this.guide.coordinates[0];
+		ret["yGuide"] = this.guide.coordinates[1];
 
 		ret["names"] = [];
 		if(this.names){
@@ -290,5 +301,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 			}
 		}
 		return ret;
-	}
+	},
+	getSnapShot: function() { //这样写的原因是为了返回的UI对象
+		return new FM.dataApi.IxPoiSnapShot(this.getIntegrate());
+	},
 });

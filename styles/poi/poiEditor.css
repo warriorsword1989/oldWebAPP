@@ -155,6 +155,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     padding: 6px 5px;
     display: inline-block;
     text-align: center;
+    background-color: rgb(64, 64, 64);
 }
 
 .fm-tabs a.tab:hover {
@@ -1055,7 +1056,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 }
 
 .fm-poiList-btnGroup > div > button:focus {
-    border: none;
+    /*border: none;*/
     box-shadow: none
 }
 

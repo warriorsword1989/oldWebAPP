@@ -91,12 +91,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             return;
         }
         if(!selectCount){
-            //收回上一步中弹开属性框和tips框
-            $scope.$emit("SWITCHCONTAINERSTATE",
-                {
-                    "attrContainerTpl": false,
-                    "subAttrContainerTpl": false
-                });
             $scope.$apply();
             //停止shapeCtrl
             if (shapeCtrl.getCurrentTool()['options']) {
@@ -165,7 +159,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.floatMenu = null;
         }
         //重置上一步中的属性栏和tips框
-        $scope.$emit("SWITCHCONTAINERSTATE", {"attrContainerTpl": false, "subAttrContainerTpl": false})
         originalFeature = []
         selectCount = 0;
 
@@ -276,60 +269,25 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                             callback: $scope.modifyTools
                         }]
                 };
-                ctrlAndTplParams.propertyCtrl = 'scripts/components/poi-new/ctrls/attr-base/generalBaseCtl';
-                ctrlAndTplParams.propertyHtml = "../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html";
                 $scope.type = "POI";
                 break;
         }
-        //poi的时候要这样用
-        // objCtrl.setCurrentObject("POI", $scope.poi);
-        // tooltipsCtrl.onRemoveTooltip();
-        // var options = {
-        //     "loadType": 'attrTplContainer',
-        //     "propertyCtrl": ctrlAndTplParams.propertyCtrl,
-        //     "propertyHtml": ctrlAndTplParams.propertyHtml
-        // };
-        // $scope.$emit("transitCtrlAndTpl", options);
 
-
-        $scope.getRdObjectById=function(id,type,func,detailid) {
-            if(!id){
-                fastmap.mapApi.ajaxConstruct(App.Config.generalUrl+App.Config.editServer+'/getByPid?parameter={"projectId":'+App.Temp.projectId+',"type":"'+type+'","detailId":'+detailid+'}',
-                    function(data) {
-                        func(data);
-                    });
-            }else{
-                fastmap.mapApi.ajaxConstruct(App.Config.generalUrl+App.Config.editServer+'/getByPid?parameter={"projectId":'+App.Temp.projectId+',"type":"'+type+'","pid":'+id+'}',
-                    function(data) {
-                        func(data);
-                    });
-            }
-
-        };
-        $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
+        $scope.getFeatDataCallback = function (selectedData, id, type) {
             poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":id}).then(function (data) {
                 if (data.errcode === -1) {
                     return;
                 }
-                var guide = {};
-                guide.coordinates = [];
-                guide.coordinates.push(data.guide);
-                guide.type= "Point";
-                data.data.guide = guide;
-                objCtrl.setCurrentObject(type, data.data);
+                objCtrl.setCurrentObject(type, data);
                 if(objCtrl.data){
                     $scope.initializeData();
                 }
                 tooltipsCtrl.onRemoveTooltip();
-                var options = {
-                    "loadType": 'attrTplContainer',
-                    "propertyCtrl": ctrl,
-                    "propertyHtml": tpl
-                };
-                $scope.$emit("transitCtrlAndTpl", options);
+
+                $scope.$emit("mapSelectPoi", data);
             }, selectedData.detailid);
         };
-        $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
+        $scope.getFeatDataCallback(data, data.id, $scope.type);
 
         if (!map.floatMenu && toolsObj) {
             map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);

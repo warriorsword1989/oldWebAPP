@@ -10,8 +10,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
     $scope.currentHighLight = [];
 
     /*加载子任务列表*/
-    poiDS.getPoiList().then(function(data) {
-        $scope.poiList = data.data;
+    poiDS.getPoiList({
+        dbId: App.Temp.dbId,
+        // type: [1,2,3],
+        pageNum: 1,
+        pageSize: 10
+    }).then(function(data) {
+        $scope.poiList = data.rows;
     });
     loadMap();
     $scope.dataListType = 1;
