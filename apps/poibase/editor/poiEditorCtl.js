@@ -42,13 +42,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.selectData = function (data,index) {
 		changePoi(function (){  //选择POI时需要先判断当前POI有没有编辑过,后续操作需要写在回调方法中
 
-			$scope.$broadcast("clearBaseInfo"); //清除样式
-			$scope.hideEditorPanel = true;
+			// $scope.$broadcast("clearBaseInfo"); //清除样式
+			// $scope.hideEditorPanel = true;
 
 			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":6131753}).then(function (data) {
 			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
 				if(data){
-					showPoiInfo();
+					showPoiInfo(data);
 					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
 					$scope.itemActive = index;
 				}
@@ -59,6 +59,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 显示poi基本信息，tips信息等
      */
 	var showPoiInfo = function (data){
+		$scope.$broadcast("clearBaseInfo"); //清除样式
+		$scope.hideEditorPanel = true; //打开右侧面板
+
 		specialDetail(data);//名称组和地址组特殊处理
 		$scope.poi = data;
 		$scope.origPoi = angular.copy(data);
@@ -229,7 +232,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 用于接收地图上点击poi的事件
 	 */
 	$scope.$on('mapSelectPoi',function(event,data){
-		showPoiInfo(data)
+		showPoiInfo(data);
 		// specialDetail(data); //名称组和地址组特殊处理
 		// $scope.poi = data;
 		// initOcll();
