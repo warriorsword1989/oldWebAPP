@@ -15,10 +15,10 @@
                         <label>收费标准</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollStd" ng-if="key != 5">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollStd" ng-change="tollStdChange($event, parking)"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="parking.tollStd[key]" ng-change="tollStdChange($event, parking)"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in tollStd" ng-if="key == 5" class="fm-specialopt">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollStd" ng-change="tollStdChange($event, parking)"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="parking.tollStd[key]" ng-change="tollStdChange($event, parking)"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -26,7 +26,7 @@
                         <label>收费方式</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollWay">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollWay"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="parking.tollWay[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -34,7 +34,7 @@
                         <label>收费备注</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in remark">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.remark"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="parking.remark[key]"> {{value}}
                             </label>
                         </div>
                     </li>

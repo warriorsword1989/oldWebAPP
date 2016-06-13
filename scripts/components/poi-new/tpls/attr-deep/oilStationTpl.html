@@ -7,10 +7,10 @@
                         <label>支付方式</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in paymentML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment[key]"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in paymentHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -18,10 +18,10 @@
                         <label>附属服务</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in serviceML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service[key]"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in serviceHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -29,7 +29,7 @@
                         <label>汽油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in oilType">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.oilType"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.oilType[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -37,7 +37,7 @@
                         <label>甲醇汽油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in mgType">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.mgType"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.mgType[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -45,7 +45,7 @@
                         <label>乙醇汽油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in egType">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.egType"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.egType[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -53,10 +53,10 @@
                         <label>柴油</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in fuelTypeML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.fuelType"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.fuelType[key]"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in fuelTypeHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.fuelType"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.fuelType[key]"> {{value}}
                             </label>
                         </div>
                     </li>
