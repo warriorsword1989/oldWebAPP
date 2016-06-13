@@ -48,7 +48,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":6131753}).then(function (data) {
 			//poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
 				if(data){
-					specialDetail(data);//名称组和地址组特殊处理
+					specialDetail(data);//名称组和地址组特殊处理 
 					$scope.poi = data;
 					$scope.origPoi = angular.copy(data);
 					$scope.$broadcast('refreshImgsData',$scope.poi.photos);
