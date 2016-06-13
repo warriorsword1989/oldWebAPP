@@ -52,6 +52,7 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		this.level = data['level']
 		this.indoor = data['indoor'] || 0;
 		this.freshnessVefication = data['freshnessVefication'];
+		this.poi3DIcon = false;
 		this.poiRmbIcon = false;
 		this.poiCarIcon = false;
 		this.poiIcon = false;
