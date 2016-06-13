@@ -75,7 +75,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		poiDS.getPoiList(param).then(function (data) {
 			$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/poiDataListCtl').then(function () {
 				$scope.poiDataListTpl = '../../../scripts/components/poi-new/tpls/attr-base/poiDataListTpl.html';
-				// $scope.poiList = new FM.dataApi.IxPoi(data.rows);
+				$scope.poiList = data.rows;
 				$scope.poiListTotal = data.total;
 				$scope.$broadcast('getPoiDataResult',data);
 			});
@@ -103,10 +103,14 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		}
 		/*刷新poi，弹出tips*/
 		function refreshData(){
-			refreshPoiData($scope.poiList[$scope.itemActive].fid);
-			$scope.selectData($scope.poi,$scope.itemActive);
+			// refreshPoiData($scope.poiList[$scope.itemActive]);
+			$scope.selectData($scope.poiList[$scope.itemActive],$scope.itemActive);
 			$scope.$apply();
 		}
+	});
+	/*翻页时初始化itemActive*/
+	$scope.$on('initItemActive',function(event,data){
+		initTableList();
 	});
 	/*全屏显示*/
 	$scope.$on('showFullScreen',function(event,img){
@@ -587,9 +591,9 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$q.all(promises).then(function () {
 		//initParentAndChildren();
 		initTableList();
-		setTimeout(function () {
-			$scope.$broadcast("highlightPoiInMap", {});
-		},5000)
+		// setTimeout(function () {
+		// 	$scope.$broadcast("highlightPoiInMap", {});
+		// },5000)
 	});
 	/**
 	 * 名称组可地址组特殊处理（暂时只做了大陆的控制）

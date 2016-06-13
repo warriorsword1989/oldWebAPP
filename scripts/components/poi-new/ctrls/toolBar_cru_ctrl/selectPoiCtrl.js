@@ -1,8 +1,8 @@
 /**
  * Created by liuyang on 2016/06/03.
  */
-var selectAdApp = angular.module("app");
-selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootScope', function ($scope, $ocLazyLoad, $rootScope) {
+var selectAdApp = angular.module("app",['dataService']);
+selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootScope','dsPoi', function ($scope, $ocLazyLoad, $rootScope,poiDS) {
     var selectCtrl = fastmap.uikit.SelectController();
     var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
@@ -307,14 +307,13 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
 
         };
         $scope.getFeatDataCallback = function (selectedData, id, type, ctrl, tpl) {
-            $scope.getRdObjectById(id, "ADADMIN", function (data) {
+            poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":id}).then(function (data) {
                 if (data.errcode === -1) {
                     return;
                 }
-
                 var guide = {};
                 guide.coordinates = [];
-                guide.coordinates.push(116.47654,40.01341);
+                guide.coordinates.push(data.guide);
                 guide.type= "Point";
                 data.data.guide = guide;
                 objCtrl.setCurrentObject(type, data.data);
@@ -326,29 +325,26 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                     "loadType": 'attrTplContainer',
                     "propertyCtrl": ctrl,
                     "propertyHtml": tpl
-                }
+                };
                 $scope.$emit("transitCtrlAndTpl", options);
             }, selectedData.detailid);
         };
         $scope.getFeatDataCallback(data, data.id, $scope.type, ctrlAndTplParams.propertyCtrl, ctrlAndTplParams.propertyHtml);
 
-
         if (!map.floatMenu && toolsObj) {
-            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj)
+            map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
     };
 
-
     //高亮显示指定的子poi
-    $scope.$on("highlightPoiInMap",function (event) {
+    $scope.$on("highlightPoiByPid",function (event,pid) {
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
         var highLightFeatures = [];
         highLightFeatures.push({
-            // id:$scope.poi.pid,
-            id:"100000160",
+            id:pid,
             layerid:'poiPoint',
             type:'poi',
             style:{}
@@ -359,4 +355,4 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         map.setView([$scope.poi.geometry.coordinates[1], $scope.poi.geometry.coordinates[0]], 20);
     });
 
-}])
+}]);

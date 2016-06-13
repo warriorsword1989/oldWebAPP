@@ -5,7 +5,6 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
     initialize: function(data) {
         this.geometry = {};
         this.properties = {};
-        this.guide = {};
         this.geometry['coordinates'] = data.g;
         this.properties['id'] = data.i;
         this.properties['style'] = {};
@@ -39,7 +38,7 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
                 case 11: //立交
                     ret = new fastmap.uikit.canvasFeature.RdGsc(data);
                     break;
-                case 15: //adadmin模拟poi
+                case 21: //poi
                     ret = new fastmap.uikit.canvasFeature.poiMarker(data);
                     break;
             }
@@ -87,6 +86,6 @@ fastmap.uikit.canvasFeature.Feature = L.Class.extend({
             icon["scalex"] = options.scalex || 1;
             icon["scaley"] = options.scaley || 1;
             return icon;
-        },
+        }
     }
 });

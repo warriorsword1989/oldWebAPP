@@ -64,6 +64,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 
 	//给每条数据安排序号;
 	ngTableEventsChannel.onAfterReloadData(function(){
+		scope.$emit('initItemActive',true);
 		angular.forEach(scope.tableParams.data,function(data,index){
 			data.num_index = (scope.tableParams.page()-1)*scope.tableParams.count()+index+1;
 		})
@@ -82,7 +83,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.intit();
 	/*采集时间*/
 	function getCollectTime(scope,row){
-		return $sce.trustAsHtml(App.Util.dateFormat(row.collectTime));
+		var temp = '';
+		if(row.collectTime){
+			temp = App.Util.dateFormat(row.collectTime);
+		}
+		return $sce.trustAsHtml(temp);
 	}
 	/*新鲜度验证*/
 	function getFreshnessVefication(scope,row){
