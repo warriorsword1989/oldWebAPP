@@ -87,6 +87,13 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		pageNum: 1,
 		pageSize: 10
 	});
+	/*获取检查结果*/
+	function getCheckResultData(param){
+		poiDS.getCheckData(param).then(function(data){
+			$scope.checkResultData = new FM.dataApi.IxCheckResult(data);
+			console.log(data)
+		})
+	}
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
