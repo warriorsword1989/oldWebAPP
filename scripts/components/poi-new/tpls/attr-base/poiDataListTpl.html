@@ -27,11 +27,11 @@
         <input class="fm-search-control" type="text" ng-model="filters['value']" placeholder="搜索"/>
     </div>
     <div class="table-container">
-        <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
+        <!--<table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
             <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
                 <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]">{{row[col.field]}}</td>
             </tr>
-        </table>
+        </table>-->
     </div>
 </div>
 

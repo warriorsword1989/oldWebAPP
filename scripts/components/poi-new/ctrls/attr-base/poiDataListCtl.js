@@ -46,7 +46,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	scope.refreshData = function(){
 		_self.tableParams.reload();
 	}
-	scope.intit = function(){
+	function init(){
 		_self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts:[],getData:function($defer, params){
 			var param = {
 				dbId: App.Temp.dbId,
@@ -59,6 +59,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 			scope.$on('getPoiDataResult',function(event, data){
 				$defer.resolve(data.rows);
 			});
+			return scope.poiList
 		}});
 	}
 
@@ -70,6 +71,7 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		})
 	})
 
+	init();
 	/*选择数据弹出tips*/
 	/*self.selectData = function(item,$index){
 		var temp = {
@@ -80,7 +82,6 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 	}*/
 	/*-----------------------------------格式化函数部分----------------------------------*/
 
-	scope.intit();
 	/*采集时间*/
 	function getCollectTime(scope,row){
 		var temp = '';
