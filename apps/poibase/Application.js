@@ -49,6 +49,9 @@ App.Util = {
         }
         if (requestType) {
             reqObj.parameter['types'] = requestType.split(',');
+            if (requestType == "RDLINK") {//小于17级的时候用hbase渲染道路
+                reqObj.hbaseUrl = reqObj.url;
+            }
         }
         return reqObj;
     },

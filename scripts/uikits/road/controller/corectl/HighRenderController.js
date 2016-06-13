@@ -402,7 +402,7 @@ fastmap.uikit.HighRenderController = (function () {
                     }
                     var geo = [];
                     geo.push(feature.geometry.coordinates);
-                    geo.push(feature.properties.guide.coordinates);
+                    geo.push(feature.properties.guide);
                     this.layer._drawImg({
                         ctx:ctx,
                         geo:feature.geometry.coordinates,
@@ -428,7 +428,7 @@ fastmap.uikit.HighRenderController = (function () {
 
                     this.layer._drawImg({
                         ctx:ctx,
-                        geo:feature.properties.guide.coordinates,
+                        geo:feature.properties.guide,
                         style:{src:'../../../images/poi/map/marker_circle.png'},
                         boolPixelCrs:true,
                         drawy:0
