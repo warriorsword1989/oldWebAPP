@@ -8,10 +8,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-if="!errorCheckData || errorCheckData.length == 0">
+            <tr ng-if="!checkResultData || checkResultData.length == 0">
                 <td colspan="{{theadInfo.length}}" class="text-center">没有找到匹配的记录</td>
             </tr>
-            <tr ng-repeat="row in errorCheckData">
+            <tr ng-repeat="row in checkResultData">
                 <td>{{row.ruleid}}</td>
                 <td>
                     <span ng-if="row.rank==0" >无</span>

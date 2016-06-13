@@ -32,6 +32,19 @@
                 <i class="glyphicon glyphicon-ban-circle"></i>
                 清空
             </button>
+            <div class="fm-pagination pull-right" ng-show="tagSelect == 'errorCheck'">
+                <div class="pull-left">
+                    第
+                    <span ng-bind="checkPageNow"></span>
+                    页 | 共
+                    <span ng-bind="checkPageTotal"></span>
+                    页
+                </div>
+                <div class="pull-left fm-pagination-btn">
+                    <button class="btn btn-xs fm-btn fm-output-btn fm-page-btn-prev" ng-disabled="checkPageNow == 1" ng-click="turnPage('prev');"> << </button>
+                    <button class="btn btn-xs fm-btn fm-output-btn fm-page-btn-next" ng-disabled="checkPageNow == checkPageTotal" ng-click="turnPage('next');"> >> </button>
+                </div>
+            </div>
         </div>
         <div class="fm-console-content">
             <div ng-include="tagContentTpl"></div>

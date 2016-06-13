@@ -57,7 +57,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					/*查询3DIcon*/
 					meta.getCiParaIcon(data.poiNum).then(function (data) {
 						$scope.poi.poi3DIcon = data;
-						initTableList();
 					});
 
 					/*弹出tips*/
@@ -98,23 +97,41 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		pageSize: 10
 	});
 	/*获取检查结果*/
-	$scope.$on('getCheckReusltData',function(event,param){
-		getCheckResultData(param);
+	// $scope.checkPageNow = 1;
+	/*刷新检查结果*/
+	$scope.$on('refreshCheckReusltData',function(event,param){
+		initCheckResultData();
 	});
-	function getCheckResultData(param){
-		poiDS.getCheckData(param).then(function(data){
+	/*查找检查结果*/
+	function getCheckResultData(num){
+		poiDS.getCheckData(num).then(function(data){
 			$scope.checkResultData = [];
 			for(var i=0,len=data.length;i<len;i++){
 				$scope.checkResultData.push(new FM.dataApi.IxCheckResult(data[i]));
 			}
-			console.log(data)
 		});
 	}
-	getCheckResultData({
-		dbId: App.Temp.dbId,
-		pageNum: 1,
-		pageSize: 5,
-		grids: App.Temp.meshList
+	// getCheckResultData($scope.checkPageNow);
+	initCheckResultData();
+	/*查找检查结果总数*/
+	poiDS.getCheckDataCount().then(function(data){
+		$scope.checkResultTotal = data;
+		$scope.checkPageTotal = Math.ceil(data/5);
+	});
+	/*初始化检查结果数据*/
+	function initCheckResultData(){
+		$scope.checkPageNow = 1;//检查结果当前页
+		getCheckResultData(1);
+	}
+	/*检查结果翻页*/
+	$scope.$on('trunPaging',function(event,type){
+		if(type == 'prev'){     //上一页
+			getCheckResultData($scope.checkPageNow-1);
+			$scope.checkPageNow--;
+		}else{      //  下一页
+			getCheckResultData($scope.checkPageNow+1);
+			$scope.checkPageNow++;
+		}
 	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
@@ -667,6 +684,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	function initTableList(){
 		$scope.itemActive = -1;
 	}
+	initTableList();
 	/*初始化tpl加载*/
 	function initOcll() {
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
