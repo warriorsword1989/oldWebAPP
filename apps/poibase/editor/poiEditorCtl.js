@@ -60,17 +60,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 						initTableList();
 					});
 
-					/*弹出tips*/
-					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
-						$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
-						$scope.showPopoverTips = true;
-					});
-					$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
-						$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
-					});
-					$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
-						$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
-					});
+					initOcll();
+
 					$scope.itemActive = index;
 				}
 			});
@@ -233,23 +224,40 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 * 用于接收地图上点击poi的事件
 	 */
 	$scope.$on('mapSelectPoi',function(event,data){
+		specialDetail(data); //名称组和地址组特殊处理
 		$scope.poi = data;
+		initOcll();
 		$scope.hideEditorPanel = true;
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	});
-
+	/**
+	 * 页面取消功能
+	 */
 	$scope.cancel = function (){
 		$scope.poi =  angular.copy($scope.origPoi);
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 
 		$scope.$broadcast("clearBaseInfo"); //清除样式
 	}
-
+	/**
+	 * 接收父子关系中点击子事件
+	 */
 	$scope.$on("emitChildren",function (event,childrenPid){
 		$scope.$broadcast("highlightPoiByPid",childrenPid);
 	});
+	/**
+	 * 接收父子关系中点击父事件
+	 */
 	$scope.$on("emitParent",function (event,parentPid){
 		$scope.$broadcast("highlightPoiByPid",parentPid);
+	});
+	/**
+	 * 接收地图上点击POI的事件
+	 */
+	$scope.$on("checkPoiSave",function (event,data){
+		changePoi(function (){
+			$scope.$broadcast("clickSelectedPoi",data);
+		});
 	});
 
 	/*弹出/弹入面板*/
@@ -667,13 +675,28 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	function initTableList(){
 		$scope.itemActive = -1;
 	}
-	/*初始化tpl加载*/
+	/*tpl加载*/
 	function initOcll() {
+		/*弹出tips*/
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-tips/poiPopoverTipsCtl').then(function () {
+			$scope.poiPopoverTipsTpl = '../../../scripts/components/poi-new/tpls/attr-tips/poiPopoverTips.html';
+			$scope.showPopoverTips = true;
+		});
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/attr-base/generalBaseCtl').then(function () {
+			$scope.generalBaseTpl = '../../../scripts/components/poi-new/tpls/attr-base/generalBaseTpl.html';
+		});
+		$ocLazyLoad.load('scripts/components/poi-new/ctrls/edit-tools/optionBarCtl').then(function () {
+			$scope.consoleDeskTpl = '../../../scripts/components/poi-new/tpls/edit-tools/optionBarTpl.html';
+		});
+	}
+	//页面初始化方法调用
+	var initPage = function (){
 		$ocLazyLoad.load('scripts/components/poi-new/ctrls/toolBar_cru_ctrl/selectPoiCtrl').then(function () {
 			$scope.selectPoiURL = '../../../scripts/components/poi-new/tpls/toolBar_cru_tpl/selectPoiTpl.html';
 		});
-	}
-	initOcll();
+	};
+	//页面初始化方法调用
+	initPage();
 	// var map = null;
 	function loadMap() {
 		map = L.map('map', {
