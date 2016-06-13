@@ -224,8 +224,8 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["vipFlag"] = this.vipFlag;
 		ret["freshnessVefication"] = this.freshnessVefication;
 
-		ret["xGuide"] = this.guide.coordinates.xGuide;
-		ret["yGuide"] = this.guide.coordinates.yGuide;
+		ret["xGuide"] = this.guide.coordinates[0];
+		ret["yGuide"] = this.guide.coordinates[1];
 
 		ret["names"] = [];
 		if(this.names){
