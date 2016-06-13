@@ -70,6 +70,13 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				}
 			}
 		};
+		this.guide = {
+			"type": "Point",
+			"coordinates":[
+				data['xGuide'],data['yGuide']
+			]
+		};
+
 		//this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
@@ -216,6 +223,9 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		ret["indoor"] = this.indoor;
 		ret["vipFlag"] = this.vipFlag;
 		ret["freshnessVefication"] = this.freshnessVefication;
+
+		ret["xGuide"] = this.guide.geometry.xGuide;
+		ret["yGuide"] = this.guide.geometry.yGuide;
 
 		ret["names"] = [];
 		if(this.names){
