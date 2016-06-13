@@ -40,8 +40,9 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         shapeCtrl.shapeEditorResult.setOriginalGeometry(null);
         editLayer.clear();
     };
+
     /**
-     * 悬浮按钮的点击事件方法
+     * 点击悬浮按钮方法
      * @param event
      */
     $scope.modifyTools = function (event) {
@@ -104,7 +105,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 if (tooltipsCtrl.getCurrentTooltip()) {
                     tooltipsCtrl.onRemoveTooltip();
                 }
-
                 feature = selectCtrl.selectedFeatures.geometry;//获取要编辑的几何体的geometry
                 //组装一个线
                 feature.components = [];
@@ -115,8 +115,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 feature.points.push(feature[1]);
                 originalFeature.push(feature[0].clone());
                 originalFeature.push(feature[1].clone());
-                // delete feature.x;
-                // delete feature.y;
                 feature.type = "Poi";
 
                 layerCtrl.pushLayerFront('edit'); //使编辑图层置顶
@@ -147,7 +145,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         } else if(type === "POIRESET"){
             map.currentTool.snapHandler._guides.length = 0;
         }
-
     };
     $scope.selectPoiShape = function (type, num) {
         //重置选择工具
@@ -224,7 +221,15 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     };
 
+    /**
+     * poi点击事件方法
+     * 传给父页面，判断下当前poi是否发生改变，然后父页面将结果再反馈回来，执行点击操作
+     * @param data
+     */
     $scope.selectObjCallback = function (data) {
+        $scope.$emit("checkPoiSave", data);
+    };
+    $scope.$on("clickSelectedPoi",function (event,data) {
         //移除上一步中的悬浮按钮
         if (map.floatMenu) {
             map.removeLayer(map.floatMenu);
@@ -232,10 +237,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         }
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
-        var ctrlAndTplParams = {
-            propertyCtrl: "",
-            propertyHtml: ""
-        }, toolsObj = null;
+        var toolsObj = null;
         $scope.type = null;
         switch (data.optype) {
             case "POIPOINT" :
@@ -294,7 +296,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.addLayer(map.floatMenu);
             map.floatMenu.setVisible(true);
         }
-    };
+    });
 
     //高亮显示指定的子poi
     $scope.$on("highlightPoiByPid",function (event,pid) {
