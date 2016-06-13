@@ -51,8 +51,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					specialDetail(data);//名称组和地址组特殊处理
 					$scope.poi = data;
 					$scope.origPoi = angular.copy(data);
-					$scope.$broadcast('initPoiPopoverTipsCtl');
-					initOcll();
+					$scope.$broadcast('initPoiPopoverTipsCtl');  //调用poiPopoverTipsCtl.js初始化方法
 					$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
 					/*查询3DIcon*/
