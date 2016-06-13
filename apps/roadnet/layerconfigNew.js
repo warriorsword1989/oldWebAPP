@@ -1752,6 +1752,7 @@ function createUrl(url, requestType) {
         urlObj.url = Application.url + url;
         urlObj.parameter = {
             projectId: Application.projectid,
+            dbId:Application.dbId,
             gap: 80,
             types: requestType.split(',')
         }
