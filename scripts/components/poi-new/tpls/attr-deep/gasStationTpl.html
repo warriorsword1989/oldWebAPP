@@ -7,10 +7,10 @@
                         <label>支付方式</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in paymentML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment[key]"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in paymentHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.payment[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -18,10 +18,10 @@
                         <label>附属服务</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in serviceML" ng-if="true">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service[key]"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in serviceHM" ng-if="">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.service[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -29,7 +29,7 @@
                         <label>燃气类型</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in oilType">
-                                <input type="checkbox" value="{{key}}" ng-model="gasstation.oilType"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="gasstation.oilType[key]"> {{value}}
                             </label>
                         </div>
                     </li>

@@ -143,6 +143,10 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
     padding: 5px;
 }
 
+.left-container {
+    padding: 5px;
+}
+
 .fm-tabs {
     background-color: rgb(64, 64, 64);
     padding: 0px 8px;
@@ -581,6 +585,30 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     width: 10px;
     height: 20px;
     margin-top: 10px;
+}
+
+.fm-pagination {
+    color: #fff;
+    height: 30px;
+    line-height: 2.5;
+    margin-right: 10px;
+}
+
+.fm-pagination-btn {
+    margin-top: -4px;
+    margin-left: 10px;
+}
+
+.fm-page-btn-prev {
+    margin-right: -2px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.fm-page-btn-next {
+    margin-right: -2px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 /**********tips style**********/
@@ -1112,7 +1140,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .fm-list-dropdown {
     margin-bottom: 5px;
-    height: 25px;
+    float: left;
 }
 
 .fm-group-btn {
@@ -1145,4 +1173,8 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 
 .ng-table-pager {
     margin-top: -15px;
+}
+
+.fm-specialopt {
+    color: greenyellow;
 }

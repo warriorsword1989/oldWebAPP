@@ -41,6 +41,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
+                
                 var poi = new FM.dataApi.IxPoi(data.data);
                 defer.resolve(poi);
             } else {
