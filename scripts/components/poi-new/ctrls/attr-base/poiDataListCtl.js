@@ -91,6 +91,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		var temp = '';
 		if(row.collectTime){
 			temp = App.Util.dateFormat(row.collectTime);
+		}else{
+			temp = '无';
 		}
 		return $sce.trustAsHtml(temp);
 	}
