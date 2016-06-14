@@ -86,10 +86,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         //东北角坐标;
         var northEast_X = getMaxOrMin(allLatArr.lng,'max');
         var northEast_Y = getMaxOrMin(allLatArr.lat,'max');
-        var southWest = L.latLng(sourthWest_X, sourthWest_Y),
-            northEast = L.latLng(northEast_X, northEast_Y),
-            bounds = L.latLngBounds(southWest, northEast);
-        L.rectangle([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]], {fillColor: "#000000", weight: 0,fillOpacity:0.3}).addTo(map)
+        //var southWest = L.latLng(sourthWest_X, sourthWest_Y),
+        //    northEast = L.latLng(northEast_X, northEast_Y),
+        //    bounds = L.latLngBounds(southWest, northEast);
+        //L.rectangle([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]], {fillColor: "#000000", weight: 0,fillOpacity:0.3}).addTo(map)
         map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
 
     }
