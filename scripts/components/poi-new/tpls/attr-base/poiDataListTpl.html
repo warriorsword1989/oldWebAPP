@@ -28,7 +28,7 @@
     </div>
     <div class="table-container">
         <table ng-table-dynamic="tableParams with cols" class="table table-bordered table-condensed poi-list">
-            <tr ng-repeat="row in $data" ng-click="selectData(row,$index)" ng-class="{true:'active'}[itemActive == $index]">
+            <tr ng-repeat="row in $data" ng-click="selectData(row,row.num_index-1)" ng-class="{true:'active'}[itemActive == row.num_index-1]" attr="{{itemActive}}{{$index}}">
                 <td ng-repeat="col in $columns" ng-bind-html="col.getValue?col.getValue(this,row):row[col.field]">{{row[col.field]}}</td>
             </tr>
         </table>

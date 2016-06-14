@@ -54,6 +54,8 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					initOcll();
 
 					$scope.itemActive = index;
+					console.log($scope.itemActive)
+					$scope.$broadcast("poiListItemActive",index);
 				}
 			});
 		});
@@ -73,7 +75,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		/*查询3DIcon*/
 		meta.getCiParaIcon(data.poiNum).then(function (data) {
 			$scope.poi.poi3DIcon = data;
-			initTableList();
 		});
 
 		initOcll();
@@ -157,6 +158,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		/*刷新poi，弹出tips*/
 		function refreshData(){
 			// refreshPoiData($scope.poiList[$scope.itemActive]);
+			console.log($scope.itemActive)
 			$scope.selectData($scope.poiList[$scope.itemActive],$scope.itemActive);
 			$scope.$apply();
 		}
