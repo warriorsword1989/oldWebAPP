@@ -1,6 +1,6 @@
 /**
- * Created by zhongxiaoming on 2015/9/16.
- * Class PathVertexMove
+ * Created by liuyang on 2015/9/16.
+ * Class poiLocMove
  */
 
 fastmap.mapApi.poiLocMove = L.Handler.extend({
@@ -97,9 +97,11 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
             this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
             this.snapHandler.targetIndex = this.targetIndex;
             this.selectCtrl.setSnapObj(this.snapHandler);
-            var guide = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
-            points.components[1].x = guide.lng;
-            points.components[1].y = guide.lat;
+            if(this.snapHandler.snapLatlng){
+                var guide = L.latLng(this.snapHandler.snapLatlng[1],this.snapHandler.snapLatlng[0]);
+                points.components[1].x = guide.lng;
+                points.components[1].y = guide.lat;
+            }
         } else {
             if(this.snapHandler.snaped == true){
                 this.eventController.fire(this.eventController.eventTypes.SNAPED,{'snaped':true});
@@ -196,14 +198,6 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
      */
     resetVertex:function(points){
         this.shapeEditor.shapeEditorResult.setFinalGeometry(points);
-        //var distance =0 , distance1 = this.targetIndex!=0?0:this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex-1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]),
-        //distance2 = this.targetIndex!=this.shapeEditor.shapeEditorResult.getFinalGeometry().components.length-1?this.validation.caculationDistance(this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex+1],this.shapeEditor.shapeEditorResult.getFinalGeometry().components[this.targetIndex]):0;
-        //distance = distance1<distance2?distance1:distance2
-        //if(distance < 2){
-        //    console.log('形状点之间距离不能小于2米！')
-        //}
-
-
     },
     drawGeomCanvasHighlight: function (tilePoint, event) {
         if (this.tiles[tilePoint[0] + ":" + tilePoint[1]]) {
@@ -277,7 +271,7 @@ fastmap.mapApi.poiLocMove = L.Handler.extend({
             //    return (dx * dx + dy * dy)
             //}
             p1x = p2x;
-            p1y = p2y
+            p1y = p2y;
             arr.push(dx * dx + dy * dy)
         }
         var temp = 0;

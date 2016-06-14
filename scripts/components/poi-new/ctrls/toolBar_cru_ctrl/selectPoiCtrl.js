@@ -4,7 +4,6 @@
 var selectAdApp = angular.module("app",['dataService']);
 selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootScope','dsPoi', function ($scope, $ocLazyLoad, $rootScope,poiDS) {
     var selectCtrl = fastmap.uikit.SelectController();
-    var objCtrl = fastmap.uikit.ObjectEditController();
     var layerCtrl = fastmap.uikit.LayerController();
     var tooltipsCtrl = fastmap.uikit.ToolTipsController();
     var shapeCtrl = fastmap.uikit.ShapeEditorController();
@@ -49,6 +48,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         var type = event.currentTarget.type;//按钮的类型
         if (type === "POILOCMOVE") {
             if (selectCtrl.selectedFeatures) {
+                $scope.poi.geometry = selectCtrl.selectedFeatures.geometry[0];
                 tooltipsCtrl.setCurrentTooltip('开始移动POI显示坐标点！');
             } else {
                 tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
@@ -56,6 +56,8 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         } else if (type === "POIGUIDEMOVE") {
             if (selectCtrl.selectedFeatures) {
+                $scope.poi.guide = selectCtrl.selectedFeatures.geometry[1];
+                $scope.poi.linkPid = selectCtrl.selectedFeatures.linkPid;
                 tooltipsCtrl.setCurrentTooltip('开始移动POI引导坐标点！');
             } else {
                 tooltipsCtrl.setCurrentTooltip('先选择POI引导坐标点！');
@@ -63,6 +65,9 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             }
         } else if(type === "POIAUTODRAG"){
             if (selectCtrl.selectedFeatures) {
+                $scope.poi.geometry = selectCtrl.selectedFeatures.geometry[0];
+                $scope.poi.guide = selectCtrl.selectedFeatures.geometry[1];
+                $scope.poi.linkPid = selectCtrl.selectedFeatures.linkPid;
                 tooltipsCtrl.setCurrentTooltip('开始移动POI显示坐标点！');
             } else {
                 tooltipsCtrl.setCurrentTooltip('先选择POI显示坐标点！');
@@ -81,6 +86,8 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 oFeature.points = comsAndPoints;
                 setTimeout(function () {
                     editLayer.clear();
+                    $scope.geometry = of_1;
+                    $scope.guide = of_2;
                     editLayer.draw(oFeature, editLayer);//在编辑图层中画出需要编辑的几何体
                 },100);
                 map.currentTool = shapeCtrl.getCurrentTool();
@@ -97,7 +104,7 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             if (shapeCtrl.getCurrentTool()['options']) {
                 shapeCtrl.stopEditing();
             }
-            var feature = null,feature1 = null,feature2 = null;
+            var feature = null;
             if (map.currentTool) {
                 map.currentTool.disable();
             }
@@ -129,7 +136,6 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         }
         shapeCtrl.setEditingType(fastmap.mapApi.ShapeOptionType[type]);//设置编辑的类型
         shapeCtrl.startEditing();// 开始编辑
-        console.log(objCtrl.data);
         map.currentTool = shapeCtrl.getCurrentTool();
         if (type === "POILOCMOVE") {
             shapeCtrl.editFeatType = "poi";
@@ -147,6 +153,10 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
             map.currentTool.snapHandler._guides.length = 0;
         }
     };
+
+    /*
+    * 点击选择poi按钮
+    * */
     $scope.selectPoiShape = function (type, num) {
         //重置选择工具
         $scope.resetToolAndMap();
@@ -194,23 +204,21 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
      * 初始化数据
      */
     $scope.initializeData = function(){
-        $scope.PoiData = objCtrl.data;//获取数据
-        // objCtrl.setOriginalData(objCtrl.data.getIntegrate());//记录原始数据值
-        // var points = fastmap.mapApi.point($scope.PoiData.location.longitude, $scope.PoiData.location.latitude);
-        var locArr =$scope.PoiData.geometry.coordinates;
-        var guideArr =$scope.PoiData.guide.coordinates;
+        var locArr =$scope.poi.geometry.coordinates;
+        var guideArr =$scope.poi.guide.coordinates;
         var points = [];
         points.push(fastmap.mapApi.point(locArr[0], locArr[1]));
         points.push(fastmap.mapApi.point(guideArr[0], guideArr[1]));
         selectCtrl.onSelected({//记录选中点信息
             geometry: points,
-            id: $scope.PoiData.pid
+            id: $scope.poi.pid,
+            linkPid:$scope.poi.linkPid
         });
 
         //高亮POI点
         var highLightFeatures=[];
         highLightFeatures.push({
-            id:$scope.PoiData.pid.toString(),
+            id:$scope.poi.pid.toString(),
             layerid:'poiPoint',
             type:'poi'
         });
@@ -275,23 +283,8 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
                 $scope.type = "POI";
                 break;
         }
-
-        $scope.getFeatDataCallback = function (selectedData, id, type) {
-            poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":id}).then(function (data) {
-                if (data.errcode === -1) {
-                    return;
-                }
-                objCtrl.setCurrentObject(type, data);
-                if(objCtrl.data){
-                    $scope.initializeData();
-                }
-                tooltipsCtrl.onRemoveTooltip();
-
-                $scope.$emit("mapSelectPoi", data);
-            }, selectedData.detailid);
-        };
-        $scope.getFeatDataCallback(data, data.id, $scope.type);
-
+        $scope.initializeData();
+        tooltipsCtrl.onRemoveTooltip();
         if (!map.floatMenu && toolsObj) {
             map.floatMenu = new L.Control.FloatMenu("000", data.event.originalEvent, toolsObj);
             map.addLayer(map.floatMenu);
@@ -299,13 +292,45 @@ selectAdApp.controller("selectPoiController", ["$scope", '$ocLazyLoad', '$rootSc
         }
     });
 
-    //高亮显示指定的子poi
-    $scope.$on("highlightPoiByPid",function (event,pid) {
+    $scope.clearMap = function () {
+        //重置选择工具
+        $scope.resetToolAndMap();
+        //移除上一步中的悬浮按钮
+        if (map.floatMenu) {
+            map.removeLayer(map.floatMenu);
+            map.floatMenu = null;
+        }
+        $scope.classArr[0] = false;
+        //重置上一步中的属性栏和tips框
+        originalFeature = [];
+        selectCount = 0;
+        highRenderCtrl._cleanHighLight();
+        highRenderCtrl.highLightFeatures.length = 0;
+    };
+
+    //高亮显示指定的poi
+    $scope.$on("highlightPoiInMap",function (event,pid,geometry) {
         highRenderCtrl._cleanHighLight();
         highRenderCtrl.highLightFeatures.length = 0;
         var highLightFeatures = [];
         highLightFeatures.push({
             id:pid,
+            layerid:'poiPoint',
+            type:'poi',
+            style:{}
+        });
+        //高亮
+        highRenderCtrl.highLightFeatures = highLightFeatures;
+        highRenderCtrl.drawHighlight();
+        map.setView([geometry.coordinates[1], geometry.coordinates[0]], 20);
+    });
+
+    //高亮显示左侧列表的poi
+    $scope.$on("highlightPoiByPid",function (event) {
+        $scope.clearMap();
+        var highLightFeatures = [];
+        highLightFeatures.push({
+            id:$scope.poi.pid,
             layerid:'poiPoint',
             type:'poi',
             style:{}
