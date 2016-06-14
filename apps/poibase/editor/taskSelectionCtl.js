@@ -72,7 +72,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
             }
         }
         for(var i=0;i<gridarr.length;i++){
-            $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699	", weight: 0,fillOpacity:0.5}).addTo(map));
+            $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
         }
         var meshArr = [];
         for(var i=0;i<meshid.length;i++){
@@ -91,7 +91,12 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','localytics.directives', 'data
         //    bounds = L.latLngBounds(southWest, northEast);
         //L.rectangle([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]], {fillColor: "#000000", weight: 0,fillOpacity:0.3}).addTo(map)
         map.fitBounds([[sourthWest_Y,sourthWest_X ], [northEast_Y,northEast_X]]);
-
+        map.on('moveend', function(e) {
+            if($scope.currentHighLight.length)return;
+            for(var i=0;i<gridarr.length;i++){
+                $scope.currentHighLight.push(L.rectangle(gridarr[i].getBounds(), {fillColor: "#FF6699", weight: 0,fillOpacity:0.5}).addTo(map));
+            }
+        });
     }
 
     //去除数组中重复的值;
