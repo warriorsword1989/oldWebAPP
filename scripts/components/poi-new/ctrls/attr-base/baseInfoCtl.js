@@ -46,9 +46,6 @@ angular.module('app').controller('baseInfoCtl', ['$scope', '$ocLazyLoad', '$q', 
         $scope.levelArr = [];
         if (level) {
             $scope.levelArr = level.split("|");
-            if($scope.levelArr.length == 1){ //如果只有一个等级，默认选中
-                $scope.poi.level = level;
-            }
         }
     }
 

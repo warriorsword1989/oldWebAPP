@@ -78,15 +78,12 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 			]
 		};
 
-		//this.name = {}; //主名称
+		this.name = {}; //主名称
 		this.names = [];
 		if (data['names']) {
 			for (var i = 0, len = data['names'].length; i < len; i++) {
 				var obj = new FM.dataApi.IxPoiName(data['names'][i]);
 				this.names.push(obj);
-				// if(obj.nameClass == 1 && obj.nameType == 2 && obj.langCode == "CHI"){
-				// 	this.name = obj;
-				// }
 			}
 		}
 		this.address = {};//主地址
@@ -95,9 +92,6 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 			for (var i = 0, len = data["addresses"].length; i < len; i++) {
 				var obj = new FM.dataApi.IxPoiAddress(data["addresses"][i]);
 				this.addresses.push(obj);
-				// if(obj.langCode == "CHI"){
-				// 	this.address = obj;
-				// }
 			}
 		}
 		this.contacts = [];
@@ -132,20 +126,42 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		}
 		this.gasstations = [];
 		if(data['gasstations']){
-			for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
-				this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
+			if(data['gasstations'].length == 0){
+				this.gasstations = [{}];
+			}else {
+				for (var i = 0 ,len = data['gasstations'].length ;i < len ; i++){
+					this.gasstations.push(new FM.dataApi.IxPoiGasstation(data['gasstations'][i]));
+				}
 			}
 		}
 		this.hotels = [];
 		if(data["hotels"]){
-			for (var i = 0 ,len = data["hotels"].length ;i < len ; i++){
-				this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
+			if(data["hotels"].length == 0){
+				this.hotels = [{}];
+			} else {
+				for (var i = 0 ,len = data["hotels"].length ;i < len ; i++){
+					this.hotels.push(new FM.dataApi.IxPoiHotel(data["hotels"][i]));
+				}
 			}
 		}
 		this.restaurants = [];
 		if(data["restaurants"]){
-			for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
-				this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
+			if(data["restaurants"].length == 0){
+				this.restaurants = [{}];
+			}else {
+				for (var i = 0 ,len = data["restaurants"].length ;i < len ; i++){
+					this.restaurants.push(new FM.dataApi.IxPoiRestaurant(data["restaurants"][i]));
+				}
+			}
+		}
+		this.parkings = [];
+		if(data["parkings"]){
+			if(data["parkings"].length == 0){
+				this.parkings = [{}];
+			} else {
+				for (var i = 0 ,len = data["parkings"].length ;i < len ; i++){
+					this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
+				}
 			}
 		}
 		this.samePois = [];
@@ -158,12 +174,6 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 		if(data["samePoiParts"]){
 			for (var i = 0 ,len = data["samePoiParts"].length ;i < len ; i++){
 				this.samePoiParts.push(new FM.dataApi.IxSamepoiPart(data["samePoiParts"][i]));
-			}
-		}
-		this.parkings = [];
-		if(data["parkings"]){
-			for (var i = 0 ,len = data["parkings"].length ;i < len ; i++){
-				this.parkings.push(new FM.dataApi.IxPoiParking(data["parkings"][i]));
 			}
 		}
 	},
@@ -264,22 +274,44 @@ FM.dataApi.IxPoi = FM.dataApi.GeoDataModel.extend({
 				ret["buildings"].push(this.buildings[i].getIntegrate());
 			}
 		}
-		ret["gasstationes"] = [];
-		if(this.gasstationes){
-			for (var i = 0 , len = this.gasstationes.length ; i < len ; i ++){
-				ret["gasstationes"].push(this.gasstationes[i].getIntegrate());
+		ret["gasstations"] = [];
+		if(this.gasstations){
+			if(this.gasstations.length == 1 && FM.Util.isEmptyObject(this.gasstations[0])){
+				ret["gasstations"] = [];
+			} else{
+				for (var i = 0 , len = this.gasstations.length ; i < len ; i ++){
+					ret["gasstations"].push(this.gasstations[i].getIntegrate());
+				}
 			}
 		}
 		ret["hotels"] = [];
-		if(this.gasstationes){
-			for (var i = 0 , len = this.hotels.length ; i < len ; i ++){
-				ret["hotels"].push(this.hotels[i].getIntegrate());
+		if(this.hotels){
+			if(this.hotels.length == 1 && FM.Util.isEmptyObject(this.hotels[0])){
+				ret["hotels"] = [];
+			} else{
+				for (var i = 0 , len = this.hotels.length ; i < len ; i ++){
+					ret["hotels"].push(this.hotels[i].getIntegrate());
+				}
 			}
 		}
 		ret["restaurantes"] = [];
 		if(this.restaurantes){
-			for (var i = 0 , len = this.restaurantes.length ; i < len ; i ++){
-				ret["restaurantes"].push(this.restaurantes[i].getIntegrate());
+			if(this.restaurantes.length == 1 && FM.Util.isEmptyObject(this.restaurantes[0])){
+				ret["restaurantes"] = [];
+			} else{
+				for (var i = 0 , len = this.restaurantes.length ; i < len ; i ++){
+					ret["restaurantes"].push(this.restaurantes[i].getIntegrate());
+				}
+			}
+		}
+		ret["parkings"] = [];
+		if(this.parkings){
+			if(this.parkings.length == 1 && FM.Util.isEmptyObject(this.parkings[0])){
+				ret["parkings"] = [];
+			} else{
+				for (var i = 0 , len = this.parkings.length ; i < len ; i ++){
+					ret["parkings"].push(this.parkings[i].getIntegrate());
+				}
 			}
 		}
 		ret["samePois"] = [];
