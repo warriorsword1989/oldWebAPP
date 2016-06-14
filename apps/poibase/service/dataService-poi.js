@@ -104,24 +104,24 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     };
     this.getProjectList = function (param) {
-    	var defer = $q.defer();
-    	ajax.get("project/list/",{parameter: JSON.stringify(param)}).success(function(data){
-	    	if(data.errcode == 0){
-	    		defer.resolve(data.data);
-	    	}else{
-	    		defer.resolve("查询项目列表信息出错：" + data.errmsg);
-	    	}
-	    });
-    	return defer.promise;
+        var defer = $q.defer();
+        ajax.get("project/list/",{parameter: JSON.stringify(param)}).success(function(data){
+            if(data.errcode == 0){
+                defer.resolve(data.data);
+            }else{
+                defer.resolve("查询项目列表信息出错：" + data.errmsg);
+            }
+        });
+        return defer.promise;
     };
     this.getProjectInfo = function (projId) {
-    	var defer = $q.defer();
-    	ajax.get("project/query/",{parameter:{ projectId: projId}}).success(function(data){
-        	if(data.errcode == 0){
-        		defer.resolve(data.data);
-        	}else{
-        		defer.resolve("查询项目信息出错："+data.errmsg);
-        	}
+        var defer = $q.defer();
+        ajax.get("project/query/",{parameter:{ projectId: projId}}).success(function(data){
+            if(data.errcode == 0){
+                defer.resolve(data.data);
+            }else{
+                defer.resolve("查询项目信息出错："+data.errmsg);
+            }
         });
         return defer.promise;
     };
@@ -170,7 +170,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     };
     this.getOperSeason = function (projId) {
-    	var defer = $q.defer();
+        var defer = $q.defer();
         ajax.get("project/queryOperSeason/", {
             parameter: JSON.stringify({projectId: projId})
         }).success(function(data) {
@@ -183,7 +183,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     };
     this.getPoiInfo = function (param) {
-    	var defer = $q.defer();
+        var defer = $q.defer();
         ajax.get("editsupport/poi/query", {
             parameter: JSON.stringify(param)
         }).success(function(data) {
@@ -196,7 +196,7 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
         return defer.promise;
     };
     this.queryUser = function (userId) {
-    	var defer = $q.defer();
+        var defer = $q.defer();
         var param = {
             parameter: "{}"
         };
@@ -206,24 +206,24 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             });
         }
         ajax.get("user/query/", param).success(function(data){
-        	if(data.errcode == 0){
-        		defer.resolve(data.data.rows[0]);
-        	}else{
-        		defer.resolve("查询用户信息出错：" +data.errmsg);
-        	}
+            if(data.errcode == 0){
+                defer.resolve(data.data.rows[0]);
+            }else{
+                defer.resolve("查询用户信息出错：" +data.errmsg);
+            }
         }).error(function(rejection) {
             defer.reject(rejection);
         });
         return defer.promise;
     };
     this.getKindList = function () {
-    	var defer = $q.defer();
-    	ajax.get("meta/queryKind/",{}).success(function(data){
-        	if(data.errcode == 0){
-        		defer.resolve(data);
-        	}else{
-        		defer.resolve("查询分类信息出错："+data.errmsg);
-        	}
+        var defer = $q.defer();
+        ajax.get("meta/queryKind/",{}).success(function(data){
+            if(data.errcode == 0){
+                defer.resolve(data);
+            }else{
+                defer.resolve("查询分类信息出错："+data.errmsg);
+            }
         }).error(function(rejection) {
             defer.reject(rejection);
         });
@@ -396,13 +396,13 @@ angular.module("dataService").service("dsPoi", ["$http", "$q", "ajax", function(
             defer.reject(rejection);
         });
         return defer.promise;
-    }
+    };
     /*获取poi列表*/
     this.getPoiList = function (params) {
         var defer = $q.defer();
         ajax.get("edit/poi/base/list", {
-	        parameter:JSON.stringify(params),
-	        urlType:'general'
+            parameter:JSON.stringify(params),
+            urlType:'general'
         }).success(function(data) {
             if (data.errcode == 0) {
                 defer.resolve(data.data);
