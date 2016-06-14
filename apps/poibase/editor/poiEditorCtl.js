@@ -54,6 +54,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					initOcll();
 
 					$scope.itemActive = index;
+					$scope.$broadcast("poiListItemActive",index);
 				}
 			});
 		});
@@ -73,7 +74,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		/*查询3DIcon*/
 		meta.getCiParaIcon(data.poiNum).then(function (data) {
 			$scope.poi.poi3DIcon = data;
-			initTableList();
 		});
 
 		initOcll();
@@ -156,7 +156,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		}
 		/*刷新poi，弹出tips*/
 		function refreshData(){
-			// refreshPoiData($scope.poiList[$scope.itemActive]);
 			$scope.selectData($scope.poiList[$scope.itemActive],$scope.itemActive);
 			$scope.$apply();
 		}
@@ -588,11 +587,11 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	$scope.$on('showConflictInMap', function (event, data) {
 		$scope.showConflictInfo = data;
 	});
+	
 	/*接收新上传的图片数据*/
 	$scope.$on('getImgItems', function (event, data) {
 		for (var i = 0; i < data.length; i++) {
 			$scope.poi.photos.push(data[i]);
-			$scope.poi.tempPhotos.push(data[i]);
 		}
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 	});
@@ -706,6 +705,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*初始化列表*/
 	function initTableList(){
 		$scope.itemActive = -1;
+		$scope.$broadcast("poiListItemActive",-1);
 	}
 	initTableList();
 	/*初始化tpl加载*/

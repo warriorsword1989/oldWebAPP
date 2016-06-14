@@ -6,13 +6,13 @@ $(document).ready(function(){
 		"projectId":11
 	};
 	$.get(Application.url+'/project/grid/getByUser?parameter='+JSON.stringify(param),function(data){
-        data = JSON.parse(data);
-        if(data.errcode == 0){
+		data = JSON.parse(data);
+		if(data.errcode == 0){
 			initProHtml(data.data);
 		}else{
-    		swal("查询失败", '请重试！','error');
+			swal("查询失败", '请重试！','error');
 		}
-    })
+	})
 });
 function initProHtml(projects){
 	var _html = [];

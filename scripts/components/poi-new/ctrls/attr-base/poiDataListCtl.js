@@ -26,6 +26,11 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		}
 	}
 
+	//itemActive改变（切换poilist）
+	scope.$on('poiListItemActive',function(event,index){
+		scope.itemActive = index;
+	});
+
 	//重置表格字段显示方法;
 	scope.resetTableField = function(){
 		for(var i=0;i<scope.cols.length;i++){
@@ -86,6 +91,8 @@ angular.module('app').controller('PoiDataListCtl', ['$scope', 'NgTableParams','n
 		var temp = '';
 		if(row.collectTime){
 			temp = App.Util.dateFormat(row.collectTime);
+		}else{
+			temp = '无';
 		}
 		return $sce.trustAsHtml(temp);
 	}

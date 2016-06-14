@@ -162,7 +162,6 @@ fastmap.mapApi.GridLayer = fastmap.mapApi.MeshLayer.extend({
                 origin += 0.083333333333333;
             });
         }
-
         return grid
     },
 
