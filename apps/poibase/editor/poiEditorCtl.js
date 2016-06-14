@@ -61,7 +61,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.pid}).then(function (data) {
 				if(data){
 					showPoiInfo(data);
-					$scope.$broadcast("highlightPoiByPid",data.pid); //高亮poi点位
+					$scope.$broadcast("highlightPoiByPid",{}); //高亮poi点位
 
 					initOcll();
 

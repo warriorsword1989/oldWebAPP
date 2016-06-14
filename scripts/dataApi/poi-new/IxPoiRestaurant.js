@@ -10,7 +10,11 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
         this.restaurantId = data['restaurantId'] || 0;
         this.poiPid = data['poiPid'] || 0;
         this.foodType = data['foodType'];
-        this.creditCard = data['creditCard'];
+        var creditCardArr = (data["creditCard"]).split("|");
+        this.creditCard = {};
+        for(var i=0;i<creditCardArr.length;i++) {
+            this.creditCard[creditCardArr[i]] = true;
+        }
         this.avgCost = data['avgCost'] || 0;
         this.parking = data['parking'] || 0;
         this.longDescription = data['longDescription'];
@@ -30,7 +34,13 @@ FM.dataApi.IxPoiRestaurant = FM.dataApi.DataModel.extend({
         ret['restaurantId'] = this.restaurantId;
         ret['poiPid'] = this.poiPid;
         ret['foodType'] = this.foodType;
-        ret['creditCard'] = this.creditCard;
+        var checkedCreditCardArr = [];
+        for(var key in this.creditCard){
+            if(this.creditCard[key] == true){
+                checkedCreditCardArr.push(key);
+            }
+        }
+        ret["creditCard"] = checkedCreditCardArr.join("|");
         ret['avgCost'] = this.avgCost;
         ret['parking'] = this.parking;
         ret['longDescription'] = this.longDescription;

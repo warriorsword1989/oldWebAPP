@@ -25,19 +25,11 @@
 <div ui-layout="{flow:'column',dividerSize:'0'}" ui-layout-loaded>
     <div ui-layout-container class="fm-banner animated fadeInLeft" size="50px">
         <div class="banner-top"><a><strong>FM</strong></a></div>
-        <div class="banner-center">
-            <div>
-                <a><h4>任</h4></a>
-            </div>
-            <div>
-                <a><h4>务</h4></a>
-            </div>
-            <div>
-                <a><h4>设</h4></a>
-            </div>
-            <div>
-                <a><h4>置</h4></a>
-            </div>
+        <div class="banner-center" style="margin-top: 0;">
+            <div><a><h4>任</h4></a></div>
+            <div><a><h4>务</h4></a></div>
+            <div><a><h4>设</h4></a></div>
+            <div><a><h4>置</h4></a></div>
         </div>
         <div class="banner-bottom">
             <div><a><i title="用户" class="glyphicon glyphicon-user"></i></a></div>
@@ -64,7 +56,7 @@
                     <div class="fm-container fm-col animated fadeInLeft" ui-layout-container size="250px" min-size="250px">
                         <div ui-layout="{flow:'column',dividerSize:'0',disableToggle:true}">
                             <div ui-layout-container size="45px">
-                                <div class="fm-tabs" style="margin-top: 40px;">
+                                <div class="fm-tabs">
                                     <div class="fm-poiList-btnGroup" class="btn-group" role="group" aria-label="...">
                                         <div class="btn-group-vertical" role="group">
                                             <button type="button" ng-class="{'btn btn-xs': true, 'active': taskStatus == 6}" ng-click="changeTaskStatus(6)"><a href="#allTaskers" data-toggle="tab" style="font-size: 14px;text-decoration: none;font-weight:bold">全<br>部</a></button>
@@ -89,7 +81,7 @@
                                         <div class="content" style="padding-bottom: 30px;">
                                             <ul class="fm-ul fm-ul-form">
                                                 <li ng-repeat="item in poiList" style="cursor:pointer">
-                                                    <a href='javascript:void(0);'>{{item.name}}</a>
+                                                    <a href='javascript:void(0);' ng-click="highlightGrid()">{{item.name}}</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -146,9 +138,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="bottom: 0px;position:absolute;width: 300px;right: 0px;z-index: 100;" class="fm-poiList-btnGroup">
-                                <div class="btn-group btn-group-justified">
-                                    <button type="button" ng-click="startEdit()" style="margin-left: 120px;">开始作业</button>
+                            <div style="bottom: 25px;position:absolute;width: 300px;right: 0px;z-index: 100;" class="fm-poiList-btnGroup">
+                                <div id="tipsBtnsDiv" class="form-group" style="height:10%; width:100%; margin-top: 10px; text-align: center;">
+                                    <div class="col-sm-4 col-sm-offset-4" >
+                                        <button type="button"  ng-click="startEdit()" class="btn btn-sm" style="color:white;background: rgba(150,150,150,0.5);padding: 5px 12px">
+                                            <a href="#" data-toggle="tab" style="font-size: 10px;"><i class="glyphicon glyphicon-edit"></i> 开始作业</a>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
