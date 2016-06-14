@@ -245,25 +245,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 				callback();
 			}
 		}
-	}
+	};
 
 	var savePoi = function (callback){
 		//此处调用接口暂时省略
 		if(callback){
 			callback();
 		}
-	}
-	/**
-	 * 用于接收地图上点击poi的事件
-	 */
-	$scope.$on('mapSelectPoi',function(event,data){
-		showPoiInfo(data);
-		// specialDetail(data); //名称组和地址组特殊处理
-		// $scope.poi = data;
-		// initOcll();
-		// $scope.hideEditorPanel = true;
-		// $scope.$broadcast("clearBaseInfo"); //清除样式
-	});
+	};
+
 	/**
 	 * 页面取消功能
 	 */
@@ -272,7 +262,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		$scope.$broadcast('refreshImgsData',$scope.poi.photos);
 
 		$scope.$broadcast("clearBaseInfo"); //清除样式
-	}
+	};
 	/**
 	 * 接收父子关系中点击子事件
 	 */
@@ -290,7 +280,15 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	 */
 	$scope.$on("mapSelectPoiBefore",function (event,data){
 		changePoi(function (){
-			$scope.$broadcast("clickSelectedPoi",data);
+			poiDS.getPoiByPid({"dbId":8,"type":"IXPOI","pid":data.id}).then(function (da) {
+				if(da){
+					showPoiInfo(da);
+
+					$scope.$broadcast("clickSelectedPoi",data);
+				}
+			});
+
+
 		});
 	});
 
