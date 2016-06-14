@@ -159,7 +159,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 
 .fm-tabs {
     /*background-color: rgb(64, 64, 64);*/
-    padding: 0px 8px;
+    padding: 0px 10px;
 }
 
 .fm-tabs a.tab {
@@ -184,7 +184,7 @@ a.fm-panel-controlArrowUp, a.fm-panel-controlArrowDown {
 }
 
 .fm-tabs .btn-group-vertical button{
-    padding: 25px 9px;
+    padding: 25px 7px;
 }
 
 .banner-top{
