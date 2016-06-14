@@ -1021,7 +1021,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-project-switch a.tab.active {
     color: #fff;
     border-bottom: 1px solid rgba(255, 255, 255, .8);
-    background-color: #4C4B4B;
+    background-color: #313131;
     transition: all .3s;
 }
 
@@ -1032,6 +1032,7 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
     padding: 6px 5px;
     display: inline-block;
     text-align: center;
+    background-color: rgb(64, 64, 64);
 }
 
 .fm-left-datalist {
