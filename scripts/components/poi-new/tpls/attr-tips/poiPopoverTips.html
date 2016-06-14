@@ -11,6 +11,10 @@
             <img ng-if="item.url" image-404="../../../images/road/img/noimg.png" ng-src="{{item.url}}"
                  ng-click="showImage(item,$index);" class="tips-img" alt="">
         </div>
+        <!-- nothing默认图 -->
+        <div ng-repeat="item in tempPhotos ">
+            <img src="../../../images/road/img/noimg.png" class="tips-img" alt="">
+        </div>
     </div>
     <div class="tips-middle">
         <div class="panel panel-default tips-panel">
