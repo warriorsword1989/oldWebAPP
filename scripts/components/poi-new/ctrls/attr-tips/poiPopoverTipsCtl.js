@@ -1,18 +1,26 @@
 angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope) {
+    $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        thumbnailUrl:'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg',
+        originUrl:'http://192.168.4.189/resources/photo/15win/2016013086/20160408/292520160408100333_13086.jpg'
+    }));
+    $scope.poi.photos.push(new FM.dataApi.IxPoiPhoto({
+        thumbnailUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095316_81341.png?t=0.908229194341623',
+        originUrl:'http://192.168.4.189/resources/photo//15win/2016013086/20160408/292520160408095316_81341.png?t=0.908229194341623'
+    }));
     initData();
+
     function initData(){
-        if($scope.poi.tempPhotos.length < 4){
-            for(var i=0,len=4-$scope.poi.tempPhotos.length;i<len;i++){
-                $scope.poi.tempPhotos.push(new FM.dataApi.IxPoiPhoto({
-                    url:'../../../images/road/img/noimg.png',
-                    nothing:true
+        $scope.tempPhotos = [];
+        if($scope.poi.photos.length < 4){
+            for(var i=0,len=4-$scope.poi.photos.length;i<len;i++){
+                $scope.tempPhotos.push(new FM.dataApi.IxPoiPhoto({
+                    thumbnailUrl:'../../../images/road/img/noimg.png'
                 }));
             }
         }
     }
     /*更新图片数组*/
     $scope.$on('refreshImgsData',function(event,data){
-        $scope.poi.tempPhotos = data;
         initData();
     });
     /*记录状态*/
@@ -24,14 +32,12 @@ angular.module('app').controller('PoiPopoverTipsCtl', ['$scope', function($scope
     };
     /*查看图片*/
     $scope.showImage = function(img,index){
-        if(img.nothing == false){
             var temp = {
                 img:img,
                 index:index+1
             }
             $scope.$broadcast('changeImgShow',temp);
             $scope.showImgModal = true;
-        }
     }
     /*关闭tips事件*/
     $scope.closeTips = function(){
