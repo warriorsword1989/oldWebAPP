@@ -82,9 +82,9 @@ angular.module('app').controller('generalBaseCtl', ['$scope', '$ocLazyLoad', '$q
                     // });
                 });
                 break;
-            // default:
-            //     $scope.deepInfoTpl = "../../../scripts/components/poi-new/tpls/attr-deep/parkingTpl.html";
-            //     break;
+            default:
+                $scope.deepInfoTpl = "";
+                break;
         }
     });
 

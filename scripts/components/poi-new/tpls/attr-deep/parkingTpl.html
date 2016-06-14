@@ -7,7 +7,7 @@
                         <label>类 型</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in parkingBuildingType">
-                                <input type="radio" value="{{key}}" ng-model="parking.buildingType"> {{value}}
+                                <input type="radio" value="{{key}}" ng-model="poi.parkings[0].buildingType"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -15,10 +15,10 @@
                         <label>收费标准</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollStd" ng-if="key != 5">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollStd" ng-change="tollStdChange($event, parking)"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollStd[key]" ng-change="tollStdChange($event, parking)"> {{value}}
                             </label>
                             <label ng-repeat="(key, value) in tollStd" ng-if="key == 5" class="fm-specialopt">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollStd" ng-change="tollStdChange($event, parking)"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollStd[key]" ng-change="tollStdChange($event, parking)"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -26,7 +26,7 @@
                         <label>收费方式</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollWay">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollWay"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.parkings[0].tollWay[key]"> {{value}}
                             </label>
                         </div>
                     </li>
@@ -34,21 +34,21 @@
                         <label>收费备注</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in remark">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.remark"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="poi.parkings[0].remark[key]"> {{value}}
                             </label>
                         </div>
                     </li>
                     <li>
                         <label>车位数</label>
-                        <div><input type="number" class="fm-control" ng-model="parking.totalNum" min="-5" maxLength="6" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div>
+                        <div><input type="number" class="fm-control" ng-model="poi.parkings[0].totalNum" min="-5" maxLength="6" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></div>
                     </li>
                     <li>
                         <label>营业时间</label>
-                        <div><input type="text" class="fm-control" ng-model="parking.openTime"/></div>
+                        <div><input type="text" class="fm-control" ng-model="poi.parkings[0].openTime"/></div>
                     </li>
                     <li>
                         <label>收费描述</label>
-                        <div><input type="text" class="fm-control" ng-model="parking.tollDes"/></div>
+                        <div><input type="text" class="fm-control" ng-model="poi.parkings[0].tollDes"/></div>
                     </li>
                 </ul>
             </div>

@@ -1,5 +1,13 @@
 angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q', 'dsPoi','dsMeta', function($scope, $ocll, $q, poi, meta) {
     var checkRuleObj = {};
+    /*翻页事件*/
+    $scope.turnPage = function(type){
+        if(type == 'prev'){     //上一页
+            $scope.$emit('trunPaging','prev');
+        }else{      //  下一页
+            $scope.$emit('trunPaging','next');
+        }
+    }
     var distinguishResult = function (data) {
         /*检查规则*/
         // for (var i = 0, len = $scope.poi.checkResults.length; i < len; i++) {
@@ -19,57 +27,22 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
             new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
             new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
             new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
-            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"})
-        ];
-        $scope.errorCheckData = [new FM.dataApi.IxCheckResult({"id": "ef9be156fb6e58aabefbaa88c130eb04",
-            "ruleid": "GLM56004",
-            "rank": 1,
-            "targets": "[RD_LINK,100005324]",
-            "information": "修形中产生自相交，要提示立交或打断",
-            "geometry": "(116.48112,40.01554)",
-            "create_date": "2016-05-31 13:53:46",
-            "worker": "TEST"
-        }),
-            new FM.dataApi.IxCheckResult({
-                "id": "03aa39d0fea15a8e3d5b402869a980d1",
-                "ruleid": "SHAPING_CHECK_CROSS_RDLINK_RDLINK",
-                "rank": 1,
-                "targets": "[RD_LINK,100005324]",
-                "information": "两条Link相交，必须做立交或者打断",
-                "geometry": "(116.48263,40.01585)",
-                "create_date": "2016-05-31 13:53:46",
-                "worker": "TEST"
-            }),
-            new FM.dataApi.IxCheckResult({
-                "id": "1ee57e22921da83bf212353956356a2f",
-                "ruleid": "GLM56004",
-                "rank": 1,
-                "targets": "[RD_LINK,100005253]",
-                "information": "修形中产生自相交，要提示立交或打断",
-                "geometry": "(116.375,40.0031)",
-                "create_date": "2016-05-31 08:58:39",
-                "worker": "TEST"
-            }),
-            new FM.dataApi.IxCheckResult({
-                "id": "c7430b0f1066e63fec21dafcdd84aa9b",
-                "ruleid": "PERMIT_CHECK_NO_REPEAT",
-                "rank": 1,
-                "targets": "[RD_LINK,100005253]",
-                "information": "该位置已有节点，同一坐标不能有两个节点，请创建点点立交",
-                "geometry": "(116.37559,40.00283)",
-                "create_date": "2016-05-31 08:58:39",
-                "worker": "TEST"
-            }),
-            new FM.dataApi.IxCheckResult({
-                "id": "53d600548b704ad1a0d6286a8dde1f4a",
-                "ruleid": "SHAPING_CHECK_CROSS_RDLINK_RDLINK",
-                "rank": 1,
-                "targets": "[RD_LINK,100005253]",
-                "information": "两条Link相交，必须做立交或者打断",
-                "geometry": "(116.37559,40.00283)",
-                "create_date": "2016-05-31 08:58:39",
-                "worker": "TEST"
-            })
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
+            new FM.dataApi.IxOutput({type:'RDNODE',pid:100004351,childPid:"",op:"删除"}),
+            new FM.dataApi.IxOutput({type:'RDLINK',pid:100004343,childPid:"",op:"道路link删除成功"}),
         ];
     }
     /*编辑关联poi数据*/
@@ -131,56 +104,7 @@ angular.module('app').controller('OptionBarCtl', ['$scope', '$ocLazyLoad', '$q',
     }
     /*刷新检查*/
     $scope.refreshCheckResult = function(){
-        $scope.errorCheckData = [new FM.dataApi.IxCheckResult({"id": "ef9be156fb6e58aabefbaa88c130eb04",
-            "ruleid": "GLM56004",
-            "rank": 1,
-            "targets": "[RD_LINK,100005324]",
-            "information": "修形中产生自相交，要提示立交或打断",
-            "geometry": "(116.48112,40.01554)",
-            "create_date": "2016-05-31 13:53:46",
-            "worker": "TEST"
-        }),
-            new FM.dataApi.IxCheckResult({
-                "id": "03aa39d0fea15a8e3d5b402869a980d1",
-                "ruleid": "SHAPING_CHECK_CROSS_RDLINK_RDLINK",
-                "rank": 1,
-                "targets": "[RD_LINK,100005324]",
-                "information": "两条Link相交，必须做立交或者打断",
-                "geometry": "(116.48263,40.01585)",
-                "create_date": "2016-05-31 13:53:46",
-                "worker": "TEST"
-            }),
-            new FM.dataApi.IxCheckResult({
-                "id": "1ee57e22921da83bf212353956356a2f",
-                "ruleid": "GLM56004",
-                "rank": 1,
-                "targets": "[RD_LINK,100005253]",
-                "information": "修形中产生自相交，要提示立交或打断",
-                "geometry": "(116.375,40.0031)",
-                "create_date": "2016-05-31 08:58:39",
-                "worker": "TEST"
-            }),
-            new FM.dataApi.IxCheckResult({
-                "id": "c7430b0f1066e63fec21dafcdd84aa9b",
-                "ruleid": "PERMIT_CHECK_NO_REPEAT",
-                "rank": 1,
-                "targets": "[RD_LINK,100005253]",
-                "information": "该位置已有节点，同一坐标不能有两个节点，请创建点点立交",
-                "geometry": "(116.37559,40.00283)",
-                "create_date": "2016-05-31 08:58:39",
-                "worker": "TEST"
-            }),
-            new FM.dataApi.IxCheckResult({
-                "id": "53d600548b704ad1a0d6286a8dde1f4a",
-                "ruleid": "SHAPING_CHECK_CROSS_RDLINK_RDLINK",
-                "rank": 1,
-                "targets": "[RD_LINK,100005253]",
-                "information": "两条Link相交，必须做立交或者打断",
-                "geometry": "(116.37559,40.00283)",
-                "create_date": "2016-05-31 08:58:39",
-                "worker": "TEST"
-            })
-        ];
+        $scope.$emit('refreshCheckReusltData',true);
     }
     /*刷新poi对象*/
     function refreshPoiData() {

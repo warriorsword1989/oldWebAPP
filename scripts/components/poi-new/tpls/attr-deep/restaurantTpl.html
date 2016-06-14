@@ -29,10 +29,10 @@
                         <div><input type="text" class="fm-control" ng-model="restaurant.openHour"/></div>
                     </li>
                     <li>
-                        <label>菜品风味</label>
+                        <label>菜品风味 需要接口返回</label>
                         <div class="block">
                             <label ng-repeat="(key, value) in tollWay">
-                                <input type="checkbox" value="{{key}}" ng-model="parking.tollWay"> {{value}}
+                                <input type="checkbox" value="{{key}}" ng-model="parking.tollWay[key]"> {{value}}
                             </label>
                         </div>
                     </li>
