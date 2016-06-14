@@ -54,7 +54,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 					initOcll();
 
 					$scope.itemActive = index;
-					console.log($scope.itemActive)
 					$scope.$broadcast("poiListItemActive",index);
 				}
 			});
@@ -157,8 +156,6 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 		}
 		/*刷新poi，弹出tips*/
 		function refreshData(){
-			// refreshPoiData($scope.poiList[$scope.itemActive]);
-			console.log($scope.itemActive)
 			$scope.selectData($scope.poiList[$scope.itemActive],$scope.itemActive);
 			$scope.$apply();
 		}
@@ -708,6 +705,7 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 	/*初始化列表*/
 	function initTableList(){
 		$scope.itemActive = -1;
+		$scope.$broadcast("poiListItemActive",-1);
 	}
 	initTableList();
 	/*初始化tpl加载*/
