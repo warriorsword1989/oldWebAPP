@@ -29,7 +29,7 @@ fastmap.uikit.LayerController = (function () {
                 this.initLayer();
                 this.eventController.on(this.eventController.eventTypes.LAYERONADD, this.OnAddLayer, this);
                 this.eventController.on(this.eventController.eventTypes.LAYERONREMOVE, this.OnRemoveLayer, this);
-                this.eventController.on(this.eventController.eventTypes.LAYERONSWITCH, this.OnSwitchLayer, this);
+                this.eventController.on(thdis.eventController.eventTypes.LAYERONSWITCH, this.OnSwitchLayer, this);
             },
 
             initLayer: function () {

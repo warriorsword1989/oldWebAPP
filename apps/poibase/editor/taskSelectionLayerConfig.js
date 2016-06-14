@@ -4,7 +4,8 @@
 App.taskSelectionLayersConfig = [{
     groupid: "backgroundLayers",
     groupname: "参考",
-    layers: [{
+    layers: [
+        {
         clazz: L.tileLayer.wms,
         url: "http://zs.navinfo.com:7090/rest/wms",
         options: {
@@ -20,7 +21,8 @@ App.taskSelectionLayersConfig = [{
             zIndex: 1,
             singleselect: true
         }
-    }, {
+    },
+        {
         clazz: L.tileLayer,
         url: 'http://{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0',
         options: {
@@ -35,17 +37,19 @@ App.taskSelectionLayersConfig = [{
             singleselect: true,
             zIndex: 2
         }
-    }, {
-        url: '',
-        clazz: fastmap.mapApi.tileJSON,
-        options: {
-            layername: '照片',
-            id: 'photo',
-            url: '',
-            visible: false,
-            zIndex: 4
-        }
-    }, {
+    },
+    //    {
+    //    url: '',
+    //    clazz: fastmap.mapApi.tileJSON,
+    //    options: {
+    //        layername: '照片',
+    //        id: 'photo',
+    //        url: '',
+    //        visible: false,
+    //        zIndex: 4
+    //    }
+    //}
+        , {
         url: '',
         clazz: fastmap.mapApi.meshLayer,
         options: {
@@ -69,7 +73,8 @@ App.taskSelectionLayersConfig = [{
             zIndex: 3
         }
     }]
-}, {
+},
+    {
     groupid: "dataLayers",
     groupname: "作业参考",
     layers: [{
@@ -149,34 +154,7 @@ App.taskSelectionLayersConfig = [{
                 requestType: 'POI',
                 showNodeLevel: 13
             }
-        },
-        //     {
-        //     url: App.Util.createTileRequestObjectForPoi('editsupport/infor/tile/?'),
-        //     clazz: fastmap.mapApi.tileJSON,
-        //     options: {
-        //         layername: 'POI点数据',
-        //         id: 'poiPoint',
-        //         maxZoom: 22,
-        //         debug: false,
-        //         // this value should be equal to 'radius' of your points
-        //         buffer: 8,
-        //         boolPixelCrs: true,
-        //         // parse: transformDataForPoi,
-        //         boundsArr: [],
-        //         unloadInvisibleTiles: true,
-        //         reuseTiles: false,
-        //         mecator: new fastmap.mapApi.MecatorTranform(),
-        //         updateWhenIdle: true,
-        //         tileSize: 256,
-        //         type: 'Point',
-        //         zIndex: 9,
-        //         restrictZoom: 10,
-        //         visible: false,
-        //         requestType: "",
-        //         showNodeLevel: 17
-        //     }
-        // },
-        {
+        }, {
             url: '',
             clazz: fastmap.mapApi.tileJSON,
             options: {
@@ -195,18 +173,20 @@ App.taskSelectionLayersConfig = [{
                 visible: true
             }
         }]
-}, {
-    groupid: 'editlayer',
-    groupname: '编辑图层',
-    layers: [{
-        clazz: fastmap.mapApi.editLayer,
-        url: '',
-        options: {
-            layername: '编辑',
-            id: 'edit',
-            url: '',
-            visible: true,
-            zIndex: 0
-        }
-    }]
-}];
+},
+//    {
+//    groupid: 'editlayer',
+//    groupname: '编辑图层',
+//    layers: [{
+//        clazz: fastmap.mapApi.editLayer,
+//        url: '',
+//        options: {
+//            layername: '编辑',
+//            id: 'edit',
+//            url: '',
+//            visible: true,
+//            zIndex: 0
+//        }
+//    }]
+//}
+];
