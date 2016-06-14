@@ -90,7 +90,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'NgTableParams','ng
 
 
     //点击数据在地图上高亮
-    $scope.showOnMap = function (targets) {
+    $scope.showOnMap = function (targets,geom) {
         var value = targets.replace("[", "");
         var value1 = value.replace("]", "");
 
@@ -98,9 +98,15 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', 'NgTableParams','ng
             id:value1.split(",")[1],
             type:value1.split(",")[0].replace("_", "")
         };
+        var poiData = {
+            pid:value1.split(",")[1],
+            geometry:geom
+        }
         //线高亮
         if (data.type == "RDLINK") {
             $scope.$emit('getRdObjectById',data);
+        }else if(data.type == "IX_POI"){
+            $scope.$emit('poiHeighLight',poiData);
         } else if (data.type == "RDRESTRICTION") {//交限高亮
             $scope.$emit('getRdObjectById',data);
         } else {//其他tips高亮

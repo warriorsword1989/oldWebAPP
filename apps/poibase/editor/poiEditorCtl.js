@@ -136,6 +136,10 @@ angular.module('app', ['oc.lazyLoad', 'ui.layout','ngTable', 'localytics.directi
 			$scope.checkPageNow++;
 		}
 	});
+	/*高亮检查结果poi点*/
+	$scope.$on('poiHeighLight',function(event,data){
+		$scope.$broadcast('highlightPoiInMap',data);
+	});
 	/*关闭popoverTips状态框*/
 	$scope.$on('closePopoverTips', function (event, data) {
 		$scope.showPopoverTips = false;
