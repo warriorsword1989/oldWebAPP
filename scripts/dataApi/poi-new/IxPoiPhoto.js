@@ -11,11 +11,10 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
 		this.photoId = data['photoId'] || 0;
 		this.status = data['status'] || null;
 		this.memo = data['memo'] || 0;
-		this.uRecord = data['uRecord'] || 0;
-		this.uFields = data['uFields'] || 0;
 		this.nothing = data['nothing'] ||false;
 		this.url = data['url'];
-		// this.url = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
+		this.thumbnailUrl = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"thumbnail"}';
+		this.originUrl = App.Config.generalUrl + '/fcc/photo/getSnapshotByRowkey?parameter={"rowkey":"' + this.photoId + '",type:"origin"}';
 	},
 	getIntegrate: function(){
 		var ret = {};
@@ -23,8 +22,6 @@ FM.dataApi.IxPoiPhoto = FM.dataApi.DataModel.extend({
 		ret["photoId"] = this.photoId;
 		ret["status"] = this.status;
 		ret["memo"] = this.memo;
-		ret["uRecord"] = this.uRecord;
-		ret["uFields"] = this.uFields;
 		return ret;
 	}
 });

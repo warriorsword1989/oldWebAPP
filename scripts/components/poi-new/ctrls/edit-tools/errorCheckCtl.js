@@ -1,4 +1,4 @@
-angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
+angular.module('app').controller('ErrorCheckCtl', ['$scope', 'NgTableParams','ngTableEventsChannel','uibButtonConfig','$sce', function($scope, NgTableParams,ngTableEventsChannel,uibBtnCfg,$sce) {
 
     //初始化ng-table表头;
     $scope.cols = [
@@ -11,6 +11,53 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
         {field: "worker", title: "作业员", sortable: "pid", show: false},
         {field: "option", title: "检查管理", sortable: "option", show: false,getValue:getOption}
     ];
+    //初始化显示表格字段方法;
+    /*scope.initShowField = function(params){
+        for(var i=0;i<scope.cols.length;i++){
+            for(var j=0;j<params.length;j++){
+                if(scope.cols[i].title==params[j]){
+                    scope.cols[i].show = true;
+                }
+            }
+        }
+    }
+
+    //重置表格字段显示方法;
+    scope.resetTableField = function(){
+        for(var i=0;i<scope.cols.length;i++){
+            if(scope.cols[i].show){
+                scope.cols[i].show = !scope.cols[i].show;
+            }
+        }
+    }
+    //表格配置搜索;
+    scope.filters = {
+        value:''
+    };
+    //切换搜索条件清空输入;
+    scope.$watch('radio_select',function(newValue,oldValue,scope){
+        scope.filters.value = '';
+    })
+    //刷新表格方法;
+    scope.refreshData = function(){
+        _self.tableParams.reload();
+    }
+    scope.intit = function(){
+        _self.tableParams = new NgTableParams({count:10,filter: scope.filters}, {counts:[],getData:function($defer, params){
+            var param = {
+                dbId: App.Temp.dbId,
+                // type: [1,2,3],
+                pageNum: params.page(),
+                pageSize: params.count()
+            };
+            scope.$emit("getPoiListData",param);
+            _self.tableParams.total(scope.poiListTotal);
+            scope.$on('getPoiDataResult',function(event, data){
+                $defer.resolve(data.rows);
+            });
+        }});
+    }*/
+    /***************************** 以上为ngtable ********************************/
     $scope.theadInfo = ['检查规则号','错误等级','错误对象','错误信息','检查时间','作业员','检查管理'];
     //状态
     $scope.initTypeOptions = [
@@ -43,7 +90,7 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
 
 
     //点击数据在地图上高亮
-    $scope.showOnMap = function (targets) {
+    $scope.showOnMap = function (targets,geom) {
         var value = targets.replace("[", "");
         var value1 = value.replace("]", "");
 
@@ -51,9 +98,15 @@ angular.module('app').controller('ErrorCheckCtl', ['$scope', function($scope) {
             id:value1.split(",")[1],
             type:value1.split(",")[0].replace("_", "")
         };
+        var poiData = {
+            pid:value1.split(",")[1],
+            geometry:geom
+        }
         //线高亮
         if (data.type == "RDLINK") {
             $scope.$emit('getRdObjectById',data);
+        }else if(data.type == "IX_POI"){
+            $scope.$emit('poiHeighLight',poiData);
         } else if (data.type == "RDRESTRICTION") {//交限高亮
             $scope.$emit('getRdObjectById',data);
         } else {//其他tips高亮
