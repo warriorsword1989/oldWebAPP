@@ -1,6 +1,6 @@
 /**
- * Created by zhongxiaoming on 2016/1/12.
- * Class SelectNode
+ * Created by liuyang on 2016/1/12.
+ * Class SelectPoi
  */
 
 fastmap.uikit.SelectPoi = L.Handler.extend({
@@ -35,6 +35,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             snapVertex: false
         });
         this.snapHandler.enable();
+        this.popup = L.popup();
         //this.floatVisible=false;
     },
 
@@ -93,6 +94,7 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
 
     },
     getPoiId: function (tilePoint, event) {
+        this.samePois = [];
         //var x = event.originalEvent.offsetX || event.layerX, y = event.originalEvent.offsetY || event.layerY;
         var pixels = this.transform.lonlat2Pixel(event.latlng.lng, event.latlng.lat, this._map.getZoom());
         var x = pixels[0] - tilePoint[0] * 256, y = pixels[1] - tilePoint[1] * 256
@@ -107,14 +109,67 @@ fastmap.uikit.SelectPoi = L.Handler.extend({
             var newGeom = [];
             newGeom[0] = (parseInt(geom[0]));
             newGeom[1] = (parseInt(geom[1]));
-            if (this._TouchesPoint(newGeom, x, y, 20)) {
-                id = data[item].properties.id;
-                this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
-                    id: id,
-                    optype: "POIPOINT",
-                    event: event
-                })
-                break;
+            if (this._TouchesPoint(newGeom, x, y, 10)) {
+                this.samePois.push({id:data[item].properties.id, data: data[item]});
+                // id = data[item].properties.id;
+                // this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
+                //     id: id,
+                //     optype: "POIPOINT",
+                //     event: event
+                // });
+                // break;
+            }
+        }
+        //同位点的处理
+        if (this.samePois.length == 1) {
+            this.eventController.fire(this.eventController.eventTypes.GETPOIID, {
+                id: this.samePois[0].id,
+                optype: "POIPOINT",
+                event: event
+            });
+        } else if (this.samePois.length > 1) {
+            var html = '<ul id="layerpopup">';
+            //this.overlays = this.unique(this.overlays);
+            for (var item in this.samePois) {
+                html += '<li><a href="#" id="' + this.samePois[item].data.properties.id+'">' +this.samePois[item].data.properties.name + '</a></li>';
+            }
+            html += '</ul>';
+            this.popup
+                .setLatLng(event.latlng)
+                .setContent(html);
+            var that = this;
+            this._map.on('popupopen', function () {
+                document.getElementById('layerpopup').onclick = function (e) {
+                    that.eventController.fire(that.eventController.eventTypes.GETPOIID, {
+                        id: e.target.id,
+                        optype: "POIPOINT",
+                        event: event
+                    });
+                    that._map.closePopup(that.popup);
+                    // if (e.target.tagName == 'A') {
+                    //     var layer = '';
+                    //     var d = '';
+                    //     var layertype = ''
+                    //     for (var key in that.overlays) {
+                    //         if (e.target.id == that.overlays[key].data.properties.featType+that.overlays[key].id) {
+                    //             layer = that.overlays[key].layer;
+                    //             layertype = that.overlays[key].data.properties.featType
+                    //             d = that.overlays[key].data;
+                    //         }
+                    //     }
+                    //
+                    //     frs = new fastmap.uikit.SelectObject({highlightLayer: this.highlightLayer, map: this._map});
+                    //     frs.tiles = that.tiles;
+                    //     frs.drawGeomCanvasHighlight(d, layertype);
+                    // }
+                }
+            });
+
+            var that = this;
+            if (this.samePois && this.samePois.length >= 1) {
+                setTimeout(function () {
+                    that._map.openPopup(that.popup);
+                }, 200)
             }
         }
     },

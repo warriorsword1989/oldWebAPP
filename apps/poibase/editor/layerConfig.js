@@ -147,7 +147,7 @@ App.layersConfig = [{
                 restrictZoom: 10,
                 visible: true,
                 requestType: 'POI',
-                showNodeLevel: 13
+                showNodeLevel: 16
             }
         },
         {

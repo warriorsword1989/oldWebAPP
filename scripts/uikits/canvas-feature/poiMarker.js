@@ -5,6 +5,7 @@ fastmap.uikit.canvasFeature.poiMarker = fastmap.uikit.canvasFeature.Feature.exte
         this.properties['markerStyle'] = {};
         this.properties['markerStyle']["icon"] = [];
         this.properties['guide'] = data.m.c;
+        this.properties['name'] = data.m.e;
         if(data.m.b == 1){
             this.properties['markerStyle']["icon"].push(
                 fastmap.uikit.canvasFeature.Feature.getIconStyle({

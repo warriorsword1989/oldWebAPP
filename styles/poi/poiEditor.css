@@ -1178,3 +1178,14 @@ a.fm-panel-controlArrowLeft > span, a.fm-panel-controlArrowRight > span {
 .fm-specialopt {
     color: greenyellow;
 }
+/*-------------------------------------------------选择同点位popup-----------------------------------------------*/
+
+#layerpopup{
+    list-style:none;
+    padding: 0px;
+    min-width: 150px;
+}
+#layerpopup a:active, #layerpopup a:link,#layerpopup a:visited{
+    color: #72ACE3 !important;
+    cursor: pointer;
+}
